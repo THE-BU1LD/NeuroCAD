@@ -1,0 +1,86 @@
+class AeroPlaneCAD:
+    def __init__(self, mass, slenderness, drag):
+        SCALE = 120
+
+        self.fuse_len = slenderness * SCALE
+        self.fuse_rad = self.fuse_len / 20
+
+        self.wing_span = self.fuse_len * 1.35
+        self.wing_root = self.wing_span / 6
+        self.wing_tip = self.wing_root * 0.45
+        self.wing_thickness = self.wing_root / 14
+        self.sweep = 15
+        self.dihedral = 6
+
+        self.tail_span = self.wing_span * 0.4
+        self.tail_chord = self.wing_root * 0.5
+
+    def generate_scad(self, filename="aero_plane.scad"):
+        scad = f"""
+$fn=120;
+
+// ================= FUSELAGE =================
+module fuselage() {{
+    hull() {{
+        translate([0,0,0])
+            sphere(r={self.fuse_rad});
+        translate([0,0,{self.fuse_len*0.15}])
+            cylinder(h={self.fuse_len*0.7}, r={self.fuse_rad});
+        translate([0,0,{self.fuse_len}])
+            sphere(r={self.fuse_rad*0.4});
+    }}
+}}
+
+// ================= WING =================
+module wing_half(sign=1) {{
+    rotate([0,{self.dihedral}*sign,0])
+    translate([{self.wing_root*0.3}, sign*{self.wing_span/4}, {self.fuse_len*0.45}])
+    linear_extrude(height={self.wing_thickness}, center=true)
+    polygon(points=[
+        [0,0],
+        [{self.wing_root},0],
+        [{self.wing_tip},{self.wing_span/2}],
+        [0,{self.wing_span/2}]
+    ]);
+}}
+
+module wings() {{
+    wing_half(1);
+    mirror([0,1,0]) wing_half(1);
+}}
+
+// ================= TAIL =================
+module tail() {{
+    translate([0,0,{self.fuse_len*0.85}])
+    linear_extrude(height={self.wing_thickness*0.6}, center=true)
+    polygon(points=[
+        [0,0],
+        [{self.tail_chord},0],
+        [{self.tail_chord*0.6},{self.tail_span/2}],
+        [0,{self.tail_span/2}]
+    ]);
+}}
+
+module vertical_tail() {{
+    translate([0,0,{self.fuse_len*0.88}])
+    rotate([90,0,0])
+    linear_extrude(height={self.wing_thickness*0.6}, center=true)
+    polygon(points=[
+        [0,0],
+        [{self.tail_chord*0.7},0],
+        [{self.tail_chord*0.35},{self.tail_span*0.4}]
+    ]);
+}}
+
+// ================= ASSEMBLY =================
+union() {{
+    fuselage();
+    wings();
+    tail();
+    vertical_tail();
+}}
+"""
+        with open(filename, "w") as f:
+            f.write(scad)
+
+        print(f"[CAD] OpenSCAD file written → {filename}")

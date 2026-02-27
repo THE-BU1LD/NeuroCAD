@@ -1,0 +1,1 @@
+import("test_output/clay_mount.stl");

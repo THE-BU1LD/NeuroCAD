@@ -1,0 +1,1 @@
+import("test_output/smart_mount.stl");
