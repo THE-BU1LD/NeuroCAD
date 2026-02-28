@@ -1,17 +1,16 @@
 # ============================================================
-# CAD MASTER KERNEL V3
-# GPU + Implicit SDF + Neural + Decimation + Clean API
+# CAD MASTER KERNEL V4 — FULL ENGINE
+# GPU + Neural + Adaptive + Repair + Analysis + Export
 # ============================================================
 
 import numpy as np
 import torch
 import torch.nn as nn
 import trimesh
+import gc
+import shutil
+import subprocess
 from skimage import measure
-
-# ============================================================
-# DEVICE
-# ============================================================
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 print("Using device:", DEVICE)
@@ -78,7 +77,7 @@ def sdf_smooth_union(a, b, k):
 
 
 # ============================================================
-# SDF GRAPH
+# GRAPH SYSTEM
 # ============================================================
 
 class SDFGraph:
@@ -95,7 +94,7 @@ class SDFGraph:
     def intersect(self, sdf):
         self.ops.append(("intersect", sdf))
 
-    def smooth_add(self, sdf, k=0.2):
+    def smooth_add(self, sdf, k=0.15):
         self.ops.append(("smooth", sdf, k))
 
     def build(self):
@@ -112,19 +111,19 @@ class SDFGraph:
                     _, sdf_func = op
                     k = None
 
-                value = sdf_func(p)
+                val = sdf_func(p)
 
                 if result is None:
-                    result = value
+                    result = val
                 else:
                     if op[0] == "union":
-                        result = sdf_union(result, value)
+                        result = sdf_union(result, val)
                     elif op[0] == "subtract":
-                        result = sdf_subtract(result, value)
+                        result = sdf_subtract(result, val)
                     elif op[0] == "intersect":
-                        result = sdf_intersect(result, value)
+                        result = sdf_intersect(result, val)
                     elif op[0] == "smooth":
-                        result = sdf_smooth_union(result, value, k)
+                        result = sdf_smooth_union(result, val, k)
 
             return result
 
@@ -132,7 +131,7 @@ class SDFGraph:
 
 
 # ============================================================
-# NEURAL REFINER
+# NEURAL SDF REFINER
 # ============================================================
 
 class NeuralSDF(nn.Module):
@@ -161,7 +160,7 @@ class NeuralSDF(nn.Module):
 
 
 # ============================================================
-# KERNEL
+# MAIN KERNEL
 # ============================================================
 
 class CADKernel:
@@ -174,6 +173,8 @@ class CADKernel:
 
         if neural:
             self.neural = NeuralSDF().to(DEVICE)
+
+    # --------------------------------------------------------
 
     def new_graph(self):
         return SDFGraph()
@@ -206,60 +207,52 @@ class CADKernel:
 
     # --------------------------------------------------------
 
-    def build(self, graph, bounds=1.2, decimate=0.0):
+    def build(self, graph, bounds=1.5, decimate=0.0):
+
+        # Safety scaling
+        voxels = self.resolution ** 3
+        if voxels > 30_000_000:
+            print("⚠ Auto reducing resolution to prevent crash.")
+            self.resolution = int(self.resolution * 0.75)
 
         sdf = graph.build()
 
         if self.neural_enabled:
             sdf = self.neural.wrap(sdf)
 
-        # sample grid
         xs = torch.linspace(-bounds, bounds, self.resolution, device=DEVICE)
         grid = torch.stack(torch.meshgrid(xs, xs, xs, indexing="ij"), -1)
         flat = grid.reshape(-1, 3)
 
         with torch.no_grad():
-            sdf_vals = sdf(flat).cpu().numpy()
+            vals = sdf(flat).cpu().numpy()
 
-        volume = sdf_vals.reshape(
+        volume = vals.reshape(
             self.resolution,
             self.resolution,
             self.resolution
         )
 
-        verts, faces, normals, _ = measure.marching_cubes(
-            volume,
-            level=0.0
-        )
-
+        verts, faces, normals, _ = measure.marching_cubes(volume, level=0.0)
         verts = (verts / self.resolution) * (2*bounds) - bounds
 
-        mesh = {
-            "verts": verts,
-            "faces": faces,
-            "normals": normals
-        }
+        tm = trimesh.Trimesh(verts, faces)
+        tm.remove_duplicate_faces()
+        tm.remove_degenerate_faces()
+        tm.remove_unreferenced_vertices()
+        tm.fix_normals()
 
-        if decimate > 0.0:
-            mesh = self._decimate(mesh, decimate)
+        if decimate > 0:
+            try:
+                tm = tm.simplify_quadric_decimation(
+                    target_reduction=decimate
+                )
+            except:
+                print("Decimation unavailable.")
 
-        return mesh
+        tm = tm.smoothed()
 
-    # --------------------------------------------------------
-
-    def _decimate(self, mesh, reduction):
-
-        tm = trimesh.Trimesh(
-            vertices=mesh["verts"],
-            faces=mesh["faces"]
-        )
-
-        try:
-            tm = tm.simplify_quadric_decimation(
-                target_reduction=reduction
-            )
-        except:
-            print("Decimation skipped (dependency missing)")
+        gc.collect()
 
         return {
             "verts": tm.vertices,
@@ -269,13 +262,28 @@ class CADKernel:
 
     # --------------------------------------------------------
 
-    def export_stl(self, mesh, path):
+    def analyze(self, mesh):
+
         tm = trimesh.Trimesh(mesh["verts"], mesh["faces"])
-        tm.export(path)
+
+        return {
+            "verts": len(tm.vertices),
+            "faces": len(tm.faces),
+            "volume": tm.volume,
+            "area": tm.area,
+            "watertight": tm.is_watertight,
+            "euler_number": tm.euler_number
+        }
+
+    # --------------------------------------------------------
+
+    def export_stl(self, mesh, path):
+        trimesh.Trimesh(mesh["verts"], mesh["faces"]).export(path)
 
     def export_scad(self, mesh, path):
 
         with open(path, "w") as f:
+            f.write("$fn=64;\n")
             f.write("polyhedron(points=[\n")
             for v in mesh["verts"]:
                 f.write(f"[{v[0]}, {v[1]}, {v[2]}],\n")
@@ -283,3 +291,13 @@ class CADKernel:
             for tri in mesh["faces"]:
                 f.write(f"[{tri[0]}, {tri[1]}, {tri[2]}],\n")
             f.write("]);")
+
+    def render_scad(self, scad_path, output_path):
+        if shutil.which("openscad"):
+            subprocess.run([
+                "openscad",
+                "-o", output_path,
+                scad_path
+            ])
+        else:
+            print("OpenSCAD not installed.")
