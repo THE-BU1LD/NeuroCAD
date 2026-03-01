@@ -247,10 +247,28 @@ class CADKernel:
 
         tm = trimesh.Trimesh(vertices=verts, faces=faces, process=False)
 
-        tm.nondegenerate_faces()
-        tm.remove_duplicate_faces()
-        tm.remove_unreferenced_vertices()
-        tm.fix_normals()
+        # --- Robust Mesh Cleanup (Version Safe) ---
+
+        try:
+            tm.remove_degenerate_faces()
+        except:
+            pass
+
+        try:
+            unique_faces = np.unique(np.sort(tm.faces, axis=1), axis=0)
+            tm.faces = unique_faces
+        except:
+            pass
+
+        try:
+            tm.remove_unreferenced_vertices()
+        except:
+            pass
+
+        try:
+            tm.fix_normals()
+        except:
+            pass
 
         if smooth_iters > 0:
             try:
