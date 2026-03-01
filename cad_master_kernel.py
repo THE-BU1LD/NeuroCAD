@@ -1,6 +1,6 @@
 # ============================================================
-# CAD MASTER KERNEL V5 — MAX ENGINE
-# Optimized | Chunked | Cached | Mixed Precision | Stable
+# CAD MASTER KERNEL V6 — FINAL ENGINE
+# Production Stable | Chunked | Adaptive | Transforms | Repair
 # ============================================================
 
 import numpy as np
@@ -11,10 +11,11 @@ import gc
 import shutil
 import subprocess
 import hashlib
+import time
 from skimage import measure
 
 torch.backends.cudnn.benchmark = True
-torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.deterministic = False
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 DTYPE = torch.float16 if DEVICE == "cuda" else torch.float32
@@ -31,7 +32,7 @@ def normalize(v):
 
 
 def hash_graph(graph):
-    return hashlib.md5(str(graph.ops).encode()).hexdigest()
+    return hashlib.md5(str(len(graph.ops)).encode()).hexdigest()
 
 
 # ============================================================
@@ -54,6 +55,7 @@ class SDFPrimitives:
             torch.linalg.norm(p[..., :2], dim=-1) - r,
             torch.abs(p[..., 2]) - h / 2
         ], dim=-1)
+
         return torch.minimum(
             torch.maximum(d[..., 0], d[..., 1]),
             torch.zeros_like(d[..., 0])
@@ -65,6 +67,22 @@ class SDFPrimitives:
             p[..., 2]
         ], dim=-1)
         return torch.linalg.norm(q, dim=-1) - r
+
+
+# ============================================================
+# SDF TRANSFORMS
+# ============================================================
+
+def sdf_translate(sdf, offset):
+    offset = torch.tensor(offset)
+    return lambda p: sdf(p - offset)
+
+def sdf_scale(sdf, s):
+    return lambda p: sdf(p / s) * s
+
+def sdf_repeat(sdf, spacing):
+    spacing = torch.tensor(spacing)
+    return lambda p: sdf((p + spacing/2) % spacing - spacing/2)
 
 
 # ============================================================
@@ -136,33 +154,6 @@ class SDFGraph:
 
 
 # ============================================================
-# NEURAL REFINER
-# ============================================================
-
-class NeuralSDF(nn.Module):
-
-    def __init__(self, hidden=128):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(3, hidden),
-            nn.SiLU(),
-            nn.Linear(hidden, hidden),
-            nn.SiLU(),
-            nn.Linear(hidden, 1)
-        )
-
-    def forward(self, x):
-        return self.net(x)
-
-    def wrap(self, sdf_func):
-        def refined(p):
-            base = sdf_func(p)
-            correction = self.forward(p).squeeze(-1)
-            return base + 0.02 * correction
-        return refined
-
-
-# ============================================================
 # MAIN KERNEL
 # ============================================================
 
@@ -176,8 +167,18 @@ class CADKernel:
         self.dtype = DTYPE
         self.neural_enabled = neural
 
-        if neural:
-            self.neural = NeuralSDF().to(self.device)
+    # --------------------------------------------------------
+    # AUTO RESOLUTION
+    # --------------------------------------------------------
+
+    def auto_resolution(self, target_voxels=2_000_000,
+                        min_res=32, max_res=512):
+
+        res = int(round(target_voxels ** (1/3)))
+        res = max(min_res, min(res, max_res))
+        self.resolution = res
+
+        print(f"[Auto Resolution] {res}³ → {res**3:,} voxels")
 
     # --------------------------------------------------------
 
@@ -208,61 +209,54 @@ class CADKernel:
 
     # --------------------------------------------------------
 
-    def build(self, graph, bounds=1.5, decimate=0.0,
-              chunk=600_000, smooth_iters=1):
+    def build(self, graph, bounds=1.5,
+              chunk=500_000,
+              decimate=0.0,
+              smooth_iters=1):
 
-        voxels = self.resolution ** 3
-        if voxels > 40_000_000:
-            self.resolution = int(self.resolution * 0.7)
+        start = time.time()
 
         sdf = graph.build()
 
-        if self.neural_enabled:
-            sdf = self.neural.wrap(sdf)
-
-        xs = torch.linspace(-bounds, bounds, self.resolution,
-                            device=self.device, dtype=self.dtype)
+        xs = torch.linspace(-bounds, bounds,
+                            self.resolution,
+                            device=self.device,
+                            dtype=self.dtype)
 
         grid = torch.stack(torch.meshgrid(xs, xs, xs, indexing="ij"), -1)
         flat = grid.reshape(-1, 3)
 
         vals = []
 
-        try:
-            with torch.no_grad():
-                for i in range(0, flat.shape[0], chunk):
-                    vals.append(sdf(flat[i:i+chunk]).cpu())
-        except RuntimeError:
-            print("⚠ CUDA OOM — falling back to CPU.")
-            self.device = "cpu"
-            return self.build(graph, bounds, decimate)
+        with torch.no_grad():
+            for i in range(0, flat.shape[0], chunk):
+                vals.append(sdf(flat[i:i+chunk]).cpu())
 
-        vals = torch.cat(vals).numpy()
-        volume = vals.reshape(self.resolution,
-                              self.resolution,
-                              self.resolution)
+        volume = torch.cat(vals).numpy()
+        volume = volume.reshape(self.resolution,
+                                self.resolution,
+                                self.resolution)
 
         if np.min(volume) > 0 or np.max(volume) < 0:
             print("No surface detected.")
             return None
 
-        verts, faces, normals, _ = measure.marching_cubes(
-            volume, level=0.0)
+        verts, faces, _, _ = measure.marching_cubes(volume, level=0.0)
 
         verts = verts / (self.resolution - 1) * (2 * bounds) - bounds
 
         tm = trimesh.Trimesh(vertices=verts, faces=faces, process=False)
 
-        tm.remove_degenerate_faces()
+        tm.nondegenerate_faces()
         tm.remove_duplicate_faces()
         tm.remove_unreferenced_vertices()
         tm.fix_normals()
 
-        for _ in range(smooth_iters):
+        if smooth_iters > 0:
             try:
                 tm = tm.smoothed()
             except:
-                break
+                pass
 
         if decimate > 0:
             try:
@@ -272,6 +266,9 @@ class CADKernel:
                 pass
 
         gc.collect()
+
+        print(f"[Build Complete] {len(tm.faces):,} faces "
+              f"in {round(time.time()-start,2)}s")
 
         return {
             "verts": tm.vertices,
@@ -314,5 +311,3 @@ class CADKernel:
         if shutil.which("openscad"):
             subprocess.run(["openscad", "-o",
                             output_path, scad_path])
-        else:
-            print("OpenSCAD not installed.")
