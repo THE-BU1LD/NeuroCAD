@@ -1,39 +1,72 @@
-# cad_octree.py
-
-import torch
 import numpy as np
-import trimesh
-from skimage import measure
+import torch
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+class OctreeNode:
+    def __init__(self, bounds, depth=0):
+        self.bounds = bounds  # (min, max)
+        self.children = []
+        self.depth = depth
+        self.is_leaf = True
+        self.sign = None
 
-class AdaptiveOctreeDC:
 
-    def __init__(self, sdf, base_res=64, max_depth=3, bounds=1.0):
+class AdaptiveOctree:
+
+    def __init__(self, sdf, max_depth=6, device="cpu"):
         self.sdf = sdf
-        self.base_res = base_res
         self.max_depth = max_depth
-        self.bounds = bounds
+        self.device = device
 
-    def extract(self):
-        xs = torch.linspace(-self.bounds, self.bounds, self.base_res, device=DEVICE)
-        grid = torch.stack(torch.meshgrid(xs, xs, xs, indexing="ij"), -1)
-        flat = grid.reshape(-1, 3)
+    def evaluate_corner_signs(self, bounds):
 
-        with torch.no_grad():
-            vals = self.sdf(flat).cpu().numpy()
+        corners = []
+        for x in [bounds[0][0], bounds[1][0]]:
+            for y in [bounds[0][1], bounds[1][1]]:
+                for z in [bounds[0][2], bounds[1][2]]:
+                    corners.append([x,y,z])
 
-        vals = vals.reshape(self.base_res, self.base_res, self.base_res)
+        p = torch.tensor(corners, device=self.device, dtype=torch.float32)
+        vals = self.sdf(p).detach().cpu().numpy()
 
-        verts, faces, normals, _ = measure.marching_cubes(
-            vals,
-            level=0.0,
-            spacing=(2*self.bounds/self.base_res,) * 3
-        )
+        return np.sign(vals)
 
-        verts += np.array([-self.bounds]*3)
+    def subdivide(self, node):
 
-        mesh = trimesh.Trimesh(vertices=verts, faces=faces)
-        mesh = mesh.simplify_quadratic_decimation(len(mesh.faces)//2)
+        if node.depth >= self.max_depth:
+            return
 
-        return mesh.vertices, mesh.faces, mesh.vertex_normals
+        signs = self.evaluate_corner_signs(node.bounds)
+
+        if np.all(signs > 0) or np.all(signs < 0):
+            node.sign = signs[0]
+            return
+
+        node.is_leaf = False
+
+        minb, maxb = node.bounds
+        mid = (np.array(minb) + np.array(maxb)) / 2
+
+        for dx in [0,1]:
+            for dy in [0,1]:
+                for dz in [0,1]:
+
+                    new_min = [
+                        minb[0] if dx==0 else mid[0],
+                        minb[1] if dy==0 else mid[1],
+                        minb[2] if dz==0 else mid[2],
+                    ]
+
+                    new_max = [
+                        mid[0] if dx==0 else maxb[0],
+                        mid[1] if dy==0 else maxb[1],
+                        mid[2] if dz==0 else maxb[2],
+                    ]
+
+                    child = OctreeNode((new_min, new_max), node.depth+1)
+                    self.subdivide(child)
+                    node.children.append(child)
+
+    def build(self, bounds):
+        root = OctreeNode(bounds)
+        self.subdivide(root)
+        return root
