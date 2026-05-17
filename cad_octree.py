@@ -1,9 +1,12 @@
-import numpy as np
 import torch
 
+
 class OctreeNode:
-    def __init__(self, bounds, depth=0):
-        self.bounds = bounds  # (min, max)
+    __slots__ = ("min", "max", "children", "depth", "is_leaf", "sign")
+
+    def __init__(self, min_bound, max_bound, depth=0):
+        self.min = torch.tensor(min_bound, dtype=torch.float32)
+        self.max = torch.tensor(max_bound, dtype=torch.float32)
         self.children = []
         self.depth = depth
         self.is_leaf = True
@@ -11,62 +14,66 @@ class OctreeNode:
 
 
 class AdaptiveOctree:
-
     def __init__(self, sdf, max_depth=6, device="cpu"):
         self.sdf = sdf
         self.max_depth = max_depth
         self.device = device
 
-    def evaluate_corner_signs(self, bounds):
+    def _corner_points(self, node):
+        minb, maxb = node.min, node.max
 
-        corners = []
-        for x in [bounds[0][0], bounds[1][0]]:
-            for y in [bounds[0][1], bounds[1][1]]:
-                for z in [bounds[0][2], bounds[1][2]]:
-                    corners.append([x,y,z])
+        return torch.stack([
+            torch.tensor([x, y, z], device=self.device)
+            for x in (minb[0], maxb[0])
+            for y in (minb[1], maxb[1])
+            for z in (minb[2], maxb[2])
+        ])
 
-        p = torch.tensor(corners, device=self.device, dtype=torch.float32)
-        vals = self.sdf(p).detach().cpu().numpy()
+    def _corner_signs(self, node):
+        pts = self._corner_points(node)
+        vals = self.sdf(pts)
+        return torch.sign(vals)
 
-        return np.sign(vals)
-
-    def subdivide(self, node):
-
+    def subdivide(self, node: OctreeNode):
+        # Stop condition
         if node.depth >= self.max_depth:
             return
 
-        signs = self.evaluate_corner_signs(node.bounds)
+        signs = self._corner_signs(node)
 
-        if np.all(signs > 0) or np.all(signs < 0):
-            node.sign = signs[0]
+        # Fully inside or outside
+        if torch.all(signs > 0) or torch.all(signs < 0):
+            node.sign = signs[0].item()
             return
 
         node.is_leaf = False
 
-        minb, maxb = node.bounds
-        mid = (np.array(minb) + np.array(maxb)) / 2
+        minb = node.min
+        maxb = node.max
+        mid = (minb + maxb) * 0.5
 
-        for dx in [0,1]:
-            for dy in [0,1]:
-                for dz in [0,1]:
+        # Generate children
+        for dx in (0, 1):
+            for dy in (0, 1):
+                for dz in (0, 1):
 
-                    new_min = [
-                        minb[0] if dx==0 else mid[0],
-                        minb[1] if dy==0 else mid[1],
-                        minb[2] if dz==0 else mid[2],
-                    ]
+                    new_min = torch.tensor([
+                        minb[0] if dx == 0 else mid[0],
+                        minb[1] if dy == 0 else mid[1],
+                        minb[2] if dz == 0 else mid[2],
+                    ], device=self.device)
 
-                    new_max = [
-                        mid[0] if dx==0 else maxb[0],
-                        mid[1] if dy==0 else maxb[1],
-                        mid[2] if dz==0 else maxb[2],
-                    ]
+                    new_max = torch.tensor([
+                        mid[0] if dx == 0 else maxb[0],
+                        mid[1] if dy == 0 else maxb[1],
+                        mid[2] if dz == 0 else maxb[2],
+                    ], device=self.device)
 
-                    child = OctreeNode((new_min, new_max), node.depth+1)
+                    child = OctreeNode(new_min, new_max, node.depth + 1)
                     self.subdivide(child)
                     node.children.append(child)
 
     def build(self, bounds):
-        root = OctreeNode(bounds)
+        root = OctreeNode(bounds[0], bounds[1], depth=0)
         self.subdivide(root)
         return root

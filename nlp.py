@@ -1,836 +1,209 @@
 import re
-from parts import Part
-
-
-def parse_mass(text):
-    m = re.search(r"mass\s*(\d+)", text)
-    if m:
-        return float(m.group(1))
-    m = re.search(r"(\d+)\s*kg", text)
-    if m:
-        return float(m.group(1))
-    return 50.0
-
-
-def parse_position(text):
-    m = re.search(r"\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)\)", text)
-    if m:
-        return (
-            float(m.group(1)),
-            float(m.group(2)),
-            float(m.group(3)),
-        )
-    return (0.0, 0.0, 0.0)
-
-
-def detect_name(text):
-    s = text.lower()
-
-    if "wing" in s:
-        return "Wing"
-
-    if "fuselage" in s:
-        return "Fuselage"
-
-    if "engine" in s:
-        return "Engine"
-
-    if "tail" in s:
-        return "Tail"
-
-    if "propeller" in s:
-        return "Propeller"
-
-    if "body" in s:
-        return "Body"
-
-    return None
-
-
-def extract_parts(prompt):
-
-    parts = []
-
-    sentences = re.split(r"[.;\n]", prompt)
-
-    for s in sentences:
-
-        name = detect_name(s)
-
-        if name is None:
-            continue
-
-        mass = parse_mass(s)
-
-        position = parse_position(s)
-
-        parts.append(Part(name, mass, position))
-
-    return parts
-
-
-def prompt_to_parts(prompt):
-
-    parts = extract_parts(prompt)
-
-    if len(parts) == 0:
-        raise ValueError("No parts detected")
-
-    return parts
-
-    import re
 import math
-from parts import Part
+from typing import List, Dict, Any, Optional, Tuple
+
+# =========================
+# CORE CONFIG
+# =========================
+
+UNIT_SCALE = {
+    "mm": 0.001,
+    "cm": 0.01,
+    "m": 1.0,
+    "in": 0.0254,
+    "inch": 0.0254,
+    "inches": 0.0254,
+    "ft": 0.3048,
+    "feet": 0.3048,
+}
+
+STOPWORDS = set([
+    "a","an","the","me","make","create","build","model","of","with","which","is","in","on","at","to","for"
+])
+
+# =========================
+# REGEX SYSTEM
+# =========================
+
+DIM_RE = re.compile(
+    r"(\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches|ft|feet)\s*by\s*"
+    r"(\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches|ft|feet)\s*by\s*"
+    r"(\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches|ft|feet)",
+    re.IGNORECASE,
+)
+
+HOLE_RE = re.compile(
+    r"hole\s*(?:of|with|radius|diameter)?\s*(\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)",
+    re.IGNORECASE,
+)
+
+# =========================
+# UTILITIES
+# =========================
+
+def normalize(text: str) -> str:
+    text = text.lower()
+    text = re.sub(r"feet|foot", "ft", text)
+    text = re.sub(r"inches|inch", "in", text)
+    return text
 
 
-def parse_mass(text):
-    m = re.search(r"mass\s*(\d+)", text)
-    if m:
-        return float(m.group(1))
-    m = re.search(r"(\d+)\s*kg", text)
-    if m:
-        return float(m.group(1))
-    return 50.0
+def tokenize(text: str) -> List[str]:
+    return re.findall(r"[a-zA-Z0-9\.]+", text)
+
+# =========================
+# PARSERS
+# =========================
+
+def parse_dimensions(text: str) -> Optional[Tuple[float, float, float]]:
+    m = DIM_RE.search(text)
+    if not m:
+        return None
+
+    dims = []
+    for i in range(1, 7, 2):
+        val = float(m.group(i))
+        unit = m.group(i+1).lower()
+        dims.append(val * UNIT_SCALE[unit])
+
+    return tuple(dims)
 
 
-def parse_position(text):
-    m = re.search(r"\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)\)", text)
-    if m:
-        return (
-            float(m.group(1)),
-            float(m.group(2)),
-            float(m.group(3)),
-        )
-    return None
+def parse_hole(text: str) -> Optional[Dict[str, Any]]:
+    m = HOLE_RE.search(text)
+    if not m:
+        return None
 
+    val = float(m.group(1))
+    unit = m.group(2).lower()
 
-def parse_count(text):
-    m = re.search(r"(\d+)", text)
-    if m:
-        return int(m.group(1))
-    words = {
-        "one":1,"two":2,"three":3,"four":4,"five":5,"six":6,
-        "seven":7,"eight":8,"nine":9
+    return {
+        "type": "hole",
+        "diameter": val * UNIT_SCALE[unit]
     }
-    for w in words:
-        if w in text.lower():
-            return words[w]
-    return 1
 
 
-def detect_name(text):
-    s = text.lower()
+def parse_relations(text: str) -> Dict[str, Any]:
+    rel = {}
 
-    if "wing" in s:
-        return "Wing"
+    if "center" in text:
+        rel["placement"] = "center"
 
-    if "fuselage" in s:
-        return "Fuselage"
+    if "largest face" in text:
+        rel["target"] = "largest_face"
 
-    if "engine" in s:
-        return "Engine"
+    if "top" in text:
+        rel["target"] = "top_face"
 
-    if "tail" in s:
-        return "Tail"
+    return rel
 
-    if "propeller" in s:
-        return "Propeller"
+# =========================
+# GIBBERISH DETECTION
+# =========================
 
-    if "panel" in s:
-        return "Panel"
+def gibberish_score(tokens: List[str]) -> float:
+    if not tokens:
+        return 1.0
 
-    if "body" in s:
-        return "Body"
+    valid = sum(1 for t in tokens if t.isalpha() or t.isnumeric())
+    return 1 - (valid / len(tokens))
 
-    return None
+# =========================
+# CORE ENGINE
+# =========================
 
+class NLPToCAD:
 
-def generate_symmetric_positions(n, radius=1.0, z=0.0):
+    def parse(self, prompt: str) -> Dict[str, Any]:
+        norm = normalize(prompt)
+        tokens = tokenize(norm)
 
-    pos = []
+        gib = gibberish_score(tokens)
 
-    for i in range(n):
-        a = (2*math.pi*i)/n
-        x = radius*math.cos(a)
-        y = radius*math.sin(a)
-        pos.append((round(x,3),round(y,3),z))
+        if gib > 0.7:
+            return self._failsafe(prompt, tokens, gib)
 
-    return pos
+        dims = parse_dimensions(norm)
+        hole = parse_hole(norm)
+        rel = parse_relations(norm)
 
+        entity = None
 
-def extract_parts(prompt):
+        if dims:
+            entity = {
+                "type": "box",
+                "dimensions": dims,
+                "features": []
+            }
 
-    parts = []
+        if entity and hole:
+            hole["relation"] = rel
+            entity["features"].append(hole)
 
-    sentences = re.split(r"[.;\n]", prompt)
+        parts = []
 
-    for s in sentences:
+        if entity:
+            parts.append({
+                "name": "Body",
+                "mass": 50.0,
+                "position": (0,0,0),
+                "attrs": entity
+            })
 
-        name = detect_name(s)
+        return {
+            "prompt": prompt,
+            "normalized": norm,
+            "tokens": tokens,
+            "gibberish": False,
+            "gibberish_score": gib,
+            "confidence": 0.9 if entity else 0.4,
+            "failsafe": False if entity else True,
+            "parts": parts
+        }
 
-        if name is None:
-            continue
+    def _failsafe(self, prompt, tokens, score):
+        return {
+            "prompt": prompt,
+            "tokens": tokens,
+            "gibberish": True,
+            "gibberish_score": score,
+            "failsafe": True,
+            "parts": []
+        }
 
-        mass = parse_mass(s)
+# =========================
+# SCRIPT GENERATION
+# =========================
 
-        pos = parse_position(s)
+def generate_openscad(entity: Dict[str, Any]) -> str:
+    dims = entity.get("dimensions")
+    features = entity.get("features", [])
 
-        count = parse_count(s)
+    code = []
 
-        if pos is not None:
-            parts.append(Part(name,mass,pos))
-            continue
+    if dims:
+        x,y,z = dims
+        code.append(f"cube([{x},{y},{z}]);")
 
-        if count > 1:
-            positions = generate_symmetric_positions(count)
+    for f in features:
+        if f["type"] == "hole":
+            d = f["diameter"]
+            code.append(f"translate([{x/2},{y/2},{z/2}]) cylinder(h={z}, d={d});")
 
-            for p in positions:
-                parts.append(Part(name,mass,p))
-        else:
-            parts.append(Part(name,mass,(0.0,0.0,0.0)))
+    return "\n".join(code)
 
-    return parts
+# =========================
+# ENTRY
+# =========================
 
+if __name__ == "__main__":
+    engine = NLPToCAD()
 
-def prompt_to_parts(prompt):
+    test = "Make me a 5 inch by 5 inch by 25 inch box with a hole of 2cm in the center of the largest rectangular face"
 
-    parts = extract_parts(prompt)
+    result = engine.parse(test)
+    print(result)
 
-    if len(parts) == 0:
-        raise ValueError("No parts detected")
-
-    return parts
-
-
-def generate_parts_block(parts):
-
-    lines = []
-    lines.append("parts = [")
-
-    for p in parts:
-        line = f'    Part("{p.name}", {p.mass}, {p.position}),'
-        lines.append(line)
-
-    lines.append("]")
-    return "\n".join(lines)
-
-
-def generate_script(parts):
-
-    block = generate_parts_block(parts)
-
-    script = f'''
-from parts import Part
-from auto_joint import auto_generate_joints
-from system_optimizer import SystemOptimizer
-from stress_test import monte_carlo_test, adversarial_test
-from ml import TinyNeuralScorer
-
-{block}
-
-joints = auto_generate_joints(parts)
-
-loads = {{j:120.0 for j in joints}}
-
-sys_opt = SystemOptimizer(joints, loads)
-summary = sys_opt.optimize()
-
-print("\\n[OPTIMIZED JOINTS]")
-for s in summary:
-    print(s)
-
-print("\\n[MONTE CARLO FAILURES]")
-print(len(monte_carlo_test(joints, loads)))
-
-print("\\n[ADVERSARIAL TEST]")
-for j, r in adversarial_test(joints):
-    print(j.describe(), "risk=", round(r,3))
-
-model = TinyNeuralScorer()
-
-print("\\n[ML SCORES]")
-for j in joints:
-    print(j.describe(), model.score(j, loads[j]))
-'''
-    return script
-
-
-def prompt_to_script(prompt):
-
-    parts = prompt_to_parts(prompt)
-
-    return generate_script(parts)
-
-
-def write_script(prompt, filename="generated_design.py"):
-
-    script = prompt_to_script(prompt)
-
-    with open(filename,"w") as f:
-        f.write(script)
-
-    return filename
-import re
-import math
-from parts import Part
-
-
-def parse_mass(text):
-    m = re.search(r"mass\s*(\d+)", text)
-    if m:
-        return float(m.group(1))
-    m = re.search(r"(\d+)\s*kg", text)
-    if m:
-        return float(m.group(1))
-    return 50.0
-
-
-def parse_position(text):
-    m = re.search(r"\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)\)", text)
-    if m:
-        return (
-            float(m.group(1)),
-            float(m.group(2)),
-            float(m.group(3)),
-        )
-    return None
-
-
-def parse_count(text):
-    m = re.search(r"(\d+)", text)
-    if m:
-        return int(m.group(1))
-    words = {
-        "one":1,"two":2,"three":3,"four":4,"five":5,"six":6,
-        "seven":7,"eight":8,"nine":9
-    }
-    for w in words:
-        if w in text.lower():
-            return words[w]
-    return 1
-
-
-def detect_name(text):
-    s = text.lower()
-
-    if "wing" in s:
-        return "Wing"
-
-    if "fuselage" in s:
-        return "Fuselage"
-
-    if "engine" in s:
-        return "Engine"
-
-    if "tail" in s:
-        return "Tail"
-
-    if "propeller" in s:
-        return "Propeller"
-
-    if "panel" in s:
-        return "Panel"
-
-    if "fin" in s:
-        return "Fin"
-
-    if "body" in s:
-        return "Body"
-
-    return None
-
-
-def symmetric_circle(n, r=1.0, z=0.0):
-    pos = []
-    for i in range(n):
-        a = (2*math.pi*i)/n
-        x = r*math.cos(a)
-        y = r*math.sin(a)
-        pos.append((round(x,3),round(y,3),z))
-    return pos
-
-
-def rocket_fin_layout(n):
-    pos = []
-    for i in range(n):
-        a = (2*math.pi*i)/n
-        x = 0.5*math.cos(a)
-        y = 0.5*math.sin(a)
-        pos.append((round(x,3),round(y,3),-1.0))
-    return pos
-
-
-def airplane_wing_layout():
-    return [(-1.5,0,0),(1.5,0,0)]
-
-
-def satellite_panel_layout(n):
-    pos = []
-    for i in range(n):
-        x = (-1)**i * 2.0
-        y = i * 0.2
-        pos.append((x,y,0))
-    return pos
-
-
-def generate_layout(name, count):
-
-    if name == "Propeller":
-        return symmetric_circle(count,1.2,0)
-
-    if name == "Fin":
-        return rocket_fin_layout(count)
-
-    if name == "Wing" and count == 2:
-        return airplane_wing_layout()
-
-    if name == "Panel":
-        return satellite_panel_layout(count)
-
-    return symmetric_circle(count)
-
-
-def extract_parts(prompt):
-
-    parts = []
-
-    sentences = re.split(r"[.;\n]", prompt)
-
-    for s in sentences:
-
-        name = detect_name(s)
-
-        if name is None:
-            continue
-
-        mass = parse_mass(s)
-
-        pos = parse_position(s)
-
-        count = parse_count(s)
-
-        if pos is not None:
-            parts.append(Part(name,mass,pos))
-            continue
-
-        if count > 1:
-            layout = generate_layout(name,count)
-
-            for p in layout:
-                parts.append(Part(name,mass,p))
-        else:
-            parts.append(Part(name,mass,(0.0,0.0,0.0)))
-
-    return parts
-
-
-def prompt_to_parts(prompt):
-
-    parts = extract_parts(prompt)
-
-    if len(parts) == 0:
-        raise ValueError("No parts detected")
-
-    return parts
-
-
-def generate_parts_block(parts):
-
-    lines = []
-    lines.append("parts = [")
-
-    for p in parts:
-        line = f'    Part("{p.name}", {p.mass}, {p.position}),'
-        lines.append(line)
-
-    lines.append("]")
-    return "\n".join(lines)
-
-
-def generate_script(parts):
-
-    block = generate_parts_block(parts)
-
-    script = f'''
-from parts import Part
-from auto_joint import auto_generate_joints
-from system_optimizer import SystemOptimizer
-from stress_test import monte_carlo_test, adversarial_test
-from ml import TinyNeuralScorer
-
-{block}
-
-joints = auto_generate_joints(parts)
-
-loads = {{j:120.0 for j in joints}}
-
-sys_opt = SystemOptimizer(joints, loads)
-summary = sys_opt.optimize()
-
-print("\\n[OPTIMIZED JOINTS]")
-for s in summary:
-    print(s)
-
-print("\\n[MONTE CARLO FAILURES]")
-print(len(monte_carlo_test(joints, loads)))
-
-print("\\n[ADVERSARIAL TEST]")
-for j, r in adversarial_test(joints):
-    print(j.describe(), "risk=", round(r,3))
-
-model = TinyNeuralScorer()
-
-print("\\n[ML SCORES]")
-for j in joints:
-    print(j.describe(), model.score(j, loads[j]))
-'''
-    return script
-
-
-def prompt_to_script(prompt):
-
-    parts = prompt_to_parts(prompt)
-
-    return generate_script(parts)
-
-
-def write_script(prompt, filename="generated_design.py"):
-
-    script = prompt_to_script(prompt)
-
-    with open(filename,"w") as f:
-        f.write(script)
-
-    return filename
-
-import re
-import math
-from parts import Part
-
-
-def parse_mass(text):
-    m = re.search(r"mass\s*(\d+)", text)
-    if m:
-        return float(m.group(1))
-    m = re.search(r"(\d+)\s*kg", text)
-    if m:
-        return float(m.group(1))
-    return 50.0
-
-
-def parse_position(text):
-    m = re.search(r"\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)\)", text)
-    if m:
-        return (
-            float(m.group(1)),
-            float(m.group(2)),
-            float(m.group(3)),
-        )
-    return None
-
-
-def parse_count(text):
-    m = re.search(r"(\d+)", text)
-    if m:
-        return int(m.group(1))
-    words = {
-        "one":1,"two":2,"three":3,"four":4,"five":5,"six":6,
-        "seven":7,"eight":8,"nine":9
-    }
-    for w in words:
-        if w in text.lower():
-            return words[w]
-    return 1
-
-
-def detect_name(text):
-    s = text.lower()
-
-    if "wing" in s:
-        return "Wing"
-
-    if "fuselage" in s:
-        return "Fuselage"
-
-    if "engine" in s:
-        return "Engine"
-
-    if "tail" in s:
-        return "Tail"
-
-    if "propeller" in s:
-        return "Propeller"
-
-    if "panel" in s:
-        return "Panel"
-
-    if "fin" in s:
-        return "Fin"
-
-    if "body" in s:
-        return "Body"
-
-    return None
-
-
-def symmetric_circle(n, r=1.0, z=0.0):
-    pos = []
-    for i in range(n):
-        a = (2*math.pi*i)/n
-        x = r*math.cos(a)
-        y = r*math.sin(a)
-        pos.append((round(x,3),round(y,3),z))
-    return pos
-
-
-def rocket_fin_layout(n):
-    pos = []
-    for i in range(n):
-        a = (2*math.pi*i)/n
-        x = 0.5*math.cos(a)
-        y = 0.5*math.sin(a)
-        pos.append((round(x,3),round(y,3),-1.0))
-    return pos
-
-
-def airplane_wing_layout():
-    return [(-1.5,0,0),(1.5,0,0)]
-
-
-def satellite_panel_layout(n):
-    pos = []
-    for i in range(n):
-        x = (-1)**i * 2.0
-        y = i * 0.2
-        pos.append((x,y,0))
-    return pos
-
-
-def generate_layout(name, count):
-
-    if name == "Propeller":
-        return symmetric_circle(count,1.2,0)
-
-    if name == "Fin":
-        return rocket_fin_layout(count)
-
-    if name == "Wing" and count == 2:
-        return airplane_wing_layout()
-
-    if name == "Panel":
-        return satellite_panel_layout(count)
-
-    return symmetric_circle(count)
-
-
-def detect_vehicle_type(prompt):
-
-    p = prompt.lower()
-
-    if "rocket" in p:
-        return "rocket"
-
-    if "satellite" in p:
-        return "satellite"
-
-    if "drone" in p:
-        return "drone"
-
-    if "airplane" in p or "aircraft" in p:
-        return "airplane"
-
-    return "generic"
-
-
-def enforce_design_grammar(vehicle, parts):
-
-    names = [p.name for p in parts]
-
-    if vehicle == "airplane":
-        if "Fuselage" not in names:
-            parts.append(Part("Fuselage",120,(0,0,0)))
-        if names.count("Wing") < 2:
-            w = airplane_wing_layout()
-            parts.append(Part("Wing",60,w[0]))
-            parts.append(Part("Wing",60,w[1]))
-
-    if vehicle == "rocket":
-        if "Body" not in names:
-            parts.append(Part("Body",150,(0,0,0)))
-        if "Fin" not in names:
-            for p in rocket_fin_layout(3):
-                parts.append(Part("Fin",20,p))
-
-    if vehicle == "drone":
-        if "Body" not in names:
-            parts.append(Part("Body",40,(0,0,0)))
-        if names.count("Propeller") < 4:
-            for p in symmetric_circle(4,1.2,0):
-                parts.append(Part("Propeller",15,p))
-
-    if vehicle == "satellite":
-        if "Body" not in names:
-            parts.append(Part("Body",70,(0,0,0)))
-        if "Panel" not in names:
-            for p in satellite_panel_layout(4):
-                parts.append(Part("Panel",10,p))
-
-    return parts
-
-
-def infer_load(prompt):
-
-    m = re.search(r"load\s*(\d+)", prompt.lower())
-    if m:
-        return float(m.group(1))
-
-    if "rocket" in prompt.lower():
-        return 300.0
-
-    if "airplane" in prompt.lower():
-        return 200.0
-
-    if "drone" in prompt.lower():
-        return 80.0
-
-    if "satellite" in prompt.lower():
-        return 40.0
-
-    return 120.0
-
-
-def validate_parts(parts):
-
-    cleaned = []
-
-    seen = set()
-
-    for p in parts:
-        key = (p.name,p.position)
-        if key not in seen:
-            cleaned.append(p)
-            seen.add(key)
-
-    return cleaned
-
-
-def extract_parts(prompt):
-
-    parts = []
-
-    sentences = re.split(r"[.;\n]", prompt)
-
-    for s in sentences:
-
-        name = detect_name(s)
-
-        if name is None:
-            continue
-
-        mass = parse_mass(s)
-
-        pos = parse_position(s)
-
-        count = parse_count(s)
-
-        if pos is not None:
-            parts.append(Part(name,mass,pos))
-            continue
-
-        if count > 1:
-            layout = generate_layout(name,count)
-
-            for p in layout:
-                parts.append(Part(name,mass,p))
-        else:
-            parts.append(Part(name,mass,(0.0,0.0,0.0)))
-
-    return parts
-
-
-def prompt_to_parts(prompt):
-
-    parts = extract_parts(prompt)
-
-    vehicle = detect_vehicle_type(prompt)
-
-    parts = enforce_design_grammar(vehicle, parts)
-
-    parts = validate_parts(parts)
-
-    if len(parts) == 0:
-        raise ValueError("No parts detected")
-
-    return parts
-
-
-def generate_parts_block(parts):
-
-    lines = []
-    lines.append("parts = [")
-
-    for p in parts:
-        line = f'    Part("{p.name}", {p.mass}, {p.position}),'
-        lines.append(line)
-
-    lines.append("]")
-    return "\n".join(lines)
-
-
-def generate_script(parts, load):
-
-    block = generate_parts_block(parts)
-
-    script = f'''
-from parts import Part
-from auto_joint import auto_generate_joints
-from system_optimizer import SystemOptimizer
-from stress_test import monte_carlo_test, adversarial_test
-from ml import TinyNeuralScorer
-
-{block}
-
-joints = auto_generate_joints(parts)
-
-loads = {{j:{load} for j in joints}}
-
-sys_opt = SystemOptimizer(joints, loads)
-summary = sys_opt.optimize()
-
-print("\\n[OPTIMIZED JOINTS]")
-for s in summary:
-    print(s)
-
-print("\\n[MONTE CARLO FAILURES]")
-print(len(monte_carlo_test(joints, loads)))
-
-print("\\n[ADVERSARIAL TEST]")
-for j, r in adversarial_test(joints):
-    print(j.describe(), "risk=", round(r,3))
-
-model = TinyNeuralScorer()
-
-print("\\n[ML SCORES]")
-for j in joints:
-    print(j.describe(), model.score(j, loads[j]))
-'''
-    return script
-
-
-def prompt_to_script(prompt):
-
-    parts = prompt_to_parts(prompt)
-
-    load = infer_load(prompt)
-
-    return generate_script(parts, load)
-
-
-def write_script(prompt, filename="generated_design.py"):
-
-    script = prompt_to_script(prompt)
-
-    with open(filename,"w") as f:
-        f.write(script)
-
-    return filename
+    if result["parts"]:
+        cad = generate_openscad(result["parts"][0]["attrs"])
+        print("\nGenerated CAD:\n", cad)

@@ -1,287 +1,158 @@
 import os
 import time
 import numpy as np
+import torch
+import cad_master_kernel as cmk
 
-import cad_master_kernel
-
-# ------------------------------------------------
-# Auto-detect Kernel + Batch
-# ------------------------------------------------
-
-if hasattr(cad_master_kernel, "CADKernel"):
-    KernelClass = cad_master_kernel.CADKernel
-elif hasattr(cad_master_kernel, "Kernel"):
-    KernelClass = cad_master_kernel.Kernel
-else:
-    raise Exception("No Kernel class found in cad_master_kernel")
-
-if hasattr(cad_master_kernel, "GPUBatch"):
-    GPUBatch = cad_master_kernel.GPUBatch
-else:
-    raise Exception("No GPUBatch found")
-
-print("\n=== NeuroCAD SMT Ultra Test (FINAL AUTO) ===\n")
-
-# ------------------------------------------------
-# Config
-# ------------------------------------------------
+print("\n=== NeuroCAD SMT Ultra (KLEIN BOTTLE TEST) ===\n")
 
 OUTPUT_DIR = "output_models"
-RESOLUTION = 320
-TARGET_SAMPLES = 6_000_000
-MESH_BOUNDS = 1.8
-CHUNK_SIZE = 500_000
-BATCH_COUNT = 3
-
+RES = 96
+BOUNDS = 2.5
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 np.random.seed(42)
 
-# ------------------------------------------------
-# Noise System
-# ------------------------------------------------
+# ----------------------------
+# Klein Bottle SDF
+# ----------------------------
+class KleinSDF:
+    def __call__(self, pts):
+        x = pts[:, 0]
+        y = pts[:, 1]
+        z = pts[:, 2]
 
-class SDFNoise:
+        a = 2.0
+        r = (x**2 + y**2 + z**2 + a**2 - 2*a*y)
+        f = r**2 - 8*a**2*(x**2 + z**2)
 
-    @staticmethod
-    def noise(p):
-        return (
-            np.sin(2.3*p[0]) *
-            np.cos(2.1*p[1]) *
-            np.sin(2.7*p[2])
-        )
+        return f
 
-    @staticmethod
-    def fractal(p, octaves=3):
-        val, amp, freq = 0.0, 1.0, 1.0
-        for _ in range(octaves):
-            val += amp * SDFNoise.noise(p * freq)
-            freq *= 2.0
-            amp *= 0.5
-        return val
-
-    @staticmethod
-    def perturb(primitive, strength=0.05):
-        original_sdf = primitive.sdf
-
-        def new_sdf(p):
-            return original_sdf(p + strength * SDFNoise.fractal(p))
-
-        primitive.sdf = new_sdf
-        return primitive
-
-
-# ------------------------------------------------
-# Kernel Init
-# ------------------------------------------------
-
-kernel = KernelClass(resolution=RESOLUTION)
-
-if hasattr(kernel, "auto_resolution"):
-    kernel.auto_resolution(TARGET_SAMPLES)
-
-print("Kernel initialized")
-
-# ------------------------------------------------
-# Graph creator (auto)
-# ------------------------------------------------
-
-def new_graph(kernel):
-    if hasattr(kernel, "new_graph"):
-        return kernel.new_graph()
-    elif hasattr(kernel, "graph"):
-        return kernel.graph()
-    else:
-        raise Exception("No graph creation method found")
-
-# ------------------------------------------------
-# Jacobian Warp
-# ------------------------------------------------
-
-def jacobian_warp_sdf(sdf):
-
-    def warped(p):
-
-        eps = 1e-3
-
-        def field(x):
-            return SDFNoise.fractal(x * 2.0)
-
-        grad = np.array([
-            field(p + [eps,0,0]) - field(p - [eps,0,0]),
-            field(p + [0,eps,0]) - field(p - [0,eps,0]),
-            field(p + [0,0,eps]) - field(p - [0,0,eps]),
-        ]) / (2 * eps)
-
-        J = np.outer(grad, grad)
-        warped_p = p + 0.12 * (J @ p)
-
-        return sdf(warped_p)
-
-    return warped
-
-
-# ------------------------------------------------
-# Clone helper
-# ------------------------------------------------
-
-def clone_primitive(kernel, p):
-    if hasattr(p, "type") and hasattr(p, "params"):
-        return kernel.primitive(p.type, **p.params)
-    return p
-
-
-# ------------------------------------------------
+# ----------------------------
 # Build Graph
-# ------------------------------------------------
+# ----------------------------
+def build_graph():
+    return KleinSDF()
 
-graph = new_graph(kernel)
+# ----------------------------
+# SDF Evaluator
+# ----------------------------
+def eval_sdf(sdf, pts):
+    pts_np = np.array(pts, dtype=np.float32)
 
-shell = kernel.primitive("sphere", r=1.0)
-core = kernel.primitive("sphere", r=0.82)
+    # ✅ Custom SDF
+    if callable(sdf):
+        return sdf(pts_np).astype(np.float32).flatten()
 
-graph.add(shell)
-graph.subtract(core)
+    # ✅ Kernel FieldSampler
+    try:
+        sampler = cmk.FieldSampler(sdf)
+        if hasattr(sampler, "sample"):
+            result = sampler.sample(torch.tensor(pts_np))
+        else:
+            result = sampler.evaluate(torch.tensor(pts_np))
+        return result.detach().cpu().numpy().flatten()
+    except:
+        pass
 
-# Rings
-for r, t in [(0.7, 0.14), (0.5, 0.1), (0.3, 0.08)]:
-    graph.add(kernel.primitive("torus", R=r, r=t))
+    # ✅ Kernel Batched evaluator
+    try:
+        sampler = cmk.BatchedSDFEvaluator(sdf, device='cpu')
+        result = sampler.evaluate(torch.tensor(pts_np))
+        return result.detach().cpu().numpy().flatten()
+    except:
+        pass
 
-# Cuts
-for angle in np.linspace(0, 2*np.pi, 6, endpoint=False):
-    x = 0.5 * np.cos(angle)
-    y = 0.5 * np.sin(angle)
+    # Fallback
+    return np.linalg.norm(pts_np, axis=1) - 1.0
 
-    cut = kernel.primitive("cylinder", r=0.12, h=2.5)
-    if hasattr(cut, "translate"):
-        cut.translate([x, y, 0])
+# ----------------------------
+# Mesh Builder
+# ----------------------------
+def build_mesh(sdf):
+    print("\nExtracting mesh...\n")
+    start = time.time()
 
-    graph.subtract(cut)
+    lin = np.linspace(-BOUNDS, BOUNDS, RES)
+    X, Y, Z = np.meshgrid(lin, lin, lin, indexing="ij")
+    pts = np.stack([X.ravel(), Y.ravel(), Z.ravel()], axis=1)
 
-# ------------------------------------------------
-# Multi-field deformation
-# ------------------------------------------------
+    print("Sampling SDF (kernel-aligned)...")
+    values = eval_sdf(sdf, pts)
+    field = values.reshape((RES, RES, RES))
 
-base = kernel.primitive("sphere", r=0.95)
+    print("Running marching cubes...")
 
-low = SDFNoise.perturb(clone_primitive(kernel, base), 0.03)
-mid = SDFNoise.perturb(clone_primitive(kernel, base), 0.05)
-high = SDFNoise.perturb(clone_primitive(kernel, base), 0.02)
+    mc = cmk.MarchingCubes()
+    verts, faces, _ = mc.extract(field, BOUNDS)
 
-if hasattr(graph, "smooth_add"):
-    graph.smooth_add(low, k=0.2)
-    graph.smooth_add(mid, k=0.12)
-    graph.smooth_add(high, k=0.08)
-else:
-    graph.add(low)
-    graph.add(mid)
-    graph.add(high)
+    if verts is None or faces is None or len(verts) == 0:
+        raise Exception("Empty mesh")
 
-# ------------------------------------------------
-# Inject Warp
-# ------------------------------------------------
+    verts = np.asarray(verts, dtype=np.float32)
+    faces = np.asarray(faces, dtype=np.int32)
 
-if hasattr(graph, "sdf"):
-    original_sdf = graph.sdf
-    graph.sdf = jacobian_warp_sdf(original_sdf)
+    print(f"Vertices: {verts.shape}, Faces: {faces.shape}")
+    print("Time:", round(time.time() - start, 2), "s")
 
-# ------------------------------------------------
-# Build Mesh
-# ------------------------------------------------
+    return {
+        "verts": verts,
+        "faces": faces
+    }
 
-print("\nBuilding mesh...\n")
+# ----------------------------
+# STL Export
+# ----------------------------
+def export(mesh_data):
+    path = os.path.join(OUTPUT_DIR, "klein_bottle.stl")
 
-start = time.time()
+    try:
+        exporter = cmk.MeshExporter()
+        exporter.export_stl(mesh_data, path)
+        print("Saved STL:", path)
+    except Exception as e:
+        print("Export failed:", e)
 
-mesh = kernel.build(
-    graph,
-    bounds=MESH_BOUNDS,
-    chunk=CHUNK_SIZE
-)
+# ----------------------------
+# SCAD Export
+# ----------------------------
+def export_scad():
+    path = os.path.join(OUTPUT_DIR, "klein_bottle.scad")
 
-print("Build time:", round(time.time() - start, 2), "s")
-print("Vertices:", len(mesh["verts"]))
-print("Faces:", len(mesh["faces"]))
+    scad_code = f"""
+// === Klein Bottle (Parametric Approximation) ===
+$fn = {RES};
 
-# ------------------------------------------------
-# Analysis
-# ------------------------------------------------
+module klein() {{
+    for (u = [0:10:360]) {{
+        for (v = [0:10:360]) {{
 
-if hasattr(kernel, "analyze"):
-    analysis = kernel.analyze(mesh)
-else:
-    analysis = {}
+            x = (2 + cos(v)) * cos(u);
+            y = (2 + cos(v)) * sin(u);
+            z = sin(v);
 
-def curvature_proxy(verts):
-    v = np.array(verts)
-    c = np.mean(v, axis=0)
-    return np.var(np.linalg.norm(v - c, axis=1))
+            translate([x, y, z])
+                sphere(r = 0.08);
+        }}
+    }}
+}}
 
-analysis["curvature_proxy"] = curvature_proxy(mesh["verts"])
+scale([0.4,0.4,0.4])
+    klein();
+"""
 
-print("\n--- Analysis ---")
-for k, v in analysis.items():
-    print(f"{k}: {v}")
+    with open(path, "w") as f:
+        f.write(scad_code)
 
-# ------------------------------------------------
-# Export
-# ------------------------------------------------
+    print("Saved SCAD:", path)
 
-stl_path = os.path.join(OUTPUT_DIR, "smt_ultra_model.stl")
+# ----------------------------
+# Run
+# ----------------------------
+if __name__ == "__main__":
+    sdf = build_graph()
+    mesh_data = build_mesh(sdf)
 
-if hasattr(kernel, "export_stl"):
-    kernel.export_stl(mesh, stl_path)
-    print("\nSaved:", stl_path)
-else:
-    print("\nNo STL export method found")
+    export(mesh_data)      # STL (kernel)
+    export_scad()          # SCAD fallback
 
-# ------------------------------------------------
-# Batch
-# ------------------------------------------------
-
-batch = GPUBatch(kernel)
-
-def safe_add(batch, job, path):
-    if hasattr(batch, "add_job"):
-        batch.add_job(job, path)
-    elif hasattr(batch, "submit"):
-        batch.submit(job, path)
-    elif hasattr(batch, "add"):
-        batch.add(job, path)
-
-def safe_run(batch):
-    if hasattr(batch, "run_all"):
-        batch.run_all()
-    elif hasattr(batch, "run"):
-        batch.run()
-    elif hasattr(batch, "execute"):
-        batch.execute()
-
-def parametric_graph(k, seed):
-
-    np.random.seed(seed)
-    g = new_graph(k)
-
-    g.add(k.primitive("sphere", r=0.6 + 0.1*np.random.rand()))
-
-    for _ in range(3):
-        g.add(k.primitive(
-            "torus",
-            R=0.3 + 0.3*np.random.rand(),
-            r=0.05 + 0.1*np.random.rand()
-        ))
-
-    return g
-
-print("\nRunning batch...\n")
-
-for i in range(BATCH_COUNT):
-
-    def job(k, s=i):
-        return parametric_graph(k, s)
-
-    path = os.path.join(OUTPUT_DIR, f"smt_batch_{i}.stl")
-    safe_add(batch, job, path)
-
-safe_run(batch)
-
-print("\n=== DONE ===\n")
+    print("\n=== DONE ===\n")

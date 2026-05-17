@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cad-agent"
+version = "0.2.0"
+description = "Text-to-CAD and OpenSCAD synthesis toolkit"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy", "trimesh"]
+
+[project.scripts]
+text-to-cad = "text_to_openscad:main"

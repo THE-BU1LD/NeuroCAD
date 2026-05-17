@@ -1,10 +1,3 @@
-"""
-parametric_skeleton.py
-
-High-level parametric design skeletons.
-This file bridges intent → geometry.
-"""
-
 import random
 from dataclasses import dataclass
 from typing import Dict
@@ -34,46 +27,59 @@ class AircraftSkeleton:
 
 
 # ======================================================
-# BASELINE GENERATOR
+# HELPERS
+# ======================================================
+
+def clamp(x, lo, hi):
+    return max(lo, min(hi, x))
+
+
+# ======================================================
+# BASELINE GENERATOR (IMPROVED)
 # ======================================================
 
 def generate_aircraft_skeleton(intent: DesignIntent) -> AircraftSkeleton:
     """
-    Maps design intent → physically consistent baseline skeleton
+    Physically consistent mapping: intent → aircraft geometry
     """
 
-    # -----------------------------
-    # Objective weights
-    # -----------------------------
     eff = intent.objectives.get("efficiency", 0.0)
     spd = intent.objectives.get("speed", 0.0)
     stab = intent.objectives.get("stability", 0.0)
+    slender = intent.latent.get("slenderness", 0.0)
 
     # -----------------------------
-    # Wing
+    # Wing (primary driver)
     # -----------------------------
-    aspect_ratio = 8 + 8 * eff - 3 * spd
-    aspect_ratio = max(6, min(14, aspect_ratio))
+    aspect_ratio = clamp(8 + 6 * eff - 2.5 * spd, 6, 14)
 
-    wing_area = 25 + 20 * stab + 15 * eff
-    wing_span = (aspect_ratio * wing_area) ** 0.5
+    wing_area = clamp(20 + 25 * stab + 10 * eff, 15, 80)
 
-    # -----------------------------
-    # Fuselage
-    # -----------------------------
-    fuselage_length = 0.75 * wing_span
-    fuselage_diameter = fuselage_length / (8 + 4 * intent.latent.get("slenderness", 0))
+    wing_span = (aspect_ratio * wing_area) ** 0.5  # enforced consistency
 
     # -----------------------------
-    # Aero shaping
+    # Fuselage (linked to span)
     # -----------------------------
-    sweep_angle = 5 + 30 * spd
-    thickness_ratio = 0.14 - 0.05 * spd + 0.03 * stab
+    fuselage_length = clamp(0.7 * wing_span, 5, 80)
+
+    fineness_ratio = clamp(8 + 4 * slender, 6, 12)
+    fuselage_diameter = fuselage_length / fineness_ratio
 
     # -----------------------------
-    # Stability
+    # Aerodynamics
     # -----------------------------
-    tail_volume = 0.45 + 0.2 * stab
+    sweep_angle = clamp(5 + 35 * spd, 0, 45)
+
+    thickness_ratio = clamp(
+        0.12 - 0.04 * spd + 0.025 * stab,
+        0.08,
+        0.18
+    )
+
+    # -----------------------------
+    # Stability (still simplified but bounded)
+    # -----------------------------
+    tail_volume = clamp(0.5 + 0.15 * stab, 0.4, 0.8)
 
     return AircraftSkeleton(
         wing_span=round(wing_span, 3),
@@ -88,20 +94,45 @@ def generate_aircraft_skeleton(intent: DesignIntent) -> AircraftSkeleton:
 
 
 # ======================================================
-# MUTATION (FOR AUTONOMOUS IMPROVEMENT)
+# MUTATION (STRUCTURE-AWARE)
 # ======================================================
 
 def mutate_skeleton(skel: AircraftSkeleton, strength=0.1) -> AircraftSkeleton:
-    def jitter(x, s):
-        return max(0.01, x * (1 + random.uniform(-s, s)))
+    """
+    Mutate in a physically consistent way.
+    Keeps key relationships intact.
+    """
+
+    def jitter(x):
+        return x * (1 + random.uniform(-strength, strength))
+
+    # --- mutate core drivers ---
+    aspect_ratio = clamp(jitter(skel.aspect_ratio), 6, 14)
+    wing_area = clamp(jitter(skel.wing_area), 15, 80)
+
+    # recompute span (DON'T mutate independently)
+    wing_span = (aspect_ratio * wing_area) ** 0.5
+
+    # fuselage scales with span
+    fuselage_length = clamp(jitter(0.7 * wing_span), 5, 80)
+
+    fineness_ratio = clamp(jitter(fuselage_length / skel.fuselage_diameter), 6, 12)
+    fuselage_diameter = fuselage_length / fineness_ratio
+
+    # aero params
+    sweep_angle = clamp(jitter(skel.sweep_angle), 0, 45)
+    thickness_ratio = clamp(jitter(skel.thickness_ratio), 0.08, 0.18)
+
+    # stability
+    tail_volume = clamp(jitter(skel.tail_volume), 0.4, 0.8)
 
     return AircraftSkeleton(
-        wing_span=jitter(skel.wing_span, strength),
-        aspect_ratio=jitter(skel.aspect_ratio, strength),
-        wing_area=jitter(skel.wing_area, strength),
-        fuselage_length=jitter(skel.fuselage_length, strength),
-        fuselage_diameter=jitter(skel.fuselage_diameter, strength),
-        sweep_angle=jitter(skel.sweep_angle, strength),
-        thickness_ratio=jitter(skel.thickness_ratio, strength),
-        tail_volume=jitter(skel.tail_volume, strength),
+        wing_span=wing_span,
+        aspect_ratio=aspect_ratio,
+        wing_area=wing_area,
+        fuselage_length=fuselage_length,
+        fuselage_diameter=fuselage_diameter,
+        sweep_angle=sweep_angle,
+        thickness_ratio=thickness_ratio,
+        tail_volume=tail_volume,
     )

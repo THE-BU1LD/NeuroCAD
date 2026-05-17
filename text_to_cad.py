@@ -1,125 +1,53 @@
-import torch
-from torch import nn
-import re
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional
+
+from core.prompt_engine import generate_design
+from core.scad_export import design_to_scad
 
 
-# ============================================================
-# TEXT PARSER (symbolic + neural ready)
-# ============================================================
+@dataclass
+class TextCADDocument:
+    prompt: str
+    design: object
+    scad: str
 
-class TextParser:
-
-    def parse(self, text):
-        text = text.lower()
-
-        shape = None
-        params = {}
-
-        # ---- shape detection ----
-        if "sphere" in text:
-            shape = "sphere"
-        elif "box" in text or "cube" in text:
-            shape = "box"
-        elif "cylinder" in text:
-            shape = "cylinder"
-        elif "torus" in text or "ring" in text:
-            shape = "torus"
-        elif "frisbee" in text:
-            shape = "frisbee"
-
-        # ---- numbers ----
-        nums = re.findall(r"[-+]?\d*\.\d+|\d+", text)
-        nums = [float(n) for n in nums]
-
-        if shape == "sphere" and nums:
-            params["radius"] = nums[0]
-
-        if shape == "cylinder":
-            if len(nums) >= 1:
-                params["radius"] = nums[0]
-            if len(nums) >= 2:
-                params["height"] = nums[1]
-
-        if shape == "box":
-            if len(nums) == 1:
-                params["size"] = [nums[0]]*3
-            if len(nums) >= 3:
-                params["size"] = nums[:3]
-
-        return shape, params
-
-
-# ============================================================
-# NEURAL PARAM MODEL
-# ============================================================
-
-class TextToParamNet(nn.Module):
-
-    def __init__(self, vocab=128, hidden=64, out=4):
-        super().__init__()
-        self.embed = nn.Embedding(vocab, hidden)
-        self.fc = nn.Sequential(
-            nn.Linear(hidden, hidden),
-            nn.ReLU(),
-            nn.Linear(hidden, out)
-        )
-
-    def forward(self, tokens):
-        x = self.embed(tokens).mean(1)
-        return self.fc(x)
-
-
-# ============================================================
-# TOKENIZER
-# ============================================================
-
-class SimpleTokenizer:
-
-    def __init__(self):
-        self.vocab = {}
-        self.idx = 0
-
-    def encode(self, text):
-        tokens = []
-        for w in text.lower().split():
-            if w not in self.vocab:
-                self.vocab[w] = self.idx
-                self.idx += 1
-            tokens.append(self.vocab[w])
-        return torch.tensor(tokens).unsqueeze(0)
-
-
-# ============================================================
-# TEXT → CAD SYSTEM
-# ============================================================
 
 class TextToCAD:
+    def __init__(self, output_path: Optional[str] = None, fn: int = 96):
+        self.output_path = output_path
+        self.fn = int(fn)
 
-    def __init__(self, cad_kernel):
-        self.parser = TextParser()
-        self.kernel = cad_kernel
-        self.tokenizer = SimpleTokenizer()
-        self.net = TextToParamNet()
+    def build(self, text: str):
+        design = generate_design(text)
+        scad = design_to_scad(design, fn=self.fn)
+        return TextCADDocument(prompt=text, design=design, scad=scad)
 
-    def build(self, text):
+    def to_scad(self, text: str) -> str:
+        return self.build(text).scad
 
-        # symbolic parse
-        shape, params = self.parser.parse(text)
+    def export(self, text: str, output_path: Optional[str] = None) -> str:
+        doc = self.build(text)
+        path = Path(output_path or self.output_path or "output.scad")
+        path.write_text(doc.scad, encoding="utf-8")
+        return str(path)
 
-        # neural refine
-        tokens = self.tokenizer.encode(text)
-        pred = self.net(tokens).detach().numpy()[0]
+    def __call__(self, text: str):
+        return self.build(text)
 
-        if shape == "sphere":
-            params.setdefault("radius", abs(pred[0]))
 
-        if shape == "cylinder":
-            params.setdefault("radius", abs(pred[0]))
-            params.setdefault("height", abs(pred[1]))
+if __name__ == "__main__":
+    import argparse
 
-        if shape == "box":
-            params.setdefault("size", [abs(pred[0])]*3)
+    parser = argparse.ArgumentParser(description="Convert text prompts into OpenSCAD")
+    parser.add_argument("prompt", nargs="+", help="Natural language CAD prompt")
+    parser.add_argument("-o", "--output", default="text_to_cad.scad")
+    parser.add_argument("--fn", type=int, default=96)
+    args = parser.parse_args()
 
-        mesh = self.kernel.build(shape, params)
-
-        return mesh
+    prompt = " ".join(args.prompt)
+    generator = TextToCAD(output_path=args.output, fn=args.fn)
+    out = generator.export(prompt)
+    print(out)

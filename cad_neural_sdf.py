@@ -4,21 +4,28 @@ import math
 
 
 # ============================================================
-# Positional Encoding
+# Positional Encoding (vectorized + faster)
 # ============================================================
 
 class PositionalEncoding(nn.Module):
     def __init__(self, num_freqs=6):
         super().__init__()
         self.num_freqs = num_freqs
+        self.freq_bands = 2.0 ** torch.arange(num_freqs)
 
     def forward(self, x):
-        enc = [x]
-        for i in range(self.num_freqs):
-            freq = 2.0 ** i
-            enc.append(torch.sin(freq * x))
-            enc.append(torch.cos(freq * x))
-        return torch.cat(enc, dim=-1)
+        # x: (..., 3)
+        freqs = self.freq_bands.to(x.device)
+
+        x_expanded = (x[..., None, :] * freqs[:, None])  # (..., F, 3)
+
+        sin = torch.sin(x_expanded)
+        cos = torch.cos(x_expanded)
+
+        enc = torch.cat([sin, cos], dim=-2)  # (..., 2F, 3)
+        enc = enc.reshape(*x.shape[:-1], -1)
+
+        return torch.cat([x, enc], dim=-1)
 
 
 # ============================================================
@@ -27,11 +34,10 @@ class PositionalEncoding(nn.Module):
 
 class NeuralSDF(nn.Module):
     """
-    High-quality neural implicit SDF with:
-    - Positional encoding
-    - Skip connections
-    - Geometric initialization
-    - Gradient computation
+    Improved Neural SDF with:
+    - Vectorized positional encoding
+    - Stable geometric initialization
+    - Proper skip handling
     """
 
     def __init__(
@@ -49,68 +55,69 @@ class NeuralSDF(nn.Module):
 
         self.skip_layer = skip_layer
 
-        net = []
+        self.layers = nn.ModuleList()
+
         in_dim = pe_dim
 
         for i in range(layers):
+
             if i == skip_layer:
                 in_dim += pe_dim
 
             linear = nn.Linear(in_dim, hidden)
 
             if geometric_init:
-                nn.init.normal_(linear.weight, mean=0.0, std=math.sqrt(2) / math.sqrt(hidden))
+                nn.init.normal_(linear.weight, 0.0, math.sqrt(2) / math.sqrt(hidden))
                 nn.init.constant_(linear.bias, 0.0)
 
-            net.append(linear)
-            net.append(nn.SiLU())
+            self.layers.append(linear)
             in_dim = hidden
 
-        final = nn.Linear(hidden, 1)
+        self.activation = nn.SiLU()
+
+        self.final = nn.Linear(hidden, 1)
 
         if geometric_init:
-            nn.init.normal_(final.weight, mean=math.sqrt(math.pi) / math.sqrt(hidden), std=1e-5)
-            nn.init.constant_(final.bias, -0.5)
-
-        net.append(final)
-
-        self.net = nn.ModuleList(net)
+            nn.init.normal_(
+                self.final.weight,
+                mean=math.sqrt(math.pi) / math.sqrt(hidden),
+                std=1e-5,
+            )
+            nn.init.constant_(self.final.bias, -0.5)
 
     def forward(self, p):
         p_enc = self.pe(p)
         x = p_enc
 
-        layer_idx = 0
-        for module in self.net:
-            if isinstance(module, nn.Linear):
-                if layer_idx == self.skip_layer:
-                    x = torch.cat([x, p_enc], dim=-1)
-                x = module(x)
-                layer_idx += 1
-            else:
-                x = module(x)
+        for i, layer in enumerate(self.layers):
+            if i == self.skip_layer:
+                x = torch.cat([x, p_enc], dim=-1)
 
-        return x.squeeze(-1)
+            x = self.activation(layer(x))
+
+        return self.final(x).squeeze(-1)
 
     # --------------------------------------------------------
-    # Gradient (for normals)
+    # Gradient (normals)
     # --------------------------------------------------------
 
     def gradient(self, p):
-        p.requires_grad_(True)
+        p = p.clone().detach().requires_grad_(True)
+
         sdf = self.forward(p)
+
         grads = torch.autograd.grad(
             outputs=sdf,
             inputs=p,
             grad_outputs=torch.ones_like(sdf),
             create_graph=True,
             retain_graph=True,
-            only_inputs=True,
         )[0]
+
         return grads
 
     # --------------------------------------------------------
-    # Eikonal loss
+    # Eikonal loss (stabilized)
     # --------------------------------------------------------
 
     def eikonal_loss(self, p):
@@ -118,16 +125,23 @@ class NeuralSDF(nn.Module):
         return ((grads.norm(dim=-1) - 1.0) ** 2).mean()
 
     # --------------------------------------------------------
-    # Inference clamp (narrow-band stability)
+    # Surface loss (NEW – important)
+    # --------------------------------------------------------
+
+    def surface_loss(self, p, target_sdf):
+        pred = self.forward(p)
+        return (pred - target_sdf).abs().mean()
+
+    # --------------------------------------------------------
+    # Narrow-band clamp
     # --------------------------------------------------------
 
     def forward_clamped(self, p, clamp=0.1):
-        sdf = self.forward(p)
-        return torch.clamp(sdf, -clamp, clamp)
+        return torch.clamp(self.forward(p), -clamp, clamp)
 
 
 # ============================================================
-# Neural Shape Library (High Quality Fields)
+# Neural Shape Library
 # ============================================================
 
 class NeuralShapeLibrary:
@@ -146,7 +160,12 @@ class NeuralShapeLibrary:
         x = torch.abs(p[..., 0])
         y = torch.abs(p[..., 1])
         z = torch.abs(p[..., 2])
-        return (x ** (2 / e2) + y ** (2 / e2)) ** (e2 / e1) + z ** (2 / e1) - 1.0
+
+        return (
+            (x ** (2 / e2) + y ** (2 / e2)) ** (e2 / e1)
+            + z ** (2 / e1)
+            - 1.0
+        )
 
     @staticmethod
     def fractal_noise(p, octaves=4):
@@ -167,18 +186,20 @@ class NeuralShapeLibrary:
 
     @staticmethod
     def blend(sdf_a, sdf_b, k=0.2):
-        return -torch.log(
-            torch.exp(-k * sdf_a) + torch.exp(-k * sdf_b)
+        # numerically stable soft-min
+        m = torch.minimum(sdf_a, sdf_b)
+        return m - torch.log(
+            torch.exp(-k * (sdf_a - m)) + torch.exp(-k * (sdf_b - m))
         ) / k
 
 
 # ============================================================
-# Hybrid Neural + Primitive Wrapper
+# Hybrid Neural + Primitive Wrapper (FIXED)
 # ============================================================
 
 class HybridSDF(nn.Module):
     """
-    Combines primitive SDF with neural refinement.
+    Combines analytic SDF with neural refinement.
     """
 
     def __init__(self, primitive_sdf, neural_sdf, weight=0.5):
@@ -189,5 +210,8 @@ class HybridSDF(nn.Module):
 
     def forward(self, p):
         base = self.primitive(p)
-        detail = self.neural(p)
+
+        # prevent neural from destroying global shape
+        detail = torch.tanh(self.neural(p))
+
         return base + self.weight * detail
