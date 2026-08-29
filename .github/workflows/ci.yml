@@ -1,0 +1,88 @@
+name: NeuroCAD CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-package:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install build and test tooling
+        run: python -m pip install --upgrade pip build pytest
+
+      - name: Install NeuroCAD editable
+        run: python -m pip install -e .
+
+      - name: Compile Python sources
+        run: python -m compileall -q .
+
+      - name: Run tests when present
+        shell: bash
+        run: |
+          if [ -d tests ]; then
+            python -m pytest -q
+          else
+            echo "No tests/ directory found; continuing with package smoke gates."
+          fi
+
+      - name: CLI smoke test
+        shell: bash
+        run: |
+          neurocad --version
+          neurocad doctor
+          neurocad validate "a compact box with two holes"
+          neurocad create "a compact box with two holes" -o /tmp/neurocad-smoke.scad
+          test -s /tmp/neurocad-smoke.scad
+
+      - name: Build wheel and source distribution
+        run: python -m build
+
+      - name: Fresh wheel install smoke test
+        shell: bash
+        run: |
+          python -m venv /tmp/neurocad-clean
+          /tmp/neurocad-clean/bin/python -m pip install --upgrade pip
+          /tmp/neurocad-clean/bin/python -m pip install dist/*.whl
+          /tmp/neurocad-clean/bin/neurocad --version
+          /tmp/neurocad-clean/bin/neurocad doctor
+          /tmp/neurocad-clean/bin/neurocad create "a plate with four holes" -o /tmp/fresh-install.scad
+          test -s /tmp/fresh-install.scad
+
+      - name: Git-history high-confidence secret gate
+        shell: bash
+        run: |
+          set -eu
+          patterns='(ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{50,}|AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|sk-[A-Za-z0-9]{32,})'
+          if git log -p --all --no-ext-diff --no-color | grep -Eq "$patterns"; then
+            echo "Potential high-confidence secret pattern found in Git history." >&2
+            echo "Rotate/revoke the credential and rewrite history before public release." >&2
+            exit 1
+          fi
+          echo "No high-confidence secret patterns detected in Git history."
+
+      - name: Upload distributions
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurocad-dist
+          path: dist/*
