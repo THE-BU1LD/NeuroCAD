@@ -1,11 +1,13 @@
 #!/bin/sh
 set -eu
 
-REPO_URL="https://github.com/THE-BU1LD/NeuroCAD.git"
+OWNER="THE-BU1LD"
+REPO="NeuroCAD"
 REF="${NEUROCAD_REF:-main}"
 INSTALL_ROOT="${NEUROCAD_HOME:-$HOME/.local/share/neurocad}"
 BIN_DIR="${NEUROCAD_BIN_DIR:-$HOME/.local/bin}"
 VENV="$INSTALL_ROOT/venv"
+ARCHIVE_URL="https://github.com/$OWNER/$REPO/archive/refs/heads/$REF.zip"
 
 say() { printf '%s\n' "$*"; }
 fail() { printf 'NeuroCAD install error: %s\n' "$*" >&2; exit 1; }
@@ -18,7 +20,7 @@ import sys
 raise SystemExit(0 if sys.version_info >= (3, 10) else 1)
 PY
 
-say "Installing NeuroCAD from $REPO_URL@$REF"
+say "Installing NeuroCAD ($REF)"
 mkdir -p "$INSTALL_ROOT" "$BIN_DIR"
 
 if [ ! -x "$VENV/bin/python" ]; then
@@ -26,7 +28,7 @@ if [ ! -x "$VENV/bin/python" ]; then
 fi
 
 "$VENV/bin/python" -m pip install --upgrade pip setuptools wheel >/dev/null
-"$VENV/bin/python" -m pip install --upgrade "git+$REPO_URL@$REF"
+"$VENV/bin/python" -m pip install --upgrade "$ARCHIVE_URL"
 
 [ -x "$VENV/bin/neurocad" ] || fail "Install completed but the neurocad executable was not created."
 ln -sf "$VENV/bin/neurocad" "$BIN_DIR/neurocad"
