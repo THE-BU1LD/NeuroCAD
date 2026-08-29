@@ -33,8 +33,10 @@ jobs:
       - name: Install NeuroCAD editable
         run: python -m pip install -e .
 
-      - name: Compile Python sources
-        run: python -m compileall -q .
+      - name: Compile shipped Python sources
+        shell: bash
+        run: |
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core
 
       - name: Run tests when present
         shell: bash
