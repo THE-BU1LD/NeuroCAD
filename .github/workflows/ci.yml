@@ -38,11 +38,11 @@ jobs:
         run: |
           python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core
 
-      - name: Run tests when present
+      - name: Run maintained release tests
         shell: bash
         run: |
           if [ -d tests ]; then
-            python -m pytest -q
+            python -m pytest -q tests
           else
             echo "No tests/ directory found; continuing with package smoke gates."
           fi
