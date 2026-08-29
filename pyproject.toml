@@ -1,14 +1,35 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cad-agent"
-version = "0.2.0"
-description = "Text-to-CAD and OpenSCAD synthesis toolkit"
+name = "neurocad-research"
+version = "0.4.0a1"
+description = "NeuroCAD: natural-language to validated parametric OpenSCAD geometry"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["numpy", "trimesh"]
+authors = [{name = "THE BU1LD"}]
+license = {text = "MIT"}
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Repository = "https://github.com/THE-BU1LD/NeuroCAD"
 
 [project.scripts]
+neurocad = "neurocad_cli:main"
 text-to-cad = "text_to_openscad:main"
+
+[tool.setuptools]
+py-modules = ["neurocad_cli", "text_to_cad", "text_to_openscad"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*"]
