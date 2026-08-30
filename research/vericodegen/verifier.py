@@ -53,6 +53,48 @@ def load_mesh(path: str | Path) -> trimesh.Trimesh:
     return _coerce_mesh(loaded)
 
 
+def _component_count(mesh: trimesh.Trimesh) -> int:
+    """Count face-connected components without optional scipy/networkx deps.
+
+    Trimesh's high-level ``split`` helper delegates to optional graph engines.
+    The verifier must remain reproducible with the repository's declared base
+    dependencies, so Stage 0 uses a small union-find over vertex indices instead.
+    """
+
+    faces = np.asarray(mesh.faces, dtype=np.int64)
+    parent = np.arange(len(mesh.vertices), dtype=np.int64)
+    rank = np.zeros(len(mesh.vertices), dtype=np.int8)
+    used = np.zeros(len(mesh.vertices), dtype=bool)
+
+    def find(node: int) -> int:
+        while parent[node] != node:
+            parent[node] = parent[parent[node]]
+            node = int(parent[node])
+        return node
+
+    def union(left: int, right: int) -> None:
+        root_left = find(left)
+        root_right = find(right)
+        if root_left == root_right:
+            return
+        if rank[root_left] < rank[root_right]:
+            root_left, root_right = root_right, root_left
+        parent[root_right] = root_left
+        if rank[root_left] == rank[root_right]:
+            rank[root_left] += 1
+
+    for face in faces:
+        if len(face) == 0:
+            continue
+        used[face] = True
+        anchor = int(face[0])
+        for vertex in face[1:]:
+            union(anchor, int(vertex))
+
+    vertices = np.flatnonzero(used)
+    return len({find(int(vertex)) for vertex in vertices})
+
+
 def _check_range(
     name: str,
     value: float,
@@ -94,7 +136,7 @@ def verify_mesh(
     extents = np.asarray(mesh.extents, dtype=float)
     bounds = np.asarray(mesh.bounds, dtype=float)
     volume = float(abs(mesh.volume))
-    component_count = len(mesh.split(only_watertight=False))
+    component_count = _component_count(mesh)
 
     measurements: dict[str, Any] = {
         "watertight": bool(mesh.is_watertight),
