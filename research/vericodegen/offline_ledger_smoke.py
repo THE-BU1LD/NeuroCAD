@@ -1,9 +1,10 @@
 """Development-only real-OpenSCAD smoke for the frozen offline trial ledger.
 
 No model or provider is called. The script constructs a tiny scripted fixture,
-freezes/hash-pins its methodology bytes, evaluates captured direct/structured
-outputs, deliberately exercises one retry per arm, and proves the ledger can feed
-the predeclared paired analysis without dropping failed attempts.
+freezes/hash-pins its methodology bytes, captures provider-call provenance in the
+strict v2 envelope, validates that actual-call metadata matches frozen intent,
+evaluates direct/structured outputs, deliberately exercises one retry per arm,
+and proves the ledger can feed paired analysis without dropping failed attempts.
 """
 
 from __future__ import annotations
@@ -17,8 +18,13 @@ from typing import Any
 
 from research.vericodegen.analysis import analyze_rows, load_jsonl as load_analysis_jsonl
 from research.vericodegen.benchmark_freeze import benchmark_jsonl, build_manifest
+from research.vericodegen.capture_provenance import (
+    CAPTURE_VERSION,
+    evaluate_provenance_capture,
+    expected_request_fingerprint,
+)
 from research.vericodegen.prompt_freeze import freeze_prompt_bundle
-from research.vericodegen.trial_ledger import CAPTURE_VERSION, evaluate_capture, sha256_file
+from research.vericodegen.trial_ledger import sha256_file
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -93,25 +99,54 @@ def _structured_cube() -> str:
     )
 
 
+def _feedback_hash(prompt_id: str, arm: str) -> str:
+    return hashlib.sha256(
+        f"development-fixture-retry-feedback\0{prompt_id}\0{arm}".encode("utf-8")
+    ).hexdigest()
+
+
 def _capture_row(
     prompt_id: str,
     arm: str,
     attempt: int,
     raw_output: str,
+    *,
+    manifest: dict[str, Any],
+    benchmark_manifest: dict[str, Any],
 ) -> dict[str, Any]:
-    return {
+    task_number = int(prompt_id.split("-")[1])
+    arm_second = 0 if arm == "direct" else 1
+    captured_second = task_number * 10 + arm_second * 2 + attempt
+    retry_feedback_sha256 = None if attempt == 1 else _feedback_hash(prompt_id, arm)
+    row: dict[str, Any] = {
         "capture_version": CAPTURE_VERSION,
         "prompt_id": prompt_id,
         "seed": 20260831,
         "arm": arm,
         "attempt": attempt,
+        "captured_at": f"2026-08-31T03:45:{captured_second:02d}+00:00",
+        "provider": manifest["provider"],
+        "model": manifest["model"],
+        "system_prompt_sha256": manifest["prompt_templates"][f"{arm}_sha256"],
+        "benchmark_task_sha256": benchmark_manifest["task_sha256"][prompt_id],
+        "request_fingerprint_sha256": "0" * 64,
+        "retry_feedback_sha256": retry_feedback_sha256,
+        "decoding": {
+            "temperature": manifest["decoding"]["temperature"],
+            "top_p": manifest["decoding"]["top_p"],
+            "max_output_tokens": manifest["decoding"]["max_output_tokens"],
+        },
         "generation_status": "completed",
         "raw_output": raw_output,
         "generated_tokens": 20 + attempt,
         "wall_clock_seconds": 0.01 * attempt,
         "estimated_cost_usd": 0.001,
         "provider_request_id": f"offline-fixture-{prompt_id}-{arm}-{attempt}",
+        "provider_error": None,
+        "finish_reason": "stop",
     }
+    row["request_fingerprint_sha256"] = expected_request_fingerprint(row)
+    return row
 
 
 def run_smoke(outdir: Path) -> dict[str, Any]:
@@ -226,24 +261,69 @@ def run_smoke(outdir: Path) -> dict[str, Any]:
 
     captures: list[dict[str, Any]] = []
     for task in tasks[:2]:
-        captures.append(_capture_row(task["prompt_id"], "direct", 1, valid_direct))
-        captures.append(_capture_row(task["prompt_id"], "structured", 1, valid_structured))
+        captures.append(
+            _capture_row(
+                task["prompt_id"],
+                "direct",
+                1,
+                valid_direct,
+                manifest=manifest,
+                benchmark_manifest=benchmark_manifest,
+            )
+        )
+        captures.append(
+            _capture_row(
+                task["prompt_id"],
+                "structured",
+                1,
+                valid_structured,
+                manifest=manifest,
+                benchmark_manifest=benchmark_manifest,
+            )
+        )
     captures.extend(
         [
-            _capture_row("VCG-003", "direct", 1, invalid_direct),
-            _capture_row("VCG-003", "direct", 2, valid_direct),
-            _capture_row("VCG-003", "structured", 1, invalid_structured),
-            _capture_row("VCG-003", "structured", 2, valid_structured),
+            _capture_row(
+                "VCG-003",
+                "direct",
+                1,
+                invalid_direct,
+                manifest=manifest,
+                benchmark_manifest=benchmark_manifest,
+            ),
+            _capture_row(
+                "VCG-003",
+                "direct",
+                2,
+                valid_direct,
+                manifest=manifest,
+                benchmark_manifest=benchmark_manifest,
+            ),
+            _capture_row(
+                "VCG-003",
+                "structured",
+                1,
+                invalid_structured,
+                manifest=manifest,
+                benchmark_manifest=benchmark_manifest,
+            ),
+            _capture_row(
+                "VCG-003",
+                "structured",
+                2,
+                valid_structured,
+                manifest=manifest,
+                benchmark_manifest=benchmark_manifest,
+            ),
         ]
     )
-    capture_path = frozen / "captured_attempts.jsonl"
+    capture_path = frozen / "captured_attempts_v2.jsonl"
     capture_path.write_text(
         "".join(json.dumps(row, sort_keys=True) + "\n" for row in captures),
         encoding="utf-8",
     )
 
-    evaluation_dir = outdir / "evaluation"
-    summary = evaluate_capture(
+    provenance = evaluate_provenance_capture(
         manifest_path=manifest_path,
         benchmark_manifest_path=benchmark_manifest_path,
         benchmark_path=benchmark_path,
@@ -252,17 +332,21 @@ def run_smoke(outdir: Path) -> dict[str, Any]:
         verifier_path=verifier,
         analysis_plan_path=analysis_plan,
         prompt_receipt_path=prompt_receipt_path,
-        capture_path=capture_path,
+        capture_v2_path=capture_path,
         repository_root=ROOT,
-        outdir=evaluation_dir,
+        outdir=outdir,
         require_git_head=True,
     )
-    if summary["captured_attempts"] != 8:
-        raise RuntimeError(f"offline ledger smoke expected 8 captured attempts: {summary}")
+    evaluation_dir = outdir / "evaluation"
+    summary = json.loads((evaluation_dir / "summary.json").read_text(encoding="utf-8"))
+    if provenance["captured_attempts"] != 8 or summary["captured_attempts"] != 8:
+        raise RuntimeError(
+            f"offline provenance smoke expected 8 captured attempts: provenance={provenance}, summary={summary}"
+        )
     if summary["final_cells"] != 6 or summary["hvr_pass_cells"] != 6:
         raise RuntimeError(f"offline ledger smoke expected 6/6 final HVR cells: {summary}")
-    if summary["scientific_evidence"] is not False:
-        raise RuntimeError("development ledger smoke must remain non-evidentiary")
+    if provenance["scientific_evidence"] is not False or summary["scientific_evidence"] is not False:
+        raise RuntimeError("development provenance/ledger smoke must remain non-evidentiary")
 
     evaluated_attempts = [
         json.loads(line)
@@ -281,10 +365,12 @@ def run_smoke(outdir: Path) -> dict[str, Any]:
         raise RuntimeError(f"expected both development fixture arms HVR=1.0: {analysis}")
 
     receipt = {
-        "smoke_version": "vericodegen-offline-ledger-smoke-v1",
+        "smoke_version": "vericodegen-offline-ledger-smoke-v2",
         "scientific_evidence": False,
         "provider_calls": 0,
-        "captured_attempts": summary["captured_attempts"],
+        "capture_version": CAPTURE_VERSION,
+        "captured_attempts": provenance["captured_attempts"],
+        "unique_provider_request_ids": provenance["unique_provider_request_ids"],
         "retained_failed_attempts": len(failed_attempts),
         "final_cells": summary["final_cells"],
         "hvr_pass_cells": summary["hvr_pass_cells"],
@@ -292,9 +378,13 @@ def run_smoke(outdir: Path) -> dict[str, Any]:
         "direct_hvr": analysis["primary"]["direct_hvr"],
         "structured_hvr": analysis["primary"]["structured_hvr"],
         "ledger_tip_sha256": summary["ledger_tip_sha256"],
-        "capture_sha256": summary["capture_sha256"],
+        "capture_v2_sha256": provenance["capture_v2_sha256"],
+        "normalized_capture_v1_sha256": provenance["normalized_capture_v1_sha256"],
         "finals_sha256": summary["finals_for_analysis_sha256"],
-        "claim_boundary": "Scripted offline integration evidence only; no scientific treatment effect is claimed.",
+        "claim_boundary": (
+            "Scripted offline capture-provenance and integration evidence only; "
+            "no scientific treatment effect is claimed."
+        ),
     }
     (outdir / "smoke_receipt.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
