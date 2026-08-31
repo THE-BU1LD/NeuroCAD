@@ -11,8 +11,25 @@ from research.vericodegen.arm_adapter import ArmAdapterError
 
 
 def test_unknown_geometry_kind_is_unsupported_operation() -> None:
-    exc = ArmAdapterError("kind must be one of: box, cylinder, sphere")
+    exc = ArmAdapterError("components[0].geometry.kind must be one of box, cylinder, sphere")
     assert safe.classify_adapter_error(exc) == "unsupported_operation"
+
+
+def test_unknown_operation_is_unsupported_operation() -> None:
+    exc = ArmAdapterError("components[0].operation must be union or difference")
+    assert safe.classify_adapter_error(exc) == "unsupported_operation"
+
+
+def test_forbidden_direct_construct_is_unsupported_operation() -> None:
+    exc = ArmAdapterError(
+        "direct output rejected:\n- direct output contains forbidden construct: include"
+    )
+    assert safe.classify_adapter_error(exc) == "unsupported_operation"
+
+
+def test_unknown_schema_key_remains_syntax_contract_failure() -> None:
+    exc = ArmAdapterError("components[0].geometry has unsupported box keys: width")
+    assert safe.classify_adapter_error(exc) == "syntax_compile_failure"
 
 
 def test_generic_adapter_failure_remains_syntax_compile_failure() -> None:
@@ -136,6 +153,9 @@ def test_safe_evaluation_installs_classifier_only_for_wrapped_call(
         assert ledger._classify_adapter_error(
             ArmAdapterError("kind must be one of: box, cylinder")
         ) == "unsupported_operation"
+        assert ledger._classify_adapter_error(
+            ArmAdapterError("geometry has unsupported box keys: width")
+        ) == "syntax_compile_failure"
         return {"ok": True}
 
     monkeypatch.setattr(ledger, "evaluate_capture", _observe_classifier)
