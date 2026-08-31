@@ -5,6 +5,7 @@ import pytest
 
 from research.vericodegen.stage2_manifest import (
     MANIFEST_VERSION,
+    SAFE_EVALUATION_ENTRYPOINT,
     ManifestError,
     assert_executable,
     validate_manifest,
@@ -28,6 +29,7 @@ def _valid_manifest():
         "stage": "stage2_frozen_pilot",
         "authorized": True,
         "scientific_evidence": False,
+        "evaluation_entrypoint": SAFE_EVALUATION_ENTRYPOINT,
         "benchmark_manifest_sha256": HASH_A,
         "pilot_selection_sha256": HASH_B,
         "structured_schema_sha256": HASH_C,
@@ -85,6 +87,25 @@ def test_authorization_is_a_hard_execution_gate():
 
     with pytest.raises(ManifestError, match="authorized must be true"):
         assert_executable(manifest)
+
+
+def test_safe_evaluation_entrypoint_is_a_hard_execution_gate():
+    manifest = _valid_manifest()
+    manifest["evaluation_entrypoint"] = "research.vericodegen.trial_ledger:evaluate_capture"
+
+    errors = validate_manifest(manifest, require_authorized=True)
+    assert any("evaluation_entrypoint must equal" in error for error in errors)
+    assert any("direct legacy trial_ledger evaluation is forbidden" in error for error in errors)
+
+    with pytest.raises(ManifestError, match="evaluation_entrypoint must equal"):
+        assert_executable(manifest)
+
+
+def test_missing_evaluation_entrypoint_is_rejected():
+    manifest = _valid_manifest()
+    manifest.pop("evaluation_entrypoint")
+    errors = validate_manifest(manifest, require_authorized=True)
+    assert any("evaluation_entrypoint must equal" in error for error in errors)
 
 
 def test_protocol_v1_is_no_longer_executable():
@@ -177,6 +198,7 @@ def test_example_manifest_is_explicitly_non_authorized_and_non_executable():
     assert manifest["manifest_version"] == MANIFEST_VERSION
     assert manifest["authorized"] is False
     assert manifest["scientific_evidence"] is False
+    assert manifest["evaluation_entrypoint"] == SAFE_EVALUATION_ENTRYPOINT
     assert manifest["retention_policy"] == {
         "retain_raw_outputs": True,
         "retain_failed_trials": True,
