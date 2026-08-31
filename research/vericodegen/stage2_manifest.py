@@ -1,8 +1,9 @@
 """Validation and execution gate for the VeriCodeGen Stage 2 frozen pilot.
 
-This module does not call any provider. It only checks that a separately frozen
-run manifest contains the provenance, symmetry, budget, and authorization fields
-required by the successor protocol before an external runner is allowed to use it.
+This module does not call any provider. It checks that benchmark, pilot selection,
+prompt templates, structured schema, verifier, analysis plan, environment, retry
+symmetry, retention policy, call budget, cost cap, and explicit authorization are
+all frozen before an external runner may execute Stage 2.
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ import re
 from typing import Any, Mapping
 
 
+MANIFEST_VERSION = "vericodegen-stage2-v2"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 GIT_SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")
 PROMPT_ID_RE = re.compile(r"^VCG-[0-9]{3}$")
@@ -37,8 +39,8 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
 
     errors: list[str] = []
 
-    if manifest.get("manifest_version") != "vericodegen-stage2-v1":
-        errors.append("manifest_version must equal vericodegen-stage2-v1")
+    if manifest.get("manifest_version") != MANIFEST_VERSION:
+        errors.append(f"manifest_version must equal {MANIFEST_VERSION}")
     if manifest.get("stage") != "stage2_frozen_pilot":
         errors.append("stage must equal stage2_frozen_pilot")
     if manifest.get("scientific_evidence") is not False:
@@ -49,8 +51,14 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
     elif not isinstance(manifest.get("authorized"), bool):
         errors.append("authorized must be a boolean")
 
-    _require_hash("benchmark_manifest_sha256", manifest.get("benchmark_manifest_sha256"), errors)
-    _require_hash("verifier_sha256", manifest.get("verifier_sha256"), errors)
+    for field in (
+        "benchmark_manifest_sha256",
+        "pilot_selection_sha256",
+        "structured_schema_sha256",
+        "verifier_sha256",
+        "analysis_plan_sha256",
+    ):
+        _require_hash(field, manifest.get(field), errors)
 
     git_commit = manifest.get("git_commit")
     if not isinstance(git_commit, str) or not GIT_SHA_RE.fullmatch(git_commit):
@@ -76,7 +84,6 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
     if not isinstance(decoding, Mapping):
         errors.append("decoding must be an object")
         seeds: list[Any] = []
-        max_output_tokens = None
     else:
         temperature = decoding.get("temperature")
         if not isinstance(temperature, (int, float)) or isinstance(temperature, bool) or temperature < 0:
@@ -114,13 +121,41 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
             errors.append("retry_policy.max_attempts must be an integer >= 1")
         if not _nonempty_string(retry.get("feedback_policy")):
             errors.append("retry_policy.feedback_policy must be a non-empty frozen policy description")
+        if retry.get("same_attempt_limit_both_arms") is not True:
+            errors.append("retry_policy.same_attempt_limit_both_arms must be true")
+        if retry.get("human_correction_allowed") is not False:
+            errors.append("retry_policy.human_correction_allowed must be false")
 
     prompts = manifest.get("prompt_templates")
     if not isinstance(prompts, Mapping):
         errors.append("prompt_templates must be an object")
     else:
-        _require_hash("prompt_templates.direct_sha256", prompts.get("direct_sha256"), errors)
-        _require_hash("prompt_templates.structured_sha256", prompts.get("structured_sha256"), errors)
+        for field in ("direct_sha256", "structured_sha256", "receipt_sha256"):
+            _require_hash(f"prompt_templates.{field}", prompts.get(field), errors)
+
+    environment = manifest.get("environment")
+    if not isinstance(environment, Mapping):
+        errors.append("environment must be an object")
+    else:
+        if not _nonempty_string(environment.get("openscad_version")):
+            errors.append("environment.openscad_version must be a non-empty exact version")
+        openscad_fn = environment.get("openscad_fn")
+        if not isinstance(openscad_fn, int) or isinstance(openscad_fn, bool) or not 12 <= openscad_fn <= 360:
+            errors.append("environment.openscad_fn must be an integer in [12, 360]")
+        timeout = environment.get("compile_timeout_seconds")
+        if not isinstance(timeout, int) or isinstance(timeout, bool) or timeout < 1:
+            errors.append("environment.compile_timeout_seconds must be an integer >= 1")
+
+    retention = manifest.get("retention_policy")
+    if not isinstance(retention, Mapping):
+        errors.append("retention_policy must be an object")
+    else:
+        if retention.get("retain_raw_outputs") is not True:
+            errors.append("retention_policy.retain_raw_outputs must be true")
+        if retention.get("retain_failed_trials") is not True:
+            errors.append("retention_policy.retain_failed_trials must be true")
+        if retention.get("retain_compile_logs") is not True:
+            errors.append("retention_policy.retain_compile_logs must be true")
 
     cost_cap = manifest.get("cost_cap_usd")
     if (
