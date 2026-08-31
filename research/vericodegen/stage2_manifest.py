@@ -2,8 +2,8 @@
 
 This module does not call any provider. It checks that benchmark, pilot selection,
 prompt templates, structured schema, verifier, analysis plan, environment, retry
-symmetry, retention policy, call budget, cost cap, and explicit authorization are
-all frozen before an external runner may execute Stage 2.
+symmetry, retention policy, call budget, cost cap, safe evaluation entrypoint, and
+explicit authorization are all frozen before an external runner may execute Stage 2.
 """
 
 from __future__ import annotations
@@ -16,6 +16,7 @@ from typing import Any, Mapping
 
 
 MANIFEST_VERSION = "vericodegen-stage2-v2"
+SAFE_EVALUATION_ENTRYPOINT = "research.vericodegen.safe_trial_ledger:evaluate_capture"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 GIT_SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")
 PROMPT_ID_RE = re.compile(r"^VCG-[0-9]{3}$")
@@ -45,6 +46,11 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
         errors.append("stage must equal stage2_frozen_pilot")
     if manifest.get("scientific_evidence") is not False:
         errors.append("scientific_evidence must remain false for the Stage 2 pilot")
+    if manifest.get("evaluation_entrypoint") != SAFE_EVALUATION_ENTRYPOINT:
+        errors.append(
+            "evaluation_entrypoint must equal "
+            f"{SAFE_EVALUATION_ENTRYPOINT}; direct legacy trial_ledger evaluation is forbidden"
+        )
 
     if require_authorized and manifest.get("authorized") is not True:
         errors.append("authorized must be true before any external Stage 2 execution")
@@ -208,11 +214,17 @@ def main() -> int:
     if args.template_check:
         if manifest.get("authorized") is not False:
             raise ManifestError("template must keep authorized=false")
-        print("Stage 2 template is non-authorized as required.")
+        structural_errors = validate_manifest(manifest, require_authorized=False)
+        entrypoint_errors = [
+            error for error in structural_errors if error.startswith("evaluation_entrypoint must equal")
+        ]
+        if entrypoint_errors:
+            raise ManifestError("template must pin the safe evaluation entrypoint")
+        print("Stage 2 template is non-authorized and pins the safe evaluation entrypoint as required.")
         return 0
 
     assert_executable(manifest)
-    print("Stage 2 manifest is complete and explicitly authorized.")
+    print("Stage 2 manifest is complete, safe-entrypoint pinned, and explicitly authorized.")
     return 0
 
 
