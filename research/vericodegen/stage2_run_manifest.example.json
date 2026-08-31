@@ -1,0 +1,29 @@
+{
+  "manifest_version": "vericodegen-stage2-v1",
+  "stage": "stage2_frozen_pilot",
+  "authorized": false,
+  "scientific_evidence": false,
+  "benchmark_manifest_sha256": null,
+  "pilot_task_ids": [],
+  "provider": null,
+  "model": null,
+  "decoding": {
+    "temperature": null,
+    "top_p": null,
+    "max_output_tokens": null,
+    "seeds": []
+  },
+  "retry_policy": {
+    "max_attempts": null,
+    "feedback_policy": null
+  },
+  "prompt_templates": {
+    "direct_sha256": null,
+    "structured_sha256": null
+  },
+  "verifier_sha256": null,
+  "git_commit": null,
+  "cost_cap_usd": 0.0,
+  "estimated_max_calls": 0,
+  "notes": "TEMPLATE ONLY. Do not execute. Populate from frozen artifacts, recompute estimated_max_calls, review, then explicitly set authorized=true in a separately frozen manifest."
+}
