@@ -3,6 +3,7 @@
   "stage": "stage2_frozen_pilot",
   "authorized": false,
   "scientific_evidence": false,
+  "evaluation_entrypoint": "research.vericodegen.safe_trial_ledger:evaluate_capture",
   "benchmark_manifest_sha256": null,
   "pilot_selection_sha256": null,
   "structured_schema_sha256": null,
@@ -41,5 +42,5 @@
   "git_commit": null,
   "cost_cap_usd": 0.0,
   "estimated_max_calls": 0,
-  "notes": "TEMPLATE ONLY. Do not execute. Populate exclusively from frozen benchmark/pilot/prompt/schema/verifier/analysis artifacts, recompute the exact call ceiling, review, then explicitly set authorized=true in a separately frozen manifest."
+  "notes": "TEMPLATE ONLY. Do not execute. Populate exclusively from frozen benchmark/pilot/prompt/schema/verifier/analysis artifacts, preserve the pinned safe evaluation entrypoint, recompute the exact call ceiling, review, then explicitly set authorized=true in a separately frozen manifest."
 }
