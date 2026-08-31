@@ -6,6 +6,7 @@
     "Do not add decorative geometry, labels, text, helper objects, or unstated features unless the task explicitly requests them.",
     "Use millimeters for numerical dimensions unless the task explicitly states another unit.",
     "Produce a self-contained design that requires no external files, network access, libraries, imports, or human correction.",
+    "Do not specify or override mesh tessellation, fragment resolution, or equivalent rendering-resolution controls; the frozen runner applies the same resolution policy to both arms.",
     "Return only the treatment arm's requested machine-readable artifact with no markdown fences, prose, commentary, or explanation.",
     "Do not claim that an output is correct; downstream compilation and the shared independent verifier determine validity."
   ],
