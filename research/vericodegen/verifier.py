@@ -47,10 +47,32 @@ def _coerce_mesh(value: trimesh.Trimesh | trimesh.Scene) -> trimesh.Trimesh:
 
 
 def load_mesh(path: str | Path) -> trimesh.Trimesh:
-    """Load a final geometry artifact for shared verification."""
+    """Load a final geometry artifact for shared verification.
+
+    Import processing remains disabled here so the raw artifact is not silently
+    repaired or simplified at load time. Topology-only vertex deduplication is
+    performed explicitly inside verification where it is auditable and shared by
+    both study arms.
+    """
 
     loaded = trimesh.load(Path(path), force=None, process=False)
     return _coerce_mesh(loaded)
+
+
+def _topology_mesh(mesh: trimesh.Trimesh) -> trimesh.Trimesh:
+    """Return a topology-normalized copy without changing geometric coordinates.
+
+    Facet formats such as STL commonly repeat identical vertex coordinates for
+    every triangle. With ``process=False`` those repeats have distinct indices,
+    which would make a closed box appear as disconnected triangles and
+    non-watertight. Merging coincident vertices restores connectivity encoded by
+    the artifact without filling holes or using arm-specific state.
+    """
+
+    normalized = mesh.copy()
+    normalized.merge_vertices()
+    normalized.remove_unreferenced_vertices()
+    return normalized
 
 
 def _component_count(mesh: trimesh.Trimesh) -> int:
@@ -131,15 +153,17 @@ def verify_mesh(
         raise ValueError(f"unsupported hard constraints: {', '.join(unknown)}")
 
     mesh = _coerce_mesh(artifact)
+    topology = _topology_mesh(mesh)
     failures: list[str] = []
 
     extents = np.asarray(mesh.extents, dtype=float)
     bounds = np.asarray(mesh.bounds, dtype=float)
     volume = float(abs(mesh.volume))
-    component_count = _component_count(mesh)
+    component_count = _component_count(topology)
+    watertight = bool(topology.is_watertight)
 
     measurements: dict[str, Any] = {
-        "watertight": bool(mesh.is_watertight),
+        "watertight": watertight,
         "component_count": int(component_count),
         "volume": volume,
         "extents": {axis: float(extents[index]) for index, axis in enumerate(AXES)},
@@ -151,10 +175,8 @@ def verify_mesh(
 
     if "watertight" in constraints:
         expected = bool(constraints["watertight"])
-        if bool(mesh.is_watertight) is not expected:
-            failures.append(
-                f"watertight={bool(mesh.is_watertight)} but expected {expected}"
-            )
+        if watertight is not expected:
+            failures.append(f"watertight={watertight} but expected {expected}")
 
     if "max_components" in constraints:
         maximum = int(constraints["max_components"])
