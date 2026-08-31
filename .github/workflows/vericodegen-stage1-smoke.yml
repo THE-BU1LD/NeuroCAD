@@ -34,16 +34,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y openscad
-          python -m pip install --upgrade pip
-          python -m pip install -e . pytest
+          python -m pip install --upgrade pip pytest
+          python -m pip install -e .
           openscad --version
 
       - name: Stage 0 verifier regression gate
-        run: python -m pytest -q tests/test_vericodegen_verifier.py
+        run: python -m pytest -q tests/test_vericodegen_verifier.py tests/test_vericodegen_artifact_loading.py
 
       - name: Execute Stage 1 development-only two-arm smoke
         run: |
-          python research/vericodegen/dev_smoke.py --outdir out/vericodegen_stage1
+          python -m research.vericodegen.dev_smoke --outdir out/vericodegen_stage1
 
       - name: Verify Stage 1 receipt
         run: |
