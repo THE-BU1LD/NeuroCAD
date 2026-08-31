@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thebu1ld.org/schemas/vericodegen-captured-attempt-v2.json",
+  "title": "VeriCodeGen captured provider attempt v2",
+  "description": "Per-attempt provenance envelope for already-captured Stage 2 outputs. Evaluation remains provider-neutral.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "capture_version",
+    "prompt_id",
+    "seed",
+    "arm",
+    "attempt",
+    "captured_at",
+    "provider",
+    "model",
+    "system_prompt_sha256",
+    "benchmark_task_sha256",
+    "request_fingerprint_sha256",
+    "decoding",
+    "generation_status",
+    "raw_output",
+    "generated_tokens",
+    "wall_clock_seconds",
+    "estimated_cost_usd"
+  ],
+  "properties": {
+    "capture_version": {"const": "vericodegen-captured-attempt-v2"},
+    "prompt_id": {"type": "string", "pattern": "^VCG-[0-9]{3}$"},
+    "seed": {"type": "integer"},
+    "arm": {"type": "string", "enum": ["direct", "structured"]},
+    "attempt": {"type": "integer", "minimum": 1},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "provider": {"type": "string", "minLength": 1},
+    "model": {"type": "string", "minLength": 1},
+    "system_prompt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "benchmark_task_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "request_fingerprint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "decoding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature", "top_p", "max_output_tokens"],
+      "properties": {
+        "temperature": {"type": "number", "minimum": 0},
+        "top_p": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "max_output_tokens": {"type": "integer", "minimum": 1}
+      }
+    },
+    "generation_status": {"type": "string", "enum": ["completed", "timeout", "error"]},
+    "raw_output": {"type": ["string", "null"]},
+    "generated_tokens": {"type": "integer", "minimum": 0},
+    "wall_clock_seconds": {"type": "number", "minimum": 0},
+    "estimated_cost_usd": {"type": "number", "minimum": 0},
+    "provider_request_id": {"type": ["string", "null"]},
+    "provider_error": {"type": ["string", "null"]},
+    "finish_reason": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"generation_status": {"const": "completed"}}},
+      "then": {"properties": {"raw_output": {"type": "string", "minLength": 1}}}
+    },
+    {
+      "if": {"properties": {"generation_status": {"enum": ["timeout", "error"]}}},
+      "then": {"properties": {"raw_output": {"type": "null"}}}
+    }
+  ]
+}
