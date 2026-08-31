@@ -159,6 +159,7 @@ def test_torus_requires_major_radius_greater_than_minor_radius():
             "geometry": {"kind": "torus", "R": 2, "r": 3},
         }
     ]
+    spec["connections"] = []
     errors = validate_structured_spec(spec)
     assert any("must be greater" in error for error in errors)
 
@@ -171,6 +172,7 @@ def test_cone_allows_zero_tip_radius_but_not_negative():
             "geometry": {"kind": "cone", "r1": 5, "r2": 0, "height": 10},
         }
     ]
+    spec["connections"] = []
     assert validate_structured_spec(spec) == []
 
     spec["components"][0]["geometry"]["r2"] = -1
