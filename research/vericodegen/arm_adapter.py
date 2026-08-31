@@ -19,10 +19,10 @@ from research.vericodegen.structured_spec import StructuredSpecError, compile_st
 ARM_NAMES = ("direct", "structured")
 FORBIDDEN_DIRECT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("markdown_fence", re.compile(r"```")),
-    ("include", re.compile(r"(?im)^\s*include\s*<")),
-    ("use", re.compile(r"(?im)^\s*use\s*<")),
-    ("import", re.compile(r"\bimport\s*\(")),
-    ("surface", re.compile(r"\bsurface\s*\(")),
+    ("include", re.compile(r"(?i)\binclude\s*<")),
+    ("use", re.compile(r"(?i)\buse\s*<")),
+    ("import", re.compile(r"(?i)\bimport\s*\(")),
+    ("surface", re.compile(r"(?i)\bsurface\s*\(")),
     ("resolution_override_fn", re.compile(r"\$fn\s*=")),
     ("resolution_override_fa", re.compile(r"\$fa\s*=")),
     ("resolution_override_fs", re.compile(r"\$fs\s*=")),

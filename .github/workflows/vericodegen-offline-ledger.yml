@@ -1,0 +1,102 @@
+name: NeuroCAD VeriCodeGen offline ledger
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/vericodegen-offline-ledger.yml'
+      - 'research/vericodegen/**'
+      - 'tests/test_vericodegen_*.py'
+      - 'core/design_graph.py'
+      - 'core/scad_export.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-ledger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install OpenSCAD and Python package
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+          python -m pip install --upgrade pip pytest
+          python -m pip install -e .
+          openscad --version
+
+      - name: Run trial-ledger unit regressions
+        run: |
+          python -m pytest -q \
+            tests/test_vericodegen_trial_ledger.py \
+            tests/test_vericodegen_arm_adapter.py \
+            tests/test_vericodegen_structured_spec.py \
+            tests/test_vericodegen_analysis.py
+
+      - name: Execute provider-free real OpenSCAD ledger smoke
+        run: |
+          python -m research.vericodegen.offline_ledger_smoke \
+            --outdir out/vericodegen_offline_ledger_smoke
+
+      - name: Verify retained failure and claim boundaries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('out/vericodegen_offline_ledger_smoke')
+          receipt = json.loads((root / 'smoke_receipt.json').read_text(encoding='utf-8'))
+          summary = json.loads((root / 'evaluation' / 'summary.json').read_text(encoding='utf-8'))
+          attempts = [
+              json.loads(line)
+              for line in (root / 'evaluation' / 'attempts_evaluated.jsonl').read_text(encoding='utf-8').splitlines()
+              if line.strip()
+          ]
+          finals = [
+              json.loads(line)
+              for line in (root / 'evaluation' / 'finals_for_analysis.jsonl').read_text(encoding='utf-8').splitlines()
+              if line.strip()
+          ]
+
+          assert receipt['scientific_evidence'] is False
+          assert receipt['provider_calls'] == 0
+          assert receipt['captured_attempts'] == 8
+          assert receipt['retained_failed_attempts'] == 2
+          assert receipt['final_cells'] == 6
+          assert receipt['hvr_pass_cells'] == 6
+          assert receipt['paired_units'] == 3
+          assert receipt['direct_hvr'] == 1.0
+          assert receipt['structured_hvr'] == 1.0
+          assert summary['scientific_evidence'] is False
+          assert len(attempts) == 8
+          assert len(finals) == 6
+          assert sum(not row['hvr'] for row in attempts) == 2
+          assert all(row['hvr'] for row in finals)
+          assert attempts[0]['previous_ledger_hash'] == '0' * 64
+          assert attempts[-1]['ledger_hash'] == receipt['ledger_tip_sha256']
+          print('Offline ledger retains failed attempts and remains development-only evidence.')
+          PY
+
+      - name: Retain offline ledger evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurocad-vericodegen-offline-ledger-${{ github.sha }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: out/vericodegen_offline_ledger_smoke/**
