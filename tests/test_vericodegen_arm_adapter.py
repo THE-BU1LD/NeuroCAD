@@ -54,11 +54,14 @@ def test_direct_arm_cannot_override_fn_fa_or_fs():
             prepare_direct_scad(source, fn=64)
 
 
-def test_direct_arm_cannot_use_external_files():
+def test_direct_arm_cannot_use_external_files_even_inline():
     sources = (
         "include <vendor.scad>; cube(1);",
+        "cube(1); include <vendor.scad>;",
         "use <vendor.scad>; vendor_part();",
+        "cube(1); use <vendor.scad>;",
         'import("part.stl");',
+        'cube(1); import("part.stl");',
         'surface(file="heightmap.dat");',
     )
     for source in sources:
