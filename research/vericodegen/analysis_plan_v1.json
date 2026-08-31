@@ -1,0 +1,38 @@
+{
+  "analysis_version": "vericodegen-analysis-v1",
+  "scientific_evidence": false,
+  "paired_unit": ["prompt_id", "seed"],
+  "primary_endpoint": "hard_verifiability_rate",
+  "primary_contrast": "structured_minus_direct",
+  "primary_test": {
+    "name": "exact_mcnemar_two_sided",
+    "alpha": 0.05
+  },
+  "primary_confidence_interval": {
+    "name": "paired_bootstrap_percentile",
+    "confidence": 0.95,
+    "replicates": 10000,
+    "seed": 20260831
+  },
+  "failure_policy": {
+    "compile_failure_hvr": false,
+    "verifier_failure_hvr": false,
+    "timeout_hvr": false,
+    "retry_exhaustion_hvr": false,
+    "missing_final_artifact_hvr": false,
+    "retain_raw_failed_trials": true
+  },
+  "secondary_endpoints": [
+    "compile_success_rate",
+    "hard_constraint_satisfaction_rate",
+    "retry_count",
+    "generated_tokens",
+    "wall_clock_seconds",
+    "estimated_cost_usd"
+  ],
+  "stratified_reporting": [
+    "task_family"
+  ],
+  "multiplicity": "secondary endpoints are descriptive/exploratory and do not override the primary endpoint",
+  "outcomes_observed": false
+}
