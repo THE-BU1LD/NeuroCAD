@@ -17,6 +17,7 @@
     "system_prompt_sha256",
     "benchmark_task_sha256",
     "request_fingerprint_sha256",
+    "retry_feedback_sha256",
     "decoding",
     "generation_status",
     "raw_output",
@@ -36,6 +37,12 @@
     "system_prompt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "benchmark_task_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "request_fingerprint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "retry_feedback_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      ]
+    },
     "decoding": {
       "type": "object",
       "additionalProperties": false,
@@ -63,6 +70,10 @@
     {
       "if": {"properties": {"generation_status": {"enum": ["timeout", "error"]}}},
       "then": {"properties": {"raw_output": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"attempt": {"const": 1}}},
+      "then": {"properties": {"retry_feedback_sha256": {"type": "null"}}}
     }
   ]
 }
