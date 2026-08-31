@@ -18,7 +18,9 @@ from typing import Any
 from research.vericodegen.analysis import analyze_rows, load_jsonl as load_analysis_jsonl
 from research.vericodegen.benchmark_freeze import benchmark_jsonl, build_manifest
 from research.vericodegen.prompt_freeze import freeze_prompt_bundle
-from research.vericodegen.trial_ledger import CAPTURE_VERSION, evaluate_capture, sha256_file
+from research.vericodegen.safe_trial_ledger import evaluate_capture
+from research.vericodegen.stage2_manifest import SAFE_EVALUATION_ENTRYPOINT
+from research.vericodegen.trial_ledger import CAPTURE_VERSION, sha256_file
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -169,6 +171,7 @@ def run_smoke(outdir: Path) -> dict[str, Any]:
         "stage": "stage2_frozen_pilot",
         "authorized": True,
         "scientific_evidence": False,
+        "evaluation_entrypoint": SAFE_EVALUATION_ENTRYPOINT,
         "benchmark_manifest_sha256": sha256_file(benchmark_manifest_path),
         "pilot_selection_sha256": sha256_file(pilot_selection_path),
         "structured_schema_sha256": sha256_file(structured_schema),
