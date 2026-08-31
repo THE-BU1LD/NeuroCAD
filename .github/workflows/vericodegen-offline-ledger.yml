@@ -40,13 +40,27 @@ jobs:
           python -m pip install -e .
           openscad --version
 
-      - name: Run trial-ledger unit regressions
+      - name: Run safe trial-ledger and manifest regressions
         run: |
           python -m pytest -q \
             tests/test_vericodegen_trial_ledger.py \
+            tests/test_vericodegen_safe_trial_ledger.py \
+            tests/test_vericodegen_stage2_manifest.py \
             tests/test_vericodegen_arm_adapter.py \
             tests/test_vericodegen_structured_spec.py \
             tests/test_vericodegen_analysis.py
+
+      - name: Prove supported smoke does not import legacy evaluator
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          source = Path('research/vericodegen/offline_ledger_smoke.py').read_text(encoding='utf-8')
+          assert 'from research.vericodegen.safe_trial_ledger import evaluate_capture' in source
+          assert 'from research.vericodegen.trial_ledger import CAPTURE_VERSION, evaluate_capture' not in source
+          assert 'SAFE_EVALUATION_ENTRYPOINT' in source
+          print('Supported offline smoke is pinned to safe_trial_ledger.evaluate_capture.')
+          PY
 
       - name: Execute provider-free real OpenSCAD ledger smoke
         run: |
