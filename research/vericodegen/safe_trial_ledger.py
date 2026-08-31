@@ -5,8 +5,8 @@ post-merge integrity defects without changing any frozen scientific inputs:
 
 1. reject captures that exceed the frozen cost cap *before* the legacy ledger
    can emit analysis-ready files; and
-2. classify structured-arm unknown geometry kinds as unsupported operations
-   rather than syntax/compile failures during evaluation.
+2. classify true unsupported arm operations separately from malformed schema or
+   syntax/compile failures during evaluation.
 
 Frozen input provenance is revalidated before the capture file is read. The
 historical NeuroCAD typed-parser claim remains falsified. This module does not
@@ -23,11 +23,25 @@ from research.vericodegen import trial_ledger as _ledger
 from research.vericodegen.arm_adapter import ArmAdapterError
 
 
+_UNSUPPORTED_OPERATION_MARKERS = (
+    "kind must be one of",
+    ".operation must be union or difference",
+    "forbidden construct:",
+    "unknown arm:",
+)
+
+
 def classify_adapter_error(exc: ArmAdapterError) -> str:
-    """Map adapter contract failures into the frozen failure taxonomy."""
+    """Map adapter contract failures into the frozen failure taxonomy.
+
+    Do not key on the generic word ``unsupported``: structured schema validation
+    also uses that word for unknown JSON keys, which is a malformed-contract
+    failure rather than evidence that the requested CAD operation is outside the
+    frozen operation set.
+    """
 
     lowered = str(exc).lower()
-    if "unsupported" in lowered or "kind must be one of" in lowered:
+    if any(marker in lowered for marker in _UNSUPPORTED_OPERATION_MARKERS):
         return "unsupported_operation"
     return "syntax_compile_failure"
 
