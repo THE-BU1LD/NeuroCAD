@@ -1,0 +1,78 @@
+name: NeuroCAD VeriCodeGen Stage 1 smoke
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/vericodegen-stage1-smoke.yml'
+      - 'research/vericodegen/**'
+      - 'core/design_graph.py'
+      - 'core/scad_export.py'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage1-development-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install OpenSCAD and Python package
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+          python -m pip install --upgrade pip pytest
+          python -m pip install -e .
+          openscad --version
+
+      - name: Stage 0 verifier regression gate
+        run: python -m pytest -q tests/test_vericodegen_verifier.py tests/test_vericodegen_artifact_loading.py
+
+      - name: Execute Stage 1 development-only two-arm smoke
+        run: |
+          python -m research.vericodegen.dev_smoke --outdir out/vericodegen_stage1
+
+      - name: Verify Stage 1 receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('out/vericodegen_stage1')
+          summary = json.loads((root / 'summary.json').read_text(encoding='utf-8'))
+          assert summary['scientific_evidence'] is False
+          assert summary['final_cells'] == 6
+          assert summary['passed_final_cells'] == 6
+          assert summary['retry_cells'] == 2
+          attempts = [json.loads(line) for line in (root / 'attempts.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+          finals = [json.loads(line) for line in (root / 'finals.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+          assert len(attempts) == 8, len(attempts)
+          assert len(finals) == 6, len(finals)
+          assert {row['arm'] for row in finals} == {'direct', 'structured'}
+          assert all(row['compile_success'] and row['verifier_passed'] for row in finals)
+          assert sum(row['intentionally_invalid_fixture'] for row in attempts) == 2
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          print('DEVELOPMENT SMOKE ONLY: no scientific outcome is claimed.')
+          PY
+
+      - name: Retain Stage 1 plumbing evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurocad-vericodegen-stage1-${{ github.sha }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: out/vericodegen_stage1/**
