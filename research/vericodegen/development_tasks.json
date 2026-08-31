@@ -1,0 +1,116 @@
+[
+  {
+    "prompt_id": "VCG-001",
+    "prompt_text": "Create one centered rectangular solid with extents 2 x 4 x 6 benchmark units.",
+    "task_family": "in_distribution",
+    "required_relations": ["single_component"],
+    "hard_constraints": {
+      "watertight": true,
+      "max_components": 1,
+      "volume": {"min": 47.95, "max": 48.05},
+      "extents": {
+        "x": {"min": 1.99, "max": 2.01},
+        "y": {"min": 3.99, "max": 4.01},
+        "z": {"min": 5.99, "max": 6.01}
+      }
+    },
+    "semantic_rubric": [
+      {"criterion": "shape", "description": "The artifact is a rectangular solid rather than an unrelated primitive."}
+    ],
+    "notes": "DEVELOPMENT ONLY. Never include this task in the frozen primary benchmark."
+  },
+  {
+    "prompt_id": "VCG-002",
+    "prompt_text": "Create one centered cube with side length 3 benchmark units.",
+    "task_family": "in_distribution",
+    "required_relations": ["single_component"],
+    "hard_constraints": {
+      "watertight": true,
+      "max_components": 1,
+      "volume": {"min": 26.95, "max": 27.05},
+      "extents": {
+        "x": {"min": 2.99, "max": 3.01},
+        "y": {"min": 2.99, "max": 3.01},
+        "z": {"min": 2.99, "max": 3.01}
+      }
+    },
+    "semantic_rubric": [
+      {"criterion": "shape", "description": "The artifact is a cube."}
+    ],
+    "notes": "DEVELOPMENT ONLY. Never include this task in the frozen primary benchmark."
+  },
+  {
+    "prompt_id": "VCG-003",
+    "prompt_text": "Create a watertight assembly whose final mesh remains one connected component and fits inside a 6 x 6 x 6 centered bounding box.",
+    "task_family": "compositional",
+    "required_relations": ["connected", "contained_in_bounds"],
+    "hard_constraints": {
+      "watertight": true,
+      "max_components": 1,
+      "bounds": {
+        "min": [-3.01, -3.01, -3.01],
+        "max": [3.01, 3.01, 3.01]
+      }
+    },
+    "semantic_rubric": [
+      {"criterion": "assembly", "description": "The artifact visibly reflects a multi-part or composed design intent."}
+    ],
+    "notes": "DEVELOPMENT ONLY. Used to exercise compositional logging and shared bounds verification."
+  },
+  {
+    "prompt_id": "VCG-004",
+    "prompt_text": "Create a connected watertight object at least 1 unit wide on every axis but no more than 5 units wide on any axis.",
+    "task_family": "compositional",
+    "required_relations": ["connected"],
+    "hard_constraints": {
+      "watertight": true,
+      "max_components": 1,
+      "extents": {
+        "x": {"min": 1.0, "max": 5.0},
+        "y": {"min": 1.0, "max": 5.0},
+        "z": {"min": 1.0, "max": 5.0}
+      }
+    },
+    "semantic_rubric": [
+      {"criterion": "intent", "description": "The object is coherent rather than an arbitrary degenerate mesh."}
+    ],
+    "notes": "DEVELOPMENT ONLY. Broad tolerances intentionally test plumbing rather than scientific discrimination."
+  },
+  {
+    "prompt_id": "VCG-005",
+    "prompt_text": "Produce a single watertight object with volume between 8 and 64 cubic benchmark units while staying inside +/-4 on each axis.",
+    "task_family": "ood_constraint_stress",
+    "required_relations": ["single_component", "contained_in_bounds"],
+    "hard_constraints": {
+      "watertight": true,
+      "max_components": 1,
+      "volume": {"min": 8.0, "max": 64.0},
+      "bounds": {
+        "min": [-4.0, -4.0, -4.0],
+        "max": [4.0, 4.0, 4.0]
+      }
+    },
+    "semantic_rubric": [
+      {"criterion": "constraint_following", "description": "The geometry appears intentionally designed to satisfy the stated constraints."}
+    ],
+    "notes": "DEVELOPMENT ONLY. Constraint-stress smoke task; not evidence for the successor hypothesis."
+  },
+  {
+    "prompt_id": "VCG-006",
+    "prompt_text": "Create a single connected watertight shape with x extent greater than 2 and z extent less than 3 benchmark units.",
+    "task_family": "ood_constraint_stress",
+    "required_relations": ["single_component"],
+    "hard_constraints": {
+      "watertight": true,
+      "max_components": 1,
+      "extents": {
+        "x": {"min": 2.01},
+        "z": {"max": 2.99}
+      }
+    },
+    "semantic_rubric": [
+      {"criterion": "constraint_following", "description": "The shape reflects the asymmetric extent request."}
+    ],
+    "notes": "DEVELOPMENT ONLY. Exercises mixed lower/upper hard constraints."
+  }
+]
