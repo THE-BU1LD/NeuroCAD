@@ -8,15 +8,16 @@ post-merge integrity defects without changing any frozen scientific inputs:
 2. classify structured-arm unknown geometry kinds as unsupported operations
    rather than syntax/compile failures during evaluation.
 
-The historical NeuroCAD typed-parser claim remains falsified. This module does
-not call a model provider and does not authorize Stage 2 execution.
+Frozen input provenance is revalidated before the capture file is read. The
+historical NeuroCAD typed-parser claim remains falsified. This module does not
+call a model provider and does not authorize Stage 2 execution.
 """
 from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from research.vericodegen import trial_ledger as _ledger
 from research.vericodegen.arm_adapter import ArmAdapterError
@@ -31,10 +32,40 @@ def classify_adapter_error(exc: ArmAdapterError) -> str:
     return "syntax_compile_failure"
 
 
-def _cost_preflight(*, manifest_path: Path, capture_path: Path, outdir: Path) -> None:
+def _frozen_preflight(kwargs: Mapping[str, Any]) -> dict[str, Any]:
+    """Revalidate all frozen inputs before reading captured provider outputs."""
+
+    manifest_path = Path(kwargs["manifest_path"])
+    manifest = _ledger.load_manifest(manifest_path)
+    errors = _ledger.validate_frozen_inputs(
+        manifest=manifest,
+        manifest_path=manifest_path,
+        benchmark_manifest_path=Path(kwargs["benchmark_manifest_path"]),
+        benchmark_path=Path(kwargs["benchmark_path"]),
+        pilot_selection_path=Path(kwargs["pilot_selection_path"]),
+        structured_schema_path=Path(kwargs["structured_schema_path"]),
+        verifier_path=Path(kwargs["verifier_path"]),
+        analysis_plan_path=Path(kwargs["analysis_plan_path"]),
+        prompt_receipt_path=Path(kwargs["prompt_receipt_path"]),
+        repository_root=Path(kwargs["repository_root"]),
+        require_git_head=bool(kwargs.get("require_git_head", True)),
+    )
+    if errors:
+        raise _ledger.TrialLedgerError(
+            "frozen input validation failed:\n- " + "\n- ".join(errors)
+        )
+    return manifest
+
+
+def _cost_preflight(
+    *,
+    manifest: Mapping[str, Any],
+    manifest_path: Path,
+    capture_path: Path,
+    outdir: Path,
+) -> None:
     """Reject an over-budget capture before analysis-ready artifacts can exist."""
 
-    manifest = _ledger.load_manifest(manifest_path)
     capture_rows = _ledger.load_capture_jsonl(capture_path)
     total_cost = sum(float(row["estimated_cost_usd"]) for row in capture_rows)
     cost_cap = float(manifest["cost_cap_usd"])
@@ -62,12 +93,15 @@ def _cost_preflight(*, manifest_path: Path, capture_path: Path, outdir: Path) ->
 
 
 def evaluate_capture(**kwargs: Any) -> dict[str, Any]:
-    """Run the frozen ledger only after the integrity preflight succeeds."""
+    """Run the frozen ledger only after provenance and budget preflights succeed."""
 
     manifest_path = Path(kwargs["manifest_path"])
     capture_path = Path(kwargs["capture_path"])
     outdir = Path(kwargs["outdir"])
+
+    manifest = _frozen_preflight(kwargs)
     _cost_preflight(
+        manifest=manifest,
         manifest_path=manifest_path,
         capture_path=capture_path,
         outdir=outdir,
