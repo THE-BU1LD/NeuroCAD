@@ -37,6 +37,7 @@ def _manifest(*, max_attempts: int = 2) -> dict:
         "stage": "stage2_frozen_pilot",
         "authorized": True,
         "scientific_evidence": False,
+        "evaluation_entrypoint": "research.vericodegen.safe_trial_ledger:evaluate_capture",
         "benchmark_manifest_sha256": HASH_A,
         "pilot_selection_sha256": HASH_B,
         "structured_schema_sha256": HASH_C,
