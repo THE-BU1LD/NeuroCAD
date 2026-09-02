@@ -1,0 +1,91 @@
+name: Maintained experiment clean-checkout smoke
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/run_maintained_experiment.py'
+      - 'docs/MAINTAINED_EXPERIMENT.md'
+      - 'research/vericodegen/**'
+      - 'core/**'
+      - 'pyproject.toml'
+      - '.github/workflows/maintained-experiment-smoke.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/run_maintained_experiment.py'
+      - 'docs/MAINTAINED_EXPERIMENT.md'
+      - 'research/vericodegen/**'
+      - 'core/**'
+      - 'pyproject.toml'
+      - '.github/workflows/maintained-experiment-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maintained-experiment-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clean-checkout-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends openscad
+
+      - name: Install NeuroCAD without modifying checkout
+        run: python -m pip install .
+
+      - name: Assert checkout is clean before maintained run
+        shell: bash
+        run: test -z "$(git status --porcelain)"
+
+      - name: Run maintained outcome-safe experiment
+        run: python scripts/run_maintained_experiment.py --outdir /tmp/neurocad-maintained-experiment
+
+      - name: Verify provenance receipt and claim boundary
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          receipt = json.loads(Path('/tmp/neurocad-maintained-experiment/run_receipt.json').read_text())
+          assert receipt['git_commit'] == os.environ['EXPECTED_SHA'], (receipt['git_commit'], os.environ['EXPECTED_SHA'])
+          assert receipt['git_dirty'] is False
+          assert receipt['scientific_evidence'] is False
+          assert receipt['experiment_id'] == 'vericodegen-stage1-scripted-plumbing-smoke-v1'
+          assert receipt['exit_status'] == 0
+          assert receipt['config']['seed_policy'] == 'deterministic scripted fixtures; no stochastic seed is used'
+          assert receipt['config']['seeds'] == []
+          assert receipt['metrics'] is not None
+          assert receipt['metrics']['scientific_evidence'] is False
+          for name in ('summary', 'attempts', 'finals', 'stdout', 'stderr'):
+              assert receipt['artifacts'][name]['sha256'], name
+          PY
+
+      - name: Upload clean-checkout evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: maintained-experiment-clean-checkout-evidence
+          path: /tmp/neurocad-maintained-experiment
+          if-no-files-found: error
+          retention-days: 14
