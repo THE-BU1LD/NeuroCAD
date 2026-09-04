@@ -1,0 +1,85 @@
+name: NeuroCAD S3 External Prompt Materialization
+
+on:
+  pull_request:
+    paths:
+      - "research/s3/**"
+      - "tests/test_s3_**"
+      - ".github/workflows/s3-external-materialize.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  materialize-prompt-only-inputs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install pinned materialization tooling
+        run: >-
+          python -m pip install
+          huggingface_hub==0.34.4
+          pyarrow==21.0.0
+          PyYAML==6.0.2
+
+      - name: Materialize exact public prompt-only sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/s3/materialize_external_inputs.py \
+            --output-dir /tmp/s3-external-materialized \
+            --cache-dir /tmp/hf-cache
+
+      - name: Verify materialization remains pre-outcome and non-authorized
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('/tmp/s3-external-materialized')
+          receipt = json.loads((root / 'MATERIALIZATION_RECEIPT.json').read_text())
+          assert receipt['status'] == 'PROMPT_ONLY_MATERIALIZED_NOT_EVALUATED'
+          assert receipt['execution_authorized'] is False
+          assert receipt['outcomes_observed'] is False
+          assert receipt['private_ground_truth_accessed'] is False
+          sources = {item['source']: item for item in receipt['sources']}
+          assert sources['cadtestbench']['adapted_export']['records'] == 400
+          assert sources['cadgenbench']['private_ground_truth_repository_accessed'] is False
+          assert sources['cadgenbench']['adapted_export']['records'] > 0
+          for source in sources.values():
+              for key in ('prompt_only_export', 'adapted_export'):
+                  path = root / source[key]['path']
+                  assert path.is_file() and path.stat().st_size > 0
+          PY
+
+      - name: Produce immutable checksum ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/s3-external-materialized
+          sha256sum * | sort > CHECKSUMS.sha256
+          cat CHECKSUMS.sha256
+
+      - name: Upload prompt-only materialization evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: s3-external-prompt-materialization
+          path: /tmp/s3-external-materialized/
+          if-no-files-found: error
