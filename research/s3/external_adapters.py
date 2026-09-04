@@ -46,12 +46,23 @@ FORBIDDEN_OUTCOME_FIELDS = frozenset(
 
 
 @dataclass(frozen=True)
+class DatasetArtifact:
+    path: str
+    sha256: str
+    size_bytes: int
+
+
+@dataclass(frozen=True)
 class SourceSpec:
     key: str
     source_name: str
     repository: str
     revision: str
     license_spdx: str
+    dataset_repository: str
+    dataset_revision: str
+    dataset_license_spdx: str
+    dataset_artifacts: tuple[DatasetArtifact, ...]
     allowed_prompt_fields: tuple[str, ...]
     id_fields: tuple[str, ...]
 
@@ -63,6 +74,21 @@ SOURCES = {
         repository="dimitrismallis/CADTestBench",
         revision="e29283cc61db7329039d95b429766a50bfd37f89",
         license_spdx="MIT",
+        dataset_repository="dimitrismallis/CADTestBench",
+        dataset_revision="2b9a4a972d142d2bc634d072e9d4485f171ced06",
+        dataset_license_spdx="MIT",
+        dataset_artifacts=(
+            DatasetArtifact(
+                path="samples/abstract.parquet",
+                sha256="67a5779bc5114ce4db6bc9be89bf22c25e707bc83e7431214cddfac23f980536",
+                size_bytes=17545,
+            ),
+            DatasetArtifact(
+                path="samples/detailed.parquet",
+                sha256="76b2d20def7946e1e3216b72a8acb83825c489c373b23ac514b77885ae275b37",
+                size_bytes=33726,
+            ),
+        ),
         allowed_prompt_fields=("prompt", "abstract_prompt", "detailed_prompt"),
         id_fields=("sample_id", "id"),
     ),
@@ -72,6 +98,13 @@ SOURCES = {
         repository="huggingface/cadgenbench",
         revision="33304cf771fc5639144b1df9611e347251052cf8",
         license_spdx="Apache-2.0",
+        dataset_repository="HuggingAI4Engineering/cadgenbench-data",
+        # This is the last data-bearing revision before two README/card-only commits.
+        # It removes an unused category field from the public description.yaml inputs;
+        # private ground truth is in a different repository and is intentionally absent.
+        dataset_revision="569ea565cef25ee690e39bf89941f940027633d6",
+        dataset_license_spdx="ODC-By-1.0",
+        dataset_artifacts=(),
         allowed_prompt_fields=("prompt", "description", "instruction", "edit_request"),
         id_fields=("sample_id", "id", "name"),
     ),
@@ -111,12 +144,30 @@ def _canonical_sha256(payload: Mapping[str, Any]) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def adapt_rows(source_key: str, rows: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
+def _dataset_receipt(spec: SourceSpec) -> dict[str, Any]:
+    return {
+        "repository": spec.dataset_repository,
+        "revision": spec.dataset_revision,
+        "license": spec.dataset_license_spdx,
+        "artifacts": [
+            {"path": artifact.path, "sha256": artifact.sha256, "size_bytes": artifact.size_bytes}
+            for artifact in spec.dataset_artifacts
+        ],
+    }
+
+
+def adapt_rows(
+    source_key: str,
+    rows: Iterable[Mapping[str, Any]],
+    *,
+    source_export_sha256: str | None = None,
+) -> list[dict[str, Any]]:
     """Convert prompt-only source rows to frozen S3 external candidate records.
 
     This does not select a held-out set, score a system, infer taxonomy labels, or inspect
-    any benchmark outcomes. Exact source repository revisions and licenses are hard-coded
-    in SOURCES and covered by tests.
+    any benchmark outcomes. Exact source-code and public-dataset revisions are hard-coded
+    in SOURCES and covered by tests. When rows came from a file, callers should pass the
+    exact file digest so every adapted record is also bound to the prompt-only export bytes.
     """
 
     try:
@@ -124,6 +175,12 @@ def adapt_rows(source_key: str, rows: Iterable[Mapping[str, Any]]) -> list[dict[
     except KeyError as exc:
         raise ValueError(f"unsupported external source: {source_key}") from exc
 
+    if source_export_sha256 is not None:
+        if len(source_export_sha256) != 64 or any(c not in "0123456789abcdef" for c in source_export_sha256):
+            raise ValueError("source_export_sha256 must be a lowercase 64-character SHA-256 digest")
+
+    dataset_receipt = _dataset_receipt(spec)
+    dataset_receipt_sha256 = _canonical_sha256(dataset_receipt)
     output: list[dict[str, Any]] = []
     seen_source_ids: set[str] = set()
 
@@ -144,6 +201,9 @@ def adapt_rows(source_key: str, rows: Iterable[Mapping[str, Any]]) -> list[dict[
             "repository": spec.repository,
             "revision": spec.revision,
             "license": spec.license_spdx,
+            "dataset": dataset_receipt,
+            "dataset_receipt_sha256": dataset_receipt_sha256,
+            "source_export_sha256": source_export_sha256,
             "source_id_field": id_field,
             "source_id": source_id,
             "prompt_field": prompt_field,
@@ -157,14 +217,21 @@ def adapt_rows(source_key: str, rows: Iterable[Mapping[str, Any]]) -> list[dict[
                 "prompt": prompt,
                 "provenance": (
                     f"external candidate from {spec.repository}@{spec.revision}; "
+                    f"public_dataset={spec.dataset_repository}@{spec.dataset_revision}; "
                     f"source_id={source_id}; prompt_field={prompt_field}; "
-                    f"license={spec.license_spdx}; not derived from NeuroCAD/baseline outcomes"
+                    f"code_license={spec.license_spdx}; dataset_license={spec.dataset_license_spdx}; "
+                    f"not derived from NeuroCAD/baseline outcomes"
                 ),
                 "status": STATUS,
                 "source_name": spec.source_name,
                 "source_repository": spec.repository,
                 "source_revision": spec.revision,
                 "source_license": spec.license_spdx,
+                "source_dataset_repository": spec.dataset_repository,
+                "source_dataset_revision": spec.dataset_revision,
+                "source_dataset_license": spec.dataset_license_spdx,
+                "source_dataset_receipt_sha256": dataset_receipt_sha256,
+                "source_export_sha256": source_export_sha256,
                 "source_record_id": source_id,
                 "source_prompt_field": prompt_field,
                 "source_row_sha256": row_sha256,
@@ -174,9 +241,16 @@ def adapt_rows(source_key: str, rows: Iterable[Mapping[str, Any]]) -> list[dict[
     return output
 
 
-def _read_jsonl(path: Path) -> list[Mapping[str, Any]]:
+def _read_jsonl_bytes(path: Path) -> tuple[list[Mapping[str, Any]], str]:
+    raw = path.read_bytes()
+    export_sha256 = hashlib.sha256(raw).hexdigest()
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError("prompt-only JSONL input must be UTF-8") from exc
+
     rows: list[Mapping[str, Any]] = []
-    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+    for line_number, line in enumerate(text.splitlines(), start=1):
         if not line.strip():
             continue
         try:
@@ -186,7 +260,7 @@ def _read_jsonl(path: Path) -> list[Mapping[str, Any]]:
         if not isinstance(row, Mapping):
             raise ValueError(f"line {line_number} must decode to an object")
         rows.append(row)
-    return rows
+    return rows, export_sha256
 
 
 def _write_jsonl(path: Path, rows: Sequence[Mapping[str, Any]]) -> None:
@@ -205,9 +279,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--output", required=True, type=Path, help="new JSONL path; must not exist")
     args = parser.parse_args(argv)
 
-    adapted = adapt_rows(args.source, _read_jsonl(args.input))
+    rows, source_export_sha256 = _read_jsonl_bytes(args.input)
+    adapted = adapt_rows(args.source, rows, source_export_sha256=source_export_sha256)
     _write_jsonl(args.output, adapted)
-    print(json.dumps({"source": args.source, "records": len(adapted), "output": str(args.output)}))
+    print(
+        json.dumps(
+            {
+                "source": args.source,
+                "records": len(adapted),
+                "source_export_sha256": source_export_sha256,
+                "output": str(args.output),
+            }
+        )
+    )
     return 0
 
 
