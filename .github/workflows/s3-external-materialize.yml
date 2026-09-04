@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python research/s3/materialize_external_inputs.py \
+          python -m research.s3.materialize_external_inputs \
             --output-dir /tmp/s3-external-materialized \
             --cache-dir /tmp/hf-cache
 
