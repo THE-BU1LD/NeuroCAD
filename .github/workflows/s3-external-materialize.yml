@@ -45,25 +45,71 @@ jobs:
             --output-dir /tmp/s3-external-materialized \
             --cache-dir /tmp/hf-cache
 
-      - name: Verify materialization remains pre-outcome and non-authorized
+      - name: Verify materialization against frozen pre-outcome receipt
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
+          import hashlib
           import json
+          import subprocess
           from pathlib import Path
 
           root = Path('/tmp/s3-external-materialized')
-          receipt = json.loads((root / 'MATERIALIZATION_RECEIPT.json').read_text())
+          receipt_path = root / 'MATERIALIZATION_RECEIPT.json'
+          receipt_raw = receipt_path.read_bytes()
+          receipt = json.loads(receipt_raw)
+          freeze = json.loads(Path('research/s3/EXTERNAL_MATERIALIZATION_FREEZE_V0.json').read_text())
+
           assert receipt['status'] == 'PROMPT_ONLY_MATERIALIZED_NOT_EVALUATED'
           assert receipt['execution_authorized'] is False
           assert receipt['outcomes_observed'] is False
           assert receipt['private_ground_truth_accessed'] is False
-          sources = {item['source']: item for item in receipt['sources']}
-          assert sources['cadtestbench']['adapted_export']['records'] == 400
-          assert sources['cadgenbench']['private_ground_truth_repository_accessed'] is False
-          assert sources['cadgenbench']['adapted_export']['records'] > 0
-          for source in sources.values():
+          assert freeze['status'] == 'FROZEN_PROMPT_ONLY_NOT_EVALUATED'
+          assert freeze['execution_authorized'] is False
+          assert freeze['outcomes_observed'] is False
+          assert freeze['private_ground_truth_accessed'] is False
+          assert hashlib.sha256(receipt_raw).hexdigest() == freeze['materialization_receipt_sha256']
+
+          for path_key, blob_key in (
+              ('path', 'git_blob_sha'),
+              ('external_adapter_path', 'external_adapter_git_blob_sha'),
+          ):
+              path = freeze['materializer'][path_key]
+              actual = subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+              assert actual == freeze['materializer'][blob_key], (path, actual, freeze['materializer'][blob_key])
+
+          actual_sources = {item['source']: item for item in receipt['sources']}
+          expected_sources = freeze['sources']
+          assert set(actual_sources) == set(expected_sources) == {'cadtestbench', 'cadgenbench'}
+
+          cadtest = actual_sources['cadtestbench']
+          cadtest_expected = expected_sources['cadtestbench']
+          assert cadtest['dataset_repository'] == cadtest_expected['dataset_repository']
+          assert cadtest['dataset_revision'] == cadtest_expected['dataset_revision']
+          assert cadtest['dataset_license'] == cadtest_expected['dataset_license']
+          assert cadtest['prompt_only_export']['records'] == cadtest_expected['prompt_only_records'] == 400
+          assert cadtest['prompt_only_export']['sha256'] == cadtest_expected['prompt_only_sha256']
+          assert cadtest['adapted_export']['records'] == cadtest_expected['adapted_records'] == 400
+          assert cadtest['adapted_export']['sha256'] == cadtest_expected['adapted_sha256']
+          assert cadtest['verified_source_artifacts'] == cadtest_expected['source_artifacts']
+
+          cadgen = actual_sources['cadgenbench']
+          cadgen_expected = expected_sources['cadgenbench']
+          assert cadgen['dataset_repository'] == cadgen_expected['dataset_repository']
+          assert cadgen['dataset_revision'] == cadgen_expected['dataset_revision']
+          assert cadgen['dataset_license'] == cadgen_expected['dataset_license']
+          assert cadgen['download_scope'] == cadgen_expected['download_scope']
+          assert cadgen['private_ground_truth_repository_accessed'] is False
+          assert cadgen_expected['private_ground_truth_repository_accessed'] is False
+          assert cadgen['prompt_only_export']['records'] == cadgen_expected['prompt_only_records'] == 81
+          assert cadgen['prompt_only_export']['sha256'] == cadgen_expected['prompt_only_sha256']
+          assert cadgen['adapted_export']['records'] == cadgen_expected['adapted_records'] == 81
+          assert cadgen['adapted_export']['sha256'] == cadgen_expected['adapted_sha256']
+          assert cadgen['public_input_ledger']['records'] == cadgen_expected['public_input_ledger_records'] == 81
+          assert cadgen['public_input_ledger']['sha256'] == cadgen_expected['public_input_ledger_sha256']
+
+          for source in actual_sources.values():
               for key in ('prompt_only_export', 'adapted_export'):
                   path = root / source[key]['path']
                   assert path.is_file() and path.stat().st_size > 0
