@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "historical_source_repository": "vertex-studyAI/vertexED.ai",
+  "source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "source_root_tree": "c5aeb156a9c09f0408dfa3dd20bd770076b5ee76",
+  "scope": ".github/workflows entries whose basename contains neurocad at the frozen source snapshot",
+  "entry_count": 5,
+  "integrity_boundary": {
+    "inventory_is_provenance_only": true,
+    "inventory_is_not_scientific_validation": true,
+    "inventory_does_not_authorize_execution": true,
+    "historical_outcomes_must_not_be_reopened": true
+  },
+  "entries": [
+    {
+      "path": ".github/workflows/neurocad-alpha-browser.yml",
+      "blob_sha": "c2387bb5d5dcc0cd25f2408591feb6b7063b6c0a",
+      "provenance_owner": "vertexed_neurocad_provenance_v1.json"
+    },
+    {
+      "path": ".github/workflows/neurocad-alpha-openscad.yml",
+      "blob_sha": "9aad9b48cb4332c560b6706299c199ba799a8722",
+      "provenance_owner": "vertexed_neurocad_provenance_v1.json"
+    },
+    {
+      "path": ".github/workflows/neurocad-alpha-public-cdn.yml",
+      "blob_sha": "b804066240b759e0670226c343f09b65f7bdb0e0",
+      "provenance_owner": "vertexed_neurocad_provenance_v1.json"
+    },
+    {
+      "path": ".github/workflows/neurocad-component-ablation.yml",
+      "blob_sha": "64ebf3457a7dd8dd661e75e61fd5a50ee637f1f6",
+      "provenance_owner": "vertexed_neurocad_research_provenance_extension_v1.json"
+    },
+    {
+      "path": ".github/workflows/neurocad-ood-benchmark.yml",
+      "blob_sha": "b88a666c0b229c3d0f84a2a839e952728260d44e",
+      "provenance_owner": "vertexed_neurocad_ood_provenance_extension_v1.json"
+    }
+  ]
+}
