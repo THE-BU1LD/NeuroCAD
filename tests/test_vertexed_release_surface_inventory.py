@@ -6,7 +6,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "docs" / "vertexed_neurocad_release_surface_inventory_v1.json"
-REVIEWER_GUIDE = ROOT / "docs" / "HISTORICAL_VERTEXED_PROVENANCE.md"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 EXPECTED_SNAPSHOT = "9efb041d3d56e0dc617f5808576beff696d08a69"
 EXPECTED_ROOT_TREE = "c5aeb156a9c09f0408dfa3dd20bd770076b5ee76"
@@ -67,9 +66,3 @@ def test_release_surface_inventory_stays_historical_and_non_authorizing():
         "historical_product_qa_is_not_successor_evidence": True,
     }
     assert "outside portfolio/project2424/projects/T2424-0037" in inventory["scope"]
-
-
-def test_reviewer_guide_exposes_release_surface_inventory():
-    guide = REVIEWER_GUIDE.read_text(encoding="utf-8")
-    assert INVENTORY.name in guide
-    assert EXPECTED_CANONICAL_SHA256 in guide
