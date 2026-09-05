@@ -9,6 +9,7 @@ INVENTORY = ROOT / "docs" / "vertexed_neurocad_source_inventory_v1.json"
 BASE = ROOT / "docs" / "vertexed_neurocad_provenance_v1.json"
 RESEARCH = ROOT / "docs" / "vertexed_neurocad_research_provenance_extension_v1.json"
 PRODUCT_QA = ROOT / "docs" / "vertexed_neurocad_product_qa_provenance_extension_v1.json"
+REVIEWER_GUIDE = ROOT / "docs" / "HISTORICAL_VERTEXED_PROVENANCE.md"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 EXPECTED_ENTRY_COUNT = 48
 EXPECTED_CANONICAL_DIGEST = "93a4856df5ca536100c7201bf0b6886b4747bbaac1d6937e98fbd862de08aadf"
@@ -113,3 +114,11 @@ def test_recovered_blob_rows_cannot_disagree_with_frozen_inventory():
         if source_path.startswith(f"{inventory['source_root']}/"):
             assert source_path in expected, source_path
             assert source_blob == expected[source_path], source_path
+
+
+def test_reviewer_guide_exposes_inventory_and_frozen_tree_identity():
+    guide = REVIEWER_GUIDE.read_text(encoding="utf-8")
+    assert INVENTORY.name in guide
+    assert EXPECTED_ROOT in guide
+    assert EXPECTED_TREE in guide
+    assert "complete 48-blob inventory" in guide
