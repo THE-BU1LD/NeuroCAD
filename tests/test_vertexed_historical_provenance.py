@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "vertexed_neurocad_provenance_v1.json"
 RESEARCH_EXTENSION = ROOT / "docs" / "vertexed_neurocad_research_provenance_extension_v1.json"
+PRODUCT_QA_EXTENSION = ROOT / "docs" / "vertexed_neurocad_product_qa_provenance_extension_v1.json"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED_CATEGORIES = {
     "runtime_product",
@@ -31,6 +32,10 @@ def load_manifest():
 
 def load_research_extension():
     return json.loads(RESEARCH_EXTENSION.read_text(encoding="utf-8"))
+
+
+def load_product_qa_extension():
+    return json.loads(PRODUCT_QA_EXTENSION.read_text(encoding="utf-8"))
 
 
 def assert_cross_link_exists(cross_link):
@@ -115,6 +120,49 @@ def test_research_extension_is_bound_to_base_manifest_and_adds_unique_surfaces()
         assert_historical_surface(surface, manifest["source_snapshot"])
 
     assert len(base_by_path) + len(additional_paths) >= 35
+
+
+def test_product_qa_extension_recovers_generated_artifacts_without_upgrading_evidence():
+    manifest = load_manifest()
+    research_extension = load_research_extension()
+    extension = load_product_qa_extension()
+
+    assert extension["schema_version"] == 1
+    assert extension["extends"] == MANIFEST.name
+    assert extension["historical_source_repository"] == manifest["historical_source_repository"]
+    assert extension["source_snapshot"] == manifest["source_snapshot"]
+    assert "non-scientific" in extension["purpose"].lower()
+
+    base_paths = {surface["source_path"] for surface in manifest["surfaces"]}
+    research_paths = {
+        surface["source_path"] for surface in research_extension["additional_surfaces"]
+    }
+    additional = extension["additional_surfaces"]
+    additional_paths = {surface["source_path"] for surface in additional}
+
+    assert additional_paths == {
+        "artifacts/neurocad-alpha/NEUROCAD_ALPHA_PRODUCT_QA.md",
+        "artifacts/neurocad-alpha/product-qa.json",
+    }
+    assert not additional_paths & base_paths
+    assert not additional_paths & research_paths
+
+    expected_blobs = {
+        "artifacts/neurocad-alpha/NEUROCAD_ALPHA_PRODUCT_QA.md": "12b6c08fc87706dbacaf0b5cc1d1de6d3f1bba39",
+        "artifacts/neurocad-alpha/product-qa.json": "cf96041c2c5c6b19699734aba9d7fcd0bdc4b241",
+    }
+    for surface in additional:
+        assert surface["category"] == "product_tests"
+        assert_historical_surface(surface, manifest["source_snapshot"])
+        assert surface["canonical_destination"] == "HISTORICAL_ONLY"
+        assert surface["relation"] == "INTENTIONALLY_NOT_MIGRATED"
+        assert surface["source_blob"] == expected_blobs[surface["source_path"]]
+        note = surface["note"].lower()
+        assert "scientific" in note
+        assert "historical" in note
+
+    combined_paths = base_paths | research_paths | additional_paths
+    assert len(combined_paths) >= 37
 
 
 def test_frozen_historical_claims_are_not_mislabelled_as_migrated_results():
