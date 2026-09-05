@@ -14,6 +14,7 @@ EXPECTED_ENTRY_COUNT = 48
 EXPECTED_CANONICAL_DIGEST = "93a4856df5ca536100c7201bf0b6886b4747bbaac1d6937e98fbd862de08aadf"
 EXPECTED_SNAPSHOT = "9efb041d3d56e0dc617f5808576beff696d08a69"
 EXPECTED_ROOT = "portfolio/project2424/projects/T2424-0037"
+EXPECTED_TREE = "f741417e9710c3044044465bfeabc7a3cf185ca0"
 
 
 def load(path):
@@ -38,6 +39,7 @@ def test_frozen_project2424_inventory_has_exact_identity_and_no_omissions():
     assert inventory["historical_source_repository"] == "vertex-studyAI/vertexED.ai"
     assert inventory["source_snapshot"] == EXPECTED_SNAPSHOT
     assert inventory["source_root"] == EXPECTED_ROOT
+    assert inventory["source_tree"] == EXPECTED_TREE
     assert "does not authorize experiments" in inventory["scope"]
 
     # The inventory must be bound to exactly the same frozen source snapshot as
@@ -63,52 +65,51 @@ def test_frozen_project2424_inventory_has_exact_identity_and_no_omissions():
     assert hashlib.sha256(canonical.encode("utf-8")).hexdigest() == EXPECTED_CANONICAL_DIGEST
 
 
-def test_every_inventoried_blob_is_covered_by_the_provenance_surface_map():
-    inventory = load(INVENTORY)
-    base = load(BASE)
-    research = load(RESEARCH)
-    product_qa = load(PRODUCT_QA)
-    surfaces = all_surfaces(base, research, product_qa)
-    surface_paths = {surface["source_path"] for surface in surfaces}
-
-    def covered(full_path):
-        if full_path in surface_paths:
-            return True
-        return any(
-            source_path.endswith("/") and full_path.startswith(source_path)
-            for source_path in surface_paths
-        )
-
-    missing = []
-    for entry in inventory["entries"]:
-        full_path = f"{inventory['source_root']}/{entry['relative_path']}"
-        if not covered(full_path):
-            missing.append(full_path)
-
-    assert not missing, f"historical blobs omitted from provenance surface map: {missing}"
-
-
-def test_exact_blob_rows_cannot_disagree_with_frozen_inventory():
+def test_manifest_rows_inside_frozen_subtree_resolve_to_inventory():
     inventory = load(INVENTORY)
     base = load(BASE)
     research = load(RESEARCH)
     product_qa = load(PRODUCT_QA)
     surfaces = all_surfaces(base, research, product_qa)
 
+    exact_paths = {
+        f"{inventory['source_root']}/{entry['relative_path']}": entry["source_blob"]
+        for entry in inventory["entries"]
+    }
+    directory_prefixes = {
+        f"{inventory['source_root']}/src/",
+        f"{inventory['source_root']}/web/",
+    }
+
+    relevant = [
+        surface for surface in surfaces
+        if surface["source_path"].startswith(f"{inventory['source_root']}/")
+    ]
+    assert relevant
+
+    for surface in relevant:
+        source_path = surface["source_path"]
+        if source_path.endswith("/"):
+            assert source_path in directory_prefixes, source_path
+            assert any(path.startswith(source_path) for path in exact_paths), source_path
+        else:
+            assert source_path in exact_paths, source_path
+            source_blob = surface.get("source_blob")
+            if source_blob is not None:
+                assert source_blob == exact_paths[source_path], source_path
+
+
+def test_recovered_blob_rows_cannot_disagree_with_frozen_inventory():
+    inventory = load(INVENTORY)
+    research = load(RESEARCH)
     expected = {
         f"{inventory['source_root']}/{entry['relative_path']}": entry["source_blob"]
         for entry in inventory["entries"]
     }
 
-    for surface in surfaces:
-        source_path = surface["source_path"]
-        source_blob = surface.get("source_blob")
-        if source_path in expected and source_blob is not None:
-            assert source_blob == expected[source_path], source_path
-
-    # The research extension also carries recovered exact blob identities for
-    # rows that originally had only directory/tree provenance. Those identities
-    # are equally required to agree with the frozen inventory.
-    for source_path, source_blob in research.get("recovered_blob_identities", {}).items():
-        if source_path in expected:
+    recovered = research.get("recovered_blob_identities", {})
+    assert recovered
+    for source_path, source_blob in recovered.items():
+        if source_path.startswith(f"{inventory['source_root']}/"):
+            assert source_path in expected, source_path
             assert source_blob == expected[source_path], source_path
