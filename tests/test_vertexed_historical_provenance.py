@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "vertexed_neurocad_provenance_v1.json"
 RESEARCH_EXTENSION = ROOT / "docs" / "vertexed_neurocad_research_provenance_extension_v1.json"
 PRODUCT_QA_EXTENSION = ROOT / "docs" / "vertexed_neurocad_product_qa_provenance_extension_v1.json"
+REVIEWER_GUIDE = ROOT / "docs" / "HISTORICAL_VERTEXED_PROVENANCE.md"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED_CATEGORIES = {
     "runtime_product",
@@ -163,6 +164,16 @@ def test_product_qa_extension_recovers_generated_artifacts_without_upgrading_evi
 
     combined_paths = base_paths | research_paths | additional_paths
     assert len(combined_paths) >= 37
+
+
+def test_reviewer_guide_names_every_machine_readable_manifest():
+    guide = REVIEWER_GUIDE.read_text(encoding="utf-8")
+
+    for manifest_path in (MANIFEST, RESEARCH_EXTENSION, PRODUCT_QA_EXTENSION):
+        assert manifest_path.name in guide
+
+    assert "all three JSON manifests" in guide
+    assert "PRODUCT_QA_NOT_SCIENTIFIC_BENCHMARK" in guide
 
 
 def test_frozen_historical_claims_are_not_mislabelled_as_migrated_results():
