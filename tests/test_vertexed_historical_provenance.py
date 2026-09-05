@@ -163,4 +163,5 @@ def test_historical_diagnostic_and_s3_execution_surfaces_stay_non_authorizing():
         if "S3_" in path or "/s3_" in path
     ]
     assert s3_surfaces
-    assert all("authoriz" in surface["note"].lower() or "canonical s3" in surface["note"].lower() or "materialization" in surface["note"].lower() for surface in s3_surfaces)
+    assert all(surface["canonical_destination"] == "HISTORICAL_ONLY" for surface in s3_surfaces)
+    assert all(surface["relation"] == "INTENTIONALLY_NOT_MIGRATED" for surface in s3_surfaces)
