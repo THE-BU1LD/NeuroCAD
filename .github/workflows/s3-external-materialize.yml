@@ -123,9 +123,78 @@ jobs:
           sha256sum * | sort > CHECKSUMS.sha256
           cat CHECKSUMS.sha256
 
+      - name: Build deterministic human-review packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/s3-human-review
+          python research/s3/review_packet.py \
+            --internal-csv research/s3/benchmark_candidate_pool_v0.csv \
+            --external-jsonl /tmp/s3-external-materialized/cadtestbench.adapted.jsonl \
+            --external-jsonl /tmp/s3-external-materialized/cadgenbench.adapted.jsonl \
+            --packet-output /tmp/s3-human-review/S3_HUMAN_REVIEW_PACKET.jsonl \
+            --ledger-output /tmp/s3-human-review/S3_HUMAN_REVIEW_LEDGER_TEMPLATE.csv \
+            --manifest-output /tmp/s3-human-review/S3_HUMAN_REVIEW_MANIFEST.json
+
+      - name: Verify human-review packet remains non-model and non-authorizing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path('/tmp/s3-human-review')
+          manifest = json.loads((root / 'S3_HUMAN_REVIEW_MANIFEST.json').read_text())
+          packet_path = root / 'S3_HUMAN_REVIEW_PACKET.jsonl'
+          ledger_path = root / 'S3_HUMAN_REVIEW_LEDGER_TEMPLATE.csv'
+
+          assert manifest['status'] == 'HUMAN_REVIEW_REQUIRED_NOT_AUTHORIZED'
+          assert manifest['execution_authorized'] is False
+          assert manifest['outcomes_observed'] is False
+          assert manifest['automatic_taxonomy_mapping_performed'] is False
+          assert manifest['automatic_selection_decisions_performed'] is False
+          assert manifest['automatic_semantic_deduplication_performed'] is False
+          assert manifest['candidate_count'] == 591
+          assert manifest['taxonomy_mapping_required_count'] == 481
+          assert manifest['source_counts'] == {
+              'external_prompt_only': 481,
+              'internal_synthetic': 110,
+          }
+          assert hashlib.sha256(packet_path.read_bytes()).hexdigest() == manifest['packet_sha256']
+          assert hashlib.sha256(ledger_path.read_bytes()).hexdigest() == manifest['ledger_template_sha256']
+
+          packet_lines = packet_path.read_text().splitlines()
+          assert len(packet_lines) == 591
+          packet = [json.loads(line) for line in packet_lines]
+          external = [row for row in packet if row['source_kind'] == 'external_prompt_only']
+          internal = [row for row in packet if row['source_kind'] == 'internal_synthetic']
+          assert len(external) == 481
+          assert len(internal) == 110
+          assert all(row['review_fields']['category'] is None for row in external)
+          assert all(row['review_fields']['decision'] is None for row in packet)
+          assert all(row['review_fields']['semantic_dedup_reviewed'] is False for row in packet)
+
+          with ledger_path.open(newline='', encoding='utf-8') as handle:
+              ledger = list(csv.DictReader(handle))
+          assert len(ledger) == 591
+          assert all(row['decision'] == '' for row in ledger)
+          assert all(row['semantic_dedup_reviewed'] == 'false' for row in ledger)
+          assert sum(row['category'] == '' for row in ledger) == 481
+          PY
+
       - name: Upload prompt-only materialization evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: s3-external-prompt-materialization
           path: /tmp/s3-external-materialized/
+          if-no-files-found: error
+
+      - name: Upload S3 human-review packet
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: s3-human-review-packet
+          path: /tmp/s3-human-review/
           if-no-files-found: error
