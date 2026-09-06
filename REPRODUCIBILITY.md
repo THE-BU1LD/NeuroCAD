@@ -164,10 +164,12 @@ hashes or fixed test total.
 ## Remaining provenance boundary
 
 This checkout now has a local Git audit baseline, so local commit and dirty-tree
-state are inspectable. It has no configured external remote, passing hosted CI
-run, signed release tag, or retained generated release receipt. Public-release
-or archival claims therefore remain pending until an exact revision passes the
-external workflow and its generated evidence is retained.
+state are inspectable. A configured `canonical` GitHub remote resolves a
+different historical `main`, but the local audit commits are not published
+there; the target release tag, passing hosted CI run, and generated release
+receipt are absent. Public-release or archival claims therefore remain pending
+until an exact revision passes the external workflow and its evidence is
+retained.
 
 Historical VeriCodeGen execution is governed separately by
 `research/VERICODEGEN_2026_PROTOCOL.md`. Do not execute an external outcome run

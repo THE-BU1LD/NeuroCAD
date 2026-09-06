@@ -15,8 +15,9 @@ The checked-in historical `dist/` directory ends at a5. It is not evidence for
 an a6 release. Local a6 candidates have been built and smoke-installed in an
 ignored staging directory, but they are not authoritative release artifacts.
 The 2026-09-06 audit initialized a new local Git baseline, explicitly not
-recovered history. This checkout still has no remote, tag, or external CI
-receipt.
+recovered history. The configured `canonical` remote is reachable and has a
+different historical `main`; the local candidate is not published there, and
+the target tag and external CI receipt remain absent.
 
 ## Gate status
 
