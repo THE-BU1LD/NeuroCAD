@@ -75,9 +75,11 @@ def _kicad() -> ApplicationAdapter:
                 ("json",),
                 "A bounded handoff receipt is checked, then must be hash-bound to the actual board before PCB conversion",
             ),
-            _unavailable_native(
-                "direct_board_parse",
-                "Raw .kicad_pcb S-expression parsing is intentionally not implemented; use the explicit IPC/CLI handoff",
+            Capability(
+                "bounded_board_parse",
+                CapabilityState.VERIFIED,
+                ("kicad_pcb", "json"),
+                "Rectangular Edge.Cuts, thickness, and explicitly named round mounting-hole footprints are parsed and reverified",
             ),
             _unavailable_native(
                 "live_ipc_control",
@@ -85,7 +87,11 @@ def _kicad() -> ApplicationAdapter:
             ),
         ),
         (executable,),
-        ("Only rectangular board outlines are accepted", "Connector cutouts are not inferred from footprint names"),
+        (
+            "Only one axis-aligned rectangular board outline is accepted",
+            "Connector inventory and maximum component height require explicit mechanical review",
+            "Connector cutouts and standoffs are not inferred",
+        ),
     )
 
 

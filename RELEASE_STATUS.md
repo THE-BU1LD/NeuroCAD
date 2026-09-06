@@ -28,6 +28,7 @@ generated release provenance receipt, or public-install receipt.
 - Versioned project edits, fabrication preflight, coupon calibration, and request-level mesh probes.
 - Independently verifiable native enclosure bundles with strict inventory, hash, regeneration, and mesh-evidence checks.
 - Independently verifiable exchange bundles and honest file handoffs for OpenSCAD, KiCad, mesh CAD tools, Blender, and common slicers.
+- Source-reverified bounded KiCad parsing for rectangular outlines, board thickness, and explicitly named round mounting-hole footprints, with mandatory reviewed connector/height facts.
 
 ## Required before announcing the public alpha
 

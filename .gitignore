@@ -9,6 +9,7 @@ venv/
 env/
 .tmp-release-venv/
 .tmp-release-work/
+.audit-venv/
 .agent-mypy-cache/
 .agent-mypy-tools/
 
@@ -59,3 +60,4 @@ generated.json
 .provenance/
 .c/
 .portal-canonical/
+.serena/

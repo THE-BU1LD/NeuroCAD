@@ -20,6 +20,7 @@ from core.integrations import (
     create_neutral_manifest,
     default_registry,
     export_openscad_bundle,
+    extract_kicad_file_receipt,
     parse_kicad_handoff,
     safe_filename_stem,
     verify_exchange_bundle,
@@ -82,6 +83,36 @@ def _kicad_payload() -> dict:
     }
 
 
+def _kicad_board_text(*, footprint_name: str = "MountingHole:MountingHole_3.2mm_M3") -> str:
+    return f'''(kicad_pcb
+  (version 20250101)
+  (generator pcbnew)
+  (general (thickness 1.6))
+  (property "Description" "Controller (revision A)")
+  (gr_line (start 0 0) (end 50 0) (stroke (width 0.05) (type default)) (layer "Edge.Cuts"))
+  (gr_line (start 50 0) (end 50 30) (stroke (width 0.05) (type default)) (layer "Edge.Cuts"))
+  (gr_line (start 50 30) (end 0 30) (stroke (width 0.05) (type default)) (layer "Edge.Cuts"))
+  (gr_line (start 0 30) (end 0 0) (stroke (width 0.05) (type default)) (layer "Edge.Cuts"))
+  (footprint "{footprint_name}"
+    (layer "F.Cu")
+    (at 20 10 90)
+    (property "Reference" "H1")
+    (pad "" np_thru_hole circle (at 1 0) (size 3.2 3.2) (drill 3.2) (layers "*.Cu" "*.Mask")))
+)\n'''
+
+
+def _kicad_review() -> dict[str, object]:
+    return {
+        "review_version": "neurocad-kicad-mechanical-review-v1",
+        "connector_inventory_complete": True,
+        "component_height_measured": True,
+        "max_component_height_mm": 10,
+        "connectors": [
+            {"id": "J1", "kind": "usb_c", "center_xy_mm": [20, 0], "height_mm": 8},
+        ],
+    }
+
+
 def test_registry_distinguishes_native_verified_exchange_and_unavailable(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("ONSHAPE_ACCESS_KEY", "must-not-leak-access")
     monkeypatch.setenv("ONSHAPE_SECRET_KEY", "must-not-leak-secret")
@@ -103,6 +134,7 @@ def test_registry_distinguishes_native_verified_exchange_and_unavailable(monkeyp
     assert "must-not-leak" not in serialized
     assert "ONSHAPE_ACCESS_KEY" in serialized
     assert registry.get("fusion").capability("native_parametric_document").state is CapabilityState.UNAVAILABLE
+    assert registry.get("kicad").capability("bounded_board_parse").state is CapabilityState.VERIFIED
 
 
 @pytest.mark.parametrize(
@@ -345,6 +377,83 @@ def test_reviewed_kicad_extraction_draft_is_bound_without_manual_hash_copying(tm
     draft["extraction"]["warnings"] = ["unresolved footprint"]
     with pytest.raises(KiCadHandoffError, match="partial KiCad extraction"):
         bind_kicad_extraction(json.dumps(draft), source)
+
+
+def test_bounded_kicad_file_extractor_reads_rectangle_thickness_and_mounting_holes(tmp_path: Path) -> None:
+    source = tmp_path / "controller.kicad_pcb"
+    source.write_text(_kicad_board_text(), encoding="utf-8")
+    receipt = extract_kicad_file_receipt(source, json.dumps(_kicad_review()))
+
+    assert receipt["source"]["sha256"] == hashlib.sha256(source.read_bytes()).hexdigest()
+    assert receipt["source"]["kicad_version"] == "file-format-20250101"
+    assert receipt["extraction"]["method"] == "bounded_file_parser"
+    assert receipt["extraction"]["review"]["extractor_version"] == "neurocad-kicad-file-extractor-v1"
+    assert receipt["board"]["outline"] == {"kind": "rectangle", "width_mm": 50.0, "height_mm": 30.0}
+    assert receipt["board"]["mounting_holes"] == [
+        {"id": "H1", "center_xy_mm": [-5.0, -4.0], "diameter_mm": 3.2}
+    ]
+    parsed = parse_kicad_handoff(json.dumps(receipt), source_board=source)
+    assert parsed.source_hash_verified
+    assert parsed.connectors[0].kind == "usb_c"
+
+    receipt["board"]["mounting_holes"][0]["center_xy_mm"] = [-4.0, -4.0]
+    with pytest.raises(KiCadHandoffError, match="mounting holes do not match"):
+        parse_kicad_handoff(json.dumps(receipt), source_board=source)
+
+
+def test_reviewed_draft_cannot_spoof_the_bounded_file_extractor(tmp_path: Path) -> None:
+    source = tmp_path / "controller.kicad_pcb"
+    source.write_text(_kicad_board_text(), encoding="utf-8")
+    complete = _kicad_payload()
+    complete["extraction"]["method"] = "bounded_file_parser"
+    complete["extraction"]["review"] = {
+        "review_version": "neurocad-kicad-mechanical-review-v1",
+        "connector_inventory_complete": True,
+        "component_height_measured": True,
+        "extractor_version": "neurocad-kicad-file-extractor-v1",
+    }
+    draft = {
+        "draft_version": "neurocad-kicad-extraction-draft-v1",
+        "units": complete["units"],
+        "source": {"kicad_version": complete["source"]["kicad_version"]},
+        "extraction": complete["extraction"],
+        "board": complete["board"],
+    }
+    with pytest.raises(KiCadHandoffError, match="accepts only IPC API or kicad-cli"):
+        bind_kicad_extraction(json.dumps(draft), source)
+
+
+@pytest.mark.parametrize(
+    "board_text, review_mutation, message",
+    [
+        (
+            _kicad_board_text().replace("(gr_line (start 0 0)", "(gr_arc (start 0 0)", 1),
+            None,
+            "unsupported Edge.Cuts",
+        ),
+        (_kicad_board_text(footprint_name="Connector:USB_C"), None, "not explicitly named as a mounting hole"),
+        (
+            _kicad_board_text().replace('(footprint "MountingHole:', '(module "MountingHole:', 1),
+            None,
+            "outside supported footprint records",
+        ),
+        (_kicad_board_text(), "connector_inventory_complete", "must be explicitly complete"),
+        (_kicad_board_text(), "component_height_measured", "must be explicitly complete"),
+    ],
+)
+def test_bounded_kicad_file_extractor_fails_closed(
+    tmp_path: Path,
+    board_text: str,
+    review_mutation: str | None,
+    message: str,
+) -> None:
+    source = tmp_path / "controller.kicad_pcb"
+    source.write_text(board_text, encoding="utf-8")
+    review = _kicad_review()
+    if review_mutation is not None:
+        review[review_mutation] = False
+    with pytest.raises(KiCadHandoffError, match=message):
+        extract_kicad_file_receipt(source, json.dumps(review))
 
 
 def test_hash_bound_kicad_board_creates_auditable_project_revision(tmp_path: Path) -> None:

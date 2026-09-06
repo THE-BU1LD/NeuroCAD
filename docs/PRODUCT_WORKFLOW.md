@@ -153,7 +153,7 @@ the exact capability state:
 | Application | Current contract | What is not claimed |
 | --- | --- | --- |
 | OpenSCAD | native SCAD; compiled and verified STL when detected | no GUI document opened |
-| KiCad | complete JSON extraction receipt hash-bound to `.kicad_pcb` | no raw board parser or live IPC call |
+| KiCad | bounded rectangular `.kicad_pcb` parser or complete IPC/CLI receipt, always source-hash-bound | no arbitrary outline parser or live IPC call |
 | Fusion / Onshape | verified STL file handoff | no native feature tree or API upload |
 | FreeCAD | SCAD or verified STL file handoff | no FCStd document |
 | Blender | verified STL visualization handoff | not authoritative parametric CAD |
@@ -193,14 +193,24 @@ neurocad integrations handoff controller-exchange OrcaSlicer \
   -o controller-orcaslicer.json
 ```
 
-For KiCad, create a hash request, use a reviewed external extractor to produce
-the strict completed receipt, then bind that receipt to both the exact board
-bytes and a new NeuroCAD project revision:
+For a supported rectangular KiCad board, create a strict mechanical review:
+
+```json
+{
+  "review_version": "neurocad-kicad-mechanical-review-v1",
+  "connector_inventory_complete": true,
+  "component_height_measured": true,
+  "max_component_height_mm": 12.0,
+  "connectors": []
+}
+```
+
+Then extract source-derived geometry, reverify it against the same board bytes,
+and apply it to a new NeuroCAD project revision:
 
 ```bash
-neurocad integrations kicad-request controller.kicad_pcb -o kicad-request.json
-neurocad integrations kicad-bind kicad-draft.json \
-  --source-board controller.kicad_pcb -o kicad-completed.json
+neurocad integrations kicad-extract controller.kicad_pcb \
+  --review mechanical-review.json -o kicad-completed.json
 neurocad integrations kicad-inspect kicad-completed.json \
   --source-board controller.kicad_pcb
 neurocad integrations kicad-apply controller-r1.ncad.json kicad-completed.json \
@@ -212,11 +222,16 @@ and maximum component height. Hole diameters and connectors remain in the
 command report for review. No standoffs or cutouts are inferred; unmatched PCB
 holes remain visible warnings until explicit supports are designed.
 
-`kicad-bind` does not parse the raw board or claim extraction occurred. It
-validates a reviewed `neurocad-kicad-extraction-draft-v1` payload, injects the
-actual board basename and SHA-256, and immediately verifies the completed
-receipt against those exact bytes. A live KiCad IPC/CLI extractor remains gated
-on installing and testing KiCad itself.
+`kicad-extract` parses only one axis-aligned rectangular Edge.Cuts outline,
+board thickness, and round NPTH pads within explicitly named mounting-hole
+footprints. It rejects curved/polygonal outlines, footprint-defined edge cuts,
+unclassified NPTH pads, incomplete review, malformed or oversized input, and
+source/receipt disagreement. For unsupported boards, `kicad-request` plus
+`kicad-bind` retains the reviewed external IPC/CLI path. Live KiCad control
+remains outside this package.
+
+The parser follows KiCad's documented millimetre-based S-expression board
+format for KiCad 6 and later: <https://dev-docs.kicad.org/en/file-formats/sexpr-pcb/>.
 
 Before fabrication, inspect the generated SCAD/STL, confirm connector and PCB
 measurements against the actual hardware, choose material/process settings,

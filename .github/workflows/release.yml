@@ -21,6 +21,16 @@ jobs:
         with:
           python-version: "3.12.14"
 
+      - name: Require the release tag to point into main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Release tags must point to commits contained in origin/main." >&2
+            exit 1
+          fi
+
       - name: Build and smoke-test distribution
         shell: bash
         run: |
@@ -50,6 +60,7 @@ jobs:
           test "${#wheel_files[@]}" -eq 1
           /tmp/neurocad-release/bin/python -m pip install --no-deps "${wheel_files[0]}"
           /tmp/neurocad-release/bin/neurocad doctor
+          /tmp/neurocad-release/bin/neurocad integrations kicad-extract --help
           /tmp/neurocad-release/bin/neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/release-smoke.scad
           /tmp/neurocad-release/bin/neurocad ir "a 40 x 30 x 3 mm plate" -o /tmp/release-smoke.ncad.json
           /tmp/neurocad-release/bin/neurocad compile /tmp/release-smoke.ncad.json --format scad -o /tmp/release-compiled.scad

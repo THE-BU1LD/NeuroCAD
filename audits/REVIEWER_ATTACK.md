@@ -42,4 +42,6 @@ Repaired by `HISTORICAL_TRUTH.md`, separate `NC-EXP-*` IDs, retained VeriCodeGen
 
 ## “Reproduction provenance is incomplete.”
 
-Still a limitation: this checkout has no `.git`. Hashes cover data/config artifacts, but commit/tag provenance must be added in a real repository clone before archival publication.
+Still a limitation: the audit initialized a local `.git`, but it does not recover
+the absent historical ancestry and has no merge base with the canonical remote.
+Hashes cover data/config artifacts; public commit/tag provenance remains pending.

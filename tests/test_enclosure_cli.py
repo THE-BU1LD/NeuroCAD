@@ -343,6 +343,62 @@ def test_cli_kicad_contract_requires_receipt_bound_to_source_board(tmp_path: Pat
     assert not rejected_output.exists()
 
 
+def test_cli_extracts_a_bounded_kicad_file_into_a_hash_bound_receipt(tmp_path: Path) -> None:
+    board = tmp_path / "sensor.kicad_pcb"
+    board.write_text(
+        '''(kicad_pcb
+  (version 20250101)
+  (generator pcbnew)
+  (general (thickness 1.6))
+  (gr_rect (start 10 20) (end 60 50) (stroke (width 0.05) (type default)) (fill none) (layer "Edge.Cuts"))
+)\n''',
+        encoding="utf-8",
+    )
+    review = tmp_path / "mechanical-review.json"
+    review.write_text(
+        json.dumps(
+            {
+                "review_version": "neurocad-kicad-mechanical-review-v1",
+                "connector_inventory_complete": True,
+                "component_height_measured": True,
+                "max_component_height_mm": 7.5,
+                "connectors": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    receipt = tmp_path / "bounded-receipt.json"
+    extracted = _run(
+        "integrations",
+        "kicad-extract",
+        str(board),
+        "--review",
+        str(review),
+        "-o",
+        str(receipt),
+    )
+    assert extracted.returncode == 0, extracted.stderr
+    payload = json.loads(receipt.read_text(encoding="utf-8"))
+    assert payload["extraction"]["method"] == "bounded_file_parser"
+    assert payload["board"]["outline"] == {"height_mm": 30.0, "kind": "rectangle", "width_mm": 50.0}
+
+    inspected = _run("integrations", "kicad-inspect", str(receipt), "--source-board", str(board))
+    assert inspected.returncode == 0, inspected.stderr
+    assert json.loads(inspected.stdout)["source_hash_verified"] is True
+
+    refused = _run(
+        "integrations",
+        "kicad-extract",
+        str(board),
+        "--review",
+        str(review),
+        "-o",
+        str(receipt),
+    )
+    assert refused.returncode == 2
+    assert "already exists" in refused.stderr
+
+
 def test_cli_fits_plans_and_applies_evidence_bounded_calibration(tmp_path: Path) -> None:
     dataset = tmp_path / "coupon-observations.json"
     dataset.write_text(json.dumps(_calibration_dataset()), encoding="utf-8")

@@ -45,6 +45,7 @@ def test_ci_and_release_enforce_complete_quality_and_artifact_gates() -> None:
         assert gate in release
     assert "Fresh source-distribution install smoke test" in ci
     assert 'test "v$package_version" = "$GITHUB_REF_NAME"' in release
+    assert 'git merge-base --is-ancestor "$GITHUB_SHA" origin/main' in release
     assert "sha256sum -c SHA256SUMS" in release
     assert "RELEASE_PROVENANCE.json" in release
     assert "research_manifest_sha256" in release
@@ -54,6 +55,7 @@ def test_ci_and_release_enforce_complete_quality_and_artifact_gates() -> None:
         assert "neurocad enclosure interpret" in workflow
         assert "neurocad integrations export" in workflow
         assert "neurocad integrations verify" in workflow
+        assert "neurocad integrations kicad-extract --help" in workflow
 
 
 def test_workflows_and_quality_tools_are_version_pinned() -> None:

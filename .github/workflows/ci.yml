@@ -128,6 +128,7 @@ jobs:
           /tmp/neurocad-clean/bin/neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/fresh-install.scad
           /tmp/neurocad-clean/bin/neurocad ir "a 40 x 30 x 3 mm plate" -o /tmp/fresh-install.ncad.json
           /tmp/neurocad-clean/bin/neurocad compile /tmp/fresh-install.ncad.json --format scad -o /tmp/fresh-compiled.scad
+          /tmp/neurocad-clean/bin/neurocad integrations kicad-extract --help
           test -s /tmp/fresh-install.scad
           test -s /tmp/fresh-compiled.scad
 

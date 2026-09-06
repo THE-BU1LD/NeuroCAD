@@ -14,7 +14,7 @@ from typing import Any
 import pytest
 
 from core.benchmark import BenchmarkTask, benchmark_hash, benchmark_jsonl, generate_benchmark, run_benchmark
-from core.demo_server import DemoHandler, DemoServer, generate_demo_payload
+from core.demo_server import HTML, DemoHandler, DemoServer, generate_demo_payload, serve_demo
 
 
 def test_benchmark_generation_is_deterministic_and_split() -> None:
@@ -85,6 +85,14 @@ def test_demo_enforces_prompt_limit() -> None:
         generate_demo_payload("x" * 4097)
 
 
+def test_demo_marks_edited_and_failed_results_as_unusable() -> None:
+    assert "source.addEventListener('input',markDirty)" in HTML
+    assert "Input changed; run validation before using any output." in HTML
+    assert "No validated output was generated. Correct the input and try again." in HTML
+    assert "result.setAttribute('aria-busy','true')" in HTML
+    assert 'aria-describedby="status"' in HTML
+
+
 @contextmanager
 def _demo_server() -> Iterator[str]:
     server = DemoServer(("127.0.0.1", 0), DemoHandler)
@@ -98,9 +106,18 @@ def _demo_server() -> Iterator[str]:
         thread.join(timeout=5)
 
 
-def _request(url: str, *, body: Any = None, content_type: str = "application/json") -> tuple[int, dict[str, str], bytes]:
+def _request(
+    url: str,
+    *,
+    body: Any = None,
+    content_type: str = "application/json",
+    host: str | None = None,
+) -> tuple[int, dict[str, str], bytes]:
     data = None if body is None else json.dumps(body).encode("utf-8")
-    request = urllib.request.Request(url, data=data, headers={"Content-Type": content_type})
+    headers = {"Content-Type": content_type}
+    if host is not None:
+        headers["Host"] = host
+    request = urllib.request.Request(url, data=data, headers=headers)
     try:
         with urllib.request.urlopen(request, timeout=5) as response:
             return response.status, dict(response.headers), response.read()
@@ -124,6 +141,15 @@ def test_demo_http_security_and_error_contract() -> None:
         status, _, body = _request(base + "/api/generate", body={"source": "a 10 x 10 x 2 mm plate"}, content_type="text/plain")
         assert status == 415
         assert "application/json" in json.loads(body)["error"]
+
+        status, _, body = _request(base + "/api/health", host="attacker.example")
+        assert status == 421
+        assert json.loads(body) == {"error": "unrecognized Host header"}
+
+
+def test_demo_refuses_remote_binding_without_explicit_opt_in() -> None:
+    with pytest.raises(ValueError, match="explicit.*allow-remote"):
+        serve_demo(host="0.0.0.0", port=8765, open_browser=False)
 
 
 def test_cli_ir_compile_and_evaluate_round_trip(tmp_path: Path) -> None:

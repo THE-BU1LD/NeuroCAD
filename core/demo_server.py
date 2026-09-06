@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+import ipaddress
 import json
 import secrets
+import socket
 import sys
 import threading
 import webbrowser
 from functools import lru_cache
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from typing import Any
+from typing import Any, cast
 
 from text_to_cad import TextToCAD
 
@@ -25,6 +27,17 @@ from .project import enclosure_spec_to_dict
 
 MAX_REQUEST_BYTES = 1_048_576
 MAX_PROMPT_CHARACTERS = 4096
+LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
+
+
+def _is_loopback_host(host: str) -> bool:
+    normalized = host.strip().lower()
+    if normalized == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(normalized).is_loopback
+    except ValueError:
+        return False
 
 
 def _preview_svg(program: CADProgram) -> str:
@@ -138,15 +151,17 @@ HTML = """<!doctype html>
 <title>NeuroCAD Enclosure Workbench</title><style nonce="__NONCE__">
 :root{color-scheme:dark;--bg:#05090d;--panel:#0b131c;--line:#203140;--text:#e8f1f8;--muted:#8ba0b3;--cyan:#26c6da;--red:#ff7b72}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 70% 0,#102b35 0,transparent 36%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}
-main{max-width:1240px;margin:auto;padding:38px 24px 70px}header{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}h1{font-size:clamp(34px,6vw,72px);line-height:.9;margin:0;letter-spacing:-.06em}h1 span{color:var(--cyan)}header p{max-width:520px;color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(380px,1.4fr);gap:18px}.panel{background:color-mix(in srgb,var(--panel) 93%,transparent);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 20px 60px #0005}label{display:block;color:var(--muted);margin-bottom:7px;font-weight:600}textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;background:#071018;color:var(--text);padding:12px;font:13px/1.5 ui-monospace,monospace}textarea{min-height:220px;resize:vertical}select{font-family:inherit;margin-bottom:12px}button{width:100%;padding:13px;border:0;border-radius:10px;background:var(--cyan);color:#031014;font-weight:800;cursor:pointer;margin-top:12px}button:disabled{opacity:.5;cursor:wait}.status{min-height:25px;margin:12px 0 0;color:var(--muted)}.error{color:var(--red)}#preview svg{width:100%;height:auto;display:block}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.metric{background:#071018;border:1px solid var(--line);border-radius:10px;padding:10px}.metric b{display:block;font-size:18px;color:var(--cyan)}.metric small{color:var(--muted)}details{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}summary{cursor:pointer;font-weight:700}pre{overflow:auto;max-height:380px;background:#050a0f;border-radius:10px;padding:13px;font:12px/1.5 ui-monospace,monospace;color:#c4d7e8}@media(max-width:800px){header{display:block}header p{margin-top:18px}.grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+main{max-width:1240px;margin:auto;padding:38px 24px 70px}header{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}h1{font-size:clamp(34px,6vw,72px);line-height:.9;margin:0;letter-spacing:-.06em}h1 span{color:var(--cyan)}header p{max-width:520px;color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(380px,1.4fr);gap:18px}.panel{background:color-mix(in srgb,var(--panel) 93%,transparent);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 20px 60px #0005}label{display:block;color:var(--muted);margin-bottom:7px;font-weight:600}textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;background:#071018;color:var(--text);padding:12px;font:13px/1.5 ui-monospace,monospace}textarea{min-height:220px;resize:vertical}select{font-family:inherit;margin-bottom:12px}button{width:100%;padding:13px;border:0;border-radius:10px;background:var(--cyan);color:#031014;font-weight:800;cursor:pointer;margin-top:12px}button:disabled{opacity:.5;cursor:wait}.status{min-height:25px;margin:12px 0 0;color:var(--muted)}.error{color:var(--red)}.empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:24px}#preview svg{width:100%;height:auto;display:block}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.metric{background:#071018;border:1px solid var(--line);border-radius:10px;padding:10px}.metric b{display:block;font-size:18px;color:var(--cyan)}.metric small{color:var(--muted)}details{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}summary{cursor:pointer;font-weight:700}pre{overflow:auto;max-height:380px;background:#050a0f;border-radius:10px;padding:13px;font:12px/1.5 ui-monospace,monospace;color:#c4d7e8}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:800px){header{display:block}header p{margin-top:18px}.grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
 </style></head><body><main><header><h1>Neuro<span>CAD</span></h1><p>Design a bounded electronics enclosure, inspect every interpreted field, review fabrication warnings, and export deterministic OpenSCAD without hidden defaults.</p></header>
-<div class="grid"><section class="panel"><label for="sourceType">Input contract</label><select id="sourceType"><option value="enclosure">Electronics enclosure requirements</option><option value="prompt">Basic supported geometry prompt</option><option value="ir">Canonical NeuroCAD IR JSON</option></select><label for="source">Input</label><textarea id="source">80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case</textarea><button id="generate">Interpret, validate &amp; preview</button><p id="status" class="status" aria-live="polite"></p></section>
-<section class="panel"><div id="preview"></div><div id="metrics" class="metrics"></div><details open><summary>Interpreted specification / canonical IR</summary><pre id="ir"></pre></details><details><summary>OpenSCAD exports</summary><pre id="scad"></pre></details><details><summary>Validation and fabrication preflight</summary><pre id="validation"></pre></details></section></div></main>
+<div class="grid"><section class="panel"><label for="sourceType">Input contract</label><select id="sourceType"><option value="enclosure">Electronics enclosure requirements</option><option value="prompt">Basic supported geometry prompt</option><option value="ir">Canonical NeuroCAD IR JSON</option></select><label for="source">Input</label><textarea id="source" aria-describedby="status">80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case</textarea><button id="generate">Interpret, validate &amp; preview</button><p id="status" class="status" role="status" aria-live="polite"></p></section>
+<section id="result" class="panel" aria-busy="false"><h2 class="sr-only">Validated design output</h2><div id="preview"></div><div id="metrics" class="metrics"></div><details open><summary>Interpreted specification / canonical IR</summary><pre id="ir"></pre></details><details><summary>OpenSCAD exports</summary><pre id="scad"></pre></details><details><summary>Validation and fabrication preflight</summary><pre id="validation"></pre></details></section></div></main>
 <script nonce="__NONCE__">
-const source=document.querySelector('#source'),type=document.querySelector('#sourceType'),button=document.querySelector('#generate'),status=document.querySelector('#status');
+const source=document.querySelector('#source'),type=document.querySelector('#sourceType'),button=document.querySelector('#generate'),status=document.querySelector('#status'),result=document.querySelector('#result'),preview=document.querySelector('#preview'),metrics=document.querySelector('#metrics'),ir=document.querySelector('#ir'),scad=document.querySelector('#scad'),validation=document.querySelector('#validation');
 const esc=s=>String(s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
-async function run(){button.disabled=true;status.className='status';status.textContent='Running the real pipeline…';try{const response=await fetch('/api/generate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:source.value,source_type:type.value})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Generation failed');document.querySelector('#preview').innerHTML=data.preview_svg;const e=data.evaluation;const kernel=e.kernel_validity===null?'unverified':e.kernel_validity;document.querySelector('#metrics').innerHTML=[['Structurally valid',e.structural_validity],['Kernel geometry',kernel],['Editable nodes',e.editable_nodes],['Latency',e.evaluation_latency_ms.toFixed(2)+' ms']].map(x=>`<div class="metric"><b>${esc(x[1])}</b><small>${esc(x[0])}</small></div>`).join('');document.querySelector('#ir').textContent=JSON.stringify(data.spec||data.ir,null,2);document.querySelector('#scad').textContent=typeof data.scad==='string'?data.scad:JSON.stringify(data.scad,null,2);document.querySelector('#validation').textContent=JSON.stringify({validation:data.validation,manufacturing:data.manufacturing||null},null,2);status.textContent=data.mode==='enclosure'?'Enclosure specification is complete; review warnings before compiling or fabrication.':'Validated canonical program generated; compile an STL for kernel geometry verification.'}catch(error){status.className='status error';status.textContent=error.message}finally{button.disabled=false}}
-button.addEventListener('click',run);type.addEventListener('change',()=>{if(type.value==='enclosure')source.value='80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case';else if(type.value==='prompt')source.value='a 120 x 80 x 4 mm plate with four 4 mm holes';else source.value='Paste canonical NeuroCAD IR JSON here';});run();
+function clearOutput(message){preview.innerHTML='';const empty=document.createElement('p');empty.className='empty';empty.textContent=message;preview.append(empty);metrics.replaceChildren();ir.textContent='';scad.textContent='';validation.textContent=''}
+function markDirty(){status.className='status';status.setAttribute('role','status');status.textContent='Input changed; run validation before using any output.';clearOutput('No current validated output.')}
+async function run(){button.disabled=true;button.textContent='Validating…';result.setAttribute('aria-busy','true');status.className='status';status.setAttribute('role','status');status.textContent='Running the real pipeline…';clearOutput('Validating the current input…');try{const response=await fetch('/api/generate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:source.value,source_type:type.value})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Generation failed');preview.innerHTML=data.preview_svg;const e=data.evaluation;const kernel=e.kernel_validity===null?'unverified':e.kernel_validity;metrics.innerHTML=[['Structurally valid',e.structural_validity],['Kernel geometry',kernel],['Editable nodes',e.editable_nodes],['Latency',e.evaluation_latency_ms.toFixed(2)+' ms']].map(x=>`<div class="metric"><b>${esc(x[1])}</b><small>${esc(x[0])}</small></div>`).join('');ir.textContent=JSON.stringify(data.spec||data.ir,null,2);scad.textContent=typeof data.scad==='string'?data.scad:JSON.stringify(data.scad,null,2);validation.textContent=JSON.stringify({validation:data.validation,manufacturing:data.manufacturing||null},null,2);status.textContent=data.mode==='enclosure'?'Enclosure specification is complete; review warnings before compiling or fabrication.':'Validated canonical program generated; compile an STL for kernel geometry verification.'}catch(error){clearOutput('No validated output was generated. Correct the input and try again.');status.className='status error';status.setAttribute('role','alert');status.textContent=error instanceof Error?error.message:'Generation failed'}finally{button.disabled=false;button.textContent='Interpret, validate & preview';result.setAttribute('aria-busy','false')}}
+button.addEventListener('click',run);source.addEventListener('input',markDirty);type.addEventListener('change',()=>{if(type.value==='enclosure')source.value='80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case';else if(type.value==='prompt')source.value='a 120 x 80 x 4 mm plate with four 4 mm holes';else source.value='Paste canonical NeuroCAD IR JSON here';markDirty()});run();
 </script></body></html>"""
 
 
@@ -165,7 +180,26 @@ class DemoHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _host_header_allowed(self) -> bool:
+        if not getattr(self.server, "enforce_loopback_host_header", True):
+            return True
+        supplied = self.headers.get("Host", "").strip().lower()
+        if not supplied:
+            return False
+        port = cast("DemoServer", self.server).server_port
+        allowed = {f"{host}:{port}" for host in LOOPBACK_HOSTS if ":" not in host}
+        allowed.add(f"[::1]:{port}")
+        return supplied in allowed
+
+    def _reject_bad_host(self) -> bool:
+        if self._host_header_allowed():
+            return False
+        self._json(HTTPStatus.MISDIRECTED_REQUEST, {"error": "unrecognized Host header"})
+        return True
+
     def do_GET(self) -> None:
+        if self._reject_bad_host():
+            return
         if self.path == "/":
             nonce = secrets.token_urlsafe(18)
             body = HTML.replace("__NONCE__", nonce).encode("utf-8")
@@ -190,6 +224,8 @@ class DemoHandler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
 
     def do_POST(self) -> None:
+        if self._reject_bad_host():
+            return
         if self.path != "/api/generate":
             self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
             return
@@ -225,15 +261,33 @@ def _benchmark_payload() -> dict[str, Any]:
 class DemoServer(ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = True
+    enforce_loopback_host_header = True
 
 
-def serve_demo(host: str = "127.0.0.1", port: int = 8765, *, open_browser: bool = True) -> None:
+def serve_demo(
+    host: str = "127.0.0.1",
+    port: int = 8765,
+    *,
+    open_browser: bool = True,
+    allow_remote: bool = False,
+) -> None:
     if not 1 <= port <= 65535:
         raise ValueError("port must be between 1 and 65535")
-    server = DemoServer((host, port), DemoHandler)
-    url = f"http://{host}:{port}/"
+    loopback = _is_loopback_host(host)
+    if not loopback and not allow_remote:
+        raise ValueError("non-loopback demo binding requires explicit allow_remote=True / --allow-remote")
+    server_class = DemoServer
+    if ":" in host:
+        class IPv6DemoServer(DemoServer):
+            address_family = socket.AF_INET6
+
+        server_class = IPv6DemoServer
+    server = server_class((host, port), DemoHandler)
+    server.enforce_loopback_host_header = loopback
+    url_host = f"[{host}]" if ":" in host else host
+    url = f"http://{url_host}:{port}/"
     print(f"NeuroCAD demo running at {url}")
-    if host not in {"127.0.0.1", "localhost", "::1"}:
+    if not loopback:
         print("WARNING: the unauthenticated demo is listening beyond the loopback interface", file=sys.stderr)
     if open_browser:
         threading.Timer(0.3, lambda: webbrowser.open(url)).start()

@@ -17,6 +17,8 @@ from .common import sha256_file, write_json_atomic
 
 KICAD_HANDOFF_VERSION = "neurocad-kicad-handoff-v1"
 KICAD_EXTRACTION_DRAFT_VERSION = "neurocad-kicad-extraction-draft-v1"
+KICAD_FILE_EXTRACTOR_VERSION = "neurocad-kicad-file-extractor-v1"
+KICAD_MECHANICAL_REVIEW_VERSION = "neurocad-kicad-mechanical-review-v1"
 MAX_HANDOFF_BYTES = 1_048_576
 MAX_BOARD_BYTES = 100 * 1_048_576
 REQUIRED_COMPLETE_FIELDS = frozenset(
@@ -258,9 +260,29 @@ def parse_kicad_handoff(text: str, *, source_board: Path | None = None) -> KiCad
         root["extraction"],
         "$.extraction",
         required={"method", "complete", "complete_fields", "warnings", "unsupported_items"},
+        optional={"review"},
     )
-    if extraction["method"] not in {"ipc_api", "kicad_cli"}:
-        raise KiCadHandoffError("$.extraction.method must be 'ipc_api' or 'kicad_cli'")
+    if extraction["method"] not in {"ipc_api", "kicad_cli", "bounded_file_parser"}:
+        raise KiCadHandoffError("$.extraction.method is not a supported KiCad extraction method")
+    if extraction["method"] == "bounded_file_parser":
+        review = _object(
+            extraction.get("review"),
+            "$.extraction.review",
+            required={
+                "review_version",
+                "connector_inventory_complete",
+                "component_height_measured",
+                "extractor_version",
+            },
+        )
+        if review["review_version"] != KICAD_MECHANICAL_REVIEW_VERSION:
+            raise KiCadHandoffError("$.extraction.review.review_version is unsupported")
+        if review["extractor_version"] != KICAD_FILE_EXTRACTOR_VERSION:
+            raise KiCadHandoffError("$.extraction.review.extractor_version is unsupported")
+        if review["connector_inventory_complete"] is not True or review["component_height_measured"] is not True:
+            raise KiCadHandoffError("bounded file extraction requires explicit complete mechanical review")
+    elif "review" in extraction:
+        raise KiCadHandoffError("$.extraction.review is only valid for bounded file extraction")
     if extraction["complete"] is not True:
         raise KiCadHandoffError("partial KiCad extraction is rejected: $.extraction.complete must be true")
     complete_fields = extraction["complete_fields"]
@@ -350,6 +372,14 @@ def parse_kicad_handoff(text: str, *, source_board: Path | None = None) -> KiCad
             raise KiCadHandoffError("source_board basename does not match $.source.name")
         if sha256_file(source_path) != source_hash:
             raise KiCadHandoffError("source_board hash does not match $.source.sha256")
+        if extraction["method"] == "bounded_file_parser":
+            from .kicad_file import verify_kicad_file_geometry
+
+            verify_kicad_file_geometry(
+                source_path,
+                (width, height, thickness),
+                tuple((hole.id, hole.center_xy_mm, hole.diameter_mm) for hole in holes),
+            )
         source_hash_verified = True
     return KiCadBoard(
         source_name,
@@ -402,6 +432,9 @@ def bind_kicad_extraction(text: str, source_board: Path) -> dict[str, Any]:
         raise KiCadHandoffError(f"$.draft_version must be {KICAD_EXTRACTION_DRAFT_VERSION!r}")
     source = _object(root["source"], "$.source", required={"kicad_version"})
     kicad_version = _text(source["kicad_version"], "$.source.kicad_version", maximum=64)
+    extraction = root["extraction"]
+    if not isinstance(extraction, dict) or extraction.get("method") not in {"ipc_api", "kicad_cli"}:
+        raise KiCadHandoffError("reviewed draft binding accepts only IPC API or kicad-cli extraction")
     request = create_kicad_extraction_request(source_board)
     receipt = {
         "contract_version": KICAD_HANDOFF_VERSION,
@@ -411,7 +444,7 @@ def bind_kicad_extraction(text: str, source_board: Path) -> dict[str, Any]:
             "sha256": request["source"]["sha256"],
             "kicad_version": kicad_version,
         },
-        "extraction": root["extraction"],
+        "extraction": extraction,
         "board": root["board"],
     }
     parse_kicad_handoff(json.dumps(receipt, allow_nan=False), source_board=source_board)
@@ -456,11 +489,12 @@ def create_kicad_extraction_request(board_path: Path) -> dict[str, Any]:
             "kicad_cli": executable is not None,
             "kicad_ipc_session": False,
         },
-        "accepted_extraction_methods": ["ipc_api", "kicad_cli"],
+        "accepted_extraction_methods": ["ipc_api", "kicad_cli", "bounded_file_parser"],
         "required_complete_fields": sorted(REQUIRED_COMPLETE_FIELDS),
         "instructions": (
-            "Use a trusted KiCad IPC add-on or reviewed kicad-cli wrapper to produce the complete handoff JSON; "
-            "NeuroCAD will reject warnings, unsupported items, missing fields, and non-rectangular outlines."
+            "Use NeuroCAD's bounded file extractor for a supported rectangular board, or a trusted KiCad IPC add-on "
+            "or reviewed kicad-cli wrapper; NeuroCAD rejects warnings, unsupported items, missing fields, and "
+            "non-rectangular outlines."
         ),
     }
 

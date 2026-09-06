@@ -313,7 +313,12 @@ def cmd_research(args: argparse.Namespace) -> int:
 def cmd_demo(args: argparse.Namespace) -> int:
     from core.demo_server import serve_demo
 
-    serve_demo(host=args.host, port=args.port, open_browser=not args.no_browser)
+    serve_demo(
+        host=args.host,
+        port=args.port,
+        open_browser=not args.no_browser,
+        allow_remote=args.allow_remote,
+    )
     return 0
 
 
@@ -590,6 +595,19 @@ def cmd_integrations_kicad_request(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_integrations_kicad_extract(args: argparse.Namespace) -> int:
+    from core.integrations import write_kicad_file_receipt
+
+    board = _resolved_path(args.board)
+    review = _resolved_path(args.review)
+    output = _resolved_path(args.output)
+    _require_distinct_paths(board=board, review=review, output=output)
+    _require_new_path(output, label="KiCad extraction receipt")
+    write_kicad_file_receipt(output, board, review)
+    print(output)
+    return 0
+
+
 def cmd_integrations_kicad_bind(args: argparse.Namespace) -> int:
     from core.integrations import write_bound_kicad_extraction
 
@@ -731,6 +749,11 @@ def build_parser() -> argparse.ArgumentParser:
     demo_parser.add_argument("--host", default="127.0.0.1")
     demo_parser.add_argument("--port", type=int, default=8765)
     demo_parser.add_argument("--no-browser", action="store_true")
+    demo_parser.add_argument(
+        "--allow-remote",
+        action="store_true",
+        help="Explicitly allow the unauthenticated demo to bind beyond loopback",
+    )
     demo_parser.set_defaults(func=cmd_demo)
 
     enclosure_parser = sub.add_parser("enclosure", help="Create, validate, edit, and build typed enclosure projects")
@@ -831,6 +854,13 @@ def build_parser() -> argparse.ArgumentParser:
     kicad_request.add_argument("board", help="Existing .kicad_pcb board file")
     kicad_request.add_argument("-o", "--output", required=True, help="New extraction request JSON")
     kicad_request.set_defaults(func=cmd_integrations_kicad_request)
+    kicad_extract = integration_actions.add_parser(
+        "kicad-extract", help="Extract a bounded rectangular KiCad board plus reviewed mechanical facts"
+    )
+    kicad_extract.add_argument("board", help="Existing rectangular .kicad_pcb board file")
+    kicad_extract.add_argument("--review", required=True, help="Strict mechanical review JSON for connectors and height")
+    kicad_extract.add_argument("-o", "--output", required=True, help="New source-hash-bound KiCad receipt JSON")
+    kicad_extract.set_defaults(func=cmd_integrations_kicad_extract)
     kicad_bind = integration_actions.add_parser(
         "kicad-bind", help="Bind a reviewed extraction draft to the exact KiCad board bytes"
     )

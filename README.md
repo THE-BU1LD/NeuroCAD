@@ -139,7 +139,10 @@ neurocad demo
 
 The default page is now the typed electronics-enclosure workbench. It shows the
 interpreted specification, body/lid preview, canonical programs, OpenSCAD,
-validation findings, and fabrication preflight together.
+validation findings, and fabrication preflight together. The server binds to
+loopback and validates browser Host headers by default. Binding it to another
+interface requires `--allow-remote` and exposes an unauthenticated service; put
+an authenticated reverse proxy in front of it rather than exposing it directly.
 
 Create, revise, preflight, and compile a reviewable enclosure project:
 
@@ -172,19 +175,29 @@ neurocad integrations handoff controller-exchange PrusaSlicer \
 The handoff command never launches an application or claims an import, slice,
 or upload occurred. OpenSCAD is a verified compiler integration when installed;
 Fusion, Onshape, FreeCAD, Blender, PrusaSlicer, OrcaSlicer, Bambu Studio, and
-Cura currently use reviewed SCAD/STL file-exchange contracts. KiCad uses a
-strict, hash-bound board-extraction receipt.
+Cura currently use reviewed SCAD/STL file-exchange contracts. KiCad supports a
+strict, hash-bound bounded parser for rectangular boards, plus IPC/CLI receipts
+for boards outside that subset.
 
-Apply a completed KiCad receipt only after binding it to the exact source board:
+For a rectangular board, provide reviewed connector/height facts in
+`mechanical-review.json`, then extract and apply a receipt bound to the exact
+source bytes:
 
 ```bash
-neurocad integrations kicad-request controller.kicad_pcb -o kicad-request.json
-# A reviewed external extractor produces kicad-draft.json.
-neurocad integrations kicad-bind kicad-draft.json \
-  --source-board controller.kicad_pcb -o kicad-completed.json
+neurocad integrations kicad-extract controller.kicad_pcb \
+  --review mechanical-review.json -o kicad-completed.json
+neurocad integrations kicad-inspect kicad-completed.json \
+  --source-board controller.kicad_pcb
 neurocad integrations kicad-apply controller-r2.ncad.json kicad-completed.json \
   --source-board controller.kicad_pcb -o controller-r3.ncad.json
 ```
+
+The review JSON uses `neurocad-kicad-mechanical-review-v1`, must explicitly mark
+the connector inventory and height measurement complete, and supplies
+`max_component_height_mm` plus a `connectors` array. The bounded parser accepts
+one axis-aligned rectangular Edge.Cuts outline and round NPTH pads only inside
+footprints explicitly named as mounting holes. Other geometry fails closed and
+uses the existing reviewed IPC/CLI draft-and-bind route.
 
 This adds the board envelope, height, and mounting-hole coordinates as an
 audited project revision. It does not guess connector cutouts or standoffs;

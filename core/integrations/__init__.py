@@ -17,7 +17,9 @@ from .handoff import (
 )
 from .kicad import (
     KICAD_EXTRACTION_DRAFT_VERSION,
+    KICAD_FILE_EXTRACTOR_VERSION,
     KICAD_HANDOFF_VERSION,
+    KICAD_MECHANICAL_REVIEW_VERSION,
     KiCadBoard,
     KiCadConnector,
     KiCadHandoffError,
@@ -31,6 +33,7 @@ from .kicad import (
     write_bound_kicad_extraction,
     write_kicad_extraction_request,
 )
+from .kicad_file import extract_kicad_file_receipt, write_kicad_file_receipt
 from .model import (
     ApplicationAdapter,
     Capability,
@@ -44,7 +47,9 @@ __all__ = [
     "EXCHANGE_VERSION",
     "HANDOFF_VERSION",
     "KICAD_EXTRACTION_DRAFT_VERSION",
+    "KICAD_FILE_EXTRACTOR_VERSION",
     "KICAD_HANDOFF_VERSION",
+    "KICAD_MECHANICAL_REVIEW_VERSION",
     "VERIFICATION_VERSION",
     "AdapterRegistry",
     "ApplicationAdapter",
@@ -65,6 +70,7 @@ __all__ = [
     "create_neutral_manifest",
     "default_registry",
     "export_openscad_bundle",
+    "extract_kicad_file_receipt",
     "parse_kicad_handoff",
     "read_kicad_handoff",
     "safe_filename_stem",
@@ -72,5 +78,6 @@ __all__ = [
     "write_application_handoff",
     "write_bound_kicad_extraction",
     "write_kicad_extraction_request",
+    "write_kicad_file_receipt",
     "write_neutral_manifest",
 ]

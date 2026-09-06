@@ -29,7 +29,9 @@ The expanded kernel evaluator does not equate “OpenSCAD returned zero” with 
 - A historical legacy “STEP” exporter wrote marker text, not STEP data; the direct legacy method is now hard-disabled and covered by integrity tests.
 - Stage 1 VeriCodeGen cells were scripted fixtures with no model calls.
 - The current S3 request has no discoverable candidate pool or authorization manifest, so learned outcomes have not been accessed.
-- External reproducibility is unproven because this checkout has no Git metadata or external CI/public-release receipts.
+- External reproducibility is unproven. The audit initialized local Git metadata,
+  but that history is unrelated to the canonical remote history and has not been
+  published or exercised by external CI; no public-release receipt exists.
 
 ## Interpretation boundary
 
