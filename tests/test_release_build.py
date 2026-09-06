@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import stat
 import tarfile
 from pathlib import Path
 
@@ -34,11 +35,14 @@ def test_sdist_normalization_is_reproducible_and_removes_local_identity(tmp_path
     second = tmp_path / "second.tar.gz"
     _source_archive(first, mtime=100)
     _source_archive(second, mtime=900)
+    first.chmod(0o644)
+    second.chmod(0o644)
 
     normalize_sdist(first, 123456789)
     normalize_sdist(second, 123456789)
 
     assert first.read_bytes() == second.read_bytes()
+    assert stat.S_IMODE(first.stat().st_mode) == stat.S_IMODE(second.stat().st_mode) == 0o644
     with tarfile.open(first, "r:gz") as archive:
         members = archive.getmembers()
         assert all(member.mtime == 123456789 for member in members)

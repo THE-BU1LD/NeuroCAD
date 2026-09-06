@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import os
+import stat
 import tarfile
 import tempfile
 from pathlib import Path, PurePosixPath
@@ -18,6 +19,7 @@ def normalize_sdist(archive: Path, source_date_epoch: int) -> None:
         raise ValueError("archive must identify an existing .tar.gz file")
     if isinstance(source_date_epoch, bool) or not isinstance(source_date_epoch, int) or source_date_epoch < 0:
         raise ValueError("source_date_epoch must be a non-negative integer")
+    archive_mode = stat.S_IMODE(archive.stat().st_mode)
 
     temporary_name: str | None = None
     try:
@@ -45,6 +47,7 @@ def normalize_sdist(archive: Path, source_date_epoch: int) -> None:
                 payload = source.extractfile(member) if member.isfile() else None
                 destination.addfile(member, payload)
         os.replace(temporary_name, archive)
+        archive.chmod(archive_mode)
         temporary_name = None
     finally:
         if temporary_name is not None:
