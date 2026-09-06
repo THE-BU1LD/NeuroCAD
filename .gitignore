@@ -1,0 +1,58 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+.tmp-release-venv/
+.tmp-release-work/
+.agent-mypy-cache/
+.agent-mypy-tools/
+
+# Packaging/build outputs
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test/tool caches
+.pytest_cache/
+pytest-of-*/
+.test-tmp/
+.pnpm-store/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Preserved locally for forensic reference, not shipped or versioned.
+legacy/generated/
+output_models/
+test_output/
+
+# IDE/editor metadata
+.vscode/
+.idea/
+*.swp
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+
+# Local logs and temporary files
+*.log
+*.tmp
+*.temp
+generated.scad
+generated.stl
+generated.json
+.local-recovery/

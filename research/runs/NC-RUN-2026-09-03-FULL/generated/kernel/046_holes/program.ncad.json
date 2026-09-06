@@ -1,0 +1,436 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          180.0,
+          100.0,
+          5.0
+        ]
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 7.0
+      },
+      "target": "hole_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 7.0
+      },
+      "target": "hole_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_3",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 7.0
+      },
+      "target": "hole_3",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_4",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 7.0
+      },
+      "target": "hole_4",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_5",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 7.0
+      },
+      "target": "hole_5",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_6",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 7.0
+      },
+      "target": "hole_6",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "child_count",
+      "parameters": {
+        "value": 7
+      },
+      "target": "design_difference",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.9,
+    "connections": [
+      {
+        "a": "body",
+        "b": "hole_1",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_2",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_3",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_4",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_5",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_6",
+        "relation": "cutout"
+      }
+    ],
+    "dimensions_mm": [
+      180.0,
+      100.0,
+      5.0
+    ],
+    "domain": "plate",
+    "explicit_dimensions": true,
+    "fabrication_domain": "plate",
+    "flags": {
+      "fins": false,
+      "holes": true,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "hole_count_requested": 6,
+    "hole_diameter_explicit": true,
+    "hole_diameter_mm": 4.0,
+    "normalized_prompt": "a 180 x 100 x 5 mm plate with six 4 mm holes",
+    "prompt": "a 180 x 100 x 5 mm plate with six 4 mm holes",
+    "recognized": true,
+    "slot_count_requested": 0,
+    "slot_dimensions_explicit": false,
+    "source": "natural_language_design_graph",
+    "units": "mm",
+    "wall_thickness_explicit": false,
+    "wall_thickness_mm": null
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            180.0,
+            100.0,
+            5.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_1",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 7.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          -80.0,
+          -40.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_2",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 7.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          -40.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_3",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 7.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          80.0,
+          -40.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_4",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 7.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          -80.0,
+          40.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_5",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 7.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          40.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_6",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 7.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          80.0,
+          40.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "children": [
+        "body",
+        "hole_1",
+        "hole_2",
+        "hole_3",
+        "hole_4",
+        "hole_5",
+        "hole_6"
+      ],
+      "composition": "difference",
+      "id": "design_difference",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "design_difference"
+  ],
+  "title": "a 180 x 100 x 5 mm plate with six 4 mm holes",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}

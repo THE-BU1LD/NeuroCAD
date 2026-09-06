@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "e8877a4ece5bc2800fe21d0527532e48c7276248ea906dd90f7764ea2146ed83",
+    "render": "5f23cda6b609e2cf1e1841030f6db24c85d3e2ad9ae1e02473621630f695ff10",
+    "scad": "beaba63b3f7d3649dd2ee44555392dadfe61a9606f2ebe1519a060ec93e71eea",
+    "stl": "4b6baa9c26a6c4c519970472a294e5fb55d1981b4ce1957dc5cf87cbabe5d71a"
+  },
+  "expected_extents_mm": [
+    190.0,
+    110.0,
+    80.0
+  ],
+  "family": "enclosure",
+  "ir": "generated/kernel/059_enclosure/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      190.0,
+      110.0,
+      80.0
+    ],
+    "faces": 28,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 16,
+    "volume_mm3": 101293.5,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "1ad9d7e3413b4a683fbfe72525ef117c84393ad35a97743cc44ab71769f8549a",
+  "prompt": "a 19 x 11 x 8 cm enclosure with 0.15 cm wall thickness",
+  "render": "figures/kernel_examples/059_enclosure.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.01322608299960848,
+  "scad": "generated/kernel/059_enclosure/program.scad",
+  "stl": "generated/kernel/059_enclosure/program.stl",
+  "task_id": "NCR-0060"
+}

@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "0e64a29aa91696d312e5e94c5fa3178a335c5c93e09508fff2402f0358ee310e",
+    "render": "e89e6bb6cc682d4997d3a197bc180451f89928820eb3e87e88f9f8f7b0ece791",
+    "scad": "e1c007ed516709fa7baaa359e8fdcb0b3a98f001cbf65ca9e1d2371f0daf1771",
+    "stl": "fdcaa227dbd1eedb65d93ad8131a11699a6e9292a5b6a1df0d4863aac279a941"
+  },
+  "expected_extents_mm": [
+    80.0,
+    90.0,
+    65.0
+  ],
+  "family": "enclosure",
+  "ir": "generated/kernel/045_enclosure/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      80.0,
+      90.0,
+      65.0
+    ],
+    "faces": 28,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 16,
+    "volume_mm3": 56232.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "2cfe1b17f6eac8f3964b552ef6edf71e892776c5a13d5115244d6c3d4503480d",
+  "prompt": "a 80 x 90 x 65 mm enclosure with 2 mm wall thickness",
+  "render": "figures/kernel_examples/045_enclosure.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.020313500000156637,
+  "scad": "generated/kernel/045_enclosure/program.scad",
+  "stl": "generated/kernel/045_enclosure/program.stl",
+  "task_id": "NCR-0046"
+}

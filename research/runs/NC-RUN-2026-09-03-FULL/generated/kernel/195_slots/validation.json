@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "40a9355c42f2fa52dee52096bd8f2e99bdee199ffc8682e0dc894667c3b18d54",
+    "render": "a21df8c8a370c2c2cff997dcfc464c9bd981ae8aae3370c15121c1f24d4f7ede",
+    "scad": "869b2b4edeaddb0507e2617fd00edea8da3b769370560a81dce94e0b15d78dc0",
+    "stl": "f429528639f59ebf32692609542ed960f0a9b215cfc68a0230822bf25d62d252"
+  },
+  "expected_extents_mm": [
+    230.0,
+    100.0,
+    5.0
+  ],
+  "family": "slots",
+  "ir": "generated/kernel/195_slots/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      230.0,
+      100.0,
+      5.0
+    ],
+    "faces": 52,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 24,
+    "volume_mm3": 114400.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 230 x 100 x 5 mm plate with two 12 x 5 mm slots",
+  "render": "figures/kernel_examples/195_slots.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.3840921250002793,
+  "scad": "generated/kernel/195_slots/program.scad",
+  "stl": "generated/kernel/195_slots/program.stl",
+  "task_id": "NCR-0192"
+}

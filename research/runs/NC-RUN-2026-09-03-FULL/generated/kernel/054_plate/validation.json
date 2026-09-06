@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "b207afaa6112aa6393f82898d2cdc30adeb067686b28d10b81792c71b40d9d1d",
+    "render": "a2d98e9178014f0f49b2b414fa43e43579e603f7edbe7396ef896138ab51d852",
+    "scad": "ee42691ef2eccdea9a12a24ecad569aa63449324450dfb9683cc83b0db41872c",
+    "stl": "80b50f56b627f5230f7daeedfd15676c979f7e10f83e36eb6001d6f6ce996b22"
+  },
+  "expected_extents_mm": [
+    50.8,
+    101.6,
+    3.175
+  ],
+  "family": "plate",
+  "ir": "generated/kernel/054_plate/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      50.8,
+      101.6,
+      3.175
+    ],
+    "faces": 12,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 8,
+    "volume_mm3": 16387.063999999995,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "39f65cb542a07fc42bf30ca8065fa0b88201529be4067def89e31640fe2f6160",
+  "prompt": "a 2 by 4 by 0.125 inch plate",
+  "render": "figures/kernel_examples/054_plate.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.009015749999889522,
+  "scad": "generated/kernel/054_plate/program.scad",
+  "stl": "generated/kernel/054_plate/program.stl",
+  "task_id": "NCR-0050"
+}

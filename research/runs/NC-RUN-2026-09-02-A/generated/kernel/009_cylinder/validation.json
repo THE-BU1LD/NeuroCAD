@@ -1,0 +1,22 @@
+{
+  "family": "cylinder",
+  "ir": "generated/kernel/009_cylinder/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      26.0,
+      26.0,
+      70.0
+    ],
+    "faces": 188,
+    "vertices": 96,
+    "volume_mm3": 37058.93071692,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a cylinder with radius 13 mm and height 70 mm",
+  "render": "figures/kernel_examples/009_cylinder.png",
+  "runtime_seconds": 1.1820941249989119,
+  "scad": "generated/kernel/009_cylinder/program.scad",
+  "stl": "generated/kernel/009_cylinder/program.stl",
+  "task_id": "NCR-0013"
+}

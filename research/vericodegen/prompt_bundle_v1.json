@@ -1,0 +1,29 @@
+{
+  "bundle_version": "vericodegen-prompt-bundle-v1",
+  "scientific_evidence": false,
+  "shared_rules": [
+    "Follow the natural-language CAD task exactly; preserve every stated dimension, count, spatial relation, and hard constraint.",
+    "Do not add decorative geometry, labels, text, helper objects, or unstated features unless the task explicitly requests them.",
+    "Use millimeters for numerical dimensions unless the task explicitly states another unit.",
+    "Produce a self-contained design that requires no external files, network access, libraries, imports, or human correction.",
+    "Do not specify or override mesh tessellation, fragment resolution, or equivalent rendering-resolution controls; the frozen runner applies the same resolution policy to both arms.",
+    "Return only the treatment arm's requested machine-readable artifact with no markdown fences, prose, commentary, or explanation.",
+    "Do not claim that an output is correct; downstream compilation and the shared independent verifier determine validity."
+  ],
+  "direct": {
+    "output_contract": [
+      "Return complete OpenSCAD source code only.",
+      "The source must be directly compilable by the frozen OpenSCAD environment without external includes or imports.",
+      "Use explicit geometry and transformations needed to satisfy the task; do not emit a structured JSON specification."
+    ]
+  },
+  "structured": {
+    "schema_path": "research/vericodegen/structured_output.schema.json",
+    "spec_version": "vericodegen-structured-v1",
+    "output_contract": [
+      "Return exactly one JSON object conforming to the frozen VeriCodeGen successor structured-output schema.",
+      "Set spec_version to vericodegen-structured-v1 and use only schema-supported components, geometry, operations, transforms, and connections.",
+      "Do not emit OpenSCAD source; NeuroCAD deterministically validates and compiles the JSON object after generation."
+    ]
+  }
+}

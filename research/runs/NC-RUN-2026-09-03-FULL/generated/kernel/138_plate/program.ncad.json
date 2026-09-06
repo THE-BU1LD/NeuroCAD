@@ -1,0 +1,90 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          190.0,
+          170.0,
+          3.0
+        ]
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.6,
+    "connections": [],
+    "dimensions_mm": [
+      190.0,
+      170.0,
+      3.0
+    ],
+    "domain": "plate",
+    "explicit_dimensions": true,
+    "fabrication_domain": "plate",
+    "flags": {
+      "fins": false,
+      "holes": false,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "hole_count_requested": 0,
+    "hole_diameter_explicit": false,
+    "hole_diameter_mm": null,
+    "normalized_prompt": "a 190 x 170 x 3 mm plate",
+    "prompt": "a 190 x 170 x 3 mm plate",
+    "recognized": true,
+    "slot_count_requested": 0,
+    "slot_dimensions_explicit": false,
+    "source": "natural_language_design_graph",
+    "units": "mm",
+    "wall_thickness_explicit": false,
+    "wall_thickness_mm": null
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            190.0,
+            170.0,
+            3.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "body"
+  ],
+  "title": "a 190 x 170 x 3 mm plate",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}

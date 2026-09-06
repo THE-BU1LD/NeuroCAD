@@ -1,0 +1,46 @@
+{
+  "manifest_version": "vericodegen-stage2-v2",
+  "stage": "stage2_frozen_pilot",
+  "authorized": false,
+  "scientific_evidence": false,
+  "evaluation_entrypoint": "research.vericodegen.safe_trial_ledger:evaluate_capture",
+  "benchmark_manifest_sha256": null,
+  "pilot_selection_sha256": null,
+  "structured_schema_sha256": null,
+  "verifier_sha256": null,
+  "analysis_plan_sha256": null,
+  "pilot_task_ids": [],
+  "provider": null,
+  "model": null,
+  "decoding": {
+    "temperature": null,
+    "top_p": null,
+    "max_output_tokens": null,
+    "seeds": []
+  },
+  "retry_policy": {
+    "max_attempts": null,
+    "feedback_policy": null,
+    "same_attempt_limit_both_arms": true,
+    "human_correction_allowed": false
+  },
+  "prompt_templates": {
+    "direct_sha256": null,
+    "structured_sha256": null,
+    "receipt_sha256": null
+  },
+  "environment": {
+    "openscad_version": null,
+    "openscad_fn": 64,
+    "compile_timeout_seconds": 60
+  },
+  "retention_policy": {
+    "retain_raw_outputs": true,
+    "retain_failed_trials": true,
+    "retain_compile_logs": true
+  },
+  "git_commit": null,
+  "cost_cap_usd": 0.0,
+  "estimated_max_calls": 0,
+  "notes": "TEMPLATE ONLY. Do not execute. Populate exclusively from frozen benchmark/pilot/prompt/schema/verifier/analysis artifacts, preserve the pinned safe evaluation entrypoint, recompute the exact call ceiling, review, then explicitly set authorized=true in a separately frozen manifest."
+}

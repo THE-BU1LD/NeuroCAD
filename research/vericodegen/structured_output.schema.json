@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thebu1ld.org/schemas/vericodegen-structured-v1.json",
+  "title": "VeriCodeGen successor structured output v1",
+  "description": "Research-only successor format. This is not the historical NeuroCAD typed parser.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["spec_version", "title", "components"],
+  "properties": {
+    "spec_version": {
+      "const": "vericodegen-structured-v1"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/component"}
+    },
+    "connections": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/connection"}
+    }
+  },
+  "$defs": {
+    "positive": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "nonnegative": {
+      "type": "number",
+      "minimum": 0
+    },
+    "vector3": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number"},
+        {"type": "number"},
+        {"type": "number"}
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "positiveVector3": {
+      "type": "array",
+      "prefixItems": [
+        {"$ref": "#/$defs/positive"},
+        {"$ref": "#/$defs/positive"},
+        {"$ref": "#/$defs/positive"}
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "translate": {"$ref": "#/$defs/vector3"},
+        "rotate": {"$ref": "#/$defs/vector3"},
+        "scale": {"$ref": "#/$defs/positiveVector3"}
+      }
+    },
+    "box": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "size"],
+      "properties": {
+        "kind": {"const": "box"},
+        "size": {"$ref": "#/$defs/positiveVector3"},
+        "center": {"type": "boolean", "default": true}
+      }
+    },
+    "sphere": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "radius"],
+      "properties": {
+        "kind": {"const": "sphere"},
+        "radius": {"$ref": "#/$defs/positive"}
+      }
+    },
+    "cylinder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "radius", "height"],
+      "properties": {
+        "kind": {"const": "cylinder"},
+        "radius": {"$ref": "#/$defs/positive"},
+        "height": {"$ref": "#/$defs/positive"},
+        "center": {"type": "boolean", "default": true}
+      }
+    },
+    "cone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "r1", "r2", "height"],
+      "properties": {
+        "kind": {"const": "cone"},
+        "r1": {"$ref": "#/$defs/positive"},
+        "r2": {"$ref": "#/$defs/nonnegative"},
+        "height": {"$ref": "#/$defs/positive"},
+        "center": {"type": "boolean", "default": true}
+      }
+    },
+    "torus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "R", "r"],
+      "properties": {
+        "kind": {"const": "torus"},
+        "R": {"$ref": "#/$defs/positive"},
+        "r": {"$ref": "#/$defs/positive"}
+      }
+    },
+    "geometry": {
+      "oneOf": [
+        {"$ref": "#/$defs/box"},
+        {"$ref": "#/$defs/sphere"},
+        {"$ref": "#/$defs/cylinder"},
+        {"$ref": "#/$defs/cone"},
+        {"$ref": "#/$defs/torus"}
+      ]
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "geometry"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "default": "body"
+        },
+        "operation": {
+          "type": "string",
+          "enum": ["union", "difference"],
+          "default": "union"
+        },
+        "geometry": {"$ref": "#/$defs/geometry"},
+        "transform": {"$ref": "#/$defs/transform"}
+      }
+    },
+    "connection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["a", "b", "relation"],
+      "properties": {
+        "a": {"type": "string", "minLength": 1},
+        "b": {"type": "string", "minLength": 1},
+        "relation": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

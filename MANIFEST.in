@@ -1,0 +1,57 @@
+include LICENSE
+include README.md
+include RELEASE_STATUS.md
+include SECURITY.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include NEUROCAD_TRUTH.md
+include NEUROCAD_RESEARCH_REPORT.md
+include NEUROCAD_COMPLETION_REPORT.md
+include PROJECT_TRUTH.md
+include DEFINITION_OF_DONE.md
+include EVALUATION_REPORT.md
+include EXPERIMENTS.md
+include REPRODUCIBILITY.md
+include requirements-research.lock
+include requirements-research.in
+include QUESTION.md
+include REPRESENTATION.md
+include MODEL_CARD.md
+include BASELINES.md
+include install.sh
+include neurocad_cli.py
+include text_to_cad.py
+include text_to_openscad.py
+recursive-include core *.py
+recursive-include core/schemas *.json
+recursive-include audits *.md
+recursive-include analysis *.md
+recursive-include configs *.json
+recursive-include datasets *.md
+recursive-include docs *.md
+recursive-include grammar *.md
+recursive-include literature *.md *.csv
+recursive-include model *.md
+recursive-include paper *.md
+recursive-include scripts *.sh
+include research/runs/NC-RUN-2026-09-03-FULL/config.json
+include research/runs/NC-RUN-2026-09-03-FULL/manifest.json
+include research/runs/NC-RUN-2026-09-03-FULL/metrics/results.json
+include research/runs/NC-RUN-2026-09-03-FULL/datasets/compiler_stress_v1.jsonl
+include research/runs/NC-RUN-2026-09-03-FULL/generated/ir_programs.jsonl
+include research/runs/NC-RUN-2026-09-03-FULL/analysis/invalid_cases.jsonl
+include research/runs/NC-RUN-2026-09-03-FULL/analysis/qualitative_predeclared.json
+include research/runs/NC-RUN-2026-09-03-FULL/figures/*.svg
+prune research/runs/NC-RUN-2026-09-02-A
+recursive-include research/vericodegen *.py *.json *.md
+recursive-include research/s3 *.json *.txt
+recursive-include tests *.py
+include research/benchmarks/neurocad_benchmark_v1.jsonl
+include research/results/neurocad_benchmark_v1.json
+recursive-exclude * __pycache__
+global-exclude *.py[cod]
+global-exclude *.stl *.obj *.step *.scad *.cad *.zip
+prune output_models
+prune test_output
+prune legacy
+include research/VERICODEGEN_2026_PROTOCOL.md

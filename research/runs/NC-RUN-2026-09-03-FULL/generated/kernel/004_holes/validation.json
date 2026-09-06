@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "23c223ec839aaa9e37a2e9dc1d42a7ec4888f12e6484ee14adde15ea8df7698d",
+    "render": "a947d592593e4cba224ed890924491b829ce5ba6fef0e8bd5ab62e65f918f9a6",
+    "scad": "d91b353dfc284ee463d3a704c978db8a68f6491f9aad6ce14a73957f82179d7e",
+    "stl": "553c299cad4936a8d9a5538e0c29f40eada73bc1d312e86b5060e5b32bc14ab6"
+  },
+  "expected_extents_mm": [
+    170.0,
+    170.0,
+    2.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/004_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      170.0,
+      170.0,
+      2.0
+    ],
+    "faces": 992,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 488,
+    "volume_mm3": 57768.67387543599,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "d0e072fc02d1bf79f4e57fac8d660f3fb1d10670bda71da75588cb7368b39306",
+  "prompt": "a 170 x 170 x 2 mm plate with five 2 mm holes",
+  "render": "figures/kernel_examples/004_holes.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.021490874999926746,
+  "scad": "generated/kernel/004_holes/program.scad",
+  "stl": "generated/kernel/004_holes/program.stl",
+  "task_id": "NCR-0002"
+}

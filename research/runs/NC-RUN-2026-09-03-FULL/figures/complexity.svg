@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-label="Hierarchy complexity versus latency">
+<style>text{font-family:Inter,Arial,sans-serif;fill:#17202a}.title{font-size:25px;font-weight:700}.axis{stroke:#17202a;stroke-width:2}.curve{fill:none;stroke:#087e8b;stroke-width:4}.limit{stroke:#d1495b;stroke-width:3;stroke-dasharray:8 8}</style>
+<rect width="960" height="520" fill="#fff"/><text class="title" x="40" y="40">Hierarchy complexity and enforced limit</text>
+<line class="axis" x1="90" y1="440" x2="890" y2="440"/><line class="axis" x1="90" y1="70" x2="90" y2="440"/>
+<polyline class="curve" points="96.2,438.8 102.4,437.1 114.8,434.4 139.6,431.6 189.2,417.0 288.4,406.8 486.9,353.2 883.8,70.0"/><line class="limit" x1="890.0" y1="70" x2="890.0" y2="440"/>
+<text x="490.0" y="485" text-anchor="middle">Hierarchy depth</text><text x="20" y="255.0" transform="rotate(-90 20 255.0)" text-anchor="middle">validate + export latency (relative)</text>
+<text x="882.0" y="90" text-anchor="end" fill="#d1495b">depth 129 rejected</text></svg>

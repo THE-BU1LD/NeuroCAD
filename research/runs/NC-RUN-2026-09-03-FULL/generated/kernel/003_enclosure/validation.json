@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "74dddaf0c5babbca4b5f6d6b9c32de4fb4e031e49b65aca9cd41beb26da5107b",
+    "render": "cb5dd273eeae1a439678ca467aaa89ff7fbc21486419f05fff2c6c987622ec6e",
+    "scad": "8c5d88edc33b4a3490d52e35d14fa9408aefdc99231d933a4b206a563e484d33",
+    "stl": "46cf06ea5e3cdf2f4f813e82ec571cb5c56c7b1b47fe355a84e4e881eab7cae0"
+  },
+  "expected_extents_mm": [
+    190.0,
+    90.0,
+    50.0
+  ],
+  "family": "enclosure",
+  "ir": "generated/kernel/003_enclosure/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      190.0,
+      90.0,
+      50.0
+    ],
+    "faces": 28,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 16,
+    "volume_mm3": 108062.5,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "ef7ca1c54a9c8a837bff7c1c2c3fd5e970d7c5653e90496489e4ac99d3bfc7eb",
+  "prompt": "a 190 x 90 x 50 mm enclosure with 2.5 mm wall thickness",
+  "render": "figures/kernel_examples/003_enclosure.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.005642666999847279,
+  "scad": "generated/kernel/003_enclosure/program.scad",
+  "stl": "generated/kernel/003_enclosure/program.stl",
+  "task_id": "NCR-0004"
+}

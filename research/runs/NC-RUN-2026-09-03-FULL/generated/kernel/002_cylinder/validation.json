@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "882736543ab30063f902c799ad33702c535e3f53e9b4b3248f897492a9090c8c",
+    "render": "6aa2d2a4e7660f0f3c870b6b0b2656254dbdbd0424702ba5dc7764eec8f9ad1a",
+    "scad": "f95a7ee53aa7e6490ed2269a00e4177224b50c45172da786aa55fb07546f0c41",
+    "stl": "9d49f8a68b837fb7a603de8078d4a91b83721038e078b6094051d3f0f961e7e3"
+  },
+  "expected_extents_mm": [
+    24.0,
+    24.0,
+    85.0
+  ],
+  "family": "cylinder",
+  "ir": "generated/kernel/002_cylinder/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      24.0,
+      24.0,
+      85.0
+    ],
+    "faces": 188,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 96,
+    "volume_mm3": 38343.36401700001,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "ca325a19c2dafa718a5d0d0b1e087c2ab5c0023c9432cce65f8b373506d089ed",
+  "prompt": "a cylinder with radius 12 mm and height 85 mm",
+  "render": "figures/kernel_examples/002_cylinder.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.010252542000216636,
+  "scad": "generated/kernel/002_cylinder/program.scad",
+  "stl": "generated/kernel/002_cylinder/program.stl",
+  "task_id": "NCR-0006"
+}

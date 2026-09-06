@@ -1,0 +1,22 @@
+{
+  "family": "holes",
+  "ir": "generated/kernel/011_holes/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      180.0,
+      90.0,
+      5.0
+    ],
+    "faces": 796,
+    "vertices": 392,
+    "volume_mm3": 80608.42020479999,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a 18 x 9 x 0.5 cm plate with four 0.5 cm holes",
+  "render": "figures/kernel_examples/011_holes.png",
+  "runtime_seconds": 6.116145291000066,
+  "scad": "generated/kernel/011_holes/program.scad",
+  "stl": "generated/kernel/011_holes/program.stl",
+  "task_id": "NCR-0009"
+}

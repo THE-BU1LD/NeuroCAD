@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "3b1282dc9d8e77ca69a6c49e562e00bb7dda04e654be8fb838e4376e514f9806",
+    "render": "58c06114fd22f024a31710e0e207db7cf57056464e2ab7e6a4c68e376525e510",
+    "scad": "cbe3aa0f22ee1d1f32dd8bcd57ddf0d339e8ce5277a6028603e742ca0548c9d0",
+    "stl": "fb02f6b6ab5e701167da89837511bbbd6fad4c25d2d4e63cfd449e6a2e860131"
+  },
+  "expected_extents_mm": [
+    210.0,
+    170.0,
+    4.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/186_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      210.0,
+      170.0,
+      4.0
+    ],
+    "faces": 600,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 296,
+    "volume_mm3": 142762.408657516,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 210 x 170 x 4 mm plate with three 2 mm holes",
+  "render": "figures/kernel_examples/186_holes.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 2.0491524159997425,
+  "scad": "generated/kernel/186_holes/program.scad",
+  "stl": "generated/kernel/186_holes/program.stl",
+  "task_id": "NCR-0184"
+}

@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "d0a8a99d909627ed94906269e024dcda59a2681225aeffaebc2d505c8e1c2cb0",
+    "render": "1093851cae3962a352b1f103244a80cd821f506f5d1732a6b9a7d5c485d55a97",
+    "scad": "0e251ec9d34da8e569cf8e4e572500ea10cecf6cb6c987ff641faf7d076671fe",
+    "stl": "9d01d00782d86e9da16aa85f6a079ecf0878db3d305ce0086638fb8c5bb3c112"
+  },
+  "expected_extents_mm": [
+    120.0,
+    70.0,
+    5.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/109_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      120.0,
+      70.0,
+      5.0
+    ],
+    "faces": 796,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 392,
+    "volume_mm3": 40997.564351999994,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "4c2bc4c1e0987000c661e60cfb8c0884695ed020f56e4cb647c67ef630faaa9a",
+  "prompt": "a 120 x 70 x 5 mm plate with four 8 mm holes",
+  "render": "figures/kernel_examples/109_holes.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.03936670800021602,
+  "scad": "generated/kernel/109_holes/program.scad",
+  "stl": "generated/kernel/109_holes/program.stl",
+  "task_id": "NCR-0107"
+}

@@ -1,0 +1,22 @@
+{
+  "family": "enclosure",
+  "ir": "generated/kernel/003_enclosure/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      190.0,
+      90.0,
+      50.0
+    ],
+    "faces": 28,
+    "vertices": 16,
+    "volume_mm3": 108062.5,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a 190 x 90 x 50 mm enclosure with 2.5 mm wall thickness",
+  "render": "figures/kernel_examples/003_enclosure.png",
+  "runtime_seconds": 1.6761562089996005,
+  "scad": "generated/kernel/003_enclosure/program.scad",
+  "stl": "generated/kernel/003_enclosure/program.stl",
+  "task_id": "NCR-0004"
+}
