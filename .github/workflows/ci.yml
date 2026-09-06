@@ -45,7 +45,7 @@ jobs:
       - name: Compile shipped Python sources
         shell: bash
         run: |
-          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts/normalize_sdist.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
       - name: Run maintained release tests
         shell: bash
@@ -57,11 +57,11 @@ jobs:
           fi
 
       - name: Lint maintained product
-        run: python -m ruff check core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
+        run: python -m ruff check core research/vericodegen scripts/normalize_sdist.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
 
       - name: Type-check maintained product and research tooling
         if: matrix.python-version == '3.12'
-        run: python -m mypy core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+        run: python -m mypy core research/vericodegen scripts/normalize_sdist.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
       - name: Audit dependencies and supported source
         if: matrix.python-version == '3.12'
@@ -69,7 +69,7 @@ jobs:
         run: |
           python -m pip check
           python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
-          python -m bandit -q -r core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
+          python -m bandit -q -r core research/vericodegen scripts/normalize_sdist.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
 
       - name: CLI smoke test
         shell: bash
@@ -113,7 +113,25 @@ jobs:
           test -s /tmp/neurocad-exchange-verification.json
 
       - name: Build wheel and source distribution
-        run: python -m build --outdir "$RUNNER_TEMP/neurocad-dist"
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)
+          export SOURCE_DATE_EPOCH
+          dist_dir="$RUNNER_TEMP/neurocad-dist"
+          python -m build --no-isolation --outdir "$dist_dir"
+          sdist_files=("$dist_dir"/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          python scripts/normalize_sdist.py "${sdist_files[0]}" "$SOURCE_DATE_EPOCH"
+          if [ "${{ matrix.python-version }}" = "3.12.14" ]; then
+            repeat_dir="$RUNNER_TEMP/neurocad-dist-repeat"
+            python -m build --no-isolation --outdir "$repeat_dir"
+            repeat_sdists=("$repeat_dir"/neurocad_research-*.tar.gz)
+            test "${#repeat_sdists[@]}" -eq 1
+            python scripts/normalize_sdist.py "${repeat_sdists[0]}" "$SOURCE_DATE_EPOCH"
+            cmp "$dist_dir"/neurocad_research-*.whl "$repeat_dir"/neurocad_research-*.whl
+            cmp "${sdist_files[0]}" "${repeat_sdists[0]}"
+          fi
 
       - name: Fresh wheel install smoke test
         shell: bash

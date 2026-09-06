@@ -36,6 +36,7 @@ def test_ci_and_release_enforce_complete_quality_and_artifact_gates() -> None:
         "pipeline_stage.py",
         "exceptions.py",
         "thinking_engine.py",
+        "scripts/normalize_sdist.py",
     )
     for helper in guarded_helpers:
         assert helper in ci
@@ -52,6 +53,9 @@ def test_ci_and_release_enforce_complete_quality_and_artifact_gates() -> None:
     assert "installed_version" in release
     assert 'python -m build --no-isolation --outdir "$release_dist"' in release
     for workflow in (ci, release):
+        assert "SOURCE_DATE_EPOCH" in workflow
+        assert "scripts/normalize_sdist.py" in workflow
+        assert 'cmp ' in workflow
         assert "neurocad enclosure interpret" in workflow
         assert "neurocad integrations export" in workflow
         assert "neurocad integrations verify" in workflow

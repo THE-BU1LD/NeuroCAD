@@ -44,16 +44,29 @@ jobs:
           package_version=$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
           test "v$package_version" = "$GITHUB_REF_NAME"
           if [ -d tests ]; then python -m pytest -q; fi
-          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
-          python -m ruff check core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
-          python -m mypy core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts/normalize_sdist.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m ruff check core research/vericodegen scripts/normalize_sdist.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
+          python -m mypy core research/vericodegen scripts/normalize_sdist.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
           python -m pip check
           python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
-          python -m bandit -q -r core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
+          python -m bandit -q -r core research/vericodegen scripts/normalize_sdist.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
           neurocad doctor
           release_dist="$RUNNER_TEMP/neurocad-dist"
+          SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$GITHUB_SHA")
+          export SOURCE_DATE_EPOCH
           mkdir -p "$release_dist"
           python -m build --no-isolation --outdir "$release_dist"
+          sdist_files=("$release_dist"/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          python scripts/normalize_sdist.py "${sdist_files[0]}" "$SOURCE_DATE_EPOCH"
+          repeat_dist="$RUNNER_TEMP/neurocad-dist-repeat"
+          mkdir -p "$repeat_dist"
+          python -m build --no-isolation --outdir "$repeat_dist"
+          repeat_sdists=("$repeat_dist"/neurocad_research-*.tar.gz)
+          test "${#repeat_sdists[@]}" -eq 1
+          python scripts/normalize_sdist.py "${repeat_sdists[0]}" "$SOURCE_DATE_EPOCH"
+          cmp "$release_dist"/neurocad_research-*.whl "$repeat_dist"/neurocad_research-*.whl
+          cmp "${sdist_files[0]}" "${repeat_sdists[0]}"
           python -m venv /tmp/neurocad-release
           /tmp/neurocad-release/bin/python -m pip install --require-hashes --requirement requirements-research.lock
           wheel_files=("$release_dist"/neurocad_research-*.whl)
@@ -70,8 +83,6 @@ jobs:
           /tmp/neurocad-release/bin/neurocad integrations verify /tmp/release-exchange > /tmp/release-exchange-verification.json
           python -m venv /tmp/neurocad-release-sdist
           /tmp/neurocad-release-sdist/bin/python -m pip install --require-hashes --requirement requirements-research.lock
-          sdist_files=("$release_dist"/neurocad_research-*.tar.gz)
-          test "${#sdist_files[@]}" -eq 1
           /tmp/neurocad-release-sdist/bin/python -m pip install --no-deps "${sdist_files[0]}"
           /tmp/neurocad-release-sdist/bin/neurocad validate "a 40 x 30 x 3 mm plate"
           xvfb-run -a /tmp/neurocad-release/bin/python - "$RUNNER_TEMP/neurocad-full-research" "NC-RELEASE-$GITHUB_REF_NAME" <<'PY'

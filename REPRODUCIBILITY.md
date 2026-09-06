@@ -144,11 +144,17 @@ snapshot:
 
 ```bash
 out=$(mktemp -d)
-python -m build --outdir "$out"
+export SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)
+python -m build --no-isolation --outdir "$out"
+python scripts/normalize_sdist.py "$out"/neurocad_research-*.tar.gz "$SOURCE_DATE_EPOCH"
 python -m venv "$out/verify"
 "$out/verify/bin/python" -m pip install "$out"/neurocad_research-*.whl
 "$out/verify/bin/neurocad" doctor
 ```
+
+`SOURCE_DATE_EPOCH` makes the pure-Python wheel deterministic; the normalizer
+also removes archive-creation time and local ownership from the source archive.
+CI and release each build twice and compare both artifacts byte-for-byte.
 
 The tag release workflow builds in the runner temporary directory and generates
 `RELEASE_PROVENANCE.json` from observed commit, tag, tool, source, lock, kernel,
@@ -157,10 +163,11 @@ hashes or fixed test total.
 
 ## Remaining provenance boundary
 
-This checkout has no `.git` metadata. Its source-tree digest is recordable, but
-commit, tag ancestry, and dirty-tree state are not. Public-release or archival
-claims remain pending until an exact clean Git revision passes external CI and
-its generated release receipt is retained.
+This checkout now has a local Git audit baseline, so local commit and dirty-tree
+state are inspectable. It has no configured external remote, passing hosted CI
+run, signed release tag, or retained generated release receipt. Public-release
+or archival claims therefore remain pending until an exact revision passes the
+external workflow and its generated evidence is retained.
 
 Historical VeriCodeGen execution is governed separately by
 `research/VERICODEGEN_2026_PROTOCOL.md`. Do not execute an external outcome run

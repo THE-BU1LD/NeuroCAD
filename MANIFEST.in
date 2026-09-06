@@ -33,7 +33,7 @@ recursive-include grammar *.md
 recursive-include literature *.md *.csv
 recursive-include model *.md
 recursive-include paper *.md
-recursive-include scripts *.sh
+recursive-include scripts *.sh *.py
 include research/runs/NC-RUN-2026-09-03-FULL/config.json
 include research/runs/NC-RUN-2026-09-03-FULL/manifest.json
 include research/runs/NC-RUN-2026-09-03-FULL/metrics/results.json

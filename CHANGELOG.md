@@ -27,6 +27,7 @@ integrated CI, distribution, clean-install, and release-provenance gates in
 - Moved 113 disconnected historical Python experiments and 44 generated root artifacts into an excluded, read-only-by-convention `legacy/` archive instead of shipping or presenting them as product surface.
 - Added a frozen physical-validation protocol for independent print runs, dimensional coupons, hardware fit, lid cycling, retained failures, photos, and hash-bound receipts; no physical result is claimed before that protocol is executed.
 - Replaced the version-only research environment snapshot with a reviewed direct-input file and a universal distribution-hash lock; reproduction and release install it in pip hash-checking mode.
+- Made wheel and normalized source-distribution artifacts byte-reproducible from the release commit timestamp and enforced double-build comparison gates.
 
 ## 0.5.0a5 - 2026-09-04
 
