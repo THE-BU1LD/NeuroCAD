@@ -37,6 +37,17 @@ Validate a prompt without writing an output file:
 neurocad validate "a plate with four holes"
 ```
 
+Create a deterministic structural-verification bundle for a generated design:
+
+```bash
+neurocad verify \
+  "a 120mm x 80mm x 30mm box with four holes" \
+  --json-output verification.json \
+  --scad-output design.scad
+```
+
+The JSON manifest records the prompt, bounded structural checks, design-graph components and connections, and the SHA-256 identity of the exact OpenSCAD artifact. This verification scope is deliberately limited to generation integrity and design-graph structure; it does **not** establish manufacturability, simulation accuracy, safety, or physical feasibility.
+
 Explicitly export OpenSCAD:
 
 ```bash
@@ -73,7 +84,7 @@ NeuroCAD deliberately separates release-engineering evidence from research evide
 
 Current claim boundary:
 
-- **Implemented:** bounded text-to-OpenSCAD generation, validation, CLI/package/release plumbing, and fail-closed evaluation infrastructure.
+- **Implemented:** bounded text-to-OpenSCAD generation, validation, CLI/package/release plumbing, deterministic structural verification bundles, and fail-closed evaluation infrastructure.
 - **Engineering-verified:** selected install/build/CLI/smoke paths represented by repository CI and the release evidence ledger.
 - **Falsified:** the historical claim that the typed-parser mechanism itself caused the reported NeuroCAD advantage.
 - **Not yet scientifically established:** VeriCodeGen successor superiority, broad semantic CAD correctness, manufacturability, external validation/adoption, or independent reproduction.
