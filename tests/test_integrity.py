@@ -37,6 +37,7 @@ def test_ci_and_release_enforce_complete_quality_and_artifact_gates() -> None:
         "exceptions.py",
         "thinking_engine.py",
         "scripts/normalize_sdist.py",
+        "scripts/verify_distribution.py",
     )
     for helper in guarded_helpers:
         assert helper in ci
@@ -55,6 +56,8 @@ def test_ci_and_release_enforce_complete_quality_and_artifact_gates() -> None:
     for workflow in (ci, release):
         assert "SOURCE_DATE_EPOCH" in workflow
         assert "scripts/normalize_sdist.py" in workflow
+        assert "scripts/verify_distribution.py" in workflow
+        assert "python scripts/verify_distribution.py" in workflow
         assert 'cmp ' in workflow
         assert "neurocad enclosure interpret" in workflow
         assert "neurocad integrations export" in workflow
@@ -108,8 +111,24 @@ def test_source_distribution_manifest_contains_referenced_protocols_and_release_
     assert "recursive-include core *.py" in manifest
     assert "include research/VERICODEGEN_2026_PROTOCOL.md" in manifest
     assert "recursive-include docs *.md" in manifest
+    assert "recursive-include demo *.md *.sh" in manifest
     assert "prune legacy" in manifest
+    assert "prune research/runs" in manifest
+    assert "include research/runs/" not in manifest
     assert "include requirements-research.in" in manifest
+
+
+def test_installer_defaults_to_an_immutable_release_and_supports_local_verification() -> None:
+    installer = _read("install.sh")
+    assert 'REF="${NEUROCAD_REF:-v0.5.0a6}"' in installer
+    assert 'PACKAGE="${NEUROCAD_PACKAGE:-$ARCHIVE_URL}"' in installer
+    assert 'pip==26.2.1' in installer
+    assert 'installed_version' in installer
+    assert 'expected_version=${REF#v}' in installer
+
+    readme = _read("README.md")
+    assert "currently verified installation" in readme
+    assert "anonymous-install gate" in readme
 
 
 def test_legacy_fake_step_export_is_hard_disabled() -> None:

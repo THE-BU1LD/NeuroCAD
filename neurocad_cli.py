@@ -61,6 +61,14 @@ def _require_new_path(path: Path, *, label: str) -> None:
         raise FileExistsError(f"{label} already exists; choose a new path: {path}")
 
 
+def _require_new_paths(*, force: bool, **paths: Path | None) -> None:
+    if force:
+        return
+    for label, path in paths.items():
+        if path is not None:
+            _require_new_path(path, label=label.replace("_", " "))
+
+
 def _prompt(parts: list[str]) -> str:
     value = " ".join(parts).strip()
     if not value:
@@ -150,6 +158,7 @@ def cmd_create(args: argparse.Namespace) -> int:
     output = _resolved_path(args.output)
     manifest = _resolved_path(args.manifest) if args.manifest else None
     _require_distinct_paths(output=output, manifest=manifest)
+    _require_new_paths(force=args.force, output=output, manifest=manifest)
     path, doc = _generate(args.prompt, output, args.fn)
     if manifest is not None:
         write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation)
@@ -162,6 +171,7 @@ def cmd_export(args: argparse.Namespace) -> int:
     path = _resolved_path(args.output or f"generated.{args.format}")
     manifest = _resolved_path(args.manifest) if args.manifest else None
     _require_distinct_paths(output=path, manifest=manifest)
+    _require_new_paths(force=args.force, output=path, manifest=manifest)
     if args.format == "scad":
         TextToCAD(output_path=str(path), fn=args.fn).export(doc.prompt)
     elif args.format == "json":
@@ -215,6 +225,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
 def cmd_ir(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
     output = _resolved_path(args.output)
+    _require_new_paths(force=args.force, output=output)
     write_text_atomic(output, serialize_ir_json(doc.require_program()))
     print(output)
     return 0
@@ -238,6 +249,7 @@ def cmd_compile(args: argparse.Namespace) -> int:
     output = _resolved_path(args.output or f"compiled.{args.format}")
     input_path = None if args.input == "-" else _resolved_path(args.input)
     _require_distinct_paths(input=input_path, output=output)
+    _require_new_paths(force=args.force, output=output)
     program = parse_ir_json(_read_structured_input(args.input))
     if args.format == "json":
         write_text_atomic(output, serialize_ir_json(program))
@@ -271,6 +283,7 @@ def cmd_benchmark(args: argparse.Namespace) -> int:
     dataset = _resolved_path(args.dataset)
     output = _resolved_path(args.output)
     _require_distinct_paths(dataset=dataset, results=output)
+    _require_new_paths(force=args.force, dataset=dataset, results=output)
     tasks = generate_benchmark(seed=args.seed)
     write_benchmark(dataset, tasks)
     results = run_benchmark(tasks, seed=args.seed)
@@ -681,9 +694,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     create = sub.add_parser("create", help="Generate OpenSCAD from an engineering prompt")
     create.add_argument("prompt", nargs="+", help="Engineering prompt")
-    create.add_argument("-o", "--output", default="generated.scad")
+    create.add_argument("-o", "--output", default="generated.scad", help="New SCAD path; existing files are refused")
     create.add_argument("--fn", type=_fn, default=96)
     create.add_argument("--manifest", help="Also write a JSON design/validation manifest")
+    create.add_argument("--force", action="store_true", help="Explicitly replace existing output and manifest files")
     create.set_defaults(func=cmd_create)
 
     validate = sub.add_parser("validate", help="Parse and validate that a prompt produces a design")
@@ -696,25 +710,28 @@ def build_parser() -> argparse.ArgumentParser:
 
     export = sub.add_parser("export", help="Export generated geometry")
     export.add_argument("prompt", nargs="+", help="Engineering prompt")
-    export.add_argument("-o", "--output")
+    export.add_argument("-o", "--output", help="New artifact path; existing files are refused")
     export.add_argument("--format", choices=["scad", "stl", "json"], default="scad")
     export.add_argument("--fn", type=_fn, default=96)
     export.add_argument("--timeout", type=_positive_timeout, default=120, help="OpenSCAD timeout in seconds")
     export.add_argument("--manifest", help="Also write a JSON design/validation manifest")
+    export.add_argument("--force", action="store_true", help="Explicitly replace existing output and manifest files")
     export.set_defaults(func=cmd_export)
 
     ir_parser = sub.add_parser("ir", help="Parse a supported prompt and emit canonical NeuroCAD IR JSON")
     ir_parser.add_argument("prompt", nargs="+", help="Engineering prompt")
-    ir_parser.add_argument("-o", "--output", default="program.ncad.json")
+    ir_parser.add_argument("-o", "--output", default="program.ncad.json", help="New IR path; existing files are refused")
     ir_parser.add_argument("--fn", type=_fn, default=96)
+    ir_parser.add_argument("--force", action="store_true", help="Explicitly replace an existing output file")
     ir_parser.set_defaults(func=cmd_ir)
 
     compile_parser = sub.add_parser("compile", help="Validate and compile canonical NeuroCAD IR JSON")
     compile_parser.add_argument("input", help="IR JSON file, or - for stdin")
-    compile_parser.add_argument("-o", "--output")
+    compile_parser.add_argument("-o", "--output", help="New artifact path; existing files are refused")
     compile_parser.add_argument("--format", choices=["json", "scad", "stl"], default="scad")
     compile_parser.add_argument("--fn", type=_fn, default=96)
     compile_parser.add_argument("--timeout", type=_positive_timeout, default=120)
+    compile_parser.add_argument("--force", action="store_true", help="Explicitly replace an existing output file")
     compile_parser.set_defaults(func=cmd_compile)
 
     evaluate_parser = sub.add_parser("evaluate", help="Measure a prompt or canonical IR program")
@@ -728,6 +745,7 @@ def build_parser() -> argparse.ArgumentParser:
     benchmark_parser.add_argument("--seed", type=int, default=20260902)
     benchmark_parser.add_argument("--dataset", default="research/benchmarks/neurocad_benchmark_v1.jsonl")
     benchmark_parser.add_argument("--output", default="research/results/neurocad_benchmark_v1.json")
+    benchmark_parser.add_argument("--force", action="store_true", help="Explicitly replace existing dataset and result files")
     benchmark_parser.set_defaults(func=cmd_benchmark)
 
     research_parser = sub.add_parser("research", help="Run and freeze the controlled NeuroCAD research suite")

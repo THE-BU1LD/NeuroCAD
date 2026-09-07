@@ -3,7 +3,7 @@ set -eu
 
 OWNER="THE-BU1LD"
 REPO="NeuroCAD"
-REF="${NEUROCAD_REF:-main}"
+REF="${NEUROCAD_REF:-v0.5.0a6}"
 INSTALL_ROOT="${NEUROCAD_HOME:-$HOME/.local/share/neurocad}"
 BIN_DIR="${NEUROCAD_BIN_DIR:-$HOME/.local/bin}"
 VENV="$INSTALL_ROOT/venv"
@@ -11,6 +11,7 @@ case "$REF" in
   v*) ARCHIVE_URL="https://github.com/$OWNER/$REPO/archive/refs/tags/$REF.zip" ;;
   *) ARCHIVE_URL="https://github.com/$OWNER/$REPO/archive/refs/heads/$REF.zip" ;;
 esac
+PACKAGE="${NEUROCAD_PACKAGE:-$ARCHIVE_URL}"
 
 say() { printf '%s\n' "$*"; }
 fail() { printf 'NeuroCAD install error: %s\n' "$*" >&2; exit 1; }
@@ -30,8 +31,8 @@ if [ ! -x "$VENV/bin/python" ]; then
   "$PYTHON_BIN" -m venv "$VENV" || fail "Could not create virtual environment at $VENV"
 fi
 
-"$VENV/bin/python" -m pip install --upgrade pip setuptools wheel >/dev/null
-"$VENV/bin/python" -m pip install --upgrade "$ARCHIVE_URL"
+"$VENV/bin/python" -m pip install --upgrade "pip==26.2.1" >/dev/null
+"$VENV/bin/python" -m pip install --upgrade "$PACKAGE"
 
 [ -x "$VENV/bin/neurocad" ] || fail "Install completed but the neurocad executable was not created."
 ln -sf "$VENV/bin/neurocad" "$BIN_DIR/neurocad"
@@ -40,7 +41,15 @@ if [ -x "$VENV/bin/text-to-cad" ]; then
   ln -sf "$VENV/bin/text-to-cad" "$BIN_DIR/text-to-cad"
 fi
 
-"$BIN_DIR/neurocad" --version
+installed_version=$("$BIN_DIR/neurocad" --version)
+case "$REF" in
+  v*)
+    expected_version=${REF#v}
+    [ "$installed_version" = "NeuroCAD $expected_version" ] ||
+      fail "Installed version does not match $REF: $installed_version"
+    ;;
+esac
+say "$installed_version"
 "$BIN_DIR/neurocad" doctor
 
 case ":${PATH:-}:" in

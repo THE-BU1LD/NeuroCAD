@@ -17,15 +17,28 @@ preflight, deterministic body/lid IR and SCAD, request-level STL verification,
 printer-coupon calibration, and explicit file handoffs to external CAD and
 slicer applications. See `docs/PRODUCT_WORKFLOW.md` for the exact contract.
 
-## Install
+## Install and first prompt
 
-The public bootstrap installer will be usable after this repository is public:
+From an obtained source checkout, this is the currently verified installation
+path:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install .
+neurocad doctor
+neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" \
+  -o plate.scad --manifest plate.json
+```
+
+The public bootstrap installer remains blocked until this repository and the
+`v0.5.0a6` release tag are anonymously reachable. At that point its command is:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/THE-BU1LD/NeuroCAD/main/install.sh | sh
 ```
 
-For development:
+For development, install the pinned test tools:
 
 ```bash
 python3 -m venv .venv
@@ -34,6 +47,10 @@ python -m pip install --upgrade pip
 python -m pip install -e '.[dev]'
 neurocad doctor
 ```
+
+`install.sh` defaults to the immutable `v0.5.0a6` tag. Release verification can
+exercise it without GitHub by setting `NEUROCAD_PACKAGE` to an exact local wheel;
+this override is not a substitute for the pending anonymous-install gate.
 
 OpenSCAD is optional for SCAD and JSON output. It is required for compiled
 validation and STL export.
@@ -111,7 +128,9 @@ neurocad evaluate --ir plate.ncad.json
 Run the deterministic 48-task product regression benchmark:
 
 ```bash
-neurocad benchmark
+neurocad benchmark \
+  --dataset neurocad-benchmark.jsonl \
+  --output neurocad-benchmark-results.json
 ```
 
 Reproduce the full controlled research suite (requires CPython 3.12.14 and
@@ -206,6 +225,27 @@ those unresolved design decisions are returned for review.
 Unsupported, ambiguous, or incompletely dimensioned prompts exit nonzero and
 list the missing requirements. NeuroCAD does not silently approve default
 geometry for fabrication.
+
+Artifact-producing commands refuse existing output paths by default. Pass
+`--force` only when replacement is intentional and the existing file is no
+longer needed.
+
+## Troubleshooting
+
+- `OpenSCAD is required`: install OpenSCAD and confirm `openscad --version` is
+  available on `PATH`; SCAD and JSON generation work without it.
+- `unsupported domain` or `all overall dimensions must be stated`: rewrite the
+  prompt using one of the exact supported forms above and specify every
+  dimension and feature size.
+- `already exists`: choose a new output path, or use `--force` after reviewing
+  the file that will be replaced.
+- `permission denied`: write into a user-owned directory and verify its parent
+  is writable; do not run NeuroCAD as root to work around ownership problems.
+- Enclosure interpretation reports unmatched clauses: use semicolons and the
+  clause grammar in `docs/PRODUCT_WORKFLOW.md`.
+
+Portal environment, OAuth redirect, and migration-ledger troubleshooting lives
+with the portal deployment runbook rather than this package.
 
 ## Current boundaries
 

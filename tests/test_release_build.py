@@ -3,11 +3,13 @@ from __future__ import annotations
 import io
 import stat
 import tarfile
+import zipfile
 from pathlib import Path
 
 import pytest
 
 from scripts.normalize_sdist import normalize_sdist
+from scripts.verify_distribution import verify_distribution
 
 
 def _source_archive(path: Path, *, mtime: int, unsafe: bool = False) -> None:
@@ -59,3 +61,19 @@ def test_sdist_normalization_rejects_unsafe_member_paths(tmp_path: Path) -> None
         normalize_sdist(archive, 123456789)
 
     assert archive.read_bytes() == original
+
+
+def test_distribution_verification_accepts_safe_sdist(tmp_path: Path) -> None:
+    archive = tmp_path / "example.tar.gz"
+    _source_archive(archive, mtime=100)
+
+    assert verify_distribution(archive) == 2
+
+
+def test_distribution_verification_rejects_embedded_research_run(tmp_path: Path) -> None:
+    archive = tmp_path / "example.whl"
+    with zipfile.ZipFile(archive, "w") as wheel:
+        wheel.writestr("example/research/runs/unreviewed/results.json", "{}")
+
+    with pytest.raises(ValueError, match="forbidden path"):
+        verify_distribution(archive)

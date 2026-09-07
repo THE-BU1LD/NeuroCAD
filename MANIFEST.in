@@ -28,21 +28,14 @@ recursive-include audits *.md
 recursive-include analysis *.md
 recursive-include configs *.json
 recursive-include datasets *.md
+recursive-include demo *.md *.sh
 recursive-include docs *.md
 recursive-include grammar *.md
 recursive-include literature *.md *.csv
 recursive-include model *.md
 recursive-include paper *.md
 recursive-include scripts *.sh *.py
-include research/runs/NC-RUN-2026-09-03-FULL/config.json
-include research/runs/NC-RUN-2026-09-03-FULL/manifest.json
-include research/runs/NC-RUN-2026-09-03-FULL/metrics/results.json
-include research/runs/NC-RUN-2026-09-03-FULL/datasets/compiler_stress_v1.jsonl
-include research/runs/NC-RUN-2026-09-03-FULL/generated/ir_programs.jsonl
-include research/runs/NC-RUN-2026-09-03-FULL/analysis/invalid_cases.jsonl
-include research/runs/NC-RUN-2026-09-03-FULL/analysis/qualitative_predeclared.json
-include research/runs/NC-RUN-2026-09-03-FULL/figures/*.svg
-prune research/runs/NC-RUN-2026-09-02-A
+prune research/runs
 recursive-include research/vericodegen *.py *.json *.md
 recursive-include research/s3 *.json *.txt
 recursive-include tests *.py

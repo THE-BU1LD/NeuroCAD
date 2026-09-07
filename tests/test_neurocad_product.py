@@ -400,6 +400,59 @@ def test_cli_rejects_artifact_path_collisions_before_writing(tmp_path: Path) -> 
         assert target.read_text(encoding="utf-8") == "sentinel\n"
 
 
+def test_cli_refuses_existing_outputs_unless_force_is_explicit(tmp_path: Path) -> None:
+    output = tmp_path / "design.scad"
+    manifest = tmp_path / "design.json"
+    output.write_text("sentinel output\n", encoding="utf-8")
+    manifest.write_text("sentinel manifest\n", encoding="utf-8")
+    command = [
+        sys.executable,
+        "-m",
+        "neurocad_cli",
+        "create",
+        "a 40 x 30 x 3 mm plate",
+        "-o",
+        str(output),
+        "--manifest",
+        str(manifest),
+    ]
+
+    refused = subprocess.run(command, capture_output=True, text=True, check=False)
+    assert refused.returncode == 2
+    assert "already exists" in refused.stderr
+    assert output.read_text(encoding="utf-8") == "sentinel output\n"
+    assert manifest.read_text(encoding="utf-8") == "sentinel manifest\n"
+
+    replaced = subprocess.run([*command, "--force"], capture_output=True, text=True, check=False)
+    assert replaced.returncode == 0, replaced.stderr
+    assert output.read_text(encoding="utf-8") != "sentinel output\n"
+    assert manifest.read_text(encoding="utf-8") != "sentinel manifest\n"
+
+
+@pytest.mark.parametrize("command", ["export", "ir", "compile"])
+def test_core_artifact_commands_refuse_existing_output(tmp_path: Path, command: str) -> None:
+    output = tmp_path / "protected.json"
+    output.write_text("sentinel\n", encoding="utf-8")
+    if command == "export":
+        arguments = [command, "a 40 x 30 x 3 mm plate", "--format", "json", "-o", str(output)]
+    elif command == "ir":
+        arguments = [command, "a 40 x 30 x 3 mm plate", "-o", str(output)]
+    else:
+        source = tmp_path / "source.ncad.json"
+        source.write_text(serialize_ir_json(TextToCAD().build("a 40 x 30 x 3 mm plate").require_program()), encoding="utf-8")
+        arguments = [command, str(source), "--format", "json", "-o", str(output)]
+
+    refused = subprocess.run(
+        [sys.executable, "-m", "neurocad_cli", *arguments],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert refused.returncode == 2
+    assert "already exists" in refused.stderr
+    assert output.read_text(encoding="utf-8") == "sentinel\n"
+
+
 def test_cli_rejects_unsupported_prompt() -> None:
     result = subprocess.run(
         [sys.executable, "-m", "neurocad_cli", "validate", "an unsupported warp drive"],
