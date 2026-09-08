@@ -4,7 +4,7 @@ Target: `v0.5.0a6` public alpha.
 
 Current state: **private review candidate, not a published release** (checked
 2026-09-08). PR #49 joins the audited baseline and canonical histories while
-preserving both; main has not been replaced. Revision `665e706` passed all six
+preserving both; main has not been replaced. Revision `98f05b6` passed all six
 release-matrix jobs and three research workflows. That result certifies that
 revision, not later edits. See [current code audit](docs/CODE_AUDIT_20260908.md)
 for this continuation and [quick start](docs/QUICKSTART.md) for local installation.
@@ -23,6 +23,8 @@ exists. Private repository visibility still prevents anonymous bootstrap.
 - Atomic SCAD writes.
 - Versioned canonical IR, strict schema/semantic validation, deterministic round trips, hierarchy, transforms, Boolean composition, and constraints.
 - IR compilation/evaluation, deterministic benchmark, and real local workbench.
+- Workbench project save/reopen with revision history, per-part SCAD/IR downloads,
+  tab-local mode drafts, stale-request protection, and retryable compiler errors.
 - Bounded structured inputs, hierarchy depth limits, and fail-closed malformed-value handling.
 - Dependency/static security gates and nonce-based demo browser security headers.
 - Python package, CLI, installer, CI, fresh-wheel smoke gate, and release workflow.

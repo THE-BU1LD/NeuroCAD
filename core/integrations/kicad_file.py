@@ -24,6 +24,7 @@ from .kicad import (
     KICAD_FILE_EXTRACTOR_VERSION,
     KICAD_HANDOFF_VERSION,
     KICAD_MECHANICAL_REVIEW_VERSION,
+    MAX_HANDOFF_BYTES,
     REQUIRED_COMPLETE_FIELDS,
     KiCadHandoffError,
     parse_kicad_handoff,
@@ -401,12 +402,12 @@ def extract_kicad_file_receipt(board_path: Path, review_text: str) -> dict[str, 
 
 def write_kicad_file_receipt(path: Path, board_path: Path, review_path: Path) -> Path:
     review = Path(review_path)
-    if not review.is_file() or review.stat().st_size > 1_048_576:
+    if not review.is_file() or review.stat().st_size > MAX_HANDOFF_BYTES:
         raise KiCadHandoffError("KiCad mechanical review path must identify a JSON file no larger than 1 MiB")
     try:
         with review.open("rb") as handle:
-            raw = handle.read(1_048_577)
-        if len(raw) > 1_048_576:
+            raw = handle.read(MAX_HANDOFF_BYTES + 1)
+        if len(raw) > MAX_HANDOFF_BYTES:
             raise KiCadHandoffError("KiCad mechanical review is limited to 1 MiB")
         review_text = raw.decode("utf-8")
     except UnicodeDecodeError as exc:

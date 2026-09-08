@@ -17,7 +17,11 @@ def test_workbench_project_and_request_lifecycle() -> None:
     assert script is not None
     harness = Path(__file__).with_name("workbench_contract.cjs").read_text()
     result = subprocess.run(
-        ["node", "-e", harness], input=json.dumps(script.group(1)),
-        text=True, capture_output=True, timeout=15, check=False,
+        ["node", "-e", harness],
+        input=json.dumps(script.group(1)),
+        text=True,
+        capture_output=True,
+        timeout=15,
+        check=False,
     )
     assert result.returncode == 0, result.stderr

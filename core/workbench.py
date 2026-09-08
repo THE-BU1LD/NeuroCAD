@@ -5,7 +5,7 @@ exact interface without an additional asset build or package-data convention.
 The HTTP handler supplies a fresh CSP nonce for each page load.
 """
 
-HTML = r'''<!doctype html>
+HTML = r"""<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -342,4 +342,4 @@ fileInput.addEventListener('change', () => openProject(fileInput.files[0]));
 run();
 </script>
 </body>
-</html>'''
+</html>"""

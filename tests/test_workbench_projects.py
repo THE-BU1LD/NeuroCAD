@@ -16,10 +16,7 @@ from core.json_io import read_bounded_utf8
 from core.mesh_preview import compile_payload_meshes
 from core.project import MAX_PROJECT_BYTES, parse_project, read_project, serialize_project, update_project
 
-SOURCE = (
-    "80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; "
-    "friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm"
-)
+SOURCE = "80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm"
 
 
 def test_enclosure_project_roundtrip_preserves_revisions_and_source() -> None:
@@ -93,9 +90,14 @@ def test_bundle_spec_hash_is_bound_to_parsed_bytes(tmp_path: Path) -> None:
     path = tmp_path / "spec.json"
     path.write_bytes(raw)
     manifest = {
-        "source": {"spec_filename": path.name, "spec_sha256": hashlib.sha256(raw).hexdigest(),
-                   "spec_version": spec["version"], "profile": spec["profile"]},
-        "title": spec["title"], "units": spec["units"],
+        "source": {
+            "spec_filename": path.name,
+            "spec_sha256": hashlib.sha256(raw).hexdigest(),
+            "spec_version": spec["version"],
+            "profile": spec["profile"],
+        },
+        "title": spec["title"],
+        "units": spec["units"],
     }
     with patch("core.integrations.handoff.sha256_file", side_effect=AssertionError("must hash the parsed bytes")):
         assert _verified_spec(manifest, tmp_path.resolve()).wall_mm == 2
