@@ -24,4 +24,14 @@ locally unverifiable.
 
 ## Negative evidence retention rule
 
+### Current implementation note — 2026-09-08
+
+This ledger preserves the frozen historical findings. Current supported code now
+includes limited tolerance calculations, declared manufacturing profiles, and
+measurement-based calibration helpers in `core/engineering_math.py`,
+`core/manufacturing.py`, and `core/calibration.py`. HT-14's statement about the
+absence of those aids describes the historical state; its rejection of general
+fabrication/safety readiness still holds. These additions do not supply physical
+fit evidence, simulation, arbitrary constraint solving, or a learned model.
+
 New experiments use `NC-EXP-*` IDs and the expanded run ID `NC-RUN-2026-09-03-FULL`. They are evidence about the maintained controlled compiler only. Historical failures, stale modules, and the falsified typed-parser mechanism claim are not overwritten, renamed as successes, or included in current test totals.

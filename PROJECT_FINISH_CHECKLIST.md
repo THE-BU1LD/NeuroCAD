@@ -1,6 +1,9 @@
 # Project finish checklist
 
 Session: 2026-09-07. Completion requires fresh validation; historical results are context only.
+This is the scoped record of that session, not a claim that all local work is
+exhausted. New findings and their execution status are tracked in
+`docs/MEGA_AUDIT_AND_ACTIONS_20260908.md`.
 
 ## P0 — Build and release blockers
 
@@ -74,4 +77,4 @@ Final verdict: **NOT READY — SPECIFIC BLOCKERS REMAIN** for the combined publi
 release and live membership launch. Local integration and the checks above pass;
 external CI/public installation, production deployment/authentication, and physical
 fit acceptance remain open. The operating checklist is complete for executable
-local work; it does not certify the optional expansion backlog.
+local work identified in that session; it does not certify the optional expansion backlog or subsequent findings.

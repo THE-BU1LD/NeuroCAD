@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import shutil
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -403,6 +404,34 @@ def test_real_kernel_body_and_lid_pass_request_level_feature_probes(tmp_path: Pa
         compile_scad_verified(scad, stl, timeout=120)
         verification = verify_enclosure_mesh(stl, spec, part=part)
         assert verification.valid, verification.to_dict()
+
+
+@pytest.mark.skipif(shutil.which("openscad") is None, reason="OpenSCAD is not installed")
+@pytest.mark.parametrize("fault", ["missing_cutout", "misplaced_hole", "filled_cavity", "incorrect_lid"])
+def test_independent_mesh_checker_rejects_manufacturable_wrong_parts(tmp_path: Path, fault: str) -> None:
+    """Topology alone must not certify a valid solid that violates the request."""
+    spec = EnclosureSpec(
+        (60, 40, 24), 2, "fdm_standard", LidSpec("friction", 2, 0.3, lip_height_mm=2),
+        cutouts=(CutoutSpec("port", "circular", "front", (0, 0), diameter_mm=6),),
+    )
+    part = "body"
+    if fault == "filled_cavity":
+        scad_source = "cube([60,40,24], center=true);"
+    elif fault == "incorrect_lid":
+        part = "lid"
+        # Correct bounds and volume topology, but no inset insertion shoulder.
+        scad_source = "translate([0,0,-1]) cube([59.4,39.4,4], center=true);"
+    else:
+        damaged = replace(spec, cutouts=() if fault == "missing_cutout" else (
+            replace(spec.cutouts[0], center_uv_mm=(12, 0)),
+        ))
+        scad_source = program_to_scad(build_enclosure(damaged).body, fn=32)
+    scad, stl = tmp_path / f"{fault}.scad", tmp_path / f"{fault}.stl"
+    write_text_atomic(scad, scad_source)
+    compile_scad_verified(scad, stl, timeout=120)
+    result = verify_enclosure_mesh(stl, spec, part=part)
+    assert not result.valid, result.to_dict()
+    assert any(not probe.passed for probe in result.probes), result.to_dict()
 
 
 @pytest.mark.skipif(shutil.which("openscad") is None, reason="OpenSCAD is not installed")

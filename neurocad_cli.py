@@ -681,6 +681,19 @@ def cmd_integrations_kicad_apply(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_fit_sample(args: argparse.Namespace) -> int:
+    from core.fit_sample import cutout_fit_sample
+    from core.project import read_project
+
+    source, output = _resolved_path(args.project), _resolved_path(args.output)
+    _require_distinct_paths(source=source, output=output)
+    _require_new_path(output, label="fit sample")
+    sample = cutout_fit_sample(read_project(source), args.cutout, margin_mm=args.margin)
+    write_text_atomic(output, serialize_ir_json(sample))
+    print(str(output))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="neurocad",
@@ -776,6 +789,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     enclosure_parser = sub.add_parser("enclosure", help="Create, validate, edit, and build typed enclosure projects")
     enclosure_actions = enclosure_parser.add_subparsers(dest="enclosure_action", required=True)
+
+    fit_sample = enclosure_actions.add_parser("fit-sample", help="Extract a flat cutout coupon as canonical IR")
+    fit_sample.add_argument("project")
+    fit_sample.add_argument("--cutout", required=True, help="Existing body cutout ID")
+    fit_sample.add_argument("--margin", type=float, default=5.0, help="Surrounding material in mm (2–50)")
+    fit_sample.add_argument("-o", "--output", required=True, help="New canonical IR file; compile with neurocad compile")
+    fit_sample.set_defaults(func=cmd_fit_sample)
 
     enclosure_interpret = enclosure_actions.add_parser("interpret", help="Interpret explicit enclosure clauses")
     enclosure_interpret.add_argument("prompt", nargs="+", help="Semicolon-delimited enclosure requirements")

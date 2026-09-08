@@ -100,6 +100,26 @@ OpenSCAD, stale preflight results, and invalid or stale mesh verification.
 
 ## 4. Engineering calculations
 
+### Cutout fit samples
+
+Generate a small flat coupon for an existing unrounded body cutout:
+
+```bash
+neurocad enclosure fit-sample controller.ncad.json --cutout usb-port -o usb-sample.ncad.json
+neurocad compile usb-sample.ncad.json --format stl -o usb-sample.stl
+```
+
+Use the actual cutout ID from the project. Rectangular and circular body cutouts
+are supported; lid/rounded cutouts are rejected. `--margin` controls surrounding
+material from 2 to 50 mm. The coupon preserves generated aperture dimensions,
+including circular-hole compensation, and the source wall/floor thickness.
+Canonical IR metadata records the source project hash, revision, and face.
+The coupon is flattened into XY: deliberately match manufacturing orientation
+and process when comparing fit. A successful mesh check does not establish physical
+fit, assembly access, or a promised print duration. Existing outputs are refused.
+
+### Analytical calculations
+
 The preflight and public math helpers keep analytical, empirical, and heuristic
 evidence separate:
 

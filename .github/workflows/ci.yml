@@ -60,11 +60,11 @@ jobs:
         run: python -m ruff check core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
 
       - name: Type-check maintained product and research tooling
-        if: matrix.python-version == '3.12'
+        if: startsWith(matrix.python-version, '3.12.')
         run: python -m mypy core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
       - name: Audit dependencies and supported source
-        if: matrix.python-version == '3.12'
+        if: startsWith(matrix.python-version, '3.12.')
         shell: bash
         run: |
           python -m pip check
@@ -152,7 +152,7 @@ jobs:
           test -s /tmp/fresh-compiled.scad
 
       - name: Fresh source-distribution install smoke test
-        if: matrix.python-version == '3.12'
+        if: startsWith(matrix.python-version, '3.12.')
         shell: bash
         run: |
           python -m venv /tmp/neurocad-clean-sdist
@@ -176,7 +176,7 @@ jobs:
           echo "No high-confidence secret patterns detected in Git history."
 
       - name: Upload distributions
-        if: matrix.python-version == '3.12'
+        if: startsWith(matrix.python-version, '3.12.')
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: neurocad-dist

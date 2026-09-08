@@ -191,9 +191,10 @@ def _free_body_point(spec: EnclosureSpec, *, floor: bool) -> tuple[float, float,
     return None
 
 
-def _free_lid_material_point(spec: EnclosureSpec) -> tuple[float, float, float] | None:
-    half_x = spec.outer_size_mm[0] / 2 - spec.lid.clearance_mm - 0.25
-    half_y = spec.outer_size_mm[1] / 2 - spec.lid.clearance_mm - 0.25
+def _free_lid_material_point(spec: EnclosureSpec, *, plug: bool = False) -> tuple[float, float, float] | None:
+    inset = spec.wall_mm if plug else 0.0
+    half_x = spec.outer_size_mm[0] / 2 - spec.lid.clearance_mm - inset - 0.25
+    half_y = spec.outer_size_mm[1] / 2 - spec.lid.clearance_mm - inset - 0.25
     features: tuple[CutoutSpec | VentPatternSpec, ...] = (
         tuple(item for item in spec.cutouts if item.face == "top")
         + tuple(item for item in spec.vents if item.face == "top")
@@ -211,7 +212,8 @@ def _free_lid_material_point(spec: EnclosureSpec) -> tuple[float, float, float] 
             math.dist(candidate, position) <= fastener_radius for position in spec.lid.fastener_positions_xy_mm
         ):
             continue
-        return candidate[0], candidate[1], 0.0
+        z = -(spec.lid.thickness_mm + spec.lid.lip_height_mm) / 2 if plug else 0.0
+        return candidate[0], candidate[1], z
     return None
 
 
@@ -286,4 +288,13 @@ def verify_enclosure_mesh(path: Path, spec: EnclosureSpec, *, part: str) -> Encl
         material_point = _free_lid_material_point(spec)
         if material_point is not None:
             probes.append(_probe(occupancy, "lid", "lid material", material_point, True))
+        if spec.lid.lip_height_mm > 0:
+            plug_point = _free_lid_material_point(spec, plug=True)
+            if plug_point is not None:
+                probes.append(_probe(occupancy, "lid", "insertion plug material", plug_point, True))
+            z = -(spec.lid.thickness_mm + spec.lid.lip_height_mm) / 2
+            shoulder_x = spec.outer_size_mm[0] / 2 - spec.lid.clearance_mm - spec.wall_mm / 2
+            shoulder_y = spec.outer_size_mm[1] / 2 - spec.lid.clearance_mm - spec.wall_mm / 2
+            for index, point in enumerate(((shoulder_x, 0, z), (-shoulder_x, 0, z), (0, shoulder_y, z), (0, -shoulder_y, z))):
+                probes.append(_probe(occupancy, "lid", f"insertion shoulder clearance {index + 1}", point, False))
     return EnclosureMeshVerification(all(probe.passed for probe in probes), part, topology, tuple(probes))
