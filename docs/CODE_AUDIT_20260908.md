@@ -194,6 +194,14 @@ commit. No main merge, visibility change, tag, or release was performed.
 - Final formatter pass covers the new UI/test modules and bounded JSON helper;
   targeted browser/project tests pass afterward. Later PR-head checks remain
   authoritative for later formatting/documentation commits.
+- Follow-up CI inspection exposed deprecated Node 20 action runtimes. All five
+  workflows now pin official Node 24 actions: checkout v7.0.1, setup-python v7.0.0
+  and upload-artifact v7.0.1. Tags were resolved to immutable commit SHAs and their
+  `action.yml` runtime declarations checked. Workflow permissions, input/output
+  settings, supported Python versions and research protocols are unchanged.
+  Official compatibility notes: [checkout](https://github.com/actions/checkout),
+  [setup-python](https://github.com/actions/setup-python), and
+  [upload-artifact](https://github.com/actions/upload-artifact).
 
 ### Architecture, content and quality assessment
 
