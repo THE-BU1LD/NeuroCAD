@@ -221,3 +221,44 @@ runs are separate blockers. This execution record does not assert that the entir
 
 Filter escaping was checked against the official PostgREST URL grammar:
 https://docs.postgrest.org/en/v16/references/api/url_grammar.html
+
+## Astra execution follow-up — 2026-09-08
+
+Implemented three bounded workflow improvements without changing frozen research
+protocols, historical results, bundle schemas, or production services:
+
+- A15: `enclosure preflight --bundle` independently verifies compiled artifacts,
+  requires matching normalized project contents and revision, and reports body/lid
+  mesh volumes, density-based solid-model mass/cost, project-file hash, and signed
+  shell-estimate error. Source-only, different-project, stale and tampered evidence
+  is rejected. Full feature-family estimate-error characterization remains open;
+  the new verified-volume path is implemented and tested.
+- A42: demo sockets now have a 10-second idle timeout and at most eight request
+  workers. Overload closes excess connections without allocating another thread.
+  Duplicate Content-Length, Transfer-Encoding and truncated bodies fail closed.
+  These are local-demo safeguards, not authentication or a total CPU/runtime quota.
+- Demo UX: input edits invalidate in-flight responses, including late failures,
+  so old geometry cannot be presented as the currently validated design.
+- Economic inputs reject booleans, invalid values and overflowing mass/cost;
+  valid reports cannot emit Infinity for these fields.
+
+Verification performed:
+
+- Full regression suite: 375 passed. After collection, one additional body/lid
+  reference test was added; the complete material-report module then passed all
+  12 tests. Thus the newest test is verified separately, not counted in that run.
+- Socket and existing demo tests: 18 passed. Executed UI-script race cases: 2 passed.
+- CI-scope Ruff, mypy (57 source files), and Bandit: passed.
+- Wheel/sdist build passed; archive inspection: 44 wheel members, 188 sdist members.
+- Installed wheel outside the checkout built a fresh body/lid STL bundle and
+  measured 44,809.22 mm³ total solid volume. At the supplied density 1.25 g/cm³,
+  mass is 56.011525 g; the old shell estimate is 18.2693% low for this example.
+  This is one deterministic geometry example, not a population error estimate.
+- Local artifacts: `.tmp-release-work/astra-20260908-dist` and
+  `.tmp-release-work/astra-20260908-bundle`. No publication or deployment occurred.
+
+The portal was unchanged in this follow-up. Its previous browser-worker shutdown
+issue and production acceptance gates remain open. Physical fit, slicer use,
+full protected-interface/evidence workflows and broader checklist acceptance
+are not claimed complete. No trained-model result or physical measurement was
+created or inferred from these software tests.

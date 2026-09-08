@@ -404,7 +404,15 @@ def cmd_enclosure_preflight(args: argparse.Namespace) -> int:
         material_cost_per_kg=args.material_cost,
         calibration_profile=calibration_profile,
     )
-    print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
+    payload = report.to_dict()
+    if args.bundle:
+        from core.workflow import verified_material_report
+
+        payload["compiled_geometry"] = verified_material_report(
+            project, _resolved_path(args.bundle), density_g_cm3=args.density,
+            material_cost_per_kg=args.material_cost,
+        )
+    print(json.dumps(payload, indent=2, sort_keys=True))
     return 0 if report.valid else 2
 
 
@@ -823,6 +831,7 @@ def build_parser() -> argparse.ArgumentParser:
     enclosure_preflight.add_argument("--density", type=float, help="Optional material density in g/cm^3")
     enclosure_preflight.add_argument("--material-cost", type=float, help="Optional material cost per kg; requires density")
     enclosure_preflight.add_argument("--calibration", help="Optional evidence-backed calibration profile JSON")
+    enclosure_preflight.add_argument("--bundle", help="Measure solid material from a verified STL bundle matching this exact project")
     enclosure_preflight.set_defaults(func=cmd_enclosure_preflight)
 
     enclosure_edit = enclosure_actions.add_parser("edit", help="Create a new project revision with a semantic edit")

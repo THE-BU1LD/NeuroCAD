@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -350,4 +351,46 @@ def verify_project_bundle(directory: Path) -> dict[str, Any]:
             "mesh_verification": True if compiled_stl else None,
         },
         "current_mesh_verification": current_mesh_verification,
+    }
+
+
+def verified_material_report(
+    project: EnclosureProject,
+    directory: Path,
+    *,
+    density_g_cm3: float | None = None,
+    material_cost_per_kg: float | None = None,
+) -> dict[str, Any]:
+    """Measure all verified parts, never treating model volume as slicer usage."""
+    preflight = fabrication_preflight(
+        project.spec, density_g_cm3=density_g_cm3, material_cost_per_kg=material_cost_per_kg,
+    )
+    verified = verify_project_bundle(directory)
+    if not verified["compiled_stl"]:
+        raise ValueError("material measurement requires a compiled STL bundle")
+    _, raw = _read_direct_bundle_file(
+        directory.expanduser().resolve(), "project.ncad.json", maximum_bytes=MAX_PROJECT_BYTES,
+    )
+    bundled = parse_project(raw.decode("utf-8"))
+    if bundled != parse_project(serialize_project(project)):
+        raise ValueError("material bundle does not match the exact project and revision")
+    volumes = {
+        part: report["topology"]["volume_mm3"]
+        for part, report in verified["current_mesh_verification"].items()
+    }
+    total = sum(volumes.values())
+    mass = None if density_g_cm3 is None else total / 1000 * density_g_cm3
+    cost = None if mass is None or material_cost_per_kg is None else mass / 1000 * material_cost_per_kg
+    if any(value is not None and not math.isfinite(value) for value in (mass, cost)):
+        raise ValueError("mesh-based mass or cost exceeds the finite numeric range")
+    approximate = preflight.estimate.approximate_material_volume_mm3
+    return {
+        "basis": "verified triangle-mesh volume",
+        "source_project_sha256": hashlib.sha256(raw).hexdigest(),
+        "part_volume_mm3": volumes,
+        "total_volume_mm3": total,
+        "solid_model_mass_g": mass,
+        "solid_model_material_cost": cost,
+        "shell_estimate_error_percent": (approximate - total) / total * 100,
+        "limitations": "Tessellated solid geometry, not measured physical output. Excludes infill, supports, purge, waste and print time. Cost uses the currency of the supplied price per kg.",
     }

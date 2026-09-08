@@ -162,6 +162,11 @@ validation findings, and fabrication preflight together. The server binds to
 loopback and validates browser Host headers by default. Binding it to another
 interface requires `--allow-remote` and exposes an unauthenticated service; put
 an authenticated reverse proxy in front of it rather than exposing it directly.
+The demo caps active request workers at eight and applies a 10-second socket-idle
+timeout; excess connections are closed without creating more workers. Requests
+must have one Content-Length and cannot use Transfer-Encoding. These limits do
+not make the demo an authenticated or internet-hardened hosting service. Editing
+input invalidates both displayed output and responses still in flight.
 
 Create, revise, preflight, and compile a reviewable enclosure project:
 

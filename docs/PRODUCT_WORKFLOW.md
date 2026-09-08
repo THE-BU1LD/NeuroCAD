@@ -100,6 +100,27 @@ OpenSCAD, stale preflight results, and invalid or stale mesh verification.
 
 ## 4. Engineering calculations
 
+### Verified solid-model material
+
+For an STL bundle built from the exact project, calculate volume from the verified
+body/lid meshes rather than relying on the shell approximation:
+
+```bash
+neurocad enclosure preflight controller.ncad.json --bundle controller-r1 --density 1.25 --material-cost 20
+```
+
+The added `compiled_geometry` result records per-part and total volume in mm³,
+solid-model mass in grams, material cost in the supplied price's currency, source
+project hash, and the signed percentage error of the shell estimate. Density is
+in g/cm³ and price is per kg. Without density, mass and cost remain unknown.
+Source-only, stale-revision, different-project, or tampered bundles are rejected.
+Integer and floating-point spellings of equivalent dimensions are normalized.
+Existing preflight output and bundle formats are preserved.
+
+This is tessellated solid-model volume, not slicer filament usage: infill, supports,
+purge, waste, print duration, and physical measurements are not inferred. Boolean,
+non-finite, negative, and overflowing economic inputs are rejected as applicable.
+
 ### Cutout fit samples
 
 Generate a small flat coupon for an existing unrounded body cutout:

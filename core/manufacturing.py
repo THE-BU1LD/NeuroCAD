@@ -212,13 +212,17 @@ def fabrication_preflight(
     mass: float | None = None
     cost: float | None = None
     if density_g_cm3 is not None:
-        if not math.isfinite(density_g_cm3) or density_g_cm3 <= 0:
+        if isinstance(density_g_cm3, bool) or not math.isfinite(density_g_cm3) or density_g_cm3 <= 0:
             raise ValueError("density_g_cm3 must be positive and finite")
         mass = material / 1000 * density_g_cm3
+        if not math.isfinite(mass):
+            raise ValueError("calculated mass exceeds the finite numeric range")
         if material_cost_per_kg is not None:
-            if not math.isfinite(material_cost_per_kg) or material_cost_per_kg < 0:
+            if isinstance(material_cost_per_kg, bool) or not math.isfinite(material_cost_per_kg) or material_cost_per_kg < 0:
                 raise ValueError("material_cost_per_kg must be finite and non-negative")
             cost = mass / 1000 * material_cost_per_kg
+            if not math.isfinite(cost):
+                raise ValueError("calculated material cost exceeds the finite numeric range")
     elif material_cost_per_kg is not None:
         raise ValueError("material cost requires a material density")
 

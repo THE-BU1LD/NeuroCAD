@@ -159,8 +159,9 @@ main{max-width:1240px;margin:auto;padding:38px 24px 70px}header{display:flex;jus
 const source=document.querySelector('#source'),type=document.querySelector('#sourceType'),button=document.querySelector('#generate'),status=document.querySelector('#status'),result=document.querySelector('#result'),preview=document.querySelector('#preview'),metrics=document.querySelector('#metrics'),ir=document.querySelector('#ir'),scad=document.querySelector('#scad'),validation=document.querySelector('#validation');
 const esc=s=>String(s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
 function clearOutput(message){preview.innerHTML='';const empty=document.createElement('p');empty.className='empty';empty.textContent=message;preview.append(empty);metrics.replaceChildren();ir.textContent='';scad.textContent='';validation.textContent=''}
-function markDirty(){status.className='status';status.setAttribute('role','status');status.textContent='Input changed; run validation before using any output.';clearOutput('No current validated output.')}
-async function run(){button.disabled=true;button.textContent='Validating…';result.setAttribute('aria-busy','true');status.className='status';status.setAttribute('role','status');status.textContent='Running the real pipeline…';clearOutput('Validating the current input…');try{const response=await fetch('/api/generate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:source.value,source_type:type.value})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Generation failed');preview.innerHTML=data.preview_svg;const e=data.evaluation;const kernel=e.kernel_validity===null?'unverified':e.kernel_validity;metrics.innerHTML=[['Structurally valid',e.structural_validity],['Kernel geometry',kernel],['Editable nodes',e.editable_nodes],['Latency',e.evaluation_latency_ms.toFixed(2)+' ms']].map(x=>`<div class="metric"><b>${esc(x[1])}</b><small>${esc(x[0])}</small></div>`).join('');ir.textContent=JSON.stringify(data.spec||data.ir,null,2);scad.textContent=typeof data.scad==='string'?data.scad:JSON.stringify(data.scad,null,2);validation.textContent=JSON.stringify({validation:data.validation,manufacturing:data.manufacturing||null},null,2);status.textContent=data.mode==='enclosure'?'Enclosure specification is complete; review warnings before compiling or fabrication.':'Validated canonical program generated; compile an STL for kernel geometry verification.'}catch(error){clearOutput('No validated output was generated. Correct the input and try again.');status.className='status error';status.setAttribute('role','alert');status.textContent=error instanceof Error?error.message:'Generation failed'}finally{button.disabled=false;button.textContent='Interpret, validate & preview';result.setAttribute('aria-busy','false')}}
+let generation=0;
+function markDirty(){generation++;status.className='status';status.setAttribute('role','status');status.textContent='Input changed; run validation before using any output.';clearOutput('No current validated output.')}
+async function run(){const requestGeneration=++generation;button.disabled=true;button.textContent='Validating…';result.setAttribute('aria-busy','true');status.className='status';status.setAttribute('role','status');status.textContent='Running the real pipeline…';clearOutput('Validating the current input…');try{const response=await fetch('/api/generate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:source.value,source_type:type.value})});const data=await response.json();if(requestGeneration!==generation)return;if(!response.ok)throw new Error(data.error||'Generation failed');preview.innerHTML=data.preview_svg;const e=data.evaluation;const kernel=e.kernel_validity===null?'unverified':e.kernel_validity;metrics.innerHTML=[['Structurally valid',e.structural_validity],['Kernel geometry',kernel],['Editable nodes',e.editable_nodes],['Latency',e.evaluation_latency_ms.toFixed(2)+' ms']].map(x=>`<div class="metric"><b>${esc(x[1])}</b><small>${esc(x[0])}</small></div>`).join('');ir.textContent=JSON.stringify(data.spec||data.ir,null,2);scad.textContent=typeof data.scad==='string'?data.scad:JSON.stringify(data.scad,null,2);validation.textContent=JSON.stringify({validation:data.validation,manufacturing:data.manufacturing||null},null,2);status.textContent=data.mode==='enclosure'?'Enclosure specification is complete; review warnings before compiling or fabrication.':'Validated canonical program generated; compile an STL for kernel geometry verification.'}catch(error){if(requestGeneration!==generation)return;clearOutput('No validated output was generated. Correct the input and try again.');status.className='status error';status.setAttribute('role','alert');status.textContent=error instanceof Error?error.message:'Generation failed'}finally{button.disabled=false;button.textContent='Interpret, validate & preview';result.setAttribute('aria-busy','false')}}
 button.addEventListener('click',run);source.addEventListener('input',markDirty);type.addEventListener('change',()=>{if(type.value==='enclosure')source.value='80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case';else if(type.value==='prompt')source.value='a 120 x 80 x 4 mm plate with four 4 mm holes';else source.value='Paste canonical NeuroCAD IR JSON here';markDirty()});run();
 </script></body></html>"""
 
@@ -234,16 +235,24 @@ class DemoHandler(BaseHTTPRequestHandler):
             if content_type != "application/json":
                 self._json(HTTPStatus.UNSUPPORTED_MEDIA_TYPE, {"error": "Content-Type must be application/json"})
                 return
+            if self.headers.get_all("Transfer-Encoding") or len(self.headers.get_all("Content-Length", [])) != 1:
+                raise ValueError("request requires one Content-Length and no Transfer-Encoding")
             length = int(self.headers.get("Content-Length", "0"))
             if length <= 0 or length > MAX_REQUEST_BYTES:
                 raise ValueError("request body must be between 1 byte and 1 MiB")
-            request = strict_json_loads(self.rfile.read(length).decode("utf-8"))
+            raw = self.rfile.read(length)
+            if len(raw) != length:
+                raise ValueError("request body ended before Content-Length")
+            request = strict_json_loads(raw.decode("utf-8"))
             if not isinstance(request, dict):
                 raise TypeError("request body must be a JSON object")
             source = request.get("source")
             if not isinstance(source, str):
                 raise TypeError("source must be a string")
             payload = generate_demo_payload(source, request.get("source_type", "prompt"))
+        except TimeoutError:
+            self._json(HTTPStatus.REQUEST_TIMEOUT, {"error": "request body timed out"})
+            return
         except (ValueError, TypeError, json.JSONDecodeError) as exc:
             self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
             return
@@ -262,6 +271,34 @@ class DemoServer(ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = True
     enforce_loopback_host_header = True
+    request_timeout_seconds = 10.0
+    maximum_workers = 8
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self._worker_slots = threading.BoundedSemaphore(self.maximum_workers)
+        super().__init__(*args, **kwargs)
+
+    def get_request(self) -> tuple[socket.socket, Any]:
+        request, address = super().get_request()
+        request.settimeout(self.request_timeout_seconds)
+        return request, address
+
+    def process_request(self, request: socket.socket | tuple[bytes, socket.socket], client_address: Any) -> None:
+        if not self._worker_slots.acquire(blocking=False):
+            # Do not block the accept loop or create a worker for overload.
+            self.shutdown_request(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except Exception:
+            self._worker_slots.release()
+            raise
+
+    def process_request_thread(self, request: socket.socket | tuple[bytes, socket.socket], client_address: Any) -> None:
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._worker_slots.release()
 
 
 def serve_demo(
