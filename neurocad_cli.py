@@ -22,6 +22,7 @@ from core.ir import CADProgram, program_bounds, program_bounds_are_exact
 from core.ir_export import program_to_scad
 from core.ir_parser import parse_ir_json, serialize_ir_json
 from core.program_evaluation import evaluate_program
+from core.structural_verification import _build_verification_bundle
 from text_to_cad import TextToCAD
 
 __version__ = "0.5.0a6"
@@ -164,6 +165,28 @@ def cmd_create(args: argparse.Namespace) -> int:
         write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation)
     print(path)
     return 0
+
+
+def build_verification_report(prompt: str, fn: int = 96):
+    """Compatibility API for canonical main's structural-only report."""
+    return _build_verification_bundle(prompt, fn)[0]
+
+
+def cmd_verify(args: argparse.Namespace) -> int:
+    report_path = _resolved_path(args.json_output) if args.json_output else None
+    scad_path = _resolved_path(args.scad_output) if args.scad_output else None
+    _require_distinct_paths(report=report_path, scad=scad_path)
+    _require_new_paths(force=args.force, report=report_path, scad=scad_path)
+    report, scad = _build_verification_bundle(_prompt(args.prompt), args.fn)
+    if scad_path is not None and report["status"] == "valid":
+        write_text_atomic(scad_path, scad)
+    payload = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    if report_path is not None:
+        write_text_atomic(report_path, payload)
+        print(report_path)
+    else:
+        print(payload, end="")
+    return 0 if report["status"] == "valid" else 1
 
 
 def cmd_export(args: argparse.Namespace) -> int:
@@ -728,6 +751,14 @@ def build_parser() -> argparse.ArgumentParser:
     validate.add_argument("--timeout", type=_positive_timeout, default=120, help="OpenSCAD timeout in seconds")
     validate.add_argument("--json", action="store_true", help="Print the design and validation manifest as JSON")
     validate.set_defaults(func=cmd_validate)
+
+    verify = sub.add_parser("verify", help="Report structural generation integrity, not kernel or physical validity")
+    verify.add_argument("prompt", nargs="+", help="Fully dimensioned supported prompt")
+    verify.add_argument("--json-output", help="New verification report path")
+    verify.add_argument("--scad-output", help="New exact reported OpenSCAD path (valid designs only)")
+    verify.add_argument("--fn", type=_fn, default=96)
+    verify.add_argument("--force", action="store_true", help="Explicitly replace existing output files")
+    verify.set_defaults(func=cmd_verify)
 
     export = sub.add_parser("export", help="Export generated geometry")
     export.add_argument("prompt", nargs="+", help="Engineering prompt")
