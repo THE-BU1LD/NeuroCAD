@@ -358,6 +358,77 @@ def cmd_demo(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_topology(args: argparse.Namespace) -> int:
+    import hashlib
+    import io
+
+    import trimesh
+
+    from core.topology import analyze_triangle_complex
+
+    source = _resolved_path(args.input)
+    output = _resolved_path(args.output) if args.output else None
+    _require_distinct_paths(input=source, output=output)
+    _require_new_paths(force=args.force, output=output)
+    if source.suffix.lower() != ".stl":
+        raise ValueError("topology input must be an STL file")
+    with source.open("rb") as handle:
+        payload = handle.read(32 * 1024 * 1024 + 1)
+    if not payload or len(payload) > 32 * 1024 * 1024:
+        raise ValueError("topology input must be non-empty and at most 32 MiB")
+    mesh = trimesh.load_mesh(io.BytesIO(payload), file_type="stl", process=True)
+    report = analyze_triangle_complex(mesh.vertices, mesh.faces)
+    report["source_sha256"] = hashlib.sha256(payload).hexdigest()
+    report["preprocessing"] = "trimesh process=True vertex welding; topology is of the processed mesh"
+    text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    if output:
+        write_text_atomic(output, text)
+    print(text, end="")
+    if args.require_closed_manifold and (not report["manifold"] or not report["closed"]):
+        return 1
+    return 0
+
+
+def cmd_tolerance(args: argparse.Namespace) -> int:
+    from core.engineering_math import ToleranceContribution, tolerance_stack
+    from core.json_io import strict_json_loads
+
+    source = _resolved_path(args.input)
+    output = _resolved_path(args.output) if args.output else None
+    _require_distinct_paths(input=source, output=output)
+    _require_new_paths(force=args.force, output=output)
+    with source.open("rb") as handle:
+        payload = handle.read(MAX_IR_INPUT_BYTES + 1)
+    if len(payload) > MAX_IR_INPUT_BYTES:
+        raise ValueError("tolerance input exceeds 1 MiB")
+    request = strict_json_loads(payload.decode("utf-8"))
+    required = {"nominal_clearance_mm", "contributions"}
+    if not isinstance(request, dict) or not required <= request.keys() or request.keys() - (required | {"correlations", "confidence_multiplier"}):
+        raise ValueError("tolerance input requires nominal_clearance_mm and contributions; optional correlations and confidence_multiplier")
+    if not isinstance(request["contributions"], list) or len(request["contributions"]) > 128:
+        raise ValueError("contributions must be an array of at most 128 entries")
+    contributions = []
+    for entry in request["contributions"]:
+        if not isinstance(entry, dict) or set(entry) != {"name", "mean_mm", "sigma_mm", "worst_case_mm"}:
+            raise ValueError("each contribution requires exactly name, mean_mm, sigma_mm, worst_case_mm")
+        contributions.append(ToleranceContribution(**entry))
+    result = tolerance_stack(
+        request["nominal_clearance_mm"], tuple(contributions),
+        confidence_multiplier=request.get("confidence_multiplier", 3.0), correlations=request.get("correlations"),
+    )
+    report = {
+        "schema_version": "neurocad-tolerance-v1", "result": result.to_dict(),
+        "variation_model": "joint_normal_correlated" if request.get("correlations") is not None else "independent_normal",
+        "limitations": ["Normal-model fit probability is not empirical acceptance or a safety guarantee.",
+                        "Worst-case intervals are separate declared bounds, not bounds on a normal distribution."],
+    }
+    text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    if output:
+        write_text_atomic(output, text)
+    print(text, end="")
+    return 0
+
+
 def cmd_enclosure_interpret(args: argparse.Namespace) -> int:
     from core.natural_language import interpret_enclosure
     from core.project import write_project
@@ -735,6 +806,19 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor = sub.add_parser("doctor", help="Check the local NeuroCAD installation")
     doctor.set_defaults(func=cmd_doctor)
+
+    topology = sub.add_parser("topology", help="Analyze STL F2 homology and manifold structure, not physical validity")
+    topology.add_argument("input", help="STL file, at most 32 MiB and 100,000 faces")
+    topology.add_argument("-o", "--output", help="Optional new JSON report path")
+    topology.add_argument("--require-closed-manifold", action="store_true", help="Exit 1 for open or singular complexes")
+    topology.add_argument("--force", action="store_true", help="Explicitly replace the report file")
+    topology.set_defaults(func=cmd_topology)
+
+    tolerance = sub.add_parser("tolerance", help="Compute a validated independent or correlated normal tolerance stack")
+    tolerance.add_argument("input", help="Tolerance JSON request; see docs/MATHEMATICS.md")
+    tolerance.add_argument("-o", "--output", help="Optional new JSON report path")
+    tolerance.add_argument("--force", action="store_true", help="Explicitly replace the report file")
+    tolerance.set_defaults(func=cmd_tolerance)
 
     create = sub.add_parser("create", help="Generate OpenSCAD from an engineering prompt")
     create.add_argument("prompt", nargs="+", help="Engineering prompt")

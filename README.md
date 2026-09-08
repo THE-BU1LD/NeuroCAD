@@ -19,8 +19,7 @@ slicer applications. See `docs/PRODUCT_WORKFLOW.md` for the exact contract.
 
 ## Install and first prompt
 
-From an obtained source checkout, this is the currently verified installation
-path:
+From this source checkout, the currently verified installation path is:
 
 ```bash
 python3 -m venv .venv
@@ -31,12 +30,20 @@ neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" \
   -o plate.scad --manifest plate.json
 ```
 
-The public bootstrap installer remains blocked until this repository and the
-`v0.5.0a6` release tag are anonymously reachable. At that point its command is:
+For a persistent macOS/Linux command from this checkout:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/THE-BU1LD/NeuroCAD/main/install.sh | sh
+NEUROCAD_PACKAGE="$PWD" sh ./install.sh
 ```
+
+The installer stages and checks a fresh environment before publishing launchers;
+failed installation or health checks leave existing launchers unchanged. Previous
+environments are retained for rollback. It refuses unrelated existing executables.
+Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
+[Quick start](docs/QUICKSTART.md).
+
+The repo is currently private and `v0.5.0a6` is not published. The public
+anonymous-install gate is **open**: a public curl command is not yet usable.
 
 For development, install the pinned test tools:
 
@@ -76,6 +83,19 @@ corners. Other counts use deterministic symmetric layouts. Hole diameter and
 slot dimensions are mandatory.
 
 ## Commands
+
+Analyze an existing STL's topology, or compute a correlated tolerance stack:
+
+```bash
+neurocad topology plate.stl --require-closed-manifold -o topology.json
+neurocad tolerance docs/examples/tolerance.json -o tolerance-report.json
+```
+
+Topology reports F2 Betti numbers, Euler characteristic, boundary loops,
+orientability and genus where applicable. Kernel verification also rejects
+singular vertex links. These are connectivity checks, not self-intersection,
+surface-equivalence, or physical-fit proofs. See [Mathematics](docs/MATHEMATICS.md)
+for equations, assumptions, numerical/resource limits, and reference tests.
 
 Validate intent without writing a file:
 

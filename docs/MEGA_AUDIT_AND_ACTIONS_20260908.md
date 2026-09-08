@@ -1,5 +1,9 @@
 # Project audit and execution backlog — 2026-09-08
 
+Current code/release continuation: [code audit](CODE_AUDIT_20260908.md).
+This document retains historical observations; do not treat an old unchecked
+symptom as a newly reproduced failure or silently delete its evidence.
+
 Latest continuation: [execution evidence](EXECUTION_20260908.md) records the
 subsequent mesh preview/download, portal search/write confirmation, and installed
 Percy/Lyla safety changes. The revision-specific observations below remain

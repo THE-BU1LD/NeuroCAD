@@ -2,12 +2,14 @@
 
 Target: `v0.5.0a6` public alpha.
 
-Current state: **pending**. Source metadata declares a6. Local a6 wheel/sdist
-candidates have been built and installed successfully from this working tree,
-but they are deliberately outside the historical `dist/` snapshot. A new local
-Git baseline was initialized during the 2026-09-06 audit; it does not recover
-the missing historical repository. There is still no external CI result, tag,
-generated release provenance receipt, or public-install receipt.
+Current state: **private review candidate, not a published release** (checked
+2026-09-08). PR #49 joins the audited baseline and canonical histories while
+preserving both; main has not been replaced. Revision `665e706` passed all six
+release-matrix jobs and three research workflows. That result certifies that
+revision, not later edits. See [current code audit](docs/CODE_AUDIT_20260908.md)
+for this continuation and [quick start](docs/QUICKSTART.md) for local installation.
+No `v0.5.0a6` tag, published release provenance receipt, or anonymous-install receipt
+exists. Private repository visibility still prevents anonymous bootstrap.
 
 ## Implemented release surface
 
@@ -45,7 +47,8 @@ generated release provenance receipt, or public-install receipt.
 ## Explicit non-goals
 
 - General-purpose or production CAD replacement.
-- STEP/BREP, arbitrary sketches, assemblies, or tolerance stacks.
+- STEP/BREP, arbitrary sketches, or assemblies. Analytical independent/correlated
+  tolerance stacks are implemented; empirical fit guarantees are not.
 - Slide lids, hinges, snap fits, threads, or automatically certified fits.
 - Engineering simulation or safety certification.
 - Production aircraft, vehicle, motor, furniture, medical, or safety-critical parts.

@@ -11,6 +11,7 @@ from typing import Any
 
 from .design_graph import DesignGraph
 from .ir import CADProgram, IRValidationReport
+from .topology import analyze_triangle_complex
 from .validation import ValidationReport
 
 
@@ -271,6 +272,9 @@ def verify_stl(
         raise RuntimeError("the generated STL is not watertight")
     if not bool(mesh.is_winding_consistent):
         raise RuntimeError("the generated STL has inconsistent face winding")
+    topology = analyze_triangle_complex(mesh.vertices, mesh.faces)
+    if not topology["manifold"]:
+        raise RuntimeError("the generated STL has non-manifold vertex links or edges")
     if not bool(mesh.is_volume):
         raise RuntimeError("the generated STL does not bound a valid volume")
     volume = float(abs(mesh.volume))
@@ -303,4 +307,5 @@ def verify_stl(
         "extents_mm": extents,
         "extent_absolute_errors_mm": extent_errors,
         "volume_mm3": volume,
+        "topology": topology,
     }

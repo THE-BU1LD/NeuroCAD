@@ -56,11 +56,15 @@ def tolerance_stack(
     contributions: tuple[ToleranceContribution, ...],
     *,
     confidence_multiplier: float = 3.0,
+    correlations: tuple[tuple[float, ...], ...] | None = None,
 ) -> ToleranceStack:
-    """Combine independent normal variation and explicit worst-case bounds.
+    """Combine joint-normal variation and explicit worst-case bounds.
 
     Positive contribution means increase clearance; negative means reduce it.
     ``worst_case_mm`` is the magnitude that may reduce available clearance.
+    Correlations follow contribution order, default to independence, and must
+    form a symmetric positive-semidefinite unit-diagonal matrix. Means and
+    worst-case intervals are separate from the unbounded normal approximation.
     """
 
     nominal = _positive(nominal_clearance_mm, "nominal_clearance_mm", allow_zero=True)
@@ -68,16 +72,46 @@ def tolerance_stack(
     mean_shift = 0.0
     variance = 0.0
     worst_loss = 0.0
+    if len(contributions) > 128:
+        raise ValueError("tolerance stacks are limited to 128 contributions")
+    names: set[str] = set()
+    sigmas = []
     for contribution in contributions:
-        if not contribution.name.strip():
-            raise ValueError("tolerance contribution names must be non-empty")
-        if not math.isfinite(contribution.mean_mm):
+        if not isinstance(contribution.name, str) or not contribution.name.strip() or contribution.name.strip() in names:
+            raise ValueError("tolerance contribution names must be non-empty and unique")
+        names.add(contribution.name.strip())
+        if isinstance(contribution.mean_mm, bool) or not isinstance(contribution.mean_mm, (int, float)) or not math.isfinite(contribution.mean_mm):
             raise ValueError(f"{contribution.name} mean must be finite")
         sigma = _positive(contribution.sigma_mm, f"{contribution.name} sigma", allow_zero=True)
         worst = _positive(contribution.worst_case_mm, f"{contribution.name} worst case", allow_zero=True)
         mean_shift += contribution.mean_mm
         variance += sigma * sigma
+        sigmas.append(sigma)
         worst_loss += worst
+    if correlations is not None:
+        import numpy as np
+
+        matrix = np.asarray(correlations)
+        count = len(contributions)
+        has_booleans = any(isinstance(value, (bool, np.bool_)) for value in np.asarray(correlations, dtype=object).flat)
+        if has_booleans or not count or matrix.shape != (count, count) or matrix.dtype.kind not in "iuf" or not np.isfinite(matrix).all():
+            raise ValueError("correlations must be a finite square matrix matching non-empty contributions")
+        matrix = matrix.astype(float)
+        if (np.abs(matrix) > 1).any() or not np.allclose(matrix, matrix.T, rtol=0, atol=1e-12):
+            raise ValueError("correlations must be symmetric with entries in [-1, 1]")
+        if not np.allclose(np.diag(matrix), 1, rtol=0, atol=1e-12):
+            raise ValueError("correlations must have unit diagonal")
+        matrix = (matrix + matrix.T) / 2
+        if float(np.linalg.eigvalsh(matrix).min()) < -1e-12:
+            raise ValueError("correlations must be positive semidefinite")
+        sigma_vector = np.asarray(sigmas)
+        with np.errstate(over="ignore", invalid="ignore"):
+            variance = float(sigma_vector @ matrix @ sigma_vector)
+        if not math.isfinite(variance):
+            raise ValueError("tolerance stack exceeds the finite numerical range")
+        variance = max(0.0, variance)
+    if not all(math.isfinite(value) for value in (variance, mean_shift, worst_loss)):
+        raise ValueError("tolerance stack exceeds the finite numerical range")
     mean = nominal + mean_shift
     sigma_total = math.sqrt(variance)
     if sigma_total == 0:
@@ -85,6 +119,8 @@ def tolerance_stack(
     else:
         success = 0.5 * (1.0 + math.erf(mean / (sigma_total * math.sqrt(2.0))))
     recommended = max(0.0, confidence * sigma_total - mean_shift)
+    if not all(math.isfinite(value) for value in (mean, recommended, nominal + mean_shift - worst_loss)):
+        raise ValueError("tolerance stack exceeds the finite numerical range")
     return ToleranceStack(
         nominal,
         mean,

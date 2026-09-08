@@ -163,6 +163,21 @@ jobs:
           /tmp/neurocad-clean-sdist/bin/neurocad --version
           /tmp/neurocad-clean-sdist/bin/neurocad validate "a 40 x 30 x 3 mm plate"
 
+      - name: Staged quick installer from the built wheel
+        if: startsWith(matrix.python-version, '3.12.')
+        shell: bash
+        run: |
+          set -euo pipefail
+          wheel_files=("$RUNNER_TEMP"/neurocad-dist/neurocad_research-*.whl)
+          test "${#wheel_files[@]}" -eq 1
+          NEUROCAD_HOME="$RUNNER_TEMP/quick-install" \
+          NEUROCAD_BIN_DIR="$RUNNER_TEMP/quick-bin" \
+          NEUROCAD_PACKAGE="${wheel_files[0]}" sh ./install.sh
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/quick-bin/neurocad" doctor
+          "$RUNNER_TEMP/quick-bin/neurocad" validate "a 40 x 30 x 3 mm plate"
+          "$RUNNER_TEMP/quick-bin/neurocad" topology /tmp/neurocad-smoke.stl --require-closed-manifold
+
       - name: Git-history high-confidence secret gate
         shell: bash
         run: |
