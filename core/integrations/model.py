@@ -11,6 +11,7 @@ class CapabilityState(str, Enum):
     """How far an integration operation is actually implemented."""
 
     NATIVE = "native"
+    AVAILABLE = "available"
     VERIFIED = "verified"
     FILE_EXCHANGE = "file_exchange"
     UNAVAILABLE = "unavailable"
@@ -70,4 +71,3 @@ class ApplicationAdapter:
 
 class IntegrationUnavailableError(RuntimeError):
     """Raised when a caller requests an operation whose gate is unavailable."""
-

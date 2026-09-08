@@ -40,9 +40,9 @@ def _openscad() -> ApplicationAdapter:
     executable = _executable_prerequisite("openscad_executable", ("openscad",))
     compile_capability = Capability(
         "compile_verified_stl",
-        CapabilityState.VERIFIED if executable.available else CapabilityState.UNAVAILABLE,
+        CapabilityState.AVAILABLE if executable.available else CapabilityState.UNAVAILABLE,
         ("stl",) if executable.available else (),
-        "OpenSCAD compilation followed by NeuroCAD kernel mesh verification"
+        "OpenSCAD executable detected; compilation and mesh verification have not been performed by this discovery call"
         if executable.available
         else "OpenSCAD is not detected; only native SCAD source can be emitted",
     )

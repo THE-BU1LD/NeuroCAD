@@ -168,6 +168,14 @@ must have one Content-Length and cannot use Transfer-Encoding. These limits do
 not make the demo an authenticated or internet-hardened hosting service. Editing
 input invalidates both displayed output and responses still in flight.
 
+The fast preview is schematic, not kernel verification. Use **Compile verified
+mesh** to run the installed OpenSCAD kernel, check mesh topology and enclosure
+features, inspect the actual body/lid triangles, and download the verified STL
+bytes. This does not verify physical fit. Compilation is serialized and limited
+to 30 seconds per part; previews are limited to 20,000 faces. Downloads expire
+after ten minutes and may be evicted earlier from the bounded in-memory cache;
+recompile if a download expires. No persistent cloud storage is provided.
+
 Create, revise, preflight, and compile a reviewable enclosure project:
 
 ```bash

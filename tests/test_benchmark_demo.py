@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import subprocess
 import sys
@@ -15,6 +16,7 @@ import pytest
 
 from core.benchmark import BenchmarkTask, benchmark_hash, benchmark_jsonl, generate_benchmark, run_benchmark
 from core.demo_server import HTML, DemoHandler, DemoServer, generate_demo_payload, serve_demo
+from core.mesh_preview import DOWNLOADS
 
 
 def test_benchmark_generation_is_deterministic_and_split() -> None:
@@ -123,6 +125,22 @@ def _request(
             return response.status, dict(response.headers), response.read()
     except urllib.error.HTTPError as exc:
         return exc.code, dict(exc.headers), exc.read()
+
+
+def test_verified_download_http_contract() -> None:
+    artifacts = {'model': {'stl_base64': base64.b64encode(b'compiled-mesh-bytes').decode()}}
+    DOWNLOADS.publish(artifacts)
+    with _demo_server() as base:
+        status, headers, body = _request(base + artifacts['model']['download_url'])
+        assert status == 200
+        assert body == b'compiled-mesh-bytes'
+        assert headers['Content-Type'] == 'model/stl'
+        assert headers['Content-Disposition'].startswith('attachment;')
+        assert headers['Cache-Control'] == 'no-store'
+        status, _, _ = _request(base + '/api/mesh/missing/model.stl')
+        assert status == 404
+        status, _, _ = _request(base + artifacts['model']['download_url'], host='attacker.example')
+        assert status == 421
 
 
 def test_demo_http_security_and_error_contract() -> None:

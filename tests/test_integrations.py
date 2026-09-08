@@ -114,6 +114,7 @@ def _kicad_review() -> dict[str, object]:
 
 
 def test_registry_distinguishes_native_verified_exchange_and_unavailable(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("core.integrations.registry.shutil.which", lambda name: "/test/openscad" if name == "openscad" else None)
     monkeypatch.setenv("ONSHAPE_ACCESS_KEY", "must-not-leak-access")
     monkeypatch.setenv("ONSHAPE_SECRET_KEY", "must-not-leak-secret")
     registry = default_registry()
@@ -125,6 +126,7 @@ def test_registry_distinguishes_native_verified_exchange_and_unavailable(monkeyp
     }
     assert states == {
         CapabilityState.NATIVE,
+        CapabilityState.AVAILABLE,
         CapabilityState.VERIFIED,
         CapabilityState.FILE_EXCHANGE,
         CapabilityState.UNAVAILABLE,
@@ -135,6 +137,7 @@ def test_registry_distinguishes_native_verified_exchange_and_unavailable(monkeyp
     assert "ONSHAPE_ACCESS_KEY" in serialized
     assert registry.get("fusion").capability("native_parametric_document").state is CapabilityState.UNAVAILABLE
     assert registry.get("kicad").capability("bounded_board_parse").state is CapabilityState.VERIFIED
+    assert registry.get("openscad").capability("compile_verified_stl").state is CapabilityState.AVAILABLE
 
 
 @pytest.mark.parametrize(

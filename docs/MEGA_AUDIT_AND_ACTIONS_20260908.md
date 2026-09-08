@@ -1,5 +1,10 @@
 # Project audit and execution backlog — 2026-09-08
 
+Latest continuation: [execution evidence](EXECUTION_20260908.md) records the
+subsequent mesh preview/download, portal search/write confirmation, and installed
+Percy/Lyla safety changes. The revision-specific observations below remain
+historical; unchecked acceptance gates are not closed by those implementation notes.
+
 ## Scope and evidence
 
 Inspected local NeuroCAD `00617bd` and portal `f0a9a50`; both were clean before
