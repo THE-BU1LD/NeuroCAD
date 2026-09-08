@@ -8,7 +8,7 @@ This is the secondary AI4AutoSci @ IEEE BigData 2026 candidate behind Space-JEPA
 
 The historical NeuroCAD typed-parser causal interpretation remains falsified. This submission must **not** revive or repackage that claim.
 
-The paper candidate is the separate VeriCodeGen successor study: a treatment-matched direct-vs-structured language-to-CAD comparison under a frozen held-out benchmark, shared verifier, symmetric retry/feedback budget, retained raw outputs, and paired inference.
+The paper candidate is the separate VeriCodeGen successor study: a treatment-matched direct-vs-structured language-to-CAD comparison under a prespecified held-out-benchmark design that must be materialized and frozen before outcome access, with a shared verifier, symmetric retry/feedback budget, retained raw outputs, and paired inference.
 
 ## Working title
 
@@ -22,7 +22,7 @@ Do not imply validated scientific-instrument design, manufacturability, or physi
 
 ## Workshop fit
 
-This candidate maps to AI4AutoSci's instrument/experiment-design theme as an auditable AI-assisted geometry-generation workflow. The scientific contribution is not "AI can design instruments". The narrow question is whether a structured/verifiable generation arm improves hard-verifier success relative to a treatment-matched direct generation arm on a frozen CAD task set, and what failure modes remain.
+This candidate maps to AI4AutoSci's instrument/experiment-design theme as an auditable AI-assisted geometry-generation workflow. The scientific contribution is not "AI can design instruments". The narrow question is whether, after the benchmark and execution manifests are frozen pre-outcome, a structured/verifiable generation arm improves hard-verifier success relative to a treatment-matched direct generation arm on the resulting frozen CAD task set, and what failure modes remain.
 
 ## Frozen study hierarchy
 
