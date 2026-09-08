@@ -12,19 +12,19 @@
 \maketitle
 
 \begin{abstract}
-Language models can generate parametric geometry, but compilation alone is a weak proxy for satisfying design intent. We study a narrower question: whether a structured, verification-constrained language-to-CAD generation arm improves hard-verifier success relative to a treatment-matched direct generation arm under identical model, budget, retry, and evaluation conditions. The study uses a predeclared 120-task held-out benchmark spanning in-distribution, compositional, and out-of-distribution constraint-stress families, a shared OpenSCAD-based verifier, paired statistical analysis, and complete retention of raw generations and failures. The historical NeuroCAD typed-parser causal claim is not part of this study and remains rejected. This manuscript is a pre-outcome shell; quantitative claims are intentionally withheld until the frozen benchmark and execution manifests are reviewed and the admissible study is completed.
+Language models can generate parametric geometry, but compilation alone is a weak proxy for satisfying design intent. We study a narrower question: whether a structured, verification-constrained language-to-CAD generation arm improves hard-verifier success relative to a treatment-matched direct generation arm under identical model, budget, retry, and evaluation conditions. The pre-outcome study design specifies a 120-task held-out benchmark spanning in-distribution, compositional, and out-of-distribution constraint-stress families, a shared OpenSCAD-based verifier, paired statistical analysis, and complete retention of raw generations and failures. The historical NeuroCAD typed-parser causal claim is not part of this study and remains rejected. This manuscript is a pre-outcome shell; quantitative claims are intentionally withheld until the benchmark is materialized and frozen, the execution manifests are reviewed, and the admissible study is completed.
 \end{abstract}
 
 \section{Introduction}
 AI-assisted design can be useful only if generated artifacts can be checked against explicit requirements and if evaluation distinguishes syntactic validity from actual constraint satisfaction. Natural-language-to-CAD generation offers a concrete setting in which those distinctions can be made machine-checkable for a bounded class of parametric designs.
 
-VeriCodeGen evaluates whether adding a structured, verifier-compatible generation path changes performance relative to a treatment-matched direct generation path. The comparison is designed to isolate the generation treatment rather than confound it with model identity, validation strength, retry budget, or human correction.
+VeriCodeGen is designed to evaluate whether adding a structured, verifier-compatible generation path changes performance relative to a treatment-matched direct generation path. The comparison is intended to isolate the generation treatment rather than confound it with model identity, validation strength, retry budget, or human correction.
 
-The intended contributions are:
+The intended contributions, contingent on completion of the frozen pre-outcome gates and admissible execution, are:
 \begin{itemize}
-    \item a frozen 120-task language-to-CAD benchmark with three prespecified difficulty families;
+    \item a prespecified 120-task language-to-CAD benchmark design with three difficulty families, followed by a retained frozen benchmark artifact before outcome access;
     \item a treatment-matched direct-versus-structured comparison using the same provider/model and common validation boundary;
-    \item hard-verifier and semantic-rubric evidence that explicitly separates compilation from broader correctness;
+    \item hard-verifier and semantic-rubric evaluation that explicitly separates compilation from broader correctness;
     \item paired statistical analysis with retained failures, retries, latency, token use, and cost; and
     \item a fail-closed provenance path binding benchmark, prompts, model identity, verifier, analysis, and raw outputs.
 \end{itemize}
@@ -37,27 +37,27 @@ Likewise, passing OpenSCAD compilation or machine-checkable hard constraints doe
 \section{Benchmark Design}
 The final held-out benchmark is prespecified to contain exactly 120 tasks with contiguous identifiers \texttt{VCG-001} through \texttt{VCG-120}: 40 in-distribution tasks, 40 compositional tasks, and 40 out-of-distribution constraint-stress tasks. Every task must contain at least one hard constraint supported by the shared verifier and at least one semantic rubric criterion.
 
-The benchmark freeze requires manual consistency review, exact normalized duplicate detection, a frozen token-Jaccard near-duplicate audit at threshold 0.88, per-task hashes, and a reviewer sign-off that no outcome was observed before the freeze. The evaluated model is forbidden from authoring, filtering, ranking, repairing, or selecting held-out tasks after model selection.
+The benchmark is not treated as frozen until manual consistency review, exact normalized duplicate detection, the prespecified token-Jaccard near-duplicate audit at threshold 0.88, per-task hashes, a retained manifest, and independent reviewer sign-off establish that no outcome was observed before the freeze. The evaluated model is forbidden from authoring, filtering, ranking, repairing, or selecting held-out tasks after model selection.
 
 \section{Treatment-Matched Evaluation}
 \subsection{Direct arm}
-The direct arm receives the frozen task and the frozen direct prompt template under the predeclared provider/model identity and decoding settings.
+Under an authorized execution manifest, the direct arm will receive each frozen task and the frozen direct prompt template under the predeclared provider/model identity and decoding settings.
 
 \subsection{Structured arm}
-The structured arm receives the same underlying task under the frozen structured prompt/output contract. It is evaluated by the same shared downstream verifier and receives the same maximum-attempt and feedback budget as the direct arm.
+Under the same authorized manifest, the structured arm will receive the same underlying task under the frozen structured prompt/output contract. It will be evaluated by the same shared downstream verifier and receive the same maximum-attempt and feedback budget as the direct arm.
 
 \subsection{Common controls}
-Before any outcome-bearing provider call, the study freezes the exact provider/model/revision, decoding parameters, prompt-bundle identities, seed set, retry and feedback policy, call ceiling, cost ceiling, OpenSCAD/verifier environment, and paired analysis plan. Human correction is disabled. Every raw response and failed attempt is retained.
+Before any outcome-bearing provider call, the study must freeze the exact provider/model/revision, decoding parameters, prompt-bundle identities, seed set, retry and feedback policy, call ceiling, cost ceiling, OpenSCAD/verifier environment, and paired analysis plan. Human correction is disabled. Every raw response and failed attempt must be retained.
 
 \section{Pilot and Full Evaluation}
-The Stage-2 pilot deterministically selects exactly four tasks per benchmark family (12 total) from the frozen 120-task set using a public selection salt frozen before any provider call. Pilot tasks cannot be swapped after outcomes are observed.
+After the 120-task benchmark is finalized and frozen, the Stage-2 pilot will deterministically select exactly four tasks per benchmark family (12 total) using a public selection salt frozen before any provider call. Pilot tasks cannot be swapped after outcomes are observed.
 
 The pilot is exploratory. The primary successor claim must follow the maintained inference boundary, including full-benchmark execution if required by the frozen protocol. A favorable pilot is not promoted into a full-benchmark claim.
 
 \section{Endpoints and Analysis}
-The retained analysis reports direct and structured hard-verifier rate (HVR), paired HVR delta, the prespecified exact McNemar result, bootstrap uncertainty, failure taxonomy, retries, latency, token use, and cost. Semantic-rubric outcomes are reported separately so hard-verifier acceptance is not silently treated as complete semantic correctness.
+The prespecified analysis will report direct and structured hard-verifier rate (HVR), paired HVR delta, the prespecified exact McNemar result, bootstrap uncertainty, failure taxonomy, retries, latency, token use, and cost. Semantic-rubric outcomes will be reported separately so hard-verifier acceptance is not silently treated as complete semantic correctness.
 
-All outcomes are paired by task. The manuscript reports failed generations and infrastructure failures explicitly and distinguishes infrastructure failure from scientific failure.
+All outcomes will be paired by task. The manuscript will report failed generations and infrastructure failures explicitly and distinguish infrastructure failure from scientific failure.
 
 \section{Results}
 \textbf{RESULTS\_BLOCKED\_PRE\_OUTCOME.} No quantitative VeriCodeGen result is inserted until the 120-task benchmark, pilot/full execution manifest, provider/model identity, prompts, verifier, analysis plan, and authorization record are frozen and reviewed, and the admissible retained outcome package exists.
@@ -82,12 +82,12 @@ The final paper should partition failures into at least generation/parsing failu
 Language-to-parametric-geometry systems may eventually support parts of experimental hardware design by making generated geometry auditable against explicit constraints. This study evaluates only the bounded CAD-generation and verification question. It does not establish end-to-end autonomous instrument design, simulation validity, fabrication readiness, or physical experimental performance.
 
 \section{Limitations}
-The benchmark is synthetic/curated CAD task evaluation rather than validation on manufactured scientific hardware. Machine-checkable constraints necessarily cover only the semantics implemented by the verifier. Human semantic rubrics may add judgment but introduce a distinct evaluation surface. Results may be model- and prompt-family-dependent despite treatment matching. A structured generation advantage, if observed, would not demonstrate that every downstream engineering requirement is verified.
+The planned benchmark is synthetic/curated CAD task evaluation rather than validation on manufactured scientific hardware. Machine-checkable constraints necessarily cover only the semantics implemented by the verifier. Human semantic rubrics may add judgment but introduce a distinct evaluation surface. Results may be model- and prompt-family-dependent despite treatment matching. A structured generation advantage, if observed, would not demonstrate that every downstream engineering requirement is verified.
 
 \section{Reproducibility and Integrity}
-The study retains benchmark and per-task hashes, prompt receipts, provider/model identity, decoding settings, common verifier identity, analysis-plan identity, OpenSCAD/environment identity, raw responses, failed attempts, compile logs, and a hash-chained artifact ledger. Negative, mixed, or null outcomes are retained unchanged.
+An admissible execution requires retention of benchmark and per-task hashes, prompt receipts, provider/model identity, decoding settings, common verifier identity, analysis-plan identity, OpenSCAD/environment identity, raw responses, failed attempts, compile logs, and a hash-chained artifact ledger. Negative, mixed, or null outcomes must be retained unchanged.
 
 \section{Conclusion}
-We define a treatment-matched evaluation of verification-constrained language-to-CAD generation. The scientific conclusion is intentionally deferred until the frozen benchmark and execution protocol are completed. The final manuscript will report the retained result supported by that evidence, including a null or adverse result if observed.
+We define a treatment-matched evaluation of verification-constrained language-to-CAD generation. The scientific conclusion is intentionally deferred until the benchmark is frozen and the execution protocol is completed. The final manuscript will report the retained result supported by that evidence, including a null or adverse result if observed.
 
 \end{document}
