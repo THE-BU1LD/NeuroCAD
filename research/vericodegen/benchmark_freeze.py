@@ -361,7 +361,7 @@ def freeze_benchmark(
     canonical_text = benchmark_jsonl(tasks)
     output_path = Path(output_jsonl)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(canonical_text, encoding="utf-8")
+    output_path.write_bytes(canonical_text.encode("utf-8"))
 
     manifest = build_manifest(
         canonicalize_tasks(tasks),

@@ -119,14 +119,14 @@ jobs:
           SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)
           export SOURCE_DATE_EPOCH
           dist_dir="$RUNNER_TEMP/neurocad-dist"
-          python -m build --no-isolation --outdir "$dist_dir"
+          python -m build --outdir "$dist_dir"
           sdist_files=("$dist_dir"/neurocad_research-*.tar.gz)
           test "${#sdist_files[@]}" -eq 1
           python scripts/normalize_sdist.py "${sdist_files[0]}" "$SOURCE_DATE_EPOCH"
           python scripts/verify_distribution.py "$dist_dir"/neurocad_research-*.whl "${sdist_files[0]}"
           if [ "${{ matrix.python-version }}" = "3.12.14" ]; then
             repeat_dir="$RUNNER_TEMP/neurocad-dist-repeat"
-            python -m build --no-isolation --outdir "$repeat_dir"
+            python -m build --outdir "$repeat_dir"
             repeat_sdists=("$repeat_dir"/neurocad_research-*.tar.gz)
             test "${#repeat_sdists[@]}" -eq 1
             python scripts/normalize_sdist.py "${repeat_sdists[0]}" "$SOURCE_DATE_EPOCH"

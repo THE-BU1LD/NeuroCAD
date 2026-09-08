@@ -66,7 +66,7 @@ def write_json_atomic(path: Path, value: Any, *, overwrite: bool = False) -> Pat
     descriptor, temporary_name = tempfile.mkstemp(prefix=f".{destination.name}.", dir=destination.parent)
     temporary = Path(temporary_name)
     try:
-        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(encoded)
             handle.flush()
             os.fsync(handle.fileno())

@@ -164,8 +164,8 @@ def freeze_prompt_bundle(
     output.mkdir(parents=True, exist_ok=True)
     direct_text = render_prompt(bundle, "direct")
     structured_text = render_prompt(bundle, "structured")
-    (output / "direct_system_v1.txt").write_text(direct_text, encoding="utf-8")
-    (output / "structured_system_v1.txt").write_text(structured_text, encoding="utf-8")
+    (output / "direct_system_v1.txt").write_bytes(direct_text.encode("utf-8"))
+    (output / "structured_system_v1.txt").write_bytes(structured_text.encode("utf-8"))
 
     receipt = build_receipt(bundle, schema_bytes=schema_path.read_bytes())
     (output / "prompt_receipt_v1.json").write_text(

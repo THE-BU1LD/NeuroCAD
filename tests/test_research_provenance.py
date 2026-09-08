@@ -30,7 +30,7 @@ def test_source_snapshot_binds_relative_paths_and_contents(tmp_path: Path) -> No
     first = _source_snapshot(tmp_path)
     second = _source_snapshot(tmp_path)
     assert first == second
-    assert first["files"]["core/example.py"] == hashlib.sha256(b"value = 1\n").hexdigest()
+    assert first["files"]["core/example.py"] == hashlib.sha256(source.read_bytes()).hexdigest()
 
     source.write_text("value = 2\n", encoding="utf-8")
     changed = _source_snapshot(tmp_path)

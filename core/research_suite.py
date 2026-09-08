@@ -939,10 +939,10 @@ def _run_kernel(
             "task_id": task.task_id,
             "family": task.family,
             "prompt": task.prompt,
-            "ir": str(ir_path.relative_to(output_dir)),
-            "scad": str(scad_path.relative_to(output_dir)),
-            "stl": str(stl_path.relative_to(output_dir)),
-            "render": str(render_path.relative_to(output_dir)),
+            "ir": ir_path.relative_to(output_dir).as_posix(),
+            "scad": scad_path.relative_to(output_dir).as_posix(),
+            "stl": stl_path.relative_to(output_dir).as_posix(),
+            "render": render_path.relative_to(output_dir).as_posix(),
         }
         reused = None
         if not config.force_recompile:
@@ -1185,7 +1185,7 @@ def run_research_suite(
     if final_source_snapshot["sha256"] != source_snapshot["sha256"]:
         raise RuntimeError("maintained source changed while the research suite was running; no manifest was written")
     artifact_hashes = {
-        str(path.relative_to(output_dir)): _sha256_file(path)
+        path.relative_to(output_dir).as_posix(): _sha256_file(path)
         for path in sorted(output_dir.rglob("*"))
         if path.is_file() and path.name != "manifest.json"
     }
@@ -1195,9 +1195,9 @@ def run_research_suite(
         "config_sha256": _sha256_text(_json(asdict(config))),
         "compiler_dataset_sha256": _sha256_text(dataset_text),
         "ir_programs_sha256": _sha256_text(programs_jsonl),
-        "results": str(results_path.relative_to(output_dir)),
-        "deterministic_results": str(deterministic_results_path.relative_to(output_dir)),
-        "runtime_receipt": str(runtime_receipt_path.relative_to(output_dir)),
+        "results": results_path.relative_to(output_dir).as_posix(),
+        "deterministic_results": deterministic_results_path.relative_to(output_dir).as_posix(),
+        "runtime_receipt": runtime_receipt_path.relative_to(output_dir).as_posix(),
         "scientific_sha256": {
             "config": _sha256_text(_json(asdict(config))),
             "compiler_dataset": _sha256_text(dataset_text),
