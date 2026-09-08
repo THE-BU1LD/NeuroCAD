@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -11,7 +12,7 @@ from ..enclosure import EnclosureSpec, build_enclosure
 from ..enclosure_verification import verify_enclosure_mesh
 from ..ir_export import program_to_scad
 from ..ir_parser import parse_ir_json
-from ..json_io import strict_json_loads
+from ..json_io import read_bounded_utf8, strict_json_loads
 from ..project import MAX_PROJECT_BYTES, enclosure_spec_from_dict
 from .common import sha256_file, write_json_atomic
 from .exchange import EXCHANGE_VERSION, ExchangeBundle
@@ -33,7 +34,7 @@ def _load_bundle_manifest(bundle: ExchangeBundle) -> dict[str, Any]:
     if size <= 0 or size > MAX_MANIFEST_BYTES:
         raise ValueError("bundle manifest must be non-empty and no larger than 1 MiB")
     try:
-        raw = strict_json_loads(manifest_path.read_bytes().decode("utf-8"))
+        raw = strict_json_loads(read_bounded_utf8(manifest_path, max_bytes=MAX_MANIFEST_BYTES, label="bundle manifest"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ValueError(f"bundle manifest cannot be read safely: {exc}") from exc
     if not isinstance(raw, dict) or raw.get("schema_version") != EXCHANGE_VERSION:
@@ -52,10 +53,11 @@ def _verified_spec(manifest: dict[str, Any], root: Path) -> EnclosureSpec:
     path = (root / filename).resolve()
     if path.parent != root or not path.is_file():
         raise ValueError("bundle specification is missing or escapes its root")
-    raw = path.read_bytes()
+    with path.open("rb") as handle:
+        raw = handle.read(MAX_PROJECT_BYTES + 1)
     if not raw or len(raw) > MAX_PROJECT_BYTES:
         raise ValueError("bundle specification must be non-empty and no larger than 1 MiB")
-    if not isinstance(digest, str) or sha256_file(path) != digest:
+    if not isinstance(digest, str) or hashlib.sha256(raw).hexdigest() != digest:
         raise ValueError("bundle specification hash mismatch")
     try:
         decoded = strict_json_loads(raw.decode("utf-8"))
@@ -153,7 +155,7 @@ def _verified_artifacts(bundle: ExchangeBundle) -> tuple[dict[str, Any], list[di
                 if path.stat().st_size > MAX_SOURCE_ARTIFACT_BYTES:
                     raise ValueError(f"canonical IR artifact is too large: {filename!r}")
                 try:
-                    recovered = parse_ir_json(path.read_text(encoding="utf-8"))
+                    recovered = parse_ir_json(read_bounded_utf8(path, max_bytes=MAX_SOURCE_ARTIFACT_BYTES, label="IR artifact"))
                 except (OSError, RuntimeError, UnicodeError, ValueError) as exc:
                     raise ValueError(f"canonical IR artifact cannot be parsed: {filename!r}: {exc}") from exc
                 if recovered.to_dict() != canonical_parts[part["id"]].to_dict():
@@ -162,7 +164,7 @@ def _verified_artifacts(bundle: ExchangeBundle) -> tuple[dict[str, Any], list[di
                 if path.stat().st_size > MAX_SOURCE_ARTIFACT_BYTES:
                     raise ValueError(f"OpenSCAD artifact is too large: {filename!r}")
                 try:
-                    actual_scad = path.read_text(encoding="utf-8")
+                    actual_scad = read_bounded_utf8(path, max_bytes=MAX_SOURCE_ARTIFACT_BYTES, label="OpenSCAD artifact")
                 except (OSError, UnicodeError) as exc:
                     raise ValueError(f"OpenSCAD artifact cannot be read safely: {filename!r}: {exc}") from exc
                 if actual_scad != program_to_scad(canonical_parts[part["id"]], fn=fn):

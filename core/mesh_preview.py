@@ -12,11 +12,15 @@ from typing import Any
 
 from .artifacts import compile_scad_verified
 from .enclosure_verification import verify_enclosure_mesh
-from .natural_language import interpret_enclosure
+from .project import enclosure_spec_from_dict
 
 _COMPILER_SLOT = threading.Lock()
 MAX_PREVIEW_FACES = 20000
 MAX_STL_BYTES = 8 * 1024 * 1024
+
+
+class CompilerBusyError(ValueError):
+    """Transient contention, distinct from an invalid design request."""
 
 
 class MeshDownloadStore:
@@ -90,10 +94,12 @@ def _mesh_svg(path: Path) -> str:
 def compile_payload_meshes(payload: dict[str, Any]) -> dict[str, Any]:
     started = time.perf_counter()
     if not _COMPILER_SLOT.acquire(blocking=False):
-        raise ValueError("The local compiler is busy. Retry after the current compilation finishes.")
+        raise CompilerBusyError("The local compiler is busy. Retry after the current compilation finishes.")
     try:
         parts = payload['scad'] if isinstance(payload['scad'], dict) else {'model': payload['scad']}
-        spec = interpret_enclosure(payload['prompt']).spec if payload['mode'] == 'enclosure' else None
+        # Project revisions intentionally retain their original source text;
+        # verify the current validated specification, not that historical prompt.
+        spec = enclosure_spec_from_dict(payload['spec']) if payload['mode'] == 'enclosure' else None
         artifacts = {}
         with tempfile.TemporaryDirectory(prefix='neurocad-preview-') as directory:
             for part, scad in parts.items():

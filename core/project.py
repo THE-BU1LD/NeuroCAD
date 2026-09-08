@@ -419,8 +419,9 @@ def parse_project(text: str) -> EnclosureProject:
         field = _text(entry["field"], f"$.changes[{index}].field", maximum=128)
         reason = _text(entry["reason"], f"$.changes[{index}].reason", maximum=512)
         changes.append(ChangeRecord(change_revision, field, entry["before"], entry["after"], reason))
-    expected_revisions = list(range(2, revision + 1))
-    if [change.revision for change in changes] != expected_revisions:
+    # Check against the bounded parsed history, never allocate from an untrusted
+    # revision number (a tiny JSON document can otherwise request huge memory).
+    if revision != len(changes) + 1 or any(change.revision != index for index, change in enumerate(changes, start=2)):
         raise ProjectFormatError("$.changes must contain exactly one ordered record for every revision after 1")
     spec = enclosure_spec_from_dict(value["spec"])
     replay = enclosure_spec_to_dict(spec)
@@ -463,7 +464,8 @@ def write_project(path: Path, project: EnclosureProject) -> Path:
 
 
 def read_project(path: Path) -> EnclosureProject:
-    raw = path.read_bytes()
+    with path.open("rb") as handle:
+        raw = handle.read(MAX_PROJECT_BYTES + 1)
     if len(raw) > MAX_PROJECT_BYTES:
         raise ProjectFormatError("project input is limited to 1 MiB")
     return parse_project(raw.decode("utf-8"))

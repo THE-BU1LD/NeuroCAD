@@ -398,7 +398,8 @@ def read_kicad_handoff(path: Path, *, source_board: Path | None = None) -> KiCad
     path = Path(path)
     if not path.is_file():
         raise KiCadHandoffError("KiCad handoff path must identify a file")
-    raw = path.read_bytes()
+    with path.open("rb") as handle:
+        raw = handle.read(MAX_HANDOFF_BYTES + 1)
     if len(raw) > MAX_HANDOFF_BYTES:
         raise KiCadHandoffError("KiCad handoff is limited to 1 MiB")
     try:
@@ -455,7 +456,8 @@ def write_bound_kicad_extraction(path: Path, draft_path: Path, source_board: Pat
     draft_path = Path(draft_path)
     if not draft_path.is_file():
         raise KiCadHandoffError("KiCad extraction draft path must identify a file")
-    raw = draft_path.read_bytes()
+    with draft_path.open("rb") as handle:
+        raw = handle.read(MAX_HANDOFF_BYTES + 1)
     if len(raw) > MAX_HANDOFF_BYTES:
         raise KiCadHandoffError("KiCad extraction draft is limited to 1 MiB")
     try:

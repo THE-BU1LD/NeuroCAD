@@ -5,6 +5,7 @@ from collections.abc import Iterator
 import pytest
 
 from core.demo_server import DemoHandler, DemoServer
+from core.mesh_preview import _COMPILER_SLOT
 
 
 @pytest.fixture
@@ -57,3 +58,31 @@ def test_overload_does_not_create_an_extra_worker(server: DemoServer) -> None:
             assert client.recv(1) == b""
     finally:
         server._worker_slots.release()
+
+
+def test_duplicate_host_and_foreign_origin_are_rejected(server: DemoServer) -> None:
+    assert b"421 Misdirected Request" in send(server, "Host: evil.example\r\nContent-Length: 2\r\n", b"{}")
+    assert b"403 Forbidden" in send(server, "Origin: https://evil.example\r\nContent-Length: 2\r\n", b"{}")
+    assert b"403 Forbidden" in send(server, "Origin: null\r\nContent-Length: 2\r\n", b"{}")
+    origin = f"Origin: http://127.0.0.1:{server.server_port}\r\n"
+    assert b"403 Forbidden" in send(server, origin + origin + "Content-Length: 2\r\n", b"{}")
+    # Same-origin requests reach normal input validation; CLI clients may omit Origin.
+    assert b"400 Bad Request" in send(server, origin + "Content-Length: 2\r\n", b"{}")
+
+
+def test_invalid_request_flags_fail_before_pipeline(server: DemoServer, monkeypatch: pytest.MonkeyPatch) -> None:
+    def forbidden(*args: object, **kwargs: object) -> None:
+        pytest.fail("invalid request reached the CAD pipeline")
+
+    monkeypatch.setattr("core.demo_server.generate_demo_payload", forbidden)
+    for body in (b'{"source":"x","compile_mesh":"yes"}', b'{"source":"x","unknown":true}'):
+        assert b"400 Bad Request" in send(server, f"Content-Length: {len(body)}\r\n", body)
+
+
+def test_busy_compiler_is_retryable_not_invalid_input(server: DemoServer) -> None:
+    body = b'{"source":"a 40 x 30 x 3 mm box","compile_mesh":true}'
+    with _COMPILER_SLOT:
+        response = send(server, f"Content-Length: {len(body)}\r\n", body)
+    assert b"503 Service Unavailable" in response
+    assert b"Retry-After: 5" in response
+    assert b"compiler is busy" in response

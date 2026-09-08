@@ -4,9 +4,21 @@ from __future__ import annotations
 
 import json
 import math
+from pathlib import Path
 from typing import Any
 
 MAX_JSON_NESTING = 256
+
+
+def read_bounded_utf8(path: Path, *, max_bytes: int, label: str) -> str:
+    """Read untrusted text without allocating the entire file before its limit."""
+    if isinstance(max_bytes, bool) or not isinstance(max_bytes, int) or max_bytes <= 0:
+        raise ValueError("max_bytes must be a positive integer")
+    with path.open("rb") as handle:
+        raw = handle.read(max_bytes + 1)
+    if len(raw) > max_bytes:
+        raise ValueError(f"{label} exceeds the {max_bytes}-byte input limit")
+    return raw.decode("utf-8")
 
 
 def _reject_excessive_nesting(text: str) -> None:

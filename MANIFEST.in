@@ -40,7 +40,7 @@ recursive-include scripts *.sh *.py
 prune research/runs
 recursive-include research/vericodegen *.py *.json *.md
 recursive-include research/s3 *.json *.txt
-recursive-include tests *.py
+recursive-include tests *.py *.cjs
 include research/benchmarks/neurocad_benchmark_v1.jsonl
 include research/results/neurocad_benchmark_v1.json
 recursive-exclude * __pycache__

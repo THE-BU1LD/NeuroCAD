@@ -47,6 +47,9 @@ jobs:
         run: |
           python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
+      - name: Require Node for shipped workbench script tests
+        run: node --version
+
       - name: Run maintained release tests
         shell: bash
         run: |
@@ -220,6 +223,9 @@ jobs:
         run: |
           python -m pip install --upgrade "pip==26.2.1"
           python -m pip install -e '.[dev]'
+
+      - name: Require Node for shipped workbench script tests
+        run: node --version
 
       - name: Run kernel-independent product tests
         run: python -m pytest -q tests

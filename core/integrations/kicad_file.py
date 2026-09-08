@@ -404,7 +404,11 @@ def write_kicad_file_receipt(path: Path, board_path: Path, review_path: Path) ->
     if not review.is_file() or review.stat().st_size > 1_048_576:
         raise KiCadHandoffError("KiCad mechanical review path must identify a JSON file no larger than 1 MiB")
     try:
-        review_text = review.read_text(encoding="utf-8")
+        with review.open("rb") as handle:
+            raw = handle.read(1_048_577)
+        if len(raw) > 1_048_576:
+            raise KiCadHandoffError("KiCad mechanical review is limited to 1 MiB")
+        review_text = raw.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise KiCadHandoffError("KiCad mechanical review must be UTF-8 JSON") from exc
     return write_json_atomic(Path(path), extract_kicad_file_receipt(board_path, review_text))

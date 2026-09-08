@@ -91,7 +91,7 @@ def test_demo_marks_edited_and_failed_results_as_unusable() -> None:
     assert "source.addEventListener('input',markDirty)" in HTML
     assert "Input changed; run validation before using any output." in HTML
     assert "No validated output was generated. Correct the input and try again." in HTML
-    assert "result.setAttribute('aria-busy','true')" in HTML
+    assert "result.setAttribute('aria-busy', busy ? 'true' : 'false')" in HTML
     assert 'aria-describedby="status"' in HTML
 
 

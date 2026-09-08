@@ -21,10 +21,12 @@ from .ir_export import program_to_scad
 from .ir_parser import parse_ir_json
 from .json_io import strict_json_loads
 from .manufacturing import fabrication_preflight
-from .mesh_preview import DOWNLOADS, compile_payload_meshes
+from .mesh_preview import DOWNLOADS, CompilerBusyError, compile_payload_meshes
 from .natural_language import interpret_enclosure
 from .program_evaluation import evaluate_program
-from .project import enclosure_spec_to_dict
+from .project import enclosure_spec_to_dict, parse_project
+from .workbench import HTML
+from .workflow import project_from_interpretation
 
 MAX_REQUEST_BYTES = 1_048_576
 MAX_PROMPT_CHARACTERS = 4096
@@ -87,14 +89,18 @@ def _preview_svg(program: CADProgram) -> str:
 def generate_demo_payload(source: str, source_type: str = "prompt") -> dict[str, Any]:
     if not isinstance(source, str) or not source.strip():
         raise ValueError("source must be a non-empty string")
-    if source_type == "enclosure":
-        if len(source) > MAX_PROMPT_CHARACTERS:
-            raise ValueError("engineering prompts are limited to 4096 characters")
-        interpretation = interpret_enclosure(source)
-        if not interpretation.ready or interpretation.spec is None:
-            messages = [issue.message for issue in interpretation.issues]
-            raise ValueError("; ".join(messages) or "enclosure requirements are incomplete")
-        spec = interpretation.spec
+    if source_type in ("enclosure", "project"):
+        if source_type == "project":
+            project = parse_project(source)
+        else:
+            if len(source) > MAX_PROMPT_CHARACTERS:
+                raise ValueError("engineering prompts are limited to 4096 characters")
+            interpretation = interpret_enclosure(source)
+            if not interpretation.ready or interpretation.spec is None:
+                messages = [issue.message for issue in interpretation.issues]
+                raise ValueError("; ".join(messages) or "enclosure requirements are incomplete")
+            project = project_from_interpretation("workbench-enclosure", interpretation)
+        spec = project.spec
         build = build_enclosure(spec)
         part_evaluations = {part: evaluate_program(program) for part, program in build.parts.items()}
         preflight = fabrication_preflight(spec)
@@ -102,9 +108,10 @@ def generate_demo_payload(source: str, source_type: str = "prompt") -> dict[str,
         scad_parts = {part: program_to_scad(program) for part, program in build.parts.items()}
         return {
             "mode": "enclosure",
-            "prompt": source,
+            "prompt": project.source_text,
+            "project": project.to_dict(),
             "spec": enclosure_spec_to_dict(spec),
-            "mappings": [mapping.__dict__ for mapping in interpretation.mappings],
+            "mappings": [mapping.__dict__ for mapping in project.phrase_mappings],
             "ir": programs,
             "validation": build.validation.to_dict(),
             "manufacturing": preflight.to_dict(),
@@ -132,7 +139,7 @@ def generate_demo_payload(source: str, source_type: str = "prompt") -> dict[str,
         program = document.require_program()
         prompt = document.prompt
     else:
-        raise ValueError("source_type must be enclosure, prompt, or ir")
+        raise ValueError("source_type must be enclosure, project, prompt, or ir")
     report = validate_program(program)
     if not report.valid:
         raise ValueError("; ".join(issue.message for issue in report.errors))
@@ -147,31 +154,11 @@ def generate_demo_payload(source: str, source_type: str = "prompt") -> dict[str,
     }
 
 
-HTML = """<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NeuroCAD Enclosure Workbench</title><style nonce="__NONCE__">
-:root{color-scheme:dark;--bg:#05090d;--panel:#0b131c;--line:#203140;--text:#e8f1f8;--muted:#8ba0b3;--cyan:#26c6da;--red:#ff7b72}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 70% 0,#102b35 0,transparent 36%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}
-main{max-width:1240px;margin:auto;padding:38px 24px 70px}header{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}h1{font-size:clamp(34px,6vw,72px);line-height:.9;margin:0;letter-spacing:-.06em}h1 span{color:var(--cyan)}header p{max-width:520px;color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(380px,1.4fr);gap:18px}.panel{background:color-mix(in srgb,var(--panel) 93%,transparent);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 20px 60px #0005}label{display:block;color:var(--muted);margin-bottom:7px;font-weight:600}textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;background:#071018;color:var(--text);padding:12px;font:13px/1.5 ui-monospace,monospace}textarea{min-height:220px;resize:vertical}select{font-family:inherit;margin-bottom:12px}button{width:100%;padding:13px;border:0;border-radius:10px;background:var(--cyan);color:#031014;font-weight:800;cursor:pointer;margin-top:12px}button:disabled{opacity:.5;cursor:wait}.status{min-height:25px;margin:12px 0 0;color:var(--muted)}.error{color:var(--red)}.empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:24px}#preview svg{width:100%;height:auto;display:block}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.metric{background:#071018;border:1px solid var(--line);border-radius:10px;padding:10px}.metric b{display:block;font-size:18px;color:var(--cyan)}.metric small{color:var(--muted)}details{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}summary{cursor:pointer;font-weight:700}pre{overflow:auto;max-height:380px;background:#050a0f;border-radius:10px;padding:13px;font:12px/1.5 ui-monospace,monospace;color:#c4d7e8}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:800px){header{display:block}header p{margin-top:18px}.grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
-</style></head><body><main><header><h1>Neuro<span>CAD</span></h1><p>Design a bounded electronics enclosure, inspect every interpreted field, review fabrication warnings, and export deterministic OpenSCAD without hidden defaults.</p></header>
-<div class="grid"><section class="panel"><label for="sourceType">Input contract</label><select id="sourceType"><option value="enclosure">Electronics enclosure requirements</option><option value="prompt">Basic supported geometry prompt</option><option value="ir">Canonical NeuroCAD IR JSON</option></select><label for="source">Input</label><textarea id="source" aria-describedby="status">80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case</textarea><button id="compile">Compile verified mesh &amp; download STL</button><button id="generate">Interpret, validate &amp; preview</button><p id="status" class="status" role="status" aria-live="polite"></p></section>
-<section id="result" class="panel" aria-busy="false"><h2 class="sr-only">Validated design output</h2><div id="preview"></div><div id="downloads"></div><div id="metrics" class="metrics"></div><details open><summary>Interpreted specification / canonical IR</summary><pre id="ir"></pre></details><details><summary>OpenSCAD exports</summary><pre id="scad"></pre></details><details><summary>Validation and fabrication preflight</summary><pre id="validation"></pre></details></section></div></main>
-<script nonce="__NONCE__">
-const compileButton=document.querySelector('#compile'),downloads=document.querySelector('#downloads');
-const source=document.querySelector('#source'),type=document.querySelector('#sourceType'),button=document.querySelector('#generate'),status=document.querySelector('#status'),result=document.querySelector('#result'),preview=document.querySelector('#preview'),metrics=document.querySelector('#metrics'),ir=document.querySelector('#ir'),scad=document.querySelector('#scad'),validation=document.querySelector('#validation');
-const esc=s=>String(s).replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
-function clearOutput(message){preview.innerHTML='';downloads.replaceChildren();const empty=document.createElement('p');empty.className='empty';empty.textContent=message;preview.append(empty);metrics.replaceChildren();ir.textContent='';scad.textContent='';validation.textContent=''}
-let generation=0;
-function markDirty(){generation++;status.className='status';status.setAttribute('role','status');status.textContent='Input changed; run validation before using any output.';clearOutput('No current validated output.')}
-async function run(compileMesh=false){const requestGeneration=++generation;button.disabled=true;compileButton.disabled=true;button.textContent='Validating…';result.setAttribute('aria-busy','true');status.className='status';status.setAttribute('role','status');status.textContent='Running the real pipeline…';clearOutput('Validating the current input…');try{const response=await fetch('/api/generate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:source.value,source_type:type.value,compile_mesh:compileMesh})});const data=await response.json();if(requestGeneration!==generation)return;if(!response.ok)throw new Error(data.error||'Generation failed');preview.innerHTML=data.preview_svg;if(data.mesh_artifacts){for(const [part,artifact] of Object.entries(data.mesh_artifacts)){const link=document.createElement('a');link.textContent='Download '+part+' STL (SHA-256 '+artifact.sha256.slice(0,12)+'…)';link.href=artifact.download_url;link.download=artifact.filename;link.style.display='block';downloads.append(link);const view=document.createElement('button');view.textContent='View '+part+' mesh';view.addEventListener('click',()=>{preview.innerHTML=artifact.preview_svg});downloads.append(view)}}const e=data.evaluation;const kernel=e.kernel_validity===null?'unverified':e.kernel_validity;metrics.innerHTML=[['Structurally valid',e.structural_validity],['Kernel geometry',kernel],['Editable nodes',e.editable_nodes],['Latency',e.evaluation_latency_ms.toFixed(2)+' ms']].map(x=>`<div class="metric"><b>${esc(x[1])}</b><small>${esc(x[0])}</small></div>`).join('');ir.textContent=JSON.stringify(data.spec||data.ir,null,2);scad.textContent=typeof data.scad==='string'?data.scad:JSON.stringify(data.scad,null,2);validation.textContent=JSON.stringify({validation:data.validation,manufacturing:data.manufacturing||null,mesh_verification:Object.fromEntries(Object.entries(data.mesh_artifacts||{}).map(([part,a])=>[part,{sha256:a.sha256,verification:a.verification}]))},null,2);status.textContent=compileMesh?'Compiled mesh verified; downloads contain the exact previewed STL. Downloads expire after 10 minutes or cache eviction. Physical fit remains unverified.':data.mode==='enclosure'?'Enclosure specification is complete; review warnings before compiling or fabrication.':'Validated canonical program generated; compile an STL for kernel geometry verification.'}catch(error){if(requestGeneration!==generation)return;clearOutput('No validated output was generated. Correct the input and try again.');status.className='status error';status.setAttribute('role','alert');status.textContent=error instanceof Error?error.message:'Generation failed'}finally{button.disabled=false;compileButton.disabled=false;button.textContent='Interpret, validate & preview';result.setAttribute('aria-busy','false')}}
-compileButton.addEventListener('click',()=>run(true));button.addEventListener('click',()=>run(false));source.addEventListener('input',markDirty);type.addEventListener('change',()=>{if(type.value==='enclosure')source.value='80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C; title controller case';else if(type.value==='prompt')source.value='a 120 x 80 x 4 mm plate with four 4 mm holes';else source.value='Paste canonical NeuroCAD IR JSON here';markDirty()});run();
-</script></body></html>"""
-
 
 class DemoHandler(BaseHTTPRequestHandler):
     server_version = "NeuroCADDemo/1"
 
-    def _json(self, status: HTTPStatus, value: dict[str, Any]) -> None:
+    def _json(self, status: HTTPStatus, value: dict[str, Any], *, retry_after: int | None = None) -> None:
         body = json.dumps(value, sort_keys=True).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -180,12 +167,16 @@ class DemoHandler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header("X-Frame-Options", "DENY")
+        if retry_after is not None:
+            self.send_header("Retry-After", str(retry_after))
         self.end_headers()
         self.wfile.write(body)
 
     def _host_header_allowed(self) -> bool:
         if not getattr(self.server, "enforce_loopback_host_header", True):
             return True
+        if len(self.headers.get_all("Host", [])) != 1:
+            return False
         supplied = self.headers.get("Host", "").strip().lower()
         if not supplied:
             return False
@@ -242,6 +233,12 @@ class DemoHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         if self._reject_bad_host():
             return
+        origins = self.headers.get_all("Origin", [])
+        if origins and (len(origins) != 1 or origins[0] not in {
+            f"http://{self.headers.get('Host', '')}", f"https://{self.headers.get('Host', '')}",
+        }):
+            self._json(HTTPStatus.FORBIDDEN, {"error": "cross-origin requests are not allowed"})
+            return
         if self.path != "/api/generate":
             self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
             return
@@ -261,18 +258,23 @@ class DemoHandler(BaseHTTPRequestHandler):
             request = strict_json_loads(raw.decode("utf-8"))
             if not isinstance(request, dict):
                 raise TypeError("request body must be a JSON object")
+            if request.keys() - {"source", "source_type", "compile_mesh"}:
+                raise ValueError("request contains unsupported fields")
             source = request.get("source")
             if not isinstance(source, str):
                 raise TypeError("source must be a string")
-            payload = generate_demo_payload(source, request.get("source_type", "prompt"))
             compile_mesh = request.get("compile_mesh", False)
             if not isinstance(compile_mesh, bool):
                 raise TypeError("compile_mesh must be a boolean")
+            payload = generate_demo_payload(source, request.get("source_type", "prompt"))
             if compile_mesh:
                 payload = compile_payload_meshes(payload)
                 DOWNLOADS.publish(payload['mesh_artifacts'])
         except TimeoutError:
             self._json(HTTPStatus.REQUEST_TIMEOUT, {"error": "request body timed out"})
+            return
+        except CompilerBusyError as exc:
+            self._json(HTTPStatus.SERVICE_UNAVAILABLE, {"error": str(exc)}, retry_after=5)
             return
         except (ValueError, TypeError, json.JSONDecodeError) as exc:
             self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})

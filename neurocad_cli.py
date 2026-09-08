@@ -21,6 +21,7 @@ from core.benchmark import generate_benchmark, run_benchmark, save_benchmark_res
 from core.ir import CADProgram, program_bounds, program_bounds_are_exact
 from core.ir_export import program_to_scad
 from core.ir_parser import parse_ir_json, serialize_ir_json
+from core.json_io import read_bounded_utf8
 from core.program_evaluation import evaluate_program
 from core.structural_verification import _build_verification_bundle
 from text_to_cad import TextToCAD
@@ -550,10 +551,7 @@ def cmd_calibration_fit(args: argparse.Namespace) -> int:
     output = _resolved_path(args.output)
     _require_distinct_paths(input=source, output=output)
     _require_new_path(output, label="calibration profile")
-    raw = source.read_bytes()
-    if len(raw) > MAX_CALIBRATION_JSON_BYTES:
-        raise ValueError("calibration dataset exceeds the 1 MiB input limit")
-    dataset = parse_calibration_dataset(raw.decode("utf-8"))
+    dataset = parse_calibration_dataset(read_bounded_utf8(source, max_bytes=MAX_CALIBRATION_JSON_BYTES, label="calibration dataset"))
     profile = fit_calibration_profile(dataset)
     write_text_atomic(output, serialize_calibration_profile(profile) + "\n")
     print(output)
@@ -564,10 +562,7 @@ def cmd_calibration_inspect(args: argparse.Namespace) -> int:
     from core.calibration import MAX_CALIBRATION_JSON_BYTES, parse_calibration_profile
 
     source = _resolved_path(args.profile)
-    raw = source.read_bytes()
-    if len(raw) > MAX_CALIBRATION_JSON_BYTES:
-        raise ValueError("calibration profile exceeds the 1 MiB input limit")
-    profile = parse_calibration_profile(raw.decode("utf-8"))
+    profile = parse_calibration_profile(read_bounded_utf8(source, max_bytes=MAX_CALIBRATION_JSON_BYTES, label="calibration profile"))
     print(json.dumps(profile.to_dict(), indent=2, sort_keys=True, allow_nan=False))
     return 0
 
@@ -576,10 +571,7 @@ def _read_calibration_profile(path_value: str):
     from core.calibration import MAX_CALIBRATION_JSON_BYTES, parse_calibration_profile
 
     source = _resolved_path(path_value)
-    raw = source.read_bytes()
-    if len(raw) > MAX_CALIBRATION_JSON_BYTES:
-        raise ValueError("calibration profile exceeds the 1 MiB input limit")
-    return parse_calibration_profile(raw.decode("utf-8"))
+    return parse_calibration_profile(read_bounded_utf8(source, max_bytes=MAX_CALIBRATION_JSON_BYTES, label="calibration profile"))
 
 
 def cmd_calibration_plan(args: argparse.Namespace) -> int:
@@ -668,10 +660,7 @@ def _read_exchange_bundle(directory_value: str):
 
     root = _resolved_path(directory_value)
     manifest_path = root / "manifest.json"
-    raw = manifest_path.read_bytes()
-    if len(raw) > MAX_IR_INPUT_BYTES:
-        raise ValueError("exchange manifest exceeds the 1 MiB input limit")
-    manifest = strict_json_loads(raw.decode("utf-8"))
+    manifest = strict_json_loads(read_bounded_utf8(manifest_path, max_bytes=MAX_IR_INPUT_BYTES, label="exchange manifest"))
     if not isinstance(manifest, dict):
         raise TypeError("exchange manifest must be a JSON object")
     return ExchangeBundle(root=root, manifest_path=manifest_path, manifest=manifest)

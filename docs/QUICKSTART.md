@@ -60,6 +60,34 @@ neurocad demo
 ```
 
 The demo opens a loopback-only workbench. It is not an authenticated cloud portal.
+
+### Save, reopen, and export from the workbench
+
+1. Enter an explicit supported enclosure description and choose **Interpret,
+   validate & preview**. Review the specification and fabrication warnings.
+2. **Save project** downloads canonical enclosure JSON, including its source,
+   project ID, revision and change history. OpenSCAD and canonical IR downloads
+   are available for each part without installing OpenSCAD.
+3. Use **Open saved enclosure project** to reopen that JSON, including projects
+   revised with `neurocad enclosure edit`. The current specification drives the
+   build; historical prompt text is not re-interpreted. Invalid imports leave
+   the current input and output intact. Files are limited to 1 MiB; the encoded
+   API request must also fit in 1 MiB.
+4. Choose **Compile verified mesh & download STL** for actual kernel validation
+   and per-part mesh downloads. Source validation alone leaves kernel geometry
+   explicitly **unverified**. Physical fit remains unverified in both cases.
+
+Input modes retain separate drafts within the tab. There is no browser or cloud
+autosave: download the project before closing or reloading. Editing invalidates
+output and cancels obsolete browser requests; it does not promise cancellation
+of a kernel process already running. Ctrl/Command + Enter validates the input.
+The browser times out after 90 seconds. If the compiler is busy, wait and retry;
+the API returns HTTP 503 with `Retry-After: 5`, not an invalid-design error.
+STL links expire after ten minutes or earlier cache eviction. Source downloads
+remain available until the displayed output is invalidated or the tab closes.
+
+### Compile and inspect a mesh
+
 For STL, install [OpenSCAD](https://openscad.org/downloads.html), add its executable
 directory to PATH, and verify `openscad --version`. Then:
 

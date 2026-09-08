@@ -23,7 +23,8 @@ function element(){return {value:'original',textContent:'',innerHTML:'',disabled
  addEventListener(k,v){this.handlers[k]=v},append(){},replaceChildren(){}}}
 const document={querySelector(id){if(!elements.has(id))elements.set(id,element());return elements.get(id)},createElement:element};
 let finish;
-const context={document,fetch:()=>new Promise((resolve,reject)=>{finish={resolve,reject}})};
+const context={document,AbortController,TextEncoder,URL,Blob,setTimeout,clearTimeout,
+ fetch:()=>new Promise((resolve,reject)=>{finish={resolve,reject}})};
 vm.runInNewContext(SCRIPT,context);
 elements.get('#source').value='changed';elements.get('#source').handlers.input();
 if(FAILURE)finish.reject(new Error('obsolete failure'));
