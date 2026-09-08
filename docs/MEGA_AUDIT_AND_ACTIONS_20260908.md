@@ -202,7 +202,7 @@ Portal implementation is committed locally as `425ceb64e24a739a0413c0ea6a4e3716d
 Validation observed in this session:
 
 - Portal: typecheck and lint pass; 81 Vitest tests, 23 Node contract tests, and 6 toolchain tests pass. The intentional error-boundary fixture logs its injected exception but the test passes.
-- Chromium/public accessibility suite: 11 pass. These do not certify authenticated production UI.
+- Chromium/public accessibility suite: earlier run passed 11 tests. Final-source rerun reported all 11 cases passed but stalled during worker shutdown; interrupted after 4.4 minutes (exit 130), so the final command is not a clean pass. Investigate local browser-worker teardown and rerun before release. These tests do not certify authenticated production UI.
 - Clean portal production build: passes with fixture public config and final release identity `3f370f0`.
 - `npm audit --omit=dev --audit-level=high`: zero reported vulnerabilities.
 - CAD final source: full suite 357 passed; complete CI-scope Ruff and Bandit passed; mypy passed for 57 source files. Targeted fit-sample suite: 14 passed; enclosure-product suite including four injected faults: 19 passed.
