@@ -71,7 +71,7 @@ No missing pilot, benchmark, deployment, authorization receipt, or scientific ev
 
 ## Reviewer procedure
 
-1. Open all provenance manifests and completeness inventories: the core manifest, research extension, product-QA extension, OOD extension, 48-blob subtree inventory, five-workflow inventory, and six-file release-surface inventory.
+1. Open all three JSON manifests in the original core manifest set—the core manifest, research extension, and product-QA extension—then also open the OOD extension and the three bounded completeness inventories: the 48-blob subtree inventory, five-workflow inventory, and six-file release-surface inventory.
 2. Confirm all artifacts are pinned to snapshot `9efb041d3d56e0dc617f5808576beff696d08a69`; confirm the subtree inventory is additionally pinned to `portfolio/project2424/projects/T2424-0037` / tree `f741417e9710c3044044465bfeabc7a3cf185ca0`, and the workflow/release-surface inventories to root tree `c5aeb156a9c09f0408dfa3dd20bd770076b5ee76`.
 3. Resolve a selected `source_path` at the pinned VertexED source snapshot; verify `source_blob`/`source_tree` when present, or consult `recovered_blob_identities` for base rows whose exact blobs were recovered later.
 4. Check `canonical_destination`. If it is `HISTORICAL_ONLY`, keep the original artifact as the evidence owner rather than copying it into NeuroCAD.
