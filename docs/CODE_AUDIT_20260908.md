@@ -43,13 +43,41 @@ not a claim to have proved every historical line correct or exhausted CAD resear
 - [x] Add installation failure injection and CI real-wheel quick-install smoke.
 - [x] Add quick start, Windows usage, mathematical contract/reference guide,
   hypothetical input example, docs index and updated release status.
-- [ ] Final full-suite/static/build/installed-package checks: record observed
-  results in the PR validation section; do not substitute baseline results.
-- [ ] Exact final-revision GitHub CI: require success before merge.
+- [x] Full-suite/static/build/installed-package checks pass; observed results below.
+- [x] Exact implementation-revision GitHub CI (`e0da3bc`): all six release jobs
+  and all three research workflows pass. Require current PR checks before merge.
 - [ ] Review baseline adoption and authorize merge/publication; private visibility,
   release tag/artifacts, and anonymous install remain distinct acceptance gates.
 - [ ] Physical measurements, real external-app imports and independent research
   evaluation remain unperformed. No mathematical software test closes these gates.
+
+## Observed validation
+
+- CI: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/34247703147.
+  Linux Python 3.10/3.11/3.12: **417 passed** each, including real OpenSCAD.
+  Portable Linux/macOS: **402 passed, 15 kernel skips**. Windows: **397 passed,
+  20 skips** (15 kernel + 5 POSIX-installer tests; Windows uses documented venv).
+- Local full suite: **415 passed in 316.78 seconds**. Two subsequently added
+  validation/overflow cases also passed in the final 36-test targeted run;
+  remote CI includes all 417 together.
+- Ruff passes. Local mypy passes on 38 files; CI-scope mypy on 60 files. Bandit
+  on core passes; CI dependency/security and clean-install gates pass.
+- Clean `git archive e0da3bc` wheel/sdist build passes with pinned build tools.
+  Distribution verification accepts **47 wheel / 205 sdist members** and excludes
+  legacy/generated material. This avoids packaging concurrent uncommitted notes.
+- Real staged install of that wheel in isolated local directories: pip dependency
+  check, version, doctor, generation validation and launcher publication pass.
+  CI independently exercises the installer from its own built wheel.
+- Installed command, run outside the checkout: compiled a 40x30x3 mm four-hole
+  plate to STL; topology assertion passed with Betti numbers **[1,8,1]**, genus
+  **4**, zero boundary edges and valid vertex links. Artifact SHA256:
+  `e34a6a440664d9d383e0a6bda3a995a9cb8ceb3a01b049cc2d36a110082ff8cc`.
+- Installed tolerance example: mean clearance **0.35 mm**, sigma **0.2 mm** and
+  recommended nominal clearance **0.75 mm**; these are hypothetical analytical
+  inputs, not measured manufacturing evidence.
+- Git repair: a confirmed ownerless 76-minute-old index lock was moved aside
+  recoverably. User research changes and their README paragraph remain unstaged;
+  no main merge, visibility change, tag publication or physical test was performed.
 
 ## Mathematical challenge and limits
 
