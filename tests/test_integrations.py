@@ -200,6 +200,7 @@ def test_bundle_failure_leaves_no_published_or_staged_directory(tmp_path: Path, 
         raise RuntimeError("external compiler failed")
 
     monkeypatch.setattr(exchange_module, "compile_scad_verified", fail_compile)
+    monkeypatch.setattr(registry_module.shutil, "which", lambda _: "/test/openscad")
     with pytest.raises(RuntimeError, match="external compiler failed"):
         export_openscad_bundle(_build(), destination, compile_meshes=True)
     assert not destination.exists()

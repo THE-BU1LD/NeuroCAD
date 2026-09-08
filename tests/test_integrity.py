@@ -151,7 +151,10 @@ def test_disconnected_root_experiments_are_isolated_in_the_legacy_archive() -> N
     }
     assert {path.name for path in ROOT.glob("*.py")} == supported_root_modules
     assert (ROOT / "legacy/python/cad_master_kernel_legacy_broken.py").is_file()
-    assert (ROOT / "legacy/generated/round3_output.step").is_file()
+    # Ignored generated artifacts are local evidence, not portable checkout inputs.
+    assert not (ROOT / "round3_output.step").exists()
+    assert (ROOT / "legacy/README.md").is_file()
+    assert "prune legacy" in _read("MANIFEST.in")
     assert "legacy" not in _read("pyproject.toml")
 
 
