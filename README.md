@@ -149,15 +149,15 @@ deterministic scientific hashes, and a separate runtime receipt. See
 `REPRODUCIBILITY.md`, `QUESTION.md`,
 `paper/NEUROCAD_CONTROLLED_COMPILER_PAPER.md`, and `audits/CLAIM_LEDGER.md`.
 
-Launch the local workbench, which uses the same parser, IR, validator, and
-exporter as the CLI:
-
 To produce a deterministic structural-generation report (not kernel verification
 or physical certification), use `neurocad verify "a 120 x 80 x 4 mm plate with
 four 4 mm holes" --json-output verification.json --scad-output design.scad`.
 Output paths must be distinct and new unless `--force` is supplied. Unlike the
 older public-alpha examples, all dimensions must be explicit; unsupported inputs
 produce an invalid report and no SCAD artifact.
+
+Launch the local workbench, which uses the same parser, IR, validator, and
+exporter as the CLI:
 
 ```bash
 neurocad demo
