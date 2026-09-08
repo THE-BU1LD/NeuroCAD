@@ -11,7 +11,9 @@
 - [x] Run the maintained suite: 387 passed in 146.33 seconds; Ruff and mypy pass.
 - [x] Build wheel/sdist; distribution safety checks pass (46/194 archive members).
 - [x] Open draft NeuroCAD PR #49 with the explicit baseline-adoption decision.
-- [ ] Remote CI on the final PR revision must pass; local results are not substituted.
+- [x] Remote CI on implementation revision `3713bea` passes all six release jobs
+  (Linux Python 3.10/3.11/3.12 and portable Linux/macOS/Windows Python 3.13).
+  Methodology preflight, offline ledger, and Stage 1 smoke also pass.
 - [ ] Review the full audited-baseline adoption diff before merging into main.
 
 ## Portal follow-up
@@ -54,3 +56,31 @@ This is a **review candidate**, not authorization to merge. Reviewers must inspe
 the broad baseline adoption, legacy relocation, historical research differences,
 and packaging boundaries. Old main can always be inspected at its immutable SHA.
 Remote CI verifies the maintained product, not equivalence of every legacy path.
+
+## Clean-runner fixes and final evidence
+
+- Build isolation now installs the exact backend requirements from `pyproject.toml`;
+  editable installation did not install those build-only dependencies into runners.
+- Portable runners use an available cross-platform Python distribution. Kernel
+  failure injection controls executable discovery; archive tests no longer depend
+  on an ignored local generated STEP file.
+- Atomic artifact writers publish UTF-8 LF bytes consistently, frozen prompts and
+  benchmark payloads preserve their hashed bytes, and research manifests use POSIX
+  relative paths. Windows CI verifies the actual receipts and handoffs end-to-end.
+- Filesystem tests check byte hashes and preserved platform permissions, without
+  incorrectly assuming Windows implements Unix permission bits or LF text writes.
+- Added two exact-byte writer regression tests. Targeted integration/provenance/
+  packaging/freeze tests: 66 passed; Ruff passes; mypy passes on 50 source files.
+- Release CI evidence: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/34237124708.
+  All three Linux jobs run real OpenSCAD tests, CLI export/research smoke, isolated
+  wheel/sdist builds, clean wheel installation, and the history secret-pattern gate.
+  Python 3.12 additionally checks byte-reproducible builds and fresh sdist install.
+- Local rerun after the earlier 387-pass baseline: 386 passed and one real-kernel
+  enclosure compile hit its unchanged 120-second timeout; the isolated retry also
+  timed out. Host load average measured above 80. Linux passed the same test, but
+  local kernel performance under this load is not certified. No timeout was raised,
+  geometry assertion removed, or kernel test disabled to obtain green CI.
+
+Remaining release gates: broad baseline-adoption review, hosted portal preview
+after Vercel quota becomes available, and any physical-fit acceptance required by
+the intended manufacturing use. Software tests do not establish physical fit.
