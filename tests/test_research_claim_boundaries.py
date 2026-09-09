@@ -6,7 +6,6 @@ import pytest
 
 from text_to_cad import TextToCAD
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
