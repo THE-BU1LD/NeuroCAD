@@ -29,7 +29,7 @@ _REQUIRED_FIELDS = {
 
 
 class ExternalChallengeError(ValueError):
-    """Raised when an external challenge violates the frozen pre-outcome contract."""
+    """Raised when a challenge violates a machine-checkable pre-outcome constraint."""
 
 
 @dataclass(frozen=True)
@@ -42,6 +42,8 @@ class ExternalChallengeManifest:
     families: dict[str, int]
     authors: dict[str, int]
     adjudicators: dict[str, int]
+    execution_authorized: bool = False
+    evidence_status: str = "MACHINE_VALIDATION_ONLY_HUMAN_PROTOCOL_REVIEW_REQUIRED"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -53,6 +55,8 @@ class ExternalChallengeManifest:
             "families": dict(self.families),
             "authors": dict(self.authors),
             "adjudicators": dict(self.adjudicators),
+            "execution_authorized": self.execution_authorized,
+            "evidence_status": self.evidence_status,
         }
 
 
@@ -118,12 +122,18 @@ def validate_external_challenge(
     minimum_valid: int = DEFAULT_MINIMUM_VALID,
     minimum_reject: int = DEFAULT_MINIMUM_REJECT,
 ) -> tuple[list[dict[str, Any]], ExternalChallengeManifest]:
-    """Validate and canonicalize a pre-outcome external challenge.
+    """Validate the machine-checkable envelope and canonicalize challenge data.
 
-    Defaults implement the minimum population sizes frozen in
-    ``research/protocols/EXTERNAL_EVALUATION_V0.md``. Smaller thresholds are
-    accepted only as explicit arguments so unit tests can exercise the validator
-    without pretending a toy fixture satisfies the scientific protocol.
+    Defaults implement only the minimum population sizes and structural rules
+    that can be checked without scientific judgment. They do not establish
+    author independence, adjudication quality, licensing validity, leakage
+    absence, family-quota compliance, comparator fairness, or execution
+    authorization. Those remain separate human/provenance gates in
+    ``research/protocols/EXTERNAL_EVALUATION_V0.md``.
+
+    Smaller thresholds are accepted only as explicit arguments so unit tests
+    can exercise the validator without pretending a toy fixture satisfies the
+    scientific protocol.
     """
 
     for name, value in (
@@ -159,7 +169,7 @@ def validate_external_challenge(
         raise ExternalChallengeError(f"challenge has {reject_count} reject tasks; protocol requires at least {minimum_reject}")
 
     if len({record["author_id"] for record in normalized}) < 2:
-        raise ExternalChallengeError("challenge requires at least two independent author identifiers")
+        raise ExternalChallengeError("challenge requires at least two distinct author identifiers")
 
     canonical = canonical_external_challenge_jsonl(normalized)
     manifest = ExternalChallengeManifest(
@@ -191,7 +201,7 @@ def load_external_challenge(
     minimum_valid: int = DEFAULT_MINIMUM_VALID,
     minimum_reject: int = DEFAULT_MINIMUM_REJECT,
 ) -> tuple[list[dict[str, Any]], ExternalChallengeManifest]:
-    """Load strict JSONL and return only a protocol-valid challenge."""
+    """Load strict JSONL after machine checks; never authorize scientific execution."""
 
     records: list[Mapping[str, Any]] = []
     for line_number, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
