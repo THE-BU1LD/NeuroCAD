@@ -100,6 +100,7 @@ def test_reproduction_is_fresh_non_resuming_and_provenance_checked() -> None:
     assert "Research output must not already exist" in script
     assert "Refusing to overwrite the canonical frozen research run" in script
     assert "force_recompile=True" in script
+    assert 'scripts/preflight.sh' in script
     assert 'config["force_recompile"] is True' in script
     assert 'kernel["resumed_verified_samples"] == 0' in script
     assert 'manifest["provenance"]["source"]["sha256"]' in script
@@ -111,7 +112,10 @@ def test_source_distribution_manifest_contains_referenced_protocols_and_release_
     assert "recursive-include core *.py" in manifest
     assert "include research/VERICODEGEN_2026_PROTOCOL.md" in manifest
     assert "recursive-include docs *.md" in manifest
+    assert "recursive-include audit *.md" in manifest
     assert "recursive-include demo *.md *.sh" in manifest
+    assert "include RESEARCH_TRUTH.md" in manifest
+    assert "include research/benchmarks/neurocad_prompt_challenge_v1.jsonl" in manifest
     assert "prune legacy" in manifest
     assert "prune research/runs" in manifest
     assert "include research/runs/" not in manifest

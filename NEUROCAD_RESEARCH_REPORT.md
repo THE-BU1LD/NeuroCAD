@@ -60,7 +60,9 @@ The VeriCodeGen Stage 1 receipt demonstrates only that a scripted six-cell plumb
 - No independent external CAD kernel checked every benchmark output.
 - No learning system, OOD dataset, human CAD corpus, or blinded evaluator was used.
 - Timing is local and intended for regression diagnosis, not cross-system performance claims.
-- The current checkout lacks Git metadata, limiting provenance verification.
+- At the time of this historical report the checkout lacked Git metadata. A later
+  audit initialized local history, but it does not recover the missing original
+  provenance or provide a published exact-revision receipt.
 
 ## Conservative conclusion
 

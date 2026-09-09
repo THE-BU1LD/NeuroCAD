@@ -52,10 +52,13 @@ _SOURCE_PATTERNS = (
     "core/schemas/*.json",
     "docs/PRODUCT_WORKFLOW.md",
     "docs/PUBLIC_ALPHA_EVIDENCE_LEDGER.md",
+    "audit/*.md",
+    "research/*.md",
+    "research/protocols/*.md",
     "research/VERICODEGEN_2026_PROTOCOL.md",
     "research/vericodegen/**/*.json",
     "research/vericodegen/**/*.py",
-    "scripts/reproduce_research.sh",
+    "scripts/*.sh",
     "tests/**/*.py",
     "neurocad_cli.py",
     "pyproject.toml",
@@ -1092,7 +1095,13 @@ def run_research_suite(
 
     systems = compiler["systems"]
     figure_dir = output_dir / "figures"
-    ordered_systems = ["neurocad", "nearest_neighbor_retrieval", "raw_numbers_no_unit_normalization", "fixed_box"]
+    ordered_systems = [
+        "neurocad",
+        "normalized_dimensions_only",
+        "nearest_neighbor_retrieval",
+        "raw_numbers_no_unit_normalization",
+        "fixed_box",
+    ]
     write_text_atomic(
         figure_dir / "compiler_accuracy.svg",
         _bar_chart(

@@ -115,7 +115,15 @@ NC-EXP-005 changed a named box-width parameter, then validated, serialized, repa
 
 `scripts/reproduce_research.sh` requires CPython 3.12.14, creates a fresh isolated environment and a new output directory, installs the exact package lock, runs maintained quality gates, executes every required kernel sample with reuse disabled, regenerates JSONL/programs/STL/renders/metrics/figures, builds fresh distributions, and smoke-tests the exact wheel. New manifests record maintained-source and lock digests, package version, Git state when available, Python/dependency identity, and OpenSCAD version. Deterministic outcome hashes are separated from timing/runtime receipts. OpenSCAD remains an external requirement.
 
-This checkout lacks `.git`, so exact commit/tag/dirty-state provenance cannot be recovered. A historical environment receipt exists, but the frozen run manifest is not bound to the current source or an a6 distribution, and the retained distributions end at a5. An archival release must rerun from a clean Git checkout and retain the generated source/lock/kernel provenance, commit/tag state, CI URL, exact distribution hashes, and anonymous installer evidence.
+This checkout now has a local audit Git history, but that history was initialized
+after the original repository history was unavailable and is not published on the
+configured canonical remote. The frozen run manifest is not bound to its producing
+source revision or an a6 distribution, and 181 of its 240 kernel records were
+accepted from already present artifacts. The retained run is therefore historical
+development evidence, not a fresh confirmatory reproduction of the current source.
+An archival release must run the non-resuming protocol from a clean published
+revision and retain source/lock/kernel provenance, commit/tag state, CI URL, exact
+distribution hashes, and anonymous installer evidence.
 
 ## 17. Limitations
 

@@ -39,6 +39,16 @@ def test_benchmark_real_system_beats_trivial_baselines() -> None:
     assert system["overall_semantic_exact_rate"] > raw["overall_semantic_exact_rate"] > fixed["overall_semantic_exact_rate"]
 
 
+def test_normalized_dimensions_baseline_is_stronger_but_cannot_parse_features() -> None:
+    results = run_benchmark()
+    normalized = results["systems"]["normalized_dimensions_only"]
+    raw = results["systems"]["raw_numbers_no_unit_normalization"]
+    assert normalized["overall_semantic_exact_rate"] > raw["overall_semantic_exact_rate"]
+    feature_records = [record for record in normalized["records"] if record["family"] in {"plate_holes", "composition", "enclosure"}]
+    assert feature_records
+    assert not any(record["passed"] for record in feature_records)
+
+
 def test_benchmark_rejects_empty_duplicate_and_incomplete_task_sets() -> None:
     with pytest.raises(ValueError, match="at least one"):
         run_benchmark([])

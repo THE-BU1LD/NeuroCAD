@@ -1,0 +1,625 @@
+{
+  "by_split": {
+    "development": {
+      "cases": 6,
+      "passed": 6
+    },
+    "test": {
+      "cases": 12,
+      "passed": 12
+    },
+    "validation": {
+      "cases": 6,
+      "passed": 6
+    }
+  },
+  "cases": 24,
+  "challenge_version": "neurocad-prompt-challenge-v1",
+  "dataset_sha256": "08325ac375bb1e337d0bb760fe2d86e3638e74e13a1df3857e781d046ac48b64",
+  "evidence_class": "development evidence; audit-authored after implementation inspection; not independent or confirmatory",
+  "executed_at_utc": "2026-09-08T16:42:39.586468+00:00",
+  "failures": [],
+  "passed": 24,
+  "provenance": {
+    "evaluator_sha256": "e7df3e5a4e2d3d93a963d02acb08002adfa768c0c4fa37f97d536bf6b9bd2952",
+    "git_commit": "7d919abc22d9b931a7ac864d1298108ab50a336d",
+    "git_dirty": true,
+    "git_status_sha256": "0d868438a662b4fcb0c4be69707f4db3814a78502e1df023543a1a5ffa35554f"
+  },
+  "records": [
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          80.0,
+          60.0,
+          4.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-001",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          80,
+          60,
+          4
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "plate",
+      "passed": true,
+      "prompt": "a solid 80 x 60 x 4 mm plate",
+      "split": "development"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          40.0,
+          30.0,
+          20.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-002",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          40,
+          30,
+          20
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "box",
+      "passed": true,
+      "prompt": "a 40 x 30 x 20 mm rectangular box",
+      "split": "development"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "sphere",
+        "radius": 12.5,
+        "slot_count": 0
+      },
+      "case_id": "NCC-003",
+      "errors": [],
+      "expected": {
+        "kind": "sphere",
+        "radius": 12.5
+      },
+      "expected_status": "accept",
+      "family": "sphere",
+      "passed": true,
+      "prompt": "a ball with radius 12.5 mm",
+      "split": "development"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "height": 50.0,
+        "hole_count": 0,
+        "kind": "cylinder",
+        "radius": 20.0,
+        "slot_count": 0
+      },
+      "case_id": "NCC-004",
+      "errors": [],
+      "expected": {
+        "height": 50,
+        "kind": "cylinder",
+        "radius": 20
+      },
+      "expected_status": "accept",
+      "family": "cylinder",
+      "passed": true,
+      "prompt": "a cylinder with diameter 40 mm and height 50 mm",
+      "split": "development"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 4,
+        "hole_diameter": 4.0,
+        "kind": "box",
+        "size": [
+          120.0,
+          80.0,
+          4.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-005",
+      "errors": [],
+      "expected": {
+        "hole_count": 4,
+        "hole_diameter": 4,
+        "kind": "box",
+        "size": [
+          120,
+          80,
+          4
+        ]
+      },
+      "expected_status": "accept",
+      "family": "holes",
+      "passed": true,
+      "prompt": "a 120 x 80 x 4 mm plate with four 4 mm holes",
+      "split": "development"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          100.0,
+          60.0,
+          4.0
+        ],
+        "slot_count": 2,
+        "slot_size": [
+          12.0,
+          5.0
+        ]
+      },
+      "case_id": "NCC-006",
+      "errors": [],
+      "expected": {
+        "kind": "box",
+        "size": [
+          100,
+          60,
+          4
+        ],
+        "slot_count": 2,
+        "slot_size": [
+          12,
+          5
+        ]
+      },
+      "expected_status": "accept",
+      "family": "slots",
+      "passed": true,
+      "prompt": "a 100 x 60 x 4 mm panel with two 12 x 5 mm slots",
+      "split": "development"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          120.0,
+          80.0,
+          4.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-007",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          120,
+          80,
+          4
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "named_dimensions",
+      "passed": true,
+      "prompt": "a plate 120 mm wide 80 mm deep and 4 mm thick",
+      "split": "validation"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          120.0,
+          80.0,
+          4.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-008",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          120,
+          80,
+          4
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "mixed_units",
+      "passed": true,
+      "prompt": "a 12 cm x 80 mm x 0.004 m plate",
+      "split": "validation"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "sphere",
+        "radius": 25.0,
+        "slot_count": 0
+      },
+      "case_id": "NCC-009",
+      "errors": [],
+      "expected": {
+        "kind": "sphere",
+        "radius": 25
+      },
+      "expected_status": "accept",
+      "family": "unit_words",
+      "passed": true,
+      "prompt": "a sphere with radius 2.5 centimeters",
+      "split": "validation"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "height": 76.19999999999999,
+        "hole_count": 0,
+        "kind": "cylinder",
+        "radius": 12.7,
+        "slot_count": 0
+      },
+      "case_id": "NCC-010",
+      "errors": [],
+      "expected": {
+        "height": 76.2,
+        "kind": "cylinder",
+        "radius": 12.7
+      },
+      "expected_status": "accept",
+      "family": "unit_words",
+      "passed": true,
+      "prompt": "a 0.5 inch radius cylinder with height 3 inches",
+      "split": "validation"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "open_top": true,
+        "size": [
+          100.0,
+          80.0,
+          30.0
+        ],
+        "slot_count": 0,
+        "wall_thickness": 2.0
+      },
+      "case_id": "NCC-011",
+      "errors": [],
+      "expected": {
+        "kind": "box",
+        "open_top": true,
+        "size": [
+          100,
+          80,
+          30
+        ],
+        "wall_thickness": 2
+      },
+      "expected_status": "accept",
+      "family": "enclosure",
+      "passed": true,
+      "prompt": "a 100 by 80 by 30 mm housing with 2 mm walls",
+      "split": "validation"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 2,
+        "hole_diameter": 5.0,
+        "kind": "box",
+        "size": [
+          90.0,
+          50.0,
+          3.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-012",
+      "errors": [],
+      "expected": {
+        "hole_count": 2,
+        "hole_diameter": 5,
+        "kind": "box",
+        "size": [
+          90,
+          50,
+          3
+        ]
+      },
+      "expected_status": "accept",
+      "family": "holes",
+      "passed": true,
+      "prompt": "a 90 by 50 by 3 mm mounting board with two 5 mm diameter holes",
+      "split": "validation"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          70.0,
+          40.0,
+          2.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-013",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          70,
+          40,
+          2
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "unicode_separator",
+      "passed": true,
+      "prompt": "A 70 \u00d7 40 \u00d7 2 mm plate",
+      "split": "test"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          50.8,
+          25.4,
+          3.175
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-014",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          50.8,
+          25.4,
+          3.175
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "imperial",
+      "passed": true,
+      "prompt": "a 2 by 1 by 0.125 inch plate",
+      "split": "test"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 1,
+        "hole_diameter": 6.0,
+        "kind": "box",
+        "size": [
+          80.0,
+          50.0,
+          3.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-015",
+      "errors": [],
+      "expected": {
+        "hole_count": 1,
+        "hole_diameter": 6,
+        "kind": "box",
+        "size": [
+          80,
+          50,
+          3
+        ]
+      },
+      "expected_status": "accept",
+      "family": "singular_feature",
+      "passed": true,
+      "prompt": "a 80 x 50 x 3 mm bracket with a 6 mm hole",
+      "split": "test"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          80.0,
+          50.0,
+          3.0
+        ],
+        "slot_count": 1,
+        "slot_size": [
+          10.0,
+          4.0
+        ]
+      },
+      "case_id": "NCC-016",
+      "errors": [],
+      "expected": {
+        "kind": "box",
+        "size": [
+          80,
+          50,
+          3
+        ],
+        "slot_count": 1,
+        "slot_size": [
+          10,
+          4
+        ]
+      },
+      "expected_status": "accept",
+      "family": "singular_feature",
+      "passed": true,
+      "prompt": "a 80 x 50 x 3 mm plate with one 10 by 4 mm slot",
+      "split": "test"
+    },
+    {
+      "accepted": true,
+      "actual": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          30.0,
+          20.0,
+          10.0
+        ],
+        "slot_count": 0
+      },
+      "case_id": "NCC-017",
+      "errors": [],
+      "expected": {
+        "hole_count": 0,
+        "kind": "box",
+        "size": [
+          30,
+          20,
+          10
+        ],
+        "slot_count": 0
+      },
+      "expected_status": "accept",
+      "family": "primitive_alias",
+      "passed": true,
+      "prompt": "a solid 30 x 20 x 10 mm rectangular prism",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-018",
+      "errors": [
+        "all overall dimensions must be stated explicitly",
+        "prompt contains unconsumed or unsupported text; rewrite it using only the documented grammar"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "missing_dimension",
+      "passed": true,
+      "prompt": "a 100 x 60 mm plate",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-019",
+      "errors": [
+        "prompt contains unconsumed or unsupported text; rewrite it using only the documented grammar"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "unsupported_feature",
+      "passed": true,
+      "prompt": "a 100 x 60 x 4 mm plate with M6 threads",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-020",
+      "errors": [
+        "prompt contains unconsumed or unsupported text; rewrite it using only the documented grammar"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "unsupported_feature",
+      "passed": true,
+      "prompt": "a 100 x 60 x 4 mm plate with two hinges",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-021",
+      "errors": [
+        "component 'body' has a non-positive size",
+        "overall dimensions below 0.1 mm are outside the supported range"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "invalid_numeric",
+      "passed": true,
+      "prompt": "a -100 x 60 x 4 mm plate",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-022",
+      "errors": [
+        "multiple overall dimension sequences are ambiguous"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "ambiguous_dimensions",
+      "passed": true,
+      "prompt": "a 100 x 60 x 4 mm plate and a 20 x 10 x 2 mm plate",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-023",
+      "errors": [
+        "prompt contains unconsumed or unsupported text; rewrite it using only the documented grammar"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "lossy_character",
+      "passed": true,
+      "prompt": "a 100 x 60 x 4 mm plate \ud83d\ude80",
+      "split": "test"
+    },
+    {
+      "accepted": false,
+      "actual": null,
+      "case_id": "NCC-024",
+      "errors": [
+        "prompt contains unconsumed or unsupported text; rewrite it using only the documented grammar",
+        "hole count must be stated explicitly; plural holes cannot default to one"
+      ],
+      "expected": null,
+      "expected_status": "reject",
+      "family": "missing_feature_count",
+      "passed": true,
+      "prompt": "a 100 x 60 x 4 mm plate with 5 mm holes",
+      "split": "test"
+    }
+  ]
+}

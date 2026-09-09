@@ -72,6 +72,10 @@ RUN_ID=${NEUROCAD_RESEARCH_RUN_ID:-NC-REPRO-$RUN_STAMP}
     --requirement requirements-research.lock
 "$REPRO_ENV/bin/python" -m pip install --no-build-isolation --no-deps -e .
 
+# Fail before the expensive suite if the native kernel exists but cannot create
+# a mesh-rendering context on this host.
+PYTHON_BIN="$REPRO_ENV/bin/python" scripts/preflight.sh
+
 "$REPRO_ENV/bin/python" -m compileall -q \
     neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen
 "$REPRO_ENV/bin/python" -m pytest -q tests

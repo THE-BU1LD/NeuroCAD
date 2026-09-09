@@ -6,6 +6,12 @@ primitives. Prompts compile through a versioned, schema-validated internal
 representation to deterministic OpenSCAD. Every exported length is expressed
 in millimetres.
 
+Research status: the maintained compiler is engineering-verified, while the
+conference evidence is **partial**. The retained full benchmark is synthetic and
+historically source-unbound; it must not be read as external validation. Start
+with `RESEARCH_TRUTH.md`, `audit/REPOSITORY_MAP.md`, and
+`audit/CONFERENCE_READINESS_CHECKLIST.md` for the current evidence boundary.
+
 NeuroCAD is an alpha design aid. Generated parts must still be reviewed by a
 qualified person before fabrication. It does not calculate load capacity,
 material behaviour, regulatory compliance, or safety. Its disclosed tolerance
@@ -151,6 +157,15 @@ Run the deterministic 48-task product regression benchmark:
 neurocad benchmark \
   --dataset neurocad-benchmark.jsonl \
   --output neurocad-benchmark-results.json
+```
+
+Run the immutable audit-authored development challenge (this is not independent
+confirmatory evidence):
+
+```bash
+python -m core.challenge \
+  research/benchmarks/neurocad_prompt_challenge_v1.jsonl \
+  /tmp/neurocad-prompt-challenge-results.json
 ```
 
 Reproduce the full controlled research suite (requires CPython 3.12.14 and

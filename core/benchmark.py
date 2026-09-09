@@ -20,6 +20,22 @@ from .program_evaluation import evaluate_program
 
 BENCHMARK_VERSION = "neurocad-benchmark-v1"
 DEFAULT_SEED = 20260902
+_BASELINE_UNIT_SCALE = {
+    "mm": 1.0,
+    "millimeter": 1.0,
+    "millimeters": 1.0,
+    "cm": 10.0,
+    "centimeter": 10.0,
+    "centimeters": 10.0,
+    "m": 1000.0,
+    "meter": 1000.0,
+    "meters": 1000.0,
+    "in": 25.4,
+    "inch": 25.4,
+    "inches": 25.4,
+}
+_BASELINE_UNIT = "|".join(sorted(_BASELINE_UNIT_SCALE, key=len, reverse=True))
+_BASELINE_NUMBER = r"(?:\d+(?:\.\d+)?|\.\d+)"
 
 
 @dataclass(frozen=True)
@@ -144,11 +160,15 @@ def program_signature(program: CADProgram) -> dict[str, Any]:
     return signature
 
 
-def _equal(expected: Any, actual: Any, tolerance: float = 1e-6) -> bool:
+def semantic_signatures_equal(expected: Any, actual: Any, tolerance: float = 1e-6) -> bool:
     if isinstance(expected, dict):
-        return isinstance(actual, dict) and all(key in actual and _equal(value, actual[key], tolerance) for key, value in expected.items())
+        return isinstance(actual, dict) and all(
+            key in actual and semantic_signatures_equal(value, actual[key], tolerance) for key, value in expected.items()
+        )
     if isinstance(expected, (list, tuple)):
-        return isinstance(actual, (list, tuple)) and len(expected) == len(actual) and all(_equal(left, right, tolerance) for left, right in zip(expected, actual, strict=True))
+        return isinstance(actual, (list, tuple)) and len(expected) == len(actual) and all(
+            semantic_signatures_equal(left, right, tolerance) for left, right in zip(expected, actual, strict=True)
+        )
     if isinstance(expected, (int, float)) and not isinstance(expected, bool):
         return isinstance(actual, (int, float)) and not isinstance(actual, bool) and abs(float(expected) - float(actual)) <= tolerance
     return expected == actual
@@ -186,10 +206,51 @@ def _raw_number_predict(task: BenchmarkTask) -> tuple[dict[str, Any] | None, dic
     return signature, {"valid": True, "latency_ms": (perf_counter() - started) * 1000}
 
 
+def _normalized_dimensions_predict(task: BenchmarkTask) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+    """Simple unit-aware dimensions baseline with no feature or wall semantics."""
+
+    started = perf_counter()
+    text = task.prompt.casefold().replace("×", "x")
+
+    def millimetres(value: str, unit: str | None, shared: str = "mm") -> float:
+        return float(value) * _BASELINE_UNIT_SCALE[unit or shared]
+
+    triple = re.search(
+        rf"({_BASELINE_NUMBER})\s*({_BASELINE_UNIT})?\s*(?:x|by)\s*"
+        rf"({_BASELINE_NUMBER})\s*({_BASELINE_UNIT})?\s*(?:x|by)\s*"
+        rf"({_BASELINE_NUMBER})\s*({_BASELINE_UNIT})?",
+        text,
+    )
+    signature: dict[str, Any] | None = None
+    if triple:
+        units = [triple.group(2), triple.group(4), triple.group(6)]
+        shared = next((unit for unit in reversed(units) if unit), "mm")
+        signature = {
+            "kind": "box",
+            "size": [millimetres(triple.group(i), unit, shared) for i, unit in zip((1, 3, 5), units, strict=True)],
+            "hole_count": 0,
+            "slot_count": 0,
+        }
+    elif "sphere" in text or "ball" in text:
+        radius = re.search(rf"radius\s+({_BASELINE_NUMBER})\s*({_BASELINE_UNIT})?", text)
+        if radius:
+            signature = {"kind": "sphere", "radius": millimetres(radius.group(1), radius.group(2))}
+    elif "cylinder" in text or "tube" in text:
+        radial = re.search(rf"(radius|diameter)\s+({_BASELINE_NUMBER})\s*({_BASELINE_UNIT})?", text)
+        height = re.search(rf"height\s+({_BASELINE_NUMBER})\s*({_BASELINE_UNIT})?", text)
+        if radial and height:
+            radius_mm = millimetres(radial.group(2), radial.group(3)) / (2 if radial.group(1) == "diameter" else 1)
+            signature = {"kind": "cylinder", "radius": radius_mm, "height": millimetres(height.group(1), height.group(2))}
+    if signature is None:
+        return None, {"valid": False, "latency_ms": (perf_counter() - started) * 1000}
+    return signature, {"valid": True, "latency_ms": (perf_counter() - started) * 1000}
+
+
 PREDICTORS: dict[str, Callable[[BenchmarkTask], tuple[dict[str, Any] | None, dict[str, Any]]]] = {
     "neurocad": _neurocad_predict,
     "fixed_box": _fixed_box_predict,
     "raw_numbers_no_unit_normalization": _raw_number_predict,
+    "normalized_dimensions_only": _normalized_dimensions_predict,
 }
 
 
@@ -238,8 +299,16 @@ def _intervention_score(tasks: list[BenchmarkTask], records: list[dict[str, Any]
         if left_actual is None or right_actual is None:
             scores.append(False)
             continue
-        expected_changed = {key for key in set(left.expected) | set(right.expected) if not _equal(left.expected.get(key), right.expected.get(key))}
-        actual_changed = {key for key in set(left_actual) | set(right_actual) if not _equal(left_actual.get(key), right_actual.get(key))}
+        expected_changed = {
+            key
+            for key in set(left.expected) | set(right.expected)
+            if not semantic_signatures_equal(left.expected.get(key), right.expected.get(key))
+        }
+        actual_changed = {
+            key
+            for key in set(left_actual) | set(right_actual)
+            if not semantic_signatures_equal(left_actual.get(key), right_actual.get(key))
+        }
         scores.append(actual_changed == expected_changed and left.intervention_key in actual_changed)
     return sum(scores) / len(scores) if scores else None
 
@@ -283,7 +352,7 @@ def run_benchmark(tasks: list[BenchmarkTask] | None = None, *, seed: int = DEFAU
                     "task_id": task.task_id,
                     "split": task.split,
                     "family": task.family,
-                    "passed": actual is not None and _equal(task.expected, actual),
+                    "passed": actual is not None and semantic_signatures_equal(task.expected, actual),
                     "expected": task.expected,
                     "actual": actual,
                     "details": details,
