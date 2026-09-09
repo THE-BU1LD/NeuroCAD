@@ -11,12 +11,8 @@ from __future__ import annotations
 import re
 
 from .design_graph import DesignGraph
-from .prompt_engine import (
-    NUM_WORDS,
-    SIGNED_NUMBER_PATTERN,
-    UNIT_PATTERN,
-    generate_design as _generate_design,
-)
+from .prompt_engine import NUM_WORDS, SIGNED_NUMBER_PATTERN, UNIT_PATTERN
+from .prompt_engine import generate_design as _generate_design
 
 
 def _matches_three_modifier_plate(text: str) -> bool:
