@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "research" / "protocols" / "EXTERNAL_EVALUATION_V0.md"
 
