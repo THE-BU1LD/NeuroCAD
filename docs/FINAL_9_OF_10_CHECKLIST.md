@@ -1,5 +1,10 @@
 # NeuroCAD — final 9/10 acceptance checklist
 
+**Subsequent GitHub handoff:** the repository is now public and PR #49 has merged
+after twelve successful checks. See [the 2026-09-09 handoff](GITHUB_HANDOFF_20260909.md)
+for the newer implementation snapshot, anonymous installation and PR dispositions.
+The dated private/draft observations below are retained as audit history, not current status.
+
 Prepared 2026-09-09. This is the single forward-looking checklist for improving
 the eight areas scored in the [current audit](CODE_AUDIT_20260908.md).
 Older audits remain historical evidence; the [expansion backlog](PRODUCT_EXPANSION_CHECKLIST.md)
