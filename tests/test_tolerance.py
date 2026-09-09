@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+from itertools import permutations
 from pathlib import Path
 
 import pytest
@@ -71,3 +72,48 @@ def test_tolerance_cli_real_request_and_non_clobber(tmp_path: Path, capsys: pyte
     assert report["variation_model"] == "joint_normal_correlated"
     with pytest.raises(FileExistsError):
         args.func(args)
+
+
+def test_signed_cancellation_is_independent_of_contribution_order() -> None:
+    # An exact arithmetic reference, deliberately ill-conditioned. This is a
+    # numerical regression, not physically measured manufacturing evidence.
+    contributions = tuple(ToleranceContribution(str(i), mean, 0, 0) for i, mean in enumerate((1e16, -1e16, 1)))
+    for ordering in permutations(contributions):
+        report = tolerance_stack(0.5, ordering)
+        assert report.mean_clearance_mm == 1.5
+        assert report.worst_case_low_mm == 1.5
+
+
+@pytest.mark.parametrize("field", ["nominal", "mean", "sigma", "worst", "confidence"])
+def test_oversized_integer_inputs_raise_validation_errors_not_conversion_crashes(field: str) -> None:
+    values = {"nominal": 0.5, "mean": 0, "sigma": 0.1, "worst": 0.3, "confidence": 3}
+    values[field] = 10**1000
+    contribution = ToleranceContribution("measurement", values["mean"], values["sigma"], values["worst"])
+    with pytest.raises(ValueError, match="finite numerical range"):
+        tolerance_stack(values["nominal"], (contribution,), confidence_multiplier=values["confidence"])
+
+
+def test_correlation_permutation_and_length_scaling_preserve_the_model() -> None:
+    import numpy as np
+
+    rng = np.random.default_rng(8709)
+    factors = rng.normal(size=(6, 4))
+    factors /= np.linalg.norm(factors, axis=1)[:, None]
+    matrix = factors @ factors.T
+    # Unit diagonal is exact; rows are dependent, so singular PSD is intentional.
+    np.fill_diagonal(matrix, 1)
+    sigmas = np.arange(1, 7) / 20
+    contributions = tuple(ToleranceContribution(str(i), (-1)**i * 0.03, float(sigma), 0.2) for i, sigma in enumerate(sigmas))
+    original = tolerance_stack(0.5, contributions, correlations=tuple(map(tuple, matrix)))
+    # Independent factor-space reference: ||A^T s||, not the implementation's s^T R s.
+    assert original.sigma_mm == pytest.approx(float(np.linalg.norm(factors.T @ sigmas)))
+    permutation = [5, 1, 3, 0, 4, 2]
+    reordered = tolerance_stack(0.5, tuple(contributions[i] for i in permutation), correlations=tuple(map(tuple, matrix[np.ix_(permutation, permutation)])))
+    assert reordered.sigma_mm == pytest.approx(original.sigma_mm)
+    assert reordered.success_probability == pytest.approx(original.success_probability)
+    for factor in (0.001, 1000):
+        scaled = tuple(ToleranceContribution(c.name, c.mean_mm * factor, c.sigma_mm * factor, c.worst_case_mm * factor) for c in contributions)
+        report = tolerance_stack(0.5 * factor, scaled, correlations=tuple(map(tuple, matrix)))
+        assert report.sigma_mm == pytest.approx(original.sigma_mm * factor)
+        assert report.recommended_clearance_mm == pytest.approx(original.recommended_clearance_mm * factor)
+        assert report.success_probability == pytest.approx(original.success_probability)

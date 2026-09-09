@@ -205,6 +205,8 @@ def _free_lid_material_point(spec: EnclosureSpec, *, plug: bool = False) -> tupl
         fastener_radius = (
             hardware.clearance_hole_mm + MANUFACTURING_PROFILES[spec.profile].hole_compensation_mm
         ) / 2 + 0.25
+        if plug:
+            fastener_radius = hardware.boss_outer_mm / 2 + spec.lid.clearance_mm + 0.25
     for candidate in _planar_candidates(half_x, half_y):
         if any(_point_in_planar_feature(candidate, feature, spec) for feature in features):
             continue
@@ -285,6 +287,18 @@ def verify_enclosure_mesh(path: Path, spec: EnclosureSpec, *, part: str) -> Encl
         if spec.lid.kind == "screw":
             for index, position in enumerate(spec.lid.fastener_positions_xy_mm, start=1):
                 probes.append(_probe(occupancy, f"lid_fastener_{index}", "lid fastener bore", _top_point(position), False))
+                if spec.lid.lip_height_mm > 0:
+                    if spec.lid.hardware is None:
+                        raise ValueError("screw lid verification requires a hardware profile")
+                    hardware = HARDWARE_PROFILES[spec.lid.hardware]
+                    hole_diameter = hardware.clearance_hole_mm + MANUFACTURING_PROFILES[spec.profile].hole_compensation_mm
+                    ring_radius = (hole_diameter + hardware.boss_outer_mm) / 4
+                    z = -(spec.lid.thickness_mm + spec.lid.lip_height_mm) / 2
+                    for side, (dx, dy) in enumerate(((ring_radius, 0), (-ring_radius, 0), (0, ring_radius), (0, -ring_radius))):
+                        probes.append(_probe(
+                            occupancy, f"lid_boss_relief_{index}", f"boss ring clearance {side + 1}",
+                            (position[0] + dx, position[1] + dy, z), False,
+                        ))
         material_point = _free_lid_material_point(spec)
         if material_point is not None:
             probes.append(_probe(occupancy, "lid", "lid material", material_point, True))
@@ -297,4 +311,21 @@ def verify_enclosure_mesh(path: Path, spec: EnclosureSpec, *, part: str) -> Encl
             shoulder_y = spec.outer_size_mm[1] / 2 - spec.lid.clearance_mm - spec.wall_mm / 2
             for index, point in enumerate(((shoulder_x, 0, z), (-shoulder_x, 0, z), (0, shoulder_y, z), (0, -shoulder_y, z))):
                 probes.append(_probe(occupancy, "lid", f"insertion shoulder clearance {index + 1}", point, False))
+        # Off-axis corner probes distinguish a rounded lid/plug from the former
+        # rectangular solids with identical extents and manifold topology.
+        for plug in (False, True):
+            if plug and spec.lid.lip_height_mm <= 0:
+                continue
+            inset = spec.lid.clearance_mm + (spec.wall_mm if plug else 0.0)
+            radius = max(0.0, spec.corner_radius_mm - inset)
+            if radius <= 0:
+                continue
+            x = spec.outer_size_mm[0] / 2 - spec.corner_radius_mm + 0.9 * radius
+            y = spec.outer_size_mm[1] / 2 - spec.corner_radius_mm + 0.9 * radius
+            z = -(spec.lid.thickness_mm + spec.lid.lip_height_mm) / 2 if plug else 0.0
+            for index, (sx, sy) in enumerate(((1, 1), (1, -1), (-1, 1), (-1, -1)), start=1):
+                probes.append(_probe(
+                    occupancy, "lid_lip" if plug else "lid_plate", f"rounded corner clearance {index}",
+                    (sx * x, sy * y, z), False,
+                ))
     return EnclosureMeshVerification(all(probe.passed for probe in probes), part, topology, tuple(probes))

@@ -91,7 +91,9 @@ def _mesh_svg(path: Path) -> str:
             'Actual compiled mesh — geometry verification does not certify physical fit.</text></svg>')
 
 
-def compile_payload_meshes(payload: dict[str, Any]) -> dict[str, Any]:
+def compile_payload_meshes(payload: dict[str, Any], *, timeout_seconds: int = 30) -> dict[str, Any]:
+    if type(timeout_seconds) is not int or timeout_seconds not in {30, 60, 120}:
+        raise ValueError("interactive compiler timeout must be 30, 60, or 120 seconds per part")
     started = time.perf_counter()
     if not _COMPILER_SLOT.acquire(blocking=False):
         raise CompilerBusyError("The local compiler is busy. Retry after the current compilation finishes.")
@@ -107,7 +109,7 @@ def compile_payload_meshes(payload: dict[str, Any]) -> dict[str, Any]:
                     raise ValueError("Unsupported preview part")
                 source, output = Path(directory)/f'{part}.scad', Path(directory)/f'{part}.stl'
                 source.write_text(scad, encoding='utf-8')
-                _, report = compile_scad_verified(source, output, timeout=30)
+                _, report = compile_scad_verified(source, output, timeout=timeout_seconds)
                 if spec is not None:
                     feature_report = verify_enclosure_mesh(output, spec, part=part)
                     if not feature_report.valid:

@@ -5,7 +5,7 @@ STL and rendered mesh workflows. NeuroCAD is a bounded alpha, not arbitrary CAD.
 
 ## Obtain the current review candidate
 
-As checked on 2026-09-08, the repo is private, PR #49 is draft, and there is no
+As checked on 2026-09-09, the repo is private, PR #49 is draft, and there is no
 published `v0.5.0a6` tag. With authorized GitHub access, use a **new directory**:
 
 ```bash
@@ -73,15 +73,34 @@ The demo opens a loopback-only workbench. It is not an authenticated cloud porta
    build; historical prompt text is not re-interpreted. Invalid imports leave
    the current input and output intact. Files are limited to 1 MiB; the encoded
    API request must also fit in 1 MiB.
-4. Choose **Compile verified mesh & download STL** for actual kernel validation
+4. Under **Edit the validated project**, enter an exact edit such as
+   `set wall thickness to 2.4 mm`. Optionally give a reason, then select
+   **Review proposed edit**. Inspect the before/after values and explicitly
+   **Apply reviewed revision** or discard it. Invalid proposals do not replace
+   the current project. Applied edits preserve the original prompt and append
+   history; download the revised project. Feature IDs are shown beside the editor.
+5. Choose **Compile verified mesh & download STL** for actual kernel validation
    and per-part mesh downloads. Source validation alone leaves kernel geometry
    explicitly **unverified**. Physical fit remains unverified in both cases.
 
 Input modes retain separate drafts within the tab. There is no browser or cloud
-autosave: download the project before closing or reloading. Editing invalidates
+autosave: download the project before closing or reloading. Unsaved drafts trigger
+replacement confirmation and a leave-page warning where the browser supports it;
+mobile browsers may not show leave-page warnings. A download click is only a
+request: confirm that the browser saved the file. Warnings remain active until
+you reopen a saved project, and other unsaved mode drafts still need attention.
+Editing invalidates
 output and cancels obsolete browser requests; it does not promise cancellation
 of a kernel process already running. Ctrl/Command + Enter validates the input.
-The browser times out after 90 seconds. If the compiler is busy, wait and retry;
+The default compile deadline is 30 seconds per part. For heavier designs, you can
+explicitly select 60 or 120 seconds; the single-compiler lock and all geometry,
+input, output-size and verification limits remain enforced. The browser allows
+twice the selected budget plus 30 seconds for an enclosure's body and lid (90
+seconds by default). Validation/edit/file-open requests retain a 90-second limit.
+A server-side kernel deadline returns HTTP 504 with `code: compiler_timeout`;
+missing OpenSCAD returns HTTP 503 with `code: compiler_unavailable`. A timeout
+publishes no new mesh. A failed compile retains previously validated source and
+project downloads for unchanged input. If the compiler is busy, wait and retry;
 the API returns HTTP 503 with `Retry-After: 5`, not an invalid-design error.
 STL links expire after ten minutes or earlier cache eviction. Source downloads
 remain available until the displayed output is invalidated or the tab closes.

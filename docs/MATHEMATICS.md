@@ -93,6 +93,15 @@ empirically measured success rate. No correlation is inferred from coupon data.
 Tests include independent variation, perfectly correlated errors, common-mode
 cancellation, and pairwise-plausible but globally impossible matrices.
 
+Signed mean effects and independent variance/worst-case sums use `math.fsum`.
+This avoids input-order-dependent clearance under strong cancellation; it is
+still floating-point arithmetic, not an arbitrary-precision guarantee. Regression
+tests permute cancelling contributions, compare correlated variance against an
+independent factor-space norm, and check length-scale equivariance. Topology tests
+also relabel vertices/reorder faces and change the embedding by an invertible
+affine map: connectivity invariants remain equal even though physical dimensions
+change. These are numerical/software checks, not new experimental results.
+
 Other existing tools remain bounded aids: Euler–Bernoulli small-deflection
 cantilever estimates assume a prismatic, linear-elastic beam; shelf packing is a
 feasibility heuristic, not a global optimizer; process costs are approximations.

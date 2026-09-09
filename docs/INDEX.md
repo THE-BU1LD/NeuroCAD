@@ -6,6 +6,8 @@
 - [Product workflow](PRODUCT_WORKFLOW.md): enclosures, revisions, calibration and handoffs.
 - [Mathematics](MATHEMATICS.md): implemented topology and uncertainty contracts.
 - [Current code audit](CODE_AUDIT_20260908.md): classification and execution checklist.
+- [Final 9/10 checklist](FINAL_9_OF_10_CHECKLIST.md): the single forward-looking
+  acceptance queue for all eight quality scores; targets, not achieved ratings.
 - [Release status](../RELEASE_STATUS.md): remaining publication gates.
 - [Physical validation](PHYSICAL_VALIDATION_PROTOCOL.md): externally measured acceptance.
 

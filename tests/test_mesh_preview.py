@@ -38,6 +38,27 @@ def test_busy_compiler_fails_explicitly() -> None:
         compile_payload_meshes({})
 
 
+@pytest.mark.parametrize("budget", [True, 0, 30.0, "30", 121, 600])
+def test_interactive_budget_is_bounded_before_any_compiler_work(budget: object) -> None:
+    with pytest.raises(ValueError, match="30, 60, or 120"):
+        compile_payload_meshes({}, timeout_seconds=budget)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize("budget", [30, 60, 120])
+def test_selected_budget_reaches_kernel_and_timeout_releases_slot(budget: int, monkeypatch: pytest.MonkeyPatch) -> None:
+    from core.artifacts import CompilerTimeoutError
+
+    def timeout(*args: object, **kwargs: object) -> None:
+        assert kwargs["timeout"] == budget
+        raise CompilerTimeoutError("test deadline")
+
+    monkeypatch.setattr("core.mesh_preview.compile_scad_verified", timeout)
+    with pytest.raises(CompilerTimeoutError):
+        compile_payload_meshes({"mode": "canonical_program", "scad": "cube([1,2,3]);"}, timeout_seconds=budget)
+    assert _COMPILER_SLOT.acquire(blocking=False)
+    _COMPILER_SLOT.release()
+
+
 @pytest.mark.skipif(shutil.which('openscad') is None, reason='OpenSCAD required')
 def test_preview_download_matches_verified_mesh() -> None:
     payload = compile_payload_meshes(generate_demo_payload('a 120 x 80 x 4 mm plate with four 4 mm holes'))

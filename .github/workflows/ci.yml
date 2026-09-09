@@ -48,16 +48,17 @@ jobs:
           python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
       - name: Require Node for shipped workbench script tests
-        run: node --version
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s tests/test_workbench_ui.py
+          test -s tests/workbench_contract.cjs
+          node --version
 
       - name: Run maintained release tests
         shell: bash
         run: |
-          if [ -d tests ]; then
-            python -m pytest -q tests
-          else
-            echo "No tests/ directory found; continuing with package smoke gates."
-          fi
+          python -m pytest -q tests
 
       - name: Lint maintained product
         run: python -m ruff check core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
@@ -166,6 +167,21 @@ jobs:
           /tmp/neurocad-clean-sdist/bin/neurocad --version
           /tmp/neurocad-clean-sdist/bin/neurocad validate "a 40 x 30 x 3 mm plate"
 
+      - name: Run tests from the actual source distribution
+        if: startsWith(matrix.python-version, '3.12.')
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_test_dir="$RUNNER_TEMP/neurocad-sdist-tests"
+          mkdir "$source_test_dir"
+          sdist_files=("$RUNNER_TEMP"/neurocad-dist/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          tar -xzf "${sdist_files[0]}" -C "$source_test_dir"
+          source_roots=("$source_test_dir"/neurocad_research-*)
+          test "${#source_roots[@]}" -eq 1
+          cd "${source_roots[0]}"
+          python -m pytest -q tests
+
       - name: Staged quick installer from the built wheel
         if: startsWith(matrix.python-version, '3.12.')
         shell: bash
@@ -225,7 +241,12 @@ jobs:
           python -m pip install -e '.[dev]'
 
       - name: Require Node for shipped workbench script tests
-        run: node --version
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s tests/test_workbench_ui.py
+          test -s tests/workbench_contract.cjs
+          node --version
 
       - name: Run kernel-independent product tests
         run: python -m pytest -q tests
@@ -244,3 +265,32 @@ jobs:
           neurocad validate "a 40 x 30 x 3 mm plate"
           neurocad ir "a sphere with radius 0.5 inch" -o portable.ncad.json
           neurocad compile portable.ncad.json --format scad -o portable.scad
+
+  workbench-browser:
+    name: Workbench browser / ${{ matrix.browser }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.14"
+      - name: Install product and required browser/kernel tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install -e '.[browser]'
+          python -m playwright install --with-deps ${{ matrix.browser }}
+      - name: Real browser project, edit and mesh acceptance
+        run: python tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel --output "${{ runner.temp }}/browser-evidence"
+      - name: Retain browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: workbench-${{ matrix.browser }}
+          path: ${{ runner.temp }}/browser-evidence/
+          retention-days: 14

@@ -59,6 +59,15 @@ Supported edit sentences include exact `set`, `resize`, `rename`, `add`, `move`,
 and `remove` operations. Run `neurocad enclosure edit --help` for the interface;
 an unsupported sentence is rejected rather than approximated.
 
+The local workbench exposes the same edit grammar through a two-step review and
+confirmation flow. `POST /api/edit` accepts a canonical project string in `source`,
+one `instruction` (at most 512 characters), and an optional `reason` of at most
+512 characters. It returns a proposed validated project, field-level before/after
+changes and the canonical base-project SHA-256. It does not mutate server state or
+compile meshes. Unknown fields, forged history, no-op instructions and invalid
+geometry fail without replacing the current browser project. Apply confirmation
+updates the current specification and invalidates previous mesh downloads.
+
 ## 3. Geometry and validation
 
 The typed specification supports:
@@ -85,6 +94,19 @@ watertightness, winding, positive volume, body count, and exact extents where
 the IR bounds are exact. Enclosure STL verification additionally ray-probes
 requested cavities, walls, floors, cutouts, standoffs, holes, vents, and lid
 material.
+
+Lid plates and insertion plugs follow the enclosure's rounded outline with the
+declared clearance. Screw-lid plugs include relief around the bosses beneath
+the screw-bearing plate. Validation reserves plug depth when checking the floor,
+standoffs and declared PCB/component envelope. Independent mesh probes check
+rounded corner voids and screw-boss ring clearance; these sampled checks do not
+certify complete assembly collision freedom or physical fit.
+
+The September 9 correction changes regenerated lid geometry for rounded cases
+and screw lids with a plug. Existing project JSON still opens with its history;
+rebuild affected source/mesh bundles from the reviewed project. Old bundles that
+do not match current canonical generation fail verification instead of being
+silently relabelled as current.
 
 Bundle publication refuses an existing destination and writes a hash manifest.
 The directory is collision-refusing and tamper-evident, not physically immutable.
@@ -144,9 +166,10 @@ fit, assembly access, or a promised print duration. Existing outputs are refused
 The preflight and public math helpers keep analytical, empirical, and heuristic
 evidence separate:
 
-- independent tolerance contributions combine as
-  `sigma_total = sqrt(sum(sigma_i^2))`; mean shifts add algebraically and
-  worst-case clearance losses add conservatively;
+- tolerance contributions combine independently by default; an explicitly
+  validated correlation matrix adds covariance terms. Signed mean effects use
+  compensated summation and worst-case losses remain a separate conservative
+  model. See [Mathematics](MATHEMATICS.md) for units, formulas and assumptions;
 - an end-loaded rectangular cantilever uses `I = b t^3 / 12`,
   `stress = F L (t/2) / I`, and `deflection = F L^3 / (3 E I)`;
 - symmetric placements enforce a zero centroid;

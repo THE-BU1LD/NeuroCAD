@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import stat
 import tarfile
 import zipfile
 from collections.abc import Iterable
@@ -35,10 +36,10 @@ FORBIDDEN_FILE_NAMES = frozenset(
 
 
 def _validate_member_name(name: str) -> None:
-    if "\\" in name:
+    if not name or "\x00" in name or "\\" in name:
         raise ValueError(f"ambiguous archive path separator: {name!r}")
     path = PurePosixPath(name)
-    if path.is_absolute() or ".." in path.parts:
+    if path.is_absolute() or ".." in path.parts or any(":" in part for part in path.parts):
         raise ValueError(f"unsafe path in distribution: {name!r}")
 
     lowered = tuple(part.casefold() for part in path.parts)
@@ -63,7 +64,11 @@ def _tar_member_names(archive: Path) -> Iterable[str]:
 
 def _zip_member_names(archive: Path) -> Iterable[str]:
     with zipfile.ZipFile(archive) as source:
-        yield from source.namelist()
+        for member in source.infolist():
+            kind = stat.S_IFMT(member.external_attr >> 16)
+            if kind not in {0, stat.S_IFREG, stat.S_IFDIR}:
+                raise ValueError(f"unsupported zip member type in distribution: {member.filename!r}")
+            yield member.filename
 
 
 def verify_distribution(archive: Path) -> int:
@@ -80,8 +85,13 @@ def verify_distribution(archive: Path) -> int:
         raise ValueError("distribution must be a .whl or .tar.gz archive")
 
     count = 0
+    seen: set[str] = set()
     for name in names:
         _validate_member_name(name)
+        normalized = PurePosixPath(name).as_posix().casefold()
+        if normalized in seen:
+            raise ValueError(f"duplicate or case-colliding path in distribution: {name!r}")
+        seen.add(normalized)
         count += 1
     if count == 0:
         raise ValueError("distribution archive is empty")

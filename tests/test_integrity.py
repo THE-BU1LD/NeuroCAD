@@ -70,7 +70,7 @@ def test_workflows_and_quality_tools_are_version_pinned() -> None:
     action_references = re.findall(r"uses:\s*(actions/[^@\s]+)@([^\s#]+)", workflows)
     assert action_references
     assert all(re.fullmatch(r"[0-9a-f]{40}", revision) for _, revision in action_references)
-    assert "-latest" not in workflows
+    assert not re.search(r"\b(?:ubuntu|macos|windows)-latest\b", workflows)
     for runtime in ('"3.10.21"', '"3.11.16"', '"3.12.14"'):
         assert runtime in workflows
     assert 'pip==26.2.1' in workflows
@@ -135,13 +135,6 @@ def test_installer_defaults_to_an_immutable_release_and_supports_local_verificat
     assert "anonymous-install gate" in readme
 
 
-def test_legacy_fake_step_export_is_hard_disabled() -> None:
-    legacy_source = _read("legacy/python/cad_intelligence_core_allinone.py")
-    fake_step_marker = "Mesh " + "place" + "holder STEP"
-    assert fake_step_marker not in legacy_source
-    assert "STEP export is unsupported" in legacy_source
-
-
 def test_disconnected_root_experiments_are_isolated_in_the_legacy_archive() -> None:
     supported_root_modules = {
         "exceptions.py",
@@ -154,10 +147,8 @@ def test_disconnected_root_experiments_are_isolated_in_the_legacy_archive() -> N
         "vector_fields_engine.py",
     }
     assert {path.name for path in ROOT.glob("*.py")} == supported_root_modules
-    assert (ROOT / "legacy/python/cad_master_kernel_legacy_broken.py").is_file()
     # Ignored generated artifacts are local evidence, not portable checkout inputs.
     assert not (ROOT / "round3_output.step").exists()
-    assert (ROOT / "legacy/README.md").is_file()
     assert "prune legacy" in _read("MANIFEST.in")
     assert "legacy" not in _read("pyproject.toml")
 

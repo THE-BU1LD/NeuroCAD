@@ -6,6 +6,21 @@ This candidate remains pending until the exact source revision passes the
 integrated CI, distribution, clean-install, and release-provenance gates in
 `RELEASE_STATUS.md`.
 
+- Matched lid and insertion-plug corner radii to rounded enclosures, cleared screw
+  boss rings beneath lid plates, and reserved insertion depth in floor, standoff
+  and PCB-envelope validation. Added independent negative mesh-clearance probes.
+- Corrected rounded-box limits (zero radius, tiny radius, disk and capsule) and
+  bounded standoff attachment overlap within thin explicit floors.
+- Preserved validated project/source downloads when compilation fails.
+- Recorded bounded-export rejections as negative research evaluation results
+  instead of aborting the full stress campaign or changing its generated fixtures.
+- Required three-browser kernel acceptance before tag publication; alpha/RC
+  releases are explicitly marked prerelease and cannot become the latest stable
+  release. Added execution of tests from the built source archive.
+- Included retained helper sources in the sdist, separated the two checkout-only
+  archive checks, and rejected symlink, duplicate, case-colliding and unsafe
+  cross-platform archive entries.
+
 - Hardened canonical IR parsing against duplicate keys, excessive nesting, non-finite or out-of-range values, non-string metadata keys, and inexact constraint payloads.
 - Closed prompt fail-open cases involving implicit zero-value defaults, arbitrary three-number text, ambiguous dimension sequences, substring-based unsupported-feature matching, and unbounded or overlapping plate features.
 - Invalid prompt analysis no longer produces a canonical program or OpenSCAD payload; export APIs reject it explicitly.

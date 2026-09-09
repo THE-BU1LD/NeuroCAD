@@ -9,7 +9,39 @@ permissions:
   contents: write
 
 jobs:
+  workbench-browser:
+    name: Release browser / ${{ matrix.browser }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.14"
+      - name: Install browser and kernel tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install -e '.[browser]'
+          python -m playwright install --with-deps ${{ matrix.browser }}
+      - name: Verify release browser workflows
+        run: python tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel --output "${{ runner.temp }}/browser-evidence"
+      - name: Retain browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-workbench-${{ matrix.browser }}
+          path: ${{ runner.temp }}/browser-evidence/
+          retention-days: 90
+
   release:
+    needs: workbench-browser
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     steps:
@@ -43,7 +75,10 @@ jobs:
           python -m pip install --no-build-isolation --no-deps -e .
           package_version=$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
           test "v$package_version" = "$GITHUB_REF_NAME"
-          if [ -d tests ]; then python -m pytest -q; fi
+          test -s tests/test_workbench_ui.py
+          test -s tests/workbench_contract.cjs
+          node --version
+          python -m pytest -q tests
           python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
           python -m ruff check core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
           python -m mypy core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
@@ -86,6 +121,12 @@ jobs:
           /tmp/neurocad-release-sdist/bin/python -m pip install --require-hashes --requirement requirements-research.lock
           /tmp/neurocad-release-sdist/bin/python -m pip install --no-deps "${sdist_files[0]}"
           /tmp/neurocad-release-sdist/bin/neurocad validate "a 40 x 30 x 3 mm plate"
+          source_test_dir="$RUNNER_TEMP/neurocad-sdist-tests"
+          mkdir "$source_test_dir"
+          tar -xzf "${sdist_files[0]}" -C "$source_test_dir"
+          source_roots=("$source_test_dir"/neurocad_research-*)
+          test "${#source_roots[@]}" -eq 1
+          (cd "${source_roots[0]}" && python -m pytest -q tests)
           xvfb-run -a /tmp/neurocad-release/bin/python - "$RUNNER_TEMP/neurocad-full-research" "NC-RELEASE-$GITHUB_REF_NAME" <<'PY'
           import sys
           from pathlib import Path
@@ -211,4 +252,12 @@ jobs:
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/neurocad-dist/* --generate-notes --title "NeuroCAD $GITHUB_REF_NAME"
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_flags=(--verify-tag)
+          is_prerelease=$(python -c 'import os; from packaging.version import Version; print(Version(os.environ["GITHUB_REF_NAME"]).is_prerelease)')
+          if [ "$is_prerelease" = "True" ]; then
+            release_flags+=(--prerelease --latest=false)
+          fi
+          gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/neurocad-dist/* --generate-notes --title "NeuroCAD $GITHUB_REF_NAME" "${release_flags[@]}"

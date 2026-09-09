@@ -79,6 +79,20 @@ def test_winding_reversal_does_not_change_orientability_or_betti_numbers() -> No
     assert analyze_triangle_complex(vertices, faces) == analyze_triangle_complex(vertices, altered)
 
 
+def test_vertex_relabeling_face_order_and_affine_embedding_preserve_topology() -> None:
+    vertices, faces = _torus()
+    original = analyze_triangle_complex(vertices, faces)
+    rng = np.random.default_rng(8709)
+    permutation = rng.permutation(len(vertices))
+    inverse = np.argsort(permutation)
+    relabeled_faces = inverse[np.asarray(faces)][rng.permutation(len(faces))]
+    # Invertible but non-isometric: connectivity is unchanged, dimensions are not.
+    transformed = np.asarray(vertices)[permutation] @ np.array([[2, 0.5, 0], [0, 3, 0.1], [0, 0, -4]]) + [10, -20, 5]
+    report = analyze_triangle_complex(transformed, relabeled_faces)
+    for key in ("betti_numbers", "euler_characteristic", "manifold", "closed", "components"):
+        assert report[key] == original[key]
+
+
 def test_disconnected_and_isolated_vertices_are_counted() -> None:
     points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [10, 0, 0], [11, 0, 0], [10, 1, 0], [20, 0, 0]]
     report = analyze_triangle_complex(points, [[0, 1, 2], [3, 4, 5]])

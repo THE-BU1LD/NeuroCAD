@@ -268,6 +268,8 @@ def _generated_ids_and_counts(spec: EnclosureSpec) -> tuple[list[str], int, int]
         for index, _ in enumerate(spec.lid.fastener_positions_xy_mm, start=1):
             body_mount_ids.extend((f"lid_boss_{index}_outer", f"lid_boss_{index}_hole"))
             lid_ids.append(f"lid_fastener_{index}")
+            if spec.lid.lip_height_mm > 0:
+                lid_ids.append(f"lid_boss_relief_{index}")
     body_ids.extend(body_mount_ids)
     if body_mount_ids:
         body_ids.extend(("body_positive", "body_complete"))
@@ -359,7 +361,12 @@ def validate_enclosure_spec(spec: EnclosureSpec) -> SpecValidationReport:
         issues.append(SpecIssue("error", "$.lid.kind", "unknown_lid", "unsupported lid kind"))
     _length_issue(lid.thickness_mm, "$.lid.thickness_mm", issues, allow_zero=lid.kind == "none")
     clearance = _length_issue(lid.clearance_mm, "$.lid.clearance_mm", issues, allow_zero=True)
-    _length_issue(lid.lip_height_mm, "$.lid.lip_height_mm", issues, allow_zero=True)
+    lip_height = _length_issue(lid.lip_height_mm, "$.lid.lip_height_mm", issues, allow_zero=True)
+    if dimensions is not None and floor is not None and lip_height is not None and lid.kind != "none" and lip_height >= dimensions[2] - floor:
+        issues.append(SpecIssue(
+            "error", "$.lid.lip_height_mm", "lip_reaches_floor",
+            f"insertion plug height {lip_height:g} mm must be below the {dimensions[2] - floor:g} mm cavity depth",
+        ))
     if lid.kind == "none" and (
         lid.thickness_mm != 0
         or lid.clearance_mm != 0
@@ -613,6 +620,11 @@ def validate_enclosure_spec(spec: EnclosureSpec) -> SpecValidationReport:
                 issues.append(SpecIssue("error", path, "invalid_standoff", "hole diameter must be smaller than outer diameter"))
             if standoff_height is not None and standoff_height + floor >= height:
                 issues.append(SpecIssue("error", path, "standoff_too_tall", "standoff exceeds the enclosure interior"))
+            elif standoff_height is not None and lip_height is not None and lip_height > 0 and standoff_height + floor >= height - lip_height:
+                issues.append(SpecIssue(
+                    "error", path, "standoff_lip_collision",
+                    f"standoff top at {standoff_height + floor:g} mm reaches the insertion plug envelope starting at {height - lip_height:g} mm above the base",
+                ))
             if outer is not None and (
                 abs(standoff.center_xy_mm[0]) + outer / 2 >= cavity_width / 2
                 or abs(standoff.center_xy_mm[1]) + outer / 2 >= cavity_depth / 2
@@ -702,8 +714,12 @@ def validate_enclosure_spec(spec: EnclosureSpec) -> SpecValidationReport:
                         + pcb_size[2]
                         + component_height
                     )
-                    if required_z >= height:
-                        issues.append(SpecIssue("error", "$.pcb", "pcb_height_exceeded", "PCB and components exceed internal height"))
+                    available_height = height - (lip_height or 0.0)
+                    if required_z >= available_height:
+                        issues.append(SpecIssue(
+                            "error", "$.pcb", "pcb_height_exceeded",
+                            f"PCB and components need {required_z:g} mm above the base; only {available_height:g} mm remain below the lid plug envelope",
+                        ))
 
     generated_ids, body_node_count, lid_node_count = (
         _generated_ids_and_counts(spec)
@@ -909,7 +925,7 @@ def _body_program(spec: EnclosureSpec) -> CADProgram:
         # Embed the solid base slightly into the floor. Face-to-face contact is
         # not a robust Boolean union and can make CGAL extremely slow or leave
         # nominally separate mesh shells. The visible top height is unchanged.
-        floor_overlap = 0.2
+        floor_overlap = min(0.2, floor / 2)
         outer_id = f"{standoff.id}_outer"
         hole_id = f"{standoff.id}_hole"
         nodes.extend(
@@ -990,18 +1006,26 @@ def _lid_program(spec: EnclosureSpec) -> CADProgram | None:
     width, depth, _ = spec.outer_size_mm
     plate_width = width - 2 * lid.clearance_mm
     plate_depth = depth - 2 * lid.clearance_mm
+    plate_radius = max(0.0, spec.corner_radius_mm - lid.clearance_mm)
+    plate_parameters: dict[str, Any] = {"size": [plate_width, plate_depth, lid.thickness_mm]}
+    if plate_radius > 0:
+        plate_parameters["radius"] = plate_radius
     nodes: list[Node] = [
-        _primitive_node("lid_plate", "box", {"size": [plate_width, plate_depth, lid.thickness_mm]}, role="lid")
+        _primitive_node("lid_plate", "rounded_box" if plate_radius > 0 else "box", plate_parameters, role="lid")
     ]
     positive_ids = ["lid_plate"]
     if lid.lip_height_mm > 0:
         lip_width = width - 2 * (spec.wall_mm + lid.clearance_mm)
         lip_depth = depth - 2 * (spec.wall_mm + lid.clearance_mm)
+        lip_radius = max(0.0, spec.corner_radius_mm - spec.wall_mm - lid.clearance_mm)
+        lip_parameters: dict[str, Any] = {"size": [lip_width, lip_depth, lid.lip_height_mm]}
+        if lip_radius > 0:
+            lip_parameters["radius"] = lip_radius
         nodes.append(
             _primitive_node(
                 "lid_lip",
-                "box",
-                {"size": [lip_width, lip_depth, lid.lip_height_mm]},
+                "rounded_box" if lip_radius > 0 else "box",
+                lip_parameters,
                 translate=(0.0, 0.0, -(lid.thickness_mm + lid.lip_height_mm) / 2),
                 role="friction_plug" if lid.kind == "friction" else "alignment_lip",
             )
@@ -1041,6 +1065,18 @@ def _lid_program(spec: EnclosureSpec) -> CADProgram | None:
                 )
             )
             negative_ids.append(node_id)
+            if lid.lip_height_mm > 0:
+                # Clear the boss's whole outer ring beneath the plate. A screw
+                # bore only clears the screw and otherwise leaves intersecting
+                # lid/boss solids when the lid is seated on the enclosure rim.
+                relief_id = f"lid_boss_relief_{index}"
+                nodes.append(_primitive_node(
+                    relief_id, "cylinder",
+                    {"radius": hardware.boss_outer_mm / 2 + lid.clearance_mm, "height": lid.lip_height_mm + 0.2},
+                    translate=(x, y, -(lid.thickness_mm + lid.lip_height_mm) / 2 - 0.1),
+                    role="boss_clearance",
+                ))
+                negative_ids.append(relief_id)
     root = positive_root
     if negative_ids:
         root = "lid_complete"

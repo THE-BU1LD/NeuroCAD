@@ -29,19 +29,19 @@ def _fmt_vec(vec: Sequence[float]) -> str:
     return "[" + ", ".join(_fmt_num(v) for v in vec) + "]"
 
 
-def _length(value: Any, name: str, *, allow_zero: bool = False) -> float:
+def _length(value: Any, name: str, *, allow_zero: bool = False, minimum: float = MIN_PRIMITIVE_LENGTH_MM) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise TypeError(f"{name} must be a finite numeric length")
     try:
         converted = float(value)
     except (OverflowError, ValueError) as exc:
-        raise ValueError(f"{name} must be between {MIN_PRIMITIVE_LENGTH_MM:g} and {MAX_PRIMITIVE_LENGTH_MM:,.0f} mm") from exc
+        raise ValueError(f"{name} must be between {minimum:g} and {MAX_PRIMITIVE_LENGTH_MM:,.0f} mm") from exc
     if not math.isfinite(converted):
         raise ValueError(f"{name} must be a finite numeric length")
     if allow_zero and converted == 0:
         return 0.0
-    if converted < MIN_PRIMITIVE_LENGTH_MM or converted > MAX_PRIMITIVE_LENGTH_MM:
-        raise ValueError(f"{name} must be between {MIN_PRIMITIVE_LENGTH_MM:g} and {MAX_PRIMITIVE_LENGTH_MM:,.0f} mm")
+    if converted < minimum or converted > MAX_PRIMITIVE_LENGTH_MM:
+        raise ValueError(f"{name} must be between {minimum:g} and {MAX_PRIMITIVE_LENGTH_MM:,.0f} mm")
     return converted
 
 
@@ -72,14 +72,27 @@ def _primitive_scad(geometry: dict[str, Any]) -> str:
     if kind == "rounded_box":
         size = _length_vector(geometry.get("size"), "rounded box size", size=3)
         width, depth, height = size
-        radius = _length(geometry.get("radius"), "rounded box radius")
+        # A corner radius may approach zero as wall/clearance offsets are
+        # applied; the enclosing solid's size retains the normal length limits.
+        radius = _length(geometry.get("radius"), "rounded box radius", minimum=0.0)
         if radius > min(width, depth) / 2.0:
             raise ValueError("rounded box radius cannot exceed half its planar size")
         inner = (width - 2 * radius, depth - 2 * radius)
-        body = (
-            f"linear_extrude(height={_fmt_num(height)}, center=true, convexity=10) "
-            f"offset(r={_fmt_num(radius)}) square({_fmt_vec(inner)}, center=true);"
-        )
+        if radius == 0:
+            body = f"cube(size={_fmt_vec(size)}, center=true);"
+        else:
+            if min(inner) == 0:
+                # offset() of a zero-area square is empty. The limiting shape
+                # is a disk or capsule, formed by the hull of endpoint circles.
+                profile = (
+                    "hull() { "
+                    f"translate({_fmt_vec((-inner[0] / 2, -inner[1] / 2))}) circle(r={_fmt_num(radius)}); "
+                    f"translate({_fmt_vec((inner[0] / 2, inner[1] / 2))}) circle(r={_fmt_num(radius)}); "
+                    "}"
+                )
+            else:
+                profile = f"offset(r={_fmt_num(radius)}) square({_fmt_vec(inner)}, center=true);"
+            body = f"linear_extrude(height={_fmt_num(height)}, center=true, convexity=10) {profile}"
         if not _center(geometry):
             body = f"translate({_fmt_vec((width / 2, depth / 2, height / 2))}) {{\n{_indent(body)}\n}}"
         return body

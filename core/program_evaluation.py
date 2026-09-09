@@ -27,6 +27,7 @@ class ProgramEvaluation:
     evaluation_latency_ms: float
     topology_correct: bool | None = None
     mesh_measurements: dict[str, Any] | None = None
+    export_error: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -46,6 +47,7 @@ class ProgramEvaluation:
             "evaluation_latency_ms": self.evaluation_latency_ms,
             "topology_correct": self.topology_correct,
             "mesh_measurements": self.mesh_measurements,
+            "export_error": self.export_error,
         }
 
 
@@ -62,13 +64,20 @@ def evaluate_program(program: CADProgram, *, mesh_measurements: dict[str, Any] |
     exact_round_trip = False
     deterministic_export = False
     scad = ""
+    export_error = None
     if report.valid:
         recovered = parse_ir_json(encoded)
         exact_round_trip = recovered.to_dict() == program.to_dict()
-        first = program_to_scad(program)
-        second = program_to_scad(recovered)
-        deterministic_export = first == second
-        scad = first
+        try:
+            first = program_to_scad(program)
+            second = program_to_scad(recovered)
+        except ValueError as exc:
+            # A structurally valid stress fixture can exceed the bounded
+            # exporter's domain. Retain that negative result, not an aborted run.
+            export_error = str(exc)
+        else:
+            deterministic_export = first == second
+            scad = first
     constraint_results = report.constraint_results
     constraint_rate = (
         sum(bool(result["satisfied"]) for result in constraint_results) / len(constraint_results)
@@ -111,4 +120,5 @@ def evaluate_program(program: CADProgram, *, mesh_measurements: dict[str, Any] |
         evaluation_latency_ms=(perf_counter() - started) * 1000,
         topology_correct=topology_correct,
         mesh_measurements=mesh_measurements,
+        export_error=export_error,
     )

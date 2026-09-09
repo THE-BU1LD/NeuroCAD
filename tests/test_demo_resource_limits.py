@@ -75,7 +75,11 @@ def test_invalid_request_flags_fail_before_pipeline(server: DemoServer, monkeypa
         pytest.fail("invalid request reached the CAD pipeline")
 
     monkeypatch.setattr("core.demo_server.generate_demo_payload", forbidden)
-    for body in (b'{"source":"x","compile_mesh":"yes"}', b'{"source":"x","unknown":true}'):
+    for body in (
+        b'{"source":"x","compile_mesh":"yes"}', b'{"source":"x","unknown":true}',
+        b'{"source":"x","timeout_seconds":true}', b'{"source":"x","timeout_seconds":121}',
+        b'{"source":"x","timeout_seconds":"30"}',
+    ):
         assert b"400 Bad Request" in send(server, f"Content-Length: {len(body)}\r\n", body)
 
 
@@ -86,3 +90,23 @@ def test_busy_compiler_is_retryable_not_invalid_input(server: DemoServer) -> Non
     assert b"503 Service Unavailable" in response
     assert b"Retry-After: 5" in response
     assert b"compiler is busy" in response
+
+
+@pytest.mark.parametrize("kind,status,code", [
+    ("timeout", b"504 Gateway Timeout", b"compiler_timeout"),
+    ("missing", b"503 Service Unavailable", b"compiler_unavailable"),
+])
+def test_kernel_failure_categories_are_actionable_and_redacted(
+    server: DemoServer, monkeypatch: pytest.MonkeyPatch, kind: str, status: bytes, code: bytes,
+) -> None:
+    from core.artifacts import CompilerTimeoutError, CompilerUnavailableError
+
+    def failed(*args: object, **kwargs: object) -> None:
+        exception = CompilerTimeoutError if kind == "timeout" else CompilerUnavailableError
+        raise exception("private diagnostic path must not be returned")
+
+    monkeypatch.setattr("core.demo_server.compile_payload_meshes", failed)
+    body = b'{"source":"a 40 x 30 x 3 mm box","compile_mesh":true}'
+    response = send(server, f"Content-Length: {len(body)}\r\n", body)
+    assert status in response and code in response
+    assert b"private diagnostic" not in response

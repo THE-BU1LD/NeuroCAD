@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import ipaddress
 import json
 import secrets
@@ -14,7 +15,9 @@ from typing import Any, cast
 
 from text_to_cad import TextToCAD
 
+from .artifacts import CompilerTimeoutError, CompilerUnavailableError
 from .benchmark import generate_benchmark, run_benchmark
+from .edit_language import edit_project_from_text
 from .enclosure import build_enclosure
 from .ir import CADProgram, program_node_bounds, validate_program
 from .ir_export import program_to_scad
@@ -24,7 +27,7 @@ from .manufacturing import fabrication_preflight
 from .mesh_preview import DOWNLOADS, CompilerBusyError, compile_payload_meshes
 from .natural_language import interpret_enclosure
 from .program_evaluation import evaluate_program
-from .project import enclosure_spec_to_dict, parse_project
+from .project import enclosure_spec_to_dict, parse_project, semantic_diff, serialize_project
 from .workbench import HTML
 from .workflow import project_from_interpretation
 
@@ -155,6 +158,27 @@ def generate_demo_payload(source: str, source_type: str = "prompt") -> dict[str,
 
 
 
+def preview_project_edit(source: str, instruction: str, reason: str | None = None) -> dict[str, Any]:
+    """Return a validated proposed revision; the server never mutates a project.
+
+    Use the same parser, edit grammar and history contract as the installed CLI.
+    The browser must explicitly accept the proposal before replacing its input.
+    """
+    project = parse_project(source)
+    revised = edit_project_from_text(project, instruction, reason=reason)
+    changes = semantic_diff(project, revised)
+    if not changes:
+        raise ValueError("edit makes no change to the current specification")
+    payload = generate_demo_payload(serialize_project(revised), "project")
+    payload["edit"] = {
+        "base_revision": project.revision,
+        "base_project_sha256": hashlib.sha256(serialize_project(project).encode("utf-8")).hexdigest(),
+        "changes": list(changes),
+        "reason": revised.changes[-1].reason,
+    }
+    return payload
+
+
 class DemoHandler(BaseHTTPRequestHandler):
     server_version = "NeuroCADDemo/1"
 
@@ -239,12 +263,12 @@ class DemoHandler(BaseHTTPRequestHandler):
         }):
             self._json(HTTPStatus.FORBIDDEN, {"error": "cross-origin requests are not allowed"})
             return
-        if self.path != "/api/generate":
+        if self.path not in {"/api/generate", "/api/edit"}:
             self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
             return
         try:
             content_type = self.headers.get("Content-Type", "").partition(";")[0].strip().lower()
-            if content_type != "application/json":
+            if len(self.headers.get_all("Content-Type", [])) != 1 or content_type != "application/json":
                 self._json(HTTPStatus.UNSUPPORTED_MEDIA_TYPE, {"error": "Content-Type must be application/json"})
                 return
             if self.headers.get_all("Transfer-Encoding") or len(self.headers.get_all("Content-Length", [])) != 1:
@@ -258,18 +282,44 @@ class DemoHandler(BaseHTTPRequestHandler):
             request = strict_json_loads(raw.decode("utf-8"))
             if not isinstance(request, dict):
                 raise TypeError("request body must be a JSON object")
-            if request.keys() - {"source", "source_type", "compile_mesh"}:
+            allowed = {"source", "instruction", "reason"} if self.path == "/api/edit" else {
+                "source", "source_type", "compile_mesh", "timeout_seconds",
+            }
+            if request.keys() - allowed:
                 raise ValueError("request contains unsupported fields")
             source = request.get("source")
             if not isinstance(source, str):
                 raise TypeError("source must be a string")
-            compile_mesh = request.get("compile_mesh", False)
-            if not isinstance(compile_mesh, bool):
-                raise TypeError("compile_mesh must be a boolean")
-            payload = generate_demo_payload(source, request.get("source_type", "prompt"))
-            if compile_mesh:
-                payload = compile_payload_meshes(payload)
-                DOWNLOADS.publish(payload['mesh_artifacts'])
+            if self.path == "/api/edit":
+                instruction, reason = request.get("instruction"), request.get("reason")
+                if not isinstance(instruction, str):
+                    raise TypeError("instruction must be a string")
+                if reason is not None and not isinstance(reason, str):
+                    raise TypeError("reason must be a string or null")
+                payload = preview_project_edit(source, instruction, reason)
+            else:
+                compile_mesh = request.get("compile_mesh", False)
+                if not isinstance(compile_mesh, bool):
+                    raise TypeError("compile_mesh must be a boolean")
+                timeout_seconds = request.get("timeout_seconds", 30)
+                if type(timeout_seconds) is not int or timeout_seconds not in {30, 60, 120}:
+                    raise ValueError("timeout_seconds must be 30, 60, or 120 seconds per part")
+                payload = generate_demo_payload(source, request.get("source_type", "prompt"))
+                if compile_mesh:
+                    payload = compile_payload_meshes(payload, timeout_seconds=timeout_seconds)
+                    DOWNLOADS.publish(payload['mesh_artifacts'])
+        except CompilerTimeoutError:
+            self._json(HTTPStatus.GATEWAY_TIMEOUT, {
+                "error": "OpenSCAD exceeded the selected per-part deadline. Wait for system load to settle, explicitly select a longer compile budget, or use the CLI with --timeout. No new mesh was published.",
+                "code": "compiler_timeout",
+            })
+            return
+        except CompilerUnavailableError:
+            self._json(HTTPStatus.SERVICE_UNAVAILABLE, {
+                "error": "OpenSCAD was not found. Install it and make its executable available on PATH; source/project downloads do not require it.",
+                "code": "compiler_unavailable",
+            })
+            return
         except TimeoutError:
             self._json(HTTPStatus.REQUEST_TIMEOUT, {"error": "request body timed out"})
             return

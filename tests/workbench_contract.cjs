@@ -6,7 +6,7 @@ const elements = new Map(), requests = [], blobs = new Map(), revoked = [], time
 let nextTimer = 0, nextBlob = 0;
 function element() {
   return {value:'',textContent:'',innerHTML:'',disabled:false,children:[],attrs:{},handlers:{},
-    setAttribute(k,v){this.attrs[k]=v}, addEventListener(k,v){this.handlers[k]=v},
+    focus(){this.focused=true},setAttribute(k,v){this.attrs[k]=v}, addEventListener(k,v){this.handlers[k]=v},
     append(...nodes){this.children.push(...nodes)},replaceChildren(){this.children=[];this.innerHTML=''}};
 }
 const document = {querySelector(id){
@@ -16,7 +16,9 @@ const document = {querySelector(id){
 const get = id => document.querySelector('#' + id);
 get('source').value = 'original enclosure';
 get('sourceType').value = 'enclosure';
-const context = vm.createContext({document,AbortController,TextEncoder,Blob,Error,
+get('compileBudget').value = '30';
+const window = {handlers:{},confirm:()=>true,addEventListener(k,v){this.handlers[k]=v}};
+const context = vm.createContext({document,window,AbortController,TextEncoder,Blob,Error,
   URL:{createObjectURL(blob){const url='blob:'+ ++nextBlob;blobs.set(url,blob);return url},
     revokeObjectURL(url){revoked.push(url);blobs.delete(url)}},
   setTimeout(callback){const id=++nextTimer;timers.set(id,callback);return id},
@@ -25,7 +27,7 @@ const context = vm.createContext({document,AbortController,TextEncoder,Blob,Erro
 });
 const flush = () => new Promise(resolve => setImmediate(resolve));
 const payload = (name='fixture') => ({mode:'enclosure',project:{project_id:name,revision:2},
-  spec:{wall_mm:2.4},ir:{body:{version:'ir'}},scad:{body:'cube([1,2,3]);'},
+  spec:{wall_mm:2.4,outer_size_mm:[80,60,30]},ir:{body:{version:'ir'}},scad:{body:'cube([1,2,3]);'},
   preview_svg:'<svg></svg>',validation:{valid:true},evaluation:{structural_validity:true,
     kernel_validity:null,editable_nodes:1,evaluation_latency_ms:1}});
 const resolve = (request, data=payload()) => request.resolve({ok:true,json:async()=>data});
@@ -41,13 +43,32 @@ const fail = request => request.resolve({ok:false,json:async()=>({error:'bad pro
   assert.equal(projectLink.download, 'fixture-r2.neurocad.json');
   assert.equal(JSON.parse(await blobs.get(projectLink.href).text()).revision, 2);
 
+  // An unavailable kernel leaves already validated project/SCAD downloads usable.
+  let compileTask = vm.runInContext('run(true)', context);
+  assert.equal(get('downloads').children[0], projectLink);
+  requests.at(-1).resolve({ok:false,status:503,json:async()=>({error:'OpenSCAD was not found'})});
+  await compileTask;
+  assert.equal(get('downloads').children[0], projectLink);
+  assert.match(get('status').textContent, /Previous validated output retained/);
+  assert.equal(get('compile').disabled, false);
+
+  // An edit during the failed compilation still invalidates all previous output.
+  compileTask = vm.runInContext('run(true)', context);
+  const obsoleteCompile = requests.at(-1);
+  get('source').handlers.input();
+  fail(obsoleteCompile); await compileTask;
+  assert.equal(get('downloads').children.length, 0);
+  const restore = vm.runInContext('run()', context);
+  resolve(requests.at(-1)); await restore;
+  const restoredProjectLink = get('downloads').children[0];
+
   // An invalid import keeps the existing input and usable output/downloads intact.
   const previousInput = get('source').value, previousOutput = get('scad').textContent;
   let task = vm.runInContext("openProject({size:2,text:async()=> '{}'})", context);
   await flush(); fail(requests.at(-1)); await task;
   assert.equal(get('source').value, previousInput);
   assert.equal(get('scad').textContent, previousOutput);
-  assert.equal(get('downloads').children[0], projectLink);
+  assert.equal(get('downloads').children[0], restoredProjectLink);
   assert.match(get('status').textContent, /Current input and output retained/);
 
   // Refuse oversized files before reading them or issuing a request.
@@ -82,6 +103,51 @@ const fail = request => request.resolve({ok:false,json:async()=>({error:'bad pro
   assert.equal(get('scad').textContent, '');
   resolve(secondRequest); await second;
   assert.equal(get('generate').disabled, false);
+
+  // Edit proposals are read-only until confirmed. Bad edits retain good outputs.
+  get('editInstruction').value = 'set wall thickness to 2.4 mm';
+  const originalSource = get('source').value;
+  task = vm.runInContext('previewEdit()', context);
+  assert.equal(requests.at(-1).url, '/api/edit');
+  fail(requests.at(-1)); await task;
+  assert.equal(get('source').value, originalSource);
+  assert.match(get('status').textContent, /Current project retained/);
+  task = vm.runInContext('previewEdit()', context);
+  const proposal = payload('fixture'); proposal.project.revision = 3;
+  proposal.edit = {changes:[{field:'wall_mm',before:2,after:2.4}]};
+  resolve(requests.at(-1), proposal); await task;
+  assert.equal(get('source').value, originalSource);
+  assert.equal(get('editReview').hidden, false);
+  assert.match(get('editChanges').children[0].textContent, /wall_mm: 2 → 2.4/);
+  assert.equal(get('applyEdit').disabled, false);
+  vm.runInContext('applyEdit()', context);
+  assert.equal(JSON.parse(get('source').value).revision, 3);
+  assert.equal(get('sourceType').value, 'project');
+  assert.equal(get('editReview').hidden, true);
+  assert.match(get('saveState').textContent, /Unsaved/);
+  assert.match(get('status').textContent, /compile to verify/);
+  let prevented = false;
+  window.handlers.beforeunload({preventDefault(){prevented=true}});
+  assert.equal(prevented, true);
+  get('downloads').children[0].handlers.click();
+  assert.match(get('saveState').textContent, /Confirm it was saved/);
+
+  // A different edit instruction invalidates an in-flight proposal.
+  task = vm.runInContext('previewEdit()', context);
+  const staleEdit = requests.at(-1);
+  get('editInstruction').value = 'set wall thickness to 3 mm';
+  get('editInstruction').handlers.input();
+  resolve(staleEdit, proposal); await task;
+  vm.runInContext('applyEdit()', context);
+  assert.equal(JSON.parse(get('source').value).revision, 3);
+  assert.equal(get('editReview').hidden, true);
+
+  // Declining replacement must not even read a file or issue a request.
+  window.confirm = () => false;
+  const beforeDecline = requests.length;
+  await vm.runInContext("openProject({size:2,text:()=>{throw new Error('must not read')}})", context);
+  assert.equal(requests.length, beforeDecline);
+  window.confirm = () => true;
 
   // An edit made while a file is being read wins over that file's later completion.
   let finishRead;

@@ -21,5 +21,13 @@ files, impact, and whether untrusted prompt or artifact input is required.
 - Feature counts and `$fn` are bounded to prevent unbounded generation.
 - OpenSCAD compilation runs as the current local user. Do not compile untrusted
   hand-edited SCAD in a privileged account or in a directory containing secrets.
-- Output paths are chosen by the invoking user and may replace an existing file.
+- CLI export paths reject existing outputs and path collisions by default;
+  commands that support replacement require explicit `--force`. The low-level
+  atomic-writing Python helpers can replace their caller-selected destination.
+- The local workbench binds to loopback, checks Host and Origin headers, rejects
+  ambiguous HTTP framing and duplicate JSON keys, bounds request sizes and worker
+  count, and serializes kernel compilation. Mesh downloads use short-lived,
+  unguessable URLs in bounded process memory. These controls do not provide
+  authentication; remote binding requires explicit opt-in and an authenticated
+  reverse proxy for any shared service.
 - NeuroCAD performs no network requests during generation or validation.

@@ -78,3 +78,35 @@ def test_distribution_verification_rejects_embedded_research_run(tmp_path: Path)
 
     with pytest.raises(ValueError, match="forbidden path"):
         verify_distribution(archive)
+
+
+def test_distribution_verification_rejects_wheel_symlinks(tmp_path: Path) -> None:
+    archive = tmp_path / "unsafe.whl"
+    member = zipfile.ZipInfo("core/linked.py")
+    member.create_system = 3
+    member.external_attr = (stat.S_IFLNK | 0o777) << 16
+    with zipfile.ZipFile(archive, "w") as wheel:
+        wheel.writestr(member, "../../outside.py")
+    with pytest.raises(ValueError, match="unsupported zip member"):
+        verify_distribution(archive)
+
+
+@pytest.mark.parametrize("name", ["C:/outside.py", "core/module.py:stream", "../outside.py"])
+def test_distribution_verification_rejects_nonportable_paths(tmp_path: Path, name: str) -> None:
+    archive = tmp_path / "unsafe.whl"
+    with zipfile.ZipFile(archive, "w") as wheel:
+        wheel.writestr(name, "untrusted")
+    with pytest.raises(ValueError, match="unsafe path"):
+        verify_distribution(archive)
+
+
+@pytest.mark.parametrize("name", ["core/module.py", "core/./module.py", "CORE/module.py"])
+def test_distribution_verification_rejects_overwriting_members(tmp_path: Path, name: str) -> None:
+    archive = tmp_path / "unsafe.tar.gz"
+    with tarfile.open(archive, "w:gz") as source:
+        for path in ("core/module.py", name):
+            member = tarfile.TarInfo(path)
+            member.size = 1
+            source.addfile(member, io.BytesIO(b"x"))
+    with pytest.raises(ValueError, match="duplicate or case-colliding"):
+        verify_distribution(archive)

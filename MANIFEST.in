@@ -27,6 +27,11 @@ include .github/workflows/release.yml
 include neurocad_cli.py
 include text_to_cad.py
 include text_to_openscad.py
+include surfaces.py
+include vector_fields_engine.py
+include pipeline_stage.py
+include exceptions.py
+include thinking_engine.py
 recursive-include core *.py
 recursive-include core/schemas *.json
 recursive-include audits *.md
@@ -46,6 +51,7 @@ prune research/runs
 recursive-include research/vericodegen *.py *.json *.md
 recursive-include research/s3 *.json *.txt
 recursive-include tests *.py *.cjs
+exclude tests/test_repository_archive.py
 include research/benchmarks/neurocad_benchmark_v1.jsonl
 include research/results/neurocad_benchmark_v1.json
 include research/benchmarks/neurocad_prompt_challenge_v1.jsonl

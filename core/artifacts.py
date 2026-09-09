@@ -95,6 +95,14 @@ def _temporary_artifact_path(output: Path) -> Path:
     return Path(temporary)
 
 
+class CompilerTimeoutError(RuntimeError):
+    """The kernel exceeded its explicit deadline; no new artifact was published."""
+
+
+class CompilerUnavailableError(RuntimeError):
+    """No supported OpenSCAD executable could be found."""
+
+
 def compile_scad(source: Path, output: Path, *, timeout: int = 120) -> subprocess.CompletedProcess[str]:
     if not isinstance(timeout, int) or isinstance(timeout, bool) or timeout <= 0:
         raise ValueError("OpenSCAD timeout must be a positive integer number of seconds")
@@ -104,7 +112,7 @@ def compile_scad(source: Path, output: Path, *, timeout: int = 120) -> subproces
         raise ValueError("OpenSCAD source and output paths must be different")
     executable = find_openscad()
     if not executable:
-        raise RuntimeError("OpenSCAD is required for compiled validation and STL export")
+        raise CompilerUnavailableError("OpenSCAD is required for compiled validation and STL export")
     temporary = _temporary_artifact_path(output)
     try:
         completed = subprocess.run(  # Executable is from shutil.which; paths are separate argv entries.  # nosec B603
@@ -116,7 +124,7 @@ def compile_scad(source: Path, output: Path, *, timeout: int = 120) -> subproces
         )
     except subprocess.TimeoutExpired as exc:
         temporary.unlink(missing_ok=True)
-        raise RuntimeError(f"OpenSCAD timed out after {timeout} seconds") from exc
+        raise CompilerTimeoutError(f"OpenSCAD timed out after {timeout} seconds") from exc
     except Exception:
         temporary.unlink(missing_ok=True)
         raise

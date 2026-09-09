@@ -1,5 +1,9 @@
 # Code audit and execution checklist — 2026-09-08 continuation
 
+Forward-looking work is consolidated in the [final 9/10 acceptance checklist](FINAL_9_OF_10_CHECKLIST.md).
+The observations and scores below remain revision-specific evidence, not newly
+achieved target ratings.
+
 Latest execution: see [Local workbench completion](#local-workbench-completion)
 below for the follow-up implementation, exact-revision checks, and remaining
 interactive/release gates. Earlier evidence is retained with its original scope.

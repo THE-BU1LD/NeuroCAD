@@ -11,10 +11,18 @@ from dataclasses import dataclass
 from itertools import permutations
 
 
+def _finite_number(value: float, name: str) -> float:
+    try:
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+            raise ValueError(f"{name} must be a finite number")
+        result = float(value)
+    except OverflowError as exc:
+        raise ValueError(f"{name} exceeds the finite numerical range") from exc
+    return result
+
+
 def _positive(value: float, name: str, *, allow_zero: bool = False) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)):
-        raise ValueError(f"{name} must be a finite number")
-    result = float(value)
+    result = _finite_number(value, name)
     if result < 0 if allow_zero else result <= 0:
         qualifier = "non-negative" if allow_zero else "positive"
         raise ValueError(f"{name} must be {qualifier}")
@@ -69,9 +77,9 @@ def tolerance_stack(
 
     nominal = _positive(nominal_clearance_mm, "nominal_clearance_mm", allow_zero=True)
     confidence = _positive(confidence_multiplier, "confidence_multiplier")
-    mean_shift = 0.0
-    variance = 0.0
-    worst_loss = 0.0
+    mean_shifts = []
+    independent_variances = []
+    worst_cases = []
     if len(contributions) > 128:
         raise ValueError("tolerance stacks are limited to 128 contributions")
     names: set[str] = set()
@@ -80,14 +88,22 @@ def tolerance_stack(
         if not isinstance(contribution.name, str) or not contribution.name.strip() or contribution.name.strip() in names:
             raise ValueError("tolerance contribution names must be non-empty and unique")
         names.add(contribution.name.strip())
-        if isinstance(contribution.mean_mm, bool) or not isinstance(contribution.mean_mm, (int, float)) or not math.isfinite(contribution.mean_mm):
-            raise ValueError(f"{contribution.name} mean must be finite")
+        mean_effect = _finite_number(contribution.mean_mm, f"{contribution.name} mean")
         sigma = _positive(contribution.sigma_mm, f"{contribution.name} sigma", allow_zero=True)
         worst = _positive(contribution.worst_case_mm, f"{contribution.name} worst case", allow_zero=True)
-        mean_shift += contribution.mean_mm
-        variance += sigma * sigma
+        mean_shifts.append(mean_effect)
+        independent_variances.append(sigma * sigma)
         sigmas.append(sigma)
-        worst_loss += worst
+        worst_cases.append(worst)
+    # Signed dimensional effects may cancel. Naive incremental addition made
+    # the reported clearance depend on input order even for finite inputs.
+    try:
+        mean_shift = math.fsum(mean_shifts)
+        mean = math.fsum([nominal, *mean_shifts])
+        variance = math.fsum(independent_variances)
+        worst_loss = math.fsum(worst_cases)
+    except OverflowError as exc:
+        raise ValueError("tolerance stack exceeds the finite numerical range") from exc
     if correlations is not None:
         import numpy as np
 
@@ -112,20 +128,20 @@ def tolerance_stack(
         variance = max(0.0, variance)
     if not all(math.isfinite(value) for value in (variance, mean_shift, worst_loss)):
         raise ValueError("tolerance stack exceeds the finite numerical range")
-    mean = nominal + mean_shift
     sigma_total = math.sqrt(variance)
     if sigma_total == 0:
         success = 1.0 if mean >= 0 else 0.0
     else:
         success = 0.5 * (1.0 + math.erf(mean / (sigma_total * math.sqrt(2.0))))
     recommended = max(0.0, confidence * sigma_total - mean_shift)
-    if not all(math.isfinite(value) for value in (mean, recommended, nominal + mean_shift - worst_loss)):
+    worst_low = mean - worst_loss
+    if not all(math.isfinite(value) for value in (mean, recommended, worst_low)):
         raise ValueError("tolerance stack exceeds the finite numerical range")
     return ToleranceStack(
         nominal,
         mean,
         sigma_total,
-        nominal + mean_shift - worst_loss,
+        worst_low,
         success,
         confidence,
         recommended,
