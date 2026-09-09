@@ -1,0 +1,27 @@
+{
+  "candidate_pool_discovered": false,
+  "candidate_pool_expected_shape": {
+    "candidates": 110,
+    "semantic_classes": 11
+  },
+  "checked_scope": "all files in this NeuroCAD checkout, including hidden paths and research artifacts",
+  "learned_outcomes_accessed": false,
+  "pre_outcome_freeze_complete": false,
+  "required_missing_inputs": [
+    "the actual 110-candidate benchmark pool",
+    "semantic-class assignments and integrity metadata",
+    "a deterministically selected and frozen pilot",
+    "exact provider and model identifiers",
+    "an approved call and cost budget",
+    "an explicitly authorized run manifest pinned to a real Git revision"
+  ],
+  "stage": "S3_BLOCKED_BEFORE_OUTCOME_ACCESS",
+  "status_date": "2026-09-03",
+  "unsupported_actions_not_taken": [
+    "inventing benchmark candidates",
+    "inventing a Git revision",
+    "creating a nominal authorization",
+    "running provider calls",
+    "claiming a treatment outcome"
+  ]
+}

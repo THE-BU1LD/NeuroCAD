@@ -8,9 +8,9 @@ from research.vericodegen.stage2_manifest import (
     SAFE_EVALUATION_ENTRYPOINT,
     ManifestError,
     assert_executable,
+    load_manifest,
     validate_manifest,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 HASH_A = "a" * 64
@@ -132,6 +132,20 @@ def test_duplicate_tasks_and_seeds_are_rejected():
     errors = validate_manifest(manifest, require_authorized=True)
     assert "pilot_task_ids must not contain duplicates" in errors
     assert "decoding.seeds must not contain duplicates" in errors
+
+
+def test_manifest_loader_rejects_duplicate_keys_and_nonfinite_ranges(tmp_path: Path):
+    path = tmp_path / "manifest.json"
+    path.write_text('{"authorized": false, "authorized": true}', encoding="utf-8")
+    with pytest.raises(ManifestError, match="duplicate object key"):
+        load_manifest(path)
+
+    manifest = _valid_manifest()
+    manifest["cost_cap_usd"] = 10**1000
+    assert "cost_cap_usd must be a finite numeric cap in [0, 10000)" in validate_manifest(
+        manifest,
+        require_authorized=True,
+    )
 
 
 def test_all_scientific_provenance_hashes_fail_closed_when_missing():

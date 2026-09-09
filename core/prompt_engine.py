@@ -2,25 +2,32 @@ from __future__ import annotations
 
 import math
 import re
-from dataclasses import dataclass
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+from collections.abc import Iterable
+from typing import Any
 
 from .design_graph import Component, DesignGraph
 
+# OpenSCAD is unitless, but its fabrication ecosystem conventionally uses
+# millimetres.  NeuroCAD therefore keeps every internal and exported length in
+# millimetres.  Do not convert these values to SI metres before SCAD export.
 UNIT_SCALE = {
-    "mm": 0.001,
-    "millimeter": 0.001,
-    "millimeters": 0.001,
-    "cm": 0.01,
-    "centimeter": 0.01,
-    "centimeters": 0.01,
-    "m": 1.0,
-    "meter": 1.0,
-    "meters": 1.0,
-    "in": 0.0254,
-    "inch": 0.0254,
-    "inches": 0.0254,
+    "mm": 1.0,
+    "millimeter": 1.0,
+    "millimeters": 1.0,
+    "cm": 10.0,
+    "centimeter": 10.0,
+    "centimeters": 10.0,
+    "m": 1000.0,
+    "meter": 1000.0,
+    "meters": 1000.0,
+    "in": 25.4,
+    "inch": 25.4,
+    "inches": 25.4,
 }
+
+UNIT_PATTERN = r"mm|millimeters?|cm|centimeters?|m|meters?|in|inch(?:es)?"
+SIGNED_NUMBER_PATTERN = r"[-+]?(?:\d+(?:\.\d+)?|\.\d+)"
+UNSIGNED_INTEGER_PATTERN = r"\d+"
 
 NUM_WORDS = {
     "zero": 0,
@@ -43,6 +50,7 @@ DOMAIN_KEYWORDS = {
     "vehicle": ["car", "truck", "vehicle", "bus", "van", "automobile"],
     "mechanism": ["motor", "gear", "gearbox", "pump", "turbine", "engine"],
     "container": ["box", "case", "enclosure", "housing", "shell"],
+    "plate": ["plate", "panel", "bracket", "mounting board"],
     "furniture": ["desk", "chair", "shelf", "table", "organizer"],
 }
 
@@ -65,96 +73,262 @@ def _normalize(text: str) -> str:
     return text
 
 
-def _word_number(token: str) -> Optional[int]:
+def _normalization_is_lossless(text: str) -> bool:
+    """Reject characters that normalization would otherwise silently erase."""
+
+    prepared = text.lower().replace("×", "x")
+    return re.fullmatch(r"[a-z0-9\.\-\+\s/x()_,;:]*", prepared) is not None
+
+
+def _word_number(token: str) -> int | None:
     return NUM_WORDS.get(token)
 
 
-def _extract_float(token: str) -> Optional[float]:
-    try:
-        return float(token)
-    except Exception:
-        return None
+def _to_mm(value: str, unit: str | None, default_unit: str = "mm") -> float:
+    converted = float(value) * UNIT_SCALE[unit or default_unit]
+    if not math.isfinite(converted):
+        raise ValueError("dimension is outside the supported finite numeric range")
+    return converted
 
 
-def _extract_measurement(text: str, name: str) -> Optional[float]:
+def _extract_measurement(text: str, name: str) -> float | None:
+    adjective = {
+        "width": "wide",
+        "depth": "deep",
+        "height": "high|tall",
+        "length": "long",
+        "thickness": "thick",
+        "diameter": "diameter",
+        "radius": "radius",
+        "wall": "walls?",
+    }.get(name, name)
     patterns = [
-        rf"{name}\s*(?:is\s*)?([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?",
-        rf"{name}\s*(?:of\s*)?([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?",
+        rf"\b{name}\s*(?:(?:is|of|=)\s*)?({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\b",
+        rf"(?<![\w.])({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s*(?:{adjective})\b",
     ]
     for pattern in patterns:
         m = re.search(pattern, text)
         if m:
             value = float(m.group(1))
-            unit = m.group(2) or "m"
-            return value * UNIT_SCALE[unit]
+            return _to_mm(str(value), m.group(2))
     return None
 
 
-def _extract_sequence_dims(text: str) -> Optional[Tuple[float, float, float]]:
-    m = re.search(
-        r"([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?\s*(?:x|by)\s*"
-        r"([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?\s*(?:x|by)\s*"
-        r"([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?",
+def _extract_sequence_dims(text: str) -> tuple[float, float, float] | None:
+    pattern = (
+        rf"({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s*(?:x|by)\s*"
+        rf"({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s*(?:x|by)\s*"
+        rf"({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?"
+    )
+    matches = list(re.finditer(pattern, text))
+    if not matches:
+        return None
+    if len(matches) > 1:
+        raise ValueError("multiple overall dimension sequences are ambiguous")
+    m = matches[0]
+    units = [m.group(i) for i in (2, 4, 6)]
+    shared_unit = next((unit for unit in reversed(units) if unit), "mm")
+    out = []
+    for value_index, unit in zip((1, 3, 5), units):
+        out.append(_to_mm(m.group(value_index), unit, shared_unit))
+    return out[0], out[1], out[2]
+
+
+def _extract_radius(text: str, default: float = 50.0) -> float:
+    value = _extract_measurement(text, "radius")
+    if value is not None:
+        return value
+    m = re.search(rf"\br\s*=\s*({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\b", text)
+    return _to_mm(m.group(1), m.group(2)) if m else default
+
+
+def _extract_height(text: str, default: float = 100.0) -> float:
+    value = _extract_measurement(text, "height")
+    return value if value is not None else default
+
+
+def _extract_count(text: str, keywords: Iterable[str], default: int = 0) -> tuple[int, bool]:
+    """Return a feature count and whether it was stated unambiguously.
+
+    Only the first token in the feature's ``with``/``and`` clause can be a
+    count.  This prevents ``-4`` being re-read as ``4`` and ``2.5`` being
+    re-read as ``5`` by a later regex match.  A singular ``a/an ... hole`` or
+    ``slot`` is an explicit grammatical count of one; plurals always need an
+    integer or supported number word.
+    """
+
+    keyword_matches = [match for keyword in keywords for match in re.finditer(rf"\b{re.escape(keyword)}\b", text)]
+    for feature_match in sorted(keyword_matches, key=lambda match: match.start()):
+        prefix = text[: feature_match.start()]
+        clauses = re.split(r"\b(?:with|and)\b", prefix)
+        if len(clauses) < 2:
+            continue
+        words = clauses[-1].strip().split()
+        if not words:
+            continue
+        token = words[0]
+        feature_word = feature_match.group(0)
+        if token in {"a", "an"}:
+            if feature_word.endswith("s"):
+                return default, False
+            return 1, True
+        number_word = _word_number(token)
+        if number_word is not None:
+            if not 1 <= number_word <= 256:
+                raise ValueError("feature counts must be integers from 1 to 256")
+            return number_word, True
+        if re.fullmatch(SIGNED_NUMBER_PATTERN, token):
+            if len(words) > 1 and (re.fullmatch(UNIT_PATTERN, words[1]) or words[1] in {"x", "by"}):
+                # ``4 mm holes`` and ``12 x 5 mm slots`` state dimensions but
+                # no plural count.
+                return default, False
+            if token.startswith(("-", "+")) or "." in token:
+                raise ValueError("feature counts must be unsigned whole integers from 1 to 256")
+            count = int(token)
+            if count > 256:
+                raise ValueError("feature counts above 256 are not supported")
+            if count < 1:
+                raise ValueError("feature counts must be integers from 1 to 256")
+            return count, True
+    return default, False
+
+
+def _extract_feature_diameter(text: str, feature: str) -> float | None:
+    plural = feature + "s"
+    patterns = [
+        rf"\b(?:{feature}|{plural})\s+(?:of\s+)?(?:diameter\s+)?({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})\b",
+        rf"\b(?:diameter|dia)\s+({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s+(?:{feature}|{plural})\b",
+        rf"(?<![\w.])({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})\s+(?:diameter\s+)?(?:{feature}|{plural})\b",
+        rf"\b(?:{feature}|{plural}).{{0,24}}?({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})\s+diameter\b",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text)
+        if match:
+            return _to_mm(match.group(1), match.group(2))
+    return None
+
+
+def _extract_two_dims(text: str, noun: str) -> tuple[float, float] | None:
+    match = re.search(
+        rf"(?<![\w.])({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s*(?:x|by)\s*"
+        rf"({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s+(?:{noun}|{noun}s)\b",
         text,
     )
-    if not m:
+    if not match:
         return None
-    out = []
-    for i in (1, 3, 5):
-        val = float(m.group(i))
-        unit = m.group(i + 1) or "m"
-        out.append(val * UNIT_SCALE[unit])
-    return tuple(out)
+    first_unit, second_unit = match.group(2), match.group(4)
+    shared = second_unit or first_unit or "mm"
+    return (
+        _to_mm(match.group(1), first_unit, shared),
+        _to_mm(match.group(3), second_unit, shared),
+    )
 
 
-def _extract_radius(text: str, default: float = 0.05) -> float:
-    m = re.search(r"radius\s*(?:of\s*)?([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?", text)
-    if m:
-        return float(m.group(1)) * UNIT_SCALE[m.group(2) or "m"]
-    m = re.search(r"r\s*=\s*([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?", text)
-    if m:
-        return float(m.group(1)) * UNIT_SCALE[m.group(2) or "m"]
-    return default
+def _matches_prompt_contract(text: str, domain: str) -> bool:
+    """Whether the complete normalized prompt belongs to the supported grammar.
+
+    This deliberately uses anchored patterns.  Parsing individual dimensions
+    is not evidence that trailing or interleaved prose was understood.
+    """
+
+    number = SIGNED_NUMBER_PATTERN
+    unit = rf"(?:{UNIT_PATTERN})"
+    measure = rf"{number}\s*{unit}?"
+    dimensions = rf"{measure}\s*(?:x|by)\s*{measure}\s*(?:x|by)\s*{measure}"
+    count_word = "|".join(word for word, value in NUM_WORDS.items() if value > 0)
+    count = rf"(?:{UNSIGNED_INTEGER_PATTERN}|{count_word})"
+    one_count = r"(?:1|one|a|an)"
+    hole = rf"(?:{count}\s+{measure}\s+(?:diameter\s+)?holes?|{one_count}\s+{measure}\s+(?:diameter\s+)?hole)"
+    slot = rf"(?:{count}\s+{measure}\s*(?:x|by)\s*{measure}\s+slots?|{one_count}\s+{measure}\s*(?:x|by)\s*{measure}\s+slot)"
+    corner = rf"corner\s+radius\s+{measure}"
+    wall = rf"{measure}\s+(?:wall\s+thickness|walls?)"
+    plate_modifier = rf"(?:{hole}|{slot}|{corner})"
+    plate_suffix = rf"(?:\s+with\s+{plate_modifier}(?:\s+and\s+{plate_modifier})?)?"
+    article = r"(?:a|an)"
+
+    patterns: list[str]
+    if domain == "plate":
+        plate_noun = r"(?:plate|panel|bracket|mounting\s+board)"
+        patterns = [
+            rf"{article}\s+(?:solid\s+)?{dimensions}\s+(?:rounded\s+)?{plate_noun}{plate_suffix}",
+            rf"{article}\s+(?:rounded\s+)?{plate_noun}\s+{measure}\s+wide\s+{measure}\s+deep\s+(?:and\s+)?{measure}\s+thick{plate_suffix}",
+        ]
+    elif domain == "container":
+        hollow_noun = r"(?:case|enclosure|housing|shell)"
+        solid_noun = r"(?:box|rectangular\s+box)"
+        patterns = [
+            rf"{article}\s+{dimensions}\s+{hollow_noun}(?:\s+with\s+{wall})?",
+            rf"{article}\s+(?:solid\s+)?{dimensions}\s+{solid_noun}",
+        ]
+    elif domain == "generic":
+        block_noun = r"(?:block|cube|cuboid|rectangular\s+block|rectangular\s+prism)"
+        radius = rf"radius\s+{measure}"
+        diameter = rf"diameter\s+{measure}"
+        height = rf"height\s+{measure}"
+        patterns = [
+            rf"{article}\s+(?:solid\s+)?{dimensions}\s+{block_noun}",
+            rf"{article}\s+(?:sphere|ball)\s+with\s+{radius}",
+            rf"{article}\s+{measure}\s+radius\s+(?:sphere|ball)",
+            rf"{article}\s+(?:cylinder|tube)\s+with\s+(?:{radius}|{diameter})\s+and\s+{height}",
+            rf"{article}\s+{measure}\s+(?:radius|diameter)\s+(?:cylinder|tube)\s+(?:with\s+)?{height}",
+        ]
+    else:
+        return False
+
+    if len(re.findall(r"\bholes?\b", text)) > 1:
+        return False
+    if len(re.findall(r"\bslots?\b", text)) > 1:
+        return False
+    return any(re.fullmatch(pattern, text) is not None for pattern in patterns)
 
 
-def _extract_height(text: str, default: float = 0.1) -> float:
-    m = re.search(r"height\s*(?:of\s*)?([-+]?\d+(?:\.\d+)?)\s*(mm|cm|m|in|inch|inches)?", text)
-    if m:
-        return float(m.group(1)) * UNIT_SCALE[m.group(2) or "m"]
-    return default
-
-
-def _extract_count(text: str, keywords: Iterable[str], default: int = 1) -> int:
-    for kw in keywords:
-        m = re.search(rf"(?:\b(\w+)\b|\b(\d+)\b)\s+{re.escape(kw)}", text)
-        if m:
-            token = m.group(1) or m.group(2)
-            if token.isdigit():
-                return max(1, int(token))
-            n = _word_number(token)
-            if n is not None:
-                return max(1, n)
-    return default
+def _feature_positions(count: int, width: float, depth: float, margin: float) -> list[tuple[float, float, float]]:
+    usable_x = max(0.0, width / 2.0 - margin)
+    usable_y = max(0.0, depth / 2.0 - margin)
+    if count <= 0:
+        return []
+    if count == 1:
+        return [(0.0, 0.0, 0.0)]
+    if count == 2:
+        return [(-usable_x, 0.0, 0.0), (usable_x, 0.0, 0.0)]
+    if count == 4:
+        return [
+            (-usable_x, -usable_y, 0.0),
+            (-usable_x, usable_y, 0.0),
+            (usable_x, -usable_y, 0.0),
+            (usable_x, usable_y, 0.0),
+        ]
+    # A regular elliptical ring has its centroid exactly at the origin for any
+    # count >= 3.  The previous truncated row-major grid shifted odd feature
+    # counts away from the requested center.
+    return [
+        (
+            usable_x * math.cos(math.tau * index / count),
+            usable_y * math.sin(math.tau * index / count),
+            0.0,
+        )
+        for index in range(count)
+    ]
 
 
 def infer_domain(text: str) -> str:
     for domain, keywords in DOMAIN_KEYWORDS.items():
-        if any(k in text for k in keywords):
+        if any(re.search(rf"\b{re.escape(k)}\b", text) for k in keywords):
             return domain
     return "generic"
 
 
-def infer_features(text: str) -> Dict[str, bool]:
+def infer_features(text: str) -> dict[str, bool]:
     flags = {}
     for name, kws in FEATURE_KEYWORDS.items():
-        flags[name] = any(k in text for k in kws)
+        flags[name] = any(re.search(rf"\b{re.escape(k)}\b", text) for k in kws)
     return flags
 
 
 def _make_component(
     name: str,
     kind: str,
-    params: Dict[str, float],
+    params: dict[str, Any],
     *,
     translate=(0.0, 0.0, 0.0),
     rotate=(0.0, 0.0, 0.0),
@@ -176,13 +350,13 @@ def _make_component(
     )
 
 
-def _aircraft_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph:
+def _aircraft_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
     graph = DesignGraph(title=prompt.strip() or "aircraft design")
 
-    span = _extract_measurement(text, "span") or _extract_measurement(text, "wingspan") or 0.8
-    length = _extract_measurement(text, "length") or 0.9
-    height = _extract_measurement(text, "height") or 0.16
-    radius = max(0.02, min(length * 0.09, span * 0.08))
+    span = _extract_measurement(text, "span") or _extract_measurement(text, "wingspan") or 800.0
+    length = _extract_measurement(text, "length") or 900.0
+    height = _extract_measurement(text, "height") or 160.0
+    radius = max(20.0, min(length * 0.09, span * 0.08))
 
     fuselage = graph.add_component(
         _make_component(
@@ -206,7 +380,7 @@ def _aircraft_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGr
     )
     graph.connect(fuselage, nose, "coaxial")
 
-    wing_thickness = max(0.008, radius * 0.18)
+    wing_thickness = max(8.0, radius * 0.18)
     wing_chord = max(span * 0.28, length * 0.18)
     wing = graph.add_component(
         _make_component(
@@ -259,14 +433,14 @@ def _aircraft_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGr
     return graph
 
 
-def _vehicle_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph:
+def _vehicle_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
     graph = DesignGraph(title=prompt.strip() or "vehicle design")
 
-    length = _extract_measurement(text, "length") or 0.35
-    width = _extract_measurement(text, "width") or 0.16
-    height = _extract_measurement(text, "height") or 0.11
-    wheel_radius = max(0.015, min(width * 0.18, length * 0.08))
-    wheel_thickness = max(0.01, wheel_radius * 0.6)
+    length = _extract_measurement(text, "length") or 350.0
+    width = _extract_measurement(text, "width") or 160.0
+    height = _extract_measurement(text, "height") or 110.0
+    wheel_radius = max(15.0, min(width * 0.18, length * 0.08))
+    wheel_thickness = max(10.0, wheel_radius * 0.6)
 
     chassis = graph.add_component(
         _make_component(
@@ -294,7 +468,7 @@ def _vehicle_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGra
         (length * 0.32, -width * 0.36, -height * 0.55),
         (length * 0.32, width * 0.36, -height * 0.55),
     ]
-    wheels: List[Component] = []
+    wheels: list[Component] = []
     for i, pos in enumerate(wheel_positions, start=1):
         wheel = graph.add_component(
             _make_component(
@@ -325,12 +499,12 @@ def _vehicle_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGra
     return graph
 
 
-def _motor_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph:
+def _motor_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
     graph = DesignGraph(title=prompt.strip() or "motor design")
 
-    radius = _extract_radius(text, default=0.045)
-    height = _extract_height(text, default=0.08)
-    shaft_r = max(radius * 0.18, 0.004)
+    radius = _extract_radius(text, default=45.0)
+    height = _extract_height(text, default=80.0)
+    shaft_r = max(radius * 0.18, 4.0)
     shaft_h = height * 1.4
 
     housing = graph.add_component(
@@ -367,7 +541,7 @@ def _motor_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph
         _make_component(
             "stator",
             "torus",
-            {"R": radius * 0.82, "r": max(radius * 0.12, 0.003)},
+            {"R": radius * 0.82, "r": max(radius * 0.12, 3.0)},
             role="internal",
         )
     )
@@ -379,9 +553,9 @@ def _motor_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph
             ang = math.tau * i / 4.0
             hole = graph.add_component(
                 _make_component(
-                    f"mount_hole_{i+1}",
+                    f"mount_hole_{i + 1}",
                     "cylinder",
-                    {"radius": max(radius * 0.07, 0.0025), "height": height * 1.2, "center": True},
+                    {"radius": max(radius * 0.07, 2.5), "height": height * 1.2, "center": True},
                     translate=(bolt_circle * math.cos(ang), bolt_circle * math.sin(ang), 0.0),
                     operation="difference",
                     role="fastener",
@@ -392,75 +566,137 @@ def _motor_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph
     return graph
 
 
-def _container_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph:
-    graph = DesignGraph(title=prompt.strip() or "container design")
+def _fabrication_design(prompt: str, text: str, flags: dict[str, bool], *, plate: bool) -> DesignGraph:
+    graph = DesignGraph(title=prompt.strip() or ("plate design" if plate else "enclosure design"))
 
     dims = _extract_sequence_dims(text)
+    explicit_dims = dims is not None
     if dims is None:
-        width = _extract_measurement(text, "width") or 0.12
-        depth = _extract_measurement(text, "depth") or 0.08
-        height = _extract_measurement(text, "height") or 0.06
-        dims = (width, depth, height)
+        width = _extract_measurement(text, "width")
+        depth = _extract_measurement(text, "depth")
+        height = _extract_measurement(text, "thickness" if plate else "height")
+        explicit_dims = all(value is not None for value in (width, depth, height))
+        dims = (
+            width if width is not None else 120.0,
+            depth if depth is not None else 80.0,
+            height if height is not None else (3.0 if plate else 60.0),
+        )
 
     w, d, h = dims
+    explicit_corner_radius = _extract_measurement(text, "corner radius")
+    corner_radius = explicit_corner_radius if explicit_corner_radius is not None else 0.0
+    rounded = flags.get("rounded", False) or corner_radius > 0
+    if rounded and explicit_corner_radius is None:
+        corner_radius = min(w, d) * 0.06
+    body_geometry: dict[str, object] = {"size": (w, d, h), "center": True}
+    if rounded:
+        body_geometry["radius"] = corner_radius
     body = graph.add_component(
         _make_component(
             "body",
-            "box",
-            {"size": (w, d, h), "center": True},
+            "rounded_box" if rounded else "box",
+            body_geometry,
             role="body",
         )
     )
 
-    if flags.get("hollow"):
+    explicit_wall = _extract_measurement(text, "wall thickness")
+    if explicit_wall is None:
+        explicit_wall = _extract_measurement(text, "wall")
+    wall = explicit_wall
+    hollow = flags.get("hollow", False) or bool(re.search(r"\b(enclosure|case|housing)\b", text))
+    if hollow:
+        wall = wall if wall is not None else max(2.0, min(w, d, h) * 0.06)
+        cavity_height = max(0.1, h - wall + 0.2)
         inner = graph.add_component(
             _make_component(
                 "cavity",
                 "box",
-                {"size": (max(0.001, w * 0.86), max(0.001, d * 0.86), max(0.001, h * 0.86)), "center": True},
+                {
+                    "size": (max(0.1, w - 2 * wall), max(0.1, d - 2 * wall), cavity_height),
+                    "center": True,
+                },
+                translate=(0.0, 0.0, (wall + 0.2) / 2.0),
                 operation="difference",
                 role="feature",
             )
         )
         graph.connect(body, inner, "shell")
 
-    if flags.get("rounded"):
-        lid = graph.add_component(
-            _make_component(
-                "lid",
-                "sphere",
-                {"radius": min(w, d, h) * 0.24},
-                translate=(0.0, 0.0, h * 0.54),
-                role="feature",
-            )
-        )
-        graph.connect(body, lid, "accent")
-
-    hole_count = _extract_count(text, ["hole", "holes", "slot", "slots"], default=0)
+    hole_count, hole_count_explicit = _extract_count(text, ["hole", "holes"])
+    explicit_hole_diameter = _extract_feature_diameter(text, "hole")
+    hole_diameter = explicit_hole_diameter if explicit_hole_diameter is not None else min(w, d) * 0.1
     if hole_count:
-        for idx in range(hole_count):
-            off = -w * 0.35 + (w * 0.7) * (idx / max(1, hole_count - 1)) if hole_count > 1 else 0.0
+        margin = max(hole_diameter, (wall or 0.0) * 1.5, min(w, d) * 0.1)
+        for idx, position in enumerate(_feature_positions(hole_count, w, d, margin)):
             hole = graph.add_component(
                 _make_component(
-                    f"hole_{idx+1}",
+                    f"hole_{idx + 1}",
                     "cylinder",
-                    {"radius": min(w, d) * 0.05, "height": h * 1.5, "center": True},
-                    translate=(off, 0.0, 0.0),
+                    {"radius": hole_diameter / 2.0, "height": h + 2.0, "center": True},
+                    translate=position,
                     operation="difference",
                     role="fastener",
                 )
             )
             graph.connect(body, hole, "cutout")
 
+    slot_count, slot_count_explicit = _extract_count(text, ["slot", "slots"])
+    explicit_slot_dims = _extract_two_dims(text, "slot")
+    slot_dims = explicit_slot_dims if explicit_slot_dims is not None else (max(8.0, w * 0.2), max(3.0, d * 0.08))
+    for idx, position in enumerate(_feature_positions(slot_count, w, d, max(slot_dims))):
+        slot = graph.add_component(
+            _make_component(
+                f"slot_{idx + 1}",
+                "box",
+                {"size": (slot_dims[0], slot_dims[1], h + 2.0), "center": True},
+                translate=position,
+                operation="difference",
+                role="feature",
+            )
+        )
+        graph.connect(body, slot, "cutout")
+
+    graph.metadata.update(
+        {
+            "recognized": True,
+            "fabrication_domain": "plate" if plate else "enclosure",
+            "explicit_dimensions": explicit_dims,
+            "dimensions_mm": [w, d, h],
+            "wall_thickness_mm": wall,
+            "wall_thickness_explicit": explicit_wall is not None,
+            "corner_radius_mm": corner_radius if rounded else None,
+            "corner_radius_explicit": explicit_corner_radius is not None,
+            "rounded_requested": rounded,
+            "hole_count_requested": hole_count,
+            "hole_count_explicit": hole_count_explicit,
+            "hole_diameter_mm": hole_diameter if hole_count else None,
+            "hole_diameter_explicit": explicit_hole_diameter is not None,
+            "slot_count_requested": slot_count,
+            "slot_count_explicit": slot_count_explicit,
+            "slot_dimensions_mm": list(slot_dims) if slot_count else None,
+            "slot_dimensions_explicit": explicit_slot_dims is not None,
+            "units": "mm",
+        }
+    )
+
     return graph
 
 
-def _furniture_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph:
+def _container_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
+    return _fabrication_design(prompt, text, flags, plate=False)
+
+
+def _plate_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
+    return _fabrication_design(prompt, text, flags, plate=True)
+
+
+def _furniture_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
     graph = DesignGraph(title=prompt.strip() or "furniture design")
 
-    w = _extract_measurement(text, "width") or 0.4
-    d = _extract_measurement(text, "depth") or 0.25
-    h = _extract_measurement(text, "height") or 0.12
+    w = _extract_measurement(text, "width") or 400.0
+    d = _extract_measurement(text, "depth") or 250.0
+    h = _extract_measurement(text, "height") or 120.0
 
     base = graph.add_component(
         _make_component(
@@ -481,11 +717,11 @@ def _furniture_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignG
     )
     graph.connect(base, tray, "stacked")
 
-    slot_count = _extract_count(text, ["slot", "slots", "compartment", "compartments"], default=0)
+    slot_count, _ = _extract_count(text, ["slot", "slots", "compartment", "compartments"])
     for i in range(slot_count):
         slot = graph.add_component(
             _make_component(
-                f"slot_{i+1}",
+                f"slot_{i + 1}",
                 "box",
                 {"size": (w * 0.12, d * 0.72, h * 0.8), "center": True},
                 translate=(-w * 0.28 + i * (w * 0.56 / max(1, slot_count - 1)) if slot_count > 1 else 0.0, 0.0, 0.0),
@@ -498,38 +734,46 @@ def _furniture_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignG
     return graph
 
 
-def _generic_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGraph:
+def _generic_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGraph:
     graph = DesignGraph(title=prompt.strip() or "generic design")
 
     dims = _extract_sequence_dims(text)
-    if dims is not None:
+    recognized = False
+    if dims is not None and re.search(r"\b(?:block|cube|cuboid|rectangular prism)\b", text):
+        main = graph.add_component(_make_component("body", "box", {"size": dims, "center": True}, role="body"))
+        recognized = True
+    elif re.search(r"\b(?:sphere|ball)\b", text):
+        explicit_radius = _extract_measurement(text, "radius")
         main = graph.add_component(
-            _make_component("body", "box", {"size": dims, "center": True}, role="body")
+            _make_component("body", "sphere", {"radius": explicit_radius if explicit_radius is not None else 50.0}, role="body")
         )
-    elif "sphere" in text or "ball" in text:
-        main = graph.add_component(
-            _make_component("body", "sphere", {"radius": _extract_radius(text, 0.05)}, role="body")
-        )
-    elif "cylinder" in text or "tube" in text:
+        recognized = explicit_radius is not None
+    elif re.search(r"\b(?:cylinder|tube)\b", text):
+        explicit_radius = _extract_measurement(text, "radius")
+        diameter = _extract_measurement(text, "diameter")
+        explicit_height = _extract_measurement(text, "height")
         main = graph.add_component(
             _make_component(
                 "body",
                 "cylinder",
-                {"radius": _extract_radius(text, 0.04), "height": _extract_height(text, 0.08), "center": True},
+                {
+                    "radius": explicit_radius if explicit_radius is not None else (diameter / 2.0 if diameter is not None else 40.0),
+                    "height": explicit_height if explicit_height is not None else 80.0,
+                    "center": True,
+                },
                 role="body",
             )
         )
+        recognized = (explicit_radius is not None or diameter is not None) and explicit_height is not None
     else:
-        main = graph.add_component(
-            _make_component("body", "box", {"size": (0.08, 0.08, 0.08), "center": True}, role="body")
-        )
+        main = graph.add_component(_make_component("body", "box", {"size": (80.0, 80.0, 80.0), "center": True}, role="body"))
 
     if flags.get("holes"):
         hole = graph.add_component(
             _make_component(
                 "hole",
                 "cylinder",
-                {"radius": 0.01, "height": 0.12, "center": True},
+                {"radius": 10.0, "height": 120.0, "center": True},
                 operation="difference",
                 role="feature",
             )
@@ -541,41 +785,61 @@ def _generic_design(prompt: str, text: str, flags: Dict[str, bool]) -> DesignGra
             _make_component(
                 "cap",
                 "sphere",
-                {"radius": 0.02},
-                translate=(0.0, 0.0, 0.05),
+                {"radius": 20.0},
+                translate=(0.0, 0.0, 50.0),
                 role="feature",
             )
         )
         graph.connect(main, cap, "accent")
 
+    graph.metadata.update(
+        {
+            "recognized": recognized,
+            "explicit_dimensions": recognized,
+            "fabrication_domain": "primitive" if recognized else None,
+            "units": "mm",
+        }
+    )
+
     return graph
 
 
 def generate_design(prompt: str) -> DesignGraph:
-    """Parse a natural-language prompt into a structured CAD design graph."""
+    """Parse a prompt into a graph that public exporters will validate."""
 
+    if not isinstance(prompt, str) or not prompt.strip():
+        raise ValueError("engineering prompt must be a non-empty string")
+    if len(prompt) > 4096:
+        raise ValueError("engineering prompts are limited to 4096 characters")
     text = _normalize(prompt)
+    normalization_is_lossless = _normalization_is_lossless(prompt)
     flags = infer_features(text)
     domain = infer_domain(text)
 
-    if domain == "aircraft":
-        design = _aircraft_design(prompt, text, flags)
-    elif domain == "vehicle":
-        design = _vehicle_design(prompt, text, flags)
-    elif domain == "mechanism":
-        design = _motor_design(prompt, text, flags)
-    elif domain in {"container", "furniture"}:
-        design = _container_design(prompt, text, flags) if domain == "container" else _furniture_design(prompt, text, flags)
-    else:
+    # Legacy aircraft, vehicle, mechanism, and furniture generators produced
+    # plausible-looking default geometry for unsupported requests.  They are
+    # intentionally quarantined from the production parser.
+    if domain == "container":
+        design = _container_design(prompt, text, flags)
+    elif domain == "plate":
+        design = _plate_design(prompt, text, flags)
+    elif domain == "generic":
         design = _generic_design(prompt, text, flags)
+    else:
+        design = DesignGraph(title=prompt.strip() or "unsupported design")
 
     design.metadata.update(
         {
             "prompt": prompt,
+            "source_kind": "prompt",
             "normalized_prompt": text,
             "domain": domain,
             "flags": flags,
+            "prompt_fully_consumed": normalization_is_lossless and _matches_prompt_contract(text, domain),
             "confidence": 0.9 if len(design.components) >= 2 else 0.6,
+            "units": "mm",
         }
     )
+    design.metadata.setdefault("recognized", False)
+    design.metadata.setdefault("explicit_dimensions", False)
     return design

@@ -7,4 +7,4 @@ from typing import Any
 class PipelineStage(ABC):
     @abstractmethod
     def run(self, data: Any) -> Any:
-        pass
+        raise TypeError("PipelineStage.run must be implemented by a concrete stage")

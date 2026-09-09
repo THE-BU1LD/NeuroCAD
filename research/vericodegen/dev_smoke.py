@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Development-only Stage 1 plumbing smoke for the VeriCodeGen successor study.
 
 This script uses scripted fixtures, not a language model. It exercises both
@@ -13,16 +12,16 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
 import platform
-import subprocess
+import shutil
+import subprocess  # OpenSCAD is invoked with a fixed, shell-free argument vector.  # nosec B404
 import sys
+from pathlib import Path
 from typing import Any
 
 from core.design_graph import Component, DesignGraph
 from core.scad_export import design_to_scad
 from research.vericodegen.verifier import load_mesh, verify_mesh
-
 
 DEV_TASKS: tuple[dict[str, Any], ...] = (
     {
@@ -119,8 +118,11 @@ def _structured_scad(task: dict[str, Any], *, intentionally_invalid: bool) -> st
 
 
 def _compile(scad_path: Path, stl_path: Path) -> tuple[bool, str]:
-    proc = subprocess.run(
-        ["openscad", "-o", str(stl_path), str(scad_path)],
+    executable = shutil.which("openscad")
+    if executable is None:
+        raise RuntimeError("OpenSCAD is required for the Stage 1 development smoke")
+    proc = subprocess.run(  # Resolved executable; no shell; paths are separate arguments.  # nosec B603
+        [executable, "-o", str(stl_path), str(scad_path)],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -162,7 +164,7 @@ def _run_attempt(
             scad = _structured_scad(task, intentionally_invalid=intentionally_invalid)
         else:
             raise ValueError(f"unknown arm: {arm}")
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - the smoke ledger must retain every generation failure
         record["failure_type"] = "generation_or_structured_compile_error"
         record["error"] = f"{type(exc).__name__}: {exc}"
         return record
@@ -185,7 +187,7 @@ def _run_attempt(
     try:
         mesh = load_mesh(stl_path)
         report = verify_mesh(mesh, task["constraints"])
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - third-party kernel/verifier failures are recorded, not hidden
         record["failure_type"] = "verifier_error"
         record["error"] = f"{type(exc).__name__}: {exc}"
         return record

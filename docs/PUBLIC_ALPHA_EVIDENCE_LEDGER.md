@@ -1,49 +1,77 @@
-# NeuroCAD Public Alpha Evidence Ledger
+# NeuroCAD public-alpha evidence ledger
 
-This file separates verified release evidence from pending release claims. It is intentionally conservative: a gate remains **PENDING** until evidence from the exact release commit is recorded.
+This ledger separates configured release machinery from observed release
+evidence. No filename, checksum, test total, commit, or CI result is copied into
+this document by hand.
 
 ## Release target
 
-- Target tag: `v0.4.0a1`
-- Release class: public alpha
+- Declared source version: `0.5.0a6`
+- Target tag: `v0.5.0a6`
+- Current status: **PENDING**
 - Scientific-claim status: unchanged by release engineering
 
-## Evidence table
+The checked-in historical `dist/` directory ends at a5. It is not evidence for
+an a6 release. Local a6 candidates have been built and smoke-installed in an
+ignored staging directory, but they are not authoritative release artifacts.
+The 2026-09-06 audit initialized a new local Git baseline, explicitly not
+recovered history. The configured `canonical` remote is reachable and has a
+different historical `main`; the local candidate is not published there, and
+the target tag and external CI receipt remain absent.
 
-| Claim / gate | Status | Evidence | Missing evidence |
-| --- | --- | --- | --- |
-| Packaged CLI exists | VERIFIED | Repository history contains `feat: add NeuroCAD command line interface` and subsequent packaging/release hardening commits. | None for existence; exact release invocation should still be recorded below. |
-| One-command installer exists | VERIFIED | Repository history contains `feat: add one-command NeuroCAD installer` and `installer: remove git dependency and harden bootstrap`. | Anonymous clean-environment execution on the final public commit. |
-| Release CI covers supported Python versions | VERIFIED | Public-alpha hardening PR records passing matrix jobs on Python 3.10, 3.11, and 3.12 prior to merge. | Re-run on the exact commit that will be tagged after public visibility is enabled. |
-| Wheel/sdist can be built and clean-installed | VERIFIED PRE-RELEASE | Public-alpha hardening PR records wheel/sdist build plus clean virtualenv wheel-install smoke test. | Repeat on exact tagged/public commit and retain run URL/artifact checksum. |
-| Repository is safe for anonymous public bootstrap | PENDING | Secret-history gate passed during pre-release CI. | Public visibility transition plus anonymous bootstrap from a credential-free environment. |
-| `v0.4.0a1` is externally installable | PENDING | Release automation exists. | Public repo, exact-commit CI pass, anonymous installer pass, tag, artifact verification. |
+## Gate status
 
-## Exact release evidence
+| Claim / gate | Status | Evidence required to close it |
+| --- | --- | --- |
+| Package metadata and CLI entry point exist | Verified by source inspection | `pyproject.toml` and maintained tests |
+| CI/release workflows are configured | Verified by source inspection | Pinned action SHAs and pinned quality-tool versions in `.github/workflows/` and `pyproject.toml` |
+| Current tests/lint/type/security gates pass | Verified locally; external receipt pending | Successful CI URL for the exact release commit |
+| a6 wheel and sdist build | Verified as local candidates; release build pending | Fresh artifacts listed in generated `RELEASE_PROVENANCE.json` |
+| Exact artifacts clean-install | Verified locally for the candidate wheel; release job pending | Successful wheel and sdist smoke steps in the same release job |
+| Full kernel-backed research rerun | Pending | Fresh, non-resumed run manifest retained by the release job |
+| Anonymous installer succeeds | Pending | Credential-free environment receipt against the public tag |
+| `v0.5.0a6` is public and externally installable | Pending | Public tag/release URL and independently verified artifact hashes |
 
-Fill this section only with observed values from the final public release candidate.
+## Authoritative generated receipt
+
+The tag workflow creates `RELEASE_PROVENANCE.json` only after tests, static
+gates, builds, clean-install smokes, and a fresh kernel run succeed. It records:
+
+- repository, commit SHA, tag, workflow run ID and attempt;
+- Python, platform, and OpenSCAD version;
+- declared/installed package version and exact installed tool/dependency versions;
+- maintained source-tree digest and per-file hashes;
+- research-lock SHA-256;
+- the fresh research manifest digest and its deterministic scientific hashes;
+- wheel and sdist filenames and SHA-256 values;
+- the quality gates completed before receipt creation.
+
+The sibling `SHA256SUMS` is generated from the same fresh output directory. CI
+retains both files with the distributions and attaches them to the GitHub
+release. Those generated files—not prose in this ledger—are the authoritative
+release evidence.
+
+## External verification record
+
+After a real release, link observed evidence without transcribing its contents:
 
 ```text
-commit_sha=
 ci_run_url=
-python_versions=
-installer_command=
-installer_environment=
-cli_smoke_command=
-cli_smoke_output=
-wheel_filename=
-wheel_sha256=
-sdist_filename=
-sdist_sha256=
-tag=
 release_url=
+generated_release_provenance_url=
+anonymous_install_receipt_url=
+independent_verifier=
 verified_at_utc=
 ```
 
 ## Scientific integrity boundary
 
-Release engineering does not upgrade scientific confidence. Packaging, installability, CI health, and documentation are evidence about software quality only. Any negative, contradicted, or falsified NeuroCAD research finding must remain represented as such in research documentation.
+Packaging, installability, CI health, and checksum provenance are software
+quality evidence only. They do not upgrade the frozen synthetic benchmark into
+natural-language, manufacturability, learned-model, or safety evidence.
 
 ## Definition of done
 
-The public-alpha gate is complete only when a new user with no repository credentials can execute the documented installer against the exact tagged public commit, invoke the installed CLI successfully, and trace the installed artifact back to the passing release evidence above.
+The public-alpha gate closes only when a credential-free user can trace a
+successful invocation from the public tag to the exact commit, external CI run,
+generated provenance receipt, and downloaded artifact checksum.

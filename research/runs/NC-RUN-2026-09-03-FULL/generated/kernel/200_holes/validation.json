@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "03e20ea1d9008325f80d952f206e507eec985815e362de50aafb6be77b667208",
+    "render": "55834d97d7efba15ca4b90761fc38511294a444ff30d4fb856d340c98d749d4d",
+    "scad": "0795f73c2d12986f8e966c748062bdcabf0db88a8f9d95b2ffdf087a821b378b",
+    "stl": "08619547cd883dab5fc6e1fb094feb8861045fd3cbc5b453be17f703fb45e137"
+  },
+  "expected_extents_mm": [
+    170.0,
+    150.0,
+    2.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/200_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      170.0,
+      150.0,
+      2.0
+    ],
+    "faces": 404,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 200,
+    "volume_mm3": 50887.225411764,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 170 x 150 x 2 mm plate with two 6 mm holes",
+  "render": "figures/kernel_examples/200_holes.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.718188917000134,
+  "scad": "generated/kernel/200_holes/program.scad",
+  "stl": "generated/kernel/200_holes/program.stl",
+  "task_id": "NCR-0198"
+}

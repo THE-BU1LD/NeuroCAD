@@ -9,38 +9,58 @@ the predeclared paired analysis without dropping failed attempts.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
+import shutil
+import subprocess  # Git/OpenSCAD use resolved executables and fixed shell-free argv.  # nosec B404
 from pathlib import Path
-import subprocess
 from typing import Any
 
-from research.vericodegen.analysis import analyze_rows, load_jsonl as load_analysis_jsonl
+from research.vericodegen.analysis import analyze_rows
+from research.vericodegen.analysis import load_jsonl as load_analysis_jsonl
 from research.vericodegen.benchmark_freeze import benchmark_jsonl, build_manifest
 from research.vericodegen.prompt_freeze import freeze_prompt_bundle
 from research.vericodegen.safe_trial_ledger import evaluate_capture
 from research.vericodegen.stage2_manifest import SAFE_EVALUATION_ENTRYPOINT
 from research.vericodegen.trial_ledger import CAPTURE_VERSION, sha256_file
 
-
 ROOT = Path(__file__).resolve().parents[2]
 
 
+class OfflineSmokeError(RuntimeError):
+    """Raised when an offline smoke prerequisite cannot be proven."""
+
+
 def _git_head() -> str:
-    proc = subprocess.run(
-        ["git", "rev-parse", "HEAD"],
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=True,
-    )
-    return proc.stdout.strip()
+    executable = shutil.which("git")
+    if executable is None:
+        raise OfflineSmokeError("cannot resolve an immutable source revision: git executable not found")
+    try:
+        proc = subprocess.run(  # Resolved executable and fixed argument vector.  # nosec B603
+            [executable, "rev-parse", "HEAD"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise OfflineSmokeError(f"cannot resolve an immutable source revision: {exc}") from exc
+    revision = proc.stdout.strip()
+    if proc.returncode != 0 or not revision:
+        detail = proc.stderr.strip() or "git rev-parse returned no revision"
+        raise OfflineSmokeError(
+            "offline ledger smoke requires a real Git checkout so its authorized development manifest "
+            f"can be pinned to HEAD: {detail}"
+        )
+    return revision
 
 
 def _openscad_version() -> str:
-    proc = subprocess.run(
-        ["openscad", "--version"],
+    executable = shutil.which("openscad")
+    if executable is None:
+        raise OfflineSmokeError("OpenSCAD is required for the offline ledger smoke")
+    proc = subprocess.run(  # Resolved executable and fixed argument vector.  # nosec B603
+        [executable, "--version"],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -309,7 +329,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--outdir", type=Path, default=Path("out/vericodegen_offline_ledger_smoke"))
     args = parser.parse_args()
-    receipt = run_smoke(args.outdir)
+    try:
+        receipt = run_smoke(args.outdir)
+    except OfflineSmokeError as exc:
+        parser.error(str(exc))
     print(json.dumps(receipt, indent=2, sort_keys=True))
     return 0
 

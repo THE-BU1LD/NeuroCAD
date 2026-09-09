@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "b58f358e5264c67f2b11b3d5c60871f5888e9f312b8c4e85a1621c9b34fdba82",
+    "render": "27501b91df55afe2ae43bd25e22514a3b5ea2d45c31355294ef8f853e4ef17bd",
+    "scad": "930a9c9e7475a95e04add60c1aa786e2a280f09136967c10c13641296fbb9e5a",
+    "stl": "fb3ab3b627b58e05b6623c2106f926aeaef5a8e7a19425e45bd560058e0c1127"
+  },
+  "expected_extents_mm": [
+    80.0,
+    130.0,
+    3.0
+  ],
+  "family": "slots",
+  "ir": "generated/kernel/118_slots/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      80.0,
+      130.0,
+      3.0
+    ],
+    "faces": 32,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 16,
+    "volume_mm3": 31092.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "d727c5528bdf5d9ce5df806f6bb9d1f53fec4cf71ce1a77b5a943a519f25a4a7",
+  "prompt": "a 80 x 130 x 3 mm plate with one 12 x 3 mm slots",
+  "render": "figures/kernel_examples/118_slots.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.006146041000192781,
+  "scad": "generated/kernel/118_slots/program.scad",
+  "stl": "generated/kernel/118_slots/program.stl",
+  "task_id": "NCR-0115"
+}

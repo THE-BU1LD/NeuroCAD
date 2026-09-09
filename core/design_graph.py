@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Sequence, Tuple
+from typing import Any
 
 
 @dataclass
@@ -9,9 +10,9 @@ class Component:
     """A design component with a name, geometric parameters, and placement."""
 
     name: str
-    params: Dict[str, Any]
+    params: dict[str, Any]
     operation: str = "union"  # union | difference | intersection
-    transform: Dict[str, Sequence[float]] = field(
+    transform: dict[str, Sequence[float]] = field(
         default_factory=lambda: {
             "translate": (0.0, 0.0, 0.0),
             "rotate": (0.0, 0.0, 0.0),
@@ -20,7 +21,7 @@ class Component:
     )
     role: str = "body"
 
-    def geometry(self) -> Dict[str, Any]:
+    def geometry(self) -> dict[str, Any]:
         return self.params.get("geometry", {})
 
 
@@ -38,9 +39,9 @@ class Connection:
 class DesignGraph:
     def __init__(self, title: str = "design"):
         self.title = title
-        self.components: List[Component] = []
-        self.connections: List[Connection] = []
-        self.metadata: Dict[str, Any] = {}
+        self.components: list[Component] = []
+        self.connections: list[Connection] = []
+        self.metadata: dict[str, Any] = {}
 
     def add_component(self, component: Component) -> Component:
         self.components.append(component)
@@ -57,10 +58,10 @@ class DesignGraph:
     def __len__(self) -> int:
         return len(self.components)
 
-    def as_pairs(self) -> List[Tuple[Component, Component]]:
+    def as_pairs(self) -> list[tuple[Component, Component]]:
         return [(c.a, c.b) for c in self.connections]
 
-    def summary(self) -> Dict[str, Any]:
+    def summary(self) -> dict[str, Any]:
         return {
             "title": self.title,
             "component_count": len(self.components),

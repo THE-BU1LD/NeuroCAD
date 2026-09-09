@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "a56ad49486ccbe970c7898a8264d65fbabe581e769d9730c1a5b97f702b0d80c",
+    "render": "4351da6827ab2f9c08f5d4e9f80ff380632122e43c8ea02be9540d2bbc0ba74b",
+    "scad": "3f0df89a8d3be7d61a114410bceb283ccfd4957b8669cacd2278ac8f0e6ad8d4",
+    "stl": "b7a7926ae70fbc34e1dd2c164276ae8e188bc2b8ce3ce78587c627823f3dfe21"
+  },
+  "expected_extents_mm": [
+    6.35,
+    6.35,
+    6.35
+  ],
+  "family": "sphere",
+  "ir": "generated/kernel/210_sphere/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.01359999999999939,
+      0.01359999999999939,
+      0.01359999999999939
+    ],
+    "extents_mm": [
+      6.3364,
+      6.3364,
+      6.3364
+    ],
+    "faces": 2300,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 1152,
+    "volume_mm3": 133.11227683703996,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a sphere with radius 0.125 inch",
+  "render": "figures/kernel_examples/210_sphere.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 0.7702885839998999,
+  "scad": "generated/kernel/210_sphere/program.scad",
+  "stl": "generated/kernel/210_sphere/program.stl",
+  "task_id": "NCR-0210"
+}

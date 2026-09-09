@@ -16,12 +16,12 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 from research.vericodegen import trial_ledger as _ledger
 from research.vericodegen.arm_adapter import ArmAdapterError
-
 
 _UNSUPPORTED_OPERATION_MARKERS = (
     "kind must be one of",

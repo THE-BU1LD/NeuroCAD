@@ -15,66 +15,196 @@ concurrency:
 
 jobs:
   test-and-package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10.21", "3.11.16", "3.12.14"]
 
     steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          persist-credentials: false
 
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
       - name: Install build and test tooling
-        run: python -m pip install --upgrade pip build pytest
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install --upgrade "pip==26.2.1"
 
       - name: Install NeuroCAD editable
-        run: python -m pip install -e .
+        run: python -m pip install -e '.[dev,security]'
 
       - name: Compile shipped Python sources
         shell: bash
         run: |
-          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+
+      - name: Require Node for shipped workbench script tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s tests/test_workbench_ui.py
+          test -s tests/workbench_contract.cjs
+          node --version
 
       - name: Run maintained release tests
         shell: bash
         run: |
-          if [ -d tests ]; then
-            python -m pytest -q tests
-          else
-            echo "No tests/ directory found; continuing with package smoke gates."
-          fi
+          python -m pytest -q tests --junitxml="${{ runner.temp }}/neurocad-tests.xml"
+
+      - name: Retain test results including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: tests-python-${{ matrix.python-version }}
+          path: ${{ runner.temp }}/neurocad-tests.xml
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Lint maintained product
+        run: python -m ruff check core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
+
+      - name: Type-check maintained product and research tooling
+        if: startsWith(matrix.python-version, '3.12.')
+        run: python -m mypy core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+
+      - name: Audit dependencies and supported source
+        if: startsWith(matrix.python-version, '3.12.')
+        shell: bash
+        run: |
+          python -m pip check
+          python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
+          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
 
       - name: CLI smoke test
         shell: bash
         run: |
           neurocad --version
           neurocad doctor
-          neurocad validate "a compact box with two holes"
-          neurocad create "a compact box with two holes" -o /tmp/neurocad-smoke.scad
+          neurocad validate "a 120 x 80 x 4 mm plate with four 4 mm holes"
+          if neurocad validate "an unsupported warp drive"; then
+            echo "Unsupported prompt unexpectedly validated." >&2
+            exit 1
+          fi
+          neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/neurocad-smoke.scad --manifest /tmp/neurocad-smoke.json
+          neurocad ir "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/neurocad-smoke.ncad.json
+          neurocad compile /tmp/neurocad-smoke.ncad.json --format scad -o /tmp/neurocad-compiled.scad
+          neurocad evaluate --ir /tmp/neurocad-smoke.ncad.json > /tmp/neurocad-evaluation.json
+          neurocad benchmark --dataset /tmp/neurocad-benchmark.jsonl --output /tmp/neurocad-benchmark-results.json
+          xvfb-run -a neurocad research \
+            --output /tmp/neurocad-research-smoke \
+            --run-id NC-CI-SMOKE \
+            --compiler-tasks 35 \
+            --ir-programs 36 \
+            --invalid-cases 16 \
+            --edit-cases 12 \
+            --constraint-ablation-cases 12 \
+            --kernel-samples 2 \
+            --fn 12 \
+            --require-kernel
+          neurocad export "a 40 x 30 x 3 mm plate with four 3 mm holes" --format stl -o /tmp/neurocad-smoke.stl
+          neurocad enclosure interpret "60 x 40 x 20 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2 mm thick clearance 0.3 mm lip 2 mm; title CI enclosure" --project-id ci-enclosure --project-output /tmp/neurocad-enclosure.ncad.json
+          neurocad integrations export /tmp/neurocad-enclosure.ncad.json --output-dir /tmp/neurocad-exchange --stl --fn 12
+          neurocad integrations verify /tmp/neurocad-exchange > /tmp/neurocad-exchange-verification.json
           test -s /tmp/neurocad-smoke.scad
+          test -s /tmp/neurocad-smoke.json
+          test -s /tmp/neurocad-smoke.stl
+          test -s /tmp/neurocad-compiled.scad
+          test -s /tmp/neurocad-evaluation.json
+          test -s /tmp/neurocad-benchmark-results.json
+          test -s /tmp/neurocad-research-smoke/manifest.json
+          test -s /tmp/neurocad-enclosure.ncad.json
+          test -s /tmp/neurocad-exchange/manifest.json
+          test -s /tmp/neurocad-exchange-verification.json
 
       - name: Build wheel and source distribution
-        run: python -m build
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)
+          export SOURCE_DATE_EPOCH
+          dist_dir="$RUNNER_TEMP/neurocad-dist"
+          python -m build --outdir "$dist_dir"
+          sdist_files=("$dist_dir"/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          python scripts/normalize_sdist.py "${sdist_files[0]}" "$SOURCE_DATE_EPOCH"
+          python scripts/verify_distribution.py "$dist_dir"/neurocad_research-*.whl "${sdist_files[0]}"
+          if [ "${{ matrix.python-version }}" = "3.12.14" ]; then
+            repeat_dir="$RUNNER_TEMP/neurocad-dist-repeat"
+            python -m build --outdir "$repeat_dir"
+            repeat_sdists=("$repeat_dir"/neurocad_research-*.tar.gz)
+            test "${#repeat_sdists[@]}" -eq 1
+            python scripts/normalize_sdist.py "${repeat_sdists[0]}" "$SOURCE_DATE_EPOCH"
+            cmp "$dist_dir"/neurocad_research-*.whl "$repeat_dir"/neurocad_research-*.whl
+            cmp "${sdist_files[0]}" "${repeat_sdists[0]}"
+          fi
 
       - name: Fresh wheel install smoke test
         shell: bash
         run: |
           python -m venv /tmp/neurocad-clean
-          /tmp/neurocad-clean/bin/python -m pip install --upgrade pip
-          /tmp/neurocad-clean/bin/python -m pip install dist/*.whl
+          /tmp/neurocad-clean/bin/python -m pip install --upgrade "pip==26.2.1"
+          wheel_files=("$RUNNER_TEMP"/neurocad-dist/neurocad_research-*.whl)
+          test "${#wheel_files[@]}" -eq 1
+          /tmp/neurocad-clean/bin/python -m pip install "${wheel_files[0]}"
           /tmp/neurocad-clean/bin/neurocad --version
           /tmp/neurocad-clean/bin/neurocad doctor
-          /tmp/neurocad-clean/bin/neurocad create "a plate with four holes" -o /tmp/fresh-install.scad
+          /tmp/neurocad-clean/bin/neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/fresh-install.scad
+          /tmp/neurocad-clean/bin/neurocad ir "a 40 x 30 x 3 mm plate" -o /tmp/fresh-install.ncad.json
+          /tmp/neurocad-clean/bin/neurocad compile /tmp/fresh-install.ncad.json --format scad -o /tmp/fresh-compiled.scad
+          /tmp/neurocad-clean/bin/neurocad integrations kicad-extract --help
           test -s /tmp/fresh-install.scad
+          test -s /tmp/fresh-compiled.scad
+
+      - name: Fresh source-distribution install smoke test
+        if: startsWith(matrix.python-version, '3.12.')
+        shell: bash
+        run: |
+          python -m venv /tmp/neurocad-clean-sdist
+          /tmp/neurocad-clean-sdist/bin/python -m pip install --upgrade "pip==26.2.1"
+          sdist_files=("$RUNNER_TEMP"/neurocad-dist/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          /tmp/neurocad-clean-sdist/bin/python -m pip install "${sdist_files[0]}"
+          /tmp/neurocad-clean-sdist/bin/neurocad --version
+          /tmp/neurocad-clean-sdist/bin/neurocad validate "a 40 x 30 x 3 mm plate"
+
+      - name: Run tests from the actual source distribution
+        if: startsWith(matrix.python-version, '3.12.')
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_test_dir="$RUNNER_TEMP/neurocad-sdist-tests"
+          mkdir "$source_test_dir"
+          sdist_files=("$RUNNER_TEMP"/neurocad-dist/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          tar -xzf "${sdist_files[0]}" -C "$source_test_dir"
+          source_roots=("$source_test_dir"/neurocad_research-*)
+          test "${#source_roots[@]}" -eq 1
+          cd "${source_roots[0]}"
+          python -m pytest -q tests
+
+      - name: Staged quick installer from the built wheel
+        if: startsWith(matrix.python-version, '3.12.')
+        shell: bash
+        run: |
+          set -euo pipefail
+          wheel_files=("$RUNNER_TEMP"/neurocad-dist/neurocad_research-*.whl)
+          test "${#wheel_files[@]}" -eq 1
+          NEUROCAD_HOME="$RUNNER_TEMP/quick-install" \
+          NEUROCAD_BIN_DIR="$RUNNER_TEMP/quick-bin" \
+          NEUROCAD_PACKAGE="${wheel_files[0]}" sh ./install.sh
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/quick-bin/neurocad" doctor
+          "$RUNNER_TEMP/quick-bin/neurocad" validate "a 40 x 30 x 3 mm plate"
+          "$RUNNER_TEMP/quick-bin/neurocad" topology /tmp/neurocad-smoke.stl --require-closed-manifold
 
       - name: Git-history high-confidence secret gate
         shell: bash
@@ -89,8 +219,87 @@ jobs:
           echo "No high-confidence secret patterns detected in Git history."
 
       - name: Upload distributions
-        if: matrix.python-version == '3.12'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: startsWith(matrix.python-version, '3.12.')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: neurocad-dist
-          path: dist/*
+          path: ${{ runner.temp }}/neurocad-dist/*
+
+  portable-python:
+    name: Portable Python / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          # 3.12 security-only releases have Linux artifacts only in setup-python.
+          # 3.13.15 has official darwin/arm64 and win32/x64 artifacts as well.
+          python-version: "3.13.15"
+          cache: pip
+
+      - name: Install portable product
+        run: |
+          python -m pip install --upgrade "pip==26.2.1"
+          python -m pip install -e '.[dev]'
+
+      - name: Require Node for shipped workbench script tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s tests/test_workbench_ui.py
+          test -s tests/workbench_contract.cjs
+          node --version
+
+      - name: Run kernel-independent product tests
+        run: python -m pytest -q tests
+
+      - name: Compile and lint supported sources
+        run: |
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m ruff check core research/vericodegen neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
+
+      - name: Type-check portable sources
+        run: python -m mypy core neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+
+      - name: Portable CLI smoke
+        run: |
+          neurocad --version
+          neurocad validate "a 40 x 30 x 3 mm plate"
+          neurocad ir "a sphere with radius 0.5 inch" -o portable.ncad.json
+          neurocad compile portable.ncad.json --format scad -o portable.scad
+
+  workbench-browser:
+    name: Workbench browser / ${{ matrix.browser }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.14"
+      - name: Install product and required browser/kernel tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install -e '.[browser]'
+          python -m playwright install --with-deps ${{ matrix.browser }}
+      - name: Real browser project, edit and mesh acceptance
+        run: python tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel --output "${{ runner.temp }}/browser-evidence"
+      - name: Retain browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: workbench-${{ matrix.browser }}
+          path: ${{ runner.temp }}/browser-evidence/
+          retention-days: 14

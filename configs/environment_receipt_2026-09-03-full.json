@@ -1,0 +1,32 @@
+{
+  "captured_at_utc": "2026-09-03T10:50:00Z",
+  "full_run_manifest_sha256": "6e46948dbfdac8e3689bc59c9357c5d874ac57c866edac7637e7edd4e99f9ba3",
+  "full_run_results_sha256": "63f593360e368345c477af1519df3ff2b0185c82513544503411a38af67d5305",
+  "git_commit": null,
+  "git_commit_reason": "This checkout contains no .git metadata.",
+  "requirements_lock_sha256": null,
+  "requirements_lock_reason": "No lockfile digest was captured with this historical run; the current lock must not be retroactively attributed to it.",
+  "source_tree_sha256": null,
+  "source_tree_reason": "The historical run did not capture an implementation source digest.",
+  "implementation": "CPython",
+  "machine": "arm64",
+  "openscad": {
+    "bundle_version": "2021.01.31",
+    "executable": "/usr/local/bin/openscad",
+    "product_version": "2021.01"
+  },
+  "packages": {
+    "bandit": "1.9.4",
+    "build": "1.6.0",
+    "jsonschema": "4.26.0",
+    "numpy": "2.5.2",
+    "pip-audit": "2.10.1",
+    "pytest": "9.1.1",
+    "ruff": "0.16.5",
+    "trimesh": "5.1.0"
+  },
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "receipt_version": "neurocad-environment-v2",
+  "run_id": "NC-RUN-2026-09-03-FULL"
+}

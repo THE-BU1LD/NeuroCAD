@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "bcd8faf53535c569779cc715ea49ea4463defa41c9165c8d7b6747da7ae23c79",
+    "render": "d4b168858f0461d2dd28ea12afe1ad4210c8d97f4d93833c9dacd4f2b07ea77e",
+    "scad": "b29d402e1712ae732a4c874fcbccc8c4613b7dd9dbbde6801e5594711d305294",
+    "stl": "b03782d024eaadfed5f8393b665c458d08ab476334b368dcf16054a75bb19d6f"
+  },
+  "expected_extents_mm": [
+    64.0,
+    64.0,
+    15.0
+  ],
+  "family": "cylinder",
+  "ir": "generated/kernel/072_cylinder/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      64.0,
+      64.0,
+      15.0
+    ],
+    "faces": 188,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 96,
+    "volume_mm3": 48117.12623262,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "0c35b307a1099c811e3d657914583c45b81f0f0490be2a980967841aca380443",
+  "prompt": "a cylinder with radius 32 mm and height 15 mm",
+  "render": "figures/kernel_examples/072_cylinder.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.01714124999989508,
+  "scad": "generated/kernel/072_cylinder/program.scad",
+  "stl": "generated/kernel/072_cylinder/program.stl",
+  "task_id": "NCR-0076"
+}

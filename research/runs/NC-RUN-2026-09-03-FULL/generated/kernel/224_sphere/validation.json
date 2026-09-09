@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "92ce5c52aa7aec379c0dda531ca1dbaeef2f11b4e7b5acd521015af727a025e7",
+    "render": "4351da6827ab2f9c08f5d4e9f80ff380632122e43c8ea02be9540d2bbc0ba74b",
+    "scad": "e1204b64ef81b1a7d87b64e35418923752a550c97740a77d42d801b43bf64de1",
+    "stl": "ebc7f14f177f896d580a11368c3ae440ad2fb27cc99f2303a0526f45bca0e420"
+  },
+  "expected_extents_mm": [
+    40.0,
+    40.0,
+    40.0
+  ],
+  "family": "sphere",
+  "ir": "generated/kernel/224_sphere/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.08559999999999945,
+      0.08559999999999945,
+      0.08559999999999945
+    ],
+    "extents_mm": [
+      39.9144,
+      39.9144,
+      39.9144
+    ],
+    "faces": 2300,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 1152,
+    "volume_mm3": 33271.86210549799,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a sphere with radius 20 mm",
+  "render": "figures/kernel_examples/224_sphere.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 0.8820268330000545,
+  "scad": "generated/kernel/224_sphere/program.scad",
+  "stl": "generated/kernel/224_sphere/program.stl",
+  "task_id": "NCR-0224"
+}

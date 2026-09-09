@@ -1,0 +1,22 @@
+{
+  "family": "slots",
+  "ir": "generated/kernel/006_slots/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      190.0,
+      50.0,
+      5.0
+    ],
+    "faces": 92,
+    "vertices": 40,
+    "volume_mm3": 45900.0,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a 190 x 50 x 5 mm plate with four 16 x 5 mm slots",
+  "render": "figures/kernel_examples/006_slots.png",
+  "runtime_seconds": 1.8966883330012934,
+  "scad": "generated/kernel/006_slots/program.scad",
+  "stl": "generated/kernel/006_slots/program.stl",
+  "task_id": "NCR-0003"
+}

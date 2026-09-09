@@ -16,7 +16,6 @@ from research.vericodegen.prompt_freeze import (
     validate_bundle,
 )
 
-
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_PATH = ROOT / "research/vericodegen/prompt_bundle_v1.json"
 SCHEMA_PATH = ROOT / "research/vericodegen/structured_output.schema.json"

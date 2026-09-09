@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "06527e75f87b122ce8726232a29344b45a17f7ccfa8d75bb6d3588a5c000cdde",
+    "render": "ea836ccecf3f3b616fd6842ef01dff7dd7fef9d94fd669e8d5f64f94e0aba40e",
+    "scad": "ce57354b386de0a6ed97793665de7baaacccb6c72320c23301cc72dd576929cd",
+    "stl": "29fdfef77ba7fef0d8bc60ee7e8e48b6f03f90d96703d937f768dfc229534daf"
+  },
+  "expected_extents_mm": [
+    130.0,
+    70.0,
+    2.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/088_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      130.0,
+      70.0,
+      2.0
+    ],
+    "faces": 404,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 200,
+    "volume_mm3": 18149.877644889202,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "9eaf5a27ec8f671709cb7c475e24f15b6329a64bf9843ec4d3816593e8aa4579",
+  "prompt": "a 130 x 70 x 2 mm plate with two 4 mm holes",
+  "render": "figures/kernel_examples/088_holes.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.08404141700020773,
+  "scad": "generated/kernel/088_holes/program.scad",
+  "stl": "generated/kernel/088_holes/program.stl",
+  "task_id": "NCR-0086"
+}

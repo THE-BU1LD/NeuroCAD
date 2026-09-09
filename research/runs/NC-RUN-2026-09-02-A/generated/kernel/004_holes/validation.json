@@ -1,0 +1,22 @@
+{
+  "family": "holes",
+  "ir": "generated/kernel/004_holes/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      170.0,
+      170.0,
+      2.0
+    ],
+    "faces": 992,
+    "vertices": 488,
+    "volume_mm3": 57768.67387543599,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a 170 x 170 x 2 mm plate with five 2 mm holes",
+  "render": "figures/kernel_examples/004_holes.png",
+  "runtime_seconds": 8.982820666999032,
+  "scad": "generated/kernel/004_holes/program.scad",
+  "stl": "generated/kernel/004_holes/program.stl",
+  "task_id": "NCR-0002"
+}

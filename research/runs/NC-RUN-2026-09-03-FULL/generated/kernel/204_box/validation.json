@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "696947e8b833e9281bd59e387848ce801c04c04b39ae8ba179c16973feca227a",
+    "render": "4232cccfaa82343ca5ee43f79ff057c89c32f20ca8deba17d697fe1baa99bea6",
+    "scad": "52b747079f6724ede520425e12333bc3eb0f411ac64c23507685773492d1db69",
+    "stl": "1c1f3ae3eb8486564ed6647b02a6c43865ea6580f226a6ce0acd8c4f527a94e4"
+  },
+  "expected_extents_mm": [
+    110.0,
+    20.0,
+    60.0
+  ],
+  "family": "box",
+  "ir": "generated/kernel/204_box/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      110.0,
+      20.0,
+      60.0
+    ],
+    "faces": 12,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 8,
+    "volume_mm3": 132000.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 110 x 20 x 60 mm box",
+  "render": "figures/kernel_examples/204_box.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 4.21553566700004,
+  "scad": "generated/kernel/204_box/program.scad",
+  "stl": "generated/kernel/204_box/program.stl",
+  "task_id": "NCR-0208"
+}

@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "5fa5d4c7e982e851da05ad1c45756eb9d3eb95de9d3e9e48119a79b811b7014a",
+    "render": "2aa114f1405f7de88381c4a0439eedf3493670d918bc49624a4b5af841f440cd",
+    "scad": "56af46064d103413eb68e9841b2891e792a52b4cc43f2d8a5f8bea9fcfa34acc",
+    "stl": "a9a6bbc76e4e89f351150ec94294d60d062a03bd36ad208fbd181dbb52f768c1"
+  },
+  "expected_extents_mm": [
+    190.0,
+    50.0,
+    2.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/039_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      190.0,
+      50.0,
+      2.0
+    ],
+    "faces": 208,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 104,
+    "volume_mm3": 18974.938983887118,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "03929bf08e73950d84423ddb3637c2029dc2b4a9d0363ec0bcb1e44271a588d4",
+  "prompt": "a 190 x 50 x 2 mm plate with one 4 mm holes",
+  "render": "figures/kernel_examples/039_holes.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.04301225000017439,
+  "scad": "generated/kernel/039_holes/program.scad",
+  "stl": "generated/kernel/039_holes/program.stl",
+  "task_id": "NCR-0037"
+}

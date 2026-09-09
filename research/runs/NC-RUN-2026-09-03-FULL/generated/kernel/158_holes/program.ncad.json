@@ -1,0 +1,228 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          200.0,
+          80.0,
+          4.0
+        ]
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 6.0
+      },
+      "target": "hole_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 2.0
+      },
+      "target": "hole_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 6.0
+      },
+      "target": "hole_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "child_count",
+      "parameters": {
+        "value": 3
+      },
+      "target": "design_difference",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.9,
+    "connections": [
+      {
+        "a": "body",
+        "b": "hole_1",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_2",
+        "relation": "cutout"
+      }
+    ],
+    "dimensions_mm": [
+      200.0,
+      80.0,
+      4.0
+    ],
+    "domain": "plate",
+    "explicit_dimensions": true,
+    "fabrication_domain": "plate",
+    "flags": {
+      "fins": false,
+      "holes": true,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "hole_count_requested": 2,
+    "hole_diameter_explicit": true,
+    "hole_diameter_mm": 4.0,
+    "normalized_prompt": "a 200 x 80 x 4 mm plate with two 4 mm holes",
+    "prompt": "a 200 x 80 x 4 mm plate with two 4 mm holes",
+    "recognized": true,
+    "slot_count_requested": 0,
+    "slot_dimensions_explicit": false,
+    "source": "natural_language_design_graph",
+    "units": "mm",
+    "wall_thickness_explicit": false,
+    "wall_thickness_mm": null
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            200.0,
+            80.0,
+            4.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_1",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 6.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          -92.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_2",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 6.0,
+          "radius": 2.0
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          92.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "children": [
+        "body",
+        "hole_1",
+        "hole_2"
+      ],
+      "composition": "difference",
+      "id": "design_difference",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "design_difference"
+  ],
+  "title": "a 200 x 80 x 4 mm plate with two 4 mm holes",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}

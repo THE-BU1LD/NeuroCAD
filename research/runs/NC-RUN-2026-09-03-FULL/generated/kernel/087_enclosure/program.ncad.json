@@ -1,0 +1,174 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          160.0,
+          80.0,
+          60.0
+        ]
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          158.0,
+          78.0,
+          59.2
+        ]
+      },
+      "target": "cavity",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "child_count",
+      "parameters": {
+        "value": 2
+      },
+      "target": "design_difference",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.9,
+    "connections": [
+      {
+        "a": "body",
+        "b": "cavity",
+        "relation": "shell"
+      }
+    ],
+    "dimensions_mm": [
+      160.0,
+      80.0,
+      60.0
+    ],
+    "domain": "container",
+    "explicit_dimensions": true,
+    "fabrication_domain": "enclosure",
+    "flags": {
+      "fins": false,
+      "holes": false,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "hole_count_requested": 0,
+    "hole_diameter_explicit": false,
+    "hole_diameter_mm": null,
+    "normalized_prompt": "a 160 x 80 x 60 mm enclosure with 1 mm wall thickness",
+    "prompt": "a 160 x 80 x 60 mm enclosure with 1 mm wall thickness",
+    "recognized": true,
+    "slot_count_requested": 0,
+    "slot_dimensions_explicit": false,
+    "source": "natural_language_design_graph",
+    "units": "mm",
+    "wall_thickness_explicit": true,
+    "wall_thickness_mm": 1.0
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            160.0,
+            80.0,
+            60.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "cavity",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            158.0,
+            78.0,
+            59.2
+          ]
+        }
+      },
+      "role": "feature",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.6
+        ]
+      }
+    },
+    {
+      "children": [
+        "body",
+        "cavity"
+      ],
+      "composition": "difference",
+      "id": "design_difference",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "design_difference"
+  ],
+  "title": "a 160 x 80 x 60 mm enclosure with 1 mm wall thickness",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}

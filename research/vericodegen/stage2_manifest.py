@@ -10,10 +10,13 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
+import math
 import re
-from typing import Any, Mapping
+from collections.abc import Mapping
+from pathlib import Path
+from typing import Any, TypeGuard
 
+from core.json_io import strict_json_loads
 
 MANIFEST_VERSION = "vericodegen-stage2-v2"
 SAFE_EVALUATION_ENTRYPOINT = "research.vericodegen.safe_trial_ledger:evaluate_capture"
@@ -28,6 +31,15 @@ class ManifestError(ValueError):
 
 def _nonempty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
+
+
+def _finite_number(value: Any) -> TypeGuard[int | float]:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return False
+    try:
+        return math.isfinite(float(value))
+    except (OverflowError, ValueError):
+        return False
 
 
 def _require_hash(name: str, value: Any, errors: list[str]) -> None:
@@ -92,13 +104,12 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
         seeds: list[Any] = []
     else:
         temperature = decoding.get("temperature")
-        if not isinstance(temperature, (int, float)) or isinstance(temperature, bool) or temperature < 0:
+        if not _finite_number(temperature) or float(temperature) < 0:
             errors.append("decoding.temperature must be a number >= 0")
 
         top_p = decoding.get("top_p")
         if (
-            not isinstance(top_p, (int, float))
-            or isinstance(top_p, bool)
+            not _finite_number(top_p)
             or not (0 < float(top_p) <= 1)
         ):
             errors.append("decoding.top_p must be a number in (0, 1]")
@@ -107,11 +118,12 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
         if not isinstance(max_output_tokens, int) or isinstance(max_output_tokens, bool) or max_output_tokens < 1:
             errors.append("decoding.max_output_tokens must be an integer >= 1")
 
-        seeds = decoding.get("seeds")
-        if not isinstance(seeds, list) or not seeds:
+        raw_seeds = decoding.get("seeds")
+        if not isinstance(raw_seeds, list) or not raw_seeds:
             errors.append("decoding.seeds must be a non-empty list")
             seeds = []
         else:
+            seeds = raw_seeds
             if len(set(seeds)) != len(seeds):
                 errors.append("decoding.seeds must not contain duplicates")
             if any(not isinstance(seed, int) or isinstance(seed, bool) for seed in seeds):
@@ -165,8 +177,7 @@ def validate_manifest(manifest: Mapping[str, Any], *, require_authorized: bool) 
 
     cost_cap = manifest.get("cost_cap_usd")
     if (
-        not isinstance(cost_cap, (int, float))
-        or isinstance(cost_cap, bool)
+        not _finite_number(cost_cap)
         or not (0 <= float(cost_cap) < 10_000)
     ):
         errors.append("cost_cap_usd must be a finite numeric cap in [0, 10000)")
@@ -194,7 +205,10 @@ def assert_executable(manifest: Mapping[str, Any]) -> None:
 
 
 def load_manifest(path: str | Path) -> dict[str, Any]:
-    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    try:
+        payload = strict_json_loads(Path(path).read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        raise ManifestError(f"Stage 2 manifest is not valid strict JSON: {exc}") from exc
     if not isinstance(payload, dict):
         raise ManifestError("Stage 2 manifest root must be a JSON object")
     return payload

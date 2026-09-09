@@ -1,0 +1,35 @@
+{
+  "artifact_sha256": {
+    "analysis_plan": "812f40600e24ccfc5a67f3c7ceb609a7df343ade5d99c9957ba9debd0375fbb6",
+    "benchmark_schema": "17933363128187171b4c2b29e5a31b0ea4b059fd96970764ee883c0708a63a8d",
+    "prompt_bundle": "963782de65840c06ee316785b589d9d94986e60d84142b5be977f1d3ac202a4a",
+    "stage2_manifest_template": "3fd6223984ec1f841509841dd8abeaaa149a28e18b644c51bcdccea6f61a1620",
+    "structured_schema": "f066fbc9a2b8411ad059b74a5e8ac9caa582b14ef36d9d88519c76885c021030",
+    "verifier": "9fe11f1ceb3702d83a0ead7d6b1af368298469313d436cae65f73c946eb988ea"
+  },
+  "git_commit": null,
+  "next_gate": "A human-reviewed frozen benchmark, deterministic pilot selection, exact provider/model, decoding policy, call ceiling, cost cap, environment, and explicit authorized=true manifest are still required before Stage 2 execution.",
+  "outcomes_observed": false,
+  "preflight_version": "vericodegen-preflight-v1",
+  "prompt_receipt": {
+    "bundle_version": "vericodegen-prompt-bundle-v1",
+    "direct_bytes": 1289,
+    "direct_contract_rule_count": 3,
+    "direct_sha256": "f638fe9242ea87ed5167494b8005a1172d1abc910cd2704321760f2c51d9b719",
+    "frozen": true,
+    "outcomes_observed": false,
+    "prompt_byte_delta": 210,
+    "receipt_version": "vericodegen-prompt-receipt-v1",
+    "scientific_evidence": false,
+    "shared_rule_count": 7,
+    "shared_sha256": "1e5da72c1a0223c628449e7e665a2eb926cf6bad961f44cbda38fc629162e9ee",
+    "structured_bytes": 1499,
+    "structured_contract_rule_count": 3,
+    "structured_schema_sha256": "f066fbc9a2b8411ad059b74a5e8ac9caa582b14ef36d9d88519c76885c021030",
+    "structured_sha256": "03cd1b73089275d44b39c169a730cc5d6706a1f8a0eb1de4843d2e2e05c9cdda"
+  },
+  "ready_for_external_execution": false,
+  "scientific_evidence": false,
+  "stage2_authorized": false,
+  "stage2_manifest_version": "vericodegen-stage2-v2"
+}

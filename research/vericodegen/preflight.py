@@ -9,9 +9,9 @@ import os
 from pathlib import Path
 from typing import Any
 
+from core.json_io import strict_json_loads
 from research.vericodegen.prompt_freeze import freeze_prompt_bundle
 from research.vericodegen.stage2_manifest import MANIFEST_VERSION, validate_manifest
-
 
 ARTIFACT_PATHS = {
     "benchmark_schema": "research/vericodegen/benchmark_schema.json",
@@ -32,7 +32,7 @@ def _sha256(path: Path) -> str:
 
 
 def _load_object(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
+    value = strict_json_loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
         raise PreflightError(f"{path} must contain a JSON object")
     return value

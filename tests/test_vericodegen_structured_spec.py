@@ -63,6 +63,18 @@ def test_markdown_fences_and_prose_are_rejected():
         parse_structured_json("Here is the design: " + payload)
 
 
+def test_duplicate_keys_excessive_nesting_and_nonfinite_numbers_are_rejected():
+    payload = json.dumps(_valid_spec())
+    duplicate = payload.replace('"title": "plate-with-hole"', '"title": "first", "title": "second"')
+    with pytest.raises(StructuredSpecError, match="duplicate object key"):
+        parse_structured_json(duplicate)
+    with pytest.raises(StructuredSpecError, match="nesting exceeds"):
+        parse_structured_json("[" * 300 + "]" * 300)
+    nonfinite = payload.replace('"radius": 3', '"radius": 1e999')
+    with pytest.raises(StructuredSpecError, match="finite range"):
+        parse_structured_json(nonfinite)
+
+
 def test_non_object_root_is_rejected():
     with pytest.raises(StructuredSpecError, match="root must be a JSON object"):
         parse_structured_json("[]")
@@ -104,6 +116,10 @@ def test_geometry_rejects_nonpositive_or_nonfinite_values():
 
     spec = _valid_spec()
     spec["components"][1]["geometry"]["radius"] = float("inf")
+    errors = validate_structured_spec(spec)
+    assert any("radius must be a finite number > 0" in error for error in errors)
+
+    spec["components"][1]["geometry"]["radius"] = 10**1000
     errors = validate_structured_spec(spec)
     assert any("radius must be a finite number > 0" in error for error in errors)
 

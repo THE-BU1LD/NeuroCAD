@@ -1,0 +1,332 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          150.0,
+          110.0,
+          3.0
+        ]
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 1.5
+      },
+      "target": "hole_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 5.0
+      },
+      "target": "hole_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 1.5
+      },
+      "target": "hole_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 5.0
+      },
+      "target": "hole_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 1.5
+      },
+      "target": "hole_3",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 5.0
+      },
+      "target": "hole_3",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 1.5
+      },
+      "target": "hole_4",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "height",
+        "value": 5.0
+      },
+      "target": "hole_4",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "child_count",
+      "parameters": {
+        "value": 5
+      },
+      "target": "design_difference",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.9,
+    "connections": [
+      {
+        "a": "body",
+        "b": "hole_1",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_2",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_3",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "hole_4",
+        "relation": "cutout"
+      }
+    ],
+    "dimensions_mm": [
+      150.0,
+      110.0,
+      3.0
+    ],
+    "domain": "plate",
+    "explicit_dimensions": true,
+    "fabrication_domain": "plate",
+    "flags": {
+      "fins": false,
+      "holes": true,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "hole_count_requested": 4,
+    "hole_diameter_explicit": true,
+    "hole_diameter_mm": 3.0,
+    "normalized_prompt": "a 150 x 110 x 3 mm plate with four 3 mm holes",
+    "prompt": "a 150 x 110 x 3 mm plate with four 3 mm holes",
+    "recognized": true,
+    "slot_count_requested": 0,
+    "slot_dimensions_explicit": false,
+    "source": "natural_language_design_graph",
+    "units": "mm",
+    "wall_thickness_explicit": false,
+    "wall_thickness_mm": null
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            150.0,
+            110.0,
+            3.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_1",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 5.0,
+          "radius": 1.5
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          -64.0,
+          -44.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_2",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 5.0,
+          "radius": 1.5
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          -64.0,
+          44.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_3",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 5.0,
+          "radius": 1.5
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          64.0,
+          -44.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "hole_4",
+      "primitive": {
+        "kind": "cylinder",
+        "parameters": {
+          "height": 5.0,
+          "radius": 1.5
+        }
+      },
+      "role": "fastener",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          64.0,
+          44.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "children": [
+        "body",
+        "hole_1",
+        "hole_2",
+        "hole_3",
+        "hole_4"
+      ],
+      "composition": "difference",
+      "id": "design_difference",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "design_difference"
+  ],
+  "title": "a 150 x 110 x 3 mm plate with four 3 mm holes",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}

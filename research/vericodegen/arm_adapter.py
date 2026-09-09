@@ -8,13 +8,13 @@ uncontrolled geometry-resolution advantage.
 from __future__ import annotations
 
 import hashlib
-from pathlib import Path
 import re
-import subprocess
+import shutil
+import subprocess  # OpenSCAD is invoked with a fixed, shell-free argument vector.  # nosec B404
+from pathlib import Path
 from typing import Any
 
 from research.vericodegen.structured_spec import StructuredSpecError, compile_structured_json
-
 
 ARM_NAMES = ("direct", "structured")
 FORBIDDEN_DIRECT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
@@ -104,6 +104,9 @@ def compile_openscad(
     scad_file.parent.mkdir(parents=True, exist_ok=True)
     stl_file.parent.mkdir(parents=True, exist_ok=True)
     scad_file.write_text(scad_text, encoding="utf-8")
+    executable = shutil.which(openscad_binary)
+    if executable is None:
+        raise ArmAdapterError(f"OpenSCAD executable not found: {openscad_binary}")
 
     record: dict[str, Any] = {
         "compile_success": False,
@@ -114,8 +117,8 @@ def compile_openscad(
         "artifact_sha256": None,
     }
     try:
-        proc = subprocess.run(
-            [openscad_binary, "-o", str(stl_file), str(scad_file)],
+        proc = subprocess.run(  # Resolved executable; no shell; paths are separate arguments.  # nosec B603
+            [executable, "-o", str(stl_file), str(scad_file)],
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,

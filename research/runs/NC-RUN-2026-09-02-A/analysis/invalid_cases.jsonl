@@ -1,0 +1,240 @@
+{"case_id": "NCI-0001", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0002", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0003", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0004", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0005", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0006", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0007", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0008", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0009", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0010", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0011", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0012", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0013", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0014", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0015", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0016", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0017", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0018", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0019", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0020", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0021", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0022", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0023", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0024", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0025", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0026", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0027", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0028", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0029", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0030", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0031", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0032", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0033", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0034", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0035", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0036", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0037", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0038", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0039", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0040", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0041", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0042", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0043", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0044", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0045", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0046", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0047", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0048", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0049", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0050", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0051", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0052", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0053", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0054", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0055", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0056", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0057", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0058", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0059", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0060", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0061", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0062", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0063", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0064", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0065", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0066", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0067", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0068", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0069", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0070", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0071", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0072", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0073", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0074", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0075", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0076", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0077", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0078", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0079", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0080", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0081", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0082", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0083", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0084", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0085", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0086", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0087", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0088", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0089", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0090", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0091", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0092", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0093", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0094", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0095", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0096", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0097", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0098", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0099", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0100", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0101", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0102", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0103", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0104", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0105", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0106", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0107", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0108", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0109", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0110", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0111", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0112", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0113", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0114", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0115", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0116", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0117", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0118", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0119", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0120", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0121", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0122", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0123", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0124", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0125", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0126", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0127", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0128", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0129", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0130", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0131", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0132", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0133", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0134", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0135", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0136", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0137", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0138", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0139", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0140", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0141", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0142", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0143", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0144", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0145", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0146", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0147", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0148", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0149", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0150", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0151", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0152", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0153", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0154", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0155", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0156", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0157", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0158", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0159", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0160", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0161", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0162", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0163", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0164", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0165", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0166", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0167", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0168", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0169", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0170", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0171", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0172", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0173", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0174", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0175", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0176", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0177", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0178", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0179", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0180", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0181", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0182", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0183", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0184", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0185", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0186", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0187", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0188", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0189", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0190", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0191", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0192", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0193", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0194", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0195", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0196", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0197", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0198", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0199", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0200", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0201", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0202", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0203", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0204", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0205", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0206", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0207", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0208", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0209", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0210", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0211", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0212", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0213", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0214", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0215", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0216", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0217", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0218", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0219", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0220", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0221", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0222", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0223", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0224", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0225", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0226", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0227", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0228", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0229", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0230", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0231", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0232", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}
+{"case_id": "NCI-0233", "category": "syntax_error", "message": "invalid NeuroCAD IR:\n- line 1, column 2: Expecting property name enclosed in double quotes", "rejected": true}
+{"case_id": "NCI-0234", "category": "type_error", "message": "invalid NeuroCAD IR:\n- $.nodes[0]: {'id': 'body', 'transform': {'translate': [0.0, 0.0, 0.0], 'rotate': [0.0, 0.0, 0.0], 'scale': [1.0, 1.0, 1.0]}, 'role': 'body', 'primitive': {'kind': 'box', 'parameters': {'size': [20, 'bad', 4]}}} is not valid under any of the given schemas", "rejected": true}
+{"case_id": "NCI-0235", "category": "invalid_reference", "message": "invalid NeuroCAD IR:\n- $.roots[0]: missing_reference: absent\n- $.nodes: unreachable_node: body", "rejected": true}
+{"case_id": "NCI-0236", "category": "constraint_inconsistency", "message": "invalid NeuroCAD IR:\n- $.constraints[0]: constraint_unsatisfied: dimension mismatch", "rejected": true}
+{"case_id": "NCI-0237", "category": "non_finite", "message": "invalid NeuroCAD IR:\n- non-standard numeric constant NaN", "rejected": true}
+{"case_id": "NCI-0238", "category": "duplicate_id", "message": "invalid NeuroCAD IR:\n- $.nodes[1].id: duplicate_id: body", "rejected": true}
+{"case_id": "NCI-0239", "category": "cycle", "message": "invalid NeuroCAD IR:\n- $.roots[0]: root_has_parent: a\n- $.nodes: cycle: cycle includes a", "rejected": true}
+{"case_id": "NCI-0240", "category": "semantic_input_error", "message": "all overall dimensions must be stated explicitly; hole diameter must be stated explicitly", "rejected": true}

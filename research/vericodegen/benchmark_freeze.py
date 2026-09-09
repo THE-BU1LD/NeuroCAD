@@ -7,13 +7,15 @@ Its job is to make a future benchmark auditable before any outcome is observed.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import hashlib
 import json
-from pathlib import Path
 import re
-from typing import Any, Iterable, Mapping, Sequence
+from collections import Counter
+from collections.abc import Iterable, Mapping, Sequence
+from pathlib import Path
+from typing import Any
 
+from core.json_io import strict_json_loads
 
 PROMPT_ID_RE = re.compile(r"^VCG-[0-9]{3}$")
 TOKEN_RE = re.compile(r"[a-z0-9]+")
@@ -79,7 +81,7 @@ def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
         if not raw.strip():
             continue
         try:
-            payload = json.loads(raw)
+            payload = strict_json_loads(raw)
         except json.JSONDecodeError as exc:
             raise BenchmarkError(f"line {line_number}: invalid JSON: {exc.msg}") from exc
         if not isinstance(payload, dict):
@@ -359,7 +361,7 @@ def freeze_benchmark(
     canonical_text = benchmark_jsonl(tasks)
     output_path = Path(output_jsonl)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(canonical_text, encoding="utf-8")
+    output_path.write_bytes(canonical_text.encode("utf-8"))
 
     manifest = build_manifest(
         canonicalize_tasks(tasks),
@@ -395,7 +397,7 @@ def select_stratified_pilot(
         ranked = sorted(
             candidates,
             key=lambda task: hashlib.sha256(
-                f"{selection_salt}\0{family}\0{task['prompt_id']}".encode("utf-8")
+                f"{selection_salt}\0{family}\0{task['prompt_id']}".encode()
             ).hexdigest(),
         )
         chosen.extend(task["prompt_id"] for task in ranked[:per_family])

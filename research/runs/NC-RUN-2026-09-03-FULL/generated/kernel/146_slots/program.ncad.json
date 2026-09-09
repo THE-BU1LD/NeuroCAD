@@ -1,0 +1,224 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          90.0,
+          180.0,
+          5.0
+        ]
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          20.0,
+          5.0,
+          7.0
+        ]
+      },
+      "target": "slot_1",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          20.0,
+          5.0,
+          7.0
+        ]
+      },
+      "target": "slot_2",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "child_count",
+      "parameters": {
+        "value": 3
+      },
+      "target": "design_difference",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.9,
+    "connections": [
+      {
+        "a": "body",
+        "b": "slot_1",
+        "relation": "cutout"
+      },
+      {
+        "a": "body",
+        "b": "slot_2",
+        "relation": "cutout"
+      }
+    ],
+    "dimensions_mm": [
+      90.0,
+      180.0,
+      5.0
+    ],
+    "domain": "plate",
+    "explicit_dimensions": true,
+    "fabrication_domain": "plate",
+    "flags": {
+      "fins": false,
+      "holes": false,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": true,
+      "wheels": false,
+      "wings": false
+    },
+    "hole_count_requested": 0,
+    "hole_diameter_explicit": false,
+    "hole_diameter_mm": null,
+    "normalized_prompt": "a 90 x 180 x 5 mm plate with two 20 x 5 mm slots",
+    "prompt": "a 90 x 180 x 5 mm plate with two 20 x 5 mm slots",
+    "recognized": true,
+    "slot_count_requested": 2,
+    "slot_dimensions_explicit": true,
+    "source": "natural_language_design_graph",
+    "units": "mm",
+    "wall_thickness_explicit": false,
+    "wall_thickness_mm": null
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            90.0,
+            180.0,
+            5.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "slot_1",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            20.0,
+            5.0,
+            7.0
+          ]
+        }
+      },
+      "role": "feature",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          -25.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "slot_2",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            20.0,
+            5.0,
+            7.0
+          ]
+        }
+      },
+      "role": "feature",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          25.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "children": [
+        "body",
+        "slot_1",
+        "slot_2"
+      ],
+      "composition": "difference",
+      "id": "design_difference",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "design_difference"
+  ],
+  "title": "a 90 x 180 x 5 mm plate with two 20 x 5 mm slots",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}
