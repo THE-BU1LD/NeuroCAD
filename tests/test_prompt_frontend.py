@@ -1,8 +1,6 @@
 from core.prompt_frontend import generate_design
 from core.validation import validate_design
-
 from text_to_cad import TextToCAD
-
 
 THREE_MODIFIER_PROMPT = (
     "a 120 x 80 x 4 mm rounded plate with four 4 mm diameter holes "
