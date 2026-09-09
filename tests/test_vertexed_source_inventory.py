@@ -3,7 +3,6 @@ import json
 import re
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "docs" / "vertexed_neurocad_source_inventory_v1.json"
 BASE = ROOT / "docs" / "vertexed_neurocad_provenance_v1.json"

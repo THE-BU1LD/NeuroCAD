@@ -2,7 +2,6 @@ import json
 import re
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "vertexed_neurocad_provenance_v1.json"
 RESEARCH_EXTENSION = ROOT / "docs" / "vertexed_neurocad_research_provenance_extension_v1.json"
@@ -41,7 +40,30 @@ def load_product_qa_extension():
 
 def assert_cross_link_exists(cross_link):
     if not cross_link.startswith(("https://", "http://")):
-        assert (ROOT / cross_link).exists(), cross_link
+        owner = current_owners().get(cross_link, cross_link)
+        assert (ROOT / owner).exists(), (cross_link, owner)
+
+
+def current_owners():
+    mapping = json.loads((ROOT / "docs/vertexed_neurocad_current_owners_v1.json").read_text(encoding="utf-8"))
+    return mapping["owners"]
+
+
+def test_current_owner_mapping_is_explicit_and_non_authorizing():
+    mapping = json.loads((ROOT / "docs/vertexed_neurocad_current_owners_v1.json").read_text(encoding="utf-8"))
+    assert mapping["historical_source_snapshot"] == load_manifest()["source_snapshot"]
+    assert mapping["scientific_status_changed"] is False
+    assert mapping["execution_authorized"] is False
+    assert mapping["owners"] == {
+        "docs/RESEARCH_STATUS.md": "RESEARCH_TRUTH.md",
+        "scripts/verify_public_alpha.sh": "scripts/verify_distribution.py",
+        "tests/test_public_alpha_verifier.py": "tests/test_workbench_projects.py",
+    }
+    assert set(mapping["notes"]) == set(mapping["owners"])
+    for previous, current in mapping["owners"].items():
+        assert not (ROOT / previous).exists(), "Remove an alias if its original owner is restored"
+        assert (ROOT / current).is_file()
+        assert mapping["notes"][previous].strip()
 
 
 def assert_historical_surface(surface, source_snapshot):
@@ -61,7 +83,7 @@ def assert_historical_surface(surface, source_snapshot):
 
     destination = surface["canonical_destination"]
     if destination != "HISTORICAL_ONLY":
-        assert (ROOT / destination).exists(), destination
+        assert_cross_link_exists(destination)
 
     assert_cross_link_exists(surface["current_cross_link"])
 

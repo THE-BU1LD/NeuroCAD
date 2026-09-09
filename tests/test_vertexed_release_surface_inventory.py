@@ -3,7 +3,6 @@ import json
 import re
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "docs" / "vertexed_neurocad_release_surface_inventory_v1.json"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")

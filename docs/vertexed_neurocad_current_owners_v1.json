@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "purpose": "Resolve obsolete current-owner links after audited baseline adoption without changing any historical source identity or claiming implementation equivalence.",
+  "historical_source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "scientific_status_changed": false,
+  "execution_authorized": false,
+  "owners": {
+    "docs/RESEARCH_STATUS.md": "RESEARCH_TRUTH.md",
+    "scripts/verify_public_alpha.sh": "scripts/verify_distribution.py",
+    "tests/test_public_alpha_verifier.py": "tests/test_workbench_projects.py"
+  },
+  "notes": {
+    "docs/RESEARCH_STATUS.md": "Current scientific scope and limitations are maintained in RESEARCH_TRUTH.md; the historical source record is unchanged.",
+    "scripts/verify_public_alpha.sh": "The obsolete aggregate public-alpha verifier was retired. Distribution checks live here; RELEASE_STATUS.md owns the complete release acceptance sequence. This is an ownership pointer, not behavioral equivalence.",
+    "tests/test_public_alpha_verifier.py": "Current saved-project and source-download contracts are tested here; tests/browser/run_workbench.py supplies separate real-browser acceptance. Historical browser evidence is not promoted into current evidence."
+  }
+}

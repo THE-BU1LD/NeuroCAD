@@ -1,6 +1,6 @@
 # Historical VertexED → NeuroCAD provenance
 
-This document closes the repository handoff tracked by NeuroCAD issue #44 without copying or rewriting historical evidence. The machine-readable source of truth is the provenance-manifest set plus bounded completeness inventories:
+This document records the bounded repository handoff tracked by NeuroCAD issue #44 without copying or rewriting historical evidence. It does not by itself close the remaining outside-subtree completeness review. The machine-readable source of truth is the provenance-manifest set plus bounded completeness inventories:
 
 - [`vertexed_neurocad_provenance_v1.json`](vertexed_neurocad_provenance_v1.json) — core product, release, claim, Project 2424, and pilot surfaces;
 - [`vertexed_neurocad_research_provenance_extension_v1.json`](vertexed_neurocad_research_provenance_extension_v1.json) — benchmark/evaluator/OOD, frozen diagnostic, successor-S3, and additional Project 2424 surfaces referenced by the historical evidence ledger;
@@ -11,6 +11,12 @@ This document closes the repository handoff tracked by NeuroCAD issue #44 withou
 - [`vertexed_neurocad_release_surface_inventory_v1.json`](vertexed_neurocad_release_surface_inventory_v1.json) — the exact six outside-subtree scripts/tests/e2e files directly referenced by the historical NeuroCAD Alpha browser, OpenSCAD, and public-CDN workflows.
 
 ## Pinned historical source
+
+The audited baseline retired three old current-owner paths. Resolve those paths
+using [`vertexed_neurocad_current_owners_v1.json`](vertexed_neurocad_current_owners_v1.json).
+This separate mapping leaves every historical manifest, frozen inventory, source
+commit and blob identity unchanged. It identifies present maintainers of the
+contracts, not equivalent implementations or new scientific evidence.
 
 - Repository: `vertex-studyAI/vertexED.ai`
 - Snapshot: `9efb041d3d56e0dc617f5808576beff696d08a69`
@@ -65,7 +71,7 @@ The same rule applies to research infrastructure. Historical `benchmark/evaluate
 
 ## Scientific integrity boundary
 
-Migration completeness is not scientific validation. The historical matched-validation diagnostic remains `VALIDATION_DOMINANT`; the typed-parser-specific causal interpretation remains **falsified**. Frozen v1/v2 evidence is not rewritten, promoted, or rerun by this provenance work. Historical OOD files are not relabelled as fresh successor evidence. The recovered Alpha product-QA outputs are not relabelled as scientific/OOD evidence. Stage-2 and S3 outcome-access/authorization boundaries are unchanged. Current scientific interpretation remains controlled by [`RESEARCH_STATUS.md`](RESEARCH_STATUS.md).
+Migration completeness is not scientific validation. The historical matched-validation diagnostic remains `VALIDATION_DOMINANT`; the typed-parser-specific causal interpretation remains **falsified**. Frozen v1/v2 evidence is not rewritten, promoted, or rerun by this provenance work. Historical OOD files are not relabelled as fresh successor evidence. The recovered Alpha product-QA outputs are not relabelled as scientific/OOD evidence. Stage-2 and S3 outcome-access/authorization boundaries are unchanged. Current scientific interpretation remains controlled by [`RESEARCH_TRUTH.md`](../RESEARCH_TRUTH.md).
 
 No missing pilot, benchmark, deployment, authorization receipt, or scientific evidence was recreated during this handoff. Historical outreach replies or invitations are not converted into completed external pilots.
 
