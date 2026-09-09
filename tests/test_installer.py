@@ -83,4 +83,4 @@ def test_installer_refuses_unrelated_executable(tmp_path: Path) -> None:
     failed = _run(env)
     assert failed.returncode != 0
     assert "Refusing to replace" in failed.stderr
-    assert launcher.read_text() == "user-owned tool"
+    assert launcher.read_text(encoding="utf-8") == "user-owned tool"

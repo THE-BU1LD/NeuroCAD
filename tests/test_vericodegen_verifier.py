@@ -88,7 +88,7 @@ def test_malformed_hard_constraints_fail_closed(constraints: dict, expected: str
 
 def test_frozen_benchmark_schema_declares_primary_fields_and_supported_constraints():
     schema = json.loads(
-        (ROOT / "research" / "vericodegen" / "benchmark_schema.json").read_text()
+        (ROOT / "research" / "vericodegen" / "benchmark_schema.json").read_text(encoding="utf-8")
     )
 
     required = set(schema["required"])

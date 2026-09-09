@@ -54,7 +54,7 @@ def check_browser(browser_type: BrowserType, url: str, output: Path, require_ker
         expect(page.locator("#editPanel")).to_be_visible()
         original_source = page.locator("#source").input_value()
         original = checked_download(page, "Save project · revision 1", output / "original.json")
-        initial = parse_project(original.read_text())
+        initial = parse_project(original.read_text(encoding="utf-8"))
         assert initial.revision == 1
         checks.append("real project download parses and retains revision 1")
 
@@ -83,7 +83,7 @@ def check_browser(browser_type: BrowserType, url: str, output: Path, require_ker
         assert edited.source_text == initial.source_text
         assert edited.changes[-1].reason == "browser acceptance shell revision"
         saved = checked_download(page, "Save project · revision 2", output / "revised.json")
-        assert parse_project(saved.read_text()).to_dict() == edited.to_dict()
+        assert parse_project(saved.read_text(encoding="utf-8")).to_dict() == edited.to_dict()
         checks.append("keyboard review/confirm, canonical semantic revision, real project save")
 
         # Decline replacement: no file gets read into the current project.
@@ -114,7 +114,7 @@ def check_browser(browser_type: BrowserType, url: str, output: Path, require_ker
         page.get_by_role("button", name="Compile verified mesh & download STL", exact=True).click()
         expect(page.locator("#status")).to_contain_text("Previous validated output retained")
         retained = checked_download(page, "Save project · revision 2", output / "after-kernel-outage.json")
-        assert parse_project(retained.read_text()).to_dict() == edited.to_dict()
+        assert parse_project(retained.read_text(encoding="utf-8")).to_dict() == edited.to_dict()
         page.unroute("**/api/generate")
         checks.append("injected kernel outage retains usable source downloads; real server restored")
 

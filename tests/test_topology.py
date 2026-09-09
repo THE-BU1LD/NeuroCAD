@@ -167,7 +167,7 @@ def test_cli_topology_writes_report_and_refuses_clobber(tmp_path: Path, capsys: 
     parser = build_parser()
     args = parser.parse_args(["topology", str(path), "-o", str(output)])
     assert args.func(args) == 0
-    assert json.loads(output.read_text())["betti_numbers"] == [1, 2, 1]
+    assert json.loads(output.read_text(encoding="utf-8"))["betti_numbers"] == [1, 2, 1]
     with pytest.raises(FileExistsError):
         args.func(args)
     assert path.is_file()

@@ -48,7 +48,7 @@ recursive-include model *.md
 recursive-include paper *.md
 recursive-include scripts *.sh *.py
 prune research/runs
-recursive-include research/vericodegen *.py *.json *.md
+recursive-include research/vericodegen *.py *.json *.md *.tex
 recursive-include research/s3 *.json *.txt
 include research/s3/benchmark_candidate_pool_v0.csv
 recursive-include tests *.py *.cjs

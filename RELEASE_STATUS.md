@@ -7,9 +7,10 @@ Current state: **public repository, integration candidate, not a tagged release*
 canonical S3 pre-outcome controls. The [final checklist](docs/FINAL_9_OF_10_CHECKLIST.md)
 retains local verification and its limitations. These changes require fresh
 remote CI and review; older successful checks do not cover a new commit.
-The latest pre-push GitHub failures were jobs that never started because of the
-owner's billing/spending restriction, not demonstrated test failures. This must
-be resolved through GitHub settings, not by weakening required checks.
+Earlier GitHub jobs did not start because of an owner billing/spending restriction.
+Fresh public-repository jobs now run. The first integration run found a Windows
+test-harness encoding error; the correction uses explicit UTF-8 and is protected
+by a maintained-source encoding regression. Required checks are not waived.
 See [quick start](docs/QUICKSTART.md)
 for local installation. The application remains an explicitly bounded alpha.
 No `v0.5.0a6` tag, published release provenance receipt, or anonymous-install receipt

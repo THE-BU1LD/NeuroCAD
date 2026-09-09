@@ -18,6 +18,9 @@ integrated CI, distribution, clean-install, and release-provenance gates in
   and included their candidate-pool fixture in the tested source distribution.
 - Updated public-source onboarding, expanded CI/release checks to every maintained
   script, and retained per-Python test results even when a job fails.
+- Fixed Windows code-page corruption in the real workbench test harness, made
+  test/browser UTF-8 reads explicit, and added a repository-wide maintained-text
+  read regression. Retained the merged pre-outcome manuscript source in the sdist.
 - Required three-browser kernel acceptance before tag publication; alpha/RC
   releases are explicitly marked prerelease and cannot become the latest stable
   release. Added execution of tests from the built source archive.

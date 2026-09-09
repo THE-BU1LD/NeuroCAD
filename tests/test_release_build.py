@@ -16,7 +16,15 @@ def test_sdist_retains_restored_pre_outcome_control_fixture() -> None:
     root = Path(__file__).resolve().parents[1]
     fixture = "research/s3/benchmark_candidate_pool_v0.csv"
     assert (root / fixture).is_file()
-    assert f"include {fixture}" in (root / "MANIFEST.in").read_text()
+    assert f"include {fixture}" in (root / "MANIFEST.in").read_text(encoding="utf-8")
+
+
+def test_sdist_retains_pre_outcome_manuscript_source() -> None:
+    root = Path(__file__).resolve().parents[1]
+    manuscript = root / "research/vericodegen/paper/ai4autosci2026/main.tex"
+    assert manuscript.is_file()
+    assert "recursive-include research/vericodegen *.py *.json *.md *.tex" in (root / "MANIFEST.in").read_text(encoding="utf-8")
+    assert r"RESULTS\_BLOCKED\_PRE\_OUTCOME" in manuscript.read_text(encoding="utf-8")
 
 
 def _source_archive(path: Path, *, mtime: int, unsafe: bool = False) -> None:

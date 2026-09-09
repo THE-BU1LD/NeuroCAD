@@ -67,7 +67,7 @@ def test_tolerance_cli_real_request_and_non_clobber(tmp_path: Path, capsys: pyte
     }))
     args = build_parser().parse_args(["tolerance", str(source), "-o", str(output)])
     assert args.func(args) == 0
-    report = json.loads(output.read_text())
+    report = json.loads(output.read_text(encoding="utf-8"))
     assert report["result"]["sigma_mm"] == 0.2
     assert report["variation_model"] == "joint_normal_correlated"
     with pytest.raises(FileExistsError):

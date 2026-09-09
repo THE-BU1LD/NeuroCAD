@@ -15,7 +15,7 @@ import pytest
     "Upload distributions",
 ])
 def test_python_release_gates_match_an_actual_matrix_entry(step: str) -> None:
-    workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text()
+    workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     matrix = re.search(r'python-version: \[([^\]]+)\]', workflow)
     assert matrix is not None
     versions = re.findall(r'"([0-9.]+)"', matrix.group(1))
@@ -28,7 +28,7 @@ def test_python_release_gates_match_an_actual_matrix_entry(step: str) -> None:
 
 @pytest.mark.parametrize("workflow", ["ci.yml", "release.yml"])
 def test_required_tests_cannot_be_silently_skipped(workflow: str, tmp_path: Path) -> None:
-    text = (Path(__file__).resolve().parents[1] / ".github/workflows" / workflow).read_text()
+    text = (Path(__file__).resolve().parents[1] / ".github/workflows" / workflow).read_text(encoding="utf-8")
     assert "if [ -d tests ]" not in text
     assert "python -m pytest -q tests" in text
     # Execute the actual prerequisite sequence, not a copy of its behavior.
@@ -53,7 +53,7 @@ def test_required_tests_cannot_be_silently_skipped(workflow: str, tmp_path: Path
 
 
 def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
-    workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text()
+    workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     assert "browser: [chromium, firefox, webkit]" in workflow
     assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
     assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
@@ -66,13 +66,13 @@ def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
 
 def test_tag_publication_requires_browsers_and_extracted_source_tests() -> None:
     root = Path(__file__).resolve().parents[1]
-    release = (root / ".github/workflows/release.yml").read_text()
+    release = (root / ".github/workflows/release.yml").read_text(encoding="utf-8")
     assert "  release:\n    needs: workbench-browser\n" in release
     assert "browser: [chromium, firefox, webkit]" in release
     assert "--require-kernel" in release
     assert "continue-on-error" not in release
     for name in ("ci.yml", "release.yml"):
-        workflow = (root / ".github/workflows" / name).read_text()
+        workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
         assert 'tar -xzf "${sdist_files[0]}" -C "$source_test_dir"' in workflow
         assert 'cd "${source_roots[0]}"' in workflow
 
@@ -80,10 +80,10 @@ def test_tag_publication_requires_browsers_and_extracted_source_tests() -> None:
 def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
     root = Path(__file__).resolve().parents[1]
     for name in ("ci.yml", "release.yml"):
-        workflow = (root / ".github/workflows" / name).read_text()
+        workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
         for command in ("ruff check", "mypy", "bandit -q -r"):
             assert f"python -m {command} core research/vericodegen scripts " in workflow
-    workflow = (root / ".github/workflows/ci.yml").read_text()
+    workflow = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     assert '--junitxml="${{ runner.temp }}/neurocad-tests.xml"' in workflow
     assert "Retain test results including failures\n        if: always()" in workflow
 
@@ -97,7 +97,7 @@ def test_release_command_labels_alpha_and_rc_without_marking_them_latest(tag: st
     shell = shutil.which("bash")
     if shell is None:
         pytest.skip("workflow shell is unavailable")
-    text = (Path(__file__).resolve().parents[1] / ".github/workflows/release.yml").read_text()
+    text = (Path(__file__).resolve().parents[1] / ".github/workflows/release.yml").read_text(encoding="utf-8")
     block = text.split("      - name: Create GitHub release\n", 1)[1].split("        run: |\n", 1)[1]
     command = "\n".join(line.removeprefix("          ") for line in block.splitlines())
     # Execute the workflow's shell with a recording gh function; no release exists
