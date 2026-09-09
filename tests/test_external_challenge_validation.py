@@ -69,6 +69,9 @@ def test_toy_challenge_can_validate_only_with_explicit_test_thresholds() -> None
     assert manifest.reject_count == 2
     assert len(manifest.sha256) == 64
     assert manifest.authors == {"author-a": 2, "author-b": 2}
+    assert manifest.execution_authorized is False
+    assert manifest.evidence_status == "MACHINE_VALIDATION_ONLY_HUMAN_PROTOCOL_REVIEW_REQUIRED"
+    assert manifest.to_dict()["execution_authorized"] is False
 
 
 def test_protocol_defaults_reject_toy_challenge() -> None:
