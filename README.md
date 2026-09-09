@@ -48,8 +48,14 @@ environments are retained for rollback. It refuses unrelated existing executable
 Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
 [Quick start](docs/QUICKSTART.md).
 
-The repo is currently private and `v0.5.0a6` is not published. The public
-anonymous-install gate is **open**: a public curl command is not yet usable.
+The repository is public as of 2026-09-09; `v0.5.0a6` is still an unreleased
+candidate. Use the [quick start](docs/QUICKSTART.md) to obtain the audited PR
+without credentials. Public source access is not a passing release receipt:
+the immutable-tag installer and release-artifact gates remain open.
+
+For the current implementation and its measured limitations, see the
+[publication checklist](docs/FINAL_9_OF_10_CHECKLIST.md). Research controls and
+historical evidence are intentionally not rewritten as part of product upgrades.
 
 For development, install the pinned test tools:
 

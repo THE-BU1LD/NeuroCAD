@@ -12,6 +12,13 @@ from scripts.normalize_sdist import normalize_sdist
 from scripts.verify_distribution import verify_distribution
 
 
+def test_sdist_retains_restored_pre_outcome_control_fixture() -> None:
+    root = Path(__file__).resolve().parents[1]
+    fixture = "research/s3/benchmark_candidate_pool_v0.csv"
+    assert (root / fixture).is_file()
+    assert f"include {fixture}" in (root / "MANIFEST.in").read_text()
+
+
 def _source_archive(path: Path, *, mtime: int, unsafe: bool = False) -> None:
     with tarfile.open(path, "w:gz") as archive:
         root = tarfile.TarInfo("../escape" if unsafe else "example-1.0")

@@ -77,6 +77,17 @@ def test_tag_publication_requires_browsers_and_extracted_source_tests() -> None:
         assert 'cd "${source_roots[0]}"' in workflow
 
 
+def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+    root = Path(__file__).resolve().parents[1]
+    for name in ("ci.yml", "release.yml"):
+        workflow = (root / ".github/workflows" / name).read_text()
+        for command in ("ruff check", "mypy", "bandit -q -r"):
+            assert f"python -m {command} core research/vericodegen scripts " in workflow
+    workflow = (root / ".github/workflows/ci.yml").read_text()
+    assert '--junitxml="${{ runner.temp }}/neurocad-tests.xml"' in workflow
+    assert "Retain test results including failures\n        if: always()" in workflow
+
+
 @pytest.mark.parametrize("tag,prerelease", [("v0.5.0a6", True), ("v1.0.0rc1", True), ("v1.0.0", False)])
 def test_release_command_labels_alpha_and_rc_without_marking_them_latest(tag: str, prerelease: bool, tmp_path: Path) -> None:
     import json

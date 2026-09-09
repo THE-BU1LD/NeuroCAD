@@ -45,7 +45,7 @@ jobs:
       - name: Compile shipped Python sources
         shell: bash
         run: |
-          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
       - name: Require Node for shipped workbench script tests
         shell: bash
@@ -58,14 +58,23 @@ jobs:
       - name: Run maintained release tests
         shell: bash
         run: |
-          python -m pytest -q tests
+          python -m pytest -q tests --junitxml="${{ runner.temp }}/neurocad-tests.xml"
+
+      - name: Retain test results including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: tests-python-${{ matrix.python-version }}
+          path: ${{ runner.temp }}/neurocad-tests.xml
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Lint maintained product
-        run: python -m ruff check core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
+        run: python -m ruff check core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
 
       - name: Type-check maintained product and research tooling
         if: startsWith(matrix.python-version, '3.12.')
-        run: python -m mypy core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+        run: python -m mypy core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
 
       - name: Audit dependencies and supported source
         if: startsWith(matrix.python-version, '3.12.')
@@ -73,7 +82,7 @@ jobs:
         run: |
           python -m pip check
           python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
-          python -m bandit -q -r core research/vericodegen scripts/normalize_sdist.py scripts/verify_distribution.py neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
+          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
 
       - name: CLI smoke test
         shell: bash

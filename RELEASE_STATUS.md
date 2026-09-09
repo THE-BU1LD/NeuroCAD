@@ -2,14 +2,19 @@
 
 Target: `v0.5.0a6` public alpha.
 
-Current state: **private review candidate, not a published release** (checked
-2026-09-09). PR #49 is open and draft at `a870c12920483f66c98628fac92b892cdadab7f3`;
-its nine existing checks passed. Local HEAD is `d22172a` plus the publication
-hardening changes described in the [final checklist](docs/FINAL_9_OF_10_CHECKLIST.md).
-Those changes require fresh remote CI and review. See [quick start](docs/QUICKSTART.md)
+Current state: **public repository, integration candidate, not a tagged release**
+(checked 2026-09-09). PR #49 reconciles the publication hardening with the restored
+canonical S3 pre-outcome controls. The [final checklist](docs/FINAL_9_OF_10_CHECKLIST.md)
+retains local verification and its limitations. These changes require fresh
+remote CI and review; older successful checks do not cover a new commit.
+The latest pre-push GitHub failures were jobs that never started because of the
+owner's billing/spending restriction, not demonstrated test failures. This must
+be resolved through GitHub settings, not by weakening required checks.
+See [quick start](docs/QUICKSTART.md)
 for local installation. The application remains an explicitly bounded alpha.
 No `v0.5.0a6` tag, published release provenance receipt, or anonymous-install receipt
-exists. Private repository visibility still prevents anonymous bootstrap.
+exists. Anonymous source checkout is now possible; immutable release bootstrap
+still awaits a verified tag and release.
 
 ## Implemented release surface
 
@@ -39,8 +44,9 @@ exists. Private repository visibility still prevents anonymous bootstrap.
 
 1. Review the final changes and pass CI on the exact candidate: Python
    3.10/3.11/3.12 Linux kernel checks, portable checks, and all three browsers.
-2. Obtain owner approval for merge and public visibility; retain the reviewed
-   revision on main and confirm the intended repository is public.
+2. Retain the passing reviewed revision on main. The owner has made the intended
+   repository public and requested PR management; this does not waive CI or
+   independent scientific-review gates.
 3. Tag that passing main commit `v0.5.0a6`. The tag workflow now requires browser
    acceptance before running release tests, fresh installations, reproducible
    builds, extracted-sdist tests and the complete controlled research execution.

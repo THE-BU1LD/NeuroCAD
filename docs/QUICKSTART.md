@@ -5,17 +5,22 @@ STL and rendered mesh workflows. NeuroCAD is a bounded alpha, not arbitrary CAD.
 
 ## Obtain the current review candidate
 
-As checked on 2026-09-09, the repo is private, PR #49 is draft, and there is no
-published `v0.5.0a6` tag. With authorized GitHub access, use a **new directory**:
+As checked on 2026-09-09, the repository is public, PR #49 is the integration
+candidate, and there is no published `v0.5.0a6` tag. No GitHub credentials are
+needed to clone it. Use a **new directory**:
 
 ```bash
-gh repo clone THE-BU1LD/NeuroCAD
+git clone https://github.com/THE-BU1LD/NeuroCAD.git
 cd NeuroCAD
-gh pr checkout 49
+git fetch origin pull/49/head
+git switch --detach FETCH_HEAD
+git rev-parse HEAD
 ```
 
 Do not run checkout commands over unrelated uncommitted work. PR #49 is a review
-candidate; checking it out does not merge it or make the repo public.
+candidate; checking it out does not merge it or establish a tagged release.
+Record the printed commit ID when sharing results so later branch updates are
+not confused with the version you tested.
 
 ## macOS / Linux
 

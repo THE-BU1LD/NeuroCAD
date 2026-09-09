@@ -14,6 +14,10 @@ integrated CI, distribution, clean-install, and release-provenance gates in
 - Preserved validated project/source downloads when compilation fails.
 - Recorded bounded-export rejections as negative research evaluation results
   instead of aborting the full stress campaign or changing its generated fixtures.
+- Preserved canonical S3 pre-outcome controls during remote-branch reconciliation
+  and included their candidate-pool fixture in the tested source distribution.
+- Updated public-source onboarding, expanded CI/release checks to every maintained
+  script, and retained per-Python test results even when a job fails.
 - Required three-browser kernel acceptance before tag publication; alpha/RC
   releases are explicitly marked prerelease and cannot become the latest stable
   release. Added execution of tests from the built source archive.

@@ -50,6 +50,7 @@ recursive-include scripts *.sh *.py
 prune research/runs
 recursive-include research/vericodegen *.py *.json *.md
 recursive-include research/s3 *.json *.txt
+include research/s3/benchmark_candidate_pool_v0.csv
 recursive-include tests *.py *.cjs
 exclude tests/test_repository_archive.py
 include research/benchmarks/neurocad_benchmark_v1.jsonl

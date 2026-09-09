@@ -2,7 +2,6 @@ import csv
 from collections import Counter
 from pathlib import Path
 
-
 POOL = Path("research/s3/benchmark_candidate_pool_v0.csv")
 EXPECTED_CATEGORIES = {
     "primitive_solids",
