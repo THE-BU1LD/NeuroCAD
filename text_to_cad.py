@@ -8,7 +8,7 @@ from core.design_graph import DesignGraph
 from core.ir import CADProgram, IRValidationReport, validate_program
 from core.ir_adapter import design_graph_to_ir
 from core.ir_export import program_to_scad
-from core.prompt_engine import generate_design
+from core.prompt_frontend import generate_design
 from core.validation import ValidationReport, validate_design
 
 
