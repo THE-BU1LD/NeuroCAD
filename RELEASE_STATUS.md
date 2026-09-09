@@ -2,20 +2,23 @@
 
 Target: `v0.5.0a6` public alpha.
 
-Current state: **public repository, integration candidate, not a tagged release**
-(checked 2026-09-09). PR #49 reconciles the publication hardening with the restored
-canonical S3 pre-outcome controls. The [final checklist](docs/FINAL_9_OF_10_CHECKLIST.md)
-retains local verification and its limitations. These changes require fresh
-remote CI and review; older successful checks do not cover a new commit.
+Current state: **public main candidate, not a tagged release** (checked 2026-09-09).
+PR #49 merged as `cc8c534412701439da0d346b5445b37dc8f74122` after all twelve checks
+passed on implementation head `8fed84a362d673cd302e97fa2c711115c54066d4`.
+The [GitHub handoff](docs/GITHUB_HANDOFF_20260909.md) records exact CI, anonymous
+installation and end-to-end acceptance. The [final checklist](docs/FINAL_9_OF_10_CHECKLIST.md)
+retains earlier local verification and its limitations. Future changes still
+require fresh CI; older successful checks do not cover a new commit.
 Earlier GitHub jobs did not start because of an owner billing/spending restriction.
 Fresh public-repository jobs now run. The first integration run found a Windows
 test-harness encoding error; the correction uses explicit UTF-8 and is protected
 by a maintained-source encoding regression. Required checks are not waived.
 See [quick start](docs/QUICKSTART.md)
 for local installation. The application remains an explicitly bounded alpha.
-No `v0.5.0a6` tag, published release provenance receipt, or anonymous-install receipt
-exists. Anonymous source checkout is now possible; immutable release bootstrap
-still awaits a verified tag and release.
+No `v0.5.0a6` tag, published release provenance receipt, or anonymous tagged-release
+installation receipt exists. Anonymous source download, clean installation, rounded-enclosure STL
+compilation and independent bundle verification passed for the merged implementation.
+Immutable release bootstrap still awaits a verified tag and release.
 
 ## Implemented release surface
 

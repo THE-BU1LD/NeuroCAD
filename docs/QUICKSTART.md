@@ -3,24 +3,25 @@
 Requires Python 3.10+. CI covers 3.10–3.13; OpenSCAD is needed only for compiled
 STL and rendered mesh workflows. NeuroCAD is a bounded alpha, not arbitrary CAD.
 
-## Obtain the current review candidate
+## Obtain the public main candidate
 
-As checked on 2026-09-09, the repository is public, PR #49 is the integration
-candidate, and there is no published `v0.5.0a6` tag. No GitHub credentials are
+As checked on 2026-09-09, the repository is public and PR #49 has merged after
+all twelve exact-head checks passed. There is no published `v0.5.0a6` tag. No GitHub credentials are
 needed to clone it. Use a **new directory**:
 
 ```bash
 git clone https://github.com/THE-BU1LD/NeuroCAD.git
 cd NeuroCAD
-git fetch origin pull/49/head
-git switch --detach FETCH_HEAD
 git rev-parse HEAD
 ```
 
-Do not run checkout commands over unrelated uncommitted work. PR #49 is a review
-candidate; checking it out does not merge it or establish a tagged release.
+Do not run checkout commands over unrelated uncommitted work. Main is a public
+source candidate; checking it out does not establish a tagged release.
 Record the printed commit ID when sharing results so later branch updates are
 not confused with the version you tested.
+For the verified implementation snapshot, use `git switch --detach cc8c534412701439da0d346b5445b37dc8f74122`
+in that fresh checkout. The [handoff receipt](GITHUB_HANDOFF_20260909.md) documents
+its credential-free download, clean install and real enclosure verification.
 
 ## macOS / Linux
 
