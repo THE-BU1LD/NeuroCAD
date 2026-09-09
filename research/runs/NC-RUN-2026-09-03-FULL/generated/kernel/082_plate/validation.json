@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "5b66bc6fde81e8db0ccb27c1156bb21822648a1869820ba09c15d14f812df854",
+    "render": "11fcbcf739d29bd2f2987993733236cdc085a696eb19f2fd5561a52d3ad88f62",
+    "scad": "292abe16fb4573355e3b4b50e62ea597297276aeaed398a529c5fc329205ea82",
+    "stl": "503e94f0ad5eaed794a5d735f544521ade82cab1e99f6670824e5323b98c0fd9"
+  },
+  "expected_extents_mm": [
+    50.0,
+    55.0,
+    1.5
+  ],
+  "family": "plate",
+  "ir": "generated/kernel/082_plate/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      50.0,
+      55.0,
+      1.5
+    ],
+    "faces": 12,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 8,
+    "volume_mm3": 4125.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "7225f30a385439a3cfcbcf320ce1d08b27703f947b54452fe51a6abde1ec156f",
+  "prompt": "a plate 50 mm wide 55 mm deep and 1.5 mm thick",
+  "render": "figures/kernel_examples/082_plate.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.030007584000031784,
+  "scad": "generated/kernel/082_plate/program.scad",
+  "stl": "generated/kernel/082_plate/program.stl",
+  "task_id": "NCR-0078"
+}

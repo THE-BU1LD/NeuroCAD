@@ -5,9 +5,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
+from core.json_io import strict_json_loads
 
 BUNDLE_VERSION = "vericodegen-prompt-bundle-v1"
 ARMS = ("direct", "structured")
@@ -22,7 +24,7 @@ def _sha256_bytes(payload: bytes) -> str:
 
 
 def load_bundle(path: str | Path) -> dict[str, Any]:
-    value = json.loads(Path(path).read_text(encoding="utf-8"))
+    value = strict_json_loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(value, dict):
         raise PromptBundleError("prompt bundle root must be an object")
     return value
@@ -162,8 +164,8 @@ def freeze_prompt_bundle(
     output.mkdir(parents=True, exist_ok=True)
     direct_text = render_prompt(bundle, "direct")
     structured_text = render_prompt(bundle, "structured")
-    (output / "direct_system_v1.txt").write_text(direct_text, encoding="utf-8")
-    (output / "structured_system_v1.txt").write_text(structured_text, encoding="utf-8")
+    (output / "direct_system_v1.txt").write_bytes(direct_text.encode("utf-8"))
+    (output / "structured_system_v1.txt").write_bytes(structured_text.encode("utf-8"))
 
     receipt = build_receipt(bundle, schema_bytes=schema_path.read_bytes())
     (output / "prompt_receipt_v1.json").write_text(

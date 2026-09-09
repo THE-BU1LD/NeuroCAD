@@ -1,0 +1,198 @@
+solid OpenSCAD_Model
+  facet normal 1 -0 0
+    outer loop
+      vertex 70 -35 25
+      vertex 70 35 -25
+      vertex 70 35 25
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 70 35 -25
+      vertex 70 -35 25
+      vertex 70 -35 -25
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 70 35 25
+      vertex 68.5 33.5 25
+      vertex 70 -35 25
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 70 35 25
+      vertex -68.5 33.5 25
+      vertex 68.5 33.5 25
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -68.5 33.5 25
+      vertex -70 35 25
+      vertex -68.5 -33.5 25
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -70 35 25
+      vertex -68.5 33.5 25
+      vertex 70 35 25
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex 68.5 -33.5 25
+      vertex 70 -35 25
+      vertex 68.5 33.5 25
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -68.5 -33.5 25
+      vertex 70 -35 25
+      vertex 68.5 -33.5 25
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -68.5 -33.5 25
+      vertex -70 -35 25
+      vertex 70 -35 25
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -70 -35 25
+      vertex -68.5 -33.5 25
+      vertex -70 35 25
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex -70 -35 -25
+      vertex 70 35 -25
+      vertex 70 -35 -25
+    endloop
+  endfacet
+  facet normal -0 0 -1
+    outer loop
+      vertex 70 35 -25
+      vertex -70 -35 -25
+      vertex -70 35 -25
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex -70 -35 -25
+      vertex -70 35 25
+      vertex -70 35 -25
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex -70 35 25
+      vertex -70 -35 -25
+      vertex -70 -35 25
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 70 35 -25
+      vertex -70 35 25
+      vertex 70 35 25
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -70 35 25
+      vertex 70 35 -25
+      vertex -70 35 -25
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -70 -35 -25
+      vertex 70 -35 25
+      vertex -70 -35 25
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 70 -35 25
+      vertex -70 -35 -25
+      vertex 70 -35 -25
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex 68.5 -33.5 -23.5
+      vertex 68.5 33.5 25
+      vertex 68.5 33.5 -23.5
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex 68.5 33.5 25
+      vertex 68.5 -33.5 -23.5
+      vertex 68.5 -33.5 25
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -68.5 33.5 -23.5
+      vertex 68.5 -33.5 -23.5
+      vertex 68.5 33.5 -23.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 68.5 -33.5 -23.5
+      vertex -68.5 33.5 -23.5
+      vertex -68.5 -33.5 -23.5
+    endloop
+  endfacet
+  facet normal 1 -0 0
+    outer loop
+      vertex -68.5 -33.5 25
+      vertex -68.5 33.5 -23.5
+      vertex -68.5 33.5 25
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex -68.5 33.5 -23.5
+      vertex -68.5 -33.5 25
+      vertex -68.5 -33.5 -23.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -68.5 33.5 -23.5
+      vertex 68.5 33.5 25
+      vertex -68.5 33.5 25
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 68.5 33.5 25
+      vertex -68.5 33.5 -23.5
+      vertex 68.5 33.5 -23.5
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 68.5 -33.5 -23.5
+      vertex -68.5 -33.5 25
+      vertex 68.5 -33.5 25
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -68.5 -33.5 25
+      vertex 68.5 -33.5 -23.5
+      vertex -68.5 -33.5 -23.5
+    endloop
+  endfacet
+endsolid OpenSCAD_Model

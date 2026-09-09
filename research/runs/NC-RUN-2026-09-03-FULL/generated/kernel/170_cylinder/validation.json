@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "c6750f23ab2341a00aad9d197c8f7a1150e373e03ae6b1397a3eb48c18873276",
+    "render": "3037202bce253b0a1c20e71d39c2fd7b2644c48cf19b43edfb51c2839b35911c",
+    "scad": "b5585dea6f7bb94e6cf99f9e6ee3f95a99319c0ec1e5e40c938d0e4eec4c6546",
+    "stl": "0de6479858a669e33aa453dcdc18036af7354e193f294456475433b9f4941ae4"
+  },
+  "expected_extents_mm": [
+    68.0,
+    68.0,
+    120.0
+  ],
+  "family": "cylinder",
+  "ir": "generated/kernel/170_cylinder/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      68.0,
+      68.0,
+      120.0
+    ],
+    "faces": 188,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 96,
+    "volume_mm3": 434558.1765,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "af3c44eaf0e75cc319f277c4944a5a905f1909e63a0fd4a1ae7fb4b964682b49",
+  "prompt": "a cylinder with radius 34 mm and height 120 mm",
+  "render": "figures/kernel_examples/170_cylinder.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.009389124999870546,
+  "scad": "generated/kernel/170_cylinder/program.scad",
+  "stl": "generated/kernel/170_cylinder/program.stl",
+  "task_id": "NCR-0174"
+}

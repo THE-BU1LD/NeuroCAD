@@ -1,0 +1,2430 @@
+{
+  "benchmark_sha256": "0822e45a56e4cc2d405da50561899f8310e9bffb4a4a833e98affe27672e4546",
+  "benchmark_version": "neurocad-benchmark-v1",
+  "scientific_claim_status": "engineering baseline only; historical typed-parser causal claim remains falsified",
+  "seed": 20260902,
+  "systems": {
+    "fixed_box": {
+      "failures": [
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 6,
+            "hole_diameter": 3,
+            "kind": "box",
+            "size": [
+              100,
+              90,
+              2
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-001"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 6,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              140,
+              90,
+              2
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-002"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 6,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              130,
+              110,
+              5
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-003"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              130,
+              80,
+              3
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-004"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 2,
+            "hole_diameter": 3,
+            "kind": "box",
+            "size": [
+              170,
+              60,
+              2
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-005"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              90,
+              100,
+              4
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-006"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              180,
+              110,
+              3
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-007"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              180,
+              80,
+              3
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-008"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              40,
+              40,
+              5
+            ],
+            "slot_count": 0
+          },
+          "family": "box",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-009"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              30,
+              35
+            ],
+            "slot_count": 0
+          },
+          "family": "box",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-010"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              50,
+              60,
+              20
+            ],
+            "slot_count": 0
+          },
+          "family": "box",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-011"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              90,
+              40,
+              5
+            ],
+            "slot_count": 0
+          },
+          "family": "box",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-012"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "height": 40,
+            "kind": "cylinder",
+            "radius": 10
+          },
+          "family": "cylinder",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-013"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "height": 80,
+            "kind": "cylinder",
+            "radius": 5
+          },
+          "family": "cylinder",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-014"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "height": 20,
+            "kind": "cylinder",
+            "radius": 10
+          },
+          "family": "cylinder",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-015"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "height": 50,
+            "kind": "cylinder",
+            "radius": 10
+          },
+          "family": "cylinder",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-016"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "sphere",
+            "radius": 5
+          },
+          "family": "sphere",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-017"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "sphere",
+            "radius": 25
+          },
+          "family": "sphere",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-018"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "sphere",
+            "radius": 25
+          },
+          "family": "sphere",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-019"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "sphere",
+            "radius": 25
+          },
+          "family": "sphere",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-020"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              130,
+              80,
+              3
+            ],
+            "slot_count": 0
+          },
+          "family": "lexical_generalization",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-021"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "lexical_generalization",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-022"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              130,
+              60,
+              5
+            ],
+            "slot_count": 0
+          },
+          "family": "lexical_generalization",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-023"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              100,
+              2
+            ],
+            "slot_count": 0
+          },
+          "family": "lexical_generalization",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-024"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              110,
+              70,
+              3
+            ],
+            "slot_count": 3,
+            "slot_size": [
+              10,
+              4
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-025"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              150,
+              90,
+              4
+            ],
+            "slot_count": 3,
+            "slot_size": [
+              16,
+              5
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-026"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              150,
+              110,
+              4
+            ],
+            "slot_count": 2,
+            "slot_size": [
+              10,
+              5
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-027"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              80,
+              60,
+              5
+            ],
+            "slot_count": 1,
+            "slot_size": [
+              16,
+              5
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-028"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              120,
+              60,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-029"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              50,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-030"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              50,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-031"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              120,
+              60,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-032"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              80,
+              70,
+              20
+            ],
+            "wall_thickness": 1.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-033"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              140,
+              60,
+              50
+            ],
+            "wall_thickness": 1.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-034"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              80,
+              50,
+              40
+            ],
+            "wall_thickness": 1.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-035"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              120,
+              100,
+              30
+            ],
+            "wall_thickness": 2.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-036"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              101.6,
+              25.4,
+              5.08
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-037"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              101.6,
+              50.8,
+              3.175
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-038"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              76.19999999999999,
+              50.8,
+              3.175
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-039"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              101.6,
+              25.4,
+              2.54
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-040"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 2,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-041"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-042"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 3,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-043"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-044"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-045"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              120,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-046"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 1,
+            "slot_size": [
+              12,
+              4
+            ]
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-047"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              80,
+              80
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 2,
+            "slot_size": [
+              12,
+              4
+            ]
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-048"
+        }
+      ],
+      "intervention_consistency_rate": 0.0,
+      "overall_semantic_exact_rate": 0.0,
+      "splits": {
+        "test": {
+          "mean_latency_ms": 0.0,
+          "semantic_exact_rate": 0.0,
+          "tasks": 16,
+          "valid_output_rate": 1.0
+        },
+        "train": {
+          "mean_latency_ms": 0.0,
+          "semantic_exact_rate": 0.0,
+          "tasks": 20,
+          "valid_output_rate": 1.0
+        },
+        "validation": {
+          "mean_latency_ms": 0.0,
+          "semantic_exact_rate": 0.0,
+          "tasks": 12,
+          "valid_output_rate": 1.0
+        }
+      }
+    },
+    "neurocad": {
+      "failures": [],
+      "intervention_consistency_rate": 1.0,
+      "overall_semantic_exact_rate": 1.0,
+      "splits": {
+        "test": {
+          "mean_latency_ms": 5.637716187550268,
+          "semantic_exact_rate": 1.0,
+          "tasks": 16,
+          "valid_output_rate": 1.0
+        },
+        "train": {
+          "mean_latency_ms": 7.8363688498939155,
+          "semantic_exact_rate": 1.0,
+          "tasks": 20,
+          "valid_output_rate": 1.0
+        },
+        "validation": {
+          "mean_latency_ms": 5.13021891651988,
+          "semantic_exact_rate": 1.0,
+          "tasks": 12,
+          "valid_output_rate": 1.0
+        }
+      }
+    },
+    "raw_numbers_no_unit_normalization": {
+      "failures": [
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              90.0,
+              2.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.13670800035470165,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 6,
+            "hole_diameter": 3,
+            "kind": "box",
+            "size": [
+              100,
+              90,
+              2
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-001"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              140.0,
+              90.0,
+              2.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.007624999852851033,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 6,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              140,
+              90,
+              2
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-002"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              130.0,
+              110.0,
+              5.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.005000000783184078,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 6,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              130,
+              110,
+              5
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-003"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              130.0,
+              80.0,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0036249994082027115,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              130,
+              80,
+              3
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-004"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              170.0,
+              60.0,
+              2.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0035829998523695394,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 2,
+            "hole_diameter": 3,
+            "kind": "box",
+            "size": [
+              170,
+              60,
+              2
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-005"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              90.0,
+              100.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0037909994716756046,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              90,
+              100,
+              4
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-006"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              180.0,
+              110.0,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0035829998523695394,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              180,
+              110,
+              3
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-007"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              180.0,
+              80.0,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003499999365885742,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              180,
+              80,
+              3
+            ]
+          },
+          "family": "plate_holes",
+          "passed": false,
+          "split": "train",
+          "task_id": "NCB-008"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              110.0,
+              70.0,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004499999704421498,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              110,
+              70,
+              3
+            ],
+            "slot_count": 3,
+            "slot_size": [
+              10,
+              4
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-025"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              150.0,
+              90.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004084000465809368,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              150,
+              90,
+              4
+            ],
+            "slot_count": 3,
+            "slot_size": [
+              16,
+              5
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-026"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              150.0,
+              110.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004292000085115433,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              150,
+              110,
+              4
+            ],
+            "slot_count": 2,
+            "slot_size": [
+              10,
+              5
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-027"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80.0,
+              60.0,
+              5.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003916999958164524,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "size": [
+              80,
+              60,
+              5
+            ],
+            "slot_count": 1,
+            "slot_size": [
+              16,
+              5
+            ]
+          },
+          "family": "composition",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-028"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              12.0,
+              6.0,
+              0.3
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003166000169585459,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              120,
+              60,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-029"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              10.0,
+              5.0,
+              0.4
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003207999725418631,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              50,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-030"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              8.0,
+              5.0,
+              0.3
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003000000106112566,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80,
+              50,
+              3.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-031"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              12.0,
+              6.0,
+              0.4
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004667000212066341,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              120,
+              60,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "family": "unit_perturbation",
+          "passed": false,
+          "split": "validation",
+          "task_id": "NCB-032"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80.0,
+              70.0,
+              20.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004041000465804245,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              80,
+              70,
+              20
+            ],
+            "wall_thickness": 1.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-033"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              140.0,
+              60.0,
+              50.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0038329999370034784,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              140,
+              60,
+              50
+            ],
+            "wall_thickness": 1.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-034"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              80.0,
+              50.0,
+              40.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0037910003811703064,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              80,
+              50,
+              40
+            ],
+            "wall_thickness": 1.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-035"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              120.0,
+              100.0,
+              30.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004209000508126337,
+            "valid": true
+          },
+          "expected": {
+            "kind": "box",
+            "open_top": true,
+            "size": [
+              120,
+              100,
+              30
+            ],
+            "wall_thickness": 2.5
+          },
+          "family": "enclosure",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-036"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              4.0,
+              1.0,
+              0.2
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0030829996831016615,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              101.6,
+              25.4,
+              5.08
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-037"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              4.0,
+              2.0,
+              0.125
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0032080006349133328,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              101.6,
+              50.8,
+              3.175
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-038"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              3.0,
+              2.0,
+              0.125
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.024916000256780535,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              76.19999999999999,
+              50.8,
+              3.175
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-039"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              4.0,
+              1.0,
+              0.1
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.004542000169749372,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              101.6,
+              25.4,
+              2.54
+            ],
+            "slot_count": 0
+          },
+          "family": "held_out_units",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-040"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              60.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003833999471680727,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 2,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-041"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              60.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0033329997677356005,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 4,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-042"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              60.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0033750002330634743,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 3,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-043"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              60.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0034169997888966464,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 4,
+            "hole_diameter": 5,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 0
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-044"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              60.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.0042909996409434825,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 1,
+            "slot_size": [
+              12,
+              4
+            ]
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-047"
+        },
+        {
+          "actual": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100.0,
+              60.0,
+              4.0
+            ],
+            "slot_count": 0
+          },
+          "details": {
+            "latency_ms": 0.003916000423487276,
+            "valid": true
+          },
+          "expected": {
+            "hole_count": 0,
+            "kind": "box",
+            "size": [
+              100,
+              60,
+              4
+            ],
+            "slot_count": 2,
+            "slot_size": [
+              12,
+              4
+            ]
+          },
+          "family": "counterfactual_intervention",
+          "passed": false,
+          "split": "test",
+          "task_id": "NCB-048"
+        }
+      ],
+      "intervention_consistency_rate": 0.25,
+      "overall_semantic_exact_rate": 0.375,
+      "splits": {
+        "test": {
+          "mean_latency_ms": 0.004960750118243595,
+          "semantic_exact_rate": 0.125,
+          "tasks": 16,
+          "valid_output_rate": 1.0
+        },
+        "train": {
+          "mean_latency_ms": 0.01003529991976393,
+          "semantic_exact_rate": 0.6,
+          "tasks": 20,
+          "valid_output_rate": 1.0
+        },
+        "validation": {
+          "mean_latency_ms": 0.003659833206863065,
+          "semantic_exact_rate": 0.3333333333333333,
+          "tasks": 12,
+          "valid_output_rate": 1.0
+        }
+      }
+    }
+  },
+  "task_count": 48
+}

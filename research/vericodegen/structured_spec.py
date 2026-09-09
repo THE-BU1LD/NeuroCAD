@@ -10,11 +10,12 @@ from __future__ import annotations
 
 import json
 import math
-from typing import Any, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any, TypeGuard
 
 from core.design_graph import Component, DesignGraph
+from core.json_io import strict_json_loads
 from core.scad_export import design_to_scad
-
 
 SPEC_VERSION = "vericodegen-structured-v1"
 ALLOWED_TOP_LEVEL = {"spec_version", "title", "components", "connections"}
@@ -29,8 +30,13 @@ class StructuredSpecError(ValueError):
     """Raised when a successor structured output is invalid or unsafe to compile."""
 
 
-def _is_number(value: Any) -> bool:
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))
+def _is_number(value: Any) -> TypeGuard[int | float]:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return False
+    try:
+        return math.isfinite(float(value))
+    except (OverflowError, ValueError):
+        return False
 
 
 def _positive(name: str, value: Any, errors: list[str]) -> float | None:
@@ -51,7 +57,7 @@ def _vector3(name: str, value: Any, errors: list[str], *, positive: bool = False
     if positive and any(item <= 0 for item in vector):
         errors.append(f"{name} must contain values > 0")
         return None
-    return vector
+    return vector[0], vector[1], vector[2]
 
 
 def _validate_geometry(value: Any, prefix: str, errors: list[str]) -> dict[str, Any] | None:
@@ -254,7 +260,7 @@ def parse_structured_json(text: str) -> dict[str, Any]:
     """Parse exactly one JSON object; markdown fences or prose fail closed."""
 
     try:
-        value = json.loads(text)
+        value = strict_json_loads(text)
     except json.JSONDecodeError as exc:
         raise StructuredSpecError(f"structured output is not valid JSON: {exc.msg}") from exc
     if not isinstance(value, dict):

@@ -1,0 +1,22 @@
+{
+  "family": "plate",
+  "ir": "generated/kernel/005_plate/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      125.0,
+      125.0,
+      6.0
+    ],
+    "faces": 12,
+    "vertices": 8,
+    "volume_mm3": 93750.0,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a 125 x 125 x 6 mm plate",
+  "render": "figures/kernel_examples/005_plate.png",
+  "runtime_seconds": 1.2853861250005139,
+  "scad": "generated/kernel/005_plate/program.scad",
+  "stl": "generated/kernel/005_plate/program.stl",
+  "task_id": "NCR-0001"
+}

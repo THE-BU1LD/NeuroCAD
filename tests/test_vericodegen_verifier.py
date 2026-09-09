@@ -6,7 +6,6 @@ import trimesh
 
 from research.vericodegen.verifier import verify_mesh
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -69,9 +68,27 @@ def test_unknown_constraint_is_never_silently_ignored():
         verify_mesh(box, {"semantic_quality": {"min": 0.9}})
 
 
+@pytest.mark.parametrize(
+    "constraints, expected",
+    [
+        ({"watertight": "true"}, "must be boolean"),
+        ({"max_components": True}, "must be an integer"),
+        ({"volume": {}}, "must declare min or max"),
+        ({"volume": {"min": 2, "max": 1}}, "min cannot exceed"),
+        ({"volume": {"min": float("nan")}}, "must be a finite number"),
+        ({"extents": {"x": {"minimum": 1}}}, "unsupported extent.x range keys"),
+        ({"bounds": {"min": [0, 0, float("inf")]}}, "only finite values"),
+        ({"bounds": {"min": [1, 0, 0], "max": [0, 1, 1]}}, "min cannot exceed"),
+    ],
+)
+def test_malformed_hard_constraints_fail_closed(constraints: dict, expected: str):
+    with pytest.raises((TypeError, ValueError), match=expected):
+        verify_mesh(trimesh.creation.box(), constraints)
+
+
 def test_frozen_benchmark_schema_declares_primary_fields_and_supported_constraints():
     schema = json.loads(
-        (ROOT / "research" / "vericodegen" / "benchmark_schema.json").read_text()
+        (ROOT / "research" / "vericodegen" / "benchmark_schema.json").read_text(encoding="utf-8")
     )
 
     required = set(schema["required"])

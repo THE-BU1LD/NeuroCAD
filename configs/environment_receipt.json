@@ -1,0 +1,13 @@
+{
+  "architecture": "arm64",
+  "external_kernel": {
+    "name": "OpenSCAD",
+    "path": "/usr/local/bin/openscad",
+    "version": "2021.01"
+  },
+  "operating_system": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.7",
+  "requirements_lock": null,
+  "requirements_lock_reason": "The historical receipt did not retain the lockfile digest. The current requirements-research.lock is for new source-bound reproductions and must not be retroactively attributed to this run.",
+  "run_id": "NC-RUN-2026-09-02-A"
+}

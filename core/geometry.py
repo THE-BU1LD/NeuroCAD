@@ -1,20 +1,20 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, Tuple
+from typing import Any
 
 
 @dataclass(frozen=True)
 class Primitive:
     kind: str
-    dims: Dict[str, Any] = field(default_factory=dict)
+    dims: dict[str, Any] = field(default_factory=dict)
 
-    def with_param(self, key: str, value: Any) -> "Primitive":
+    def with_param(self, key: str, value: Any) -> Primitive:
         d = dict(self.dims)
         d[key] = value
         return Primitive(self.kind, d)
 
-    def to_component_params(self) -> Dict[str, Any]:
+    def to_component_params(self) -> dict[str, Any]:
         return {"geometry": {"kind": self.kind, **self.dims}}
 
 

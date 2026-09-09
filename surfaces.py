@@ -15,8 +15,9 @@ This is the foundation for:
 """
 
 import math
+from abc import ABC, abstractmethod
+
 import numpy as np
-from typing import List, Tuple, Callable, Optional
 
 # ============================================================
 # Utility math
@@ -27,10 +28,13 @@ def lerp(a, b, t):
 
 
 def normalize(v):
-    n = np.linalg.norm(v)
+    vector = np.asarray(v, dtype=float)
+    if vector.shape != (3,) or not np.all(np.isfinite(vector)):
+        raise ValueError("vector must contain three finite values")
+    n = float(np.linalg.norm(vector))
     if n == 0:
-        return v
-    return v / n
+        raise ValueError("zero-length vectors cannot be normalized")
+    return vector / n
 
 
 def rotation_matrix(axis, angle):
@@ -50,15 +54,18 @@ def rotation_matrix(axis, angle):
 # Base Parametric Curve
 # ============================================================
 
-class Curve:
+class Curve(ABC):
+    @abstractmethod
     def point(self, t: float) -> np.ndarray:
-        raise NotImplementedError
+        raise TypeError("Curve.point must be implemented by a concrete curve")
 
     def tangent(self, t: float) -> np.ndarray:
         dt = 1e-4
         return normalize(self.point(t + dt) - self.point(t))
 
     def sample(self, n=50):
+        if not isinstance(n, int) or isinstance(n, bool) or n < 2:
+            raise ValueError("curve sample count must be an integer of at least 2")
         return [self.point(i / (n - 1)) for i in range(n)]
 
 
@@ -68,16 +75,24 @@ class Curve:
 
 class Line(Curve):
     def __init__(self, p0, p1):
-        self.p0 = np.array(p0)
-        self.p1 = np.array(p1)
+        self.p0 = np.asarray(p0, dtype=float)
+        self.p1 = np.asarray(p1, dtype=float)
+        if self.p0.shape != (3,) or self.p1.shape != (3,):
+            raise ValueError("line endpoints must contain three coordinates")
+        if not np.all(np.isfinite(self.p0)) or not np.all(np.isfinite(self.p1)):
+            raise ValueError("line endpoints must be finite")
 
     def point(self, t):
         return lerp(self.p0, self.p1, t)
 
 
 class Bezier(Curve):
-    def __init__(self, control_points: List[Tuple[float, float, float]]):
-        self.ctrl = [np.array(p) for p in control_points]
+    def __init__(self, control_points: list[tuple[float, float, float]]):
+        if not control_points:
+            raise ValueError("Bezier curves require at least one control point")
+        self.ctrl = [np.asarray(p, dtype=float) for p in control_points]
+        if any(point.shape != (3,) or not np.all(np.isfinite(point)) for point in self.ctrl):
+            raise ValueError("Bezier control points must contain three finite coordinates")
 
     def point(self, t):
         pts = self.ctrl
@@ -88,7 +103,11 @@ class Bezier(Curve):
 
 class Circle(Curve):
     def __init__(self, radius=1.0, plane="xy"):
-        self.r = radius
+        if not isinstance(radius, (int, float)) or isinstance(radius, bool) or not math.isfinite(radius) or radius <= 0:
+            raise ValueError("circle radius must be a positive finite number")
+        if plane not in {"xy", "xz", "yz"}:
+            raise ValueError("circle plane must be one of: xy, xz, yz")
+        self.r = float(radius)
         self.plane = plane
 
     def point(self, t):
@@ -104,9 +123,10 @@ class Circle(Curve):
 # Base Surface
 # ============================================================
 
-class Surface:
+class Surface(ABC):
+    @abstractmethod
     def point(self, u: float, v: float) -> np.ndarray:
-        raise NotImplementedError
+        raise TypeError("Surface.point must be implemented by a concrete surface")
 
     def normal(self, u, v):
         du = 1e-4
@@ -117,6 +137,8 @@ class Surface:
         return normalize(np.cross(pu, pv))
 
     def tessellate(self, nu=50, nv=50):
+        if any(not isinstance(value, int) or isinstance(value, bool) or value < 2 for value in (nu, nv)):
+            raise ValueError("surface tessellation counts must be integers of at least 2")
         vertices = []
         faces = []
 
@@ -163,7 +185,7 @@ class RuledSurface(Surface):
 # ============================================================
 
 class LoftSurface(Surface):
-    def __init__(self, profiles: List[Curve]):
+    def __init__(self, profiles: list[Curve]):
         self.profiles = profiles
         self.count = len(profiles)
 
@@ -303,11 +325,9 @@ def export_scad_polyhedron(vertices, faces, filename):
     with open(filename, "w") as f:
         f.write("polyhedron(\n")
         f.write("points=[\n")
-        for v in vertices:
-            f.write(f"[{v[0]}, {v[1]}, {v[2]}],\n")
+        f.writelines(f"[{v[0]}, {v[1]}, {v[2]}],\n" for v in vertices)
         f.write("],\nfaces=[\n")
-        for face in faces:
-            f.write(f"{face},\n")
+        f.writelines(f"{face},\n" for face in faces)
         f.write("]);\n")
 
 

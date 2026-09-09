@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "1be8f3687c05633680a84ea4ffa482ff882891cb7e43fdf76a94e524cccd9850",
+    "render": "4351da6827ab2f9c08f5d4e9f80ff380632122e43c8ea02be9540d2bbc0ba74b",
+    "scad": "51dc641bcfa8420a6343eeb5723bbd4848b4964f81d591ff5f63c91511b2e356",
+    "stl": "f436e05362c47061aa6b278ad465f44af3b70bfeda5d24b0819d6a5372d5c932"
+  },
+  "expected_extents_mm": [
+    112.0,
+    112.0,
+    112.0
+  ],
+  "family": "sphere",
+  "ir": "generated/kernel/063_sphere/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.23980000000000246,
+      0.23980000000000246,
+      0.23980000000000246
+    ],
+    "extents_mm": [
+      111.7602,
+      111.7602,
+      111.7602
+    ],
+    "faces": 2300,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 1152,
+    "volume_mm3": 730383.8038989267,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "a6ecca50aff546ece98a3400417c961cf8d960e9c0a98b75670bb998e5902476",
+  "prompt": "a sphere with radius 56 mm",
+  "render": "figures/kernel_examples/063_sphere.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.039149416999862297,
+  "scad": "generated/kernel/063_sphere/program.scad",
+  "stl": "generated/kernel/063_sphere/program.stl",
+  "task_id": "NCR-0063"
+}

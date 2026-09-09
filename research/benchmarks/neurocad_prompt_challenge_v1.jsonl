@@ -1,0 +1,24 @@
+{"case_id":"NCC-001","expected":{"hole_count":0,"kind":"box","size":[80,60,4],"slot_count":0},"expected_status":"accept","family":"plate","prompt":"a solid 80 x 60 x 4 mm plate","split":"development"}
+{"case_id":"NCC-002","expected":{"hole_count":0,"kind":"box","size":[40,30,20],"slot_count":0},"expected_status":"accept","family":"box","prompt":"a 40 x 30 x 20 mm rectangular box","split":"development"}
+{"case_id":"NCC-003","expected":{"kind":"sphere","radius":12.5},"expected_status":"accept","family":"sphere","prompt":"a ball with radius 12.5 mm","split":"development"}
+{"case_id":"NCC-004","expected":{"height":50,"kind":"cylinder","radius":20},"expected_status":"accept","family":"cylinder","prompt":"a cylinder with diameter 40 mm and height 50 mm","split":"development"}
+{"case_id":"NCC-005","expected":{"hole_count":4,"hole_diameter":4,"kind":"box","size":[120,80,4]},"expected_status":"accept","family":"holes","prompt":"a 120 x 80 x 4 mm plate with four 4 mm holes","split":"development"}
+{"case_id":"NCC-006","expected":{"kind":"box","size":[100,60,4],"slot_count":2,"slot_size":[12,5]},"expected_status":"accept","family":"slots","prompt":"a 100 x 60 x 4 mm panel with two 12 x 5 mm slots","split":"development"}
+{"case_id":"NCC-007","expected":{"hole_count":0,"kind":"box","size":[120,80,4],"slot_count":0},"expected_status":"accept","family":"named_dimensions","prompt":"a plate 120 mm wide 80 mm deep and 4 mm thick","split":"validation"}
+{"case_id":"NCC-008","expected":{"hole_count":0,"kind":"box","size":[120,80,4],"slot_count":0},"expected_status":"accept","family":"mixed_units","prompt":"a 12 cm x 80 mm x 0.004 m plate","split":"validation"}
+{"case_id":"NCC-009","expected":{"kind":"sphere","radius":25},"expected_status":"accept","family":"unit_words","prompt":"a sphere with radius 2.5 centimeters","split":"validation"}
+{"case_id":"NCC-010","expected":{"height":76.2,"kind":"cylinder","radius":12.7},"expected_status":"accept","family":"unit_words","prompt":"a 0.5 inch radius cylinder with height 3 inches","split":"validation"}
+{"case_id":"NCC-011","expected":{"kind":"box","open_top":true,"size":[100,80,30],"wall_thickness":2},"expected_status":"accept","family":"enclosure","prompt":"a 100 by 80 by 30 mm housing with 2 mm walls","split":"validation"}
+{"case_id":"NCC-012","expected":{"hole_count":2,"hole_diameter":5,"kind":"box","size":[90,50,3]},"expected_status":"accept","family":"holes","prompt":"a 90 by 50 by 3 mm mounting board with two 5 mm diameter holes","split":"validation"}
+{"case_id":"NCC-013","expected":{"hole_count":0,"kind":"box","size":[70,40,2],"slot_count":0},"expected_status":"accept","family":"unicode_separator","prompt":"A 70 × 40 × 2 mm plate","split":"test"}
+{"case_id":"NCC-014","expected":{"hole_count":0,"kind":"box","size":[50.8,25.4,3.175],"slot_count":0},"expected_status":"accept","family":"imperial","prompt":"a 2 by 1 by 0.125 inch plate","split":"test"}
+{"case_id":"NCC-015","expected":{"hole_count":1,"hole_diameter":6,"kind":"box","size":[80,50,3]},"expected_status":"accept","family":"singular_feature","prompt":"a 80 x 50 x 3 mm bracket with a 6 mm hole","split":"test"}
+{"case_id":"NCC-016","expected":{"kind":"box","size":[80,50,3],"slot_count":1,"slot_size":[10,4]},"expected_status":"accept","family":"singular_feature","prompt":"a 80 x 50 x 3 mm plate with one 10 by 4 mm slot","split":"test"}
+{"case_id":"NCC-017","expected":{"hole_count":0,"kind":"box","size":[30,20,10],"slot_count":0},"expected_status":"accept","family":"primitive_alias","prompt":"a solid 30 x 20 x 10 mm rectangular prism","split":"test"}
+{"case_id":"NCC-018","expected":null,"expected_status":"reject","family":"missing_dimension","prompt":"a 100 x 60 mm plate","split":"test"}
+{"case_id":"NCC-019","expected":null,"expected_status":"reject","family":"unsupported_feature","prompt":"a 100 x 60 x 4 mm plate with M6 threads","split":"test"}
+{"case_id":"NCC-020","expected":null,"expected_status":"reject","family":"unsupported_feature","prompt":"a 100 x 60 x 4 mm plate with two hinges","split":"test"}
+{"case_id":"NCC-021","expected":null,"expected_status":"reject","family":"invalid_numeric","prompt":"a -100 x 60 x 4 mm plate","split":"test"}
+{"case_id":"NCC-022","expected":null,"expected_status":"reject","family":"ambiguous_dimensions","prompt":"a 100 x 60 x 4 mm plate and a 20 x 10 x 2 mm plate","split":"test"}
+{"case_id":"NCC-023","expected":null,"expected_status":"reject","family":"lossy_character","prompt":"a 100 x 60 x 4 mm plate 🚀","split":"test"}
+{"case_id":"NCC-024","expected":null,"expected_status":"reject","family":"missing_feature_count","prompt":"a 100 x 60 x 4 mm plate with 5 mm holes","split":"test"}

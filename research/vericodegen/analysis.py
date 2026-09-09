@@ -7,13 +7,15 @@ with one direct and one structured observation per unit.
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
 import json
 import math
-from pathlib import Path
 import random
-from typing import Any, Iterable, Mapping, Sequence
+from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping, Sequence
+from pathlib import Path
+from typing import Any
 
+from core.json_io import strict_json_loads
 
 ARMS = ("direct", "structured")
 FAMILIES = ("in_distribution", "compositional", "ood_constraint_stress")
@@ -55,7 +57,7 @@ def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
         if not raw.strip():
             continue
         try:
-            value = json.loads(raw)
+            value = strict_json_loads(raw)
         except json.JSONDecodeError as exc:
             raise AnalysisError(f"line {line_number}: invalid JSON: {exc.msg}") from exc
         if not isinstance(value, dict):
@@ -135,7 +137,7 @@ def validate_paired_rows(rows: Sequence[Mapping[str, Any]]) -> list[str]:
         errors.append("analysis requires at least one paired unit")
 
     for unit, unit_rows in grouped.items():
-        arms = [row.get("arm") for row in unit_rows]
+        arms = [str(row.get("arm")) for row in unit_rows]
         if sorted(arms) != ["direct", "structured"]:
             errors.append(f"paired unit {unit} must contain exactly one direct and one structured row")
         families = {row.get("task_family") for row in unit_rows}
@@ -175,8 +177,8 @@ def _percentile(values: Sequence[float], probability: float) -> float:
         raise AnalysisError("percentile probability must be in [0, 1]")
     ordered = sorted(values)
     position = probability * (len(ordered) - 1)
-    lower = int(math.floor(position))
-    upper = int(math.ceil(position))
+    lower = math.floor(position)
+    upper = math.ceil(position)
     if lower == upper:
         return float(ordered[lower])
     weight = position - lower
@@ -201,7 +203,7 @@ def paired_bootstrap_difference_ci(
     if replicates < 100:
         raise AnalysisError("bootstrap replicates must be >= 100")
 
-    rng = random.Random(seed)
+    rng = random.Random(seed)  # Deterministic statistical resampling, not security.  # nosec B311
     n = len(differences)
     estimates: list[float] = []
     for _ in range(replicates):

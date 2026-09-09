@@ -1,0 +1,22 @@
+{
+  "family": "sphere",
+  "ir": "generated/kernel/007_sphere/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      29.9358,
+      29.9358,
+      29.9358
+    ],
+    "faces": 2300,
+    "vertices": 1152,
+    "volume_mm3": 14036.560210842794,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a sphere with radius 15 mm",
+  "render": "figures/kernel_examples/007_sphere.png",
+  "runtime_seconds": 1.154487791000065,
+  "scad": "generated/kernel/007_sphere/program.scad",
+  "stl": "generated/kernel/007_sphere/program.stl",
+  "task_id": "NCR-0007"
+}

@@ -1,0 +1,22 @@
+{
+  "family": "plate",
+  "ir": "generated/kernel/012_plate/program.ncad.json",
+  "mesh": {
+    "extents_mm": [
+      60.0,
+      35.0,
+      2.0
+    ],
+    "faces": 12,
+    "vertices": 8,
+    "volume_mm3": 4200.0,
+    "watertight": true
+  },
+  "passed": true,
+  "prompt": "a plate 60 mm wide 35 mm deep and 2 mm thick",
+  "render": "figures/kernel_examples/012_plate.png",
+  "runtime_seconds": 1.443727374999071,
+  "scad": "generated/kernel/012_plate/program.scad",
+  "stl": "generated/kernel/012_plate/program.stl",
+  "task_id": "NCR-0008"
+}

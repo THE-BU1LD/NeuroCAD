@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "e9ed92073fe3eefbac72e4a0bf7302dd4879d0d5168d461824f7dd4a7cb018b1",
+    "render": "ea08a2fb200fe2fe17f706c0e55f36de20fd53b4f1948b6f59806ef51b7e50ae",
+    "scad": "b5621f4f9f46e10a7abf4e50f2b114f922e5feea91a414c45952e2b874d679c6",
+    "stl": "ef67cbdee1eccf9a23ed67a1089bb60bb25473d1e702a39241bca4ff846135e8"
+  },
+  "expected_extents_mm": [
+    80.0,
+    140.0,
+    4.0
+  ],
+  "family": "slots",
+  "ir": "generated/kernel/041_slots/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      80.0,
+      140.0,
+      4.0
+    ],
+    "faces": 52,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 24,
+    "volume_mm3": 44608.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "5db78e16703a9c81c688b1ffe1ddd7ffa8d9e7dec431ae203e172635f8619601",
+  "prompt": "a 80 x 140 x 4 mm plate with two 12 x 2 mm slots",
+  "render": "figures/kernel_examples/041_slots.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.01295066600005157,
+  "scad": "generated/kernel/041_slots/program.scad",
+  "stl": "generated/kernel/041_slots/program.stl",
+  "task_id": "NCR-0038"
+}

@@ -1,0 +1,9 @@
+{
+  "nominal_clearance_mm": 0.5,
+  "confidence_multiplier": 3.0,
+  "contributions": [
+    {"name": "hypothetical_hole_error", "mean_mm": -0.1, "sigma_mm": 0.2, "worst_case_mm": 0.4},
+    {"name": "hypothetical_shaft_error", "mean_mm": -0.05, "sigma_mm": 0.2, "worst_case_mm": 0.3}
+  ],
+  "correlations": [[1.0, -0.5], [-0.5, 1.0]]
+}

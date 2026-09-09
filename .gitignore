@@ -7,6 +7,11 @@ __pycache__/
 .venv/
 venv/
 env/
+.tmp-release-venv/
+.tmp-release-work/
+.audit-venv/
+.agent-mypy-cache/
+.agent-mypy-tools/
 
 # Packaging/build outputs
 build/
@@ -16,10 +21,18 @@ dist/
 
 # Test/tool caches
 .pytest_cache/
+pytest-of-*/
+.test-tmp/
+.pnpm-store/
 .mypy_cache/
 .ruff_cache/
 .coverage
 htmlcov/
+
+# Preserved locally for forensic reference, not shipped or versioned.
+legacy/generated/
+output_models/
+test_output/
 
 # IDE/editor metadata
 .vscode/
@@ -40,3 +53,11 @@ htmlcov/
 *.log
 *.tmp
 *.temp
+generated.scad
+generated.stl
+generated.json
+.local-recovery/
+.provenance/
+.c/
+.portal-canonical/
+.serena/

@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "2582a19acec437a571baf1f431c6ca2a524cc1b5139c4272868bdc0114860e13",
+    "render": "bd057802ffe832f59eb3d3c1999b1be05ca9ca47eed19437a0a66a9543ae3a5e",
+    "scad": "78d36beb7476468fdf0afda2d6dd10ca7b875fd80e0975430d4b5cfbeba36272",
+    "stl": "7db61c672767829721073675e5b477a8c38d0c867fda0e7510a1e5a242d875c4"
+  },
+  "expected_extents_mm": [
+    160.0,
+    50.0,
+    3.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/228_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      160.0,
+      50.0,
+      3.0
+    ],
+    "faces": 796,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 392,
+    "volume_mm3": 23661.67597764,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 160 x 50 x 3 mm plate with four 6 mm holes",
+  "render": "figures/kernel_examples/228_holes.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 3.7686423340001056,
+  "scad": "generated/kernel/228_holes/program.scad",
+  "stl": "generated/kernel/228_holes/program.stl",
+  "task_id": "NCR-0226"
+}

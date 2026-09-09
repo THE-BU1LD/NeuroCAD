@@ -1,0 +1,43 @@
+{
+  "artifact_sha256": {
+    "ir": "e496f737c2afb092630a04a0cad4a3afc0ad714dd10c99ebe22497d52fe31731",
+    "render": "6a8cb3b94d46d9c7641a149d765cc1b80baaac03c0f60da9d852037336852c04",
+    "scad": "836864c8518272a617a1b12f90a6ed5940a14d8bc2cb04a5eca7ab3461839dde",
+    "stl": "e2b7b94540a3298eb3c6de0129b36661865a513e04f3918826e2060eceb23104"
+  },
+  "expected_extents_mm": [
+    36.0,
+    36.0,
+    65.0
+  ],
+  "family": "cylinder",
+  "ir": "generated/kernel/226_cylinder/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      36.0,
+      36.0,
+      65.0
+    ],
+    "faces": 188,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 96,
+    "volume_mm3": 65973.21389854,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a cylinder with radius 1.8 cm and height 6.5 cm",
+  "render": "figures/kernel_examples/226_cylinder.png",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 0.7863153749999583,
+  "scad": "generated/kernel/226_cylinder/program.scad",
+  "stl": "generated/kernel/226_cylinder/program.stl",
+  "task_id": "NCR-0230"
+}

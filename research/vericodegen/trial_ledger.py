@@ -13,14 +13,17 @@ This module does not revive the falsified historical NeuroCAD typed-parser claim
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
 import hashlib
 import json
 import math
+import shutil
+import subprocess  # Git uses a resolved executable and fixed shell-free argv.  # nosec B404
+from collections import defaultdict
+from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
-import subprocess
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
 
+from core.json_io import strict_json_loads
 from research.vericodegen.arm_adapter import (
     ArmAdapterError,
     compile_openscad,
@@ -30,7 +33,6 @@ from research.vericodegen.arm_adapter import (
 from research.vericodegen.benchmark_freeze import load_jsonl as load_benchmark_jsonl
 from research.vericodegen.stage2_manifest import assert_executable, load_manifest
 from research.vericodegen.verifier import load_mesh, verify_mesh
-
 
 CAPTURE_VERSION = "vericodegen-captured-attempt-v1"
 LEDGER_VERSION = "vericodegen-trial-ledger-v1"
@@ -72,7 +74,7 @@ def load_capture_jsonl(path: str | Path) -> list[dict[str, Any]]:
         if not raw.strip():
             continue
         try:
-            value = json.loads(raw)
+            value = strict_json_loads(raw)
         except json.JSONDecodeError as exc:
             raise TrialLedgerError(f"capture line {line_number}: invalid JSON: {exc.msg}") from exc
         if not isinstance(value, dict):
@@ -150,9 +152,8 @@ def validate_capture_row(row: Mapping[str, Any]) -> list[str]:
     if status == "completed":
         if not isinstance(raw_output, str) or not raw_output.strip():
             errors.append("completed generation requires non-empty raw_output")
-    elif status in {"timeout", "error"}:
-        if raw_output not in (None, ""):
-            errors.append("timeout/error generation must not contain a raw_output artifact")
+    elif status in {"timeout", "error"} and raw_output not in (None, ""):
+        errors.append("timeout/error generation must not contain a raw_output artifact")
 
     tokens = row.get("generated_tokens")
     if not isinstance(tokens, int) or isinstance(tokens, bool) or tokens < 0:
@@ -229,13 +230,15 @@ def _require_file_hash(name: str, path: Path, expected: str, errors: list[str]) 
 
 
 def _git_head(repository_root: Path) -> str | None:
+    executable = shutil.which("git")
+    if executable is None:
+        return None
     try:
-        proc = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
+        proc = subprocess.run(  # Resolved executable and fixed argument vector.  # nosec B603
+            [executable, "rev-parse", "HEAD"],
             cwd=repository_root,
             text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             check=False,
             timeout=10,
         )
@@ -265,7 +268,7 @@ def validate_frozen_inputs(
     errors: list[str] = []
     try:
         assert_executable(manifest)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - aggregate every malformed manifest violation in one receipt
         errors.append(str(exc))
 
     if not manifest_path.is_file():
@@ -310,7 +313,7 @@ def validate_frozen_inputs(
 
     if benchmark_manifest_path.is_file():
         try:
-            benchmark_manifest = json.loads(benchmark_manifest_path.read_text(encoding="utf-8"))
+            benchmark_manifest = strict_json_loads(benchmark_manifest_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as exc:
             errors.append(f"benchmark manifest cannot be read: {exc}")
         else:
@@ -329,7 +332,7 @@ def validate_frozen_inputs(
 
     if pilot_selection_path.is_file():
         try:
-            pilot = json.loads(pilot_selection_path.read_text(encoding="utf-8"))
+            pilot = strict_json_loads(pilot_selection_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as exc:
             errors.append(f"pilot selection cannot be read: {exc}")
         else:
@@ -340,7 +343,7 @@ def validate_frozen_inputs(
 
     if prompt_receipt_path.is_file():
         try:
-            prompt_receipt = json.loads(prompt_receipt_path.read_text(encoding="utf-8"))
+            prompt_receipt = strict_json_loads(prompt_receipt_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as exc:
             errors.append(f"prompt receipt cannot be read: {exc}")
         else:
@@ -484,7 +487,7 @@ def evaluate_attempt(
 
     try:
         report = verify_mesh(load_mesh(stl_path), task["hard_constraints"])
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - all kernel/parser failures must become retained trial evidence
         evaluated["verifier_failures"] = [f"{type(exc).__name__}: {exc}"]
         evaluated["failure_modes"] = ["verifier_ambiguity_error"]
         return evaluated

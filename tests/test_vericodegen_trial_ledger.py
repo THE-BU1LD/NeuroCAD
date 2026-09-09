@@ -20,7 +20,6 @@ from research.vericodegen.trial_ledger import (
     verify_hash_chain,
 )
 
-
 HASH_A = "a" * 64
 HASH_B = "b" * 64
 HASH_C = "c" * 64

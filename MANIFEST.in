@@ -1,0 +1,71 @@
+include LICENSE
+include README.md
+include RELEASE_STATUS.md
+include SECURITY.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include NEUROCAD_TRUTH.md
+include NEUROCAD_RESEARCH_REPORT.md
+include NEUROCAD_COMPLETION_REPORT.md
+include PROJECT_TRUTH.md
+include DEFINITION_OF_DONE.md
+include EVALUATION_REPORT.md
+include EXPERIMENTS.md
+include REPRODUCIBILITY.md
+include requirements-research.lock
+include requirements-research.in
+include QUESTION.md
+include REPRESENTATION.md
+include MODEL_CARD.md
+include BASELINES.md
+include RESEARCH_TRUTH.md
+include EVIDENCE_LEDGER.md
+include FINAL_RESEARCH_REPORT.md
+include install.sh
+include .github/workflows/ci.yml
+include .github/workflows/release.yml
+include neurocad_cli.py
+include text_to_cad.py
+include text_to_openscad.py
+include surfaces.py
+include vector_fields_engine.py
+include pipeline_stage.py
+include exceptions.py
+include thinking_engine.py
+recursive-include core *.py
+recursive-include core/schemas *.json
+recursive-include audits *.md
+recursive-include audit *.md
+recursive-include analysis *.md
+recursive-include configs *.json
+recursive-include datasets *.md
+recursive-include demo *.md *.sh
+recursive-include docs *.md
+recursive-include docs/examples *.json
+recursive-include grammar *.md
+recursive-include literature *.md *.csv
+recursive-include model *.md
+recursive-include paper *.md
+recursive-include scripts *.sh *.py
+prune research/runs
+recursive-include research/vericodegen *.py *.json *.md *.tex
+recursive-include research/s3 *.json *.txt
+include research/s3/benchmark_candidate_pool_v0.csv
+recursive-include tests *.py *.cjs
+exclude tests/test_repository_archive.py
+include research/benchmarks/neurocad_benchmark_v1.jsonl
+include research/results/neurocad_benchmark_v1.json
+include research/benchmarks/neurocad_prompt_challenge_v1.jsonl
+include research/benchmarks/neurocad_prompt_challenge_v1.md
+include research/results/neurocad_prompt_challenge_v1_provenance.json
+recursive-include research/protocols *.md
+include research/HYPOTHESES.md
+include research/MATHEMATICAL_SPEC.md
+include research/NOVELTY_AUDIT.md
+recursive-exclude * __pycache__
+global-exclude *.py[cod]
+global-exclude *.stl *.obj *.step *.scad *.cad *.zip
+prune output_models
+prune test_output
+prune legacy
+include research/VERICODEGEN_2026_PROTOCOL.md

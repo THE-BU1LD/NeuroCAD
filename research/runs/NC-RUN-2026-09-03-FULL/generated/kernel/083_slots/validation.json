@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "bc3709b94ab72a6a2df8a430ddc0f1079472f91d98f25f2e5b66b41e2556d9ed",
+    "render": "e41cc972ea6d14eaa367d4b74db418953623e3931babdd0a88130966a52ca826",
+    "scad": "03a7eb2c8636f01e6f38077418efcaff69cf9e4c078fd0183469ff83795cc75c",
+    "stl": "aaae3e45cc2ddd343e204008d6c63f12d78818df5d353262fe5d03a7d62716b8"
+  },
+  "expected_extents_mm": [
+    150.0,
+    110.0,
+    3.0
+  ],
+  "family": "slots",
+  "ir": "generated/kernel/083_slots/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      150.0,
+      110.0,
+      3.0
+    ],
+    "faces": 32,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 16,
+    "volume_mm3": 49404.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "e2e6abc9347167db3d4c7534927c525236d5bf6e83e3067bf48ee6ea31e78199",
+  "prompt": "a 15 x 11 x 0.3 cm plate with one 0.8 x 0.4 cm slots",
+  "render": "figures/kernel_examples/083_slots.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.018104500000390544,
+  "scad": "generated/kernel/083_slots/program.scad",
+  "stl": "generated/kernel/083_slots/program.stl",
+  "task_id": "NCR-0080"
+}

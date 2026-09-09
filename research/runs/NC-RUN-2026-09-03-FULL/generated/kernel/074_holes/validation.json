@@ -1,0 +1,44 @@
+{
+  "artifact_sha256": {
+    "ir": "f95a716fe7da662a166ffca2cfa7055f04849c31a292a506ab4fe601c405a832",
+    "render": "bfaa487ebf5e21b3a95bacba3ecd3265ad80a064ea19ac2fe5dba76762461367",
+    "scad": "b8ca2938edab2746f72a50d664931d9ecc7815fdd038321163a7f433001adcf6",
+    "stl": "309cc2dba17a13ed7dc6369733242e1d10b7eaf0f98fb77d6a8c666f9cba6db4"
+  },
+  "expected_extents_mm": [
+    160.0,
+    100.0,
+    4.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/074_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      160.0,
+      100.0,
+      4.0
+    ],
+    "faces": 1188,
+    "finite_vertices": true,
+    "is_volume": true,
+    "vertices": 584,
+    "volume_mm3": 63699.265301138395,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "previous_validation_sha256": "d6f48b6be5fdbb0e5d39a5482a99afc62cf5518587e7e27a9735b30879c2006a",
+  "prompt": "a 160 x 100 x 4 mm plate with six 4 mm holes",
+  "render": "figures/kernel_examples/074_holes.png",
+  "resumed_verified_artifact": true,
+  "runtime_seconds": 0.05167350000010629,
+  "scad": "generated/kernel/074_holes/program.scad",
+  "stl": "generated/kernel/074_holes/program.stl",
+  "task_id": "NCR-0072"
+}

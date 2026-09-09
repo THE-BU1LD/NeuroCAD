@@ -1,0 +1,59 @@
+name: NeuroCAD trial feedback
+description: Report a prompt result or artifact failure with reproducible evidence
+title: "[Trial]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not include proprietary designs, credentials, personal data, or unsafe
+        fabrication instructions. NeuroCAD is not a safety-certification tool.
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Exact prompt or redacted equivalent
+      description: Preserve dimensions and syntax needed to reproduce the behavior.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected geometry or rejection
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual output or error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: NeuroCAD version
+      placeholder: NeuroCAD 0.5.0a6
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, OpenSCAD version, and installation method.
+    validations:
+      required: true
+  - type: textarea
+    id: hashes
+    attributes:
+      label: Artifact hashes
+      description: Paste relevant SHA-256 entries from DEMO_RECEIPT.json or your own receipt.
+      render: text
+  - type: checkboxes
+    id: review
+    attributes:
+      label: Review confirmation
+      options:
+        - label: I reviewed this report for secrets and proprietary data.
+          required: true
+        - label: I understand that a passing mesh check is not physical or safety validation.
+          required: true

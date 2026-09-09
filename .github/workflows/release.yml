@@ -9,36 +9,255 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+  workbench-browser:
+    name: Release browser / ${{ matrix.browser }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
     steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.14"
+      - name: Install browser and kernel tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install -e '.[browser]'
+          python -m playwright install --with-deps ${{ matrix.browser }}
+      - name: Verify release browser workflows
+        run: python tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel --output "${{ runner.temp }}/browser-evidence"
+      - name: Retain browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-workbench-${{ matrix.browser }}
+          path: ${{ runner.temp }}/browser-evidence/
+          retention-days: 90
+
+  release:
+    needs: workbench-browser
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          persist-credentials: false
 
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.12"
+          python-version: "3.12.14"
+
+      - name: Require the release tag to point into main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Release tags must point to commits contained in origin/main." >&2
+            exit 1
+          fi
 
       - name: Build and smoke-test distribution
         shell: bash
         run: |
           set -euxo pipefail
-          python -m pip install --upgrade pip build pytest
-          python -m pip install -e .
-          if [ -d tests ]; then python -m pytest -q; fi
+          git diff --quiet
+          git diff --cached --quiet
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install --require-hashes --requirement requirements-research.lock
+          python -m pip install --no-build-isolation --no-deps -e .
+          package_version=$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
+          test "v$package_version" = "$GITHUB_REF_NAME"
+          test -s tests/test_workbench_ui.py
+          test -s tests/workbench_contract.cjs
+          node --version
+          python -m pytest -q tests
+          python -m compileall -q neurocad_cli.py text_to_cad.py text_to_openscad.py core research/vericodegen scripts surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m ruff check core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
+          python -m mypy core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
+          python -m pip check
+          python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
+          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
           neurocad doctor
-          python -m build
+          release_dist="$RUNNER_TEMP/neurocad-dist"
+          SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$GITHUB_SHA")
+          export SOURCE_DATE_EPOCH
+          mkdir -p "$release_dist"
+          python -m build --no-isolation --outdir "$release_dist"
+          sdist_files=("$release_dist"/neurocad_research-*.tar.gz)
+          test "${#sdist_files[@]}" -eq 1
+          python scripts/normalize_sdist.py "${sdist_files[0]}" "$SOURCE_DATE_EPOCH"
+          python scripts/verify_distribution.py "$release_dist"/neurocad_research-*.whl "${sdist_files[0]}"
+          repeat_dist="$RUNNER_TEMP/neurocad-dist-repeat"
+          mkdir -p "$repeat_dist"
+          python -m build --no-isolation --outdir "$repeat_dist"
+          repeat_sdists=("$repeat_dist"/neurocad_research-*.tar.gz)
+          test "${#repeat_sdists[@]}" -eq 1
+          python scripts/normalize_sdist.py "${repeat_sdists[0]}" "$SOURCE_DATE_EPOCH"
+          cmp "$release_dist"/neurocad_research-*.whl "$repeat_dist"/neurocad_research-*.whl
+          cmp "${sdist_files[0]}" "${repeat_sdists[0]}"
           python -m venv /tmp/neurocad-release
-          /tmp/neurocad-release/bin/python -m pip install --upgrade pip
-          /tmp/neurocad-release/bin/python -m pip install dist/*.whl
+          /tmp/neurocad-release/bin/python -m pip install --require-hashes --requirement requirements-research.lock
+          wheel_files=("$release_dist"/neurocad_research-*.whl)
+          test "${#wheel_files[@]}" -eq 1
+          /tmp/neurocad-release/bin/python -m pip install --no-deps "${wheel_files[0]}"
           /tmp/neurocad-release/bin/neurocad doctor
-          /tmp/neurocad-release/bin/neurocad create "a plate with four holes" -o /tmp/release-smoke.scad
+          /tmp/neurocad-release/bin/neurocad integrations kicad-extract --help
+          /tmp/neurocad-release/bin/neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/release-smoke.scad
+          /tmp/neurocad-release/bin/neurocad ir "a 40 x 30 x 3 mm plate" -o /tmp/release-smoke.ncad.json
+          /tmp/neurocad-release/bin/neurocad compile /tmp/release-smoke.ncad.json --format scad -o /tmp/release-compiled.scad
+          /tmp/neurocad-release/bin/neurocad export "a 40 x 30 x 3 mm plate with four 3 mm holes" --format stl -o /tmp/release-smoke.stl
+          /tmp/neurocad-release/bin/neurocad enclosure interpret "60 x 40 x 20 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2 mm thick clearance 0.3 mm lip 2 mm; title release enclosure" --project-id release-enclosure --project-output /tmp/release-enclosure.ncad.json
+          /tmp/neurocad-release/bin/neurocad integrations export /tmp/release-enclosure.ncad.json --output-dir /tmp/release-exchange --stl --fn 12
+          /tmp/neurocad-release/bin/neurocad integrations verify /tmp/release-exchange > /tmp/release-exchange-verification.json
+          python -m venv /tmp/neurocad-release-sdist
+          /tmp/neurocad-release-sdist/bin/python -m pip install --require-hashes --requirement requirements-research.lock
+          /tmp/neurocad-release-sdist/bin/python -m pip install --no-deps "${sdist_files[0]}"
+          /tmp/neurocad-release-sdist/bin/neurocad validate "a 40 x 30 x 3 mm plate"
+          source_test_dir="$RUNNER_TEMP/neurocad-sdist-tests"
+          mkdir "$source_test_dir"
+          tar -xzf "${sdist_files[0]}" -C "$source_test_dir"
+          source_roots=("$source_test_dir"/neurocad_research-*)
+          test "${#source_roots[@]}" -eq 1
+          (cd "${source_roots[0]}" && python -m pytest -q tests)
+          xvfb-run -a /tmp/neurocad-release/bin/python - "$RUNNER_TEMP/neurocad-full-research" "NC-RELEASE-$GITHUB_REF_NAME" <<'PY'
+          import sys
+          from pathlib import Path
+
+          from core.research_suite import ResearchConfig, run_research_suite
+
+          config = ResearchConfig(
+              compiler_tasks=240,
+              ir_programs=1000,
+              invalid_cases=240,
+              edit_cases=200,
+              constraint_ablation_cases=200,
+              kernel_samples=240,
+              fn=48,
+              force_recompile=True,
+          )
+          run_research_suite(
+              Path(sys.argv[1]),
+              config,
+              require_kernel=True,
+              run_id=sys.argv[2],
+          )
+          PY
           test -s /tmp/release-smoke.scad
+          test -s /tmp/release-smoke.stl
+          test -s /tmp/release-compiled.scad
+          test -s /tmp/release-enclosure.ncad.json
+          test -s /tmp/release-exchange/manifest.json
+          test -s /tmp/release-exchange-verification.json
+          test -s "$RUNNER_TEMP/neurocad-full-research/manifest.json"
+          (cd "$release_dist" && sha256sum neurocad_research-*.whl neurocad_research-*.tar.gz > SHA256SUMS)
+          (cd "$release_dist" && sha256sum -c SHA256SUMS)
+          RELEASE_DIST="$release_dist" python - <<'PY'
+          import hashlib
+          import importlib.metadata
+          import json
+          import os
+          import platform
+          import shutil
+          import subprocess
+          import tomllib
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          from core.research_suite import _source_snapshot
+
+          root = Path.cwd()
+          dist = Path(os.environ["RELEASE_DIST"])
+          artifacts = sorted((*dist.glob("*.whl"), *dist.glob("*.tar.gz")))
+          assert len(artifacts) == 2, artifacts
+          research_manifest_path = Path(os.environ["RUNNER_TEMP"]) / "neurocad-full-research" / "manifest.json"
+          research_manifest = json.loads(research_manifest_path.read_text(encoding="utf-8"))
+          declared_version = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+          installed_version = importlib.metadata.version("neurocad-research")
+          assert declared_version == installed_version
+
+          def sha256(path: Path) -> str:
+              digest = hashlib.sha256()
+              with path.open("rb") as handle:
+                  for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                      digest.update(chunk)
+              return digest.hexdigest()
+
+          openscad_executable = shutil.which("openscad")
+          assert openscad_executable is not None
+          openscad = subprocess.run(
+              [openscad_executable, "--version"], check=True, capture_output=True, text=True
+          )
+          receipt = {
+              "receipt_version": "neurocad-release-provenance-v1",
+              "generated_at_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+              "tag": os.environ["GITHUB_REF_NAME"],
+              "commit_sha": os.environ["GITHUB_SHA"],
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "package": {
+                  "name": "neurocad-research",
+                  "declared_version": declared_version,
+                  "installed_version": installed_version,
+              },
+              "python": platform.python_version(),
+              "platform": platform.platform(),
+              "openscad": {
+                  "executable": openscad_executable,
+                  "executable_sha256": sha256(Path(openscad_executable)),
+                  "version_output": (openscad.stdout or openscad.stderr).strip(),
+              },
+              "python_packages": {
+                  name: importlib.metadata.version(name)
+                  for name in (
+                      "bandit", "build", "mypy", "numpy", "pip", "pip-audit",
+                      "pytest", "ruff", "setuptools", "trimesh", "wheel",
+                  )
+              },
+              "source": _source_snapshot(root),
+              "requirements_lock_sha256": sha256(root / "requirements-research.lock"),
+              "research_manifest_sha256": sha256(research_manifest_path),
+              "research_scientific_sha256": research_manifest["scientific_sha256"],
+              "quality_gates": ["pytest", "compileall", "ruff", "mypy", "pip-check", "pip-audit", "bandit"],
+              "artifacts": {path.name: sha256(path) for path in artifacts},
+              "scientific_claim_status": "unchanged; release engineering is not scientific evidence",
+          }
+          (dist / "RELEASE_PROVENANCE.json").write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: Retain full executable research evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: neurocad-full-research-${{ github.sha }}
+          retention-days: 90
+          path: ${{ runner.temp }}/neurocad-full-research/**
+
+      - name: Retain release distributions and generated provenance
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: neurocad-release-${{ github.sha }}
+          retention-days: 90
+          path: ${{ runner.temp }}/neurocad-dist/*
 
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/* --generate-notes --title "NeuroCAD $GITHUB_REF_NAME"
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_flags=(--verify-tag)
+          is_prerelease=$(python -c 'import os; from packaging.version import Version; print(Version(os.environ["GITHUB_REF_NAME"]).is_prerelease)')
+          if [ "$is_prerelease" = "True" ]; then
+            release_flags+=(--prerelease --latest=false)
+          fi
+          gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/neurocad-dist/* --generate-notes --title "NeuroCAD $GITHUB_REF_NAME" "${release_flags[@]}"

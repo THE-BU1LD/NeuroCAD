@@ -12,7 +12,10 @@ def main() -> None:
 
     prompt = " ".join(args.prompt)
     generator = TextToCAD(output_path=args.output, fn=args.fn)
-    path = generator.export(prompt)
+    try:
+        path = generator.export(prompt)
+    except ValueError as exc:
+        parser.error(str(exc))
     print(path)
 
 

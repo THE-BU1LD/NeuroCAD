@@ -3,20 +3,15 @@ thinking_engine.py
 Reasoning + geometric adaptation engine
 """
 
-import math
-from typing import Dict, Any
+from typing import Any
 
 
 class ThinkingEngine:
-
-    def __init__(self):
-        pass
-
     # ---------------------------
     # Apply performance heuristics
     # ---------------------------
 
-    def refine_blueprint(self, blueprint: Dict[str, Any]) -> Dict[str, Any]:
+    def refine_blueprint(self, blueprint: dict[str, Any]) -> dict[str, Any]:
 
         performance = blueprint.get("performance", {})
         parts = blueprint["parts"]
@@ -51,7 +46,7 @@ class ThinkingEngine:
     # Convert blueprint to geometry instructions
     # ---------------------------
 
-    def to_geometry_instructions(self, blueprint: Dict[str, Any]):
+    def to_geometry_instructions(self, blueprint: dict[str, Any]):
 
         instructions = []
 

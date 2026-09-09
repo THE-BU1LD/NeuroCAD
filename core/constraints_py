@@ -1,5 +1,0 @@
-def basic_check(design):
-    assert len(design.components) > 0, "No components generated"
-
-    for c in design.components:
-        assert "geometry" in c.params

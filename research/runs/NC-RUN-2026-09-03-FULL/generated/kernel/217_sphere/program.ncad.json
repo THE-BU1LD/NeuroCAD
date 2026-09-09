@@ -1,0 +1,70 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "radius",
+        "value": 14.0
+      },
+      "target": "body",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "confidence": 0.6,
+    "connections": [],
+    "domain": "generic",
+    "explicit_dimensions": true,
+    "fabrication_domain": "primitive",
+    "flags": {
+      "fins": false,
+      "holes": false,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "normalized_prompt": "a sphere with radius 14 mm",
+    "prompt": "a sphere with radius 14 mm",
+    "recognized": true,
+    "source": "natural_language_design_graph",
+    "units": "mm"
+  },
+  "nodes": [
+    {
+      "id": "body",
+      "primitive": {
+        "kind": "sphere",
+        "parameters": {
+          "radius": 14.0
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "body"
+  ],
+  "title": "a sphere with radius 14 mm",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}

@@ -7,13 +7,14 @@ judged by the same measurements.
 
 from __future__ import annotations
 
+import math
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, cast
 
 import numpy as np
 import trimesh
-
 
 AXES = ("x", "y", "z")
 
@@ -28,14 +29,14 @@ class VerificationReport:
         return asdict(self)
 
 
-def _coerce_mesh(value: trimesh.Trimesh | trimesh.Scene) -> trimesh.Trimesh:
+def _coerce_mesh(value: Any) -> trimesh.Trimesh:
     if isinstance(value, trimesh.Trimesh):
         mesh = value.copy()
     elif isinstance(value, trimesh.Scene):
         geometries = [geometry.copy() for geometry in value.geometry.values()]
         if not geometries:
             raise ValueError("mesh artifact contains no geometry")
-        mesh = trimesh.util.concatenate(geometries)
+        mesh = cast(trimesh.Trimesh, trimesh.util.concatenate(geometries))
     else:
         raise TypeError(f"unsupported mesh type: {type(value)!r}")
 
@@ -123,10 +124,31 @@ def _check_range(
     rule: Mapping[str, Any],
     failures: list[str],
 ) -> None:
-    if "min" in rule and value < float(rule["min"]):
-        failures.append(f"{name}={value:.9g} below minimum {float(rule['min']):.9g}")
-    if "max" in rule and value > float(rule["max"]):
-        failures.append(f"{name}={value:.9g} above maximum {float(rule['max']):.9g}")
+    unknown = sorted(set(rule) - {"min", "max"})
+    if unknown:
+        raise ValueError(f"unsupported {name} range keys: {', '.join(unknown)}")
+    if not rule:
+        raise ValueError(f"{name} range must declare min or max")
+    limits: dict[str, float] = {}
+    for side in ("min", "max"):
+        if side not in rule:
+            continue
+        raw = rule[side]
+        if isinstance(raw, bool) or not isinstance(raw, (int, float)):
+            raise TypeError(f"{name}.{side} must be a finite number")
+        try:
+            limit = float(raw)
+        except (OverflowError, ValueError) as exc:
+            raise ValueError(f"{name}.{side} must be a finite number") from exc
+        if not math.isfinite(limit):
+            raise ValueError(f"{name}.{side} must be a finite number")
+        limits[side] = limit
+    if "min" in limits and "max" in limits and limits["min"] > limits["max"]:
+        raise ValueError(f"{name}.min cannot exceed {name}.max")
+    if "min" in limits and value < limits["min"]:
+        failures.append(f"{name}={value:.9g} below minimum {limits['min']:.9g}")
+    if "max" in limits and value > limits["max"]:
+        failures.append(f"{name}={value:.9g} above maximum {limits['max']:.9g}")
 
 
 def verify_mesh(
@@ -159,6 +181,8 @@ def verify_mesh(
     extents = np.asarray(mesh.extents, dtype=float)
     bounds = np.asarray(mesh.bounds, dtype=float)
     volume = float(abs(mesh.volume))
+    if not math.isfinite(volume):
+        raise ValueError("mesh volume is non-finite")
     component_count = _component_count(topology)
     watertight = bool(topology.is_watertight)
 
@@ -174,12 +198,16 @@ def verify_mesh(
     }
 
     if "watertight" in constraints:
-        expected = bool(constraints["watertight"])
-        if watertight is not expected:
-            failures.append(f"watertight={watertight} but expected {expected}")
+        expected_watertight = constraints["watertight"]
+        if not isinstance(expected_watertight, bool):
+            raise ValueError("watertight constraint must be boolean")
+        if watertight is not expected_watertight:
+            failures.append(f"watertight={watertight} but expected {expected_watertight}")
 
     if "max_components" in constraints:
-        maximum = int(constraints["max_components"])
+        maximum = constraints["max_components"]
+        if not isinstance(maximum, int) or isinstance(maximum, bool):
+            raise ValueError("max_components must be an integer")
         if maximum < 1:
             raise ValueError("max_components must be at least 1")
         if component_count > maximum:
@@ -205,7 +233,7 @@ def verify_mesh(
                 continue
             rule = rules[axis]
             if not isinstance(rule, Mapping):
-                raise ValueError(f"extent constraint for {axis} must be an object")
+                raise TypeError(f"extent constraint for {axis} must be an object")
             _check_range(f"extent.{axis}", float(extents[index]), rule, failures)
 
     if "bounds" in constraints:
@@ -217,22 +245,35 @@ def verify_mesh(
             raise ValueError(
                 f"unsupported bounds keys: {', '.join(unknown_bound_keys)}"
             )
-        for side, row in (("min", bounds[0]), ("max", bounds[1])):
+        expected_by_side: dict[str, Any] = {}
+        for side in ("min", "max"):
             if side not in rule:
                 continue
-            expected = np.asarray(rule[side], dtype=float)
-            if expected.shape != (3,):
+            expected_bounds = np.asarray(rule[side], dtype=float)
+            if expected_bounds.shape != (3,):
                 raise ValueError(f"bounds.{side} must contain exactly three values")
+            if not np.isfinite(expected_bounds).all():
+                raise ValueError(f"bounds.{side} must contain only finite values")
+            expected_by_side[side] = expected_bounds
+        if "min" in expected_by_side and "max" in expected_by_side and np.any(
+            expected_by_side["min"] > expected_by_side["max"]
+        ):
+            raise ValueError("bounds.min cannot exceed bounds.max")
+        for side, row in (("min", bounds[0]), ("max", bounds[1])):
+            if side not in expected_by_side:
+                continue
+            expected_bounds = expected_by_side[side]
             if side == "min":
-                violated = row < expected
+                violated = row < expected_bounds
                 comparator = "below"
             else:
-                violated = row > expected
+                violated = row > expected_bounds
                 comparator = "above"
-            for index in np.flatnonzero(violated):
+            for raw_index in np.flatnonzero(violated):
+                axis_index = int(raw_index)
                 failures.append(
-                    f"bounds.{side}.{AXES[index]}={row[index]:.9g} {comparator} "
-                    f"allowed {expected[index]:.9g}"
+                    f"bounds.{side}.{AXES[axis_index]}={row[axis_index]:.9g} {comparator} "
+                    f"allowed {expected_bounds[axis_index]:.9g}"
                 )
 
     return VerificationReport(
