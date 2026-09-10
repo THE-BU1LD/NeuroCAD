@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "extends": "vertexed_neurocad_provenance_v1.json",
+  "historical_source_repository": "vertex-studyAI/vertexED.ai",
+  "source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "purpose": "Recover generated NeuroCAD Alpha product-QA artifacts omitted from the initial provenance set while keeping them explicitly non-scientific and historical-only.",
+  "additional_surfaces": [
+    {
+      "category": "product_tests",
+      "source_path": "artifacts/neurocad-alpha/NEUROCAD_ALPHA_PRODUCT_QA.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "12b6c08fc87706dbacaf0b5cc1d1de6d3f1bba39",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/PUBLIC_ALPHA_EVIDENCE_LEDGER.md",
+      "note": "Generated historical Alpha product-QA summary. The source itself labels this product QA rather than a scientific/OOD benchmark; migration must not upgrade that status."
+    },
+    {
+      "category": "product_tests",
+      "source_path": "artifacts/neurocad-alpha/product-qa.json",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "cf96041c2c5c6b19699734aba9d7fcd0bdc4b241",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/PUBLIC_ALPHA_EVIDENCE_LEDGER.md",
+      "note": "Machine-readable historical Alpha product-QA output. Its PRODUCT_QA_NOT_SCIENTIFIC_BENCHMARK boundary is preserved; it is not successor or held-out scientific evidence."
+    }
+  ]
+}

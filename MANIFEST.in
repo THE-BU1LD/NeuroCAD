@@ -41,6 +41,7 @@ recursive-include configs *.json
 recursive-include datasets *.md
 recursive-include demo *.md *.sh
 recursive-include docs *.md
+include docs/vertexed_neurocad_*.json
 recursive-include docs/examples *.json
 recursive-include grammar *.md
 recursive-include literature *.md *.csv

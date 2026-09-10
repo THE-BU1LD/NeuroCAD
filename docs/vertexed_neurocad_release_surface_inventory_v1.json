@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "historical_source_repository": "vertex-studyAI/vertexED.ai",
+  "source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "source_root_tree": "c5aeb156a9c09f0408dfa3dd20bd770076b5ee76",
+  "scope": "NeuroCAD-named scripts plus tests/e2e directly referenced by the frozen NeuroCAD Alpha browser, OpenSCAD, and public-CDN workflows outside portfolio/project2424/projects/T2424-0037",
+  "entry_count": 6,
+  "integrity_boundary": {
+    "inventory_is_provenance_only": true,
+    "inventory_is_not_scientific_validation": true,
+    "inventory_does_not_authorize_execution": true,
+    "historical_product_qa_is_not_successor_evidence": true
+  },
+  "entries": [
+    {
+      "path": "scripts/publish-neurocad-alpha.mjs",
+      "blob_sha": "c20b2281810537cf532edad62582e965abaa8fd0",
+      "role": "historical Alpha artifact materializer"
+    },
+    {
+      "path": "scripts/neurocad-alpha-openscad-qa.mjs",
+      "blob_sha": "bc8d0e46c70a954a5cea2c61c41af9c3c7f3f4de",
+      "role": "historical OpenSCAD product-certification runner"
+    },
+    {
+      "path": "tests/neurocadProductQa.test.mjs",
+      "blob_sha": "30dd2cdb0dc157ae9c05270ea6a4233212c0cec9",
+      "role": "historical bounded product-QA generator"
+    },
+    {
+      "path": "tests/neurocadPublicRoute.test.mjs",
+      "blob_sha": "1cf180a181864a6cc230fada099f45a2819e2cbb",
+      "role": "historical public-route packaging test"
+    },
+    {
+      "path": "tests/neurocadCdnWorkflowGuard.test.mjs",
+      "blob_sha": "8bcdf171055291b063219219a339bc1a5fba7b12",
+      "role": "historical CDN workflow safety guard"
+    },
+    {
+      "path": "e2e/neurocad-alpha.spec.ts",
+      "blob_sha": "1dc0b945024657bea790edb2ecd4b8b571cd8c42",
+      "role": "historical Playwright Alpha browser certification"
+    }
+  ]
+}

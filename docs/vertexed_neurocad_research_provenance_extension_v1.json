@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "extends": "vertexed_neurocad_provenance_v1.json",
+  "historical_source_repository": "vertex-studyAI/vertexED.ai",
+  "source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "purpose": "Complete benchmark, diagnostic, successor-S3, and Project-2424 provenance surfaces referenced by the historical NeuroCAD evidence ledger without copying or reinterpreting outcome-bearing artifacts.",
+  "recovered_blob_identities": {
+    "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md": "3d2a1127f544d600efefd03449ff2d27c0d7dca7",
+    "portfolio/project2424/projects/T2424-0037/STATUS.md": "3947461b4511617e6d0a7608d4c6ccb0724c674b",
+    "portfolio/project2424/projects/T2424-0037/SAFETY_AND_SCOPE.md": "1dd46b098dc8c301647700a7d03d15fc27d84c3b",
+    "portfolio/project2424/projects/T2424-0037/PILOT_FEEDBACK_TEMPLATE.md": "8fb9b5a60a69a0a71e0085afc5615400527fa134"
+  },
+  "additional_surfaces": [
+    {
+      "category": "runtime_product",
+      "source_path": "portfolio/project2424/projects/T2424-0037/web/",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_tree": "d77eb7f32f8adc31297f6e8f3e42e42572051b5a",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "README.md",
+      "note": "Historical browser-facing Alpha shell; the canonical repository does not claim a byte-identical migration of this web implementation."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/PROTOCOL.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "f672c2bfad6c0d8bf9e76b3a676c8df5dbfb76a0",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical v1 protocol remains at the pinned source and is not converted into successor evidence."
+    },
+    {
+      "category": "project2424_evidence_alias",
+      "source_path": "portfolio/project2424/projects/T2424-0037/PROJECT.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "a78ac0b2f4bb25d41e2a9ab6ac271f2d156164ca",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/HISTORICAL_VERTEXED_PROVENANCE.md",
+      "note": "Historical Project 2424 project card/alias retained as provenance metadata only."
+    },
+    {
+      "category": "project2424_evidence_alias",
+      "source_path": "portfolio/project2424/projects/T2424-0037/STATE.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "67981cab3593e764841af4debaf8488f317e776a",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/HISTORICAL_VERTEXED_PROVENANCE.md",
+      "note": "Historical Project 2424 state snapshot remains a pointer to the old repository, not current canonical state."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/prompts.json",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "c08dbf0cd611afccd0e855fcc672bca679f78ab2",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical benchmark input bundle. It is not relabelled as a new held-out or S3 benchmark."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/evaluate.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "c1645997c72f74c21ac9fb84cff8d695eaaa0c54",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical evaluator for the retained v1 evidence; no rerun or reinterpretation is performed by the migration."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/direct_baseline.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "19e1728b40bb697c819e2822d725cf990777ae55",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical direct baseline implementation remains bound to the old v1 evidence package."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/OOD_PROTOCOL.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "413bc2a9eab6f2c3a98b85b7290e9289d0e2f5b2",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical OOD protocol remains historical evidence and is not treated as a fresh successor confirmatory split."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/OOD_RESULTS.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "79e67dc94f4d284029443e1732be7275787396dc",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical OOD result artifact is preserved at source; migration cannot upgrade or refresh its scientific status."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/ood_prompts_v1.json",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "368ee7160b0367fc1f4751cf7f9a909797e8f40e",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical OOD prompt bundle remains frozen at the old snapshot."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/ood_evaluate.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "2651097bc9813306848b2f9c99c2fd17d6deb936",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical OOD evaluator remains provenance for the old result package only."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/component_ablation_evaluate.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "0571ab13a1b61e7867867e710c07f1125971d91d",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Evaluator for the frozen matched-validation diagnostic; it must not be retuned to rescue the typed-parser causal claim."
+    },
+    {
+      "category": "scripts_workflows",
+      "source_path": ".github/workflows/neurocad-component-ablation.yml",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical workflow that executed the frozen component diagnostic and its contract checks."
+    },
+    {
+      "category": "product_tests",
+      "source_path": "tests/nlpToCadComponentAblation.test.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical regression asserting the frozen component-ablation contract."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/S3_SUCCESSOR_PROTOCOL_20260822.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "f8b0b38fa0837bc81dbd7efad90e1f8b1e15ff27",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "research/s3/",
+      "note": "Historical successor protocol is provenance for the current S3 line, not an authorization to execute or inspect outcomes."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/S3_ADAPTER_PROVENANCE.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "d2500dd934842ff0c28a997fc98a2cd9b3b35f71",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "research/s3/",
+      "note": "Historical adapter-identity ledger points toward the canonical S3 freeze work; no materialization or outcome access is inferred."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/generate_s3_execution_authorization.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "aa8469cf613cffafdab059e562711b7c483b9df5",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "research/s3/",
+      "note": "Historical authorization-generation surface. Its existence is not execution authorization."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/s3_successor_manifest.json",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "research/s3/",
+      "note": "Historical machine-readable successor protocol surface; canonical S3 freeze remains separately governed."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/s3_external_adapter_registry.json",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "research/s3/",
+      "note": "Historical external-adapter identity registry; identity selection alone is not a frozen executable benchmark."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/benchmark/validate_s3_external_adapter_registry.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "research/s3/",
+      "note": "Historical fail-closed registry guard; no confirmatory run is authorized by its presence."
+    }
+  ]
+}
