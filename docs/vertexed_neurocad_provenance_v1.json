@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "historical_source_repository": "vertex-studyAI/vertexED.ai",
+  "source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "canonical_repository": "THE-BU1LD/NeuroCAD",
+  "generated_for_issue": 44,
+  "integrity_boundary": {
+    "migration_is_not_scientific_validation": true,
+    "typed_parser_causal_claim": "FALSIFIED_VALIDATION_DOMINANT",
+    "stage2_outcome_access": "UNCHANGED",
+    "s3_outcome_access": "UNCHANGED",
+    "frozen_results_must_not_be_rewritten": true
+  },
+  "surfaces": [
+    {
+      "category": "runtime_product",
+      "source_path": "portfolio/project2424/projects/T2424-0037/src/",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "README.md",
+      "note": "Historical embedded Alpha runtime. The canonical repository has an independently maintained Python product/runtime; no byte-identical migration is claimed."
+    },
+    {
+      "category": "e2e_browser",
+      "source_path": "e2e/neurocad-alpha.spec.ts",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "tests/test_public_alpha_verifier.py",
+      "note": "Historical Playwright certification belongs to the embedded Alpha artifact and must not be presented as current canonical browser evidence."
+    },
+    {
+      "category": "scripts_workflows",
+      "source_path": "scripts/publish-neurocad-alpha.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/PUBLIC_ALPHA_EVIDENCE_LEDGER.md",
+      "note": "Historical VertexED packaging/CDN materializer; not the canonical NeuroCAD release path."
+    },
+    {
+      "category": "scripts_workflows",
+      "source_path": "scripts/neurocad-alpha-openscad-qa.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "scripts/verify_public_alpha.sh",
+      "note": "Historical Alpha OpenSCAD QA script; current canonical verifier is a separate implementation."
+    },
+    {
+      "category": "scripts_workflows",
+      "source_path": ".github/workflows/neurocad-alpha-browser.yml",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": ".github/workflows/ci.yml",
+      "note": "Historical browser workflow; canonical CI must not inherit its historical evidence claims."
+    },
+    {
+      "category": "scripts_workflows",
+      "source_path": ".github/workflows/neurocad-alpha-openscad.yml",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": ".github/workflows/ci.yml",
+      "note": "Historical OpenSCAD certification workflow."
+    },
+    {
+      "category": "scripts_workflows",
+      "source_path": ".github/workflows/neurocad-alpha-public-cdn.yml",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "b804066240b759e0670226c343f09b65f7bdb0e0",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/PUBLIC_ALPHA_EVIDENCE_LEDGER.md",
+      "note": "Historical immutable jsDelivr transport workflow. It explicitly did not establish an executable public browser host."
+    },
+    {
+      "category": "product_tests",
+      "source_path": "tests/neurocadProductQa.test.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "tests/",
+      "note": "Historical 125-case product-QA generator; software QA, not scientific/OOD evidence."
+    },
+    {
+      "category": "product_tests",
+      "source_path": "tests/neurocadPublicRoute.test.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "tests/test_public_alpha_verifier.py",
+      "note": "Historical embedded-route packaging test."
+    },
+    {
+      "category": "public_alpha_release",
+      "source_path": "portfolio/project2424/projects/T2424-0037/NEUROCAD_ALPHA_PRODUCT_VALIDATION_20260822.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "e287ede3d0fd2982f41864f2c9adf07306ff43a5",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/PUBLIC_ALPHA_EVIDENCE_LEDGER.md",
+      "note": "Retain as historical release evidence only; current canonical release requires exact-current-commit evidence."
+    },
+    {
+      "category": "public_alpha_release",
+      "source_path": "portfolio/project2424/projects/T2424-0037/DEMO.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "47f6e866bcbf8d0bd6f457698b5475cab576aa24",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "README.md",
+      "note": "Historical Alpha demo instructions."
+    },
+    {
+      "category": "public_alpha_release",
+      "source_path": "portfolio/project2424/projects/T2424-0037/SAFETY_AND_SCOPE.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical product safety/scope document; do not treat it as current scientific validation."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/STATUS.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical status records controlled/held-out evidence and the VALIDATION_DOMINANT typed-parser falsifier. Canonical status preserves that falsification."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/CLAIM.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "820cdabdd4df2bbed7e6a5badac2d59a6e6580c3",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical claim boundary; current canonical status is authoritative and retains the falsified causal interpretation."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_PROTOCOL_20260814.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "2b3cd52a02705fa716a8132993da1d4999fc93b1",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Frozen diagnostic protocol. Never retune or reinterpret it to rescue the typed-parser mechanism."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Frozen matched-validation result: validation-dominant mechanism diagnosis."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/research/NEUROCAD_INDEPENDENT_ARTIFACT_AUDIT_20260814.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical independent artifact audit remains evidence at its original pinned source."
+    },
+    {
+      "category": "research_protocol_result",
+      "source_path": "portfolio/research/papers/NEUROCAD_CONTROLLED_MANUSCRIPT.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical manuscript is not upgraded by repository migration and is not current successor evidence."
+    },
+    {
+      "category": "claim_ledger",
+      "source_path": "CLAIM_LEDGER.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Portfolio-wide historical ledger; NeuroCAD's current authoritative boundary is canonical RESEARCH_STATUS."
+    },
+    {
+      "category": "project2424_evidence_alias",
+      "source_path": "portfolio/project2424/projects/T2424-0037/EVIDENCE.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "9009fb23ad7431c9beda4c6e724ab772d109cc13",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical pointer ledger for v1/v2, Alpha, deployment, pilots and successor evidence. It remains a provenance pointer, not recreated evidence."
+    },
+    {
+      "category": "external_pilot",
+      "source_path": "portfolio/project2424/projects/T2424-0037/EXTERNAL_PILOT.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "16892d1d09afc795849d9f32af87d6a5dc100146",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "https://github.com/THE-BU1LD/NeuroCAD/issues/41",
+      "note": "Historical external-pilot instructions. No invitation, reply or walkthrough is treated as a completed pilot."
+    },
+    {
+      "category": "external_pilot",
+      "source_path": "portfolio/project2424/projects/T2424-0037/PILOT_FEEDBACK_TEMPLATE.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "https://github.com/THE-BU1LD/NeuroCAD/issues/41",
+      "note": "Historical pilot evidence-capture template; no completed external evidence is synthesized by this map."
+    },
+    {
+      "category": "external_pilot",
+      "source_path": "outreach/NEUROCAD_PILOT_EVIDENCE_TEMPLATE.md",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "https://github.com/THE-BU1LD/NeuroCAD/issues/41",
+      "note": "Historical outreach-level evidence template; a reply alone was explicitly not a pilot."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "extends": "vertexed_neurocad_research_provenance_extension_v1.json",
+  "historical_source_repository": "vertex-studyAI/vertexED.ai",
+  "source_snapshot": "9efb041d3d56e0dc617f5808576beff696d08a69",
+  "purpose": "Bind the late-recovered historical NeuroCAD OOD workflow and its repository-level contract test without reopening, rerunning, or upgrading the frozen OOD outcome package.",
+  "integrity_boundary": {
+    "historical_only": true,
+    "scientific_status_unchanged": true,
+    "successor_authorization_unchanged": true,
+    "outcome_access_unchanged": true
+  },
+  "additional_surfaces": [
+    {
+      "category": "scripts_workflows",
+      "source_path": ".github/workflows/neurocad-ood-benchmark.yml",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "b88a666c0b229c3d0f84a2a839e952728260d44e",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical workflow for the frozen held-out-template OOD package. Provenance recovery does not authorize a rerun, reopen outcomes, or make the old OOD package fresh successor evidence."
+    },
+    {
+      "category": "product_tests",
+      "source_path": "tests/nlpToCadOodBenchmark.test.mjs",
+      "source_ref": "9efb041d3d56e0dc617f5808576beff696d08a69",
+      "source_blob": "00002a21ff7f8c29a8a3d924e84fd1f4d385ca7a",
+      "canonical_destination": "HISTORICAL_ONLY",
+      "relation": "INTENTIONALLY_NOT_MIGRATED",
+      "current_cross_link": "docs/RESEARCH_STATUS.md",
+      "note": "Historical repository-level contract test for the frozen 20-case OOD benchmark. It is retained only as source provenance and does not establish current held-out or successor validity."
+    }
+  ]
+}
