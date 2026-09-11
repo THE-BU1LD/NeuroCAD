@@ -1,0 +1,39 @@
+name: Artifact Review
+description: Correctness and reproducibility review
+title: "[REVIEW] "
+labels: ["review"]
+body:
+  - type: input
+    id: artifact
+    attributes:
+      label: Artifact or issue
+    validations:
+      required: true
+  - type: textarea
+    id: correctness
+    attributes:
+      label: Correctness
+      description: Does the evidence support the claim?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: What did you reproduce or fail to reproduce?
+  - type: textarea
+    id: risks
+    attributes:
+      label: Failure cases and risks
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: Verdict
+      options:
+        - needs-evidence
+        - needs-reproduction
+        - needs-revision
+        - accepted
+        - frozen-negative-result
+    validations:
+      required: true
