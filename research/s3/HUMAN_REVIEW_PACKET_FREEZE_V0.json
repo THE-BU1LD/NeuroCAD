@@ -1,0 +1,59 @@
+{
+  "schema_version": "neurocad.s3.human-review-packet-freeze.v1",
+  "status": "FROZEN_REVIEW_PACKET_NOT_EVALUATED",
+  "execution_authorized": false,
+  "outcomes_observed": false,
+  "human_review_completed": false,
+  "automatic_taxonomy_mapping_performed": false,
+  "automatic_selection_decisions_performed": false,
+  "automatic_semantic_deduplication_performed": false,
+  "first_verified_source_commit": "5c8566da5a6c81cd9508faa500163dcb2315ce55",
+  "first_verified_workflow_run": 33987612352,
+  "first_verified_workflow_artifact": {
+    "id": 9975638086,
+    "name": "s3-human-review-packet",
+    "digest": "sha256:2e2804ae9fa5a776a36c956fde9a6bf2b50e44400b89494f4ff4801c1903ea8a"
+  },
+  "candidate_count": 591,
+  "source_counts": {
+    "internal_synthetic": 110,
+    "external_prompt_only": 481
+  },
+  "taxonomy_mapping_required_count": 481,
+  "source_inputs": {
+    "internal_candidate_csv": {
+      "path": "research/s3/benchmark_candidate_pool_v0.csv",
+      "candidate_count": 110,
+      "sha256": "0314bcfa38433c0aee4cc901ea582654dcbc3791705f40121d8803505834f8c1"
+    },
+    "cadtestbench_adapted": {
+      "candidate_count": 400,
+      "sha256": "52695caa814b6b0b5fca4c645ee6d047651bb099a55722c2099a5bd65a724877"
+    },
+    "cadgenbench_adapted": {
+      "candidate_count": 81,
+      "sha256": "545dcea1e193d713a94ab26d462d25e1c0bebf1d60dfaf66fe2ce992a8d097ec"
+    }
+  },
+  "review_packet": {
+    "path_in_artifact": "S3_HUMAN_REVIEW_PACKET.jsonl",
+    "records": 591,
+    "sha256": "0ee7e8be0b085e3f73a832b7bfcb198acfc63354423d25ae27e40965a48887b2"
+  },
+  "ledger_template": {
+    "path_in_artifact": "S3_HUMAN_REVIEW_LEDGER_TEMPLATE.csv",
+    "records": 591,
+    "sha256": "22f92ebf40050d0ebb6c5e6f450d74339cc68573ca18277eef25805d1e649731"
+  },
+  "review_manifest": {
+    "path_in_artifact": "S3_HUMAN_REVIEW_MANIFEST.json",
+    "sha256": "ed95d841cb9e888d70992bf7249b157d2c9d21e127ae57ab9c2cbce1e50de443"
+  },
+  "review_boundary": {
+    "external_taxonomy_labels_filled": false,
+    "include_exclude_decisions_filled": false,
+    "semantic_dedup_attestations_filled": false,
+    "final_selection_sha256": null,
+    "next_gate": "HUMAN_NON_MODEL_TAXONOMY_MAPPING_AND_SEMANTIC_DEDUP_REVIEW"
+  }
+}

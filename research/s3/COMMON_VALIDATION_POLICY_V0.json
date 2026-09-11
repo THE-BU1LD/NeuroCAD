@@ -1,0 +1,33 @@
+{
+  "schema_version": "neurocad.s3.common-validation-policy.v0",
+  "status": "FROZEN_PREOUTCOME",
+  "outcomes_observed": false,
+  "historical_typed_parser_claim": "FALSIFIED_VALIDATION_DOMINANT_UNCHANGED",
+  "applies_to_all_arms": true,
+  "same_final_verifier_all_arms": true,
+  "human_correction_disabled": true,
+  "retain_raw_outputs": true,
+  "retain_failed_trials": true,
+  "retain_compile_logs": true,
+  "final_verification_scope": "Final generated mesh artifacts only; no arm-specific internal state is visible to the shared verifier.",
+  "retry_policy": {
+    "max_attempts_per_prompt_arm_trial": 2,
+    "same_attempt_limit_all_arms": true,
+    "feedback_policy": "Only the feedback explicitly defined by the frozen treatment arm may be model-facing; final scoring always uses the same independent verifier. No human repair or post-outcome retry extension."
+  },
+  "artifact_policy": {
+    "first_attempt_preserved": true,
+    "all_attempts_preserved": true,
+    "final_artifact_sha256_required": true,
+    "provider_response_identity_required": true
+  },
+  "failure_policy": {
+    "compile_failure_hvr": false,
+    "verifier_failure_hvr": false,
+    "timeout_hvr": false,
+    "retry_exhaustion_hvr": false,
+    "missing_final_artifact_hvr": false,
+    "infrastructure_failures_reported_separately": true
+  },
+  "policy_sha256": "219dc02e4bb7cddd89ec0fc354b705e406d22698e4724fca51636241ea0cae00"
+}

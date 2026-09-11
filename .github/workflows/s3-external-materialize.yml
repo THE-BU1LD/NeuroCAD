@@ -1,0 +1,200 @@
+name: NeuroCAD S3 External Prompt Materialization
+
+on:
+  pull_request:
+    paths:
+      - "research/s3/**"
+      - "tests/test_s3_**"
+      - ".github/workflows/s3-external-materialize.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  materialize-prompt-only-inputs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install pinned materialization tooling
+        run: >-
+          python -m pip install
+          huggingface_hub==0.34.4
+          pyarrow==21.0.0
+          PyYAML==6.0.2
+
+      - name: Materialize exact public prompt-only sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m research.s3.materialize_external_inputs \
+            --output-dir /tmp/s3-external-materialized \
+            --cache-dir /tmp/hf-cache
+
+      - name: Verify materialization against frozen pre-outcome receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          root = Path('/tmp/s3-external-materialized')
+          receipt_path = root / 'MATERIALIZATION_RECEIPT.json'
+          receipt_raw = receipt_path.read_bytes()
+          receipt = json.loads(receipt_raw)
+          freeze = json.loads(Path('research/s3/EXTERNAL_MATERIALIZATION_FREEZE_V0.json').read_text())
+
+          assert receipt['status'] == 'PROMPT_ONLY_MATERIALIZED_NOT_EVALUATED'
+          assert receipt['execution_authorized'] is False
+          assert receipt['outcomes_observed'] is False
+          assert receipt['private_ground_truth_accessed'] is False
+          assert freeze['status'] == 'FROZEN_PROMPT_ONLY_NOT_EVALUATED'
+          assert freeze['execution_authorized'] is False
+          assert freeze['outcomes_observed'] is False
+          assert freeze['private_ground_truth_accessed'] is False
+          assert hashlib.sha256(receipt_raw).hexdigest() == freeze['materialization_receipt_sha256']
+
+          for path_key, blob_key in (
+              ('path', 'git_blob_sha'),
+              ('external_adapter_path', 'external_adapter_git_blob_sha'),
+          ):
+              path = freeze['materializer'][path_key]
+              actual = subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+              assert actual == freeze['materializer'][blob_key], (path, actual, freeze['materializer'][blob_key])
+
+          actual_sources = {item['source']: item for item in receipt['sources']}
+          expected_sources = freeze['sources']
+          assert set(actual_sources) == set(expected_sources) == {'cadtestbench', 'cadgenbench'}
+
+          cadtest = actual_sources['cadtestbench']
+          cadtest_expected = expected_sources['cadtestbench']
+          assert cadtest['dataset_repository'] == cadtest_expected['dataset_repository']
+          assert cadtest['dataset_revision'] == cadtest_expected['dataset_revision']
+          assert cadtest['dataset_license'] == cadtest_expected['dataset_license']
+          assert cadtest['prompt_only_export']['records'] == cadtest_expected['prompt_only_records'] == 400
+          assert cadtest['prompt_only_export']['sha256'] == cadtest_expected['prompt_only_sha256']
+          assert cadtest['adapted_export']['records'] == cadtest_expected['adapted_records'] == 400
+          assert cadtest['adapted_export']['sha256'] == cadtest_expected['adapted_sha256']
+          assert cadtest['verified_source_artifacts'] == cadtest_expected['source_artifacts']
+
+          cadgen = actual_sources['cadgenbench']
+          cadgen_expected = expected_sources['cadgenbench']
+          assert cadgen['dataset_repository'] == cadgen_expected['dataset_repository']
+          assert cadgen['dataset_revision'] == cadgen_expected['dataset_revision']
+          assert cadgen['dataset_license'] == cadgen_expected['dataset_license']
+          assert cadgen['download_scope'] == cadgen_expected['download_scope']
+          assert cadgen['private_ground_truth_repository_accessed'] is False
+          assert cadgen_expected['private_ground_truth_repository_accessed'] is False
+          assert cadgen['prompt_only_export']['records'] == cadgen_expected['prompt_only_records'] == 81
+          assert cadgen['prompt_only_export']['sha256'] == cadgen_expected['prompt_only_sha256']
+          assert cadgen['adapted_export']['records'] == cadgen_expected['adapted_records'] == 81
+          assert cadgen['adapted_export']['sha256'] == cadgen_expected['adapted_sha256']
+          assert cadgen['public_input_ledger']['records'] == cadgen_expected['public_input_ledger_records'] == 81
+          assert cadgen['public_input_ledger']['sha256'] == cadgen_expected['public_input_ledger_sha256']
+
+          for source in actual_sources.values():
+              for key in ('prompt_only_export', 'adapted_export'):
+                  path = root / source[key]['path']
+                  assert path.is_file() and path.stat().st_size > 0
+          PY
+
+      - name: Produce immutable checksum ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/s3-external-materialized
+          sha256sum * | sort > CHECKSUMS.sha256
+          cat CHECKSUMS.sha256
+
+      - name: Build deterministic human-review packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/s3-human-review
+          python research/s3/review_packet.py \
+            --internal-csv research/s3/benchmark_candidate_pool_v0.csv \
+            --external-jsonl /tmp/s3-external-materialized/cadtestbench.adapted.jsonl \
+            --external-jsonl /tmp/s3-external-materialized/cadgenbench.adapted.jsonl \
+            --packet-output /tmp/s3-human-review/S3_HUMAN_REVIEW_PACKET.jsonl \
+            --ledger-output /tmp/s3-human-review/S3_HUMAN_REVIEW_LEDGER_TEMPLATE.csv \
+            --manifest-output /tmp/s3-human-review/S3_HUMAN_REVIEW_MANIFEST.json
+
+      - name: Verify human-review packet remains non-model and non-authorizing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path('/tmp/s3-human-review')
+          manifest = json.loads((root / 'S3_HUMAN_REVIEW_MANIFEST.json').read_text())
+          packet_path = root / 'S3_HUMAN_REVIEW_PACKET.jsonl'
+          ledger_path = root / 'S3_HUMAN_REVIEW_LEDGER_TEMPLATE.csv'
+
+          assert manifest['status'] == 'HUMAN_REVIEW_REQUIRED_NOT_AUTHORIZED'
+          assert manifest['execution_authorized'] is False
+          assert manifest['outcomes_observed'] is False
+          assert manifest['automatic_taxonomy_mapping_performed'] is False
+          assert manifest['automatic_selection_decisions_performed'] is False
+          assert manifest['automatic_semantic_deduplication_performed'] is False
+          assert manifest['candidate_count'] == 591
+          assert manifest['taxonomy_mapping_required_count'] == 481
+          assert manifest['source_counts'] == {
+              'external_prompt_only': 481,
+              'internal_synthetic': 110,
+          }
+          assert hashlib.sha256(packet_path.read_bytes()).hexdigest() == manifest['packet_sha256']
+          assert hashlib.sha256(ledger_path.read_bytes()).hexdigest() == manifest['ledger_template_sha256']
+
+          packet_lines = packet_path.read_text().splitlines()
+          assert len(packet_lines) == 591
+          packet = [json.loads(line) for line in packet_lines]
+          external = [row for row in packet if row['source_kind'] == 'external_prompt_only']
+          internal = [row for row in packet if row['source_kind'] == 'internal_synthetic']
+          assert len(external) == 481
+          assert len(internal) == 110
+          assert all(row['review_fields']['category'] is None for row in external)
+          assert all(row['review_fields']['decision'] is None for row in packet)
+          assert all(row['review_fields']['semantic_dedup_reviewed'] is False for row in packet)
+
+          with ledger_path.open(newline='', encoding='utf-8') as handle:
+              ledger = list(csv.DictReader(handle))
+          assert len(ledger) == 591
+          assert all(row['decision'] == '' for row in ledger)
+          assert all(row['semantic_dedup_reviewed'] == 'false' for row in ledger)
+          assert sum(row['category'] == '' for row in ledger) == 481
+          PY
+
+      - name: Upload prompt-only materialization evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: s3-external-prompt-materialization
+          path: /tmp/s3-external-materialized/
+          if-no-files-found: error
+
+      - name: Upload S3 human-review packet
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: s3-human-review-packet
+          path: /tmp/s3-human-review/
+          if-no-files-found: error

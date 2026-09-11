@@ -1,0 +1,114 @@
+{
+  "schema_version": "neurocad.s3.preauthorization.v0",
+  "status": "PREOUTCOME_LOCKED_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "outcome_access_allowed": false,
+  "outcomes_observed": false,
+  "historical_typed_parser_claim": "FALSIFIED_VALIDATION_DOMINANT_UNCHANGED",
+  "scientific_protocol_sha256": "49c93a2df61a3adcc98eab89f3dcd610e7f6d2f730d1c960b3989c5866f0b320",
+  "model_baseline_freeze_sha256": "c061313687bd3a62ad13283a8a702c6794199772e56e28fa0905574aa40d7bc7",
+  "evaluated_model": {
+    "provider": "OpenAI API",
+    "model": "gpt-5.4",
+    "revision": "gpt-5.4-2026-03-05",
+    "runtime": "OpenAI Responses API v1"
+  },
+  "baseline_families": [
+    {
+      "id": "no_schema_compiler_retained",
+      "identity": {
+        "provider": "OpenAI API",
+        "model": "gpt-5.4",
+        "revision": "gpt-5.4-2026-03-05",
+        "runtime": "OpenAI Responses API v1"
+      },
+      "matched_provider_model": true
+    },
+    {
+      "id": "typed_intermediate_no_internal_validation",
+      "identity": {
+        "provider": "OpenAI API",
+        "model": "gpt-5.4",
+        "revision": "gpt-5.4-2026-03-05",
+        "runtime": "OpenAI Responses API v1"
+      },
+      "matched_provider_model": true
+    },
+    {
+      "id": "full_structured_no_model_facing_feedback",
+      "identity": {
+        "provider": "OpenAI API",
+        "model": "gpt-5.4",
+        "revision": "gpt-5.4-2026-03-05",
+        "runtime": "OpenAI Responses API v1"
+      },
+      "matched_provider_model": true
+    },
+    {
+      "id": "direct_generation_equal_verifier_feedback",
+      "identity": {
+        "provider": "OpenAI API",
+        "model": "gpt-5.4",
+        "revision": "gpt-5.4-2026-03-05",
+        "runtime": "OpenAI Responses API v1"
+      },
+      "matched_provider_model": true
+    }
+  ],
+  "common_validation_policy": {
+    "sha256": "219dc02e4bb7cddd89ec0fc354b705e406d22698e4724fca51636241ea0cae00",
+    "applies_to_all_arms": true,
+    "same_final_verifier_all_arms": true,
+    "human_correction_disabled": true,
+    "retain_raw_outputs": true,
+    "retain_failed_trials": true,
+    "retain_compile_logs": true
+  },
+  "analysis_plan_sha256": "9f5822c8a277e2cca0652554d61d81f5fb8aa76875da44e3a17dc044f83f184f",
+  "decoding_and_budget": {
+    "reasoning_effort": "none",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 4096,
+    "max_attempts_per_prompt_arm_trial": 2,
+    "feedback_policy": "Treatment-specific model-facing feedback only as frozen; common independent final verifier for every arm; no human correction.",
+    "same_budget_all_arms": true,
+    "cost_cap_usd": 1500.0
+  },
+  "trial_ids": [
+    2026090501,
+    2026090502,
+    2026090503,
+    2026090504,
+    2026090505
+  ],
+  "execution_counts": {
+    "selected_prompt_count": null,
+    "arm_count": 6,
+    "maximum_call_ceiling": null
+  },
+  "source_git_blobs": {
+    "prompt_bundle_v1_json": "ad93a9e58931d04a1c13796682411f37c5732f66",
+    "structured_output_schema_json": "4685b564277e79a1ffb4de6bd08f6ee039072621",
+    "shared_verifier_py": "0e98ba1738ceae579c25a3e134d0de99cb601723",
+    "scientific_protocol_json": "28ca770044e554d829d101f1e40800de0090d385"
+  },
+  "remaining_fail_closed_authorization_gates": [
+    "Complete the 591-row non-model taxonomy and semantic-dedup human review ledger.",
+    "Freeze the final S3 selection and bind final_selection_sha256.",
+    "Compute SHA-256 digests of the exact prompt bundle, structured schema, shared verifier, and environment lock from the final checked-out authorization commit.",
+    "Freeze the exact OpenSCAD/environment identity and bind environment_lock_sha256.",
+    "Perform a separate independent manifest review while outcomes remain unobserved and bind its attestation SHA-256.",
+    "Only then render the strict authorization_freezer schema, compute authorization_sha256, and set execution_authorized/outcome_access_allowed true."
+  ],
+  "forbidden_before_authorization": [
+    "provider/model held-out calls",
+    "held-out scoring",
+    "outcome-conditioned task swaps",
+    "threshold changes",
+    "seed changes",
+    "arm changes",
+    "metric changes"
+  ],
+  "preauthorization_sha256": "a0b36a58b1a61226943038860ab1edf9959a07158ebda9593585290e825b3749"
+}
