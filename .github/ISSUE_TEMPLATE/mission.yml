@@ -1,0 +1,37 @@
+name: Mission
+description: A finite research mission with a required artifact
+title: "[MISSION] "
+labels: ["mission"]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: One precise outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Baseline
+      description: What must be reproduced or compared against?
+  - type: textarea
+    id: artifact
+    attributes:
+      label: Required artifact
+      description: Code, experiment, benchmark, replication, review, or demo.
+    validations:
+      required: true
+  - type: textarea
+    id: frozen
+    attributes:
+      label: Frozen evaluation rules
+      description: Dataset split, metric, seeds, and rules that cannot change after results are seen.
+  - type: input
+    id: deadline
+    attributes:
+      label: Deadline
+  - type: textarea
+    id: reviewers
+    attributes:
+      label: Reviewers
