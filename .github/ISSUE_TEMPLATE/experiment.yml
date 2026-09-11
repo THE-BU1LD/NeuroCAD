@@ -1,0 +1,43 @@
+name: Experiment
+description: Falsifiable experiment record
+title: "[EXP] "
+labels: ["experiment"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Frozen hypothesis
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Protocol
+      description: Dataset, split, metric, seeds, compute, and baseline.
+    validations:
+      required: true
+  - type: textarea
+    id: falsification
+    attributes:
+      label: Falsification test
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction command
+  - type: dropdown
+    id: claim
+    attributes:
+      label: Claim status
+      options:
+        - pending
+        - supported
+        - mixed
+        - negative
+        - inconclusive
+        - blocked
