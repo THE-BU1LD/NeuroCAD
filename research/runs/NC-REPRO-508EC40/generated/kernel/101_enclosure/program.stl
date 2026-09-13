@@ -1,0 +1,198 @@
+solid OpenSCAD_Model
+  facet normal 1 -0 0
+    outer loop
+      vertex 80 -25 32.5
+      vertex 80 25 -32.5
+      vertex 80 25 32.5
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 80 25 -32.5
+      vertex 80 -25 32.5
+      vertex 80 -25 -32.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 80 25 32.5
+      vertex 77.5 22.5 32.5
+      vertex 80 -25 32.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 80 25 32.5
+      vertex -77.5 22.5 32.5
+      vertex 77.5 22.5 32.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -77.5 22.5 32.5
+      vertex -80 25 32.5
+      vertex -77.5 -22.5 32.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -80 25 32.5
+      vertex -77.5 22.5 32.5
+      vertex 80 25 32.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex 77.5 -22.5 32.5
+      vertex 80 -25 32.5
+      vertex 77.5 22.5 32.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -77.5 -22.5 32.5
+      vertex 80 -25 32.5
+      vertex 77.5 -22.5 32.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -77.5 -22.5 32.5
+      vertex -80 -25 32.5
+      vertex 80 -25 32.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -80 -25 32.5
+      vertex -77.5 -22.5 32.5
+      vertex -80 25 32.5
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex -80 -25 -32.5
+      vertex 80 25 -32.5
+      vertex 80 -25 -32.5
+    endloop
+  endfacet
+  facet normal -0 0 -1
+    outer loop
+      vertex 80 25 -32.5
+      vertex -80 -25 -32.5
+      vertex -80 25 -32.5
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex -80 -25 -32.5
+      vertex -80 25 32.5
+      vertex -80 25 -32.5
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex -80 25 32.5
+      vertex -80 -25 -32.5
+      vertex -80 -25 32.5
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 80 25 -32.5
+      vertex -80 25 32.5
+      vertex 80 25 32.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -80 25 32.5
+      vertex 80 25 -32.5
+      vertex -80 25 -32.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -80 -25 -32.5
+      vertex 80 -25 32.5
+      vertex -80 -25 32.5
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 80 -25 32.5
+      vertex -80 -25 -32.5
+      vertex 80 -25 -32.5
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex 77.5 -22.5 -30
+      vertex 77.5 22.5 32.5
+      vertex 77.5 22.5 -30
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex 77.5 22.5 32.5
+      vertex 77.5 -22.5 -30
+      vertex 77.5 -22.5 32.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -77.5 22.5 -30
+      vertex 77.5 -22.5 -30
+      vertex 77.5 22.5 -30
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 77.5 -22.5 -30
+      vertex -77.5 22.5 -30
+      vertex -77.5 -22.5 -30
+    endloop
+  endfacet
+  facet normal 1 -0 0
+    outer loop
+      vertex -77.5 -22.5 32.5
+      vertex -77.5 22.5 -30
+      vertex -77.5 22.5 32.5
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex -77.5 22.5 -30
+      vertex -77.5 -22.5 32.5
+      vertex -77.5 -22.5 -30
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -77.5 22.5 -30
+      vertex 77.5 22.5 32.5
+      vertex -77.5 22.5 32.5
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 77.5 22.5 32.5
+      vertex -77.5 22.5 -30
+      vertex 77.5 22.5 -30
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 77.5 -22.5 -30
+      vertex -77.5 -22.5 32.5
+      vertex 77.5 -22.5 32.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -77.5 -22.5 32.5
+      vertex 77.5 -22.5 -30
+      vertex -77.5 -22.5 -30
+    endloop
+  endfacet
+endsolid OpenSCAD_Model

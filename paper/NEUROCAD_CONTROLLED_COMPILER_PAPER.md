@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Text-to-CAD systems are easy to overstate when syntactically plausible output or a small render gallery substitutes for executable validation. We examine a retained NeuroCAD controlled run of a deliberately bounded deterministic compiler, not a learned general-purpose CAD model. The studied system maps fully dimensioned English requests for plates, rectangular boxes and open-top enclosures, cylinders, spheres, circular holes, and rectangular slots into a typed JSON program, validates structure/references/parameters/constraints, emits deterministic OpenSCAD, and optionally executes the result to STL. On a frozen 240-task synthetic contract test, it recorded 240/240 exact semantic matches, versus 144/240 for train-set nearest-neighbor retrieval, 110/240 for raw-number extraction without unit normalization, and 0/240 for a fixed output. Across 1,000 generated typed programs, 1,000/1,000 passed static validity, declared constraints, exact serialization round trip, and deterministic export (Wilson 95% interval 99.62–100%). The run also records complete rejection of its generated malformed-input fixtures, 200/200 injected parameter drifts detected with declared constraints versus 0/200 after constraint removal, 200/200 automated parameter edits surviving validation and export, and 240/240 benchmark programs compiling with OpenSCAD to STL under the retained topology/extents checks. The frozen manifest lacks a source revision or source-tree digest, so these are claims about the retained historical run rather than proof for the current a6 source candidate. They do not establish natural-language generalization, design-intent inference, BREP reconstruction, manufacturability, or algorithmic novelty. A historical typed-parser mechanism claim remains explicitly falsified.
+Text-to-CAD systems are easy to overstate when syntactically plausible output or a small render gallery substitutes for executable validation. We examine a source-bound NeuroCAD controlled run of a deliberately bounded deterministic compiler, not a learned general-purpose CAD model. The studied system maps fully dimensioned English requests for plates, rectangular boxes and open-top enclosures, cylinders, spheres, circular holes, and rectangular slots into a typed JSON program, validates structure/references/parameters/constraints, emits deterministic OpenSCAD, and optionally executes the result to STL. On a frozen 240-task synthetic contract test, run `NC-REPRO-508EC40` recorded 240/240 exact semantic matches, versus 144/240 for train-set nearest-neighbor retrieval, 130/240 for unit-normalized dimensions only, 110/240 for raw-number extraction without unit normalization, and 0/240 for a fixed output. Across 1,000 generated typed programs, 1,000/1,000 passed static validity, declared constraints, exact serialization round trip, and deterministic export (Wilson 95% interval 99.62–100%). The run also records rejection of 240/240 unique generated malformed-input fixtures across eight categories, 200/200 injected parameter drifts detected with declared constraints versus 0/200 after constraint removal, 200/200 automated parameter edits surviving validation and export, and 240/240 benchmark programs compiling freshly with OpenSCAD to STL under the retained topology/extents checks. The manifest binds these outcomes to clean commit `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`, a 152-file maintained-source digest, the locked Python environment, and OpenSCAD 2021.01; artifact reuse was disabled. These results do not establish natural-language generalization, design-intent inference, BREP reconstruction, manufacturability, or algorithmic novelty. A historical typed-parser mechanism claim remains explicitly falsified.
 
 ## 1. Introduction
 
@@ -54,7 +54,7 @@ There is no proposed learned model and no training. Consequently, parameter coun
 
 ## 7. Experimental Setup
 
-Run `NC-RUN-2026-09-03-FULL` uses seed 20260902. NC-EXP-001 contains 240 unique generated tasks distributed deterministically as 144 train, 48 validation, and 48 test. Families rotate among plate, holes, slots, enclosure, box, cylinder, and sphere. Validation/test templates change lexical form and units. Because prompts are generated from the contract, this is regression and controlled-shift evidence, not a natural-language sample.
+Run `NC-REPRO-508EC40` uses seed 20260902. NC-EXP-001 contains 240 unique generated tasks distributed deterministically as 144 train, 48 validation, and 48 test. Families rotate among plate, holes, slots, enclosure, box, cylinder, and sphere. Validation/test templates change lexical form and units. Because prompts are generated from the contract, this is regression and controlled-shift evidence, not a natural-language sample.
 
 NC-EXP-002 generates 1,000 IR programs across six primitives, transforms, three Boolean compositions, references, and dimension constraints. NC-EXP-003 generates 240 invalid cases, 30 each for malformed syntax, wrong type, absent reference, inconsistent constraint, non-finite value, duplicate ID, cycle, and incomplete semantic prompt. NC-EXP-004 injects 200 one-millimetre parameter corruptions with and without a matching declared dimension constraint. NC-EXP-005 performs 200 named box-width edits. NC-EXP-006 chooses all 240 tasks in sorted-family round-robin order and compiles them using OpenSCAD 2021.01 with `$fn=48`; selection precedes outcomes. NC-EXP-007 constructs hierarchy depths 1–129.
 
@@ -62,7 +62,7 @@ Binomial rates include two-sided 95% Wilson intervals. Per-task baseline compari
 
 ## 8. Datasets and Baselines
 
-The controlled JSONL and generated IR data are project-authored and hashed in the run manifest. Their generator is deterministic under a fixed implementation, but the historical manifest does not identify that implementation by source digest or commit; exact source-level reproduction therefore remains unproven. Exact duplicate prompts are prohibited. DeepCAD, SketchGraphs, and Fusion 360 Gallery were audited but not used because NeuroCAD neither trains a sequence model nor consumes their sketch/extrude/constraint representations. Forcing a lossy conversion without an audited kernel mapping would weaken validity.
+The controlled JSONL and generated IR data are project-authored and hashed in the run manifest. Their generator is deterministic under the source snapshot recorded for clean commit `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`. Exact duplicate prompts are prohibited. DeepCAD, SketchGraphs, and Fusion 360 Gallery were audited but not used because NeuroCAD neither trains a sequence model nor consumes their sketch/extrude/constraint representations. Forcing a lossy conversion without an audited kernel mapping would weaken validity.
 
 Baselines are: an 80 mm fixed cube; literal-number extraction without unit normalization or structured feature parsing; and nearest-neighbor retrieval over train-labelled tasks. They establish constant-output, surface-token, and memorization reference points. Parameter/compute matching is inapplicable without learned models.
 
@@ -72,16 +72,17 @@ Baselines are: an 80 mm fixed cube; literal-number extraction without unit norma
 |---|---:|---:|---:|---:|
 | NeuroCAD | 144/144 | 48/48 | 48/48 | 240/240 (100%) |
 | Nearest-neighbor retrieval | 144/144 | 0/48 | 0/48 | 144/240 (60.0%) |
+| Unit-normalized dimensions only | 82/144 | 21/48 | 27/48 | 130/240 (54.2%) |
 | Raw numbers/no unit normalization | 82/144 | 28/48 | 0/48 | 110/240 (45.8%) |
 | Fixed box | 0/144 | 0/48 | 0/48 | 0/240 (0%) |
 
-Against retrieval, 96 pairs were discordant and all favored NeuroCAD (exact two-sided McNemar \(p=2.52\times10^{-29}\)). Against raw numbers, 130/130 discordant pairs favored NeuroCAD (\(p=1.47\times10^{-39}\)); against fixed output, 240/240 favored NeuroCAD (\(p=1.13\times10^{-72}\)). These p-values describe the frozen controlled set and do not convert it into a random natural-language sample.
+Against retrieval, 96 pairs were discordant and all favored NeuroCAD (exact two-sided McNemar \(p=2.52\times10^{-29}\)). Against normalized dimensions, 110/110 favored NeuroCAD (\(p=1.54\times10^{-33}\)); against raw numbers, 130/130 favored NeuroCAD (\(p=1.47\times10^{-39}\)); against fixed output, 240/240 favored NeuroCAD (\(p=1.13\times10^{-72}\)). These p-values describe the frozen controlled set and do not convert it into a random natural-language sample.
 
 NC-EXP-002 passed 1,000/1,000 programs, with Wilson interval 99.62–100%. The earlier draft's timing values were not sourced from the named FULL run and are withdrawn. New runs retain host-load-dependent timing and memory observations in a runtime receipt while excluding them from the deterministic scientific digest.
 
 ## 10. Validity Analysis
 
-NC-EXP-003 rejected all 240 retained malformed-fixture records, but these are eight distinct templates repeated 30 times. They establish regression coverage for those eight categories only; the earlier 240-case Wilson interval is withdrawn because the records are not independent samples. The hardened future runner generates and hashes a unique variant for every record and still treats the outcome as deterministic regression evidence rather than a population estimate. NC-EXP-006 separately compiled 240 unique benchmark programs to STL passing topology and expected-extents checks (Wilson 98.42–100%). Complete success on this controlled set does not establish universal geometry validity.
+NC-EXP-003 rejected all 240 unique generated malformed fixtures across eight categories. They establish deterministic regression coverage for those categories only; no 240-sample population interval is reported. NC-EXP-006 separately compiled 240 unique benchmark programs freshly to STL, with no resumed artifacts, passing topology and expected-extents checks (Wilson 98.42–100%). Complete success on this controlled set does not establish universal geometry validity.
 
 Compiled families included boxes, cylinders, open-top enclosures, plates, holed plates, slotted plates, and a sphere. Mesh artifacts include canonical IR, SCAD source, STL, render, extents, volume, vertex/face counts, and validation JSON. Static success is never substituted for these kernel results.
 
@@ -109,21 +110,21 @@ The qualitative set is the first eight task IDs, selected before outcome inspect
 
 ## 15. Practical Editability
 
-NC-EXP-005 changed a named box-width parameter, then validated, serialized, reparsed, and exported each result. All 200/200 edits succeeded (Wilson 98.12–100%), with mean local pipeline time 1.78 ms. This is machine editability, not evidence that designers find the representation usable. A human protocol is specified but explicitly unexecuted.
+NC-EXP-005 changed a named box-width parameter, then validated, serialized, reparsed, and exported each result. All 200/200 edits succeeded (Wilson 98.12–100%), with mean local pipeline time 1.31 ms. This is machine editability, not evidence that designers find the representation usable. A human protocol is specified but explicitly unexecuted.
 
 ## 16. Reproducibility
 
 `scripts/reproduce_research.sh` requires CPython 3.12.14, creates a fresh isolated environment and a new output directory, installs the exact package lock, runs maintained quality gates, executes every required kernel sample with reuse disabled, regenerates JSONL/programs/STL/renders/metrics/figures, builds fresh distributions, and smoke-tests the exact wheel. New manifests record maintained-source and lock digests, package version, Git state when available, Python/dependency identity, and OpenSCAD version. Deterministic outcome hashes are separated from timing/runtime receipts. OpenSCAD remains an external requirement.
 
-This checkout now has a local audit Git history, but that history was initialized
-after the original repository history was unavailable and is not published on the
-configured canonical remote. The frozen run manifest is not bound to its producing
-source revision or an a6 distribution, and 181 of its 240 kernel records were
-accepted from already present artifacts. The retained run is therefore historical
-development evidence, not a fresh confirmatory reproduction of the current source.
-An archival release must run the non-resuming protocol from a clean published
-revision and retain source/lock/kernel provenance, commit/tag state, CI URL, exact
-distribution hashes, and anonymous installer evidence.
+The current run manifest records clean commit
+`508ec404dd520ae16f2b4d3cf211d5b1fa46b800`, maintained-source SHA-256
+`cbfef99766772b8bb6c345aaecfc6305ed1993ebcc05ba4d6a6541189ad7f929`,
+the dependency-lock digest, Python 3.12.14, OpenSCAD 2021.01 and executable digest,
+1,212 artifact checksums, `force_recompile=true`, and zero resumed kernel samples.
+The isolated workflow also passed 559 tests, Ruff, mypy, dependency consistency,
+vulnerability and Bandit checks, built wheel/sdist artifacts, installed the wheel
+into another clean environment, passed `neurocad doctor`, and generated a smoke
+design. External publication and independent reproduction receipts remain absent.
 
 ## 17. Limitations
 
@@ -135,25 +136,25 @@ The controlled datasets contain no personal data. The principal risk is automati
 
 ## 19. Conclusion
 
-The retained run shows that a small text-to-CAD compiler was executable on its frozen controlled suite, exceeded three simple baselines, and produced kernel artifacts under the stated checks. Its original manifest lacks source-revision provenance, so it does not prove that current source reproduces those outcomes. The hardened runner now creates source-bound, non-resumed evidence for a future exact revision. Neither the historical run nor this engineering work demonstrates general CAD intelligence or a new learning mechanism. The next defensible research step is a new, frozen task with a compatible real-world corpus, stronger representation and kernel, learned and compute-matched baselines, multi-seed training, and independent replication.
+The source-bound run shows that a small text-to-CAD compiler was executable on its frozen controlled suite, exceeded four simple baselines, preserved all 1,000 generated IR invariants, and produced 240/240 fresh kernel artifacts under the stated checks. This establishes reproducibility for the controlled contract on the recorded environment. It does not demonstrate general CAD intelligence, external natural-language validity, superiority to contemporary text-to-CAD systems, or a new learning mechanism. The next defensible research step is a frozen independently authored task with a compatible strong baseline and independent replication.
 
 ## References
 
 1. Sharma et al. “CSGNet: Neural Shape Parser for Constructive Solid Geometry.” CVPR 2018. https://openaccess.thecvf.com/content_cvpr_2018/html/Sharma_CSGNet_Neural_Shape_CVPR_2018_paper.html
-2. Jones et al. “ShapeAssembly: Learning to Generate Programs for 3D Shape Structure Synthesis.” 2020. https://arxiv.org/abs/2009.08026
-3. Seff et al. “SketchGraphs.” 2020. https://arxiv.org/abs/2007.08506
-4. Willis et al. “Fusion 360 Gallery.” ACM TOG 2021. https://arxiv.org/abs/2010.02392
-5. Wu et al. “DeepCAD.” ICCV 2021. https://openaccess.thecvf.com/content/ICCV2021/html/Wu_DeepCAD_A_Deep_Generative_Network_for_Computer-Aided_Design_Models_ICCV_2021_paper.html
-6. Para et al. “SketchGen.” 2021. https://arxiv.org/abs/2106.02711
-7. Seff et al. “Vitruvion.” ICLR 2022. https://arxiv.org/abs/2109.14124
-8. Khan et al. “CAD-SIGNet.” CVPR 2024. https://openaccess.thecvf.com/content/CVPR2024/papers/Khan_CAD-SIGNet_CAD_Language_Inference_from_Point_Clouds_using_Layer-wise_Sketch_CVPR_2024_paper.pdf
-9. Khan et al. “Text2CAD.” 2024. https://arxiv.org/abs/2409.17106
-10. Rukhovich et al. “CAD-Recode.” 2024. https://arxiv.org/abs/2412.14042
-11. “CAD-MLLM.” 2024. https://arxiv.org/abs/2411.04954
-12. Li et al. “CAD-Llama.” CVPR 2025. https://openaccess.thecvf.com/content/CVPR2025/html/Li_CAD-Llama_Leveraging_Large_Language_Models_for_Computer-Aided_Design_Parametric_3D_CVPR_2025_paper.html
-13. Chen et al. “CADCrafter.” CVPR 2025. https://openaccess.thecvf.com/content/CVPR2025/html/Chen_CADCrafter_Generating_Computer-Aided_Design_Models_from_Unconstrained_Images_CVPR_2025_paper.html
+2. Jones et al. “ShapeAssembly: Learning to Generate Programs for 3D Shape Structure Synthesis.” SIGGRAPH Asia 2020. https://arxiv.org/abs/2009.08026
+3. Seff et al. “SketchGraphs: A Large-Scale Dataset for Modeling Relational Geometry in Computer-Aided Design.” 2020. https://arxiv.org/abs/2007.08506
+4. Willis et al. “Fusion 360 Gallery: A Dataset and Environment for Programmatic CAD Construction from Human Design Sequences.” SIGGRAPH 2021. https://arxiv.org/abs/2010.02392
+5. Wu et al. “DeepCAD: A Deep Generative Network for Computer-Aided Design Models.” ICCV 2021. https://openaccess.thecvf.com/content/ICCV2021/html/Wu_DeepCAD_A_Deep_Generative_Network_for_Computer-Aided_Design_Models_ICCV_2021_paper.html
+6. Para et al. “SketchGen: Generating Constrained CAD Sketches.” 2021. https://arxiv.org/abs/2106.02711
+7. Seff et al. “Vitruvion: A Generative Model of Parametric CAD Sketches.” ICLR 2022. https://arxiv.org/abs/2109.14124
+8. Khan et al. “CAD-SIGNet: CAD Language Inference from Point Clouds using Layer-wise Sketch Instance Guided Attention.” CVPR 2024. https://openaccess.thecvf.com/content/CVPR2024/html/Khan_CAD-SIGNet_CAD_Language_Inference_from_Point_Clouds_using_Layer-wise_Sketch_CVPR_2024_paper.html
+9. Khan et al. “Text2CAD: Generating Sequential CAD Models from Beginner-to-Expert Level Text Prompts.” NeurIPS 2024 Spotlight. https://arxiv.org/abs/2409.17106
+10. Rukhovich et al. “CAD-Recode: Reverse Engineering CAD Code from Point Clouds.” 2024 preprint. https://arxiv.org/abs/2412.14042
+11. Xu et al. “CAD-MLLM: Unifying Multimodality-Conditioned CAD Generation With MLLM.” 2024 preprint. https://arxiv.org/abs/2411.04954
+12. Li et al. “CAD-Llama: Leveraging Large Language Models for Computer-Aided Design Parametric 3D Model Generation.” CVPR 2025. https://openaccess.thecvf.com/content/CVPR2025/html/Li_CAD-Llama_Leveraging_Large_Language_Models_for_Computer-Aided_Design_Parametric_3D_CVPR_2025_paper.html
+13. Chen et al. “CADCrafter: Generating Computer-Aided Design Models from Unconstrained Images.” CVPR 2025. https://openaccess.thecvf.com/content/CVPR2025/html/Chen_CADCrafter_Generating_Computer-Aided_Design_Models_from_Unconstrained_Images_CVPR_2025_paper.html
 14. Casey et al. “Aligning Constraint Generation with Design Intent in Parametric CAD.” ICCV 2025. https://openaccess.thecvf.com/content/ICCV2025/html/Casey_Aligning_Constraint_Generation_with_Design_Intent_in_Parametric_CAD_ICCV_2025_paper.html
-15. Qi et al. “Pointer-CAD.” CVPR 2026. https://openaccess.thecvf.com/content/CVPR2026/html/Qi_Pointer-CAD_Unifying_B-Rep_and_Command_Sequences_via_Pointer-based_Edges__CVPR_2026_paper.html
+15. Qi et al. “Pointer-CAD: Unifying B-Rep and Command Sequences via Pointer-based Edges & Faces Selection.” CVPR 2026. https://openaccess.thecvf.com/content/CVPR2026/html/Qi_Pointer-CAD_Unifying_B-Rep_and_Command_Sequences_via_Pointer-based_Edges__CVPR_2026_paper.html
 
 ## Appendix A. Experiment map
 
@@ -173,4 +174,4 @@ From the repository root with native OpenSCAD available:
 ./scripts/reproduce_research.sh
 ```
 
-The script creates a new `NC-REPRO-*` directory and never modifies `research/runs/NC-RUN-2026-09-03-FULL`. The latter remains the historical canonical metrics bundle; its sibling manifest holds snapshot hashes and experiment identifiers but lacks source-revision provenance.
+The script creates a new `NC-REPRO-*` directory and never modifies earlier runs. `research/runs/NC-REPRO-508EC40` is the current source-bound controlled evidence; `NC-RUN-2026-09-03-FULL` remains historical development evidence and `NC-REPRO-CB1D4A9` preserves the 999/1,000 pre-fix negative result.

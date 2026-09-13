@@ -7,8 +7,9 @@ representation to deterministic OpenSCAD. Every exported length is expressed
 in millimetres.
 
 Research status: the maintained compiler is engineering-verified, while the
-conference evidence is **partial**. The retained full benchmark is synthetic and
-historically source-unbound; it must not be read as external validation. Start
+conference evidence is **partial**. The current full benchmark is source-bound,
+non-resumed, and reproducible locally, but remains synthetic and must not be read
+as independent external validation. Start
 with `RESEARCH_TRUTH.md`, `audit/REPOSITORY_MAP.md`, and
 `audit/CONFERENCE_READINESS_CHECKLIST.md` for the current evidence boundary.
 

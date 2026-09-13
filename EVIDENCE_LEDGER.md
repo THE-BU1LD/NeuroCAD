@@ -7,6 +7,7 @@
 | Prompt challenge v1 | development evidence | 24/24 stored audit-authored accept/reject cases | authored after code inspection; not independent |
 | `NC-RUN-2026-09-03-FULL` | development evidence | historical controlled outcomes | source-unbound; 181 kernel artifacts resumed |
 | `NC-REPRO-CB1D4A9` | source-bound negative evidence | clean commit, 240/240 fresh kernel checks, and 999/1,000 IR stress programs | exposed and preserves the pre-fix IR/exporter minimum-length mismatch |
+| `NC-REPRO-508EC40` | source-bound controlled evidence | clean commit; 240/240 compiler, 1,000/1,000 IR, 240/240 invalid rejection, 200/200 constraints, 200/200 edits, 240/240 fresh kernel | synthetic project-authored grammar; not independent external validity |
 | NC-EXP-001 | development evidence | 240/240 generated contract exactness; simple baseline differences | synthetic grammar only |
 | NC-EXP-002 | development evidence | 1,000 static IR invariants | generated programs only |
 | NC-EXP-003 | development evidence | rejection of eight categories | eight templates repeated; no 240-sample inference |

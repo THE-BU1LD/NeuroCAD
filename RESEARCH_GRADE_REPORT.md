@@ -1,13 +1,13 @@
 # Research-grade report
 
-**Audit date:** 2026-09-12  
+**Audit date:** 2026-09-13  
 **Verdict:** **strong engineering artifact; partial research evidence**
 
 ## 1. Research idea assessment
 
 NeuroCAD asks whether a deterministic typed compiler can map a declared dimensioned-English subset to exact editable CSG programs and valid solids more reliably than simple controls. The question is falsifiable and the implementation is real. The strongest aspects are fail-closed parsing, typed/canonical IR, deterministic artifacts, real OpenSCAD execution, raw per-case evidence, and unusually honest preservation of negative history.
 
-The weakest aspects are decisive for publication: evaluation data are authored from the same grammar, the fast product benchmark has only 46 unique prompts in 48 rows, baselines are simple, the historical full run cannot authenticate its source and reused 181 kernel artifacts, and no independent, human, physical, or external replication exists.
+The weakest aspects are decisive for publication: evaluation data are authored from the same grammar, the fast product benchmark has only 46 unique prompts in 48 rows, baselines are simple, and no independent, human, physical, or external replication exists. The historical source-unbound run is retained only as negative provenance evidence; the primary controlled results now come from a clean source-bound run.
 
 Novelty verdict by category:
 
@@ -63,11 +63,11 @@ NC-EXP-001 through NC-EXP-007 are implemented. Constraint presence/removal is a 
 
 New research runs record config, source snapshot, Git SHA/dirty state, dependency-lock digest, package versions, Python/platform, OpenSCAD executable/version/digest, raw and deterministic metrics, runtime observations, and artifact hashes. New output directories are collision-refusing and a source mutation during execution prevents final manifest publication.
 
-The historical FULL run predates these controls. It remains development evidence only.
+The historical FULL run predates these controls and remains development evidence only. The current `NC-REPRO-508EC40` run demonstrates the full local workflow from clean commit `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`, with no artifact reuse.
 
 ## 9. Tests, performance, and systems
 
-The audit revision collects 517 tests spanning unit, integration, research, regression, smoke, CLI, browser contract, kernel, packaging, and scientific provenance behavior. Timing fields are treated as diagnostics and excluded from deterministic result hashes. No before/after performance optimization was justified by evidence, so no unsupported speed claim is made.
+The measured source revision passes 559 tests spanning unit, integration, research, regression, smoke, CLI, browser contract, kernel, packaging, and scientific provenance behavior. Timing fields are treated as diagnostics and excluded from deterministic result hashes. No before/after performance optimization was justified by evidence, so no unsupported speed claim is made.
 
 ## 10. Scientific evidence and negative results
 
@@ -80,7 +80,7 @@ Historical outcomes are traceable in `docs/CLAIM_EVIDENCE_MATRIX.md` but are not
 
 ## 11. Remaining blockers
 
-No feasible local code patch can manufacture the missing independent evidence. The remaining P0/P1 gates require: a clean published exact revision for the full fresh run; an outside-authored frozen prompt set; a strong compatible baseline; physical hardware/measurements; human-study governance and participants; authorized model/provider/budget inputs; and hosted CI/tag/anonymous-install receipts.
+No feasible local code patch can manufacture the missing independent evidence. The clean exact-revision full run is now retained as `NC-REPRO-508EC40`. Remaining P0/P1 gates require an outside-authored frozen prompt set, a strong compatible baseline, physical hardware/measurements for physical claims, human-study governance and participants for usability claims, authorized model/provider/budget inputs for learned claims, and hosted CI/tag/independent-replication receipts.
 
 ## 12. Verification commands
 
@@ -89,7 +89,7 @@ Commands executed during this audit are recorded honestly in the final handoff a
 ## 13. Recommended next experiments
 
 1. Freeze NC-EXP-008 using outside authors and a compatible strong baseline before opening any outcomes.
-2. Run the clean full 240-kernel suite from the published exact revision and retain its source-bound manifest.
-3. Only then run isolated unit/feature frontend ablations on the same frozen task set.
+2. Run isolated unit/feature frontend ablations on the same frozen task set.
+3. Obtain independent reproduction of the retained source-bound run.
 4. Execute the existing physical coupon protocol before making fit or manufacturing claims.
 5. Treat any learned/VeriCodeGen run as a separate authorized study with frozen model and budget identity.

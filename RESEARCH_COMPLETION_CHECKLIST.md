@@ -1,6 +1,6 @@
 # Research completion checklist
 
-Audit date: 2026-09-12. `DONE` means completed in the current repository scope; it does not convert development evidence into external confirmation.
+Audit date: 2026-09-13. `DONE` means completed in the current repository scope; it does not convert development evidence into external confirmation.
 
 ## [DONE] [P0] Honest supported-system boundary
 
@@ -98,17 +98,29 @@ Implementation: Added the requested documents dated 2026-09-12.
 
 Verification: documentation link and integrity checks.
 
-## [BLOCKED] [P0] Fresh clean full controlled reproduction
+## [DONE] [P1] Citation and related-work audit
 
-Current: Historical FULL reports the headline numbers but has no source digest and reused 181 kernel artifacts.
+Current: All 15 manuscript references resolve to primary CVF or arXiv records.
 
-Problem: It cannot authenticate current source or serve as confirmatory evidence.
+Problem: Abbreviated bibliography entries and unretained metadata checks left an avoidable reviewer gate open.
+
+Required: Verify identity, venue/year where declared, input/output task, and support for each comparative characterization.
+
+Implementation: `literature/CITATION_AUDIT_20260913.md` records the source-by-source audit; bibliography titles and venue labels were corrected.
+
+Verification: each primary link resolves and the paper makes no numerical or compatibility claim from citation alone.
+
+## [DONE] [P0] Fresh clean full controlled reproduction
+
+Current: `NC-REPRO-508EC40` reproduces the controlled results from clean commit `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`; `NC-REPRO-CB1D4A9` preserves the pre-fix 999/1,000 IR failure.
+
+Problem: The previous historical run could not authenticate current source or serve as confirmatory evidence.
 
 Required: Run `scripts/reproduce_research.sh` from one clean published CPython 3.12.14 revision with all 240 kernel artifacts fresh.
 
-Implementation: Non-resuming source/lock/kernel-bound runner is ready.
+Implementation: The non-resuming source/lock/kernel-bound runner completed with 1,212 hashed artifacts, 1,000/1,000 IR programs, 240/240 fresh kernel records, and zero reuse.
 
-Verification: new manifest must report clean Git, matching package version, `force_recompile=true`, 240 fresh kernel records, and valid artifact hashes. Blocker: exact revision is not yet published/frozen; this audit worktree is necessarily dirty.
+Verification: the retained manifest reports clean Git, matching package version, `force_recompile=true`, 240 fresh kernel records, zero reuse, source/lock/OpenSCAD provenance, and valid artifact hashes. Public tag/CI and independent replication remain separate external gates.
 
 ## [MISSING] [P1] Independent in-scope prompt benchmark
 

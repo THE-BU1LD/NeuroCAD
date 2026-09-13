@@ -1,6 +1,6 @@
 # Project state audit
 
-**Audit date:** 2026-09-12  
+**Audit date:** 2026-09-13  
 **Scope:** current `main` checkout, maintained package, research tooling, retained evidence, and archived legacy surface  
 **Evidence rule:** a file is not implementation evidence; `COMPLETE` requires a connected path and a passing check.
 
@@ -34,10 +34,11 @@ This is a compiler/systems thesis, not a learned-model thesis. Its strongest def
 | Frontend ablation | Remove parsing capabilities | FUNCTIONAL BUT WEAK | benchmark baselines | Raw baseline removes several factors jointly | Factorial unit/feature/lexical ablations | P1 |
 | Editability experiment | Automated parameter edits | COMPLETE | NC-EXP-005 | Machine editability only | Human task study | P1 |
 | Hierarchy stress | Enforce depth boundary | COMPLETE | NC-EXP-007 | Constructed engineering stress | Breadth/memory scaling study | P2 |
-| Research orchestration | Run suite and retain raw artifacts | COMPLETE | `core/research_suite.py`, smoke tests | Source snapshot and non-resume checks exist for new runs | Fresh clean archival run | P1 |
+| Research orchestration | Run suite and retain raw artifacts | COMPLETE | `core/research_suite.py`, `NC-REPRO-508EC40` | Clean source-bound non-resumed full run retained | External replication | P1 |
 | Research config loading | Freeze and override reviewed settings | COMPLETE | `load_research_config`, config tests | Rejects unknown fields/version mismatch | Config schema if formats multiply | P2 |
 | Ablation manifest | Declare factors and metrics | COMPLETE | `configs/ablation_manifest.json` | Honest about coupled frontend ablation | Execute expanded factorial design | P1 |
-| Reproducibility metadata | Source, Git, lock, platform, kernel, artifacts | COMPLETE | runner manifest/runtime receipt tests | Complete for new runs; Historical FULL predates it | Fresh clean full run | P0 external gate |
+| Reproducibility metadata | Source, Git, lock, platform, kernel, artifacts | COMPLETE | `NC-REPRO-508EC40` manifest/runtime receipt | Clean commit, source/lock/kernel hashes, 1,212 artifact hashes, zero reuse | Public immutable receipt | P1 external gate |
+| Current source-bound evidence | Retained controlled outcomes | COMPLETE | `NC-REPRO-508EC40` | Reproducible controlled evidence; synthetic and project-authored | Independent benchmark and replication | P1 |
 | Historical FULL evidence | Retained controlled outcomes | PARTIAL | `NC-RUN-2026-09-03-FULL` | No producing-source provenance; 181 kernel artifacts reused | Never upgrade without rerun | P0 claim boundary |
 | Prompt challenge | Audit-authored robustness set | FUNCTIONAL BUT WEAK | 24-case JSONL/results/tests | Authored after implementation inspection | Blind outside-authored challenge | P1 |
 | Statistical analysis | Wilson intervals and paired exact tests | COMPLETE | runner/tests/statistical plan | Complete for controlled suite; generated cases are not population samples | Bootstrap effect CI on independent data | P1 |
@@ -65,4 +66,4 @@ The maintained source search found no algorithmic TODO, FIXME, placeholder, mock
 
 ## State totals
 
-Across the 43 major components above: 33 `COMPLETE`, 4 `FUNCTIONAL BUT WEAK`, 2 `PARTIAL`, 2 `MISSING`, 1 `BROKEN`, and 1 `DEAD`. These are audit classifications, not performance percentages.
+Across the 45 major components above: 35 `COMPLETE`, 4 `FUNCTIONAL BUT WEAK`, 2 `PARTIAL`, 2 `MISSING`, 1 `BROKEN`, and 1 `DEAD`. These are audit classifications, not performance percentages.

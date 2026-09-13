@@ -34,7 +34,7 @@ Each row states severity, current evidence, required change, and verification.
 ## N. Efficiency
 - [ ] **P2 — partial.** Runtime/memory diagnostics exist, no portable kernel throughput study. Required: declared hardware and repeated timing protocol. Verify raw timings and warmup policy.
 ## O. Reproducibility
-- [x] **P0 — implementation ready.** Fresh output, pinned CPython/lock, source hashes, no kernel reuse. Verify `scripts/reproduce_research.sh` on clean exact revision.
+- [x] **P0 — locally verified.** `NC-REPRO-508EC40` was produced from clean commit `508ec404dd520ae16f2b4d3cf211d5b1fa46b800` with pinned CPython/lock, source hashes, 1,212 artifact hashes, 240 fresh kernel compilations, and no reuse. Independent cross-machine reproduction remains an external gate.
 ## P. Tests
 - [x] **P0 — engineering-verified.** Broad parser/IR/kernel/CLI/failure/provenance suite. Verify full suite with loopback permission plus static gates.
 ## Q. Code quality
@@ -42,11 +42,11 @@ Each row states severity, current evidence, required change, and verification.
 ## R. Documentation
 - [x] **P1 — repaired.** Capability boundaries and provenance caveats explicit. Verify stale no-Git statements absent.
 ## S. Related work
-- [x] **P1 — updated.** 2025–2026 adjacent systems identified. Evidence: `research/NOVELTY_AUDIT.md`, `literature/`.
+- [x] **P1 — verified.** All 15 manuscript references and their comparative characterizations were checked against primary CVF/arXiv records. Evidence: `literature/CITATION_AUDIT_20260913.md`.
 ## T. Novelty
 - [x] **P0 — negative finding.** No algorithmic novelty. Required action: position as systems case study. Verify no novelty/SOTA language.
 ## U. Paper
-- [ ] **P1 — evidence partial.** Manuscript exists and is conservative; historical source binding remains absent. Required: replace historical primary table with fresh frozen evidence. Verify generated table/artifact links.
+- [x] **P1 — locally evidence-bound.** The manuscript's primary controlled table is bound to `NC-REPRO-508EC40`; claims remain deliberately narrow because the data and authoring are not independent. Required for submission: venue formatting and the external evidence in W.
 ## V. Release package
 - [ ] **P1 — local only.** Build tooling exists; public tag/CI/install receipts absent. `EXTERNAL_EXECUTION_REQUIRED`. Verify anonymous exact-tag install.
 ## W. External execution requirements
@@ -54,6 +54,7 @@ Each row states severity, current evidence, required change, and verification.
 
 ## Current decision
 
-**EVIDENCE_PARTIAL.** Core engineering is credible; conference-level scientific
-evidence is not complete because the only headline run is synthetic, historically
-source-unbound, and partly resumed from existing kernel artifacts.
+**MAJOR SCIENTIFIC REVISION.** Core engineering and exact-revision local
+reproduction are credible. Conference-level scientific evidence remains incomplete
+because the headline benchmark is synthetic and project-authored, the compatible
+baselines are weak, and no independent replication or external validation exists.
