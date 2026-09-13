@@ -527,22 +527,22 @@ def generate_ir_stress_program(index: int, rng: random.Random) -> CADProgram:
     )
     family = index % 9
     if family == 0:
-        primitive = Primitive("box", {"size": [rng.uniform(0.01, 200), rng.uniform(0.01, 150), rng.uniform(0.01, 100)]})
+        primitive = Primitive("box", {"size": [rng.uniform(0.1, 200), rng.uniform(0.1, 150), rng.uniform(0.1, 100)]})
     elif family == 1:
         size = [rng.uniform(2, 200), rng.uniform(2, 150), rng.uniform(0.1, 100)]
         primitive = Primitive("rounded_box", {"size": size, "radius": rng.uniform(0, min(size[0], size[1]) / 2)})
     elif family == 2:
-        primitive = Primitive("sphere", {"radius": rng.uniform(0.001, 100)})
+        primitive = Primitive("sphere", {"radius": rng.uniform(0.1, 100)})
     elif family == 3:
-        primitive = Primitive("cylinder", {"radius": rng.uniform(0.001, 80), "height": rng.uniform(0.001, 200)})
+        primitive = Primitive("cylinder", {"radius": rng.uniform(0.1, 80), "height": rng.uniform(0.1, 200)})
     elif family == 4:
         primitive = Primitive(
             "cone",
-            {"r1": rng.uniform(0, 80), "r2": rng.uniform(0.001, 80), "height": rng.uniform(0.001, 200)},
+            {"r1": rng.uniform(0, 80), "r2": rng.uniform(0.1, 80), "height": rng.uniform(0.1, 200)},
         )
     elif family == 5:
         major = rng.uniform(1, 100)
-        primitive = Primitive("torus", {"major_radius": major, "minor_radius": rng.uniform(0.001, major * 0.9)})
+        primitive = Primitive("torus", {"major_radius": major, "minor_radius": rng.uniform(0.1, major * 0.9)})
     else:
         body = Primitive("box", {"size": [rng.uniform(20, 200), rng.uniform(20, 150), rng.uniform(5, 80)]})
         body_node = Node("body", primitive=body)

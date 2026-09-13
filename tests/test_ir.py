@@ -80,6 +80,26 @@ def test_hierarchical_difference_exports_real_boolean_program() -> None:
     assert "cylinder(r=2, h=5" in scad
 
 
+@pytest.mark.parametrize(
+    "primitive",
+    [
+        Primitive("box", {"size": [0.099, 10, 10]}),
+        Primitive("sphere", {"radius": 0.099}),
+        Primitive("cylinder", {"radius": 1, "height": 0.099}),
+        Primitive("cone", {"r1": 0, "r2": 0.099, "height": 10}),
+        Primitive("torus", {"major_radius": 10, "minor_radius": 0.099}),
+        Primitive("sphere", {"radius": 100_001}),
+    ],
+)
+def test_ir_rejects_lengths_the_openscad_exporter_cannot_emit(primitive: Primitive) -> None:
+    program = CADProgram("invalid exporter length", (Node("body", primitive=primitive),), ("body",))
+    report = validate_program(program)
+    assert not report.valid
+    assert {issue.code for issue in report.errors} == {"invalid_parameter"}
+    with pytest.raises(ValueError, match="cannot export invalid canonical IR"):
+        program_to_scad(program)
+
+
 def test_transform_and_bounds_are_computed_for_rotated_geometry() -> None:
     program = CADProgram(
         title="rotated box",

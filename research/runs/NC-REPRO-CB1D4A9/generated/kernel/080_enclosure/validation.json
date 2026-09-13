@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "5d214b6de4a4cd551825a04e1a571dba746222ca721edfd7f6ca10d7cf13eb88",
+    "render": "9115476333300eb10f06799f5e0dd08cb33a608eff16731037786052f0c4fdc9",
+    "scad": "e80aa81fdb1b6412e3c35eabea91226466d2417a95a263a44b85265a94425c08",
+    "stl": "60107325a4018eb18190fe420cde989fdbc5b23433273a2f8c1d46adae65cf28"
+  },
+  "expected_extents_mm": [
+    130.0,
+    110.0,
+    50.0
+  ],
+  "family": "enclosure",
+  "ir": "generated/kernel/080_enclosure/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      130.0,
+      110.0,
+      50.0
+    ],
+    "faces": 28,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        0,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        15,
+        27
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 42,
+          "euler_characteristic": 2,
+          "faces": 28,
+          "genus": 0,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 16
+        }
+      ],
+      "edges": 42,
+      "euler_characteristic": 2,
+      "faces": 28,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 16
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 16,
+    "volume_mm3": 108888.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 130 x 110 x 50 mm enclosure with 3 mm wall thickness",
+  "render": "figures/kernel_examples/080_enclosure.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 3.273051750000377,
+  "scad": "generated/kernel/080_enclosure/program.scad",
+  "stl": "generated/kernel/080_enclosure/program.stl",
+  "task_id": "NCR-0081"
+}

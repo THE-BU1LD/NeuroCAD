@@ -46,13 +46,12 @@ def test_research_config_rejects_unknown_fields(tmp_path: Path) -> None:
         load_research_config(path)
 
 
-def test_release_sized_ir_stress_records_export_rejections() -> None:
+def test_release_sized_ir_stress_generates_only_exportable_programs() -> None:
     result, encoded, programs = _run_ir_stress(ResearchConfig(ir_programs=1000))
     assert len(programs) == len(encoded.splitlines()) == 1000
-    assert result["passed"] + len(result["failures"]) == 1000
-    assert result["failures"]
-    assert all(row["evaluation"]["export_error"] for row in result["failures"])
-    assert all(not row["evaluation"]["deterministic_export"] for row in result["failures"])
+    assert result["passed"] == 1000
+    assert result["success_rate"] == 1.0
+    assert result["failures"] == []
 
 
 def test_invalid_taxonomy_uses_unique_traceable_fixtures_without_fake_interval() -> None:

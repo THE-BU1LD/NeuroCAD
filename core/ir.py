@@ -5,6 +5,8 @@ from collections.abc import Iterable
 from dataclasses import asdict, dataclass, field
 from typing import Any, cast
 
+from .validation import MAX_PRIMITIVE_LENGTH_MM, MIN_PRIMITIVE_LENGTH_MM
+
 IR_VERSION = "neurocad-ir-v1"
 PRIMITIVES = {"box", "rounded_box", "sphere", "cylinder", "cone", "torus"}
 COMPOSITIONS = {"union", "difference", "intersection"}
@@ -227,15 +229,22 @@ def _primitive_errors(node: Node, path: str) -> list[ValidationIssue]:
     if json_error:
         errors.append(ValidationIssue("invalid_parameter", f"{path}.primitive.parameters", json_error))
 
-    def positive(name: str, *, allow_zero: bool = False) -> float | None:
+    def positive(name: str, *, allow_zero: bool = False, minimum: float = MIN_PRIMITIVE_LENGTH_MM) -> float | None:
         raw = parameters.get(name)
         if not _finite_number(raw):
             errors.append(ValidationIssue("invalid_parameter", f"{path}.primitive.parameters.{name}", "must be finite"))
             return None
         value = float(cast(int | float, raw))
-        invalid = value < 0 if allow_zero else value <= 0
-        if invalid:
-            errors.append(ValidationIssue("invalid_parameter", f"{path}.primitive.parameters.{name}", "must be positive"))
+        if allow_zero and value == 0:
+            return value
+        if value < minimum or value > MAX_PRIMITIVE_LENGTH_MM:
+            errors.append(
+                ValidationIssue(
+                    "invalid_parameter",
+                    f"{path}.primitive.parameters.{name}",
+                    f"must be between {minimum:g} and {MAX_PRIMITIVE_LENGTH_MM:,.0f} mm",
+                )
+            )
             return None
         return value
 
@@ -246,13 +255,25 @@ def _primitive_errors(node: Node, path: str) -> list[ValidationIssue]:
         if not isinstance(size, (list, tuple)) or len(size) != 3:
             errors.append(ValidationIssue("invalid_parameter", f"{path}.primitive.parameters.size", "must contain three lengths"))
             valid_size = False
-        elif any(not _finite_number(item) or float(item) <= 0 for item in size):
-            errors.append(ValidationIssue("invalid_parameter", f"{path}.primitive.parameters.size", "all lengths must be positive"))
+        elif any(
+            not _finite_number(item)
+            or float(item) < MIN_PRIMITIVE_LENGTH_MM
+            or float(item) > MAX_PRIMITIVE_LENGTH_MM
+            for item in size
+        ):
+            errors.append(
+                ValidationIssue(
+                    "invalid_parameter",
+                    f"{path}.primitive.parameters.size",
+                    f"all lengths must be between {MIN_PRIMITIVE_LENGTH_MM:g} and "
+                    f"{MAX_PRIMITIVE_LENGTH_MM:,.0f} mm",
+                )
+            )
             valid_size = False
         else:
             size_values = float(size[0]), float(size[1]), float(size[2])
         if primitive.kind == "rounded_box":
-            radius = positive("radius", allow_zero=True)
+            radius = positive("radius", allow_zero=True, minimum=0.0)
             if radius is not None and valid_size and size_values is not None and radius > min(size_values[0], size_values[1]) / 2:
                 errors.append(ValidationIssue("invalid_parameter", f"{path}.primitive.parameters.radius", "exceeds half the planar size"))
     elif primitive.kind == "sphere":

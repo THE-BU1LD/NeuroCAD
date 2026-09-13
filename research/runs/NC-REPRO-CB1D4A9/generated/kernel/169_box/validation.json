@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "e69d82742a76edf4cdded75e2473b9828c466384dbc9d81be2bcbc0f201c6b90",
+    "render": "ac4d48d0c686aa14b795f7566e421815052c96253cbeadef52267b7dd6519569",
+    "scad": "83e8b5d7bef9888206728926fa9d97fba71f51671bfda34b1d703099bc4da518",
+    "stl": "e4fb6d4238eec8a9ccb520732ed74c438c8732225262185e097483c46985981d"
+  },
+  "expected_extents_mm": [
+    35.0,
+    30.0,
+    15.0
+  ],
+  "family": "box",
+  "ir": "generated/kernel/169_box/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      35.0,
+      30.0,
+      15.0
+    ],
+    "faces": 12,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        0,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        7,
+        11
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 18,
+          "euler_characteristic": 2,
+          "faces": 12,
+          "genus": 0,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 8
+        }
+      ],
+      "edges": 18,
+      "euler_characteristic": 2,
+      "faces": 12,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 8
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 8,
+    "volume_mm3": 15750.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 35 x 30 x 15 mm box",
+  "render": "figures/kernel_examples/169_box.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.1892616249997445,
+  "scad": "generated/kernel/169_box/program.scad",
+  "stl": "generated/kernel/169_box/program.stl",
+  "task_id": "NCR-0173"
+}
