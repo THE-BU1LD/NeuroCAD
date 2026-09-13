@@ -35,6 +35,7 @@ include thinking_engine.py
 recursive-include core *.py
 recursive-include core/schemas *.json
 recursive-include audits *.md
+prune audits/all-repos-*
 recursive-include audit *.md
 recursive-include analysis *.md
 recursive-include configs *.json

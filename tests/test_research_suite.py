@@ -12,8 +12,38 @@ from core.research_suite import (
     _run_invalid_taxonomy,
     _run_ir_stress,
     generate_compiler_stress_tasks,
+    load_research_config,
     run_research_suite,
 )
+
+
+def test_research_config_loads_exact_reviewed_values(tmp_path: Path) -> None:
+    path = tmp_path / "config.json"
+    path.write_text(
+        json.dumps(
+            {
+                "suite_version": "neurocad-controlled-research-v1",
+                "run_id": "NC-TEST-CONFIG",
+                "seed": 7,
+                "compiler_tasks": 35,
+                "kernel_samples": 2,
+                "force_recompile": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+    config, run_id = load_research_config(path)
+    assert config.seed == 7
+    assert config.compiler_tasks == 35
+    assert config.kernel_samples == 2
+    assert run_id == "NC-TEST-CONFIG"
+
+
+def test_research_config_rejects_unknown_fields(tmp_path: Path) -> None:
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps({"hidden_metric_override": True}), encoding="utf-8")
+    with pytest.raises(ValueError, match="unknown fields"):
+        load_research_config(path)
 
 
 def test_release_sized_ir_stress_records_export_rejections() -> None:

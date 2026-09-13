@@ -1,0 +1,21 @@
+{
+  "claim_boundary": "Controlled compiler ablations; no learned model is present.",
+  "experiments": [
+    {
+      "id": "NC-ABL-001",
+      "independent_variable": "declared dimension constraints",
+      "levels": ["enabled", "removed"],
+      "metric": "injected parameter corruption detection rate",
+      "runner_experiment": "NC-EXP-004"
+    },
+    {
+      "id": "NC-ABL-002",
+      "independent_variable": "frontend parsing capability",
+      "levels": ["full compiler", "normalized dimensions only", "raw numbers without unit normalization"],
+      "metric": "semantic exact rate",
+      "runner_experiment": "NC-EXP-001",
+      "warning": "The raw-number level removes multiple capabilities and does not isolate one causal mechanism."
+    }
+  ],
+  "manifest_version": "neurocad-ablation-manifest-v1"
+}

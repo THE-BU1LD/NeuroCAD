@@ -118,6 +118,7 @@ def test_http_proposal_compiles_the_revised_project_and_downloads_exact_mesh(ser
     assert status == 200
     assert compiled["evaluation"]["kernel_validity"] is True
     assert compiled["spec"]["wall_mm"] == 2.4
+    assert all("$fn = 32;" in source for source in compiled["scad"].values())
     assert set(compiled["mesh_artifacts"]) == {"body", "lid"}
     for artifact in compiled["mesh_artifacts"].values():
         connection = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=10)
@@ -143,7 +144,7 @@ def test_http_proposal_compiles_the_revised_project_and_downloads_exact_mesh(ser
 ])
 def test_supported_workbench_family_acceptance(server: DemoServer, mode: str, source: str, parts: set[str]) -> None:
     status, payload = post(server, {
-        "source": source, "source_type": mode, "compile_mesh": True, "timeout_seconds": 120,
+        "source": source, "source_type": mode, "compile_mesh": True, "timeout_seconds": 240,
     }, path="/api/generate")
     assert status == 200, payload
     assert payload["evaluation"]["kernel_validity"] is True

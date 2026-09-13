@@ -17,11 +17,13 @@ qualified person before fabrication. It does not calculate load capacity,
 material behaviour, regulatory compliance, or safety. Its disclosed tolerance
 and coupon-calibration estimates are design aids, not manufacturing guarantees.
 
-The primary product workflow is now a typed electronics-enclosure pipeline:
-auditable semicolon-delimited intent, editable project revisions, manufacturing
-preflight, deterministic body/lid IR and SCAD, request-level STL verification,
-printer-coupon calibration, and explicit file handoffs to external CAD and
-slicer applications. See `docs/PRODUCT_WORKFLOW.md` for the exact contract.
+The primary product interface is now terminal-first. A prompt submitted as
+`neurocad "..."` becomes a durable local job and produces one atomic,
+provenance-bearing artifact directory. A user-scoped daemon serializes the
+configured work, survives terminal closure, and records job state. The typed
+electronics-enclosure pipeline remains available for editable project revisions,
+manufacturing preflight, calibration, and explicit external handoffs. See
+`docs/PRODUCT_WORKFLOW.md` for that narrower contract.
 
 ## Install and first prompt
 
@@ -32,9 +34,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install .
 neurocad doctor
-neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" \
-  -o plate.scad --manifest plate.json
+neurocad "a 120 x 80 x 4 mm plate with four 4 mm holes"
 ```
+
+The first prompt creates a strict user configuration and starts the local daemon
+automatically. Run `neurocad setup` when you also want to install the persistent
+launchd or user-systemd service explicitly.
 
 For a persistent macOS/Linux command from this checkout:
 
@@ -42,9 +47,12 @@ For a persistent macOS/Linux command from this checkout:
 NEUROCAD_PACKAGE="$PWD" sh ./install.sh
 ```
 
-The installer stages and checks a fresh environment before publishing launchers;
-failed installation or health checks leave existing launchers unchanged. Previous
-environments are retained for rollback. It refuses unrelated existing executables.
+The installer stages and checks a fresh environment before publishing launchers,
+then creates the user configuration and installs/starts a launchd or user-systemd
+service. Set `NEUROCAD_SKIP_SETUP=1` only when service setup must be performed
+later with `neurocad setup`. Failed package installation or health checks leave
+existing launchers unchanged. Previous environments are retained for rollback.
+It refuses unrelated existing executables.
 Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
 [Quick start](docs/QUICKSTART.md).
 
@@ -87,16 +95,61 @@ a 100 x 80 x 20 mm enclosure with 2 mm wall thickness
 a 100 x 60 x 4 mm plate with two 12 x 5 mm slots
 a cylinder with radius 20 mm and height 50 mm
 a 40 x 30 x 20 mm box
+Please make me a sturdy mounting plate that is 120 millimeters wide, 80 millimeters deep,
+and 4 millimeters thick, with four holes that are 4 millimeters in diameter.
 ```
 
 Dimension sequences may use `x`, `×`, or `by`. Supported units are millimetres,
-centimetres, metres, and inches; they are normalized to millimetres.
+centimetres, metres, and inches; they are normalized to millimetres. Conversational
+request prefixes, punctuation, common object synonyms, named dimensions, and common
+feature phrasing are normalized into the same deterministic grammar. The normalized
+contract is retained in the canonical IR metadata. Qualitative terms such as `sturdy`
+are reported as non-geometric warnings; they never silently invent dimensions or
+certify strength.
 
 When four holes are requested, they are placed symmetrically near the four
 corners. Other counts use deterministic symmetric layouts. Hole diameter and
 slot dimensions are mandatory.
 
 ## Commands
+
+The normal interface is the prompt itself:
+
+```bash
+neurocad "a 120 x 80 x 4 mm plate with four 4 mm holes"
+```
+
+The command waits for completion and prints the new artifact directory. That
+directory contains `request.json`, `validation.json`, `manifest.json`, canonical
+IR, OpenSCAD, and the verified STL and rendered preview when their local
+OpenSCAD capability probes pass. Publication is atomic: an existing destination is refused and a failed
+job publishes no partial directory. Useful daemon controls are:
+
+When native OpenSCAD image rendering is unavailable, the preview is a
+deterministic isometric wireframe rendered from the already verified STL; the
+manifest records `verified-stl-wireframe` as its renderer.
+
+```bash
+neurocad daemon status
+neurocad jobs list
+neurocad jobs show NCJ-...
+neurocad jobs wait NCJ-...
+neurocad jobs retry NCJ-...
+neurocad daemon logs
+neurocad daemon restart
+```
+
+Human-readable status, compact job tables, colored state transitions, durable
+retry, and structured daemon event logs are the defaults. Add `--json` to daemon,
+jobs, setup, doctor, and generation commands when scripting. `--format auto` is
+the generation default: it produces IR and SCAD everywhere and adds verified STL
+and preview artifacts only when the respective local OpenSCAD capability probes
+pass. Use `--no-wait` to enqueue and
+return a job ID, or `--local -o /absolute/new/directory` to bypass the daemon while
+retaining the same validation and manifest path. `neurocad config show` prints
+the exact persistent configuration; `neurocad config set` validates updates and
+requires a daemon restart. Running `neurocad` with no arguments in a terminal
+opens the interactive studio with `:status`, `:jobs`, `:help`, and `:quit`.
 
 Analyze an existing STL's topology, or compute a correlated tolerance stack:
 
@@ -163,8 +216,18 @@ Run the deterministic 48-task product regression benchmark:
 
 ```bash
 neurocad benchmark \
-  --dataset neurocad-benchmark.jsonl \
+  --dataset research/benchmarks/neurocad_benchmark_v1.jsonl \
   --output neurocad-benchmark-results.json
+```
+
+This loads and validates the frozen JSONL without rewriting it. Dataset
+generation is a separate, explicit operation:
+
+```bash
+python -m core.data prepare /tmp/neurocad-benchmark.jsonl --seed 20260902
+python -m core.data validate research/benchmarks/neurocad_benchmark_v1.jsonl
+neurocad benchmark --generate --dataset /tmp/neurocad-benchmark.jsonl \
+  --output /tmp/neurocad-benchmark-results.json
 ```
 
 Run the immutable audit-authored development challenge (this is not independent
@@ -181,6 +244,13 @@ OpenSCAD for all 240 kernel cases):
 
 ```bash
 PYTHON_BIN=python3.12 scripts/reproduce_research.sh
+```
+
+For a bounded pipeline check using the reviewed smoke configuration:
+
+```bash
+neurocad research --config configs/research_smoke.json \
+  --run-id NC-SMOKE-LOCAL --output /tmp/neurocad-research-smoke --require-kernel
 ```
 
 The script creates a fresh virtual environment and a new, non-resuming output

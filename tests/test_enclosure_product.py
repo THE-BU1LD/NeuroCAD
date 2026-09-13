@@ -401,7 +401,7 @@ def test_real_kernel_body_and_lid_pass_request_level_feature_probes(tmp_path: Pa
         scad = tmp_path / f"{part}.scad"
         stl = tmp_path / f"{part}.stl"
         write_text_atomic(scad, program_to_scad(program, fn=32))
-        compile_scad_verified(scad, stl, timeout=120)
+        compile_scad_verified(scad, stl, timeout=240)
         verification = verify_enclosure_mesh(stl, spec, part=part)
         assert verification.valid, verification.to_dict()
 

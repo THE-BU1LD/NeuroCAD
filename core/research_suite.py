@@ -19,11 +19,12 @@ from typing import Any
 
 from text_to_cad import TextToCAD
 
-from .artifacts import compile_scad, find_openscad, render_scad_png, verify_stl, write_text_atomic
+from .artifacts import compile_scad, find_openscad, preview_renderer_backend, render_scad_png, verify_stl, write_text_atomic
 from .benchmark import BenchmarkTask, benchmark_hash, benchmark_jsonl, run_benchmark
 from .ir import CADProgram, Constraint, Node, Primitive, Transform, program_bounds, validate_program
 from .ir_export import program_to_scad
 from .ir_parser import IRParseError, parse_ir_json, serialize_ir_json
+from .json_io import read_bounded_utf8, strict_json_loads
 from .program_evaluation import evaluate_program
 
 RESEARCH_SUITE_VERSION = "neurocad-controlled-research-v1"
@@ -122,6 +123,38 @@ class ResearchConfig:
             raise ValueError("openscad_timeout_seconds must be positive")
         if not isinstance(self.force_recompile, bool):
             raise _ResearchConfigTypeError("force_recompile must be a boolean")
+
+
+def load_research_config(path: Path) -> tuple[ResearchConfig, str]:
+    """Load a reviewed research config while rejecting silent extra fields."""
+
+    value = strict_json_loads(read_bounded_utf8(path, max_bytes=65_536, label="research config"))
+    if not isinstance(value, dict):
+        raise TypeError("research config must be a JSON object")
+    config_fields = {
+        "seed",
+        "compiler_tasks",
+        "ir_programs",
+        "invalid_cases",
+        "edit_cases",
+        "constraint_ablation_cases",
+        "kernel_samples",
+        "fn",
+        "openscad_timeout_seconds",
+        "force_recompile",
+    }
+    allowed = config_fields | {"run_id", "suite_version"}
+    unknown = set(value) - allowed
+    if unknown:
+        raise ValueError(f"research config has unknown fields: {sorted(unknown)}")
+    if value.get("suite_version", RESEARCH_SUITE_VERSION) != RESEARCH_SUITE_VERSION:
+        raise ValueError(f"research config suite_version must be {RESEARCH_SUITE_VERSION!r}")
+    run_id = value.get("run_id", RUN_ID)
+    if not isinstance(run_id, str) or not run_id.strip():
+        raise ValueError("research config run_id must be a non-empty string")
+    config = ResearchConfig(**{key: value[key] for key in config_fields if key in value})
+    config.validate()
+    return config, run_id
 
 
 def _sha256_text(text: str) -> str:
@@ -972,7 +1005,8 @@ def _run_kernel(
             compile_scad(scad_path, stl_path, timeout=config.openscad_timeout_seconds)
             record["expected_extents_mm"] = expected_extents
             record["mesh"] = verify_stl(stl_path, expected_extents_mm=expected_extents)
-            render_scad_png(scad_path, render_path, timeout=config.openscad_timeout_seconds)
+            render_scad_png(scad_path, render_path, timeout=config.openscad_timeout_seconds, fallback_mesh=stl_path)
+            record["render_backend"] = preview_renderer_backend()
             record["passed"] = True
             record["resumed_verified_artifact"] = False
             record["artifact_sha256"] = {

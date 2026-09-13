@@ -33,6 +33,7 @@ from .workflow import project_from_interpretation
 
 MAX_REQUEST_BYTES = 1_048_576
 MAX_PROMPT_CHARACTERS = 4096
+WORKBENCH_ENCLOSURE_FN = 32
 LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
 
 
@@ -108,7 +109,16 @@ def generate_demo_payload(source: str, source_type: str = "prompt") -> dict[str,
         part_evaluations = {part: evaluate_program(program) for part, program in build.parts.items()}
         preflight = fabrication_preflight(spec)
         programs = {part: program.to_dict() for part, program in build.parts.items()}
-        scad_parts = {part: program_to_scad(program) for part, program in build.parts.items()}
+        # Enclosures contain nested shell, feature, standoff, and fastener
+        # Booleans.  The canonical exporter default of 96 facets is useful for
+        # small standalone primitives but makes interactive CGAL compilation
+        # disproportionately expensive.  A fixed 32-facet workbench profile
+        # keeps circular features printable and deterministic while allowing
+        # the documented bounded compile budgets to remain meaningful.
+        scad_parts = {
+            part: program_to_scad(program, fn=WORKBENCH_ENCLOSURE_FN)
+            for part, program in build.parts.items()
+        }
         return {
             "mode": "enclosure",
             "prompt": project.source_text,
@@ -302,8 +312,8 @@ class DemoHandler(BaseHTTPRequestHandler):
                 if not isinstance(compile_mesh, bool):
                     raise TypeError("compile_mesh must be a boolean")
                 timeout_seconds = request.get("timeout_seconds", 30)
-                if type(timeout_seconds) is not int or timeout_seconds not in {30, 60, 120}:
-                    raise ValueError("timeout_seconds must be 30, 60, or 120 seconds per part")
+                if type(timeout_seconds) is not int or timeout_seconds not in {30, 60, 120, 240}:
+                    raise ValueError("timeout_seconds must be 30, 60, 120, or 240 seconds per part")
                 payload = generate_demo_payload(source, request.get("source_type", "prompt"))
                 if compile_mesh:
                     payload = compile_payload_meshes(payload, timeout_seconds=timeout_seconds)

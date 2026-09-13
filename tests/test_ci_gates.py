@@ -88,6 +88,12 @@ def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> 
     assert "Retain test results including failures\n        if: always()" in workflow
 
 
+def test_cli_smoke_uses_the_tracked_frozen_benchmark() -> None:
+    workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    assert "neurocad benchmark --dataset research/benchmarks/neurocad_benchmark_v1.jsonl" in workflow
+    assert "neurocad benchmark --dataset /tmp/neurocad-benchmark.jsonl" not in workflow
+
+
 @pytest.mark.parametrize("tag,prerelease", [("v0.5.0a6", True), ("v1.0.0rc1", True), ("v1.0.0", False)])
 def test_release_command_labels_alpha_and_rc_without_marking_them_latest(tag: str, prerelease: bool, tmp_path: Path) -> None:
     import json

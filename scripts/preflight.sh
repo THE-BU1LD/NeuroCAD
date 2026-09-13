@@ -12,6 +12,6 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 "$PYTHON_BIN" -m neurocad_cli create 'a 10 x 10 x 1 mm plate' -o "$PREFLIGHT_DIR/preflight.scad"
-openscad -o "$PREFLIGHT_DIR/preflight.png" --imgsize=64,64 --viewall --autocenter "$PREFLIGHT_DIR/preflight.scad" >/dev/null 2>&1
+"$PYTHON_BIN" -c 'import sys; from pathlib import Path; from core.artifacts import render_scad_png; render_scad_png(Path(sys.argv[1]), Path(sys.argv[2]), width=64, height=64)' "$PREFLIGHT_DIR/preflight.scad" "$PREFLIGHT_DIR/preflight.png"
 test -s "$PREFLIGHT_DIR/preflight.png"
 printf '%s\n' 'preflight passed'

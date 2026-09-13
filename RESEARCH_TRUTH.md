@@ -1,7 +1,7 @@
 # Research truth
 
 - NeuroCAD is a deterministic bounded compiler, not an ML model.
-- Current code is engineering-verified by tests, static checks, and kernel-backed cases.
+- Release candidates are engineering-verified only after tests, static checks, and kernel-backed cases pass on the exact revision.
 - A 24-case audit-authored adversarial development challenge passed completely;
   its post-inspection authorship prevents treating it as independent confirmation.
 - A unit-aware dimensions-only baseline improves over raw number copying but still

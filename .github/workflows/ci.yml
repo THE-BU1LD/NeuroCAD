@@ -98,7 +98,7 @@ jobs:
           neurocad ir "a 120 x 80 x 4 mm plate with four 4 mm holes" -o /tmp/neurocad-smoke.ncad.json
           neurocad compile /tmp/neurocad-smoke.ncad.json --format scad -o /tmp/neurocad-compiled.scad
           neurocad evaluate --ir /tmp/neurocad-smoke.ncad.json > /tmp/neurocad-evaluation.json
-          neurocad benchmark --dataset /tmp/neurocad-benchmark.jsonl --output /tmp/neurocad-benchmark-results.json
+          neurocad benchmark --dataset research/benchmarks/neurocad_benchmark_v1.jsonl --output /tmp/neurocad-benchmark-results.json
           xvfb-run -a neurocad research \
             --output /tmp/neurocad-research-smoke \
             --run-id NC-CI-SMOKE \

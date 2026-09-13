@@ -40,11 +40,11 @@ def test_busy_compiler_fails_explicitly() -> None:
 
 @pytest.mark.parametrize("budget", [True, 0, 30.0, "30", 121, 600])
 def test_interactive_budget_is_bounded_before_any_compiler_work(budget: object) -> None:
-    with pytest.raises(ValueError, match="30, 60, or 120"):
+    with pytest.raises(ValueError, match="30, 60, 120, or 240"):
         compile_payload_meshes({}, timeout_seconds=budget)  # type: ignore[arg-type]
 
 
-@pytest.mark.parametrize("budget", [30, 60, 120])
+@pytest.mark.parametrize("budget", [30, 60, 120, 240])
 def test_selected_budget_reaches_kernel_and_timeout_releases_slot(budget: int, monkeypatch: pytest.MonkeyPatch) -> None:
     from core.artifacts import CompilerTimeoutError
 

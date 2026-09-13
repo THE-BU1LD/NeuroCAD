@@ -96,6 +96,7 @@ HTML = r"""<!doctype html>
         <option value="30">30 seconds (default)</option>
         <option value="60">60 seconds</option>
         <option value="120">120 seconds (complex enclosures)</option>
+        <option value="240">240 seconds (very complex enclosures)</option>
       </select>
       <p id="budgetHint" class="hint">Body and lid compile separately. A longer limit changes waiting time, not geometry or verification.</p>
       <label for="projectFile">Open saved enclosure project</label>

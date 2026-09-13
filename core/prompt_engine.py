@@ -14,18 +14,24 @@ UNIT_SCALE = {
     "mm": 1.0,
     "millimeter": 1.0,
     "millimeters": 1.0,
+    "millimetre": 1.0,
+    "millimetres": 1.0,
     "cm": 10.0,
     "centimeter": 10.0,
     "centimeters": 10.0,
+    "centimetre": 10.0,
+    "centimetres": 10.0,
     "m": 1000.0,
     "meter": 1000.0,
     "meters": 1000.0,
+    "metre": 1000.0,
+    "metres": 1000.0,
     "in": 25.4,
     "inch": 25.4,
     "inches": 25.4,
 }
 
-UNIT_PATTERN = r"mm|millimeters?|cm|centimeters?|m|meters?|in|inch(?:es)?"
+UNIT_PATTERN = r"mm|millimet(?:er|re)s?|cm|centimet(?:er|re)s?|m|met(?:er|re)s?|in|inch(?:es)?"
 SIGNED_NUMBER_PATTERN = r"[-+]?(?:\d+(?:\.\d+)?|\.\d+)"
 UNSIGNED_INTEGER_PATTERN = r"\d+"
 
@@ -49,10 +55,34 @@ DOMAIN_KEYWORDS = {
     "aircraft": ["plane", "airplane", "aircraft", "jet", "wing", "uav", "drone", "glider"],
     "vehicle": ["car", "truck", "vehicle", "bus", "van", "automobile"],
     "mechanism": ["motor", "gear", "gearbox", "pump", "turbine", "engine"],
-    "container": ["box", "case", "enclosure", "housing", "shell"],
-    "plate": ["plate", "panel", "bracket", "mounting board"],
+    "container": ["box", "case", "casing", "container", "enclosure", "housing", "shell"],
+    "plate": ["plate", "panel", "sheet", "bracket", "mounting board", "baseplate"],
     "furniture": ["desk", "chair", "shelf", "table", "organizer"],
 }
+
+IGNORED_QUALITATIVE_TERMS = {
+    "basic",
+    "custom",
+    "durable",
+    "flat",
+    "heavy duty",
+    "lightweight",
+    "printable",
+    "simple",
+    "small",
+    "sturdy",
+}
+
+
+def _prepare_characters(text: str) -> str:
+    return (
+        text.lower()
+        .replace("×", "x")
+        .replace("–", "-")
+        .replace("—", "-")
+        .replace("″", " in ")
+        .replace('"', " in ")
+    )
 
 FEATURE_KEYWORDS = {
     "holes": ["hole", "holes", "drill", "bore"],
@@ -67,8 +97,8 @@ FEATURE_KEYWORDS = {
 
 
 def _normalize(text: str) -> str:
-    text = text.lower().replace("×", "x")
-    text = re.sub(r"[^a-z0-9\.\-\+\s/x()_,;:]+", " ", text)
+    text = _prepare_characters(text)
+    text = re.sub(r"[^a-z0-9\.\-\+\s/x()_,;:!?]+", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
@@ -76,8 +106,72 @@ def _normalize(text: str) -> str:
 def _normalization_is_lossless(text: str) -> bool:
     """Reject characters that normalization would otherwise silently erase."""
 
-    prepared = text.lower().replace("×", "x")
-    return re.fullmatch(r"[a-z0-9\.\-\+\s/x()_,;:]*", prepared) is not None
+    prepared = _prepare_characters(text)
+    return (
+        re.fullmatch(r"[a-z0-9\.\-\+\s/x()_,;:!?]*", prepared) is not None
+        and re.search(r"[!?]{2,}", prepared) is None
+    )
+
+
+def _contract_form(text: str) -> tuple[str, list[str]]:
+    """Reduce supported conversational phrasing to the strict CAD grammar."""
+
+    value = re.sub(r"[(),;:!?]", " ", text)
+    value = re.sub(r"(?<!\d)\.|\.(?!\d)", " ", value)
+    value = re.sub(r"\s+", " ", value).strip()
+    prefixes = (
+        r"^(?:please\s+)?(?:can|could|would)\s+you\s+",
+        r"^please\s+",
+        r"^i\s+(?:want|need|would\s+like)\s+",
+        r"^(?:make|create|design|build|generate|model|draw)\s+(?:me\s+)?",
+        r"^give\s+me\s+",
+    )
+    changed = True
+    while changed:
+        changed = False
+        for pattern in prefixes:
+            reduced = re.sub(pattern, "", value)
+            if reduced != value:
+                value, changed = reduced, True
+    value = re.sub(r"\b(?:that|which)\s+(?:is|are|has|have)\b", "", value)
+    value = re.sub(r"\b(?:measuring|measures|sized(?:\s+at)?|size\s+at)\b", "", value)
+    value = re.sub(r"\b(?:with\s+)?dimensions?\s+(?:of|are)\b", "", value)
+    value = re.sub(r"\bfor\s+(?:3d|three dimensional)\s+printing\b", "", value)
+    value = re.sub(r"\b(?:featuring|including)\b", "with", value)
+    value = re.sub(r"\bwith\s+(?:a|an)\s+(radius|diameter)\b", r"with \1", value)
+    value = re.sub(r"\b(radius|diameter)\s+of\b", r"\1", value)
+    value = re.sub(r"\bwith\s+(?:a\s+)?total\s+of\b", "with", value)
+    value = re.sub(r"\bmounting\s+holes?\b", "holes", value)
+    value = re.sub(r"\bholes?\s+(?:located\s+)?at\s+(?:each|all\s+four)\s+corners?\b", "holes", value)
+    value = re.sub(r"\s+(?:please|thanks|thank\s+you)$", "", value)
+
+    number = SIGNED_NUMBER_PATTERN
+    unit = rf"(?:{UNIT_PATTERN})"
+    measure = rf"{number}\s*{unit}?"
+    count_word = "|".join(word for word, count in NUM_WORDS.items() if count > 0)
+    count = rf"(?:{UNSIGNED_INTEGER_PATTERN}|{count_word}|a|an)"
+    value = re.sub(
+        rf"\b({count})\s+holes?\s+(?:(?:each|of)\s+)?({measure})\s+(?:in\s+)?diameter\b",
+        r"\1 \2 diameter holes",
+        value,
+    )
+    value = re.sub(
+        rf"\b({count})\s+slots?\s+(?:(?:each|of)\s+)?({measure})\s*(?:x|by)\s*({measure})\b",
+        r"\1 \2 x \3 slots",
+        value,
+    )
+    value = re.sub(rf"\bwalls?\s+({measure})\s+thick\b", r"\1 walls", value)
+    value = re.sub(rf"\bwall\s+thickness\s+(?:of\s+)?({measure})\b", r"\1 wall thickness", value)
+    value = re.sub(rf"\bcorner\s+radius\s+(?:of\s+)?({measure})\b", r"corner radius \1", value)
+
+    ignored = [term for term in sorted(IGNORED_QUALITATIVE_TERMS, key=len, reverse=True) if re.search(rf"\b{term}\b", value)]
+    for term in ignored:
+        value = re.sub(rf"\b{term}\b", "", value)
+    value = re.sub(r"\bbaseplate\b", "base plate", value)
+    value = re.sub(r"\bcasing\b", "case", value)
+    value = re.sub(r"\bcontainer\b", "enclosure", value)
+    value = re.sub(r"\s+", " ", value).strip()
+    return value, ignored
 
 
 def _word_number(token: str) -> int | None:
@@ -106,6 +200,8 @@ def _extract_measurement(text: str, name: str) -> float | None:
         rf"\b{name}\s*(?:(?:is|of|=)\s*)?({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\b",
         rf"(?<![\w.])({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s*(?:{adjective})\b",
     ]
+    if name in {"wall", "wall thickness"}:
+        patterns.append(rf"\bwalls?\s+({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s+thick\b")
     for pattern in patterns:
         m = re.search(pattern, text)
         if m:
@@ -200,6 +296,10 @@ def _extract_feature_diameter(text: str, feature: str) -> float | None:
         rf"\b(?:diameter|dia)\s+({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})?\s+(?:{feature}|{plural})\b",
         rf"(?<![\w.])({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})\s+(?:diameter\s+)?(?:{feature}|{plural})\b",
         rf"\b(?:{feature}|{plural}).{{0,24}}?({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})\s+diameter\b",
+        (
+            rf"\b(?:{feature}|{plural})\s+(?:that\s+(?:is|are)\s+|each\s+)?"
+            rf"({SIGNED_NUMBER_PATTERN})\s*({UNIT_PATTERN})\s+(?:in\s+)?diameter\b"
+        ),
     ]
     for pattern in patterns:
         match = re.search(pattern, text)
@@ -231,6 +331,7 @@ def _matches_prompt_contract(text: str, domain: str) -> bool:
     is not evidence that trailing or interleaved prose was understood.
     """
 
+    text, _ignored = _contract_form(text)
     number = SIGNED_NUMBER_PATTERN
     unit = rf"(?:{UNIT_PATTERN})"
     measure = rf"{number}\s*{unit}?"
@@ -248,17 +349,22 @@ def _matches_prompt_contract(text: str, domain: str) -> bool:
 
     patterns: list[str]
     if domain == "plate":
-        plate_noun = r"(?:plate|panel|bracket|mounting\s+board)"
+        plate_noun = r"(?:(?:mounting|base)\s+)?(?:plate|panel|sheet|bracket|board)"
         patterns = [
             rf"{article}\s+(?:solid\s+)?{dimensions}\s+(?:rounded\s+)?{plate_noun}{plate_suffix}",
             rf"{article}\s+(?:rounded\s+)?{plate_noun}\s+{measure}\s+wide\s+{measure}\s+deep\s+(?:and\s+)?{measure}\s+thick{plate_suffix}",
+            rf"{article}\s+(?:rounded\s+)?{plate_noun}\s+{measure}\s+long\s+{measure}\s+wide\s+(?:and\s+)?{measure}\s+thick{plate_suffix}",
+            rf"{article}\s+(?:rounded\s+)?{plate_noun}\s+{dimensions}{plate_suffix}",
         ]
     elif domain == "container":
         hollow_noun = r"(?:case|enclosure|housing|shell)"
         solid_noun = r"(?:box|rectangular\s+box)"
         patterns = [
             rf"{article}\s+{dimensions}\s+{hollow_noun}(?:\s+with\s+{wall})?",
+            rf"{article}\s+{hollow_noun}\s+{dimensions}(?:\s+with\s+{wall})?",
             rf"{article}\s+(?:solid\s+)?{dimensions}\s+{solid_noun}",
+            rf"{article}\s+(?:solid\s+)?{solid_noun}\s+{dimensions}",
+            rf"{article}\s+(?:solid\s+)?{solid_noun}\s+{measure}\s+long\s+{measure}\s+wide\s+(?:and\s+)?{measure}\s+(?:high|tall)",
         ]
     elif domain == "generic":
         block_noun = r"(?:block|cube|cuboid|rectangular\s+block|rectangular\s+prism)"
@@ -267,9 +373,12 @@ def _matches_prompt_contract(text: str, domain: str) -> bool:
         height = rf"height\s+{measure}"
         patterns = [
             rf"{article}\s+(?:solid\s+)?{dimensions}\s+{block_noun}",
-            rf"{article}\s+(?:sphere|ball)\s+with\s+{radius}",
+            rf"{article}\s+(?:sphere|ball)\s+(?:with\s+)?{radius}",
+            rf"{article}\s+(?:sphere|ball)\s+(?:with\s+)?{diameter}",
             rf"{article}\s+{measure}\s+radius\s+(?:sphere|ball)",
-            rf"{article}\s+(?:cylinder|tube)\s+with\s+(?:{radius}|{diameter})\s+and\s+{height}",
+            rf"{article}\s+{measure}\s+diameter\s+(?:sphere|ball)",
+            rf"{article}\s+(?:cylinder|tube)\s+(?:with\s+)?(?:{radius}|{diameter})\s+(?:and\s+)?{height}",
+            rf"{article}\s+(?:cylinder|tube)\s+{measure}\s+(?:radius|diameter)\s+(?:and\s+)?{measure}\s+(?:high|tall)",
             rf"{article}\s+{measure}\s+(?:radius|diameter)\s+(?:cylinder|tube)\s+(?:with\s+)?{height}",
         ]
     else:
@@ -572,8 +681,16 @@ def _fabrication_design(prompt: str, text: str, flags: dict[str, bool], *, plate
     dims = _extract_sequence_dims(text)
     explicit_dims = dims is not None
     if dims is None:
-        width = _extract_measurement(text, "width")
-        depth = _extract_measurement(text, "depth")
+        stated_length = _extract_measurement(text, "length")
+        stated_width = _extract_measurement(text, "width")
+        stated_depth = _extract_measurement(text, "depth")
+        width: float | None
+        depth: float | None
+        if stated_length is not None and stated_width is not None and stated_depth is None:
+            width, depth = stated_length, stated_width
+        else:
+            width = stated_width if stated_width is not None else stated_length
+            depth = stated_depth
         height = _extract_measurement(text, "thickness" if plate else "height")
         explicit_dims = all(value is not None for value in (width, depth, height))
         dims = (
@@ -744,10 +861,20 @@ def _generic_design(prompt: str, text: str, flags: dict[str, bool]) -> DesignGra
         recognized = True
     elif re.search(r"\b(?:sphere|ball)\b", text):
         explicit_radius = _extract_measurement(text, "radius")
+        explicit_diameter = _extract_measurement(text, "diameter")
         main = graph.add_component(
-            _make_component("body", "sphere", {"radius": explicit_radius if explicit_radius is not None else 50.0}, role="body")
+            _make_component(
+                "body",
+                "sphere",
+                {
+                    "radius": explicit_radius
+                    if explicit_radius is not None
+                    else (explicit_diameter / 2.0 if explicit_diameter is not None else 50.0)
+                },
+                role="body",
+            )
         )
-        recognized = explicit_radius is not None
+        recognized = explicit_radius is not None or explicit_diameter is not None
     elif re.search(r"\b(?:cylinder|tube)\b", text):
         explicit_radius = _extract_measurement(text, "radius")
         diameter = _extract_measurement(text, "diameter")
@@ -813,6 +940,7 @@ def generate_design(prompt: str) -> DesignGraph:
         raise ValueError("engineering prompts are limited to 4096 characters")
     text = _normalize(prompt)
     normalization_is_lossless = _normalization_is_lossless(prompt)
+    contract_text, ignored_qualitative_terms = _contract_form(text)
     flags = infer_features(text)
     domain = infer_domain(text)
 
@@ -833,9 +961,12 @@ def generate_design(prompt: str) -> DesignGraph:
             "prompt": prompt,
             "source_kind": "prompt",
             "normalized_prompt": text,
+            "contract_prompt": contract_text,
+            "interpretation_mode": "conversational-normalized" if contract_text != text else "strict",
             "domain": domain,
             "flags": flags,
             "prompt_fully_consumed": normalization_is_lossless and _matches_prompt_contract(text, domain),
+            "ignored_qualitative_terms": ignored_qualitative_terms,
             "confidence": 0.9 if len(design.components) >= 2 else 0.6,
             "units": "mm",
         }

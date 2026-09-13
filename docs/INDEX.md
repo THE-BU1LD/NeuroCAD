@@ -2,6 +2,13 @@
 
 ## Current product and release guidance
 
+- [Final research audit](../FINAL_RESEARCH_AUDIT.md): strict submission-readiness score, critical failures, gate matrix, and recommendation.
+- [Project state audit](PROJECT_STATE_AUDIT.md): current component-by-component implementation status.
+- [Research program](RESEARCH_PROGRAM.md): hypotheses, baselines, experiments, ablations, statistics, and blockers.
+- [Datasets](DATASETS.md): provenance, schemas, counts, duplicate/leakage checks, and lifecycle commands.
+- [Claim/evidence matrix](CLAIM_EVIDENCE_MATRIX.md): status and artifact for every major claim.
+- [Research completion checklist](../RESEARCH_COMPLETION_CHECKLIST.md) and
+  [research-grade report](../RESEARCH_GRADE_REPORT.md): executed work and remaining gates.
 - [Quick start](QUICKSTART.md): checkout, installation, Windows, first outputs.
 - [Product workflow](PRODUCT_WORKFLOW.md): enclosures, revisions, calibration and handoffs.
 - [Mathematics](MATHEMATICS.md): implemented topology and uncertainty contracts.
