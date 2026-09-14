@@ -13,11 +13,12 @@ endpoint or to choose which advice items count as useful/wrong after outcomes.
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
-from dataclasses import dataclass
 import math
+from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping, Sequence
+from dataclasses import dataclass
 from statistics import median
-from typing import Iterable, Literal, Mapping, Sequence
+from typing import Literal
 
 HAS_LABELS: tuple[str, ...] = ("H1", "H2", "H3", "H4", "H5")
 HAS_ANCHORS: dict[str, str] = {
