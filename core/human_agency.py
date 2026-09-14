@@ -279,13 +279,18 @@ def agreement_report(
     if not rows:
         raise ValueError("at least one coder pair is required")
 
-    valid = {"accepted", "modified", "rejected", "not_observable"}
+    valid: tuple[BehaviorCategory, ...] = (
+        "accepted",
+        "modified",
+        "rejected",
+        "not_observable",
+    )
     for left, right in rows:
         if left not in valid or right not in valid:
             raise ValueError("unsupported behavior category in coder pair")
 
     n = len(rows)
-    observed = sum(left == right for left, right in rows) / n
+    observed = sum(1 for left, right in rows if left == right) / n
     left_counts = Counter(left for left, _ in rows)
     right_counts = Counter(right for _, right in rows)
     expected = sum((left_counts[label] / n) * (right_counts[label] / n) for label in valid)
@@ -342,16 +347,18 @@ def observations_from_records(records: Iterable[Mapping[str, object]]) -> tuple[
         condition = record["condition"]
         if condition not in ASSISTED_CONDITIONS:
             raise ValueError(f"record {index} uses a non-assisted/unknown condition")
+        objective_score = _finite_optional(record.get("objective_score"), "objective_score")
+        response_time_s = _finite_optional(record.get("response_time_s"), "response_time_s")
         out.append(
             HASObservation(
-                participant_id=record["participant_id"],  # type: ignore[arg-type]
-                block_id=record["block_id"],  # type: ignore[arg-type]
-                task_id=record["task_id"],  # type: ignore[arg-type]
+                participant_id=_clean_id(record["participant_id"], "participant_id"),
+                block_id=_clean_id(record["block_id"], "block_id"),
+                task_id=_clean_id(record["task_id"], "task_id"),
                 condition=condition,  # type: ignore[arg-type]
-                has_rating=record["has_rating"],  # type: ignore[arg-type]
-                objective_score=record.get("objective_score"),
+                has_rating=_has_label(record["has_rating"]),
+                objective_score=objective_score,
                 advice_uptake=record.get("advice_uptake"),  # type: ignore[arg-type]
-                response_time_s=record.get("response_time_s"),
+                response_time_s=response_time_s,
             )
         )
     return tuple(out)
