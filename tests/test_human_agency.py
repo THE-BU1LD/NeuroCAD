@@ -130,3 +130,13 @@ def test_duplicate_coder_item_rejected() -> None:
     ]
     with pytest.raises(ValueError, match="duplicate behavior code"):
         pair_behavior_codes(codes, coder_a="a", coder_b="b")
+
+
+def test_behavior_pairing_rejects_mismatched_item_sets() -> None:
+    codes = [
+        BehaviorCode("p1", "b1", "t1", "a", "accepted"),
+        BehaviorCode("p1", "b1", "t1", "b", "accepted"),
+        BehaviorCode("p2", "b2", "t1", "a", "modified"),
+    ]
+    with pytest.raises(ValueError, match="coder item sets differ"):
+        pair_behavior_codes(codes, coder_a="a", coder_b="b")
