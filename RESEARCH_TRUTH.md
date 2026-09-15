@@ -8,6 +8,7 @@
   cannot explain feature-aware hole, slot, or enclosure behavior.
 - The historical FULL run reports perfect controlled results but is **development evidence**: its manifest is not source-bound and 181/240 kernel records were resumed.
 - The generated benchmark tests conformance to the compiler's own declared grammar; it is not evidence of open-world natural-language generalization.
-- The historical typed-parser causal claim is falsified. No later compiler result rehabilitates it.
+- `research/protocols/EXTERNAL_EVALUATION_V0.md` now freezes a pre-outcome independent challenge protocol with external authorship/adjudication, source/data hashing, separate semantic-exact and fail-closed endpoints, a strong-comparator requirement for comparative language claims, and no post-outcome rescue. The challenge data and outcomes do **not** yet exist in this repository, so this improves methodology but adds no positive scientific result.
+- The historical typed-parser causal claim is falsified. No later compiler result or successor protocol rehabilitates it.
 - No trained checkpoint, real STEP/BREP path, physical validation, safety proof, public release receipt, or independent replication exists.
 - Current conference-readiness verdict: **EVIDENCE_PARTIAL**.
