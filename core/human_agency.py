@@ -240,10 +240,12 @@ def pair_behavior_codes(
     coder_a: str,
     coder_b: str,
 ) -> tuple[tuple[BehaviorCategory, BehaviorCategory], ...]:
-    """Pair two coders on exactly the shared task items.
+    """Pair two coders only when they coded the same prespecified task items.
 
     Duplicate coding by the same coder for the same item is rejected rather
-    than silently overwritten.
+    than silently overwritten. Item-set mismatch is also rejected: silently
+    intersecting coder coverage could drop difficult/ambiguous items and bias
+    agreement upward.
     """
 
     coder_a = _clean_id(coder_a, "coder_a")
@@ -260,10 +262,17 @@ def pair_behavior_codes(
 
     items_a = {item for coder, item in lookup if coder == coder_a}
     items_b = {item for coder, item in lookup if coder == coder_b}
-    shared = sorted(items_a & items_b)
-    if not shared:
+    if not items_a or not items_b:
         raise ValueError("the two coders have no shared coded items")
-    return tuple((lookup[(coder_a, item)], lookup[(coder_b, item)]) for item in shared)
+    if items_a != items_b:
+        missing_from_a = sorted(items_b - items_a)
+        missing_from_b = sorted(items_a - items_b)
+        raise ValueError(
+            "coder item sets differ; agreement requires identical prespecified coverage "
+            f"(missing_from_coder_a={missing_from_a}, missing_from_coder_b={missing_from_b})"
+        )
+    items = sorted(items_a)
+    return tuple((lookup[(coder_a, item)], lookup[(coder_b, item)]) for item in items)
 
 
 def agreement_report(
