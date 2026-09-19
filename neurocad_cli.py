@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import difflib
 import importlib
 import json
 import os
 import platform
+import re
 import shutil
 import subprocess  # nosec B404
 import sys
@@ -12,6 +14,7 @@ import tempfile
 from dataclasses import replace
 from importlib import metadata
 from pathlib import Path
+from typing import Any
 
 from core.artifacts import (
     compile_scad,
@@ -87,10 +90,7 @@ def _print_daemon_status(result: dict[str, object]) -> None:
     )
     jobs = result.get("jobs")
     if isinstance(jobs, dict):
-        print(
-            "  jobs    "
-            + "  ".join(f"{name} {jobs.get(name, 0)}" for name in ("running", "queued", "succeeded", "failed"))
-        )
+        print("  jobs    " + "  ".join(f"{name} {jobs.get(name, 0)}" for name in ("running", "queued", "succeeded", "failed")))
 
 
 def _print_job(record: dict[str, object]) -> None:
@@ -200,6 +200,102 @@ def _positive_int(value: str) -> int:
 def _show_errors(errors: list[str]) -> None:
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
+
+
+def _format_mm(value: object) -> str:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return "-"
+    return f"{float(value):.6g} mm"
+
+
+def _source_location(source: str, offset: int | None) -> str:
+    if offset is None:
+        return ""
+    line = source.count("\n", 0, offset) + 1
+    previous = source.rfind("\n", 0, offset)
+    column = offset + 1 if previous < 0 else offset - previous
+    return f"line {line}, column {column}"
+
+
+def _print_interpretation(interpretation: Any) -> None:
+    status = "ready" if interpretation.ready else "needs input"
+    color = "32" if interpretation.ready else "33"
+    print(_paint("NeuroCAD language analysis", "1;36"))
+    print(f"  {_paint(status, color)}  {interpretation.interpreter}")
+    if interpretation.mappings:
+        print(_paint("\nUnderstood", "1"))
+        for mapping in interpretation.mappings:
+            print(f"  {_paint('OK', '32'):<2} {mapping.field:<24} {_short(mapping.text, 68)}")
+    if interpretation.issues:
+        print(_paint("\nNeeds attention", "1"))
+        for issue in interpretation.issues:
+            marker = "?" if issue.kind == "question" else "!"
+            color = "33" if issue.kind == "question" else "31"
+            location = _source_location(interpretation.source, issue.start)
+            suffix = f" ({location})" if location else ""
+            print(f"  {_paint(marker, color)} {issue.kind}: {issue.message}{suffix}")
+            if issue.text:
+                print(f"    {_short(issue.text, 76)}")
+            if issue.suggestion:
+                print(f"    next: {issue.suggestion}")
+    if interpretation.assumptions:
+        print(_paint("\nDisclosed assumptions", "1"))
+        for assumption in interpretation.assumptions:
+            print(f"  {_paint('!', '33')} {assumption.field} = {assumption.value:g} mm")
+            print(f"    {assumption.reason}")
+    if interpretation.spec is not None:
+        spec = interpretation.spec
+        width, depth, height = spec.outer_size_mm
+        floor = spec.wall_mm if spec.floor_mm is None else spec.floor_mm
+        floor_note = " (wall default)" if spec.floor_mm is None else ""
+        print(_paint("\nResolved specification", "1"))
+        print(f"  title       {spec.title}")
+        print(f"  envelope    {width:g} x {depth:g} x {height:g} mm")
+        print(f"  shell       wall {spec.wall_mm:g} mm  floor {floor:g} mm{floor_note}  radius {spec.corner_radius_mm:g} mm")
+        print(f"  process     {spec.profile.replace('_', ' ')}")
+        closure = "open top" if spec.lid.kind == "none" else f"{spec.lid.kind} lid"
+        print(f"  closure     {closure}")
+        print(f"  features    {len(spec.cutouts)} cutouts  {len(spec.vents)} vents  {len(spec.standoffs)} standoffs")
+
+
+def _print_tolerance_report(report: dict[str, object]) -> None:
+    result = report["result"]
+    if not isinstance(result, dict):
+        raise TypeError("tolerance report result must be an object")
+    margin = result.get("margin_to_target_mm")
+    worst = result.get("worst_case_low_mm")
+    target_met = isinstance(margin, (int, float)) and not isinstance(margin, bool) and margin >= 0
+    if result.get("worst_case_guard_applied"):
+        target_met = target_met and isinstance(worst, (int, float)) and not isinstance(worst, bool) and worst >= 0
+    status = "target met" if target_met else "clearance revision recommended"
+    color = "32" if target_met else "33"
+    print(_paint("NeuroCAD tolerance analysis", "1;36"))
+    print(f"  {_paint(status, color)}  {report['model']} / {report['variation_model']}")
+    print(_paint("\nClearance", "1"))
+    print(f"  nominal       {_format_mm(result.get('nominal_clearance_mm'))}")
+    print(f"  predicted     {_format_mm(result.get('mean_clearance_mm'))}")
+    print(f"  sigma         {_format_mm(result.get('sigma_mm'))}")
+    print(f"  target low    {_format_mm(result.get('statistical_low_mm'))}")
+    print(f"  worst low     {_format_mm(result.get('worst_case_low_mm'))}")
+    print(f"  recommended   {_format_mm(result.get('recommended_clearance_mm'))}")
+    probability = result.get("success_probability", result.get("moment_matched_success_probability"))
+    target = result.get("target_success_probability")
+    if isinstance(probability, (int, float)) and isinstance(target, (int, float)):
+        print(f"  fit estimate  {float(probability):.5%}  target {float(target):.5%}")
+    contributions = result.get("contributions")
+    if isinstance(contributions, list) and contributions:
+        print(_paint("\nContributions", "1"))
+        print(f"  {'NAME':<22} {'MEAN':>11} {'SIGMA':>11} {'VARIANCE':>11}")
+        for entry in contributions:
+            if not isinstance(entry, dict):
+                continue
+            fraction = entry.get("variance_fraction")
+            fraction_text = "-" if fraction is None else f"{float(fraction):.1%}"
+            print(
+                f"  {_short(entry.get('name'), 22):<22} {_format_mm(entry.get('mean_effect_mm')):>11} "
+                f"{_format_mm(entry.get('sigma_mm')):>11} {fraction_text:>11}"
+            )
+    print("\n  Analytical estimate only; physical acceptance still requires measured evidence.")
 
 
 def cmd_doctor(args: argparse.Namespace) -> int:
@@ -368,12 +464,27 @@ def cmd_validate(args: argparse.Namespace) -> int:
     if args.json:
         print(json.dumps(design_manifest(doc.design, doc.validation, doc.program, doc.ir_validation), indent=2, sort_keys=True))
     elif not doc.validation.valid:
-        print("INVALID", file=sys.stderr)
+        print(_paint("INVALID", "1;31", stream=sys.stderr), file=sys.stderr)
         _show_errors(doc.validation.errors)
     else:
+        program = doc.require_program()
+        extents = _program_extents(program)
+        primitives = sum(node.primitive is not None for node in program.nodes)
+        operations = sum(node.composition is not None for node in program.nodes)
         for warning in doc.validation.warnings:
             print(f"WARNING: {warning}", file=sys.stderr)
-        print("VALID")
+        print(_paint("VALID", "1;32"))
+        print(f"  design       {program.title}")
+        print(f"  structure    {primitives} primitives  {operations} operations  {len(program.constraints)} constraints")
+        if extents is not None:
+            print(f"  extents      {extents[0]:g} x {extents[1]:g} x {extents[2]:g} mm")
+        else:
+            print("  extents      conservative or transform-dependent")
+        mesh_verification = doc.design.metadata.get("mesh_verification")
+        if isinstance(mesh_verification, dict):
+            print(f"  kernel       watertight STL verified  {mesh_verification.get('faces', '-')} faces")
+        else:
+            print("  kernel       not requested; use --compile for STL verification")
     if not doc.validation.valid:
         return 1
     return 0
@@ -675,7 +786,12 @@ def cmd_open(args: argparse.Namespace) -> int:
 def cmd_profile(args: argparse.Namespace) -> int:
     from core.performance import profile_generation
 
-    result = profile_generation(_prompt(args.prompt), iterations=args.iterations, fn=args.fn)
+    result = profile_generation(
+        _prompt(args.prompt),
+        iterations=args.iterations,
+        fn=args.fn,
+        warmup_iterations=args.warmups,
+    )
     payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
         output = _resolved_path(args.output)
@@ -818,61 +934,209 @@ def cmd_config(args: argparse.Namespace) -> int:
 def cmd_shell(args: argparse.Namespace) -> int:
     if not sys.stdin.isatty():
         raise RuntimeError("interactive shell requires a terminal")
-    print(_paint("NeuroCAD studio", "1;36"))
-    print("  Dimensioned prompt → validated CAD artifacts")
-    print("  :status  :jobs  :help  :quit\n")
-    while True:
-        try:
-            value = input("neurocad> ").strip()
-        except (EOFError, KeyboardInterrupt):
-            print()
-            return 0
-        if not value:
-            continue
-        if value in {":quit", ":exit", "quit", "exit"}:
-            return 0
-        if value == ":help":
-            print("Enter a fully dimensioned plate, enclosure, box, cylinder, or sphere prompt.")
-            print("Example: a 120 x 80 x 4 mm plate with four 4 mm holes")
-            print("Commands: :status shows daemon health; :jobs shows recent work; :quit exits.")
-            continue
-        if value in {":status", ":jobs"}:
-            from core.config import default_config_path, load_or_create_config
-            from core.daemon import daemon_is_ready, daemon_request
+    import webbrowser
 
-            config_path = _resolved_path(args.config) if args.config else default_config_path().resolve()
-            config, _, _ = load_or_create_config(config_path)
-            if not daemon_is_ready(config):
-                print(f"  {_status_label('stopped')}  submit a prompt to start the daemon")
-            elif value == ":status":
-                _print_daemon_status(daemon_request(config, "ping"))
-            else:
-                response = daemon_request(config, "list", limit=10)
-                records = response.get("jobs", [])
-                if not isinstance(records, list):
-                    raise TypeError("daemon returned an invalid job list")
-                _print_jobs(records)
-            continue
-        if value.startswith(":"):
-            print(f"Unknown shell command {value!r}; use :help.")
-            continue
-        command = argparse.Namespace(
-            prompt=[value],
-            config=args.config,
-            local=False,
-            output=None,
-            format="auto",
-            fn=None,
-            timeout=None,
-            no_start=False,
-            no_wait=False,
-            wait_timeout=None,
-            json=False,
-        )
-        try:
-            cmd_generate(command)
-        except (OSError, RuntimeError, TypeError, ValueError) as exc:
-            print(f"ERROR: {exc}", file=sys.stderr)
+    from core.agent_workbench import start_agent_workbench
+    from core.agentic import AgentWorkspace, planning_provider
+    from core.config import default_config_path, load_or_create_config
+    from core.daemon import daemon_is_ready, daemon_request
+    from core.prompt_engine import generate_design
+    from core.validation import validate_design
+
+    config_path = _resolved_path(args.config) if args.config else default_config_path().resolve()
+    config, _, _ = load_or_create_config(config_path)
+    project_path = _resolved_path(args.project) if args.project else (Path(config.data_root) / "projects" / "default").resolve()
+    workspace = AgentWorkspace(project_path)
+    provider = planning_provider(args.provider)
+    workbench_server = None
+    workbench_thread = None
+    workbench_url = None
+
+    def open_view() -> None:
+        nonlocal workbench_server, workbench_thread, workbench_url
+        if workbench_server is None:
+            workbench_server, workbench_thread, workbench_url = start_agent_workbench(
+                workspace,
+                port=args.port,
+                open_browser=True,
+            )
+        elif workbench_url is not None:
+            webbrowser.open(workbench_url)
+        print(f"  {_paint('live view', '1;36')}  {workbench_url}")
+
+    def open_in_openscad() -> None:
+        design_path = workspace.root / "design.scad"
+        if not design_path.is_file():
+            raise FileNotFoundError("the active agent project has no design.scad yet")
+        if platform.system() == "Darwin":
+            command = ["open", "-a", "OpenSCAD", str(design_path)]
+        else:
+            executable = shutil.which("openscad")
+            if executable is None:
+                raise RuntimeError(f"OpenSCAD is not available; design file: {design_path}")
+            command = [executable, str(design_path)]
+        subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True)  # nosec B603 B607
+        print(f"  {_paint('opened in OpenSCAD', '1;32')}  {design_path}")
+
+    if args.view:
+        open_view()
+    print(_paint("┌─ NEUROCAD / AGENT STUDIO", "1;36"))
+    print(f"│  project   {_short(project_path, 68)}")
+    print(f"│  planner   {provider.name}")
+    print("│  :view  :project  :assumptions  :history  :status  :jobs  :help  :quit")
+    print(_paint("└────────────────────────────────────────────────────────────────────", "36"))
+    print("  Describe a design naturally. Explicit dimensions remain authoritative.\n")
+    try:
+        while True:
+            try:
+                value = input(_paint("you › ", "1;36")).strip()
+            except EOFError:
+                print()
+                return 0
+            except KeyboardInterrupt:
+                print("\n  interrupted")
+                continue
+            if not value:
+                continue
+            if value in {":quit", ":exit", "quit", "exit"}:
+                return 0
+            if value == ":help":
+                print("  Describe an object or revise the active agent project in ordinary language.")
+                print("  Dimensioned plates, enclosures, and primitives use the verified fast path.")
+                print("  :view opens live geometry; :project shows files; :assumptions shows inferred choices.")
+                continue
+            if value == ":view":
+                open_view()
+                continue
+            if value in {":project", ":assumptions", ":history"}:
+                state = workspace.read_state()
+                if state is None:
+                    print("  no agent project revision yet")
+                elif value == ":project":
+                    print(f"  {project_path}")
+                    print(f"  revision {state['revision']}  {state['status']}  {state['title']}")
+                elif value == ":assumptions":
+                    for assumption in state["plan"]["assumptions"]:
+                        print(f"  {_paint('◆', '33')} {assumption['name']}: {assumption['value']}")
+                        print(f"    {assumption['reason']} [{assumption['source']}]")
+                else:
+                    for item in state.get("history", []):
+                        print(f"  r{item['revision']:04d}  {item['prompt']}  ({item['provider']})")
+                continue
+            if value in {":status", ":jobs"}:
+                if not daemon_is_ready(config):
+                    print(f"  {_status_label('stopped')}  a verified fast-path request will start the daemon")
+                elif value == ":status":
+                    _print_daemon_status(daemon_request(config, "ping"))
+                else:
+                    response = daemon_request(config, "list", limit=10)
+                    records = response.get("jobs", [])
+                    if not isinstance(records, list):
+                        raise TypeError("daemon returned an invalid job list")
+                    _print_jobs(records)
+                continue
+            if value.startswith(":"):
+                print(f"  unknown command {value!r}; use :help")
+                continue
+            try:
+                if re.search(r"^\s*(?:open|show|view)\b.*\bopenscad\b", value, re.IGNORECASE):
+                    open_in_openscad()
+                    continue
+                design = generate_design(value)
+                if validate_design(design).valid:
+                    command = argparse.Namespace(
+                        prompt=[value],
+                        config=args.config,
+                        local=False,
+                        output=None,
+                        format="auto",
+                        fn=None,
+                        timeout=None,
+                        no_start=False,
+                        no_wait=False,
+                        wait_timeout=None,
+                        json=False,
+                    )
+                    cmd_generate(command)
+                    continue
+
+                def progress(event: dict[str, object]) -> None:
+                    symbol = "✓" if event["status"] == "complete" else "◆"
+                    color = "32" if event["status"] == "complete" else "36"
+                    print(f"  {_paint(symbol, color)} {event['message']}")
+
+                result = workspace.run(value, provider, fn=config.default_fn, callback=progress)
+                print(f"  {_paint('✓ draft revision complete', '1;32')}  r{result.revision:04d}")
+                print(f"    {result.project_dir}")
+                if workbench_url is None:
+                    print("    use :view for the live project workbench")
+            except KeyboardInterrupt:
+                print("\n  interrupted; the last completed component checkpoint is still available")
+            except (OSError, RuntimeError, TypeError, ValueError) as exc:
+                print(f"  {_paint('ERROR', '1;31', stream=sys.stderr)}: {exc}", file=sys.stderr)
+    finally:
+        if workbench_server is not None:
+            workbench_server.shutdown()
+            workbench_server.server_close()
+        if workbench_thread is not None:
+            workbench_thread.join(timeout=2)
+
+
+def _agent_progress(event: dict[str, object]) -> None:
+    symbol = "✓" if event["status"] == "complete" else "◆"
+    color = "32" if event["status"] == "complete" else "36"
+    print(f"{_paint(symbol, color)} {event['message']}")
+
+
+def cmd_agent_run(args: argparse.Namespace) -> int:
+    from core.agentic import AgentWorkspace, planning_provider
+
+    workspace = AgentWorkspace(_resolved_path(args.project))
+    provider = planning_provider(args.provider)
+    result = workspace.run(
+        _prompt(args.prompt),
+        provider,
+        fn=args.fn,
+        callback=None if args.json else _agent_progress,
+    )
+    if args.json:
+        print(json.dumps(result.to_dict(), indent=2, sort_keys=True))
+    else:
+        print(f"{_paint('✓ draft complete', '1;32')}  revision {result.revision}")
+        print(f"  {result.project_dir}")
+    return 0
+
+
+def cmd_agent_inspect(args: argparse.Namespace) -> int:
+    from core.agentic import AgentWorkspace
+
+    state = AgentWorkspace(_resolved_path(args.project)).read_state()
+    if state is None:
+        raise FileNotFoundError("agent project has no project.json")
+    print(json.dumps(state, indent=2, sort_keys=True))
+    return 0
+
+
+def cmd_agent_view(args: argparse.Namespace) -> int:
+    from core.agent_workbench import start_agent_workbench
+    from core.agentic import AgentWorkspace
+
+    server, thread, url = start_agent_workbench(
+        AgentWorkspace(_resolved_path(args.project)),
+        host=args.host,
+        port=args.port,
+        open_browser=not args.no_browser,
+    )
+    print(f"NeuroCAD live agent workbench: {url}")
+    try:
+        thread.join()
+    except KeyboardInterrupt:
+        print()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+    return 0
 
 
 def cmd_research(args: argparse.Namespace) -> int:
@@ -930,6 +1194,7 @@ def cmd_topology(args: argparse.Namespace) -> int:
 
     import trimesh
 
+    from core.mesh_geometry import analyze_self_intersections
     from core.topology import analyze_triangle_complex
 
     source = _resolved_path(args.input)
@@ -944,19 +1209,20 @@ def cmd_topology(args: argparse.Namespace) -> int:
         raise ValueError("topology input must be non-empty and at most 32 MiB")
     mesh = trimesh.load_mesh(io.BytesIO(payload), file_type="stl", process=True)
     report = analyze_triangle_complex(mesh.vertices, mesh.faces)
+    report["embedding"] = analyze_self_intersections(mesh.vertices, mesh.faces)
     report["source_sha256"] = hashlib.sha256(payload).hexdigest()
     report["preprocessing"] = "trimesh process=True vertex welding; topology is of the processed mesh"
     text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if output:
         write_text_atomic(output, text)
     print(text, end="")
-    if args.require_closed_manifold and (not report["manifold"] or not report["closed"]):
+    if args.require_closed_manifold and (not report["manifold"] or not report["closed"] or report["embedding"]["self_intersecting"]):
         return 1
     return 0
 
 
 def cmd_tolerance(args: argparse.Namespace) -> int:
-    from core.engineering_math import ToleranceContribution, tolerance_stack
+    from core.engineering_math import ToleranceContribution, quadratic_tolerance_stack, tolerance_stack
     from core.json_io import strict_json_loads
 
     source = _resolved_path(args.input)
@@ -969,8 +1235,21 @@ def cmd_tolerance(args: argparse.Namespace) -> int:
         raise ValueError("tolerance input exceeds 1 MiB")
     request = strict_json_loads(payload.decode("utf-8"))
     required = {"nominal_clearance_mm", "contributions"}
-    if not isinstance(request, dict) or not required <= request.keys() or request.keys() - (required | {"correlations", "confidence_multiplier"}):
-        raise ValueError("tolerance input requires nominal_clearance_mm and contributions; optional correlations and confidence_multiplier")
+    optional = {
+        "correlations",
+        "confidence_multiplier",
+        "model",
+        "sensitivities",
+        "hessian_per_mm",
+        "target_success_probability",
+        "require_nonnegative_worst_case",
+    }
+    if not isinstance(request, dict) or not required <= request.keys() or request.keys() - (required | optional):
+        raise ValueError(
+            "tolerance input requires nominal_clearance_mm and contributions; optional model, correlations, "
+            "confidence_multiplier, target_success_probability, require_nonnegative_worst_case, sensitivities, "
+            "and hessian_per_mm"
+        )
     if not isinstance(request["contributions"], list) or len(request["contributions"]) > 128:
         raise ValueError("contributions must be an array of at most 128 entries")
     contributions = []
@@ -978,15 +1257,155 @@ def cmd_tolerance(args: argparse.Namespace) -> int:
         if not isinstance(entry, dict) or set(entry) != {"name", "mean_mm", "sigma_mm", "worst_case_mm"}:
             raise ValueError("each contribution requires exactly name, mean_mm, sigma_mm, worst_case_mm")
         contributions.append(ToleranceContribution(**entry))
-    result = tolerance_stack(
-        request["nominal_clearance_mm"], tuple(contributions),
-        confidence_multiplier=request.get("confidence_multiplier", 3.0), correlations=request.get("correlations"),
-    )
+    model = request.get("model", "linear")
+    if model == "linear":
+        if "sensitivities" in request or "hessian_per_mm" in request:
+            raise ValueError("sensitivities and hessian_per_mm require model 'quadratic'")
+        result_payload = tolerance_stack(
+            request["nominal_clearance_mm"],
+            tuple(contributions),
+            confidence_multiplier=request.get("confidence_multiplier", 3.0),
+            correlations=request.get("correlations"),
+            target_success_probability=request.get("target_success_probability"),
+            require_nonnegative_worst_case=request.get("require_nonnegative_worst_case", False),
+        ).to_dict()
+        probability_model = "normal"
+    elif model == "quadratic":
+        if "sensitivities" not in request or "hessian_per_mm" not in request:
+            raise ValueError("quadratic model requires sensitivities and hessian_per_mm")
+        result_payload = quadratic_tolerance_stack(
+            request["nominal_clearance_mm"],
+            tuple(contributions),
+            sensitivities=tuple(request["sensitivities"]),
+            hessian_per_mm=tuple(tuple(row) for row in request["hessian_per_mm"]),
+            confidence_multiplier=request.get("confidence_multiplier", 3.0),
+            correlations=request.get("correlations"),
+            target_success_probability=request.get("target_success_probability"),
+            require_nonnegative_worst_case=request.get("require_nonnegative_worst_case", False),
+        ).to_dict()
+        probability_model = "moment_matched_normal_for_quadratic_form"
+    else:
+        raise ValueError("model must be 'linear' or 'quadratic'")
     report = {
-        "schema_version": "neurocad-tolerance-v1", "result": result.to_dict(),
+        "schema_version": "neurocad-tolerance-v2",
+        "math_revision": "neurocad-tolerance-math-v3",
+        "result": result_payload,
+        "model": model,
         "variation_model": "joint_normal_correlated" if request.get("correlations") is not None else "independent_normal",
-        "limitations": ["Normal-model fit probability is not empirical acceptance or a safety guarantee.",
-                        "Worst-case intervals are separate declared bounds, not bounds on a normal distribution."],
+        "probability_model": probability_model,
+        "limitations": [
+            "Normal-model fit probability is not empirical acceptance or a safety guarantee.",
+            "Worst-case intervals are separate declared bounds, not bounds on a normal distribution.",
+            "Quadratic success probability is moment-matched; only its reported first two moments are analytical.",
+        ],
+    }
+    text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    if output:
+        write_text_atomic(output, text)
+    if getattr(args, "human", False) and not getattr(args, "json", False):
+        _print_tolerance_report(report)
+        if output:
+            print(f"\n  report        {output}")
+    else:
+        print(text, end="")
+    return 0
+
+
+def cmd_math_beam(args: argparse.Namespace) -> int:
+    from core.engineering_math import rectangular_cantilever
+
+    result = rectangular_cantilever(
+        force_n=args.force,
+        length_mm=args.length,
+        width_mm=args.width,
+        thickness_mm=args.thickness,
+        elastic_modulus_mpa=args.modulus,
+        yield_strength_mpa=args.yield_strength,
+    )
+    payload = {
+        "schema_version": "neurocad-cantilever-v1",
+        "model": "euler_bernoulli_end_loaded_rectangular_cantilever",
+        "inputs": {
+            "force_n": args.force,
+            "length_mm": args.length,
+            "width_mm": args.width,
+            "thickness_mm": args.thickness,
+            "elastic_modulus_mpa": args.modulus,
+            "yield_strength_mpa": args.yield_strength,
+        },
+        "result": result.to_dict(),
+        "limitations": [
+            "Small-deflection linear-elastic beam theory only.",
+            "The estimate is not finite-element analysis or safety certification.",
+        ],
+    }
+    if args.json:
+        print(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))
+    else:
+        print(_paint("NeuroCAD beam analysis", "1;36"))
+        print("  Euler-Bernoulli / end-loaded rectangular cantilever")
+        print(_paint("\nResponse", "1"))
+        print(f"  stress        {result.maximum_stress_mpa:.6g} MPa")
+        print(f"  deflection    {_format_mm(result.tip_deflection_mm)}")
+        print(f"  strain        {result.strain:.6g}")
+        print(f"  second moment {result.second_moment_mm4:.6g} mm^4")
+        safety = "not evaluated" if result.safety_factor is None else f"{result.safety_factor:.6g}"
+        print(f"  safety factor {safety}")
+        print("\n  Analytical estimate only; validate material, loading, and geometry independently.")
+    return 0
+
+
+def cmd_physics(args: argparse.Namespace) -> int:
+    from collections.abc import Callable
+    from dataclasses import MISSING, fields
+
+    from core.json_io import strict_json_loads
+    from core.physics import (
+        EulerBucklingInput,
+        InternalPipeFlowInput,
+        SteadyConductionInput,
+        ThermalExpansionInput,
+        ThinWallCylinderInput,
+        euler_buckling,
+        internal_pipe_flow,
+        steady_conduction,
+        thermal_expansion,
+        thin_wall_cylinder,
+    )
+
+    source = _resolved_path(args.input)
+    output = _resolved_path(args.output) if args.output else None
+    _require_distinct_paths(input=source, output=output)
+    _require_new_paths(force=args.force, output=output)
+    with source.open("rb") as handle:
+        payload = handle.read(MAX_IR_INPUT_BYTES + 1)
+    if len(payload) > MAX_IR_INPUT_BYTES:
+        raise ValueError("physics input exceeds 1 MiB")
+    request = strict_json_loads(payload.decode("utf-8"))
+    if not isinstance(request, dict) or set(request) != {"model", "inputs"}:
+        raise ValueError("physics input requires exactly model and inputs")
+    if not isinstance(request["model"], str) or not isinstance(request["inputs"], dict):
+        raise TypeError("physics model must be a string and inputs must be an object")
+    models: dict[str, tuple[type[Any], Callable[[Any], dict[str, Any]]]] = {
+        "euler_buckling": (EulerBucklingInput, euler_buckling),
+        "thermal_expansion": (ThermalExpansionInput, thermal_expansion),
+        "steady_conduction": (SteadyConductionInput, steady_conduction),
+        "internal_pipe_flow": (InternalPipeFlowInput, internal_pipe_flow),
+        "thin_wall_cylinder": (ThinWallCylinderInput, thin_wall_cylinder),
+    }
+    if request["model"] not in models:
+        raise ValueError("unsupported physics model; use " + ", ".join(sorted(models)))
+    input_type, evaluate = models[request["model"]]
+    allowed = {field.name for field in fields(input_type)}
+    required = {field.name for field in fields(input_type) if field.default is MISSING and field.default_factory is MISSING}
+    supplied = set(request["inputs"])
+    if not required <= supplied or supplied - allowed:
+        raise ValueError(f"{request['model']} inputs require {sorted(required)} and allow {sorted(allowed - required)}")
+    result = evaluate(input_type(**request["inputs"]))
+    report = {
+        "schema_version": "neurocad-physics-v1",
+        "requested_model": request["model"],
+        **result,
     }
     text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if output:
@@ -995,7 +1414,7 @@ def cmd_tolerance(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_enclosure_interpret(args: argparse.Namespace) -> int:
+def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bool) -> int:
     from core.natural_language import interpret_enclosure
     from core.project import write_project
     from core.workflow import project_from_interpretation
@@ -1011,17 +1430,31 @@ def cmd_enclosure_interpret(args: argparse.Namespace) -> int:
         _require_new_path(project_output, label="project output")
     project = project_from_interpretation(args.project_id, interpretation) if interpretation.ready and project_output is not None else None
     encoded = json.dumps(interpretation.to_dict(), indent=2, sort_keys=True) + "\n"
-    if output is None:
+    human = (human_default or getattr(args, "human", False)) and not getattr(args, "json", False)
+    if output is not None:
+        write_text_atomic(output, encoded)
+    if human:
+        _print_interpretation(interpretation)
+        if output is not None:
+            print(f"\n  analysis     {output}")
+    elif output is None:
         print(encoded, end="")
     else:
-        write_text_atomic(output, encoded)
         print(output)
     if project is not None and project_output is not None:
         write_project(project_output, project)
-        print(project_output)
+        print(f"  project      {project_output}" if human else project_output)
     elif project_output is not None:
         _show_errors([issue.message for issue in interpretation.issues])
     return 0 if interpretation.ready else 2
+
+
+def cmd_enclosure_interpret(args: argparse.Namespace) -> int:
+    return _run_enclosure_interpretation(args, human_default=False)
+
+
+def cmd_nlp(args: argparse.Namespace) -> int:
+    return _run_enclosure_interpretation(args, human_default=True)
 
 
 def cmd_enclosure_build(args: argparse.Namespace) -> int:
@@ -1069,7 +1502,9 @@ def cmd_enclosure_preflight(args: argparse.Namespace) -> int:
         from core.workflow import verified_material_report
 
         payload["compiled_geometry"] = verified_material_report(
-            project, _resolved_path(args.bundle), density_g_cm3=args.density,
+            project,
+            _resolved_path(args.bundle),
+            density_g_cm3=args.density,
             material_cost_per_kg=args.material_cost,
         )
     print(json.dumps(payload, indent=2, sort_keys=True))
@@ -1353,10 +1788,12 @@ def cmd_fit_sample(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="neurocad",
-        description="Turn dimensioned engineering prompts into validated, reproducible CAD artifacts.",
+        description="Conversational CAD projects with validated, reproducible geometry artifacts.",
         epilog=(
             "examples:\n"
             "  neurocad 'a 120 x 80 x 4 mm plate with four 4 mm holes'\n"
+            "  neurocad nlp 'design an enclosure 10 x 7 x 3 cm with walls 2 mm'\n"
+            "  neurocad math beam --force 10 --length 50 --width 10 --thickness 4 --modulus 2200\n"
             "  neurocad jobs list --status failed\n"
             "  neurocad daemon status\n"
             "  neurocad --version"
@@ -1403,9 +1840,18 @@ def build_parser() -> argparse.ArgumentParser:
     profile_parser = sub.add_parser("profile", help="Measure deterministic source-generation latency and peak Python memory")
     profile_parser.add_argument("prompt", nargs="+", help="Supported engineering prompt")
     profile_parser.add_argument("--iterations", type=_positive_int, default=20)
+    profile_parser.add_argument("--warmups", type=_positive_int, default=3)
     profile_parser.add_argument("--fn", type=_fn, default=64)
     profile_parser.add_argument("-o", "--output", help="New machine-readable profile path")
     profile_parser.set_defaults(func=cmd_profile)
+
+    nlp_parser = sub.add_parser("nlp", help="Explain how enclosure language maps to a validated specification")
+    nlp_parser.add_argument("prompt", nargs="+", help="Conversational but measurable enclosure requirements")
+    nlp_parser.add_argument("-o", "--output", help="Optional new interpretation JSON path")
+    nlp_parser.add_argument("--project-output", help="Write a project only when every requirement is resolved")
+    nlp_parser.add_argument("--project-id", default="enclosure-project")
+    nlp_parser.add_argument("--json", action="store_true", help="Print machine-readable JSON instead of the terminal analysis")
+    nlp_parser.set_defaults(func=cmd_nlp)
 
     generate = sub.add_parser("generate", help="Generate a complete validated artifact bundle from a terminal prompt")
     generate.add_argument("prompt", nargs="+", help="Engineering prompt")
@@ -1426,9 +1872,36 @@ def build_parser() -> argparse.ArgumentParser:
     generate.add_argument("--json", action="store_true", help="Print the complete job/result record")
     generate.set_defaults(func=cmd_generate)
 
-    shell_parser = sub.add_parser("shell", help="Open an interactive terminal prompt session")
-    shell_parser.add_argument("--config", help="Alternative configuration path")
-    shell_parser.set_defaults(func=cmd_shell)
+    agent_parser = sub.add_parser("agent", help="Plan and revise persistent conversational CAD projects")
+    agent_actions = agent_parser.add_subparsers(dest="agent_action", required=True)
+    agent_run = agent_actions.add_parser("run", help="Create the next progressive project revision")
+    agent_run.add_argument("prompt", nargs="+", help="Natural-language design or revision request")
+    agent_run.add_argument("--project", required=True, help="Persistent agent project directory")
+    agent_run.add_argument("--provider", choices=["auto", "builtin", "openai", "ollama", "compatible"], default="auto")
+    agent_run.add_argument("--fn", type=_fn, default=64)
+    agent_run.add_argument("--json", action="store_true", help="Print the complete revision record")
+    agent_run.set_defaults(func=cmd_agent_run)
+    agent_inspect = agent_actions.add_parser("inspect", help="Print current plan, assumptions, and revision history")
+    agent_inspect.add_argument("project")
+    agent_inspect.set_defaults(func=cmd_agent_inspect)
+    agent_view = agent_actions.add_parser("view", help="Open the live local project workbench")
+    agent_view.add_argument("project")
+    agent_view.add_argument("--host", default="127.0.0.1")
+    agent_view.add_argument("--port", type=int, default=8766)
+    agent_view.add_argument("--no-browser", action="store_true")
+    agent_view.set_defaults(func=cmd_agent_view)
+
+    for name, help_text in (
+        ("studio", "Open the conversational CAD agent studio"),
+        ("shell", "Alias for the conversational CAD agent studio"),
+    ):
+        shell_parser = sub.add_parser(name, help=help_text)
+        shell_parser.add_argument("project", nargs="?", help="Persistent agent project directory")
+        shell_parser.add_argument("--provider", choices=["auto", "builtin", "openai", "ollama", "compatible"], default="auto")
+        shell_parser.add_argument("--view", action="store_true", help="Open the live project workbench")
+        shell_parser.add_argument("--port", type=int, default=8766, help="Live workbench loopback port")
+        shell_parser.add_argument("--config", help="Alternative configuration path")
+        shell_parser.set_defaults(func=cmd_shell)
 
     daemon_parser = sub.add_parser("daemon", help="Manage the local generation daemon")
     daemon_actions = daemon_parser.add_subparsers(dest="daemon_action", required=True)
@@ -1502,11 +1975,38 @@ def build_parser() -> argparse.ArgumentParser:
     topology.add_argument("--force", action="store_true", help="Explicitly replace the report file")
     topology.set_defaults(func=cmd_topology)
 
-    tolerance = sub.add_parser("tolerance", help="Compute a validated independent or correlated normal tolerance stack")
+    tolerance = sub.add_parser("tolerance", help="Compute a validated linear or quadratic correlated tolerance stack")
     tolerance.add_argument("input", help="Tolerance JSON request; see docs/MATHEMATICS.md")
     tolerance.add_argument("-o", "--output", help="Optional new JSON report path")
     tolerance.add_argument("--force", action="store_true", help="Explicitly replace the report file")
+    tolerance_output = tolerance.add_mutually_exclusive_group()
+    tolerance_output.add_argument("--human", action="store_true", help="Print a terminal-oriented analysis")
+    tolerance_output.add_argument("--json", action="store_true", help="Print machine-readable JSON (the default)")
     tolerance.set_defaults(func=cmd_tolerance)
+
+    math_parser = sub.add_parser("math", help="Run auditable engineering calculations with terminal-oriented results")
+    math_actions = math_parser.add_subparsers(dest="math_action", required=True)
+    math_tolerance = math_actions.add_parser("tolerance", help="Analyze a linear or quadratic tolerance request")
+    math_tolerance.add_argument("input", help="Tolerance JSON request; see docs/MATHEMATICS.md")
+    math_tolerance.add_argument("-o", "--output", help="Optional new JSON report path")
+    math_tolerance.add_argument("--force", action="store_true", help="Explicitly replace the report file")
+    math_tolerance.add_argument("--json", action="store_true", help="Print machine-readable JSON instead of the terminal analysis")
+    math_tolerance.set_defaults(func=cmd_tolerance, human=True)
+    math_beam = math_actions.add_parser("beam", help="Evaluate an end-loaded rectangular cantilever")
+    math_beam.add_argument("--force", type=float, required=True, help="End load in newtons")
+    math_beam.add_argument("--length", type=float, required=True, help="Cantilever length in millimetres")
+    math_beam.add_argument("--width", type=float, required=True, help="Section width in millimetres")
+    math_beam.add_argument("--thickness", type=float, required=True, help="Bending-axis thickness in millimetres")
+    math_beam.add_argument("--modulus", type=float, required=True, help="Elastic modulus in MPa")
+    math_beam.add_argument("--yield-strength", type=float, help="Optional yield strength in MPa")
+    math_beam.add_argument("--json", action="store_true", help="Print machine-readable JSON")
+    math_beam.set_defaults(func=cmd_math_beam)
+
+    physics = sub.add_parser("physics", help="Evaluate a bounded analytical physics constraint model")
+    physics.add_argument("input", help="Physics JSON request; see docs/PHYSICS.md")
+    physics.add_argument("-o", "--output", help="Optional new JSON report path")
+    physics.add_argument("--force", action="store_true", help="Explicitly replace the report file")
+    physics.set_defaults(func=cmd_physics)
 
     create = sub.add_parser("create", help="Generate OpenSCAD from an engineering prompt")
     create.add_argument("prompt", nargs="+", help="Engineering prompt")
@@ -1626,11 +2126,14 @@ def build_parser() -> argparse.ArgumentParser:
     fit_sample.add_argument("-o", "--output", required=True, help="New canonical IR file; compile with neurocad compile")
     fit_sample.set_defaults(func=cmd_fit_sample)
 
-    enclosure_interpret = enclosure_actions.add_parser("interpret", help="Interpret explicit enclosure clauses")
-    enclosure_interpret.add_argument("prompt", nargs="+", help="Semicolon-delimited enclosure requirements")
+    enclosure_interpret = enclosure_actions.add_parser("interpret", help="Interpret measurable enclosure requirements")
+    enclosure_interpret.add_argument("prompt", nargs="+", help="Conversational clauses with explicit engineering dimensions")
     enclosure_interpret.add_argument("-o", "--output", help="Write the auditable interpretation JSON")
     enclosure_interpret.add_argument("--project-output", help="Write a project file only when interpretation is complete")
     enclosure_interpret.add_argument("--project-id", default="enclosure-project")
+    enclosure_interpret_output = enclosure_interpret.add_mutually_exclusive_group()
+    enclosure_interpret_output.add_argument("--human", action="store_true", help="Print a terminal-oriented explanation")
+    enclosure_interpret_output.add_argument("--json", action="store_true", help="Print machine-readable JSON (the default)")
     enclosure_interpret.set_defaults(func=cmd_enclosure_interpret)
 
     enclosure_build = enclosure_actions.add_parser("build", help="Build a new collision-refusing enclosure artifact bundle")
@@ -1641,9 +2144,7 @@ def build_parser() -> argparse.ArgumentParser:
     enclosure_build.add_argument("--timeout", type=_positive_timeout, default=120)
     enclosure_build.set_defaults(func=cmd_enclosure_build)
 
-    enclosure_verify = enclosure_actions.add_parser(
-        "verify", help="Rebuild and verify every source and artifact in an enclosure bundle"
-    )
+    enclosure_verify = enclosure_actions.add_parser("verify", help="Rebuild and verify every source and artifact in an enclosure bundle")
     enclosure_verify.add_argument("bundle", help="Existing enclosure bundle directory")
     enclosure_verify.set_defaults(func=cmd_enclosure_verify)
 
@@ -1729,9 +2230,7 @@ def build_parser() -> argparse.ArgumentParser:
     kicad_extract.add_argument("--review", required=True, help="Strict mechanical review JSON for connectors and height")
     kicad_extract.add_argument("-o", "--output", required=True, help="New source-hash-bound KiCad receipt JSON")
     kicad_extract.set_defaults(func=cmd_integrations_kicad_extract)
-    kicad_bind = integration_actions.add_parser(
-        "kicad-bind", help="Bind a reviewed extraction draft to the exact KiCad board bytes"
-    )
+    kicad_bind = integration_actions.add_parser("kicad-bind", help="Bind a reviewed extraction draft to the exact KiCad board bytes")
     kicad_bind.add_argument("draft", help="Reviewed neurocad-kicad-extraction-draft-v1 JSON")
     kicad_bind.add_argument("--source-board", required=True, help="Exact .kicad_pcb file represented by the draft")
     kicad_bind.add_argument("-o", "--output", required=True, help="New hash-bound KiCad receipt JSON")
@@ -1742,9 +2241,7 @@ def build_parser() -> argparse.ArgumentParser:
     kicad_inspect.add_argument("receipt", help="Completed bounded KiCad handoff JSON")
     kicad_inspect.add_argument("--source-board", required=True, help="Exact .kicad_pcb file named by the receipt")
     kicad_inspect.set_defaults(func=cmd_integrations_kicad_inspect)
-    kicad_apply = integration_actions.add_parser(
-        "kicad-apply", help="Apply a hash-bound PCB envelope as a new project revision"
-    )
+    kicad_apply = integration_actions.add_parser("kicad-apply", help="Apply a hash-bound PCB envelope as a new project revision")
     kicad_apply.add_argument("project", help="Source NeuroCAD enclosure project JSON")
     kicad_apply.add_argument("receipt", help="Completed bounded KiCad handoff JSON")
     kicad_apply.add_argument("--source-board", required=True, help="Exact .kicad_pcb file named by the receipt")
@@ -1757,6 +2254,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 KNOWN_COMMANDS = frozenset(
     {
+        "agent",
         "artifacts",
         "benchmark",
         "calibration",
@@ -1774,11 +2272,15 @@ KNOWN_COMMANDS = frozenset(
         "integrations",
         "ir",
         "jobs",
+        "math",
+        "nlp",
         "open",
+        "physics",
         "profile",
         "research",
         "setup",
         "shell",
+        "studio",
         "tolerance",
         "topology",
         "uninstall",
@@ -1792,8 +2294,11 @@ def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     raw_args = list(sys.argv[1:] if argv is None else argv)
     if not raw_args and sys.stdin.isatty():
-        raw_args = ["shell"]
+        raw_args = ["studio"]
     elif raw_args and not raw_args[0].startswith("-") and raw_args[0] not in KNOWN_COMMANDS:
+        suggestion = difflib.get_close_matches(raw_args[0], KNOWN_COMMANDS, n=1, cutoff=0.74)
+        if suggestion and " " not in raw_args[0]:
+            parser.error(f"unknown command {raw_args[0]!r}; did you mean {suggestion[0]!r}?")
         raw_args.insert(0, "generate")
     args = parser.parse_args(raw_args)
     if not getattr(args, "command", None):

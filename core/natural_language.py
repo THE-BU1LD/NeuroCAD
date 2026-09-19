@@ -26,8 +26,47 @@ from .engineering_math import symmetric_positions
 from .project import PhraseMapping, enclosure_spec_from_dict
 
 NUMBER = r"(?:0|[1-9]\d*)(?:\.\d+)?"
-FACE = r"(?:front|rear|left|right|bottom|top)"
+SIGNED_NUMBER = rf"-?{NUMBER}"
+UNIT = r"(?:mm|millimet(?:er|re)s?|cm|centimet(?:er|re)s?|in|inches?|inch)"
+FACE = r"(?:front|rear|back|left|right|bottom|top)"
 HARDWARE = r"M(?:2(?:\.5)?|3|4)"
+COUNT = r"(?:[1-9]\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)"
+
+_UNIT_TO_MM = {
+    "mm": 1.0,
+    "millimeter": 1.0,
+    "millimeters": 1.0,
+    "millimetre": 1.0,
+    "millimetres": 1.0,
+    "cm": 10.0,
+    "centimeter": 10.0,
+    "centimeters": 10.0,
+    "centimetre": 10.0,
+    "centimetres": 10.0,
+    "in": 25.4,
+    "inch": 25.4,
+    "inches": 25.4,
+}
+_COUNT_WORDS = {
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+}
+_CLAUSE_LEAD = (
+    r"(?:an?\s+)?(?:make|create|design|build|outer|enclosure|case|housing|walls?|wall\s+thickness|"
+    r"floor|floor\s+thickness|corner\s+radius|manufacturing\s+profile|profile|fdm|resin|open[- ]top|"
+    r"no\s+lid|lidless|screw|slide|friction|rectangular\s+cutout|circular\s+cutout|vent\s+grid|"
+    rf"{COUNT}\s+{HARDWARE}\s+standoffs|pcb|title|called|named)"
+)
 
 
 @dataclass(frozen=True)
@@ -37,6 +76,7 @@ class InterpretationIssue:
     text: str | None = None
     start: int | None = None
     end: int | None = None
+    suggestion: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -45,7 +85,18 @@ class InterpretationIssue:
             "text": self.text,
             "start": self.start,
             "end": self.end,
+            "suggestion": self.suggestion,
         }
+
+
+@dataclass(frozen=True)
+class InterpretationAssumption:
+    field: str
+    value: Any
+    reason: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"field": self.field, "value": self.value, "reason": self.reason}
 
 
 @dataclass(frozen=True)
@@ -55,6 +106,7 @@ class IntentInterpretation:
     mappings: tuple[PhraseMapping, ...]
     issues: tuple[InterpretationIssue, ...]
     interpreter: str
+    assumptions: tuple[InterpretationAssumption, ...] = ()
 
     @property
     def ready(self) -> bool:
@@ -78,23 +130,57 @@ class IntentInterpretation:
                 for mapping in self.mappings
             ],
             "issues": [issue.to_dict() for issue in self.issues],
+            "assumptions": [assumption.to_dict() for assumption in self.assumptions],
         }
 
 
 def _clauses(source: str) -> tuple[tuple[str, int, int], ...]:
+    """Return auditable requirement clauses without losing source offsets.
+
+    Semicolons and newlines are unconditional boundaries. Sentence punctuation
+    is also accepted, while ``with`` and ``and`` split only before a recognized
+    requirement lead. This keeps ordinary prose ergonomic without treating
+    arbitrary conjunctions as understood engineering intent.
+    """
+
     clauses: list[tuple[str, int, int]] = []
-    for match in re.finditer(r"[^;]+", source):
-        raw = match.group(0)
+    primary_boundary = re.compile(r";|\r?\n+|[.!?](?=\s|$)")
+    conversational_boundary = re.compile(
+        rf"(?:,\s*|\s+)(?:with|and)\s+(?={_CLAUSE_LEAD}\b)",
+        re.IGNORECASE,
+    )
+
+    def append_segment(start: int, end: int) -> None:
+        raw = source[start:end]
         leading = len(raw) - len(raw.lstrip())
-        trailing = len(raw.rstrip())
-        text = raw.strip()
+        trimmed = raw.rstrip(" \t,.")
+        text = trimmed[leading:]
         if text:
-            clauses.append((text, match.start() + leading, match.start() + trailing))
+            clauses.append((text, start + leading, start + len(trimmed)))
+
+    primary_start = 0
+    for boundary in (*primary_boundary.finditer(source), None):
+        primary_end = len(source) if boundary is None else boundary.start()
+        segment_start = primary_start
+        segment = source[primary_start:primary_end]
+        for connector in conversational_boundary.finditer(segment):
+            append_segment(segment_start, primary_start + connector.start())
+            segment_start = primary_start + connector.end()
+        append_segment(segment_start, primary_end)
+        if boundary is None:
+            break
+        primary_start = boundary.end()
     return tuple(clauses)
 
 
 def _float(match: re.Match[str], name: str) -> float:
     return float(match.group(name))
+
+
+def _millimetres(match: re.Match[str], name: str, unit_name: str = "unit") -> float:
+    value = _float(match, name)
+    unit = match.group(unit_name).lower()
+    return value * _UNIT_TO_MM[unit]
 
 
 def _bounded_int(match: re.Match[str], name: str, maximum: int) -> int:
@@ -105,6 +191,39 @@ def _bounded_int(match: re.Match[str], name: str, maximum: int) -> int:
     if value > maximum:
         raise ValueError(f"{name} exceeds the supported maximum of {maximum}")
     return value
+
+
+def _bounded_count(match: re.Match[str], name: str, maximum: int) -> int:
+    raw = match.group(name).lower()
+    if raw in _COUNT_WORDS:
+        return _COUNT_WORDS[raw]
+    return _bounded_int(match, name, maximum)
+
+
+def _face(match: re.Match[str]) -> str:
+    face = match.group("face").lower()
+    return "rear" if face == "back" else face
+
+
+def _center_uv(match: re.Match[str]) -> tuple[float, float]:
+    if match.groupdict().get("center") is not None:
+        return (0.0, 0.0)
+    return (
+        _millimetres(match, "u", "position_unit"),
+        _millimetres(match, "v", "position_unit"),
+    )
+
+
+def _unsupported_suggestion(clause: str) -> str:
+    lowered = clause.lower()
+    if any(word in lowered for word in ("waterproof", "watertight", "food safe", "load bearing", "certified")):
+        return "Safety and environmental ratings require a measurable specification and qualified external review."
+    if re.search(r"\d", clause) and not re.search(UNIT, clause, re.IGNORECASE):
+        return "Include units after every dimension group, such as '120 x 80 x 30 mm' or '0.25 inch'."
+    return (
+        "Use a measurable clause such as 'walls 2 mm', 'open top', "
+        "'friction lid 3 mm thick clearance 0.25 mm', or 'rectangular cutout 12 x 7 mm on rear at center'."
+    )
 
 
 def _mapping(text: str, field: str, start: int, end: int) -> PhraseMapping:
@@ -136,68 +255,89 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
     issues: list[InterpretationIssue] = []
     lid_values: dict[str, Any] | None = None
     pending_standoffs: list[dict[str, Any]] = []
+    assumptions: list[InterpretationAssumption] = []
     seen_singletons: set[str] = set()
 
     patterns: tuple[tuple[str, re.Pattern[str]], ...] = (
         (
             "outer_size_mm",
             re.compile(
-                rf"(?:make|create|design)?\s*(?:an?\s+)?(?P<w>{NUMBER})\s*[x×]\s*(?P<d>{NUMBER})\s*[x×]\s*(?P<h>{NUMBER})\s*mm\s+(?:electronics\s+)?(?:enclosure|case|housing)",
+                rf"(?:make|create|design|build)?\s*(?:an?\s+)?(?P<w>{NUMBER})\s*[x×]\s*(?P<d>{NUMBER})\s*[x×]\s*(?P<h>{NUMBER})\s*(?P<unit>{UNIT})\s+(?:electronics\s+)?(?:enclosure|case|housing)",
                 re.IGNORECASE,
             ),
         ),
-        ("wall_mm", re.compile(rf"(?:wall|walls|wall thickness)\s+(?P<value>{NUMBER})\s*mm", re.IGNORECASE)),
-        ("floor_mm", re.compile(rf"(?:floor|floor thickness)\s+(?P<value>{NUMBER})\s*mm", re.IGNORECASE)),
-        ("corner_radius_mm", re.compile(rf"corner radius\s+(?P<value>{NUMBER})\s*mm", re.IGNORECASE)),
+        (
+            "outer_size_mm",
+            re.compile(
+                rf"(?:make|create|design|build)?\s*(?:an?\s+)?(?:electronics\s+)?(?:enclosure|case|housing)\s+(?P<w>{NUMBER})\s*[x×]\s*(?P<d>{NUMBER})\s*[x×]\s*(?P<h>{NUMBER})\s*(?P<unit>{UNIT})",
+                re.IGNORECASE,
+            ),
+        ),
+        (
+            "wall_mm",
+            re.compile(rf"(?:wall|walls|wall thickness)\s+(?P<value>{NUMBER})\s*(?P<unit>{UNIT})(?:\s+thick)?", re.IGNORECASE),
+        ),
+        (
+            "floor_mm",
+            re.compile(rf"(?:floor|floor thickness)\s+(?P<value>{NUMBER})\s*(?P<unit>{UNIT})(?:\s+thick)?", re.IGNORECASE),
+        ),
+        ("corner_radius_mm", re.compile(rf"corner radius\s+(?P<value>{NUMBER})\s*(?P<unit>{UNIT})", re.IGNORECASE)),
         (
             "profile",
-            re.compile(r"(?:manufacturing\s+)?profile\s+(?P<value>fdm[ _-](?:draft|standard|precision)|resin[ _-]standard)", re.IGNORECASE),
+            re.compile(
+                r"(?:an?\s+)?(?:(?:manufacturing\s+)?profile\s+(?P<value>fdm[ _-](?:draft|standard|precision)|resin[ _-]standard)|"
+                r"(?P<leading_value>fdm[ _-](?:draft|standard|precision)|resin[ _-]standard)\s+(?:manufacturing\s+)?profile)",
+                re.IGNORECASE,
+            ),
         ),
-        ("lid.none", re.compile(r"(?:open top|no lid)", re.IGNORECASE)),
+        ("lid.none", re.compile(r"(?:an?\s+)?(?:open[- ]top|no lid|lidless)(?:\s+(?:enclosure|case|housing))?", re.IGNORECASE)),
         (
             "lid",
             re.compile(
-                rf"(?P<kind>screw|slide|friction)(?:[- ]fit)?\s+lid\s+(?P<thickness>{NUMBER})\s*mm\s+thick\s+clearance\s+(?P<clearance>{NUMBER})\s*mm"
-                rf"(?:\s+lip\s+(?P<lip>{NUMBER})\s*mm)?(?:\s+(?P<hardware>{HARDWARE})\s+fasteners\s+at\s+corners\s+inset\s+(?P<inset>{NUMBER})\s*mm)?",
+                rf"(?:an?\s+)?(?P<kind>screw|slide|friction)(?:[- ]fit)?\s+lid\s+(?P<thickness>{NUMBER})\s*(?P<thickness_unit>{UNIT})\s+thick\s+(?:with\s+)?clearance\s+(?P<clearance>{NUMBER})\s*(?P<clearance_unit>{UNIT})"
+                rf"(?:\s+(?:with\s+)?lip\s+(?P<lip>{NUMBER})\s*(?P<lip_unit>{UNIT}))?(?:\s+(?:with\s+)?(?P<hardware>{HARDWARE})\s+fasteners\s+at\s+corners\s+inset\s+(?P<inset>{NUMBER})\s*(?P<inset_unit>{UNIT}))?",
                 re.IGNORECASE,
             ),
         ),
         (
             "cutout.rectangular",
             re.compile(
-                rf"rectangular\s+cutout\s+(?P<w>{NUMBER})\s*[x×]\s*(?P<h>{NUMBER})\s*mm\s+on\s+(?P<face>{FACE})\s+at\s+(?P<u>{NUMBER}|-{NUMBER})\s*[x×,]\s*(?P<v>{NUMBER}|-{NUMBER})\s*mm(?:\s+for\s+(?P<purpose>[A-Za-z0-9_.+-]+))?",
+                rf"(?:an?\s+)?rectangular\s+cutout\s+(?P<w>{NUMBER})\s*[x×]\s*(?P<h>{NUMBER})\s*(?P<size_unit>{UNIT})\s+on\s+(?:the\s+)?(?P<face>{FACE})(?:\s+face)?\s+at\s+(?:(?P<u>{SIGNED_NUMBER})\s*[x×,]\s*(?P<v>{SIGNED_NUMBER})\s*(?P<position_unit>{UNIT})|(?P<center>(?:the\s+)?cent(?:er|re)(?:ed)?))(?:\s+for\s+(?P<purpose>[A-Za-z0-9][A-Za-z0-9 _./+-]{{0,63}}))?",
                 re.IGNORECASE,
             ),
         ),
         (
             "cutout.circular",
             re.compile(
-                rf"circular\s+cutout\s+(?P<diameter>{NUMBER})\s*mm\s+diameter\s+on\s+(?P<face>{FACE})\s+at\s+(?P<u>{NUMBER}|-{NUMBER})\s*[x×,]\s*(?P<v>{NUMBER}|-{NUMBER})\s*mm(?:\s+for\s+(?P<purpose>[A-Za-z0-9_.+-]+))?",
+                rf"(?:an?\s+)?circular\s+cutout\s+(?P<diameter>{NUMBER})\s*(?P<size_unit>{UNIT})\s+diameter\s+on\s+(?:the\s+)?(?P<face>{FACE})(?:\s+face)?\s+at\s+(?:(?P<u>{SIGNED_NUMBER})\s*[x×,]\s*(?P<v>{SIGNED_NUMBER})\s*(?P<position_unit>{UNIT})|(?P<center>(?:the\s+)?cent(?:er|re)(?:ed)?))(?:\s+for\s+(?P<purpose>[A-Za-z0-9][A-Za-z0-9 _./+-]{{0,63}}))?",
                 re.IGNORECASE,
             ),
         ),
         (
             "vent",
             re.compile(
-                rf"vent grid\s+(?P<rows>[1-9]\d*)\s*[x×]\s*(?P<columns>[1-9]\d*)\s+holes\s+(?P<diameter>{NUMBER})\s*mm\s+diameter\s+pitch\s+(?P<pitch>{NUMBER})\s*mm\s+on\s+(?P<face>{FACE})\s+at\s+(?P<u>{NUMBER}|-{NUMBER})\s*[x×,]\s*(?P<v>{NUMBER}|-{NUMBER})\s*mm",
+                rf"(?:an?\s+)?vent grid\s+(?P<rows>[1-9]\d*)\s*[x×]\s*(?P<columns>[1-9]\d*)\s+holes\s+(?P<diameter>{NUMBER})\s*(?P<diameter_unit>{UNIT})\s+diameter\s+pitch\s+(?P<pitch>{NUMBER})\s*(?P<pitch_unit>{UNIT})\s+on\s+(?:the\s+)?(?P<face>{FACE})(?:\s+face)?\s+at\s+(?:(?P<u>{SIGNED_NUMBER})\s*[x×,]\s*(?P<v>{SIGNED_NUMBER})\s*(?P<position_unit>{UNIT})|(?P<center>(?:the\s+)?cent(?:er|re)(?:ed)?))",
                 re.IGNORECASE,
             ),
         ),
         (
             "standoffs",
             re.compile(
-                rf"(?P<count>[1-9]\d*)\s+(?P<hardware>{HARDWARE})\s+standoffs\s+(?P<height>{NUMBER})\s*mm\s+high\s+at\s+corners\s+inset\s+(?P<inset>{NUMBER})\s*mm",
+                rf"(?P<count>{COUNT})\s+(?P<hardware>{HARDWARE})\s+standoffs\s+(?P<height>{NUMBER})\s*(?P<height_unit>{UNIT})\s+high\s+at\s+(?:the\s+)?corners\s+inset\s+(?P<inset>{NUMBER})\s*(?P<inset_unit>{UNIT})",
                 re.IGNORECASE,
             ),
         ),
         (
             "pcb",
             re.compile(
-                rf"pcb\s+(?P<w>{NUMBER})\s*[x×]\s*(?P<d>{NUMBER})\s*[x×]\s*(?P<t>{NUMBER})\s*mm(?:\s+component height\s+(?P<component>{NUMBER})\s*mm)?",
+                rf"(?:an?\s+)?pcb\s+(?P<w>{NUMBER})\s*[x×]\s*(?P<d>{NUMBER})\s*[x×]\s*(?P<t>{NUMBER})\s*(?P<size_unit>{UNIT})(?:\s+(?:with\s+)?component height\s+(?P<component>{NUMBER})\s*(?P<component_unit>{UNIT}))?",
                 re.IGNORECASE,
             ),
         ),
-        ("title", re.compile(r"title\s+(?P<value>[A-Za-z0-9][A-Za-z0-9 _.-]{0,127})", re.IGNORECASE)),
+        (
+            "title",
+            re.compile(r"(?:title|called|named)\s+(?:\"(?P<quoted>[A-Za-z0-9][A-Za-z0-9 _.-]{0,127})\"|(?P<value>[A-Za-z0-9][A-Za-z0-9 _.-]{0,127}))", re.IGNORECASE),
+        ),
     )
 
     cutout_index = 0
@@ -226,28 +366,37 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
             mappings.append(_mapping(clause, kind, start, end))
             try:
                 if kind == "outer_size_mm":
-                    values[kind] = (_float(match, "w"), _float(match, "d"), _float(match, "h"))
+                    values[kind] = (
+                        _millimetres(match, "w"),
+                        _millimetres(match, "d"),
+                        _millimetres(match, "h"),
+                    )
                 elif kind in {"wall_mm", "floor_mm", "corner_radius_mm"}:
-                    values[kind] = _float(match, "value")
+                    values[kind] = _millimetres(match, "value")
                 elif kind == "profile":
-                    values[kind] = re.sub(r"[ -]", "_", match.group("value").lower())
+                    profile_value = match.group("value") or match.group("leading_value")
+                    values[kind] = re.sub(r"[ -]", "_", profile_value.lower())
                 elif kind == "lid.none":
                     lid_values = {"kind": "none", "thickness_mm": 0.0, "clearance_mm": 0.0}
                 elif kind == "lid":
                     lid_kind = match.group("kind").lower()
                     lid_values = {
                         "kind": lid_kind,
-                        "thickness_mm": _float(match, "thickness"),
-                        "clearance_mm": _float(match, "clearance"),
-                        "lip_height_mm": float(match.group("lip") or 0.0),
+                        "thickness_mm": _millimetres(match, "thickness", "thickness_unit"),
+                        "clearance_mm": _millimetres(match, "clearance", "clearance_unit"),
+                        "lip_height_mm": (
+                            _millimetres(match, "lip", "lip_unit") if match.group("lip") is not None else 0.0
+                        ),
                         "hardware": match.group("hardware").upper() if match.group("hardware") else None,
-                        "inset_mm": float(match.group("inset")) if match.group("inset") else None,
+                        "inset_mm": (
+                            _millimetres(match, "inset", "inset_unit") if match.group("inset") is not None else None
+                        ),
                     }
                 elif kind.startswith("cutout"):
                     cutout_index += 1
                     cutout_id = f"cutout_{cutout_index}"
-                    face = match.group("face").lower()
-                    center_uv = (_float(match, "u"), _float(match, "v"))
+                    face = _face(match)
+                    center_uv = _center_uv(match)
                     purpose = match.group("purpose") or "generic"
                     if kind.endswith("rectangular"):
                         values["cutouts"].append(
@@ -256,7 +405,10 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
                                 kind="rectangular",
                                 face=face,
                                 center_uv_mm=center_uv,
-                                size_mm=(_float(match, "w"), _float(match, "h")),
+                                size_mm=(
+                                    _millimetres(match, "w", "size_unit"),
+                                    _millimetres(match, "h", "size_unit"),
+                                ),
                                 purpose=purpose,
                             )
                         )
@@ -267,7 +419,7 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
                                 kind="circular",
                                 face=face,
                                 center_uv_mm=center_uv,
-                                diameter_mm=_float(match, "diameter"),
+                                diameter_mm=_millimetres(match, "diameter", "size_unit"),
                                 purpose=purpose,
                             )
                         )
@@ -276,35 +428,52 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
                     values["vents"].append(
                         VentPatternSpec(
                             id=f"vent_{vent_index}",
-                            face=match.group("face").lower(),
-                            center_uv_mm=(_float(match, "u"), _float(match, "v")),
+                            face=_face(match),
+                            center_uv_mm=_center_uv(match),
                             rows=_bounded_int(match, "rows", 64),
                             columns=_bounded_int(match, "columns", 64),
-                            diameter_mm=_float(match, "diameter"),
-                            pitch_mm=_float(match, "pitch"),
+                            diameter_mm=_millimetres(match, "diameter", "diameter_unit"),
+                            pitch_mm=_millimetres(match, "pitch", "pitch_unit"),
                         )
                     )
                 elif kind == "standoffs":
                     pending_standoffs.append(
                         {
-                            "count": _bounded_int(match, "count", 256),
+                            "count": _bounded_count(match, "count", 256),
                             "hardware": match.group("hardware").upper(),
-                            "height_mm": _float(match, "height"),
-                            "inset_mm": _float(match, "inset"),
+                            "height_mm": _millimetres(match, "height", "height_unit"),
+                            "inset_mm": _millimetres(match, "inset", "inset_unit"),
                         }
                     )
                 elif kind == "pcb":
                     values["pcb"] = PCBSpec(
-                        size_mm=(_float(match, "w"), _float(match, "d"), _float(match, "t")),
-                        component_height_mm=float(match.group("component") or 0.0),
+                        size_mm=(
+                            _millimetres(match, "w", "size_unit"),
+                            _millimetres(match, "d", "size_unit"),
+                            _millimetres(match, "t", "size_unit"),
+                        ),
+                        component_height_mm=(
+                            _millimetres(match, "component", "component_unit")
+                            if match.group("component") is not None
+                            else 0.0
+                        ),
                     )
                 elif kind == "title":
-                    values["title"] = match.group("value").strip()
+                    values["title"] = (match.group("quoted") or match.group("value")).strip()
             except (OverflowError, ValueError) as exc:
                 issues.append(InterpretationIssue("invalid", str(exc), clause, start, end))
             break
         if not matched:
-            issues.append(InterpretationIssue("unsupported", "clause was not understood", clause, start, end))
+            issues.append(
+                InterpretationIssue(
+                    "unsupported",
+                    "clause was not understood",
+                    clause,
+                    start,
+                    end,
+                    _unsupported_suggestion(clause),
+                )
+            )
 
     required_questions = {
         "outer_size_mm": "What exact outer width, depth, and height should the enclosure use?",
@@ -318,6 +487,25 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
         issues.append(InterpretationIssue("question", "Should the enclosure be open-top or use a screw or friction lid?"))
 
     outer = values.get("outer_size_mm")
+    if lid_values is not None and lid_values["kind"] == "friction" and lid_values["lip_height_mm"] == 0:
+        wall = values.get("wall_mm")
+        if wall is not None:
+            lid_values["lip_height_mm"] = wall
+            assumptions.append(
+                InterpretationAssumption(
+                    "lid.lip_height_mm",
+                    wall,
+                    "No insertion depth was stated; the deterministic friction-lid rule uses the declared wall thickness.",
+                )
+            )
+        else:
+            issues.append(
+                InterpretationIssue(
+                    "question",
+                    "What insertion plug height should the friction lid use?",
+                    suggestion="State 'lip 2 mm' or provide wall thickness for the disclosed wall-thickness default.",
+                )
+            )
     if outer is not None:
         width, depth, _ = outer
         for pending in pending_standoffs:
@@ -377,7 +565,14 @@ def interpret_enclosure(source: str) -> IntentInterpretation:
             issues.append(InterpretationIssue("invalid", f"{issue.path}: {issue.message}"))
         if issues:
             spec = None
-    return IntentInterpretation(source, spec, tuple(mappings), tuple(issues), "deterministic-clause-v1")
+    return IntentInterpretation(
+        source,
+        spec,
+        tuple(mappings),
+        tuple(issues),
+        "deterministic-clause-v2",
+        tuple(assumptions),
+    )
 
 
 def interpret_provider_payload(

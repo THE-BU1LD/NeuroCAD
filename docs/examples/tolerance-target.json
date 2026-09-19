@@ -1,0 +1,24 @@
+{
+  "model": "linear",
+  "nominal_clearance_mm": 0.35,
+  "target_success_probability": 0.999,
+  "require_nonnegative_worst_case": true,
+  "contributions": [
+    {
+      "name": "printed opening",
+      "mean_mm": -0.04,
+      "sigma_mm": 0.035,
+      "worst_case_mm": 0.1
+    },
+    {
+      "name": "mating part",
+      "mean_mm": -0.02,
+      "sigma_mm": 0.02,
+      "worst_case_mm": 0.06
+    }
+  ],
+  "correlations": [
+    [1.0, 0.25],
+    [0.25, 1.0]
+  ]
+}

@@ -10,19 +10,45 @@ count, and expected extents. The typed enclosure workflow additionally verifies
 body/lid cavities, walls, floors, requested cutouts, vents, standoffs, and lid
 material with request-level probes.
 
+Separate, explicit-input analytical calculators cover Euler buckling, free and
+fully restrained thermal expansion, one-dimensional steady conduction,
+Darcy-Weisbach internal pipe flow, and thin-wall closed-end cylinders. These
+calculators report their assumptions and applicability limits with every result.
+
 Outputs refuse path collisions by default. Unsupported, ambiguous, incomplete,
 and oversized requests fail nonzero without a successful artifact.
 
+The agent studio adds persistent conversational **concept drafting**. A built-in
+offline planner supplies visible defaults for simple primitives, water bottles,
+and a decorative cosplay shell. Configured OpenAI-compatible or Ollama models may
+plan other benign objects. Provider plans are untrusted until strict schema,
+component-order, parameter, and canonical-IR validation passes. Each component
+produces a hashed checkpoint and loopback-only live preview. This expands the
+interaction surface; it does not expand the verified manufacturing boundary.
+
+The scientific kernel adds dimensional quantities, second-order forward
+automatic differentiation, bounded nonlinear equality/inequality solving,
+projected local optimization, elementary interval arithmetic, seeded correlated
+Monte Carlo propagation, and linear-system diagnostics. These methods disclose
+local convergence and numerical limits and do not replace domain solvers.
+
 ## Explicitly not provided
 
-- arbitrary natural-language or general-purpose CAD;
+- guaranteed interpretation of arbitrary natural language or production-ready general-purpose CAD;
 - STEP/BREP or native Onshape, Fusion, FreeCAD, Blender, or slicer documents;
 - arbitrary PCB-outline extraction or inferred connector placement;
-- structural, thermal, fluid, electromagnetic, fatigue, or material simulation;
+- finite-element, computational-fluid-dynamics, electromagnetic, fatigue, or
+  general multiphysics simulation;
+- automatic material selection, constitutive modeling, or applicability beyond
+  the assumptions declared by the bounded analytical calculators;
 - slicing, G-code, printer control, quoting, ordering, or manufacturing;
 - load ratings, regulatory compliance, safety certification, or physical-fit
   claims;
-- a trained or learned CAD model.
+- a bundled trained CAD model;
+- production BREP/NURBS, adaptive meshing, FEA, CFD, electromagnetics, acoustics,
+  optics, topology optimization, or coupled multiphysics solver execution;
+- verified OpenCASCADE/CadQuery, Gmsh, CalculiX, FEniCS, OpenFOAM, Blender, or
+  FreeCAD orchestration.
 
 SCAD/STL handoff readiness means files passed NeuroCAD's declared verification.
 It does not mean another application imported them or a machine produced them.

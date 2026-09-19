@@ -1,0 +1,11 @@
+{
+  "model": "euler_buckling",
+  "inputs": {
+    "elastic_modulus_mpa": 200000.0,
+    "second_moment_mm4": 1000.0,
+    "effective_length_mm": 1000.0,
+    "area_mm2": 100.0,
+    "applied_load_n": 900.0,
+    "safety_factor": 2.0
+  }
+}

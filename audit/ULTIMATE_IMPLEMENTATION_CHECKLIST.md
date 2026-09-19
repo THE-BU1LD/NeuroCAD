@@ -1,6 +1,6 @@
 # Ultimate implementation and research checklist
 
-**Status date:** 2026-09-08
+**Status date:** 2026-09-14
 **Rule:** check an item only when its stated verification exists. `P0` affects
 truth/correctness, `P1` conference validity, `P2` meaningful quality, `P3` optional.
 
@@ -17,10 +17,11 @@ truth/correctness, `P1` conference validity, `P2` meaningful quality, `P3` optio
 - [x] **P1 — ordinary optional returns inspected.** Canonical `return None` paths
   represent parse misses/probe absence, not silent success. Verify: callers convert
   absence into explicit invalid reports where required.
-- [ ] **P1 — archive-level pseudocode inventory incomplete.** `legacy/` contains
-  abandoned, incompatible, and import-active prototypes. Action: generate a
-  hash-preserving archive index by capability/failure class. Done: every legacy
-  entry is classified without importing or repairing it.
+- [x] **P1 — archive-level pseudocode inventory complete.**
+  `audit/legacy_archive_manifest.json` records every archived file by path, byte
+  count, SHA-256 digest, capability class, failure class, and risk markers without
+  importing or repairing historical code. `scripts/build_legacy_archive_index.py
+  --verify` fails if any archived byte or classification changes.
 - [ ] **P2 — native integrations are handoff-only.** Fusion/Onshape/FreeCAD/Blender
   and slicer records do not create native documents. Action: retain precise labels;
   implement only one versioned integration after a real acceptance protocol. Done:
@@ -43,13 +44,16 @@ truth/correctness, `P1` conference validity, `P2` meaningful quality, `P3` optio
   `core/research_suite.py` mix orchestration and domain logic. Action: extract only
   stable cohesive boundaries, preserving APIs and frozen experiment semantics.
   Done: complexity decreases and all compatibility tests pass.
-- [ ] **P1 — semantic evaluator is deliberately narrow.** Action: add reviewed
-  full-program or geometry-equivalence checks for future benchmark families. Done:
-  equivalence metric rejects same-extents/wrong-feature counterexamples.
-- [ ] **P1 — render availability is coupled to full research success.** This is
-  correct for artifact completeness but fragile on macOS/headless hosts. Action:
-  preflight an actual PNG render before expensive cases and report a distinct
-  environment failure. Done: preflight fails in seconds with retained diagnostics.
+- [x] **P1 — full-program semantic equivalence.**
+  `core.semantic_equivalence` compares identifier-independent CSG roots, primitive
+  parameters, transforms, operation order, roles, and constraints. Tests prove it
+  accepts renamed/reordered equivalent graphs and rejects same-extents/wrong-feature
+  counterexamples. The older benchmark signature remains intentionally scoped to
+  its frozen task schema.
+- [x] **P1 — render availability is preflighted.** `scripts/preflight.sh` renders
+  an actual PNG with the configured interpreter and fails before research execution
+  when the kernel or renderer is unavailable. Research artifacts still require
+  complete renders, as intended.
 - [ ] **P2 — root compatibility modules.** Action: map live imports and deprecate or
   move noncanonical modules without breaking console entry points. Done: one
   implementation per supported responsibility.
@@ -113,9 +117,12 @@ truth/correctness, `P1` conference validity, `P2` meaningful quality, `P3` optio
   constraints receive causal credit.
 - [ ] **P2 — numerical conditioning.** Construct near-coincident CSG and resolution
   sweeps. Done: stability envelope states kernel/version/tolerance boundaries.
-- [ ] **P2 — complexity measurement.** Measure parse/validate/export and kernel
-  scaling separately over prompt length, nodes, depth, and facets. Done: raw repeated
-  timings, hardware, warmups, and uncertainty retained.
+- [ ] **P2 — complexity measurement.** The versioned `neurocad profile` evidence
+  now retains stage-separated parse/generate, design validation, IR lowering,
+  IR validation, and source-export samples with workload size, hardware, warmups,
+  memory, and uncertainty. The remaining kernel-scaling matrix across multiple
+  OpenSCAD versions/platforms requires the pinned external environments described
+  by the kernel/version-shift gate above.
 - [ ] **P3 — do not add learned objectives gratuitously.** A model/loss/gradient
   study is allowed only under a new falsifiable hypothesis, dataset, multi-seed
   protocol, checkpoint policy, and compute authorization.
@@ -184,7 +191,10 @@ truth/correctness, `P1` conference validity, `P2` meaningful quality, `P3` optio
 
 ## 10. Completion gate
 
-- [ ] Full suite, Ruff, mypy, dependency, and security checks pass on final source.
+- [x] Full suite, Ruff, mypy, dependency, and security checks pass on final
+  candidate source. Local receipt: 625 checkout tests, 622 distributable sdist
+  tests, Ruff, MyPy across 77 source files, `pip check`, Bandit, and the locked
+  `pip-audit` all passed on 2026-09-14.
 - [ ] Smoke and small development run pass with fresh kernel artifacts.
 - [ ] Full frozen run passes or yields a retained scientifically interpretable
   negative result.

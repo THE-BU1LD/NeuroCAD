@@ -95,6 +95,52 @@ OpenSCAD is unavailable. Human-readable output is the default; use `--json` for 
 
 The demo opens a loopback-only workbench. It is not an authenticated cloud portal.
 
+### Inspect enclosure language before generating
+
+```bash
+neurocad nlp \
+  "Design an enclosure 10 x 7 x 3 cm with walls 2 mm and an FDM standard profile and an open top"
+```
+
+The terminal view lists every recognized source span, unresolved question,
+unsupported clause, and disclosed deterministic assumption before showing the
+resolved millimetre specification. Sentence punctuation, newlines, semicolons,
+and recognized `with`/`and` requirement chains are accepted. Dimension groups
+may use millimetres, centimetres, or inches; the audited specification always
+stores millimetres. Use `--json` for the complete machine-readable interpretation
+and `--project-output PATH` to publish a project only when the result is complete.
+Unknown qualitative or certification language remains rejected with a bounded
+recovery suggestion.
+
+### Run engineering math
+
+```bash
+neurocad math tolerance docs/examples/tolerance-quadratic.json
+neurocad math beam --force 10 --length 50 --width 10 --thickness 4 \
+  --modulus 2200 --yield-strength 45
+```
+
+The `math` namespace prints compact terminal analyses; add `--json` for automation.
+The existing `neurocad tolerance` command remains machine-readable by default.
+Tolerance requests can set `target_success_probability` and
+`require_nonnegative_worst_case`; reports expose the statistical margin and each
+linear term's correlated variance attribution. Beam results remain bounded
+Euler-Bernoulli estimates, not FEA or safety certification.
+
+### Profile the compiler pipeline
+
+```bash
+neurocad profile "a 120 x 80 x 4 mm plate with four 4 mm holes" \
+  --warmups 3 --iterations 20 --fn 64 -o performance.json
+```
+
+The versioned JSON records raw and summarized timings for prompt parsing and
+generation, design validation, canonical IR lowering and validation, and
+OpenSCAD source emission. It also records workload counts, runtime identity,
+peak traced Python memory, warmups, and a stated confidence-interval method.
+The command verifies deterministic output across every warmup and measured
+iteration. It does not measure daemon, filesystem, or OpenSCAD-kernel latency.
+
 ### Save, reopen, and export from the workbench
 
 1. Enter an explicit supported enclosure description and choose **Interpret,

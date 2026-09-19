@@ -15,6 +15,7 @@ from typing import Any
 
 from .design_graph import DesignGraph
 from .ir import CADProgram, IRValidationReport
+from .mesh_geometry import analyze_self_intersections
 from .topology import analyze_triangle_complex
 from .validation import ValidationReport
 
@@ -455,6 +456,10 @@ def verify_stl(
     topology = analyze_triangle_complex(mesh.vertices, mesh.faces)
     if not topology["manifold"]:
         raise RuntimeError("the generated STL has non-manifold vertex links or edges")
+    embedding = analyze_self_intersections(mesh.vertices, mesh.faces)
+    if embedding["self_intersecting"]:
+        examples = embedding["intersection_pairs"][:3]
+        raise RuntimeError(f"the generated STL has non-adjacent self-intersections between face pairs {examples}")
     if not bool(mesh.is_volume):
         raise RuntimeError("the generated STL does not bound a valid volume")
     volume = float(abs(mesh.volume))
@@ -488,4 +493,5 @@ def verify_stl(
         "extent_absolute_errors_mm": extent_errors,
         "volume_mm3": volume,
         "topology": topology,
+        "embedding": embedding,
     }

@@ -11,7 +11,10 @@
   [research-grade report](../RESEARCH_GRADE_REPORT.md): executed work and remaining gates.
 - [Quick start](QUICKSTART.md): checkout, installation, Windows, first outputs.
 - [Product workflow](PRODUCT_WORKFLOW.md): enclosures, revisions, calibration and handoffs.
+- [Agent studio](AGENT_STUDIO.md): persistent natural-language projects, providers, progressive previews, and current boundaries.
 - [Mathematics](MATHEMATICS.md): implemented topology and uncertainty contracts.
+- [Scientific kernel](SCIENTIFIC_KERNEL.md): units, automatic differentiation, constraints, optimization, intervals, Monte Carlo, and numerical diagnostics.
+- [Physics](PHYSICS.md): bounded analytical mechanics, thermal, and internal-flow models.
 - [Current code audit](CODE_AUDIT_20260908.md): classification and execution checklist.
 - [Final 9/10 checklist](FINAL_9_OF_10_CHECKLIST.md): the single forward-looking
   acceptance queue for all eight quality scores; targets, not achieved ratings.

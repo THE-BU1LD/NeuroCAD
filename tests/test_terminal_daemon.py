@@ -18,6 +18,7 @@ from core.config import CONFIG_VERSION, NeuroCADConfig, load_config, load_or_cre
 from core.daemon import (
     DaemonRuntime,
     JobStore,
+    NeuroCADUnixServer,
     daemon_is_ready,
     daemon_request,
     remove_stale_socket,
@@ -34,9 +35,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture
 def runtime_root() -> Path:
-    temporary_root = ROOT / ".test-tmp"
-    temporary_root.mkdir(exist_ok=True)
-    root = Path(tempfile.mkdtemp(prefix="nc-", dir=temporary_root))
+    configured_root = os.environ.get("NEUROCAD_TEST_TMPDIR")
+    if configured_root:
+        temporary_root = Path(configured_root).expanduser().resolve()
+        temporary_root.mkdir(parents=True, exist_ok=True)
+        root = Path(tempfile.mkdtemp(prefix="nc-", dir=temporary_root))
+    else:
+        root = Path(tempfile.mkdtemp(prefix="nc-"))
     try:
         yield root
     finally:
@@ -96,17 +101,13 @@ def test_generation_is_atomic_and_records_artifacts(runtime_root: Path) -> None:
 
     failed = runtime_root / "failed"
     with pytest.raises(ValueError):
-        generate_artifacts(
-            GenerationRequest(prompt="make an unspecified object", output_dir=str(failed), formats=("ir",))
-        )
+        generate_artifacts(GenerationRequest(prompt="make an unspecified object", output_dir=str(failed), formats=("ir",)))
     assert not failed.exists()
 
 
 def test_artifact_verification_rejects_tampering_and_undeclared_files(runtime_root: Path) -> None:
     output = runtime_root / "bundle"
-    generate_artifacts(
-        GenerationRequest(prompt="a 20 x 30 x 4 mm plate", output_dir=str(output), formats=("ir", "scad"))
-    )
+    generate_artifacts(GenerationRequest(prompt="a 20 x 30 x 4 mm plate", output_dir=str(output), formats=("ir", "scad")))
     report = verify_artifact_bundle(output)
     assert report["status"] == "verified"
     assert report["artifact_count"] == 4
@@ -116,9 +117,7 @@ def test_artifact_verification_rejects_tampering_and_undeclared_files(runtime_ro
         verify_artifact_bundle(output)
 
     shutil.rmtree(output)
-    generate_artifacts(
-        GenerationRequest(prompt="a 20 x 30 x 4 mm plate", output_dir=str(output), formats=("ir", "scad"))
-    )
+    generate_artifacts(GenerationRequest(prompt="a 20 x 30 x 4 mm plate", output_dir=str(output), formats=("ir", "scad")))
     (output / "undeclared.txt").write_text("unexpected", encoding="utf-8")
     with pytest.raises(ValueError, match="differs from manifest"):
         verify_artifact_bundle(output)
@@ -126,10 +125,8 @@ def test_artifact_verification_rejects_tampering_and_undeclared_files(runtime_ro
 
 def test_artifact_verify_and_open_cli(runtime_root: Path, capsys: pytest.CaptureFixture[str]) -> None:
     output = runtime_root / "bundle"
-    generate_artifacts(
-        GenerationRequest(prompt="a 20 x 30 x 4 mm plate", output_dir=str(output), formats=("ir", "scad"))
-    )
-    for arguments in (["artlés"] if False else [["artifacts", "verify", str(output)], ["open", str(output), "--print-only"]]):
+    generate_artifacts(GenerationRequest(prompt="a 20 x 30 x 4 mm plate", output_dir=str(output), formats=("ir", "scad")))
+    for arguments in ["artlés"] if False else [["artifacts", "verify", str(output)], ["open", str(output), "--print-only"]]:
         with pytest.raises(SystemExit) as exit_info:
             neurocad_cli.main(arguments)
         assert exit_info.value.code == 0
@@ -146,9 +143,7 @@ def test_scad_is_retained_as_a_reproducibility_dependency(runtime_root: Path, mo
         return destination, {"valid": True}
 
     monkeypatch.setattr("core.generation.compile_scad_verified", fake_compile)
-    generate_artifacts(
-        GenerationRequest(prompt="a sphere with radius 10 mm", output_dir=str(output), formats=("stl",))
-    )
+    generate_artifacts(GenerationRequest(prompt="a sphere with radius 10 mm", output_dir=str(output), formats=("stl",)))
     manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["artifacts"]["scad"]["role"] == "reproducibility_dependency"
     assert (output / "design.scad").is_file()
@@ -185,9 +180,25 @@ def test_daemon_runs_durable_generation_job(runtime_root: Path) -> None:
                 time.sleep(0.05)
 
 
-def test_daemon_startup_timeout_terminates_spawned_process(
-    runtime_root: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+@pytest.mark.skipif(not hasattr(os, "getuid"), reason="Unix-domain daemon")
+def test_shutdown_acknowledgement_is_flushed_before_server_stops(runtime_root: Path) -> None:
+    for index in range(10):
+        config = replace(_config(runtime_root), socket_path=str(runtime_root / f"shutdown-{index}.sock"))
+        runtime = DaemonRuntime(config)
+        server = NeuroCADUnixServer(config.socket_path, runtime)
+        runtime.server = server
+        thread = threading.Thread(target=lambda current=server: current.serve_forever(poll_interval=0.001))
+        thread.start()
+        try:
+            assert daemon_request(config, "shutdown") == {"status": "stopping"}
+            thread.join(timeout=2)
+            assert not thread.is_alive()
+        finally:
+            server.shutdown()
+            server.server_close()
+
+
+def test_daemon_startup_timeout_terminates_spawned_process(runtime_root: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     config = _config(runtime_root)
     config_path = write_config(config, runtime_root / "config.json")
 
@@ -219,9 +230,7 @@ def test_daemon_runtime_executes_and_persists_jobs_without_transport(runtime_roo
     runtime = DaemonRuntime(_config(runtime_root))
     runtime.start_workers()
     try:
-        submitted = runtime.submit(
-            {"prompt": "a 12 x 12 x 12 mm plate", "formats": ["ir", "scad"], "fn": 32, "timeout_seconds": 30}
-        )
+        submitted = runtime.submit({"prompt": "a 12 x 12 x 12 mm plate", "formats": ["ir", "scad"], "fn": 32, "timeout_seconds": 30})
         deadline = time.monotonic() + 20
         while time.monotonic() < deadline:
             record = runtime.store.read(submitted["job_id"])
@@ -248,9 +257,7 @@ def test_daemon_runtime_executes_and_persists_jobs_without_transport(runtime_roo
         runtime.stop_workers()
 
 
-def test_running_job_can_be_cancelled_at_atomic_publication_boundary(
-    runtime_root: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_running_job_can_be_cancelled_at_atomic_publication_boundary(runtime_root: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     entered = threading.Event()
     release = threading.Event()
 
@@ -264,9 +271,7 @@ def test_running_job_can_be_cancelled_at_atomic_publication_boundary(
     runtime = DaemonRuntime(_config(runtime_root))
     runtime.start_workers()
     try:
-        submitted = runtime.submit(
-            {"prompt": "a 12 x 12 x 12 mm plate", "formats": ["ir"], "fn": 32, "timeout_seconds": 30}
-        )
+        submitted = runtime.submit({"prompt": "a 12 x 12 x 12 mm plate", "formats": ["ir"], "fn": 32, "timeout_seconds": 30})
         assert entered.wait(timeout=10)
         requested = runtime.cancel(submitted["job_id"])
         assert requested["status"] == "cancellation_requested"
@@ -426,9 +431,7 @@ def test_user_service_definition(system: str, runtime_root: Path, monkeypatch: p
 
 
 @pytest.mark.parametrize("system", ["Darwin", "Linux"])
-def test_user_service_uninstall_removes_only_owned_definition(
-    system: str, runtime_root: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_user_service_uninstall_removes_only_owned_definition(system: str, runtime_root: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     class Completed:
         returncode = 0
         stdout = ""
@@ -483,8 +486,25 @@ def test_daemon_log_rotation_is_bounded(runtime_root: Path) -> None:
 
 
 def test_performance_profile_records_scope_and_determinism() -> None:
-    profile = profile_generation("a 20 x 30 x 4 mm plate", iterations=3, fn=32)
+    profile = profile_generation("a 20 x 30 x 4 mm plate", iterations=3, fn=32, warmup_iterations=2)
     assert profile["iterations"] == 3
+    assert profile["warmup_iterations"] == 2
     assert profile["deterministic_output"] is True
     assert profile["latency_seconds"]["max"] >= profile["latency_seconds"]["min"] >= 0
+    assert set(profile["stage_latency_seconds"]) == {
+        "parse_and_generate",
+        "validate_design",
+        "lower_to_ir",
+        "validate_ir",
+        "emit_scad",
+    }
+    assert all(len(samples) == 3 for samples in profile["raw_samples_seconds"].values())
+    assert profile["workload"]["ir_nodes"] > 0
+    assert profile["workload"]["scad_bytes"] > 0
     assert profile["tracemalloc_peak_bytes"] > 0
+
+
+@pytest.mark.parametrize("warmups", [0, 101, True])
+def test_performance_profile_rejects_invalid_warmup_counts(warmups: object) -> None:
+    with pytest.raises(ValueError, match="warmup_iterations"):
+        profile_generation("a 20 x 30 x 4 mm plate", warmup_iterations=warmups)  # type: ignore[arg-type]

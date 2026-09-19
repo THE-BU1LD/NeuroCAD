@@ -1,10 +1,11 @@
 # NeuroCAD
 
-NeuroCAD is a strict prompt-to-parametric-program tool for fully dimensioned
-plates, rectangular boxes/enclosures, and basic box, cylinder, and sphere
-primitives. Prompts compile through a versioned, schema-validated internal
-representation to deterministic OpenSCAD. Every exported length is expressed
-in millimetres.
+NeuroCAD combines a persistent conversational concept planner with a strict
+prompt-to-parametric-program compiler. Natural-language project revisions may be
+planned by a local built-in planner, Ollama, or an OpenAI-compatible model. Every
+accepted plan still compiles through a versioned, schema-validated internal
+representation to deterministic OpenSCAD. Every exported length is expressed in
+millimetres.
 
 Research status: the maintained compiler is engineering-verified, while the
 conference evidence is **partial**. The current full benchmark is source-bound,
@@ -13,7 +14,7 @@ as independent external validation. Start
 with `RESEARCH_TRUTH.md`, `audit/REPOSITORY_MAP.md`, and
 `audit/CONFERENCE_READINESS_CHECKLIST.md` for the current evidence boundary.
 
-NeuroCAD is an alpha design aid. Generated parts must still be reviewed by a
+NeuroCAD is an alpha design aid. Agent projects are concept drafts, and generated parts must still be reviewed by a
 qualified person before fabrication. It does not calculate load capacity,
 material behaviour, regulatory compliance, or safety. Its disclosed tolerance
 and coupon-calibration estimates are design aids, not manufacturing guarantees.
@@ -87,6 +88,23 @@ validation and STL export.
 
 ## Supported prompts
 
+For conversational drafting with assumptions, revision memory, component
+checkpoints, and a live browser viewer:
+
+```bash
+neurocad studio ~/NeuroCADProjects/bottle --view
+# then: make a water bottle
+# then: make it 750 mL, add a carrying loop, and widen the base
+```
+
+See [Agent studio](docs/AGENT_STUDIO.md) for local/hosted provider setup and the
+current general-CAD boundary. Without a configured model, the credential-free
+planner covers editable primitive concepts, water bottles, and a decorative
+Mark III-inspired cosplay/display shell.
+
+The deterministic verified generation path requires all overall dimensions and
+requested feature dimensions:
+
 State all overall dimensions and all requested feature dimensions explicitly:
 
 ```text
@@ -150,20 +168,37 @@ return a job ID, or `--local -o /absolute/new/directory` to bypass the daemon wh
 retaining the same validation and manifest path. `neurocad config show` prints
 the exact persistent configuration; `neurocad config set` validates updates and
 requires a daemon restart. Running `neurocad` with no arguments in a terminal
-opens the interactive studio with `:status`, `:jobs`, `:help`, and `:quit`.
+opens the persistent agent studio. Its commands include `:view`, `:project`,
+`:assumptions`, `:history`, `:status`, `:jobs`, `:help`, and `:quit`.
 
-Analyze an existing STL's topology, or compute a correlated tolerance stack:
+Analyze an existing STL, propagate a tolerance model, or evaluate a bounded
+analytical physics constraint:
 
 ```bash
+neurocad nlp "Design an enclosure 10 x 7 x 3 cm with walls 2 mm and an FDM standard profile and an open top"
 neurocad topology plate.stl --require-closed-manifold -o topology.json
 neurocad tolerance docs/examples/tolerance.json -o tolerance-report.json
+neurocad math tolerance docs/examples/tolerance-quadratic.json
+neurocad math beam --force 10 --length 50 --width 10 --thickness 4 --modulus 2200
+neurocad physics docs/examples/physics-buckling.json -o buckling-report.json
 ```
+
+`neurocad nlp` prints recognized source spans, precise unresolved locations,
+recovery suggestions, disclosed deterministic assumptions, and the normalized
+millimetre specification. The `math` namespace provides terminal-oriented views;
+the established specialist commands retain their machine-readable defaults.
+Tolerance inputs can target an explicit fit probability and require a declared
+worst-case guard, with correlated variance attribution retained in the receipt.
 
 Topology reports F2 Betti numbers, Euler characteristic, boundary loops,
 orientability and genus where applicable. Kernel verification also rejects
-singular vertex links. These are connectivity checks, not self-intersection,
-surface-equivalence, or physical-fit proofs. See [Mathematics](docs/MATHEMATICS.md)
-for equations, assumptions, numerical/resource limits, and reference tests.
+singular vertex links and detected non-adjacent triangle self-intersections.
+The geometric predicates are bounded floating-point evidence, not an exact BREP,
+surface-equivalence, or physical-fit proof. See [Mathematics](docs/MATHEMATICS.md)
+and [Physics](docs/PHYSICS.md) for equations, assumptions, numerical/resource
+limits, and reference tests. The [Scientific kernel](docs/SCIENTIFIC_KERNEL.md)
+documents dimensional quantities, automatic differentiation, local nonlinear
+constraints/optimization, intervals, Monte Carlo, and numerical diagnostics.
 
 Validate intent without writing a file:
 

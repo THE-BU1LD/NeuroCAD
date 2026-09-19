@@ -387,7 +387,6 @@ class DaemonRuntime:
         if command == "shutdown":
             if self.server is None:
                 raise RuntimeError("daemon server is unavailable")
-            threading.Thread(target=self.server.shutdown, name="neurocad-shutdown", daemon=True).start()
             return {"status": "stopping"}
         raise ValueError(f"unsupported daemon command: {command!r}")
 
@@ -406,13 +405,20 @@ class NeuroCADRequestHandler(socketserver.StreamRequestHandler):
             if not isinstance(value, dict):
                 raise TypeError("request must be a JSON object")
             runtime: DaemonRuntime = self.server.runtime  # type: ignore[attr-defined]
-            self._respond(True, result=runtime.dispatch(value))
+            result = runtime.dispatch(value)
+            self._respond(True, result=result)
+            if value.get("command") == "shutdown":
+                server = runtime.server
+                if server is None:
+                    raise RuntimeError("daemon server is unavailable")
+                threading.Thread(target=server.shutdown, name="neurocad-shutdown", daemon=True).start()
         except Exception as exc:  # noqa: BLE001 - protocol boundary returns a bounded error
             self._respond(False, error={"type": type(exc).__name__, "message": str(exc)})
 
     def _respond(self, ok: bool, **payload: Any) -> None:
         response = {"ok": ok, "protocol_version": PROTOCOL_VERSION, **payload}
         self.wfile.write(json.dumps(response, sort_keys=True).encode("utf-8") + b"\n")
+        self.wfile.flush()
 
 
 class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):

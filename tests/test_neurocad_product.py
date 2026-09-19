@@ -99,6 +99,16 @@ def test_conversational_primitives_are_supported(
         assert geometry["height"] == height
 
 
+def test_reported_studio_sphere_prompt_is_supported_without_guessing() -> None:
+    prompt = "Please make a sphere with a radius of 20 millimeters."
+    design = generate_design(prompt)
+    report = validate_design(design)
+    assert report.valid, report.errors
+    assert design.metadata["prompt_fully_consumed"] is True
+    assert design.metadata["contract_prompt"] == "a sphere with radius 20 millimeters"
+    assert design.components[0].geometry() == {"kind": "sphere", "radius": 20.0}
+
+
 def test_plate_hole_count_diameter_and_corner_placement() -> None:
     design = generate_design("a 120 x 80 x 4 mm plate with four 4 mm holes")
     holes = [component for component in design.components if component.name.startswith("hole_")]
@@ -303,6 +313,7 @@ def test_stl_verifier_accepts_watertight_mesh(tmp_path: Path) -> None:
     assert result["finite_vertices"] is True
     assert result["body_count"] == 1
     assert result["extents_mm"] == [10.0, 20.0, 30.0]
+    assert result["embedding"]["self_intersecting"] is False
 
 
 def test_stl_verifier_checks_expected_extents_and_connectedness(tmp_path: Path) -> None:

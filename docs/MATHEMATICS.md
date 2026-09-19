@@ -3,6 +3,12 @@
 These are implemented classical methods, not claims of new topology, trained
 intelligence, manufacturing certification, or an unlimited CAD system.
 
+The separate [scientific-kernel contract](SCIENTIFIC_KERNEL.md) documents the
+new unit-aware quantities, automatic differentiation, nonlinear constraint
+diagnostics, local optimization, interval arithmetic, Monte Carlo propagation,
+and numerical linear-algebra checks. Those foundations do not imply that the
+external BREP, meshing, FEA, CFD, or multiphysics engines are integrated.
+
 ## Mesh topology
 
 `neurocad topology part.stl -o topology.json` returns a source-SHA-bound report.
@@ -52,15 +58,25 @@ reduction. They check d1*d2 = 0 over F2 and exact Betti/rank identities.
 Limits: 100,000 faces, 300,000 vertices, 32 MiB per CLI STL, and 4,096 free
 generators in singular-complex reduction. Degenerate/non-finite and duplicate
 triangles fail explicitly. Kernel STL verification shares the face/vertex limits.
-No self-intersection, knot type, shape equivalence, engineering load, or physical
-fit claim follows from these invariants. Matching Betti numbers do not imply
-matching CAD geometry. Historical mesh receipts may need re-verification under
-the stricter current verifier; old evidence is not silently rewritten.
+The STL verifier separately performs a bounded, scale-normalized geometric test
+for intersections between triangles that share no indexed vertex. It uses an
+axis-aligned sweep-and-prune broad phase followed by 3D segment/triangle and
+coplanar 2D triangle tests. The report records its tolerance, scale, candidate
+count, example face pairs, and limitations. Candidate-budget exhaustion fails
+closed. Pairs sharing an indexed vertex are excluded, and the predicates use
+floating point, so this is stronger embedding evidence but not an exact BREP
+proof. No knot type, shape equivalence, engineering load, or physical-fit claim
+follows from these checks. Matching Betti numbers do not imply matching CAD
+geometry. Historical mesh receipts may need re-verification under the stricter
+current verifier; old evidence is not silently rewritten.
 
 ## Correlated tolerance propagation
 
 ```bash
 neurocad tolerance docs/examples/tolerance.json -o tolerance-report.json
+neurocad tolerance docs/examples/tolerance-quadratic.json -o nonlinear-tolerance-report.json
+neurocad math tolerance docs/examples/tolerance-quadratic.json
+neurocad math tolerance docs/examples/tolerance-target.json
 ```
 
 The example is hypothetical input, not measured printer data. Contributions
@@ -74,13 +90,34 @@ worst_case_low = mean - sum(worst_case_i)
 recommended_nominal = max(0, confidence_multiplier * sqrt(variance) - sum(m_i))
 ```
 
+A request may replace the confidence multiplier with a one-sided target fit
+probability `p` in `[0.5, 1)` via `target_success_probability`. NeuroCAD then
+uses `z = NormalDist().inv_cdf(p)` and reports both
+`statistical_low_mm = mean - z * sigma` and the current margin to that target.
+When `require_nonnegative_worst_case` is true, the recommendation is the maximum
+of zero, the probability-targeted nominal, and the nominal needed to keep the
+declared worst-case interval non-negative. The guard does not turn unmeasured
+input bounds into empirical evidence.
+
+For the linear correlated model, each contribution reports
+`s_i * (R s)_i` as its variance attribution. These signed Euler contributions
+sum to total variance; a contribution can be negative when correlation causes
+cancellation. Fractions are null for a deterministic zero-variance stack.
+
 The normal-model probability is P(clearance >= 0). If variance is zero it is a
 deterministic comparison. The documented default assumes independence (R = I).
 Correlations apply after signs/sensitivities have been propagated into the
 clearance contributions: shared dimensional error can cancel rather than add.
 This follows the covariance terms in the
 [NIST law of uncertainty propagation](https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-appendix-law-propagation-uncertainty).
-The model here is linear; nonlinear uncertainty propagation is not implemented.
+The default model is linear. A versioned quadratic option evaluates the local
+second-order model `c = nominal + g^T X + 0.5 X^T H X`. Its reported mean and
+variance are the analytical first two moments for a correlated multivariate
+normal input. Because a quadratic form is not generally normal, its success
+probability is explicitly labeled as a moment-matched normal approximation.
+The quadratic worst-case result is a conservative interval bound over declared
+per-input magnitudes. Hessian symmetry, covariance symmetry, unit diagonal, and
+positive-semidefinite correlation are checked before evaluation.
 
 R must have unit diagonal, entries in [-1,1], symmetry, and positive-semidefinite
 spectrum. Symmetry/PSD roundoff tolerance is 1e-12; singular matrices are allowed.
@@ -105,3 +142,11 @@ change. These are numerical/software checks, not new experimental results.
 Other existing tools remain bounded aids: Euler–Bernoulli small-deflection
 cantilever estimates assume a prismatic, linear-elastic beam; shelf packing is a
 feasibility heuristic, not a global optimizer; process costs are approximations.
+The cantilever estimate is available without constructing JSON:
+
+```bash
+neurocad math beam --force 10 --length 50 --width 10 --thickness 4 \
+  --modulus 2200 --yield-strength 45
+```
+
+Add `--json` when the output is consumed by another program.
