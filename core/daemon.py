@@ -421,13 +421,32 @@ class NeuroCADRequestHandler(socketserver.StreamRequestHandler):
         self.wfile.flush()
 
 
-class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
-    daemon_threads = True
-    allow_reuse_address = False
+if sys.platform == "win32":
+    class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+        """Import-safe Windows placeholder for the Unix-domain daemon transport."""
 
-    def __init__(self, socket_path: str, runtime: DaemonRuntime) -> None:
-        self.runtime = runtime
-        super().__init__(socket_path, NeuroCADRequestHandler)
+        daemon_threads = True
+        allow_reuse_address = False
+
+        def __init__(self, socket_path: str, runtime: DaemonRuntime) -> None:
+            self.runtime = runtime
+            raise OSError("NeuroCAD daemon requires Unix-domain socket support")
+else:
+    class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
+        daemon_threads = True
+        allow_reuse_address = False
+
+        def __init__(self, socket_path: str, runtime: DaemonRuntime) -> None:
+            self.runtime = runtime
+            super().__init__(socket_path, NeuroCADRequestHandler)
+
+
+def _unix_socket_family() -> int:
+    """Return AF_UNIX only on platforms that actually expose it."""
+    family = getattr(socket, "AF_UNIX", None)
+    if family is None:
+        raise OSError("NeuroCAD daemon requests require Unix-domain socket support")
+    return int(family)
 
 
 def daemon_request(
@@ -443,7 +462,7 @@ def daemon_request(
     encoded = json.dumps(request, separators=(",", ":"), sort_keys=True).encode("utf-8") + b"\n"
     if len(encoded) > MAX_REQUEST_BYTES:
         raise ValueError("daemon request exceeds 1 MiB")
-    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
+    with socket.socket(_unix_socket_family(), socket.SOCK_STREAM) as client:
         client.settimeout(socket_timeout_seconds)
         client.connect(config.socket_path)
         client.sendall(encoded)

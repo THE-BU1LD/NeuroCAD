@@ -16,6 +16,14 @@ from .config import NeuroCADConfig
 SERVICE_LABEL = "com.thebu1ld.neurocad"
 
 
+def _darwin_user_id() -> int:
+    """Return the launchd GUI user id without assuming POSIX APIs on import."""
+    getuid = getattr(os, "getuid", None)
+    if getuid is None:
+        raise OSError("launchd service management requires os.getuid support")
+    return int(getuid())
+
+
 def service_command(config_path: Path) -> list[str]:
     return [sys.executable, "-m", "core.daemon", "serve", "--config", str(config_path)]
 
@@ -46,7 +54,7 @@ def install_user_service(config_path: Path, config: NeuroCADConfig, *, activate:
         activated = False
         detail = "service definition installed"
         if activate:
-            domain = f"gui/{os.getuid()}"
+            domain = f"gui/{_darwin_user_id()}"
             subprocess.run(  # nosec B603 B607
                 ["launchctl", "bootout", f"{domain}/{SERVICE_LABEL}"],
                 check=False,
@@ -123,7 +131,7 @@ def uninstall_user_service(*, remove_definition: bool = True) -> dict[str, Any]:
         destination = Path(
             os.environ.get("NEUROCAD_LAUNCH_AGENTS_DIR", Path.home() / "Library" / "LaunchAgents")
         ).expanduser() / f"{SERVICE_LABEL}.plist"
-        domain = f"gui/{os.getuid()}"
+        domain = f"gui/{_darwin_user_id()}"
         completed = subprocess.run(  # nosec B603 B607
             ["launchctl", "bootout", f"{domain}/{SERVICE_LABEL}"],
             check=False,

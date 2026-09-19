@@ -1,0 +1,4 @@
+# Keep integrity-bound historical/vendor assets byte-identical on every OS.
+# Windows checkout line-ending conversion must not change hash evidence.
+core/static/*.js -text
+legacy/** -text
