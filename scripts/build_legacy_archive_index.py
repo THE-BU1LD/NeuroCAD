@@ -64,7 +64,11 @@ def build_index(archive_root: Path) -> dict[str, Any]:
     if not root.is_dir():
         raise FileNotFoundError(f"legacy archive does not exist: {root}")
     entries: list[dict[str, Any]] = []
-    for path in sorted(root.rglob("*")):
+    # PureWindowsPath ordering is case-insensitive while POSIX ordering is not.
+    # Sort on the canonical POSIX-relative spelling so the archive/tree digest
+    # is identical on every supported checkout platform.
+    paths = sorted(root.rglob("*"), key=lambda path: path.relative_to(root).as_posix())
+    for path in paths:
         if path.is_symlink():
             raise ValueError(f"legacy archive must not contain symlinks: {path}")
         if not path.is_file():
