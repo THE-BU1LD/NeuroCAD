@@ -421,13 +421,24 @@ class NeuroCADRequestHandler(socketserver.StreamRequestHandler):
         self.wfile.flush()
 
 
-class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
-    daemon_threads = True
-    allow_reuse_address = False
+if sys.platform == "win32":
+    class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+        """Import-safe Windows placeholder for the Unix-domain daemon transport."""
 
-    def __init__(self, socket_path: str, runtime: DaemonRuntime) -> None:
-        self.runtime = runtime
-        super().__init__(socket_path, NeuroCADRequestHandler)
+        daemon_threads = True
+        allow_reuse_address = False
+
+        def __init__(self, socket_path: str, runtime: DaemonRuntime) -> None:
+            self.runtime = runtime
+            raise OSError("NeuroCAD daemon requires Unix-domain socket support")
+else:
+    class NeuroCADUnixServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
+        daemon_threads = True
+        allow_reuse_address = False
+
+        def __init__(self, socket_path: str, runtime: DaemonRuntime) -> None:
+            self.runtime = runtime
+            super().__init__(socket_path, NeuroCADRequestHandler)
 
 
 def daemon_request(
