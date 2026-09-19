@@ -93,6 +93,12 @@ def validate_design(design: DesignGraph, *, require_prompt_contract: bool | None
             report.error("all overall dimensions must be stated explicitly")
         if metadata.get("prompt_fully_consumed") is not True:
             report.error("prompt contains unconsumed or unsupported text; rewrite it using only the documented grammar")
+        ignored_terms = metadata.get("ignored_qualitative_terms")
+        if isinstance(ignored_terms, list) and ignored_terms:
+            report.warn(
+                "qualitative terms do not alter geometry or certify performance: "
+                + ", ".join(str(term) for term in ignored_terms)
+            )
 
     flags = metadata.get("flags") or {}
     if not isinstance(flags, dict):

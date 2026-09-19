@@ -1,0 +1,982 @@
+{
+  "archive_root": "legacy",
+  "capability_counts": {
+    "archive_documentation": 1,
+    "export_or_exchange": 4,
+    "geometry_or_kernel": 23,
+    "learned_or_neural": 3,
+    "mesh_or_topology": 12,
+    "miscellaneous_source": 22,
+    "optimization": 5,
+    "orchestration": 8,
+    "physics_or_engineering": 3,
+    "test_or_benchmark": 34
+  },
+  "claim_boundary": "Inventory and integrity evidence only. Archived source and generated artifacts are unsupported, unverified, and excluded from the release package.",
+  "entries": [
+    {
+      "bytes": 1402,
+      "capability_class": "archive_documentation",
+      "failure_class": "archive_boundary",
+      "path": "README.md",
+      "risks": [],
+      "sha256": "ce344b2e4d3f7a426fc12a93a183315fcdb5d14489ecbffd4886b770bb7cbb09"
+    },
+    {
+      "bytes": 7162,
+      "capability_class": "physics_or_engineering",
+      "failure_class": "historical_unverified",
+      "path": "python/aerodynamics.py",
+      "risks": [],
+      "sha256": "0ab4f60d6ca26076faadba1358ffb99f6c773a7e2016db9383e80fc0fd632181"
+    },
+    {
+      "bytes": 966,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/auto_joint.py",
+      "risks": [],
+      "sha256": "27c8853c2fe6e547588377a6724d93113c31e2836952aeee9188a1f7c22993a9"
+    },
+    {
+      "bytes": 317,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/benchmark_runner.py",
+      "risks": [],
+      "sha256": "d210d244da1123e5a4b79b81d3f2921aec06d8eb1bc1809dfa189615ca9c92a9"
+    },
+    {
+      "bytes": 472,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_decimation.py",
+      "risks": [],
+      "sha256": "abfe6c4c171eeafd973ba6f9c471e73a9759c4d80e69b5b44c5e5c5b1dff38e6"
+    },
+    {
+      "bytes": 978,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_dual_contouring.py",
+      "risks": [],
+      "sha256": "b5a8e7c561ff4d2fc76e2f5e704bd29140a8f7133506378cfd5068b23c13eb95"
+    },
+    {
+      "bytes": 410,
+      "capability_class": "export_or_exchange",
+      "failure_class": "known_incomplete",
+      "path": "python/cad_export.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "9e0c71006b55772b873c91e241d0a46566915759a9030c96dbebc08baf4ba0ed"
+    },
+    {
+      "bytes": 9694,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_intelligence_core.py",
+      "risks": [],
+      "sha256": "c5f8b274a481cfbac65266766bff8d5147ac211b46a725dd65aaaca4d64692bc"
+    },
+    {
+      "bytes": 7646,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "known_incomplete",
+      "path": "python/cad_intelligence_core_allinone.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "a7da4e44b4c9b335ca34e6ef9a7cf9b1dc42f56a636db67c5e8bc8e45d66472f"
+    },
+    {
+      "bytes": 641,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_kernel_hyper.py",
+      "risks": [],
+      "sha256": "bbdb9083c038076970736140b8b9279297cd1d299926de9344689feaa81e1779"
+    },
+    {
+      "bytes": 32,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_kernel_master.py",
+      "risks": [],
+      "sha256": "2424d06bbaf02dc367214dc17064e849f8c2ccb7dac43884a408f891dd5506a1"
+    },
+    {
+      "bytes": 14649,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "known_incomplete",
+      "path": "python/cad_master_kernel.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "9da22996951ad93c2417675cb282438c39a1668d7120c2dca0c52aa0ebcfdac8"
+    },
+    {
+      "bytes": 82500,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "known_incomplete",
+      "path": "python/cad_master_kernel_legacy_broken.py",
+      "risks": [
+        "incomplete_implementation_marker",
+        "known_broken_source"
+      ],
+      "sha256": "f66bd5146d17dcd84d76f5dcc61fdf676d463a2ff4d166e785fd65cc5ecad00d"
+    },
+    {
+      "bytes": 6454,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "known_incomplete",
+      "path": "python/cad_meshing.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "fb264e7187f1f75bcf9d38e13dbdb220350d584dcfa1518f6f21627ca9a35f5b"
+    },
+    {
+      "bytes": 757,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_meshing_chunked.py",
+      "risks": [],
+      "sha256": "aebc46e23c1e8e88785929d020b22e10741da0d9b30dd695275358345d1467ba"
+    },
+    {
+      "bytes": 601,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_metrics.py",
+      "risks": [],
+      "sha256": "e4eb6245d2b249930d39a7dc0f1ee2641ef6c94103361e7356b367b850dd5924"
+    },
+    {
+      "bytes": 604,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_neural.py",
+      "risks": [],
+      "sha256": "64a5b55efef3b20283e618d6502ffabc68c33f7bc0b58cb1e5de57107f27cd04"
+    },
+    {
+      "bytes": 5880,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_neural_sdf.py",
+      "risks": [],
+      "sha256": "b865fdb01b12240e225e953324f1dd9eb32945ac023f61424a516432aa4d4ba0"
+    },
+    {
+      "bytes": 801,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_neural_shapes.py",
+      "risks": [],
+      "sha256": "5f551adc3a811baf237be9be2364307d79b5964a497db8a5925009a23e027c3e"
+    },
+    {
+      "bytes": 7170,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_nlp_engine.py",
+      "risks": [],
+      "sha256": "712fe13824994585752ae497d6676c80d005e32ce8f63fada6efdf618f4f5701"
+    },
+    {
+      "bytes": 1446,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_octree.adaptive.py",
+      "risks": [],
+      "sha256": "a5a14c206976eb52b14ecdad8a7b4767bf9aa00fa17431e2b2aac7961f6b7f5a"
+    },
+    {
+      "bytes": 2360,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_octree.py",
+      "risks": [],
+      "sha256": "e8ad2a3677105b7d739619d497035187fbad270071c632d7dad5723af4035696"
+    },
+    {
+      "bytes": 521,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_optimizer.py",
+      "risks": [],
+      "sha256": "fe8c34585c360acc0a962db80444c65b177298d07408c5223f41ec6cd108a9b0"
+    },
+    {
+      "bytes": 140,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_primitives.py",
+      "risks": [],
+      "sha256": "d8955ad5878c108c8b47c856004a07bdb00fb45f12940fa74fd8813679353779"
+    },
+    {
+      "bytes": 1007,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_quad_topology.py",
+      "risks": [],
+      "sha256": "5a393836df55838fe85b8076a21b656042d29a9e7ae39ca77ec7f45bc14010a3"
+    },
+    {
+      "bytes": 2210,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_sampling.py",
+      "risks": [],
+      "sha256": "3dd4fde6a98bb7ae65fbdb91e0fb99b3ff41772a534d387513ffa39b16e94820"
+    },
+    {
+      "bytes": 2237,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_sdf.py",
+      "risks": [],
+      "sha256": "5ed6d4345f83061da7bcd215bdb749cb8e0bd018d2a6653d52b3119ff431fcfc"
+    },
+    {
+      "bytes": 926,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_text_bridge.py",
+      "risks": [],
+      "sha256": "694160ec70ae6600167e6ee7492d7a2382757f31707141a64e5ec7754946ddc5"
+    },
+    {
+      "bytes": 407,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_texturing.py",
+      "risks": [],
+      "sha256": "a95efcaa248df2c014b7b5047cf3460fefce018b7b0e6a5799f626916c2b3ed3"
+    },
+    {
+      "bytes": 1454,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_topology_amplified.py",
+      "risks": [],
+      "sha256": "94f1a04aee2298ae2fcab5a60c5e2ca2c9750c16bb4da4bb3142560a73d79f9d"
+    },
+    {
+      "bytes": 407,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/cad_uv.py",
+      "risks": [],
+      "sha256": "a95efcaa248df2c014b7b5047cf3460fefce018b7b0e6a5799f626916c2b3ed3"
+    },
+    {
+      "bytes": 893,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/config.py",
+      "risks": [],
+      "sha256": "0a14dc3420a84d1cd57670d168741872a0be26e98f64e071cc7df8cf0f70309e"
+    },
+    {
+      "bytes": 5643,
+      "capability_class": "export_or_exchange",
+      "failure_class": "historical_unverified",
+      "path": "python/connector.py",
+      "risks": [],
+      "sha256": "64cf5f0bad34585db21a1012ffc79b2e42432a4bdf2f7a3024d0244c948c71a0"
+    },
+    {
+      "bytes": 2058,
+      "capability_class": "optimization",
+      "failure_class": "historical_unverified",
+      "path": "python/critic.py",
+      "risks": [],
+      "sha256": "0fe4430ac9d947f0b2832ad92b5cef2501ffc5c8a52b3786322d2191048105d0"
+    },
+    {
+      "bytes": 640,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/cuda_mc.py",
+      "risks": [],
+      "sha256": "60edf6d5531a36e83f21474e48dbd47f361d36179cfe53fcd60fcfe47f1362c6"
+    },
+    {
+      "bytes": 3590,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/design_intent.py",
+      "risks": [],
+      "sha256": "50a5d8552b9d9cbc8514891115d889de0e6ff7cd8db5ede599601c803cd0aeb6"
+    },
+    {
+      "bytes": 692,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/design_ir.py",
+      "risks": [],
+      "sha256": "242fcc4ced0c36eaa5e5871f29da7d2ed7d282df8219162db495fa5eeb95454a"
+    },
+    {
+      "bytes": 1364,
+      "capability_class": "optimization",
+      "failure_class": "historical_unverified",
+      "path": "python/determinism.py",
+      "risks": [],
+      "sha256": "252e725a3386edff5ee8785755036de6c23f0daf1c59b1a787b15b4d11a75566"
+    },
+    {
+      "bytes": 84,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/device.py",
+      "risks": [],
+      "sha256": "5dc86c84d88400496570bbbd5061b19c2bdf4bdf7f72871e5bc55cf738602939"
+    },
+    {
+      "bytes": 1496,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/differential_geometry.py",
+      "risks": [],
+      "sha256": "7b692b7c6c5d9cc22a5ef7ba82bb76f0c0e58f300067b8cfc4fce4eb393575cf"
+    },
+    {
+      "bytes": 2146,
+      "capability_class": "learned_or_neural",
+      "failure_class": "historical_unverified",
+      "path": "python/embeddings_engine.py",
+      "risks": [],
+      "sha256": "ccc2f561010fe91c7d23c31dbc6e5b81a3e814bd94f9efb84fef8e6a0207806b"
+    },
+    {
+      "bytes": 945,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/engine_v6.py",
+      "risks": [],
+      "sha256": "e3146bd3a1ff1a7c8932dcf3289c22b20f6bb8fab1b1ab11c884b8658d661a78"
+    },
+    {
+      "bytes": 7532,
+      "capability_class": "physics_or_engineering",
+      "failure_class": "historical_unverified",
+      "path": "python/engineering.py",
+      "risks": [],
+      "sha256": "a85bf5ed8745212488c488e1fbd78d779fa2c97a528ce714e68b473c6676eb1a"
+    },
+    {
+      "bytes": 2946,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/evaluation.py",
+      "risks": [],
+      "sha256": "a6d15b2ba3029e5d1dad1a89fc1fbe238a5128c7c7fa2e210a7684219e1a8131"
+    },
+    {
+      "bytes": 3381,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/examples.py",
+      "risks": [],
+      "sha256": "f56c3b7ef8737b285c70ccbcc781af5bc78f932b654128b38940d4155ca342e5"
+    },
+    {
+      "bytes": 839,
+      "capability_class": "export_or_exchange",
+      "failure_class": "known_incomplete",
+      "path": "python/exporter.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "eb97e11aa97132ca171273314cbc9cfa1c90f95b48576390240dd939d5554e50"
+    },
+    {
+      "bytes": 3709,
+      "capability_class": "physics_or_engineering",
+      "failure_class": "historical_unverified",
+      "path": "python/fatigue.py",
+      "risks": [],
+      "sha256": "5bd11736752314e868e893e3a3ce27aa282eed8e0a22f6d46fcc6a87221f9f6e"
+    },
+    {
+      "bytes": 3899,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "known_incomplete",
+      "path": "python/full_system_openscad_test.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "17da7f920e8f2d304713cc462de076abbb2f0f44af8879195126dba28d34d016"
+    },
+    {
+      "bytes": 6813,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/geometry.py",
+      "risks": [],
+      "sha256": "c2acaf0aac55073f64dfd2b2bcd0ba538fe6dfd9eeddaf397d7dd3ca1e597966"
+    },
+    {
+      "bytes": 410,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/geometry_metrics.py",
+      "risks": [],
+      "sha256": "ec5b7bcc9306071e551341efb1adffef61f2d829029a7edd6690a8893b26572c"
+    },
+    {
+      "bytes": 3292,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/hard_test.py",
+      "risks": [],
+      "sha256": "84904e4017f5506439534ee7595d926ed29e267ac6435badb37bd781598a5c77"
+    },
+    {
+      "bytes": 3484,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/hyper_hard_test.py",
+      "risks": [],
+      "sha256": "64d6171515439bd69cda609acadf2c2444f0a4d6a275da3355a0096ace8f07f0"
+    },
+    {
+      "bytes": 3230,
+      "capability_class": "optimization",
+      "failure_class": "historical_unverified",
+      "path": "python/joint_optimizer.py",
+      "risks": [],
+      "sha256": "b1018f96876a887d572fea3bde1e205bd9f64c70309978a2e4e3dea1e1b1dbd5"
+    },
+    {
+      "bytes": 185,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/kernel.py",
+      "risks": [],
+      "sha256": "256554ba9bcc9356d2f5e5e338b8160b10bf2b7408e0e9496da2e618e69884b0"
+    },
+    {
+      "bytes": 4680,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/knowledge_engine.py",
+      "risks": [],
+      "sha256": "63be60111eed138fae279517567494ce5288bc2f10f02e177762a484e5c06075"
+    },
+    {
+      "bytes": 11539,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "known_incomplete",
+      "path": "python/learning.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "0cfea6d5fc8821dc3ee47f0230cb138f0c2ed531cba200cd2fe9238a7a549498"
+    },
+    {
+      "bytes": 342,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/logging_config.py",
+      "risks": [],
+      "sha256": "5e5d8fd7bdf4e22954c3a1d54b8bb9091e308ee4a793f888fe0acec8b9ad64c0"
+    },
+    {
+      "bytes": 6094,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "known_incomplete",
+      "path": "python/main.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "7e977c3ae245abb86e9bc4e6291d2a5599efc56b4b92102b90d083a96c68a997"
+    },
+    {
+      "bytes": 689,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/master_pipeline.py",
+      "risks": [],
+      "sha256": "421cb2270189442da48531e1e13de03685ef7d862b56537de1134cc2a5b53ccd"
+    },
+    {
+      "bytes": 5749,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/material.py",
+      "risks": [],
+      "sha256": "030cc5621654e8e15b8372d195656eecd5e5c862ea0bb56503ecf61ca97c9bd4"
+    },
+    {
+      "bytes": 4299,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/memory.py",
+      "risks": [],
+      "sha256": "f269ec6efc422ad61f3ebff76b0069eb9caeab5dd471d49938f0454d304d81d6"
+    },
+    {
+      "bytes": 1080,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/ml.py",
+      "risks": [],
+      "sha256": "b3987c351126ff8cf6cf9c1d34c16dff95ab922de2c2b26bba5042935d29d6d7"
+    },
+    {
+      "bytes": 6621,
+      "capability_class": "learned_or_neural",
+      "failure_class": "known_incomplete",
+      "path": "python/neural.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "e057b69d22236c70f43618358d10ae12a8fd0c3bdfcc628e26d30ec7d66c43b2"
+    },
+    {
+      "bytes": 943,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/neural_sdf.py",
+      "risks": [],
+      "sha256": "daa7db48c46c89a2d27c1cadbf027e540d09b57f0054b12c8eecc94e791f5552"
+    },
+    {
+      "bytes": 4809,
+      "capability_class": "learned_or_neural",
+      "failure_class": "historical_unverified",
+      "path": "python/nlp.py",
+      "risks": [],
+      "sha256": "27e549a3db5e88f73dcafcb4f9a0ac166ee7fa17b1fcb0a3f94611e0f3318982"
+    },
+    {
+      "bytes": 226,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/nurbs_fit.py",
+      "risks": [],
+      "sha256": "777246780dc2f6faa568a51bfda4aaaafc1ac30ce6ec488dac6f322bbb7c778c"
+    },
+    {
+      "bytes": 605,
+      "capability_class": "export_or_exchange",
+      "failure_class": "historical_unverified",
+      "path": "python/occ_export.py",
+      "risks": [],
+      "sha256": "f4e05f1c0004e9980e219e14e2b36c03c88a3345966f405ecc808fff258a6318"
+    },
+    {
+      "bytes": 9461,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "known_incomplete",
+      "path": "python/octree.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "0e067dcc913b359dafe9869ea491a5f7f9a0bd1fd9c79889cfcee430eb43a7d7"
+    },
+    {
+      "bytes": 8354,
+      "capability_class": "optimization",
+      "failure_class": "historical_unverified",
+      "path": "python/optimizer.py",
+      "risks": [],
+      "sha256": "1895a32c714d7cf5d5872ccb7f8bbbf7dad9a0fb197f05db0a8e4c5c30b0bdd8"
+    },
+    {
+      "bytes": 4041,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/parametric_skeleton.py",
+      "risks": [],
+      "sha256": "f3cc4781e985fa4d8b6810d84d7cd03fe8515b23da1cce3501ad3acb896d072f"
+    },
+    {
+      "bytes": 294,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/parts.py",
+      "risks": [],
+      "sha256": "69ebb40390fcd5ce7a88c0a4d3f9b6a90f9f62da92d7f3b1cd6b6862e18f1291"
+    },
+    {
+      "bytes": 9825,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/physics.py",
+      "risks": [],
+      "sha256": "7e7a5f6e031b04e4717f10ab23da204ed270a882830b0d4ef48c8a291a5a63e3"
+    },
+    {
+      "bytes": 4029,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/planner.py",
+      "risks": [],
+      "sha256": "038a264f6f0535b465667b46209a04fe9b5949fe6654a4881584f663df6ff469"
+    },
+    {
+      "bytes": 490,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/report.py",
+      "risks": [],
+      "sha256": "3c4f724dea7672f43403059264544622a9a8fd2b6600c69fdac3487db3fc7cdb"
+    },
+    {
+      "bytes": 7413,
+      "capability_class": "orchestration",
+      "failure_class": "historical_unverified",
+      "path": "python/resolution_engine.py",
+      "risks": [],
+      "sha256": "b75c850d87c885f2ef6fdb1e148934db6c126909f54c2d11df8726a2146d4582"
+    },
+    {
+      "bytes": 316,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/run_test.py",
+      "risks": [],
+      "sha256": "100c28f86aab537e52dd0d9fdcd321c36bb048ce11003bc279ef01f663d1341e"
+    },
+    {
+      "bytes": 954,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/run_tests.py",
+      "risks": [],
+      "sha256": "f0108b65fea1c94e94b578fd9f20c7de01f047d95eec8e195e9f357d6ccf0e35"
+    },
+    {
+      "bytes": 5628,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/schema.py",
+      "risks": [],
+      "sha256": "fec2a9012cf6ecc01d086f2cd0ca0320e8e109e438ff19e680b33584f9b162a1"
+    },
+    {
+      "bytes": 1806,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/search.py",
+      "risks": [],
+      "sha256": "d827aafdf807af950bd3e0aa7debccb2de2f4452618a556eb3c25d64d03fe1a9"
+    },
+    {
+      "bytes": 699,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "known_incomplete",
+      "path": "python/shell.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "84620303e18b7f936c0f65482b39df632a4f9b747264fdd629fc27a8fb6c1847"
+    },
+    {
+      "bytes": 118,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/sitecustomize.py",
+      "risks": [],
+      "sha256": "c8d1aa4bd0832570d843eeb1aaa7b437a42e531d99ac66165f0b51fb9c762733"
+    },
+    {
+      "bytes": 5422,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/stoicastic_geometry.py",
+      "risks": [],
+      "sha256": "4f7757665e8320888db830e424cabd1e37f782d93f2bb49a039714d06fda405c"
+    },
+    {
+      "bytes": 722,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/stress_test.py",
+      "risks": [],
+      "sha256": "9ff6911ac7dc41c0b53ec268ac7f1fad8dda4e0fa323edfc132ffd5d4bbefeb4"
+    },
+    {
+      "bytes": 7014,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/surrogate.py",
+      "risks": [],
+      "sha256": "44be3803eae4bafb03a6d5b0927fe8aec4b0fbdd8a5ca4b9d38cecd956b17ed1"
+    },
+    {
+      "bytes": 472,
+      "capability_class": "optimization",
+      "failure_class": "historical_unverified",
+      "path": "python/system_optimizer.py",
+      "risks": [],
+      "sha256": "5610efe7eba0249b7a70c0a22f41a3644b623e4758db089d671aa8c47111784b"
+    },
+    {
+      "bytes": 1997,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_advanced_shapes.py",
+      "risks": [],
+      "sha256": "c00797fab7aa909cb4e41f88b5613e08d02b8b0d11cae0e55503e9872ea9c927"
+    },
+    {
+      "bytes": 493,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_all.py",
+      "risks": [],
+      "sha256": "b3b5f1c986619fff2e4ebf4a10fcd6ac29081c2a28a4b4c1b182751d786ddcf0"
+    },
+    {
+      "bytes": 1801,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_cad_kernel_master.py",
+      "risks": [],
+      "sha256": "60c742bef0da7fbcf4aca0479e4ddb4c9543e2da8d930dcf4ef0a500a63f1740"
+    },
+    {
+      "bytes": 4779,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_cadify.py",
+      "risks": [],
+      "sha256": "59af2ff15b629cc760674f76472c5811dc65162f88d924c05f3512156d8f90be"
+    },
+    {
+      "bytes": 2888,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "known_incomplete",
+      "path": "python/test_complex_object.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "b539340b9f056939ef79271b4730d009b3a0a464d8204ddb8c741e4aa3e7595b"
+    },
+    {
+      "bytes": 3473,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_frisbee_100k.py",
+      "risks": [],
+      "sha256": "119067c01866c91304e3ef7840f60956f4e9d84910a78db6201beb48cc98018a"
+    },
+    {
+      "bytes": 3001,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "known_incomplete",
+      "path": "python/test_full_system_object.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "dced52818cd2166bf2bfab0c0662dfb04c250059794cd9b2f46e8b0c0fd8de67"
+    },
+    {
+      "bytes": 1530,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_fuzz_global.py",
+      "risks": [],
+      "sha256": "e4acfcebc56399fe9233dc97ee47f7eb977d864e66b9ca26c98143a753c4a711"
+    },
+    {
+      "bytes": 462,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_hyper_complex.py",
+      "risks": [],
+      "sha256": "f814fbd631a0b8f93d52cb4c4bcc46d3bc7543b4e8632a87a8ff6416f5f849ec"
+    },
+    {
+      "bytes": 2313,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_hyper_insane_mesh.py",
+      "risks": [],
+      "sha256": "fc5ac139c87035404ff0349e0f478e5ae4db0a18612e66d26e8bf3b7b9298214"
+    },
+    {
+      "bytes": 988,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "known_incomplete",
+      "path": "python/test_hyper_object_v4.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "830ac43a71095c65d028d9e3c1f2e348434ed8458b5c9970a75b3d7683236ce5"
+    },
+    {
+      "bytes": 760,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_hyper_object_v5.py",
+      "risks": [],
+      "sha256": "dfb8181806218312f66b873e70148e735e604100d483a087bfb3a17d3ce0aad2"
+    },
+    {
+      "bytes": 1238,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_invariants.py",
+      "risks": [],
+      "sha256": "930c37c18c1f2be7e6c3498b8a73dcff2a4e1fffd1bee953e2062a86be0dae29"
+    },
+    {
+      "bytes": 1840,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "known_incomplete",
+      "path": "python/test_mega_object.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "fac7ddeb8ea76778594ab02884aff3f0323070c9b10aaa6f340933b1311066d6"
+    },
+    {
+      "bytes": 598,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_neurocad_demo.py",
+      "risks": [],
+      "sha256": "ec33db8711ea2e7b1b1979c433b59a95e4c9242c6133c6a4fadb2952c376d762"
+    },
+    {
+      "bytes": 1056,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_next_engine_level.py",
+      "risks": [],
+      "sha256": "6d64031fa12572fd94557ae708616cec2b6fd4399051d55f3e30aed481d5ea15"
+    },
+    {
+      "bytes": 1128,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_real_output.py",
+      "risks": [],
+      "sha256": "1af77e5b3bb27615de3ce0c8ea4c31168387b043e7959a2070527629235bcd7d"
+    },
+    {
+      "bytes": 1660,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_round3_kernel.py",
+      "risks": [],
+      "sha256": "162a78f01359de30bc1b5f798e46db818acc07aaa11089d5e376193db2cc5a8b"
+    },
+    {
+      "bytes": 189,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_scad_export.py",
+      "risks": [],
+      "sha256": "7d0ecebedc9312fbe1da06566aaca32a1890607d676839c6aa32834e34c9c168"
+    },
+    {
+      "bytes": 2038,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_sword_kernel.py",
+      "risks": [],
+      "sha256": "1f3af34563dced4d4021b5d44dbe868c3dcdf38e4e118e7f323d31eee4ba5044"
+    },
+    {
+      "bytes": 306,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_text_to_cad.py",
+      "risks": [],
+      "sha256": "cf6054c6587a5a708b558f142580f074ee756279321d951c601be8023ae307a2"
+    },
+    {
+      "bytes": 1529,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "known_incomplete",
+      "path": "python/test_v4_small.py",
+      "risks": [
+        "review_import_time_side_effects"
+      ],
+      "sha256": "d0d4c7f642ae9798e25925b67a9e8b372763f283f913a4f17c8bd622307e298f"
+    },
+    {
+      "bytes": 311,
+      "capability_class": "test_or_benchmark",
+      "failure_class": "historical_unverified",
+      "path": "python/test_v6_basic.py",
+      "risks": [],
+      "sha256": "e820a4f751814f73bb5de7f074c07740afbb77d35db4aed7b1e9e7298abc7de1"
+    },
+    {
+      "bytes": 3805,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/tets_mega.py",
+      "risks": [],
+      "sha256": "c4b183bddc026def5e0fda4b9cb1c8d43adf5661c6192629bf190fc779d2279f"
+    },
+    {
+      "bytes": 230,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/text_v6.py",
+      "risks": [],
+      "sha256": "3714e5a9e3cca4ce5a66eaf060825a5af8c86fabd701f98c01eea27cf7bdea9f"
+    },
+    {
+      "bytes": 2631,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/topology_algebra.py",
+      "risks": [],
+      "sha256": "41c4f9d852b8fe3d967ddd93f01cae64078930dbce11d672a5b8c8629b9df6db"
+    },
+    {
+      "bytes": 8449,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/topology_engine.py",
+      "risks": [],
+      "sha256": "a437b2b77edf2bf645c64ffb3202b322d8f497e49f3518fb0fb6b457b779786d"
+    },
+    {
+      "bytes": 678,
+      "capability_class": "mesh_or_topology",
+      "failure_class": "historical_unverified",
+      "path": "python/topology_opt.py",
+      "risks": [],
+      "sha256": "49e7dc7710108d22062141df8a026c4c035aaeec7f73dd2b6d9c0c3837c20f8c"
+    },
+    {
+      "bytes": 7968,
+      "capability_class": "geometry_or_kernel",
+      "failure_class": "historical_unverified",
+      "path": "python/universal_cad_core.py",
+      "risks": [],
+      "sha256": "8705a1656c28a8d746ea9ab70d41e5e51b31a5a3f5fd7086de937bc2d608a06a"
+    },
+    {
+      "bytes": 3818,
+      "capability_class": "miscellaneous_source",
+      "failure_class": "historical_unverified",
+      "path": "python/validator.py",
+      "risks": [],
+      "sha256": "c4075994ac83da6f9e579c91a2f6ca734584cd0943b499c030c78851f20011ff"
+    }
+  ],
+  "entry_count": 115,
+  "failure_counts": {
+    "archive_boundary": 1,
+    "historical_unverified": 97,
+    "known_incomplete": 17
+  },
+  "schema_version": "neurocad-legacy-archive-v1",
+  "total_bytes": 400213,
+  "tree_sha256": "aeafd87b4efbe14c3beb3bd3b37d4e19ea910a8bd560525c4e9383f5749ef051"
+}

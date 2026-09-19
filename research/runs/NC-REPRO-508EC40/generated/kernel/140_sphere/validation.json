@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "2b9bbba93b3443a71f6fb5e70410278893eac447f86824522c6110714498c183",
+    "render": "4351da6827ab2f9c08f5d4e9f80ff380632122e43c8ea02be9540d2bbc0ba74b",
+    "scad": "19afa24246c84afd35845e88f0c731010d3ca975d7e2c62668d98a1214f875b5",
+    "stl": "516d52861088f95b183492ef289f5ca302840511ab8fcd37780b1dbcab09a2b2"
+  },
+  "expected_extents_mm": [
+    101.6,
+    101.6,
+    101.6
+  ],
+  "family": "sphere",
+  "ir": "generated/kernel/140_sphere/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.21759999999999025,
+      0.21759999999999025,
+      0.21759999999999025
+    ],
+    "extents_mm": [
+      101.3824,
+      101.3824,
+      101.3824
+    ],
+    "faces": 2300,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        0,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        1151,
+        2299
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 3450,
+          "euler_characteristic": 2,
+          "faces": 2300,
+          "genus": 0,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 1152
+        }
+      ],
+      "edges": 3450,
+      "euler_characteristic": 2,
+      "faces": 2300,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 1152
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 1152,
+    "volume_mm3": 545228.2382727591,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a sphere with radius 2 inch",
+  "render": "figures/kernel_examples/140_sphere.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.4911933329995009,
+  "scad": "generated/kernel/140_sphere/program.scad",
+  "stl": "generated/kernel/140_sphere/program.stl",
+  "task_id": "NCR-0140"
+}

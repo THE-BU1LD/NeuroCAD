@@ -1,0 +1,198 @@
+solid OpenSCAD_Model
+  facet normal 1 -0 0
+    outer loop
+      vertex 100 -45 47.5
+      vertex 100 45 -47.5
+      vertex 100 45 47.5
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 100 45 -47.5
+      vertex 100 -45 47.5
+      vertex 100 -45 -47.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 100 45 47.5
+      vertex 97 42 47.5
+      vertex 100 -45 47.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 100 45 47.5
+      vertex -97 42 47.5
+      vertex 97 42 47.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -97 42 47.5
+      vertex -100 45 47.5
+      vertex -97 -42 47.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -100 45 47.5
+      vertex -97 42 47.5
+      vertex 100 45 47.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex 97 -42 47.5
+      vertex 100 -45 47.5
+      vertex 97 42 47.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -97 -42 47.5
+      vertex 100 -45 47.5
+      vertex 97 -42 47.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -97 -42 47.5
+      vertex -100 -45 47.5
+      vertex 100 -45 47.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -100 -45 47.5
+      vertex -97 -42 47.5
+      vertex -100 45 47.5
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex -100 -45 -47.5
+      vertex 100 45 -47.5
+      vertex 100 -45 -47.5
+    endloop
+  endfacet
+  facet normal -0 0 -1
+    outer loop
+      vertex 100 45 -47.5
+      vertex -100 -45 -47.5
+      vertex -100 45 -47.5
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex -100 -45 -47.5
+      vertex -100 45 47.5
+      vertex -100 45 -47.5
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex -100 45 47.5
+      vertex -100 -45 -47.5
+      vertex -100 -45 47.5
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 100 45 -47.5
+      vertex -100 45 47.5
+      vertex 100 45 47.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -100 45 47.5
+      vertex 100 45 -47.5
+      vertex -100 45 -47.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -100 -45 -47.5
+      vertex 100 -45 47.5
+      vertex -100 -45 47.5
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 100 -45 47.5
+      vertex -100 -45 -47.5
+      vertex 100 -45 -47.5
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex 97 -42 -44.5
+      vertex 97 42 47.5
+      vertex 97 42 -44.5
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex 97 42 47.5
+      vertex 97 -42 -44.5
+      vertex 97 -42 47.5
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -97 42 -44.5
+      vertex 97 -42 -44.5
+      vertex 97 42 -44.5
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 97 -42 -44.5
+      vertex -97 42 -44.5
+      vertex -97 -42 -44.5
+    endloop
+  endfacet
+  facet normal 1 -0 0
+    outer loop
+      vertex -97 -42 47.5
+      vertex -97 42 -44.5
+      vertex -97 42 47.5
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex -97 42 -44.5
+      vertex -97 -42 47.5
+      vertex -97 -42 -44.5
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -97 42 -44.5
+      vertex 97 42 47.5
+      vertex -97 42 47.5
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 97 42 47.5
+      vertex -97 42 -44.5
+      vertex 97 42 -44.5
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 97 -42 -44.5
+      vertex -97 -42 47.5
+      vertex 97 -42 47.5
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -97 -42 47.5
+      vertex 97 -42 -44.5
+      vertex -97 -42 -44.5
+    endloop
+  endfacet
+endsolid OpenSCAD_Model

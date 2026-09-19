@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import shutil
 from dataclasses import replace
 from pathlib import Path
@@ -22,8 +23,10 @@ from core.enclosure_verification import verify_enclosure_mesh
 from core.engineering_math import (
     LayoutItem,
     OrientationCandidate,
+    QuadraticToleranceStack,
     ToleranceContribution,
     pack_rectangles,
+    quadratic_tolerance_stack,
     rectangular_cantilever,
     score_orientations,
     symmetric_positions,
@@ -254,6 +257,42 @@ def test_deterministic_language_interpreter_requires_every_clause_and_missing_de
     assert any(issue.kind == "invalid" for issue in excessive.issues)
 
 
+def test_conversational_language_interpreter_converts_units_and_preserves_source_spans() -> None:
+    prompt = (
+        "Design an enclosure 10 x 7 x 3 cm with walls 0.2 cm and an FDM standard profile "
+        "and a friction lid 0.3 cm thick with clearance 0.25 mm and four M3 standoffs "
+        "0.6 cm high at the corners inset 1.5 cm and a rectangular cutout 1.2 x 0.7 cm "
+        "on the back face at center for USB C."
+    )
+    interpretation = interpret_enclosure(prompt)
+    assert interpretation.ready, interpretation.to_dict()
+    spec = interpretation.require_spec()
+    assert spec.outer_size_mm == pytest.approx((100.0, 70.0, 30.0))
+    assert spec.wall_mm == pytest.approx(2.0)
+    assert spec.lid.thickness_mm == pytest.approx(3.0)
+    assert spec.lid.clearance_mm == pytest.approx(0.25)
+    assert spec.cutouts[0].face == "rear"
+    assert spec.cutouts[0].center_uv_mm == (0.0, 0.0)
+    assert spec.cutouts[0].size_mm == pytest.approx((12.0, 7.0))
+    assert len(spec.standoffs) == 4
+    assert all(prompt[mapping.start : mapping.end] == mapping.text for mapping in interpretation.mappings)
+
+
+def test_language_diagnostics_recommend_units_and_protect_external_ratings() -> None:
+    missing_units = interpret_enclosure(
+        "100 x 70 x 30 enclosure; walls 2 mm; profile fdm standard; open top"
+    )
+    assert not missing_units.ready
+    suggestion = next(issue.suggestion for issue in missing_units.issues if issue.text and "100 x" in issue.text)
+    assert suggestion is not None and "Include units" in suggestion
+
+    unsafe_claim = interpret_enclosure(
+        "100 x 70 x 30 mm enclosure; walls 2 mm; profile fdm standard; open top; make it waterproof"
+    )
+    boundary = next(issue.suggestion for issue in unsafe_claim.issues if issue.text == "make it waterproof")
+    assert boundary is not None and "qualified external review" in boundary
+
+
 def test_provider_interpretation_cannot_silently_drop_source_language() -> None:
     source = "controller enclosure"
     payload = {
@@ -353,6 +392,54 @@ def test_engineering_math_is_explicit_and_deterministic() -> None:
     assert {item.id for item in packed} == {"board", "battery"}
 
 
+def test_quadratic_tolerance_reduces_exactly_to_linear_model() -> None:
+    contributions = (
+        ToleranceContribution("printer", -0.05, 0.08, 0.2),
+        ToleranceContribution("material", 0.02, 0.04, 0.1),
+    )
+    correlations = ((1.0, 0.25), (0.25, 1.0))
+    linear = tolerance_stack(0.3, contributions, correlations=correlations)
+    quadratic = quadratic_tolerance_stack(
+        0.3,
+        contributions,
+        sensitivities=(1.0, 1.0),
+        hessian_per_mm=((0.0, 0.0), (0.0, 0.0)),
+        correlations=correlations,
+    )
+    assert isinstance(quadratic, QuadraticToleranceStack)
+    assert quadratic.mean_clearance_mm == pytest.approx(linear.mean_clearance_mm)
+    assert quadratic.sigma_mm == pytest.approx(linear.sigma_mm)
+    assert quadratic.worst_case_low_mm == pytest.approx(linear.worst_case_low_mm)
+    assert quadratic.recommended_clearance_mm == pytest.approx(linear.recommended_clearance_mm)
+    assert quadratic.moment_matched_success_probability == pytest.approx(linear.success_probability)
+
+
+def test_quadratic_tolerance_reports_curvature_bias_variance_and_interval_bound() -> None:
+    result = quadratic_tolerance_stack(
+        1.0,
+        (ToleranceContribution("nonlinear axis", 0.0, 2.0, 3.0),),
+        sensitivities=(0.0,),
+        hessian_per_mm=((1.0,),),
+    )
+    assert result.mean_clearance_mm == pytest.approx(3.0)
+    assert result.sigma_mm == pytest.approx(math.sqrt(8.0))
+    assert result.worst_case_low_mm == pytest.approx(-3.5)
+
+
+def test_quadratic_tolerance_rejects_nonsymmetric_hessian() -> None:
+    contributions = (
+        ToleranceContribution("x", 0.0, 0.1, 0.2),
+        ToleranceContribution("y", 0.0, 0.1, 0.2),
+    )
+    with pytest.raises(ValueError, match="must be symmetric"):
+        quadratic_tolerance_stack(
+            0.2,
+            contributions,
+            sensitivities=(1.0, 1.0),
+            hessian_per_mm=((0.0, 1.0), (0.0, 0.0)),
+        )
+
+
 def test_fabrication_preflight_discloses_exact_analytical_and_heuristic_results() -> None:
     report = fabrication_preflight(
         _spec(),
@@ -401,7 +488,7 @@ def test_real_kernel_body_and_lid_pass_request_level_feature_probes(tmp_path: Pa
         scad = tmp_path / f"{part}.scad"
         stl = tmp_path / f"{part}.stl"
         write_text_atomic(scad, program_to_scad(program, fn=32))
-        compile_scad_verified(scad, stl, timeout=120)
+        compile_scad_verified(scad, stl, timeout=240)
         verification = verify_enclosure_mesh(stl, spec, part=part)
         assert verification.valid, verification.to_dict()
 

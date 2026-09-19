@@ -18,3 +18,12 @@ release API.
 Do not add this directory to `PYTHONPATH` or treat its scripts as production
 entry points. Historical failures and the refuted pseudo-STEP path remain
 documented in `audits/HISTORICAL_TRUTH.md`.
+
+The deterministic inventory in `audit/legacy_archive_manifest.json` records the
+path, byte count, SHA-256 digest, capability class, and failure class of every
+archived file. Rebuild or verify it with:
+
+```bash
+python scripts/build_legacy_archive_index.py
+python scripts/build_legacy_archive_index.py --verify
+```

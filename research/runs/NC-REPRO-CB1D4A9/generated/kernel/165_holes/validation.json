@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "2b8bdac87a96e41be3023603861610c36ac64cc53fa4c45c6f5f718f8c3e9700",
+    "render": "1a5c06a43085ef63b83c520f51571356bb36f70550e0fa367df80c7f1d878d69",
+    "scad": "25a85f7fd7716b70b0a7a7d184e7bd95177e6926e6f49ec124bdfec0820fa2bb",
+    "stl": "7c5ebcb671c59677cfe7e98aaf9773bcefb9f87b1fb8349dee750608a15924e1"
+  },
+  "expected_extents_mm": [
+    190.0,
+    170.0,
+    2.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/165_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      190.0,
+      170.0,
+      2.0
+    ],
+    "faces": 208,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        2,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        103,
+        207
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 312,
+          "euler_characteristic": 0,
+          "faces": 208,
+          "genus": 1,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 104
+        }
+      ],
+      "edges": 312,
+      "euler_characteristic": 0,
+      "faces": 208,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 104
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 104,
+    "volume_mm3": 64585.903156797925,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 190 x 170 x 2 mm plate with one 3 mm holes",
+  "render": "figures/kernel_examples/165_holes.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.7446012500004144,
+  "scad": "generated/kernel/165_holes/program.scad",
+  "stl": "generated/kernel/165_holes/program.stl",
+  "task_id": "NCR-0163"
+}

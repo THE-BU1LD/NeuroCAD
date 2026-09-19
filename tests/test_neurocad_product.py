@@ -9,7 +9,7 @@ import pytest
 import trimesh
 
 from core import artifacts
-from core.artifacts import compile_scad, compile_scad_verified, design_manifest, find_openscad, render_scad_png, verify_stl
+from core.artifacts import compile_scad, compile_scad_verified, design_manifest, find_openscad, render_scad_png, render_stl_png, verify_stl
 from core.design_graph import Component, DesignGraph
 from core.ir import CADProgram, Node, Primitive, Transform, program_bounds_are_exact
 from core.ir_parser import serialize_ir_json
@@ -35,6 +35,78 @@ def test_common_adjective_measurements_are_supported() -> None:
     design = generate_design("a plate 120 mm wide 80 mm deep and 4 mm thick")
     assert design.metadata["dimensions_mm"] == [120.0, 80.0, 4.0]
     assert validate_design(design).valid
+
+
+@pytest.mark.parametrize(
+    "prompt, domain, dimensions",
+    [
+        (
+            (
+                "Please make me a sturdy mounting plate that is 120 millimeters wide, "
+                "80 millimeters deep, and 4 millimeters thick, with four holes that are "
+                "4 millimeters in diameter."
+            ),
+            "plate",
+            [120.0, 80.0, 4.0],
+        ),
+        ("Could you create a simple baseplate measuring 90 by 60 by 3 mm?", "plate", [90.0, 60.0, 3.0]),
+        ("Build me a sheet 120 mm long, 80 mm wide, and 4 mm thick, please.", "plate", [120.0, 80.0, 4.0]),
+        ("I need an enclosure with dimensions of 100 x 70 x 30 mm with walls 2 mm thick.", "enclosure", [100.0, 70.0, 30.0]),
+        ("Design me a rectangular box sized at 40 x 30 x 20 mm.", "enclosure", [40.0, 30.0, 20.0]),
+    ],
+)
+def test_conversational_dimensioned_prompts_are_supported(
+    prompt: str, domain: str, dimensions: list[float]
+) -> None:
+    design = generate_design(prompt)
+    report = validate_design(design)
+    assert report.valid, report.errors
+    assert design.metadata["fabrication_domain"] == domain
+    assert design.metadata["dimensions_mm"] == dimensions
+
+
+def test_conversational_hole_diameter_is_not_misread_as_radius() -> None:
+    prompt = (
+        "Please make me a sturdy mounting plate that is 120 millimeters wide, 80 millimeters deep, "
+        "and 4 millimeters thick, with four holes that are 4 millimeters in diameter."
+    )
+    design = generate_design(prompt)
+    holes = [component for component in design.components if component.name.startswith("hole_")]
+    assert len(holes) == 4
+    assert {hole.geometry()["radius"] for hole in holes} == {2.0}
+    report = validate_design(design)
+    assert report.valid
+    assert any("sturdy" in warning for warning in report.warnings)
+
+
+@pytest.mark.parametrize(
+    "prompt, kind, radius, height",
+    [
+        ("Could you make me a ball with a diameter of 20 mm?", "sphere", 10.0, None),
+        ("Please create a cylinder 5 mm radius and 30 mm tall.", "cylinder", 5.0, 30.0),
+    ],
+)
+def test_conversational_primitives_are_supported(
+    prompt: str, kind: str, radius: float, height: float | None
+) -> None:
+    design = generate_design(prompt)
+    report = validate_design(design)
+    assert report.valid, report.errors
+    geometry = design.components[0].geometry()
+    assert geometry["kind"] == kind
+    assert geometry["radius"] == radius
+    if height is not None:
+        assert geometry["height"] == height
+
+
+def test_reported_studio_sphere_prompt_is_supported_without_guessing() -> None:
+    prompt = "Please make a sphere with a radius of 20 millimeters."
+    design = generate_design(prompt)
+    report = validate_design(design)
+    assert report.valid, report.errors
+    assert design.metadata["prompt_fully_consumed"] is True
+    assert design.metadata["contract_prompt"] == "a sphere with radius 20 millimeters"
+    assert design.components[0].geometry() == {"kind": "sphere", "radius": 20.0}
 
 
 def test_plate_hole_count_diameter_and_corner_placement() -> None:
@@ -241,6 +313,7 @@ def test_stl_verifier_accepts_watertight_mesh(tmp_path: Path) -> None:
     assert result["finite_vertices"] is True
     assert result["body_count"] == 1
     assert result["extents_mm"] == [10.0, 20.0, 30.0]
+    assert result["embedding"]["self_intersecting"] is False
 
 
 def test_stl_verifier_checks_expected_extents_and_connectedness(tmp_path: Path) -> None:
@@ -296,6 +369,17 @@ def test_artifact_boundaries_reject_invalid_paths_and_controls(tmp_path: Path) -
             verify_stl(mesh_path, **{keyword: -0.1})
     with pytest.raises(ValueError, match="existing non-empty"):
         verify_stl(tmp_path / "missing.stl")
+
+
+def test_stl_png_fallback_is_deterministic_and_geometry_derived(tmp_path: Path) -> None:
+    mesh_path = tmp_path / "box.stl"
+    trimesh.creation.box(extents=(10, 20, 30)).export(mesh_path)
+    first = render_stl_png(mesh_path, tmp_path / "first.png", width=160, height=120)
+    second = render_stl_png(mesh_path, tmp_path / "second.png", width=160, height=120)
+
+    assert first.read_bytes() == second.read_bytes()
+    assert first.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
+    assert len(first.read_bytes()) > 100
 
 
 def test_verified_compile_failure_does_not_clobber_existing_output(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

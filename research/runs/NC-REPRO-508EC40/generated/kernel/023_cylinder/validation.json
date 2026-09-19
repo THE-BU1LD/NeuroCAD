@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "02e1fa574c953898140d5ee90176127c99d1c86b2541c4944f1a9585b4ceb4c5",
+    "render": "8fc6b99bf90904b9a202bdcc7f8638ddec06eb0be7c400996e59e882fd3e917b",
+    "scad": "15c1f20d9a7db3923171e1928bc58c14591feb7020ce91e795f5c465b6d951ec",
+    "stl": "e8c3b0ca88caceb3a3d72d8cc37f83f29141879305a8e1422f765c3f5d740b20"
+  },
+  "expected_extents_mm": [
+    62.0,
+    62.0,
+    140.0
+  ],
+  "family": "cylinder",
+  "ir": "generated/kernel/023_cylinder/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      62.0,
+      62.0,
+      140.0
+    ],
+    "faces": 188,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        0,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        95,
+        187
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 282,
+          "euler_characteristic": 2,
+          "faces": 188,
+          "genus": 0,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 96
+        }
+      ],
+      "edges": 282,
+      "euler_characteristic": 2,
+      "faces": 188,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 96
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 96,
+    "volume_mm3": 421464.23048128,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a cylinder with radius 31 mm and height 140 mm",
+  "render": "figures/kernel_examples/023_cylinder.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.2466704999997091,
+  "scad": "generated/kernel/023_cylinder/program.scad",
+  "stl": "generated/kernel/023_cylinder/program.stl",
+  "task_id": "NCR-0027"
+}

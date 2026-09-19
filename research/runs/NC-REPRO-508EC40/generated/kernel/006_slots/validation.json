@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "46e9ad5061502a32e147df57b83397dd6f2197a8b7896fc6c50b9c1205d5ea0e",
+    "render": "a4fd7eb09b832ecdefd6a11539976a5f04141e3cfbf6cda974fd5ce11ef782f9",
+    "scad": "0af12fbd529a79f7a388e0599379ba7b8522e95d56bf1074ee872b2c39f1ac8b",
+    "stl": "130be04c5295c49c1ecfe73242f52cc6654754654ff6e377168d2f2e0723c1a1"
+  },
+  "expected_extents_mm": [
+    190.0,
+    50.0,
+    5.0
+  ],
+  "family": "slots",
+  "ir": "generated/kernel/006_slots/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      190.0,
+      50.0,
+      5.0
+    ],
+    "faces": 92,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        8,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        39,
+        91
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 138,
+          "euler_characteristic": -6,
+          "faces": 92,
+          "genus": 4,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 40
+        }
+      ],
+      "edges": 138,
+      "euler_characteristic": -6,
+      "faces": 92,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 40
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 40,
+    "volume_mm3": 45900.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 190 x 50 x 5 mm plate with four 16 x 5 mm slots",
+  "render": "figures/kernel_examples/006_slots.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.8796832500001983,
+  "scad": "generated/kernel/006_slots/program.scad",
+  "stl": "generated/kernel/006_slots/program.stl",
+  "task_id": "NCR-0003"
+}

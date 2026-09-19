@@ -27,6 +27,27 @@ integrated CI, distribution, clean-install, and release-provenance gates in
 - Included retained helper sources in the sdist, separated the two checkout-only
   archive checks, and rejected symlink, duplicate, case-colliding and unsafe
   cross-platform archive entries.
+- Added bounded, scale-normalized detection of non-adjacent STL triangle
+  intersections to topology reports and generated-mesh acceptance.
+- Added second-order correlated tolerance propagation with analytical moments,
+  conservative interval bounds, and explicitly approximate fit probability.
+- Added strict, versioned analytical constraint models for Euler buckling,
+  thermal expansion, steady conduction, internal pipe flow, and thin-wall
+  pressure cylinders, with assumptions and claim boundaries in every result.
+- Locked the reported polite sphere prompt as a fully consumed primitive
+  regression so conversational wording cannot silently regress.
+- Added a persistent conversational agent studio with built-in and
+  OpenAI-compatible/Ollama planners, visible assumptions, revision history,
+  per-component hash-addressed checkpoints, interrupt-safe progress, and a
+  loopback-only live browser workbench.
+- Added a strict provider-plan schema and deterministic canonical-IR validation;
+  each part must begin with additive geometry and weapon requests are rejected
+  before provider invocation. Agent results are labeled concept drafts rather
+  than fabrication-validated artifacts.
+- Added unit-aware physical quantities, second-order forward automatic
+  differentiation, local nonlinear equality/inequality solving with conflict
+  diagnostics, bounded local optimization, outward-rounded interval arithmetic,
+  seeded correlated Monte Carlo propagation, and linear-system diagnostics.
 
 - Hardened canonical IR parsing against duplicate keys, excessive nesting, non-finite or out-of-range values, non-string metadata keys, and inexact constraint payloads.
 - Closed prompt fail-open cases involving implicit zero-value defaults, arbitrary three-number text, ambiguous dimension sequences, substring-based unsupported-feature matching, and unbounded or overlapping plate features.

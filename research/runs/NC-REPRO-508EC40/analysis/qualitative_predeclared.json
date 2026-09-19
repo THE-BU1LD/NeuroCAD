@@ -1,0 +1,1310 @@
+{
+  "records": {
+    "fixed_box": [
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125,
+            125,
+            6
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0001"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 5,
+          "hole_diameter": 2,
+          "kind": "box",
+          "size": [
+            170,
+            170,
+            2
+          ]
+        },
+        "family": "holes",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0002"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "size": [
+            190,
+            50,
+            5
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16,
+            5
+          ]
+        },
+        "family": "slots",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0003"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190,
+            90,
+            50
+          ],
+          "wall_thickness": 2.5
+        },
+        "family": "enclosure",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0004"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110,
+            120,
+            95
+          ],
+          "slot_count": 0
+        },
+        "family": "box",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0005"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "height": 85,
+          "kind": "cylinder",
+          "radius": 12
+        },
+        "family": "cylinder",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0006"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "kind": "sphere",
+          "radius": 15.0
+        },
+        "family": "sphere",
+        "passed": false,
+        "split": "validation",
+        "task_id": "NCR-0007"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            80,
+            80,
+            80
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60,
+            35,
+            2
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": false,
+        "split": "validation",
+        "task_id": "NCR-0008"
+      }
+    ],
+    "nearest_neighbor_retrieval": [
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125,
+            125,
+            6
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.24154200036718976,
+          "neighbor_task_id": "NCR-0001",
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125,
+            125,
+            6
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0001"
+      },
+      {
+        "actual": {
+          "hole_count": 5,
+          "hole_diameter": 2,
+          "kind": "box",
+          "size": [
+            170,
+            170,
+            2
+          ]
+        },
+        "details": {
+          "latency_ms": 0.1867080000010901,
+          "neighbor_task_id": "NCR-0002",
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 5,
+          "hole_diameter": 2,
+          "kind": "box",
+          "size": [
+            170,
+            170,
+            2
+          ]
+        },
+        "family": "holes",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0002"
+      },
+      {
+        "actual": {
+          "kind": "box",
+          "size": [
+            190,
+            50,
+            5
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16,
+            5
+          ]
+        },
+        "details": {
+          "latency_ms": 0.20058299924130552,
+          "neighbor_task_id": "NCR-0003",
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "size": [
+            190,
+            50,
+            5
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16,
+            5
+          ]
+        },
+        "family": "slots",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0003"
+      },
+      {
+        "actual": {
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190,
+            90,
+            50
+          ],
+          "wall_thickness": 2.5
+        },
+        "details": {
+          "latency_ms": 0.19291699936729856,
+          "neighbor_task_id": "NCR-0004",
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190,
+            90,
+            50
+          ],
+          "wall_thickness": 2.5
+        },
+        "family": "enclosure",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0004"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110,
+            120,
+            95
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.1664159999563708,
+          "neighbor_task_id": "NCR-0005",
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110,
+            120,
+            95
+          ],
+          "slot_count": 0
+        },
+        "family": "box",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0005"
+      },
+      {
+        "actual": {
+          "height": 85,
+          "kind": "cylinder",
+          "radius": 12
+        },
+        "details": {
+          "latency_ms": 0.17341700004180893,
+          "neighbor_task_id": "NCR-0006",
+          "valid": true
+        },
+        "expected": {
+          "height": 85,
+          "kind": "cylinder",
+          "radius": 12
+        },
+        "family": "cylinder",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0006"
+      },
+      {
+        "actual": {
+          "kind": "sphere",
+          "radius": 3.0
+        },
+        "details": {
+          "latency_ms": 0.16108299951156368,
+          "neighbor_task_id": "NCR-0231",
+          "valid": true
+        },
+        "expected": {
+          "kind": "sphere",
+          "radius": 15.0
+        },
+        "family": "sphere",
+        "passed": false,
+        "split": "validation",
+        "task_id": "NCR-0007"
+      },
+      {
+        "actual": {
+          "hole_count": 2,
+          "hole_diameter": 3,
+          "kind": "box",
+          "size": [
+            60,
+            140,
+            2
+          ]
+        },
+        "details": {
+          "latency_ms": 0.17708300038066227,
+          "neighbor_task_id": "NCR-0233",
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60,
+            35,
+            2
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": false,
+        "split": "validation",
+        "task_id": "NCR-0008"
+      }
+    ],
+    "neurocad": [
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125.0,
+            125.0,
+            6.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 1,
+            "evaluation_latency_ms": 3.5335419997863937,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 1,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 1,
+            "primitive_count": 1,
+            "scad_bytes": 219,
+            "serialized_bytes": 2101,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 32.4710419999974,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125,
+            125,
+            6
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0001"
+      },
+      {
+        "actual": {
+          "hole_count": 5,
+          "hole_diameter": 2.0,
+          "kind": "box",
+          "size": [
+            170.0,
+            170.0,
+            2.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 6,
+            "evaluation_latency_ms": 13.276833000418264,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 2,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 7,
+            "primitive_count": 6,
+            "scad_bytes": 714,
+            "serialized_bytes": 7446,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 18.192333000115468,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 5,
+          "hole_diameter": 2,
+          "kind": "box",
+          "size": [
+            170,
+            170,
+            2
+          ]
+        },
+        "family": "holes",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0002"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            190.0,
+            50.0,
+            5.0
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16.0,
+            5.0
+          ]
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 5,
+            "evaluation_latency_ms": 9.068458999536233,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 2,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 6,
+            "primitive_count": 5,
+            "scad_bytes": 546,
+            "serialized_bytes": 6080,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 11.545458999535185,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "size": [
+            190,
+            50,
+            5
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16,
+            5
+          ]
+        },
+        "family": "slots",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0003"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190.0,
+            90.0,
+            50.0
+          ],
+          "slot_count": 0,
+          "wall_thickness": 2.5
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 2,
+            "evaluation_latency_ms": 5.240792000222427,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 2,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 3,
+            "primitive_count": 2,
+            "scad_bytes": 346,
+            "serialized_bytes": 3635,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 8.209915999941586,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190,
+            90,
+            50
+          ],
+          "wall_thickness": 2.5
+        },
+        "family": "enclosure",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0004"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110.0,
+            120.0,
+            95.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 1,
+            "evaluation_latency_ms": 1.7708340001263423,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 1,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 1,
+            "primitive_count": 1,
+            "scad_bytes": 219,
+            "serialized_bytes": 2108,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 4.70554200001061,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110,
+            120,
+            95
+          ],
+          "slot_count": 0
+        },
+        "family": "box",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0005"
+      },
+      {
+        "actual": {
+          "height": 85.0,
+          "hole_count": 0,
+          "kind": "cylinder",
+          "radius": 12.0,
+          "slot_count": 0
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 1,
+            "evaluation_latency_ms": 2.4847089998729643,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 1,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 1,
+            "primitive_count": 1,
+            "scad_bytes": 236,
+            "serialized_bytes": 1779,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 8.329665999553981,
+          "valid": true
+        },
+        "expected": {
+          "height": 85,
+          "kind": "cylinder",
+          "radius": 12
+        },
+        "family": "cylinder",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0006"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "sphere",
+          "radius": 15.0,
+          "slot_count": 0
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 1,
+            "evaluation_latency_ms": 2.2128330001578433,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 1,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 1,
+            "primitive_count": 1,
+            "scad_bytes": 196,
+            "serialized_bytes": 1502,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 3.0351660006999737,
+          "valid": true
+        },
+        "expected": {
+          "kind": "sphere",
+          "radius": 15.0
+        },
+        "family": "sphere",
+        "passed": true,
+        "split": "validation",
+        "task_id": "NCR-0007"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60.0,
+            35.0,
+            2.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "evaluation": {
+            "constraint_satisfaction_rate": 1.0,
+            "deterministic_export": true,
+            "editable_nodes": 1,
+            "evaluation_latency_ms": 2.3246250002557645,
+            "exact_round_trip": true,
+            "export_error": null,
+            "geometric_validity": null,
+            "hierarchy_depth": 1,
+            "kernel_validity": null,
+            "mesh_measurements": null,
+            "node_count": 1,
+            "primitive_count": 1,
+            "scad_bytes": 237,
+            "serialized_bytes": 2175,
+            "structural_validity": true,
+            "syntactic_validity": true,
+            "topology_correct": null
+          },
+          "latency_ms": 13.534417000300891,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60,
+            35,
+            2
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": true,
+        "split": "validation",
+        "task_id": "NCR-0008"
+      }
+    ],
+    "normalized_dimensions_only": [
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125.0,
+            125.0,
+            6.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.8507920001648017,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125,
+            125,
+            6
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0001"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            170.0,
+            170.0,
+            2.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.012917000276502222,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 5,
+          "hole_diameter": 2,
+          "kind": "box",
+          "size": [
+            170,
+            170,
+            2
+          ]
+        },
+        "family": "holes",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0002"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            190.0,
+            50.0,
+            5.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.007624999852851033,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "size": [
+            190,
+            50,
+            5
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16,
+            5
+          ]
+        },
+        "family": "slots",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0003"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            190.0,
+            90.0,
+            50.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.006875000508443918,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190,
+            90,
+            50
+          ],
+          "wall_thickness": 2.5
+        },
+        "family": "enclosure",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0004"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110.0,
+            120.0,
+            95.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.006458999450842384,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110,
+            120,
+            95
+          ],
+          "slot_count": 0
+        },
+        "family": "box",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0005"
+      },
+      {
+        "actual": {
+          "height": 85.0,
+          "kind": "cylinder",
+          "radius": 12.0
+        },
+        "details": {
+          "latency_ms": 0.5422089998319279,
+          "valid": true
+        },
+        "expected": {
+          "height": 85,
+          "kind": "cylinder",
+          "radius": 12
+        },
+        "family": "cylinder",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0006"
+      },
+      {
+        "actual": {
+          "kind": "sphere",
+          "radius": 15.0
+        },
+        "details": {
+          "latency_ms": 0.2348750003875466,
+          "valid": true
+        },
+        "expected": {
+          "kind": "sphere",
+          "radius": 15.0
+        },
+        "family": "sphere",
+        "passed": true,
+        "split": "validation",
+        "task_id": "NCR-0007"
+      },
+      {
+        "actual": null,
+        "details": {
+          "latency_ms": 0.00879199978953693,
+          "valid": false
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60,
+            35,
+            2
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": false,
+        "split": "validation",
+        "task_id": "NCR-0008"
+      }
+    ],
+    "raw_numbers_no_unit_normalization": [
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125.0,
+            125.0,
+            6.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.14458399982686387,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            125,
+            125,
+            6
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0001"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            170.0,
+            170.0,
+            2.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.006041000233381055,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 5,
+          "hole_diameter": 2,
+          "kind": "box",
+          "size": [
+            170,
+            170,
+            2
+          ]
+        },
+        "family": "holes",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0002"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            190.0,
+            50.0,
+            5.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.004792000254383311,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "size": [
+            190,
+            50,
+            5
+          ],
+          "slot_count": 4,
+          "slot_size": [
+            16,
+            5
+          ]
+        },
+        "family": "slots",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0003"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            190.0,
+            90.0,
+            50.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.004292000085115433,
+          "valid": true
+        },
+        "expected": {
+          "kind": "box",
+          "open_top": true,
+          "size": [
+            190,
+            90,
+            50
+          ],
+          "wall_thickness": 2.5
+        },
+        "family": "enclosure",
+        "passed": false,
+        "split": "train",
+        "task_id": "NCR-0004"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110.0,
+            120.0,
+            95.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.0031250001484295353,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            110,
+            120,
+            95
+          ],
+          "slot_count": 0
+        },
+        "family": "box",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0005"
+      },
+      {
+        "actual": {
+          "height": 85.0,
+          "hole_count": 0,
+          "kind": "cylinder",
+          "radius": 12.0,
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.003749999450519681,
+          "valid": true
+        },
+        "expected": {
+          "height": 85,
+          "kind": "cylinder",
+          "radius": 12
+        },
+        "family": "cylinder",
+        "passed": true,
+        "split": "train",
+        "task_id": "NCR-0006"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "sphere",
+          "radius": 15.0,
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.002415999915683642,
+          "valid": true
+        },
+        "expected": {
+          "kind": "sphere",
+          "radius": 15.0
+        },
+        "family": "sphere",
+        "passed": true,
+        "split": "validation",
+        "task_id": "NCR-0007"
+      },
+      {
+        "actual": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60.0,
+            35.0,
+            2.0
+          ],
+          "slot_count": 0
+        },
+        "details": {
+          "latency_ms": 0.003499999365885742,
+          "valid": true
+        },
+        "expected": {
+          "hole_count": 0,
+          "kind": "box",
+          "size": [
+            60,
+            35,
+            2
+          ],
+          "slot_count": 0
+        },
+        "family": "plate",
+        "passed": true,
+        "split": "validation",
+        "task_id": "NCR-0008"
+      }
+    ]
+  },
+  "selection_rule": "first eight task IDs before outcome inspection",
+  "task_ids": [
+    "NCR-0001",
+    "NCR-0002",
+    "NCR-0003",
+    "NCR-0004",
+    "NCR-0005",
+    "NCR-0006",
+    "NCR-0007",
+    "NCR-0008"
+  ]
+}

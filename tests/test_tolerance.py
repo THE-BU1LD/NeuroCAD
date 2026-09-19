@@ -4,6 +4,7 @@ import json
 import math
 from itertools import permutations
 from pathlib import Path
+from statistics import NormalDist
 
 import pytest
 
@@ -117,3 +118,35 @@ def test_correlation_permutation_and_length_scaling_preserve_the_model() -> None
         assert report.sigma_mm == pytest.approx(original.sigma_mm * factor)
         assert report.recommended_clearance_mm == pytest.approx(original.recommended_clearance_mm * factor)
         assert report.success_probability == pytest.approx(original.success_probability)
+
+
+def test_probability_target_and_worst_case_guard_produce_auditable_clearance_design() -> None:
+    contributions = _contributions()
+    target = 0.99
+    statistical = tolerance_stack(0.5, contributions, target_success_probability=target)
+    expected_sigma = math.sqrt(0.08)
+    expected_statistical_nominal = NormalDist().inv_cdf(target) * expected_sigma + 0.15
+    assert statistical.confidence_multiplier == pytest.approx(NormalDist().inv_cdf(target))
+    assert statistical.target_success_probability == target
+    assert statistical.variance_mm2 == pytest.approx(expected_sigma**2)
+    assert statistical.recommended_clearance_mm == pytest.approx(expected_statistical_nominal)
+    assert statistical.margin_to_target_mm == pytest.approx(0.5 - expected_statistical_nominal)
+    assert sum(term.variance_contribution_mm2 for term in statistical.contributions) == pytest.approx(
+        statistical.variance_mm2
+    )
+    assert sum(term.variance_fraction or 0.0 for term in statistical.contributions) == pytest.approx(1.0)
+
+    guarded = tolerance_stack(
+        0.5,
+        contributions,
+        target_success_probability=target,
+        require_nonnegative_worst_case=True,
+    )
+    assert guarded.worst_case_guard_applied
+    assert guarded.recommended_clearance_mm == pytest.approx(0.85)
+
+
+@pytest.mark.parametrize("target", [True, -0.1, 0.49, 1.0, math.inf, math.nan])
+def test_invalid_probability_targets_are_rejected(target: float) -> None:
+    with pytest.raises(ValueError, match="target_success_probability"):
+        tolerance_stack(0.5, _contributions(), target_success_probability=target)

@@ -1,0 +1,198 @@
+solid OpenSCAD_Model
+  facet normal 1 -0 0
+    outer loop
+      vertex 45 -45 15
+      vertex 45 45 -15
+      vertex 45 45 15
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 45 45 -15
+      vertex 45 -45 15
+      vertex 45 -45 -15
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 45 45 15
+      vertex 42 42 15
+      vertex 45 -45 15
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 45 45 15
+      vertex -42 42 15
+      vertex 42 42 15
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -42 42 15
+      vertex -45 45 15
+      vertex -42 -42 15
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -45 45 15
+      vertex -42 42 15
+      vertex 45 45 15
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex 42 -42 15
+      vertex 45 -45 15
+      vertex 42 42 15
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -42 -42 15
+      vertex 45 -45 15
+      vertex 42 -42 15
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -42 -42 15
+      vertex -45 -45 15
+      vertex 45 -45 15
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -45 -45 15
+      vertex -42 -42 15
+      vertex -45 45 15
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex -45 -45 -15
+      vertex 45 45 -15
+      vertex 45 -45 -15
+    endloop
+  endfacet
+  facet normal -0 0 -1
+    outer loop
+      vertex 45 45 -15
+      vertex -45 -45 -15
+      vertex -45 45 -15
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex -45 -45 -15
+      vertex -45 45 15
+      vertex -45 45 -15
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex -45 45 15
+      vertex -45 -45 -15
+      vertex -45 -45 15
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 45 45 -15
+      vertex -45 45 15
+      vertex 45 45 15
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -45 45 15
+      vertex 45 45 -15
+      vertex -45 45 -15
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -45 -45 -15
+      vertex 45 -45 15
+      vertex -45 -45 15
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 45 -45 15
+      vertex -45 -45 -15
+      vertex 45 -45 -15
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex 42 -42 -12
+      vertex 42 42 15
+      vertex 42 42 -12
+    endloop
+  endfacet
+  facet normal -1 -0 0
+    outer loop
+      vertex 42 42 15
+      vertex 42 -42 -12
+      vertex 42 -42 15
+    endloop
+  endfacet
+  facet normal -0 0 1
+    outer loop
+      vertex -42 42 -12
+      vertex 42 -42 -12
+      vertex 42 42 -12
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 42 -42 -12
+      vertex -42 42 -12
+      vertex -42 -42 -12
+    endloop
+  endfacet
+  facet normal 1 -0 0
+    outer loop
+      vertex -42 -42 15
+      vertex -42 42 -12
+      vertex -42 42 15
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex -42 42 -12
+      vertex -42 -42 15
+      vertex -42 -42 -12
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -42 42 -12
+      vertex 42 42 15
+      vertex -42 42 15
+    endloop
+  endfacet
+  facet normal 0 -1 -0
+    outer loop
+      vertex 42 42 15
+      vertex -42 42 -12
+      vertex 42 42 -12
+    endloop
+  endfacet
+  facet normal 0 1 -0
+    outer loop
+      vertex 42 -42 -12
+      vertex -42 -42 15
+      vertex 42 -42 15
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -42 -42 15
+      vertex 42 -42 -12
+      vertex -42 -42 -12
+    endloop
+  endfacet
+endsolid OpenSCAD_Model

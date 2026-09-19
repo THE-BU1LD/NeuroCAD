@@ -83,6 +83,9 @@ publish_launcher() {
 }
 publish_launcher neurocad
 publish_launcher text-to-cad
+if [ "${NEUROCAD_SKIP_SETUP:-0}" != "1" ]; then
+  "$BIN_DIR/neurocad" setup || fail "The command was installed, but user configuration or daemon setup failed. Retry with: neurocad setup"
+fi
 say "Previous environments are retained in $INSTALL_ROOT for rollback."
 
 case ":${PATH:-}:" in
@@ -96,4 +99,4 @@ esac
 
 say ""
 say "NeuroCAD installed successfully."
-say "Try: neurocad create 'a 120 x 80 x 4 mm plate with four 4 mm holes' -o design.scad"
+say "Try: neurocad 'a 120 x 80 x 4 mm plate with four 4 mm holes'"

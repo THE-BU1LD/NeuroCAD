@@ -3,7 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 
-from neurocad_cli import build_parser, build_verification_report
+import pytest
+
+from neurocad_cli import build_parser, build_verification_report, main
 
 
 def test_structural_verification_report_is_bounded_and_deterministic():
@@ -77,3 +79,75 @@ def test_invalid_verify_does_not_write_scad(tmp_path):
     assert args.func(args) == 1
     assert not path.exists()
 
+
+def test_quadratic_tolerance_cli_reports_versioned_nonlinear_model(tmp_path, capsys):
+    source = tmp_path / "quadratic-tolerance.json"
+    source.write_text(
+        json.dumps(
+            {
+                "model": "quadratic",
+                "nominal_clearance_mm": 1.0,
+                "contributions": [
+                    {"name": "nonlinear axis", "mean_mm": 0.0, "sigma_mm": 2.0, "worst_case_mm": 3.0}
+                ],
+                "sensitivities": [0.0],
+                "hessian_per_mm": [[1.0]],
+            }
+        ),
+        encoding="utf-8",
+    )
+    args = build_parser().parse_args(["tolerance", str(source)])
+    assert args.func(args) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report["schema_version"] == "neurocad-tolerance-v2"
+    assert report["model"] == "quadratic"
+    assert report["probability_model"] == "moment_matched_normal_for_quadratic_form"
+    assert report["result"]["mean_clearance_mm"] == 3.0
+
+
+def test_top_level_nlp_command_prints_auditable_human_analysis(capsys):
+    prompt = (
+        "Design an enclosure 10 x 7 x 3 cm with walls 2 mm and an FDM standard profile "
+        "and an open top and a rectangular cutout 12 x 7 mm on the back face at center"
+    )
+    args = build_parser().parse_args(["nlp", prompt])
+    assert args.func(args) == 0
+    output = capsys.readouterr().out
+    assert "NeuroCAD language analysis" in output
+    assert "Resolved specification" in output
+    assert "100 x 70 x 30 mm" in output
+    assert "cutout.rectangular" in output
+
+
+def test_math_beam_command_has_human_and_json_views(capsys):
+    arguments = [
+        "math",
+        "beam",
+        "--force",
+        "10",
+        "--length",
+        "50",
+        "--width",
+        "10",
+        "--thickness",
+        "4",
+        "--modulus",
+        "2200",
+        "--yield-strength",
+        "45",
+    ]
+    human = build_parser().parse_args(arguments)
+    assert human.func(human) == 0
+    assert "NeuroCAD beam analysis" in capsys.readouterr().out
+
+    machine = build_parser().parse_args([*arguments, "--json"])
+    assert machine.func(machine) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["schema_version"] == "neurocad-cantilever-v1"
+    assert payload["result"]["maximum_stress_mpa"] > 0
+
+
+def test_main_suggests_close_command_names(capsys):
+    with pytest.raises(SystemExit, match="2"):
+        main(["valdiate"])
+    assert "did you mean 'validate'" in capsys.readouterr().err

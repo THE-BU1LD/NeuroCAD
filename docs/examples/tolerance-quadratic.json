@@ -1,0 +1,43 @@
+{
+  "model": "quadratic",
+  "nominal_clearance_mm": 0.3,
+  "contributions": [
+    {
+      "name": "printer axis error",
+      "mean_mm": -0.05,
+      "sigma_mm": 0.04,
+      "worst_case_mm": 0.1
+    },
+    {
+      "name": "material shrinkage",
+      "mean_mm": -0.02,
+      "sigma_mm": 0.03,
+      "worst_case_mm": 0.08
+    }
+  ],
+  "sensitivities": [
+    1.0,
+    1.0
+  ],
+  "hessian_per_mm": [
+    [
+      0.1,
+      0.02
+    ],
+    [
+      0.02,
+      0.05
+    ]
+  ],
+  "correlations": [
+    [
+      1.0,
+      0.25
+    ],
+    [
+      0.25,
+      1.0
+    ]
+  ],
+  "confidence_multiplier": 3.0
+}

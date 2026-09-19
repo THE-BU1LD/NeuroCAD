@@ -16,10 +16,13 @@ from text_to_cad import TextToCAD
 
 from .artifacts import write_text_atomic
 from .ir import CADProgram
+from .json_io import read_bounded_utf8, strict_json_loads
 from .program_evaluation import evaluate_program
 
 BENCHMARK_VERSION = "neurocad-benchmark-v1"
 DEFAULT_SEED = 20260902
+MAX_BENCHMARK_BYTES = 16 * 1024 * 1024
+MAX_BENCHMARK_TASKS = 100_000
 _BASELINE_UNIT_SCALE = {
     "mm": 1.0,
     "millimeter": 1.0,
@@ -124,6 +127,79 @@ def benchmark_hash(tasks: list[BenchmarkTask]) -> str:
 
 def write_benchmark(path: Path, tasks: list[BenchmarkTask]) -> Path:
     return write_text_atomic(path, benchmark_jsonl(tasks))
+
+
+def load_benchmark(path: Path) -> list[BenchmarkTask]:
+    """Load a frozen benchmark without regenerating or mutating it."""
+
+    text = read_bounded_utf8(path, max_bytes=MAX_BENCHMARK_BYTES, label="benchmark dataset")
+    tasks: list[BenchmarkTask] = []
+    allowed = {
+        "task_id",
+        "split",
+        "family",
+        "prompt",
+        "expected",
+        "intervention_pair",
+        "intervention_key",
+    }
+    required = {"task_id", "split", "family", "prompt", "expected"}
+    for line_number, raw_line in enumerate(text.splitlines(), 1):
+        if not raw_line.strip():
+            continue
+        if len(tasks) >= MAX_BENCHMARK_TASKS:
+            raise ValueError(f"benchmark exceeds the {MAX_BENCHMARK_TASKS}-task limit")
+        try:
+            value = strict_json_loads(raw_line)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"benchmark line {line_number} is invalid JSON: {exc.msg}") from None
+        if not isinstance(value, dict):
+            raise TypeError(f"benchmark line {line_number} must be a JSON object")
+        unknown = set(value) - allowed
+        missing = required - set(value)
+        if unknown:
+            raise ValueError(f"benchmark line {line_number} has unknown fields: {sorted(unknown)}")
+        if missing:
+            raise ValueError(f"benchmark line {line_number} is missing fields: {sorted(missing)}")
+        for field in ("task_id", "split", "family", "prompt"):
+            if not isinstance(value[field], str):
+                raise TypeError(f"benchmark line {line_number} field {field!r} must be a string")
+        for field in ("intervention_pair", "intervention_key"):
+            if value.get(field) is not None and not isinstance(value[field], str):
+                raise TypeError(f"benchmark line {line_number} field {field!r} must be a string or null")
+        if not isinstance(value["expected"], dict):
+            raise TypeError(f"benchmark line {line_number} field 'expected' must be an object")
+        tasks.append(
+            BenchmarkTask(
+                task_id=value["task_id"],
+                split=value["split"],
+                family=value["family"],
+                prompt=value["prompt"],
+                expected=value["expected"],
+                intervention_pair=value.get("intervention_pair"),
+                intervention_key=value.get("intervention_key"),
+            )
+        )
+    _validate_task_set(tasks)
+    return tasks
+
+
+def benchmark_summary(tasks: list[BenchmarkTask]) -> dict[str, Any]:
+    """Return deterministic, outcome-free dataset diagnostics."""
+
+    _validate_task_set(tasks)
+    split_counts = {split: sum(task.split == split for task in tasks) for split in ("train", "validation", "test")}
+    families = sorted({task.family for task in tasks})
+    return {
+        "benchmark_version": BENCHMARK_VERSION,
+        "task_count": len(tasks),
+        "sha256": benchmark_hash(tasks),
+        "split_counts": split_counts,
+        "family_counts": {family: sum(task.family == family for task in tasks) for family in families},
+        "unique_prompt_count": len({task.prompt for task in tasks}),
+        "duplicate_prompt_records": len(tasks) - len({task.prompt for task in tasks}),
+        "intervention_pair_count": len({task.intervention_pair for task in tasks if task.intervention_pair}),
+    }
 
 
 def program_signature(program: CADProgram) -> dict[str, Any]:
@@ -324,6 +400,12 @@ def _validate_task_set(tasks: list[BenchmarkTask]) -> None:
     splits = {task.split for task in tasks}
     if splits != {"train", "validation", "test"}:
         raise ValueError("benchmark must contain non-empty train, validation, and test splits")
+    prompt_splits: dict[str, set[str]] = {}
+    for task in tasks:
+        prompt_splits.setdefault(task.prompt, set()).add(task.split)
+    cross_split_duplicates = [prompt for prompt, member_splits in prompt_splits.items() if len(member_splits) > 1]
+    if cross_split_duplicates:
+        raise ValueError("benchmark prompts must not be duplicated across splits")
     for task in tasks:
         if not task.task_id.strip() or not task.family.strip() or not task.prompt.strip():
             raise ValueError("benchmark task IDs, families, and prompts must be non-empty")

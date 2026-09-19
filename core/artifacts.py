@@ -4,15 +4,22 @@ import json
 import math
 import os
 import shutil
+import struct
 import subprocess  # OpenSCAD uses a fixed argument vector.  # nosec B404
 import tempfile
+import zlib
+from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 from .design_graph import DesignGraph
 from .ir import CADProgram, IRValidationReport
+from .mesh_geometry import analyze_self_intersections
 from .topology import analyze_triangle_complex
 from .validation import ValidationReport
+
+_NATIVE_RENDER_AVAILABLE: bool | None = None
 
 
 def write_text_atomic(path: Path, text: str) -> Path:
@@ -82,6 +89,56 @@ def find_openscad() -> str | None:
     return shutil.which("openscad")
 
 
+@dataclass(frozen=True)
+class OpenSCADCapabilities:
+    executable: str | None
+    mesh: bool
+    preview: bool
+    mesh_detail: str
+    preview_detail: str
+
+
+@lru_cache(maxsize=1)
+def probe_openscad_capabilities(timeout: int = 60) -> OpenSCADCapabilities:
+    """Exercise mesh and image paths instead of treating binary presence as health."""
+
+    executable = find_openscad()
+    if executable is None:
+        detail = "not installed"
+        return OpenSCADCapabilities(None, False, False, detail, detail)
+    with tempfile.TemporaryDirectory(prefix="neurocad-openscad-probe-") as directory:
+        root = Path(directory)
+        source = write_text_atomic(root / "probe.scad", "cube([1, 1, 1], center=true);\n")
+        # Exercise the lightweight renderer first so a cold OpenSCAD process can
+        # initialize before the stricter mesh capability check.
+        try:
+            render_scad_png(source, root / "probe.png", timeout=timeout, width=64, height=64)
+            preview = True
+            preview_detail = (
+                "native image rendering passed"
+                if _NATIVE_RENDER_AVAILABLE
+                else "verified STL fallback passed; native image rendering is unavailable"
+            )
+        except (OSError, RuntimeError, ValueError) as exc:
+            preview, preview_detail = False, str(exc)
+        try:
+            compile_scad(source, root / "probe.stl", timeout=timeout)
+            mesh, mesh_detail = True, "mesh compilation passed"
+        except (OSError, RuntimeError, ValueError) as exc:
+            mesh, mesh_detail = False, str(exc)
+    return OpenSCADCapabilities(executable, mesh, preview, mesh_detail, preview_detail)
+
+
+def preview_renderer_backend() -> str:
+    """Report the backend used by the most recent preview in this process."""
+
+    if _NATIVE_RENDER_AVAILABLE is True:
+        return "openscad-native"
+    if _NATIVE_RENDER_AVAILABLE is False:
+        return "verified-stl-wireframe"
+    return "not-run"
+
+
 def _temporary_artifact_path(output: Path) -> Path:
     """Reserve a same-filesystem staging path for an external artifact writer."""
 
@@ -93,6 +150,94 @@ def _temporary_artifact_path(output: Path) -> Path:
     )
     os.close(descriptor)
     return Path(temporary)
+
+
+def _png_chunk(kind: bytes, payload: bytes) -> bytes:
+    return struct.pack(">I", len(payload)) + kind + payload + struct.pack(">I", zlib.crc32(kind + payload) & 0xFFFFFFFF)
+
+
+def render_stl_png(source: Path, output: Path, *, width: int = 960, height: int = 720) -> Path:
+    """Render a deterministic isometric wireframe from verified STL triangles."""
+
+    import numpy as np
+    import trimesh
+
+    if not source.is_file() or source.stat().st_size == 0:
+        raise ValueError("STL preview source must be an existing non-empty file")
+    if not 64 <= width <= 4096 or not 64 <= height <= 4096:
+        raise ValueError("render dimensions must be between 64 and 4096 pixels")
+    mesh = trimesh.load_mesh(source, force="mesh", process=True)
+    if len(mesh.vertices) == 0 or len(mesh.faces) == 0 or not np.isfinite(mesh.vertices).all():
+        raise ValueError("STL preview source has no finite triangle mesh")
+    vertices = mesh.vertices
+    projection = np.column_stack(
+        (
+            (vertices[:, 0] - vertices[:, 1]) * 0.70710678,
+            (vertices[:, 0] + vertices[:, 1]) * 0.40824829 - vertices[:, 2] * 0.81649658,
+        )
+    )
+    lower, upper = projection.min(axis=0), projection.max(axis=0)
+    margin = max(8, min(width, height) // 16)
+    scale = min(
+        (width - 2 * margin) / max(float(upper[0] - lower[0]), 1e-12),
+        (height - 2 * margin) / max(float(upper[1] - lower[1]), 1e-12),
+    )
+    points = (projection - lower) * scale + margin
+    points[:, 1] = height - points[:, 1]
+    pixels = bytearray((8, 16, 24) * (width * height))
+
+    def draw_line(start: np.ndarray[Any, Any], end: np.ndarray[Any, Any], color: tuple[int, int, int]) -> None:
+        x0, y0 = (round(float(value)) for value in start)
+        x1, y1 = (round(float(value)) for value in end)
+        dx, sx = abs(x1 - x0), 1 if x0 < x1 else -1
+        dy, sy = -abs(y1 - y0), 1 if y0 < y1 else -1
+        error = dx + dy
+        while True:
+            if 0 <= x0 < width and 0 <= y0 < height:
+                offset = (y0 * width + x0) * 3
+                pixels[offset : offset + 3] = bytes(color)
+            if x0 == x1 and y0 == y1:
+                break
+            doubled = 2 * error
+            if doubled >= dy:
+                error += dy
+                x0 += sx
+            if doubled <= dx:
+                error += dx
+                y0 += sy
+
+    depths = vertices[:, 0] + vertices[:, 1] + vertices[:, 2]
+    for index in np.argsort(depths[mesh.faces].mean(axis=1)):
+        face = mesh.faces[index]
+        shade = int(145 + 90 * abs(float(mesh.face_normals[index][2])))
+        color = (35, min(shade, 235), 210)
+        for first, second in ((face[0], face[1]), (face[1], face[2]), (face[2], face[0])):
+            draw_line(points[first], points[second], color)
+
+    raw = b"".join(b"\x00" + bytes(pixels[row * width * 3 : (row + 1) * width * 3]) for row in range(height))
+    png = (
+        b"\x89PNG\r\n\x1a\n"
+        + _png_chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+        + _png_chunk(b"IDAT", zlib.compress(raw, level=9))
+        + _png_chunk(b"IEND", b"")
+    )
+    temporary = _temporary_artifact_path(output)
+    try:
+        temporary.write_bytes(png)
+        os.replace(temporary, output)
+    except Exception:
+        temporary.unlink(missing_ok=True)
+        raise
+    return output
+
+
+def _render_mesh_fallback(source: Path, output: Path, *, timeout: int, mesh_source: Path | None, width: int, height: int) -> Path:
+    if mesh_source is not None:
+        return render_stl_png(mesh_source, output, width=width, height=height)
+    with tempfile.TemporaryDirectory(prefix="neurocad-preview-fallback-") as directory:
+        temporary_mesh = Path(directory) / "preview.stl"
+        compile_scad(source, temporary_mesh, timeout=timeout)
+        return render_stl_png(temporary_mesh, output, width=width, height=height)
 
 
 class CompilerTimeoutError(RuntimeError):
@@ -168,7 +313,17 @@ def compile_scad_verified(
     return completed, verification
 
 
-def render_scad_png(source: Path, output: Path, *, timeout: int = 120, width: int = 960, height: int = 720) -> Path:
+def render_scad_png(
+    source: Path,
+    output: Path,
+    *,
+    timeout: int = 120,
+    width: int = 960,
+    height: int = 720,
+    fallback_mesh: Path | None = None,
+) -> Path:
+    global _NATIVE_RENDER_AVAILABLE
+
     if not isinstance(timeout, int) or isinstance(timeout, bool) or timeout <= 0:
         raise ValueError("OpenSCAD timeout must be a positive integer number of seconds")
     if not source.is_file() or source.stat().st_size == 0:
@@ -180,6 +335,9 @@ def render_scad_png(source: Path, output: Path, *, timeout: int = 120, width: in
         raise RuntimeError("OpenSCAD is required for rendered CAD figures")
     if not 64 <= width <= 4096 or not 64 <= height <= 4096:
         raise ValueError("render dimensions must be between 64 and 4096 pixels")
+    if _NATIVE_RENDER_AVAILABLE is False:
+        return _render_mesh_fallback(source, output, timeout=timeout, mesh_source=fallback_mesh, width=width, height=height)
+    renderer_timeout = min(timeout, 15)
     temporary = _temporary_artifact_path(output)
     try:
         completed = subprocess.run(  # Fixed executable and separate argv entries.  # nosec B603
@@ -195,21 +353,36 @@ def render_scad_png(source: Path, output: Path, *, timeout: int = 120, width: in
             check=False,
             capture_output=True,
             text=True,
-            timeout=timeout,
+            timeout=renderer_timeout,
         )
     except subprocess.TimeoutExpired as exc:
+        _NATIVE_RENDER_AVAILABLE = False
         temporary.unlink(missing_ok=True)
-        raise RuntimeError(f"OpenSCAD image render timed out after {timeout} seconds") from exc
+        try:
+            return _render_mesh_fallback(source, output, timeout=timeout, mesh_source=fallback_mesh, width=width, height=height)
+        except Exception as fallback_exc:  # noqa: BLE001 - preserve both external renderer failures
+            raise RuntimeError(
+                f"OpenSCAD image render timed out after {renderer_timeout} seconds; mesh fallback failed: {fallback_exc}"
+            ) from exc
     except Exception:
         temporary.unlink(missing_ok=True)
         raise
     diagnostics = "\n".join(part.strip() for part in (completed.stdout, completed.stderr) if part.strip())
     if completed.returncode != 0 or "ERROR:" in diagnostics:
+        _NATIVE_RENDER_AVAILABLE = False
         temporary.unlink(missing_ok=True)
-        raise RuntimeError(f"OpenSCAD image render failed with exit code {completed.returncode}: {diagnostics}")
+        try:
+            return _render_mesh_fallback(source, output, timeout=timeout, mesh_source=fallback_mesh, width=width, height=height)
+        except Exception as fallback_exc:
+            raise RuntimeError(
+                f"OpenSCAD image render failed with exit code {completed.returncode}: {diagnostics}; "
+                f"mesh fallback failed: {fallback_exc}"
+            ) from fallback_exc
     if not temporary.exists() or temporary.stat().st_size == 0:
         temporary.unlink(missing_ok=True)
-        raise RuntimeError("OpenSCAD did not create a non-empty PNG render")
+        _NATIVE_RENDER_AVAILABLE = False
+        return _render_mesh_fallback(source, output, timeout=timeout, mesh_source=fallback_mesh, width=width, height=height)
+    _NATIVE_RENDER_AVAILABLE = True
     try:
         os.replace(temporary, output)
     except Exception:
@@ -283,6 +456,10 @@ def verify_stl(
     topology = analyze_triangle_complex(mesh.vertices, mesh.faces)
     if not topology["manifold"]:
         raise RuntimeError("the generated STL has non-manifold vertex links or edges")
+    embedding = analyze_self_intersections(mesh.vertices, mesh.faces)
+    if embedding["self_intersecting"]:
+        examples = embedding["intersection_pairs"][:3]
+        raise RuntimeError(f"the generated STL has non-adjacent self-intersections between face pairs {examples}")
     if not bool(mesh.is_volume):
         raise RuntimeError("the generated STL does not bound a valid volume")
     volume = float(abs(mesh.volume))
@@ -316,4 +493,5 @@ def verify_stl(
         "extent_absolute_errors_mm": extent_errors,
         "volume_mm3": volume,
         "topology": topology,
+        "embedding": embedding,
     }

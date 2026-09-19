@@ -59,4 +59,4 @@ where = ["."]
 include = ["core*"]
 
 [tool.setuptools.package-data]
-core = ["schemas/*.json"]
+core = ["schemas/*.json", "static/*.js", "static/LICENSE"]

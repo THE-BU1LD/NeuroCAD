@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "a96238ba2cc1e32c08aa6fb2b64734425dd1fee9677fa0cea8ee782413a3cecd",
+    "render": "7e402d5f5f0c8212259a87757088bafd7641d072e2fd3dd05500abf5ebcb19dd",
+    "scad": "8cb539bcffdd58a847861b3d2143c45502a0f6f9a44741e06cb52723185ff917",
+    "stl": "d5509a738262e3f3c3d0819dd51a8f112389896f468c67b8f3c542d95d7d0b54"
+  },
+  "expected_extents_mm": [
+    90.0,
+    55.0,
+    6.0
+  ],
+  "family": "plate",
+  "ir": "generated/kernel/026_plate/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      90.0,
+      55.0,
+      6.0
+    ],
+    "faces": 12,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        0,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        7,
+        11
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 18,
+          "euler_characteristic": 2,
+          "faces": 12,
+          "genus": 0,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 8
+        }
+      ],
+      "edges": 18,
+      "euler_characteristic": 2,
+      "faces": 12,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 8
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 8,
+    "volume_mm3": 29700.0,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 90 x 55 x 6 mm plate",
+  "render": "figures/kernel_examples/026_plate.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 1.2989628330005871,
+  "scad": "generated/kernel/026_plate/program.scad",
+  "stl": "generated/kernel/026_plate/program.stl",
+  "task_id": "NCR-0022"
+}

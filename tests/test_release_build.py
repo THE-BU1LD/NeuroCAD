@@ -27,6 +27,11 @@ def test_sdist_retains_pre_outcome_manuscript_source() -> None:
     assert r"RESULTS\_BLOCKED\_PRE\_OUTCOME" in manuscript.read_text(encoding="utf-8")
 
 
+def test_sdist_excludes_local_cross_repository_audits() -> None:
+    manifest = (Path(__file__).resolve().parents[1] / "MANIFEST.in").read_text(encoding="utf-8")
+    assert "prune audits/all-repos-*" in manifest
+
+
 def _source_archive(path: Path, *, mtime: int, unsafe: bool = False) -> None:
     with tarfile.open(path, "w:gz") as archive:
         root = tarfile.TarInfo("../escape" if unsafe else "example-1.0")

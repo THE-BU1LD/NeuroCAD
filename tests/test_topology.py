@@ -9,6 +9,7 @@ import pytest
 import trimesh
 
 from core.artifacts import verify_stl
+from core.mesh_geometry import analyze_self_intersections
 from core.topology import analyze_triangle_complex
 
 
@@ -58,6 +59,39 @@ def test_sphere_and_torus_have_different_homology() -> None:
     assert report["components"][0]["genus"] == 1
     assert report["components"][0]["orientable"] is True
     assert report["closed"] and report["manifold"]
+
+
+def test_nonadjacent_triangle_self_intersections_are_detected() -> None:
+    vertices = [
+        [0, 0, 0], [2, 0, 0], [0, 2, 0],
+        [0.5, -0.5, -1], [0.5, 1.5, 1], [0.5, 1.5, -1],
+    ]
+    report = analyze_self_intersections(vertices, [[0, 1, 2], [3, 4, 5]])
+    assert report["self_intersecting"] is True
+    assert report["intersection_pairs"] == [[0, 1]]
+
+
+def test_coplanar_overlap_is_detected_but_index_adjacent_faces_are_excluded() -> None:
+    overlapping = analyze_self_intersections(
+        [[0, 0, 0], [2, 0, 0], [0, 2, 0], [0.25, 0.25, 0], [1, 0.25, 0], [0.25, 1, 0]],
+        [[0, 1, 2], [3, 4, 5]],
+    )
+    assert overlapping["self_intersecting"] is True
+    square = analyze_self_intersections(
+        [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]],
+        [[0, 1, 2], [0, 2, 3]],
+    )
+    assert square["self_intersecting"] is False
+
+
+def test_self_intersection_search_budget_fails_closed() -> None:
+    vertices = [
+        [0, 0, 0], [2, 0, 0], [0, 2, 0],
+        [0, 0, 0], [2, 0, 0], [0, 2, 0],
+        [0, 0, 0], [2, 0, 0], [0, 2, 0],
+    ]
+    with pytest.raises(ValueError, match="broad phase exceeds"):
+        analyze_self_intersections(vertices, [[0, 1, 2], [3, 4, 5], [6, 7, 8]], max_candidate_pairs=1)
 
 
 def test_disk_boundary_and_mobius_nonorientability() -> None:

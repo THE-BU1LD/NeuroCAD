@@ -1,0 +1,86 @@
+{
+  "artifact_sha256": {
+    "ir": "197ae37896a1c4293b0a4821cb7b22092a010d03c504f92c848590375304fe3b",
+    "render": "4d66484b039b47b1a4f1d75da6c29eff3f1f82290c9d6d12d5b8ee5d92d9e006",
+    "scad": "86255485da686a23a4a179436acedfb6849436e12c7ce54795b641eaa5e5bd13",
+    "stl": "5426929ab3d2e4204667e80c6c8a640e15372c821f18a7f01ffe0730ff77c4fe"
+  },
+  "expected_extents_mm": [
+    140.0,
+    130.0,
+    5.0
+  ],
+  "family": "holes",
+  "ir": "generated/kernel/144_holes/program.ncad.json",
+  "mesh": {
+    "body_count": 1,
+    "extent_absolute_errors_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extents_mm": [
+      140.0,
+      130.0,
+      5.0
+    ],
+    "faces": 600,
+    "finite_vertices": true,
+    "is_volume": true,
+    "kernel_validity": true,
+    "topology": {
+      "betti_numbers": [
+        1,
+        6,
+        1
+      ],
+      "boundary_edges": 0,
+      "boundary_ranks": [
+        295,
+        599
+      ],
+      "closed": true,
+      "coefficient_field": "F2",
+      "components": [
+        {
+          "boundary_loops": 0,
+          "crosscap_number": null,
+          "edges": 900,
+          "euler_characteristic": -4,
+          "faces": 600,
+          "genus": 3,
+          "manifold": true,
+          "orientable": true,
+          "vertices": 296
+        }
+      ],
+      "edges": 900,
+      "euler_characteristic": -4,
+      "faces": 600,
+      "limitations": [
+        "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+        "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+      ],
+      "manifold": true,
+      "nonmanifold_edges": 0,
+      "nonmanifold_vertex_examples": [],
+      "nonmanifold_vertices": 0,
+      "schema_version": "neurocad-topology-v1",
+      "vertices": 296
+    },
+    "verification_kind": "kernel_mesh",
+    "vertices": 296,
+    "volume_mm3": 90248.17154933799,
+    "watertight": true,
+    "winding_consistent": true
+  },
+  "passed": true,
+  "prompt": "a 140 x 130 x 5 mm plate with three 8 mm holes",
+  "render": "figures/kernel_examples/144_holes.png",
+  "render_backend": "openscad-native",
+  "resumed_verified_artifact": false,
+  "runtime_seconds": 3.212710374999915,
+  "scad": "generated/kernel/144_holes/program.scad",
+  "stl": "generated/kernel/144_holes/program.stl",
+  "task_id": "NCR-0142"
+}

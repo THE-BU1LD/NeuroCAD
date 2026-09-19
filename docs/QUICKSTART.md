@@ -30,7 +30,21 @@ python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install .
 neurocad doctor
+neurocad "a 120 x 80 x 4 mm plate with four 4 mm holes"
 ```
+
+Conversational phrasing is accepted when dimensions remain explicit:
+
+```bash
+neurocad "Please make me a mounting plate that is 120 mm wide, 80 mm deep, and 4 mm thick, with four holes that are 4 mm in diameter."
+```
+
+Qualitative words do not change geometry or certify performance; NeuroCAD reports
+them as warnings while compiling only the explicit dimensional contract.
+
+The first prompt creates safe user configuration automatically and starts the
+daemon. Use `neurocad setup` when you want the persistent launchd/user-systemd
+service installed as well.
 
 Alternatively, from this checkout, install a persistent user-owned command:
 
@@ -39,7 +53,10 @@ NEUROCAD_PACKAGE="$PWD" sh ./install.sh
 ```
 
 The installer prints PATH instructions, stages a new virtual environment, checks
-the version, dependencies and generation, then replaces only owned launchers.
+the version, dependencies and generation, replaces only owned launchers, and
+runs `neurocad setup`. Setup writes a strict user config and installs/starts a
+launchd service on macOS or user-systemd service on Linux. Use
+`NEUROCAD_SKIP_SETUP=1` to defer that last step.
 Failure before publication preserves the previous command. Old environments remain
 under `~/.local/share/neurocad/releases/` (the original layout may use `venv/`).
 Rollback is selecting an existing prior environment's `bin/neurocad` directly;
@@ -59,13 +76,70 @@ py -3 -m venv .venv
 ## First usable outputs
 
 ```bash
-neurocad create "a 120 x 80 x 4 mm plate with four 4 mm holes" -o plate.scad --manifest plate.json
+neurocad "a 120 x 80 x 4 mm plate with four 4 mm holes"
+neurocad jobs list
+neurocad jobs wait JOB_ID
+neurocad jobs retry JOB_ID
 neurocad ir "a 120 x 80 x 4 mm plate with four 4 mm holes" -o plate.ncad.json
 neurocad compile plate.ncad.json --format scad -o edited.scad
 neurocad demo
 ```
 
+The first command waits for a durable daemon job and prints its atomic artifact
+directory. Submit with `--no-wait` to return immediately, inspect it with
+`neurocad jobs show JOB_ID`, and use `neurocad daemon status|logs|restart` for
+operations. If OpenSCAD is absent, request source-only output with
+`--format scad`. The default, `--format auto`, falls back to IR plus SCAD when
+OpenSCAD is unavailable. Human-readable output is the default; use `--json` for automation.
+`neurocad --help` lists the maintained specialist commands.
+
 The demo opens a loopback-only workbench. It is not an authenticated cloud portal.
+
+### Inspect enclosure language before generating
+
+```bash
+neurocad nlp \
+  "Design an enclosure 10 x 7 x 3 cm with walls 2 mm and an FDM standard profile and an open top"
+```
+
+The terminal view lists every recognized source span, unresolved question,
+unsupported clause, and disclosed deterministic assumption before showing the
+resolved millimetre specification. Sentence punctuation, newlines, semicolons,
+and recognized `with`/`and` requirement chains are accepted. Dimension groups
+may use millimetres, centimetres, or inches; the audited specification always
+stores millimetres. Use `--json` for the complete machine-readable interpretation
+and `--project-output PATH` to publish a project only when the result is complete.
+Unknown qualitative or certification language remains rejected with a bounded
+recovery suggestion.
+
+### Run engineering math
+
+```bash
+neurocad math tolerance docs/examples/tolerance-quadratic.json
+neurocad math beam --force 10 --length 50 --width 10 --thickness 4 \
+  --modulus 2200 --yield-strength 45
+```
+
+The `math` namespace prints compact terminal analyses; add `--json` for automation.
+The existing `neurocad tolerance` command remains machine-readable by default.
+Tolerance requests can set `target_success_probability` and
+`require_nonnegative_worst_case`; reports expose the statistical margin and each
+linear term's correlated variance attribution. Beam results remain bounded
+Euler-Bernoulli estimates, not FEA or safety certification.
+
+### Profile the compiler pipeline
+
+```bash
+neurocad profile "a 120 x 80 x 4 mm plate with four 4 mm holes" \
+  --warmups 3 --iterations 20 --fn 64 -o performance.json
+```
+
+The versioned JSON records raw and summarized timings for prompt parsing and
+generation, design validation, canonical IR lowering and validation, and
+OpenSCAD source emission. It also records workload counts, runtime identity,
+peak traced Python memory, warmups, and a stated confidence-interval method.
+The command verifies deterministic output across every warmup and measured
+iteration. It does not measure daemon, filesystem, or OpenSCAD-kernel latency.
 
 ### Save, reopen, and export from the workbench
 
@@ -99,7 +173,7 @@ Editing invalidates
 output and cancels obsolete browser requests; it does not promise cancellation
 of a kernel process already running. Ctrl/Command + Enter validates the input.
 The default compile deadline is 30 seconds per part. For heavier designs, you can
-explicitly select 60 or 120 seconds; the single-compiler lock and all geometry,
+explicitly select 60, 120, or 240 seconds; the single-compiler lock and all geometry,
 input, output-size and verification limits remain enforced. The browser allows
 twice the selected budget plus 30 seconds for an enclosure's body and lid (90
 seconds by default). Validation/edit/file-open requests retain a 90-second limit.

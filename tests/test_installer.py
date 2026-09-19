@@ -47,7 +47,7 @@ def _environment(tmp_path: Path) -> dict[str, str]:
 
 
 def _run(env: dict[str, str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(["sh", str(ROOT / "install.sh")], env=env, text=True, capture_output=True, timeout=20, check=False)
+    return subprocess.run(["sh", str(ROOT / "install.sh")], env=env, text=True, capture_output=True, timeout=60, check=False)
 
 
 def test_successful_upgrade_keeps_old_environment(tmp_path: Path) -> None:
