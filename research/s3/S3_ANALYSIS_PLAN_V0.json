@@ -1,0 +1,42 @@
+{
+  "schema_version": "neurocad.s3.analysis-plan.v0",
+  "status": "FROZEN_PREOUTCOME",
+  "outcomes_observed": false,
+  "historical_typed_parser_claim": "FALSIFIED_VALIDATION_DOMINANT_UNCHANGED",
+  "scientific_protocol_sha256": "49c93a2df61a3adcc98eab89f3dcd610e7f6d2f730d1c960b3989c5866f0b320",
+  "paired_unit": "prompt_x_trial_id",
+  "primary_endpoint": "hard_verifiability_rate",
+  "primary_contrast": "full_structured_neurocad_minus_direct_generation",
+  "primary_test": {
+    "name": "exact_mcnemar_two_sided",
+    "alpha": 0.05
+  },
+  "primary_confidence_interval": {
+    "name": "paired_cluster_bootstrap_percentile",
+    "cluster_unit": "prompt",
+    "confidence": 0.95,
+    "replicates": 10000,
+    "bootstrap_seed": 2026090506
+  },
+  "support_gate": "delta_hvr > 0 AND exact two-sided McNemar p < 0.05 AND 95% paired cluster-bootstrap CI excludes 0 in the positive direction",
+  "multiplicity": "H1 is the only confirmatory primary endpoint; H2/H3, ablations, strata, and secondary metrics are secondary/exploratory and cannot rescue failed H1.",
+  "failure_policy": {
+    "compile_failure_hvr": false,
+    "verifier_failure_hvr": false,
+    "timeout_hvr": false,
+    "retry_exhaustion_hvr": false,
+    "missing_final_artifact_hvr": false,
+    "retain_raw_failed_trials": true,
+    "distinguish_infrastructure_from_scientific_failure": true
+  },
+  "falsifiers": [
+    "F1_PRIMARY_NO_HVR_GAIN",
+    "F2_BUDGET_OR_FEEDBACK_ASYMMETRY",
+    "F3_SEMANTIC_DEGRADATION",
+    "F4_NO_EXTERNAL_OR_OOD_GAIN",
+    "F5_VERIFIER_DIFFERENTIAL_BIAS",
+    "F6_MECHANISM_ABLATION_FAILURE"
+  ],
+  "no_post_outcome_changes": true,
+  "analysis_plan_sha256": "9f5822c8a277e2cca0652554d61d81f5fb8aa76875da44e3a17dc044f83f184f"
+}

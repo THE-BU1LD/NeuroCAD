@@ -1,0 +1,212 @@
+{
+  "schema_version": "neurocad.s3.scientific-protocol.v0",
+  "status": "FROZEN_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "outcomes_observed": false,
+  "historical_typed_parser_claim": "FALSIFIED_VALIDATION_DOMINANT_UNCHANGED",
+  "scope": {
+    "study": "NeuroCAD S3 successor",
+    "purpose": "Test a new structured CAD-generation successor without rescuing or reinterpreting the historical typed-parser mechanism.",
+    "selection_dependency": "A checksummed final S3 selection freeze must exist before outcome access.",
+    "model_identity_dependency": "Exact provider, model, revision, runtime, decoding, and cost identities must be frozen separately before authorization.",
+    "baseline_identity_dependency": "Four matched baseline families and a common validation policy must be frozen separately before authorization."
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "role": "primary",
+      "claim": "Under matched provider/model, decoding budget, retry budget, task inputs, and a shared independent final verifier, the full structured NeuroCAD arm has higher hard verifiability rate than matched direct generation.",
+      "support_gate": "structured_minus_direct_hvr > 0 AND the two-sided exact McNemar p-value < 0.05 AND the 95% paired cluster-bootstrap confidence interval for structured_minus_direct_hvr excludes 0 in the positive direction."
+    },
+    {
+      "id": "H2",
+      "role": "secondary_generalization",
+      "claim": "Any H1 hard-verifiability advantage remains positive on the predeclared external/compositional/OOD evaluation stratum.",
+      "support_gate": "external_compositional_ood_structured_minus_direct_hvr > 0; otherwise no generalization claim is supported."
+    },
+    {
+      "id": "H3",
+      "role": "secondary_mechanism",
+      "claim": "Any H1 advantage is attributable to the full structured intervention rather than only to shared validation feedback or a single removable component.",
+      "support_gate": "The full structured arm must outperform both the no-schema and no-internal-validation ablations on hard verifiability; otherwise the corresponding mechanism interpretation is unsupported."
+    }
+  ],
+  "arms": {
+    "primary": [
+      {
+        "id": "direct_generation",
+        "description": "Matched model generates OpenSCAD directly."
+      },
+      {
+        "id": "full_structured_neurocad",
+        "description": "Matched model generates the frozen structured CAD specification; NeuroCAD validates and deterministically compiles it to OpenSCAD."
+      }
+    ],
+    "mechanism_ablations": [
+      {
+        "id": "no_schema_compiler_retained",
+        "description": "Remove schema constraint while retaining the deterministic compiler path.",
+        "same_provider_model": true,
+        "same_decoding_budget": true,
+        "same_retry_budget": true,
+        "shared_independent_final_verifier": true,
+        "outcome_access_allowed": false
+      },
+      {
+        "id": "typed_intermediate_no_internal_validation",
+        "description": "Retain the typed intermediate representation while removing NeuroCAD internal validation before compilation.",
+        "same_provider_model": true,
+        "same_decoding_budget": true,
+        "same_retry_budget": true,
+        "shared_independent_final_verifier": true,
+        "outcome_access_allowed": false
+      },
+      {
+        "id": "full_structured_no_model_facing_feedback",
+        "description": "Retain the full structured compiler/validator path but expose no verifier or validation feedback to the model between attempts.",
+        "same_provider_model": true,
+        "same_decoding_budget": true,
+        "same_retry_budget": true,
+        "shared_independent_final_verifier": true,
+        "outcome_access_allowed": false
+      },
+      {
+        "id": "direct_generation_equal_verifier_feedback",
+        "description": "Direct generation receives information-matched verifier/compiler feedback under the same attempt limit.",
+        "same_provider_model": true,
+        "same_decoding_budget": true,
+        "same_retry_budget": true,
+        "shared_independent_final_verifier": true,
+        "outcome_access_allowed": false
+      }
+    ]
+  },
+  "metrics": {
+    "primary": {
+      "id": "hard_verifiability_rate",
+      "unit": "binary_per_prompt_trial",
+      "higher_is_better": true,
+      "success_requires": [
+        "final artifact compiles or validates",
+        "all predeclared machine-checkable hard constraints pass under the shared independent verifier",
+        "no repair outside the frozen retry policy is used"
+      ]
+    },
+    "secondary": [
+      "compile_success_rate",
+      "hard_constraint_satisfaction_rate",
+      "blinded_semantic_task_satisfaction_rate",
+      "invalid_underspecified_response_policy_correctness_rate",
+      "retry_count",
+      "generated_tokens",
+      "wall_clock_seconds",
+      "estimated_cost_usd"
+    ],
+    "stratified_reporting": [
+      "taxonomy_class",
+      "source_benchmark",
+      "evaluation_stratum"
+    ],
+    "secondary_claim_policy": "Secondary endpoints are descriptive/exploratory and cannot rescue a failed H1 primary endpoint."
+  },
+  "trials": {
+    "predeclared_trial_ids": [
+      2026090501,
+      2026090502,
+      2026090503,
+      2026090504,
+      2026090505
+    ],
+    "count_per_prompt_arm": 5,
+    "provider_seed_policy": "If the frozen provider exposes deterministic seeds, use these exact integers as provider seeds. If it does not, preserve them as trial IDs, record that provider seeding is unsupported, and do not claim seed-level determinism.",
+    "drop_or_replace_after_outcome_access": false
+  },
+  "uncertainty_and_tests": {
+    "paired_unit": "prompt_x_trial_id",
+    "within_prompt_repeats": "all five predeclared trial IDs",
+    "primary_test": {
+      "name": "exact_mcnemar_two_sided",
+      "alpha": 0.05
+    },
+    "primary_confidence_interval": {
+      "name": "paired_cluster_bootstrap_percentile",
+      "cluster_unit": "prompt",
+      "confidence": 0.95,
+      "replicates": 10000,
+      "bootstrap_seed": 2026090506
+    },
+    "multiplicity": "H1 is the sole confirmatory primary endpoint. H2, H3, ablations, stratified analyses, and secondary metrics are reported as secondary/exploratory and do not override H1."
+  },
+  "failure_policy": {
+    "compile_failure_hvr": false,
+    "verifier_failure_hvr": false,
+    "timeout_hvr": false,
+    "retry_exhaustion_hvr": false,
+    "missing_final_artifact_hvr": false,
+    "retain_raw_failed_trials": true,
+    "distinguish_infrastructure_from_scientific_failure": true
+  },
+  "error_taxonomy": [
+    "syntax_compile_failure",
+    "unsupported_operation",
+    "missing_required_object",
+    "wrong_dimension_or_unit",
+    "spatial_relation_violation",
+    "forbidden_disconnected_or_intersecting_geometry",
+    "semantic_misinterpretation",
+    "verifier_ambiguity_or_error",
+    "timeout_or_retry_exhaustion",
+    "infrastructure_failure"
+  ],
+  "falsifiers": [
+    {
+      "id": "F1_PRIMARY_NO_HVR_GAIN",
+      "condition": "H1 support gate is not met.",
+      "effect": "No positive structured-over-direct HVR claim is supported for the tested setting."
+    },
+    {
+      "id": "F2_BUDGET_OR_FEEDBACK_ASYMMETRY",
+      "condition": "Provider/model identity, decoding budget, retry budget, or treatment-matched feedback policy differs across compared arms outside the predeclared treatment.",
+      "effect": "The affected comparison is invalid for causal or superiority interpretation and cannot be used as positive evidence."
+    },
+    {
+      "id": "F3_SEMANTIC_DEGRADATION",
+      "condition": "Full structured blinded semantic task satisfaction is more than 0.05 absolute below matched direct generation.",
+      "effect": "No broad superiority claim is supported even if HVR improves."
+    },
+    {
+      "id": "F4_NO_EXTERNAL_OR_OOD_GAIN",
+      "condition": "The structured-minus-direct HVR delta on the external/compositional/OOD stratum is <= 0.",
+      "effect": "No external/compositional/OOD generalization claim is supported."
+    },
+    {
+      "id": "F5_VERIFIER_DIFFERENTIAL_BIAS",
+      "condition": "The shared verifier is shown to treat equivalent direct and structured final artifacts differently, or arm identity leaks into final verification.",
+      "effect": "The affected HVR comparison is invalid; no post-outcome rescue is allowed."
+    },
+    {
+      "id": "F6_MECHANISM_ABLATION_FAILURE",
+      "condition": "The full structured arm fails to outperform either no_schema_compiler_retained or typed_intermediate_no_internal_validation on HVR.",
+      "effect": "H3 mechanism interpretation is unsupported; this does not alter the already-falsified historical typed-parser claim."
+    }
+  ],
+  "reporting_rules": {
+    "retain_every_raw_response_and_failed_attempt": true,
+    "retain_final_artifact_hashes": true,
+    "retain_verifier_identity_and_logs": true,
+    "report_effect_sizes_and_uncertainty": true,
+    "report_negative_mixed_inconclusive_results_unchanged": true,
+    "no_post_outcome_threshold_seed_metric_or_arm_changes": true,
+    "no_result_rescue": true
+  },
+  "authorization_dependencies": [
+    "final_selection_sha256",
+    "exact_neurocad_provider_model_revision_runtime_identity",
+    "four_matched_baseline_family_identities_and_common_validation_policy",
+    "prompt_and_schema_hashes",
+    "shared_verifier_hash_and_environment_identity",
+    "decoding_retry_budget_and_cost_ceiling",
+    "this_scientific_protocol_sha256"
+  ],
+  "protocol_sha256": "49c93a2df61a3adcc98eab89f3dcd610e7f6d2f730d1c960b3989c5866f0b320"
+}

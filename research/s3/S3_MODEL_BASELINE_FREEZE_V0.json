@@ -1,0 +1,69 @@
+{
+  "schema_version": "neurocad.s3.model-baseline-freeze.v0",
+  "status": "FROZEN_PREOUTCOME",
+  "outcomes_observed": false,
+  "historical_typed_parser_claim": "FALSIFIED_VALIDATION_DOMINANT_UNCHANGED",
+  "frozen_on": "2026-09-08",
+  "selection_rationale": "Use a dated OpenAI snapshot so all treatment arms are reproducible and exactly provider/model matched. The study estimates a within-model structured-generation treatment effect; it does not claim frontier-model performance.",
+  "evaluated_model": {
+    "provider": "OpenAI API",
+    "model": "gpt-5.4",
+    "revision": "gpt-5.4-2026-03-05",
+    "runtime": "OpenAI Responses API v1"
+  },
+  "provider_configuration": {
+    "endpoint": "v1/responses",
+    "reasoning_effort": "none",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 4096,
+    "tools_enabled": false,
+    "external_retrieval_enabled": false,
+    "max_attempts_per_prompt_arm_trial": 2
+  },
+  "baseline_families": [
+    {
+      "id": "no_schema_compiler_retained",
+      "role": "mechanism_control",
+      "matched_provider_model": true
+    },
+    {
+      "id": "typed_intermediate_no_internal_validation",
+      "role": "mechanism_control",
+      "matched_provider_model": true
+    },
+    {
+      "id": "full_structured_no_model_facing_feedback",
+      "role": "feedback_control",
+      "matched_provider_model": true
+    },
+    {
+      "id": "direct_generation_equal_verifier_feedback",
+      "role": "feedback_matched_direct_control",
+      "matched_provider_model": true
+    }
+  ],
+  "primary_arms": [
+    "direct_generation",
+    "full_structured_neurocad"
+  ],
+  "arm_count": 6,
+  "trial_ids": [
+    2026090501,
+    2026090502,
+    2026090503,
+    2026090504,
+    2026090505
+  ],
+  "common_validation_policy_sha256": "219dc02e4bb7cddd89ec0fc354b705e406d22698e4724fca51636241ea0cae00",
+  "budget": {
+    "same_budget_all_arms": true,
+    "maximum_call_formula": "selected_prompt_count * 6 arms * 5 trials * 2 attempts",
+    "expected_selected_prompt_count": 120,
+    "maximum_call_ceiling_if_120_selected": 7200,
+    "cost_cap_usd": 1500.0,
+    "hard_stop_before_cap": true
+  },
+  "model_freshness_boundary": "This exact snapshot is selected for reproducibility. Results may not be generalized to newer OpenAI models without a separately frozen replication.",
+  "freeze_sha256": "c061313687bd3a62ad13283a8a702c6794199772e56e28fa0905574aa40d7bc7"
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "neurocad.s3.external-materialization-freeze.v1",
+  "status": "FROZEN_PROMPT_ONLY_NOT_EVALUATED",
+  "execution_authorized": false,
+  "outcomes_observed": false,
+  "private_ground_truth_accessed": false,
+  "materializer": {
+    "path": "research/s3/materialize_external_inputs.py",
+    "git_blob_sha": "1428bffc664aaf3612237aa6288155421e1487c6",
+    "external_adapter_path": "research/s3/external_adapters.py",
+    "external_adapter_git_blob_sha": "b984137e5852be15701e9bf9843085beb12bb06b",
+    "first_verified_source_commit": "df9978642c8eaef775bfb8d51ad9fdc2004ce765",
+    "first_verified_workflow_run": 33924318670
+  },
+  "materialization_receipt_sha256": "c98d7d54e7ce8f0f7402dc0da465c59a539f6793fa48def04fe209c7d9b2cb8d",
+  "sources": {
+    "cadtestbench": {
+      "dataset_repository": "dimitrismallis/CADTestBench",
+      "dataset_revision": "2b9a4a972d142d2bc634d072e9d4485f171ced06",
+      "dataset_license": "MIT",
+      "prompt_only_records": 400,
+      "prompt_only_sha256": "e8cfa811910d5f6f662f26ef25739bb86025d185268684808def6ac32ba280f9",
+      "adapted_records": 400,
+      "adapted_sha256": "52695caa814b6b0b5fca4c645ee6d047651bb099a55722c2099a5bd65a724877",
+      "source_artifacts": [
+        {
+          "path": "samples/abstract.parquet",
+          "sha256": "67a5779bc5114ce4db6bc9be89bf22c25e707bc83e7431214cddfac23f980536",
+          "size_bytes": 17545
+        },
+        {
+          "path": "samples/detailed.parquet",
+          "sha256": "76b2d20def7946e1e3216b72a8acb83825c489c373b23ac514b77885ae275b37",
+          "size_bytes": 33726
+        }
+      ]
+    },
+    "cadgenbench": {
+      "dataset_repository": "HuggingAI4Engineering/cadgenbench-data",
+      "dataset_revision": "569ea565cef25ee690e39bf89941f940027633d6",
+      "dataset_license": "ODC-By-1.0",
+      "download_scope": [
+        "*/description.yaml",
+        "*/edit_description.txt"
+      ],
+      "prompt_only_records": 81,
+      "prompt_only_sha256": "224c857319d9d45ed74f75eeca537001e05decc44e0cc9143256141a000d756d",
+      "adapted_records": 81,
+      "adapted_sha256": "545dcea1e193d713a94ab26d462d25e1c0bebf1d60dfaf66fe2ce992a8d097ec",
+      "public_input_ledger_records": 81,
+      "public_input_ledger_sha256": "f02eb5005191d6335f92994e4113382d39e79bb69e2b5dbd07c12b626cf391d0",
+      "private_ground_truth_repository_accessed": false
+    }
+  },
+  "selection_review": {
+    "taxonomy_mapping_status": "NON_MODEL_REVIEW_REQUIRED",
+    "semantic_deduplication_status": "NON_MODEL_REVIEW_REQUIRED",
+    "final_selection_sha256": null
+  }
+}
