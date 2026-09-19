@@ -107,9 +107,11 @@ def generate_design(prompt: str) -> DesignGraph:
 
     design = _generate_design(prompt)
     metadata = design.metadata
-    if metadata.get("prompt_fully_consumed") is True:
-        return design
 
+    # Evaluate narrow compatibility markers even when the base parser has
+    # learned to fully consume the same syntax.  These markers are part of the
+    # public prompt-contract provenance and must not disappear as the base
+    # grammar expands.
     text = str(metadata.get("normalized_prompt", ""))
     extension: str | None = None
     if _matches_three_modifier_plate(text) and _plate_parse_is_explicit(design):
