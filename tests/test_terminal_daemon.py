@@ -440,6 +440,9 @@ def test_user_service_uninstall_removes_only_owned_definition(system: str, runti
     monkeypatch.setattr("core.service.platform.system", lambda: system)
     monkeypatch.setattr("core.service.subprocess.run", lambda *args, **kwargs: Completed())
     if system == "Darwin":
+        # This test simulates launchd semantics even on Windows CI, where
+        # os.getuid is intentionally absent.
+        monkeypatch.setattr(os, "getuid", lambda: 501, raising=False)
         service_root = runtime_root / "launch-agents"
         monkeypatch.setenv("NEUROCAD_LAUNCH_AGENTS_DIR", str(service_root))
         definition = service_root / f"{SERVICE_LABEL}.plist"
