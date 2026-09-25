@@ -10,7 +10,7 @@ import importlib.util
 import sys
 from dataclasses import dataclass
 from importlib import metadata
-from typing import Callable
+from collections.abc import Callable
 
 EXACT_BACKEND_API_VERSION = "neurocad-exact-backend-v1"
 
