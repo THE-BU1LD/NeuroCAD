@@ -4,8 +4,11 @@ from core.requirement_ir import (
     Requirement,
     RequirementBinding,
     RequirementIR,
+    RequirementIRParseError,
     RequirementValue,
+    parse_requirement_ir_json,
     requirement_coverage,
+    serialize_requirement_ir_json,
     validate_requirement_ir,
 )
 
@@ -178,3 +181,55 @@ def test_requirement_coverage_rejects_unknown_feature_and_method_drift() -> None
     )
     assert not report.complete_for_must
     assert any(issue.code == "verification_mismatch" for issue in report.invalid_bindings)
+
+
+def test_requirement_ir_json_roundtrip_is_deterministic() -> None:
+    document = RequirementIR(
+        source=SOURCE,
+        requirements=(
+            _req(
+                "width",
+                "80 mm wide",
+                kind="dimension",
+                target="plate.width",
+                verification="exact_dimension",
+                value=RequirementValue(80.0, "mm", tolerance=0.01),
+            ),
+        ),
+        metadata={"domain": "mechanical"},
+    )
+    encoded = serialize_requirement_ir_json(document)
+    decoded = parse_requirement_ir_json(encoded)
+    assert decoded == document
+    assert serialize_requirement_ir_json(decoded) == encoded
+
+
+def test_requirement_ir_json_fails_closed_on_unknown_keys() -> None:
+    document = RequirementIR(
+        source=SOURCE,
+        requirements=(
+            _req(
+                "width",
+                "80 mm wide",
+                kind="dimension",
+                target="plate.width",
+                verification="exact_dimension",
+                value=RequirementValue(80.0, "mm"),
+            ),
+        ),
+    )
+    encoded = serialize_requirement_ir_json(document)
+    mutated = encoded.replace('"metadata": {', '"unexpected": true,\n  "metadata": {', 1)
+    try:
+        parse_requirement_ir_json(mutated)
+    except RequirementIRParseError as exc:
+        assert "unsupported keys" in str(exc)
+    else:
+        raise AssertionError("unknown Requirement IR keys must fail closed")
+
+
+def test_requirement_ir_rejects_nonfinite_metadata() -> None:
+    document = RequirementIR(source=SOURCE, requirements=(), metadata={"score": float("nan")})
+    report = validate_requirement_ir(document)
+    assert not report.structurally_valid
+    assert any(issue.code == "invalid_metadata" for issue in report.errors)
