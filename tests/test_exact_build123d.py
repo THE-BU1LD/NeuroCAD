@@ -7,7 +7,7 @@ import pytest
 pytest.importorskip("build123d")
 
 from core.exact_build123d import Build123dBackend, Build123dCompileError
-from core.feature_ir import EntitySelector, Feature, FeatureProgram
+from core.feature_ir import DesignParameter, EntitySelector, Feature, FeatureProgram
 
 
 def _program(*features: Feature, output: str) -> FeatureProgram:
@@ -188,3 +188,29 @@ def test_feature_build_cli_writes_verified_step_bundle(tmp_path, capsys) -> None
     assert payload["roundtrip_inspection"]["valid_brep"] is True
     assert (output / "design.step").is_file()
     assert (output / "build-receipt.json").is_file()
+
+
+def test_build123d_named_parameter_edit_changes_exact_geometry() -> None:
+    feature = Feature(
+        id="body",
+        kind="primitive_box",
+        parameters={"size": [{"parameter": "width"}, 12.0, 4.0]},
+    )
+    small = FeatureProgram(
+        title="small",
+        parameters=(DesignParameter("width", 18.0, lower=10.0, upper=50.0),),
+        features=(feature,),
+        outputs=("body",),
+    )
+    large = FeatureProgram(
+        title="large",
+        parameters=(DesignParameter("width", 27.0, lower=10.0, upper=50.0),),
+        features=(feature,),
+        outputs=("body",),
+    )
+    backend = Build123dBackend()
+    small_receipt = backend.build_receipt(small)
+    large_receipt = backend.build_receipt(large)
+    assert small_receipt.inspection.extents_mm == pytest.approx((18.0, 12.0, 4.0), abs=1e-8)
+    assert large_receipt.inspection.extents_mm == pytest.approx((27.0, 12.0, 4.0), abs=1e-8)
+    assert large_receipt.inspection.volume_mm3 / small_receipt.inspection.volume_mm3 == pytest.approx(1.5)
