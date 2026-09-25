@@ -1772,6 +1772,61 @@ def cmd_integrations_kicad_apply(args: argparse.Namespace) -> int:
     return 0
 
 
+
+def _read_feature_program(path_value: str):
+    from core.feature_ir import MAX_JSON_BYTES, parse_feature_ir_json
+
+    source = _resolved_path(path_value)
+    text = read_bounded_utf8(source, max_bytes=MAX_JSON_BYTES, label="feature IR")
+    return parse_feature_ir_json(text)
+
+
+def cmd_feature_validate(args: argparse.Namespace) -> int:
+    from core.feature_ir import validate_feature_program
+
+    program = _read_feature_program(args.input)
+    report = validate_feature_program(program)
+    payload = {
+        "valid": report.valid,
+        "version": program.version,
+        "title": program.title,
+        "parameter_count": len(program.parameters),
+        "feature_count": len(program.features),
+        "outputs": list(program.outputs),
+        "validation": report.to_dict(),
+    }
+    print(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))
+    return 0 if report.valid else 2
+
+
+def cmd_feature_backends(args: argparse.Namespace) -> int:
+    from core.exact_backend import discover_exact_backends
+
+    payload = {
+        "api": "neurocad-feature-backends-v1",
+        "backends": [status.to_dict() for status in discover_exact_backends()],
+        "geometry_built": False,
+    }
+    print(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_feature_build(args: argparse.Namespace) -> int:
+    from core.exact_backend import require_exact_backend
+
+    program = _read_feature_program(args.input)
+    output = _resolved_path(args.output_dir)
+    _require_new_path(output, label="exact-CAD output directory")
+    require_exact_backend(args.backend)
+    if args.backend == "build123d":
+        from core.exact_build123d import Build123dBackend
+
+        receipt = Build123dBackend().export_verified_step(program, output)
+    else:
+        raise ValueError(f"backend {args.backend!r} is discovered but does not have a NeuroCAD compiler yet")
+    print(json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
 def cmd_fit_sample(args: argparse.Namespace) -> int:
     from core.fit_sample import cutout_fit_sample
     from core.project import read_project
@@ -2116,6 +2171,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     demo_parser.set_defaults(func=cmd_demo)
 
+    feature_parser = sub.add_parser("feature", help="Validate and build experimental editable exact-CAD feature programs")
+    feature_actions = feature_parser.add_subparsers(dest="feature_action", required=True)
+    feature_validate = feature_actions.add_parser("validate", help="Validate a versioned Feature IR document")
+    feature_validate.add_argument("input", help="Feature IR JSON file")
+    feature_validate.set_defaults(func=cmd_feature_validate)
+    feature_backends = feature_actions.add_parser("backends", help="Report optional exact-CAD backend availability")
+    feature_backends.set_defaults(func=cmd_feature_backends)
+    feature_build = feature_actions.add_parser("build", help="Build and STEP-roundtrip-verify one Feature IR output")
+    feature_build.add_argument("input", help="Feature IR JSON file")
+    feature_build.add_argument("--backend", choices=["build123d"], default="build123d")
+    feature_build.add_argument("--output-dir", required=True, help="New atomic exact-CAD artifact directory")
+    feature_build.set_defaults(func=cmd_feature_build)
+
     enclosure_parser = sub.add_parser("enclosure", help="Create, validate, edit, and build typed enclosure projects")
     enclosure_actions = enclosure_parser.add_subparsers(dest="enclosure_action", required=True)
 
@@ -2268,6 +2336,7 @@ KNOWN_COMMANDS = frozenset(
         "enclosure",
         "evaluate",
         "export",
+        "feature",
         "generate",
         "integrations",
         "ir",
