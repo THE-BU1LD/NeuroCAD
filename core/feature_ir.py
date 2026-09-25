@@ -322,15 +322,28 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
         for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
             if value is not None and not _finite(value):
                 errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
-        if parameter.lower is not None and parameter.upper is not None and _finite(parameter.lower) and _finite(parameter.upper):
-            if float(parameter.lower) > float(parameter.upper):
-                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
-        if _finite(parameter.value) and parameter.lower is not None and _finite(parameter.lower):
-            if float(parameter.value) < float(parameter.lower):
-                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
-        if _finite(parameter.value) and parameter.upper is not None and _finite(parameter.upper):
-            if float(parameter.value) > float(parameter.upper):
-                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+        if (
+            parameter.lower is not None
+            and parameter.upper is not None
+            and _finite(parameter.lower)
+            and _finite(parameter.upper)
+            and float(parameter.lower) > float(parameter.upper)
+        ):
+            errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+        if (
+            _finite(parameter.value)
+            and parameter.lower is not None
+            and _finite(parameter.lower)
+            and float(parameter.value) < float(parameter.lower)
+        ):
+            errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+        if (
+            _finite(parameter.value)
+            and parameter.upper is not None
+            and _finite(parameter.upper)
+            and float(parameter.value) > float(parameter.upper)
+        ):
+            errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
 
     seen: set[str] = set()
     feature_map: dict[str, Feature] = {}
