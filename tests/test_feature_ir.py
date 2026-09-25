@@ -157,3 +157,65 @@ def test_feature_ir_rejects_missing_output() -> None:
     report = validate_feature_program(program)
     assert not report.valid
     assert any(issue.code == "missing_output" for issue in report.errors)
+
+
+def test_feature_ir_resolves_named_design_parameters() -> None:
+    program = FeatureProgram(
+        title="parameterized box",
+        parameters=(
+            DesignParameter("width", 40.0, lower=10.0, upper=100.0),
+            DesignParameter("depth", 30.0, lower=10.0, upper=100.0),
+            DesignParameter("height", 20.0, lower=1.0, upper=100.0),
+        ),
+        features=(
+            Feature(
+                id="body",
+                kind="primitive_box",
+                parameters={
+                    "size": [
+                        {"parameter": "width"},
+                        {"parameter": "depth"},
+                        {"parameter": "height"},
+                    ]
+                },
+            ),
+        ),
+        outputs=("body",),
+    )
+    assert validate_feature_program(program).valid
+
+
+def test_feature_ir_rejects_unknown_named_parameter() -> None:
+    program = FeatureProgram(
+        title="dangling parameter",
+        parameters=(),
+        features=(
+            Feature(
+                id="body",
+                kind="primitive_box",
+                parameters={"size": [{"parameter": "width"}, 30.0, 20.0]},
+            ),
+        ),
+        outputs=("body",),
+    )
+    report = validate_feature_program(program)
+    assert not report.valid
+    assert any(issue.code == "unknown_parameter" for issue in report.errors)
+
+
+def test_feature_ir_rejects_parameter_reference_with_extra_keys() -> None:
+    program = FeatureProgram(
+        title="ambiguous parameter reference",
+        parameters=(DesignParameter("width", 40.0),),
+        features=(
+            Feature(
+                id="body",
+                kind="primitive_box",
+                parameters={"size": [{"parameter": "width", "scale": 2.0}, 30.0, 20.0]},
+            ),
+        ),
+        outputs=("body",),
+    )
+    report = validate_feature_program(program)
+    assert not report.valid
+    assert any(issue.code == "invalid_parameter_reference" for issue in report.errors)
