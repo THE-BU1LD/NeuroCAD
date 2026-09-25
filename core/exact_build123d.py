@@ -358,6 +358,36 @@ class Build123dBackend:
             inspection=self.inspect(shape),
         )
 
+    @staticmethod
+    def _verify_step_roundtrip(
+        original: GeometryInspection,
+        roundtrip: GeometryInspection,
+        *,
+        absolute_tolerance_mm: float = 1e-6,
+        relative_volume_tolerance: float = 1e-9,
+    ) -> None:
+        if not roundtrip.valid_brep:
+            raise Build123dCompileError("STEP re-import produced an invalid B-Rep")
+        if roundtrip.solid_count != original.solid_count:
+            raise Build123dCompileError(
+                f"STEP re-import changed solid count from {original.solid_count} to {roundtrip.solid_count}"
+            )
+        for axis, (expected, actual) in enumerate(zip(original.extents_mm, roundtrip.extents_mm, strict=True)):
+            if not math.isclose(expected, actual, rel_tol=0.0, abs_tol=absolute_tolerance_mm):
+                raise Build123dCompileError(
+                    f"STEP re-import changed extent axis {axis} from {expected:g} mm to {actual:g} mm"
+                )
+        if not math.isclose(
+            original.volume_mm3,
+            roundtrip.volume_mm3,
+            rel_tol=relative_volume_tolerance,
+            abs_tol=absolute_tolerance_mm**3,
+        ):
+            raise Build123dCompileError(
+                f"STEP re-import changed volume from {original.volume_mm3:g} mm^3 "
+                f"to {roundtrip.volume_mm3:g} mm^3"
+            )
+
     def export_verified_step(
         self,
         program: FeatureProgram,
@@ -383,6 +413,7 @@ class Build123dBackend:
                 raise Build123dCompileError("build123d STEP exporter reported failure")
             imported = self.bd.import_step(step_path)
             roundtrip = self.inspect(imported)
+            self._verify_step_roundtrip(inspection, roundtrip)
             receipt = Build123dReceipt(
                 backend="build123d",
                 backend_version=self.version,
