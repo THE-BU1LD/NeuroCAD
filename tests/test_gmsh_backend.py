@@ -5,7 +5,7 @@ import json
 import pytest
 
 pytest.importorskip("gmsh")
-import gmsh  # noqa: E402
+import gmsh
 
 from core.gmsh_backend import GmshBackend
 
