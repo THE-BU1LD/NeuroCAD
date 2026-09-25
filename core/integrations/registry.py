@@ -211,6 +211,33 @@ def _slicer(identifier: str, display_name: str, candidates: tuple[str, ...]) -> 
     )
 
 
+def _gmsh() -> ApplicationAdapter:
+    prerequisite = _module_prerequisite("gmsh_module", "gmsh")
+    state = CapabilityState.AVAILABLE if prerequisite.available else CapabilityState.UNAVAILABLE
+    return ApplicationAdapter(
+        "gmsh",
+        "Gmsh",
+        (
+            Capability(
+                "tagged_volume_mesh",
+                state,
+                ("step", "msh") if prerequisite.available else (),
+                (
+                    "NeuroCAD can import STEP, create named domain/boundary groups, generate a 3-D mesh, "
+                    "and round-trip-verify the MSH artifact"
+                    if prerequisite.available
+                    else "Install the mesh-gmsh optional dependency to enable STEP volume meshing"
+                ),
+            ),
+        ),
+        (prerequisite,),
+        (
+            "Mesh generation is not solver convergence or engineering certification",
+            "The current adapter groups all imported volumes as domain and all surfaces as boundary",
+        ),
+    )
+
+
 FACTORIES: dict[str, Callable[[], ApplicationAdapter]] = {
     "openscad": _openscad,
     "kicad": _kicad,
@@ -222,6 +249,7 @@ FACTORIES: dict[str, Callable[[], ApplicationAdapter]] = {
     "orcaslicer": lambda: _slicer("orcaslicer", "OrcaSlicer", ("orca-slicer", "OrcaSlicer")),
     "bambu_studio": lambda: _slicer("bambu_studio", "Bambu Studio", ("bambu-studio", "BambuStudio")),
     "cura": lambda: _slicer("cura", "UltiMaker Cura", ("cura", "UltiMaker-Cura")),
+    "gmsh": _gmsh,
 }
 
 ALIASES = {
