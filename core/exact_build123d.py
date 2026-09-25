@@ -154,12 +154,15 @@ class Build123dBackend:
                     raise Build123dCompileError(
                         f"sketch {feature.id!r} rectangle {index} requires positive width and height"
                     )
-                item = self.bd.Rectangle(float(width), float(height))
+                width_value = _as_positive_float(width, "rectangle width")
+                height_value = _as_positive_float(height, "rectangle height")
+                item = self.bd.Rectangle(width_value, height_value)
             elif kind == "circle":
                 radius = raw.get("radius")
                 if not _positive(radius):
                     raise Build123dCompileError(f"sketch {feature.id!r} circle {index} requires positive radius")
-                item = self.bd.Circle(float(radius))
+                radius_value = _as_positive_float(radius, "circle radius")
+                item = self.bd.Circle(radius_value)
             else:
                 raise Build123dCompileError(
                     f"sketch {feature.id!r} entity {index} uses unsupported kind {kind!r}"
@@ -196,8 +199,9 @@ class Build123dBackend:
                     axis = predicate.get("axis")
                     if not _vec3(axis):
                         raise Build123dCompileError("parallel_to selector requires a finite 3-vector axis")
+                    axis_values = _as_vec3(axis, "parallel_to axis")
                     candidates = candidates.filter_by(
-                        self.bd.Axis((0.0, 0.0, 0.0), tuple(float(item) for item in axis))
+                        self.bd.Axis((0.0, 0.0, 0.0), axis_values)
                     )
                 else:
                     raise Build123dCompileError(f"unsupported build123d selector predicate {kind!r}")
@@ -219,7 +223,7 @@ class Build123dBackend:
     def _linear_pattern(self, source: Any, feature: Feature) -> Any:
         count = feature.parameters["count"]
         spacing = float(feature.parameters["spacing"])
-        direction = tuple(float(item) for item in feature.parameters["direction"])
+        direction = _as_vec3(feature.parameters["direction"], "linear pattern direction")
         norm = math.sqrt(sum(item * item for item in direction))
         if norm == 0:
             raise Build123dCompileError("linear pattern direction cannot be zero")
@@ -233,8 +237,12 @@ class Build123dBackend:
     def _circular_pattern(self, source: Any, feature: Feature) -> Any:
         count = int(feature.parameters["count"])
         total_angle = float(feature.parameters["angle_deg"])
-        axis = tuple(float(item) for item in feature.parameters["axis"])
-        rounded = tuple(round(item, 12) for item in axis)
+        axis = _as_vec3(feature.parameters["axis"], "circular pattern axis")
+        rounded: tuple[float, float, float] = (
+            round(axis[0], 12),
+            round(axis[1], 12),
+            round(axis[2], 12),
+        )
         allowed = {
             (1.0, 0.0, 0.0): 0,
             (-1.0, 0.0, 0.0): 0,
@@ -308,9 +316,10 @@ class Build123dBackend:
                     axis = feature.parameters.get("axis", [0.0, 1.0, 0.0])
                     if not _vec3(axis):
                         raise Build123dCompileError("revolve axis must be a finite 3-vector")
+                    axis_values = _as_vec3(axis, "revolve axis")
                     produced = self.bd.revolve(
                         profiles=profile,
-                        axis=self.bd.Axis((0.0, 0.0, 0.0), tuple(float(item) for item in axis)),
+                        axis=self.bd.Axis((0.0, 0.0, 0.0), axis_values),
                         revolution_arc=float(feature.parameters["angle_deg"]),
                     )
                 if operation == "new":
@@ -449,6 +458,20 @@ class Build123dBackend:
         except BaseException:
             shutil.rmtree(staging, ignore_errors=True)
             raise
+
+
+def _as_positive_float(value: Any, label: str) -> float:
+    if not _positive(value):
+        raise Build123dCompileError(f"{label} must be a positive finite number")
+    assert isinstance(value, (int, float)) and not isinstance(value, bool)
+    return float(value)
+
+
+def _as_vec3(value: Any, label: str) -> tuple[float, float, float]:
+    if not _vec3(value):
+        raise Build123dCompileError(f"{label} must be a finite 3-vector")
+    assert isinstance(value, (list, tuple))
+    return float(value[0]), float(value[1]), float(value[2])
 
 
 def _positive(value: Any) -> bool:
