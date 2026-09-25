@@ -31,6 +31,13 @@ class GmshMeshingError(ValueError):
 
 
 @dataclass(frozen=True)
+class SurfaceGroupSpec:
+    name: str
+    axis: str
+    side: str
+
+
+@dataclass(frozen=True)
 class GmshMeshReceipt:
     backend: str
     backend_version: str
@@ -91,6 +98,44 @@ def _physical_group_names(gmsh: Any) -> tuple[str, ...]:
     return tuple(sorted(names))
 
 
+def _surface_group_tags(
+    gmsh: Any,
+    volumes: list[tuple[int, int]],
+    surfaces: list[tuple[int, int]],
+    spec: SurfaceGroupSpec,
+) -> list[int]:
+    if not spec.name or len(spec.name) > 128:
+        raise ValueError("surface group name must contain 1 to 128 characters")
+    if spec.axis not in {"x", "y", "z"}:
+        raise ValueError("surface group axis must be x, y, or z")
+    if spec.side not in {"min", "max"}:
+        raise ValueError("surface group side must be min or max")
+    axis_index = {"x": 0, "y": 1, "z": 2}[spec.axis]
+    boxes = [gmsh.model.getBoundingBox(3, tag) for _, tag in volumes]
+    global_min = min(float(box[axis_index]) for box in boxes)
+    global_max = max(float(box[axis_index + 3]) for box in boxes)
+    extent = max(global_max - global_min, 1.0)
+    target = global_min if spec.side == "min" else global_max
+    tolerance = max(1e-8, extent * 1e-8)
+    selected: list[int] = []
+    for _, tag in surfaces:
+        box = gmsh.model.getBoundingBox(2, tag)
+        low = float(box[axis_index])
+        high = float(box[axis_index + 3])
+        if math.isclose(low, target, rel_tol=0.0, abs_tol=tolerance) and math.isclose(
+            high,
+            target,
+            rel_tol=0.0,
+            abs_tol=tolerance,
+        ):
+            selected.append(tag)
+    if not selected:
+        raise GmshMeshingError(
+            f"surface group {spec.name!r} matched no surfaces at {spec.axis}_{spec.side}"
+        )
+    return selected
+
+
 def _mesh_counts(gmsh: Any) -> tuple[int, int, list[int]]:
     node_tags, _, _ = gmsh.model.mesh.getNodes()
     _, element_blocks, _ = gmsh.model.mesh.getElements(3)
@@ -118,6 +163,7 @@ class GmshBackend:
         *,
         max_size_mm: float,
         min_size_mm: float | None = None,
+        surface_groups: tuple[SurfaceGroupSpec, ...] = (),
     ) -> GmshMeshReceipt:
         source_input = source_step.expanduser()
         if source_input.is_symlink():
@@ -171,6 +217,17 @@ class GmshBackend:
                 gmsh.model.setPhysicalName(3, domain_tag, "domain")
                 boundary_tag = gmsh.model.addPhysicalGroup(2, [tag for _, tag in surfaces])
                 gmsh.model.setPhysicalName(2, boundary_tag, "boundary")
+                reserved_names = {"domain", "boundary"}
+                group_names: set[str] = set()
+                for group in surface_groups:
+                    if group.name in reserved_names or group.name in group_names:
+                        raise ValueError(
+                            f"surface group name {group.name!r} is reserved or duplicated"
+                        )
+                    tags = _surface_group_tags(gmsh, volumes, surfaces, group)
+                    group_tag = gmsh.model.addPhysicalGroup(2, tags)
+                    gmsh.model.setPhysicalName(2, group_tag, group.name)
+                    group_names.add(group.name)
 
                 gmsh.model.mesh.generate(3)
                 node_count, element_count, element_tags = _mesh_counts(gmsh)
