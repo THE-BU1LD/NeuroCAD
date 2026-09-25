@@ -197,6 +197,78 @@ def _positive_int(value: Any, minimum: int = 1) -> bool:
     return not isinstance(value, bool) and isinstance(value, int) and value >= minimum
 
 
+
+def _resolve_parameter_tree(
+    value: Any,
+    parameter_values: dict[str, float],
+    path: str,
+    errors: list[FeatureIRIssue],
+) -> Any:
+    if isinstance(value, dict) and "parameter" in value:
+        if set(value) != {"parameter"}:
+            errors.append(
+                FeatureIRIssue(
+                    "invalid_parameter_reference",
+                    path,
+                    "parameter reference objects may contain only the 'parameter' key",
+                )
+            )
+            return value
+        parameter_id = value["parameter"]
+        if not isinstance(parameter_id, str):
+            errors.append(
+                FeatureIRIssue(
+                    "invalid_parameter_reference",
+                    f"{path}.parameter",
+                    "parameter id must be a string",
+                )
+            )
+            return value
+        if parameter_id not in parameter_values:
+            errors.append(
+                FeatureIRIssue(
+                    "unknown_parameter",
+                    f"{path}.parameter",
+                    parameter_id,
+                )
+            )
+            return value
+        return parameter_values[parameter_id]
+    if isinstance(value, dict):
+        return {
+            key: _resolve_parameter_tree(item, parameter_values, f"{path}.{key}", errors)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [
+            _resolve_parameter_tree(item, parameter_values, f"{path}[{index}]", errors)
+            for index, item in enumerate(value)
+        ]
+    if isinstance(value, tuple):
+        return tuple(
+            _resolve_parameter_tree(item, parameter_values, f"{path}[{index}]", errors)
+            for index, item in enumerate(value)
+        )
+    return value
+
+
+def resolve_feature_parameters(program: FeatureProgram, feature: Feature) -> dict[str, Any]:
+    parameter_values = {parameter.id: parameter.value for parameter in program.parameters}
+    errors: list[FeatureIRIssue] = []
+    resolved = _resolve_parameter_tree(
+        feature.parameters,
+        parameter_values,
+        f"$.features[{feature.id}].parameters",
+        errors,
+    )
+    if errors:
+        raise FeatureIRParseError(
+            [f"{issue.path}: {issue.code}: {issue.message}" for issue in errors]
+        )
+    if not isinstance(resolved, dict):
+        raise FeatureIRParseError([f"$.features[{feature.id}].parameters: must resolve to an object"])
+    return resolved
+
 def _contract_errors(feature: Feature, index: int) -> list[FeatureIRIssue]:
     path = f"$.features[{index}]"
     parameters = feature.parameters
@@ -401,8 +473,22 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
                 predicate_error = _strict_json_error(predicate, predicate_path)
                 if predicate_error:
                     errors.append(FeatureIRIssue("invalid_predicate", predicate_path, predicate_error))
-        if feature.kind in FEATURE_KINDS:
-            errors.extend(_contract_errors(feature, index))
+        resolved_parameters = _resolve_parameter_tree(
+            feature.parameters,
+            {parameter.id: parameter.value for parameter in program.parameters},
+            f"{path}.parameters",
+            errors,
+        )
+        if feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
+            resolved_feature = Feature(
+                id=feature.id,
+                kind=feature.kind,
+                inputs=feature.inputs,
+                parameters=resolved_parameters,
+                selectors=feature.selectors,
+                role=feature.role,
+            )
+            errors.extend(_contract_errors(resolved_feature, index))
         seen.add(feature.id)
         feature_map[feature.id] = feature
 
