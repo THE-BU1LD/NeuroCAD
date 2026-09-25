@@ -292,11 +292,11 @@ jobs:
           python -m pip check
       - name: Run feature IR and exact-CAD golden tests
         run: |
-          python -m pytest -q tests/test_feature_ir.py tests/test_exact_backend.py tests/test_exact_build123d.py
+          python -m pytest -q tests/test_feature_ir.py tests/test_requirement_ir.py tests/test_requirement_verification.py tests/test_exact_backend.py tests/test_exact_build123d.py
       - name: Compile and lint exact-CAD sources
         run: |
-          python -m compileall -q core/feature_ir.py core/exact_backend.py core/exact_build123d.py
-          python -m ruff check core/feature_ir.py core/exact_backend.py core/exact_build123d.py tests/test_feature_ir.py tests/test_exact_backend.py tests/test_exact_build123d.py
+          python -m compileall -q core/feature_ir.py core/requirement_ir.py core/requirement_verification.py core/exact_backend.py core/exact_build123d.py
+          python -m ruff check core/feature_ir.py core/requirement_ir.py core/requirement_verification.py core/exact_backend.py core/exact_build123d.py tests/test_feature_ir.py tests/test_requirement_ir.py tests/test_requirement_verification.py tests/test_exact_backend.py tests/test_exact_build123d.py
 
   workbench-browser:
     name: Workbench browser / ${{ matrix.browser }}
