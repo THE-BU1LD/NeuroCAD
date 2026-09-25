@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import importlib.util
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from importlib import metadata
 from typing import Callable
 
@@ -153,17 +153,38 @@ def discover_exact_backends(
     return tuple(statuses)
 
 
-def exact_backend_status(identifier: str, **kwargs: object) -> ExactBackendStatus:
+def exact_backend_status(
+    identifier: str,
+    *,
+    python_version: tuple[int, int] | None = None,
+    module_finder: Callable[[str], bool] | None = None,
+    version_reader: Callable[[str], str | None] | None = None,
+) -> ExactBackendStatus:
     normalized = identifier.strip().lower()
-    for status in discover_exact_backends(**kwargs):
+    for status in discover_exact_backends(
+        python_version=python_version,
+        module_finder=module_finder,
+        version_reader=version_reader,
+    ):
         if status.descriptor.id == normalized:
             return status
     choices = ", ".join(item.id for item in BACKENDS)
     raise KeyError(f"unknown exact-CAD backend {identifier!r}; choose one of {choices}")
 
 
-def require_exact_backend(identifier: str, **kwargs: object) -> ExactBackendStatus:
-    status = exact_backend_status(identifier, **kwargs)
+def require_exact_backend(
+    identifier: str,
+    *,
+    python_version: tuple[int, int] | None = None,
+    module_finder: Callable[[str], bool] | None = None,
+    version_reader: Callable[[str], str | None] | None = None,
+) -> ExactBackendStatus:
+    status = exact_backend_status(
+        identifier,
+        python_version=python_version,
+        module_finder=module_finder,
+        version_reader=version_reader,
+    )
     if not status.available:
         raise ExactBackendUnavailable(f"{status.descriptor.display_name} unavailable: {status.reason}")
     return status
