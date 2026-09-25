@@ -27,6 +27,7 @@ keywords = ["openscad", "cad", "3d-printing", "parametric-design"]
 dev = ["build==1.6.0", "mypy==1.18.2", "pytest==9.1.1", "ruff==0.16.5"]
 security = ["bandit==1.9.4", "pip-audit==2.10.1"]
 browser = ["playwright==1.62.0"]
+mesh-gmsh = ["gmsh==4.15.2"]
 
 [tool.ruff]
 target-version = "py310"
