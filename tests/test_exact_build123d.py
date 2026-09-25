@@ -165,3 +165,26 @@ def test_build123d_step_roundtrip_fails_closed_on_geometry_drift(
     with pytest.raises(Build123dCompileError, match="changed extent"):
         backend.export_verified_step(program, destination)
     assert not destination.exists()
+
+
+def test_feature_build_cli_writes_verified_step_bundle(tmp_path, capsys) -> None:
+    from core.feature_ir import serialize_feature_ir_json
+    from neurocad_cli import build_parser
+
+    program = _program(
+        Feature(id="body", kind="primitive_box", parameters={"size": [18.0, 12.0, 4.0]}),
+        output="body",
+    )
+    source = tmp_path / "cli-box.ncad2.json"
+    source.write_text(serialize_feature_ir_json(program), encoding="utf-8")
+    output = tmp_path / "cli-exact"
+    args = build_parser().parse_args(
+        ["feature", "build", str(source), "--backend", "build123d", "--output-dir", str(output)]
+    )
+    assert args.func(args) == 0
+    payload = __import__("json").loads(capsys.readouterr().out)
+    assert payload["backend"] == "build123d"
+    assert payload["inspection"]["valid_brep"] is True
+    assert payload["roundtrip_inspection"]["valid_brep"] is True
+    assert (output / "design.step").is_file()
+    assert (output / "build-receipt.json").is_file()
