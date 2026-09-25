@@ -275,6 +275,29 @@ jobs:
           neurocad ir "a sphere with radius 0.5 inch" -o portable.ncad.json
           neurocad compile portable.ncad.json --format scad -o portable.scad
 
+  exact-build123d:
+    name: Experimental exact CAD / build123d
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.14"
+          cache: pip
+      - name: Install isolated exact-CAD backend
+        run: |
+          python -m pip install --upgrade "pip==26.2.1"
+          python -m pip install -e '.[dev,exact-build123d]'
+          python -m pip check
+      - name: Run feature IR and exact-CAD golden tests
+        run: |
+          python -m pytest -q tests/test_feature_ir.py tests/test_exact_backend.py tests/test_exact_build123d.py
+      - name: Compile and lint exact-CAD sources
+        run: |
+          python -m compileall -q core/feature_ir.py core/exact_backend.py core/exact_build123d.py
+          python -m ruff check core/feature_ir.py core/exact_backend.py core/exact_build123d.py tests/test_feature_ir.py tests/test_exact_backend.py tests/test_exact_build123d.py
+
   workbench-browser:
     name: Workbench browser / ${{ matrix.browser }}
     runs-on: ubuntu-24.04
