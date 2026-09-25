@@ -26,6 +26,12 @@ from .feature_ir import (
     serialize_feature_ir_json,
     validate_feature_program,
 )
+from .requirement_ir import RequirementIR, serialize_requirement_ir_json
+from .requirement_verification import (
+    RequirementBindingSet,
+    serialize_binding_set_json,
+    verify_exact_requirements,
+)
 
 BUILD_RECEIPT_VERSION = "neurocad-build123d-receipt-v1"
 SUPPORTED_FEATURES = frozenset(
@@ -75,6 +81,13 @@ class Build123dReceipt:
     step_path: str | None = None
     step_sha256: str | None = None
     roundtrip_inspection: GeometryInspection | None = None
+    requirements_path: str | None = None
+    requirements_sha256: str | None = None
+    bindings_path: str | None = None
+    bindings_sha256: str | None = None
+    requirements_verification_path: str | None = None
+    requirements_verification_sha256: str | None = None
+    requirements_satisfied: bool | None = None
     claim_boundary: str = (
         "exact-kernel build and geometric checks only; not structural, manufacturing, "
         "regulatory, or physical-fit certification"
@@ -418,6 +431,8 @@ class Build123dBackend:
         output_dir: Path,
         *,
         filename: str = "design.step",
+        requirements: RequirementIR | None = None,
+        binding_set: RequirementBindingSet | None = None,
     ) -> Build123dReceipt:
         output_dir = output_dir.expanduser().resolve()
         if output_dir.exists() or output_dir.is_symlink():
@@ -438,6 +453,57 @@ class Build123dBackend:
             imported = self.bd.import_step(step_path)
             roundtrip = self.inspect(imported)
             self._verify_step_roundtrip(inspection, roundtrip)
+
+            if (requirements is None) != (binding_set is None):
+                raise Build123dCompileError(
+                    "requirements and binding_set must be supplied together"
+                )
+
+            requirements_path: Path | None = None
+            bindings_path: Path | None = None
+            verification_path: Path | None = None
+            requirements_satisfied: bool | None = None
+            if requirements is not None and binding_set is not None:
+                requirement_verification = verify_exact_requirements(
+                    requirements,
+                    program,
+                    roundtrip,
+                    binding_set,
+                )
+                requirements_satisfied = requirement_verification.satisfied_for_all_must
+                if not requirements_satisfied:
+                    failed = [
+                        check.requirement_id
+                        for check in requirement_verification.checks
+                        if check.strength == "must" and not check.satisfied
+                    ]
+                    errors = [error.code for error in requirement_verification.errors]
+                    details = ", ".join((*failed, *errors)) or "unknown must-level failure"
+                    raise Build123dCompileError(
+                        "must-level requirement verification failed: " + details
+                    )
+                requirements_path = staging / "requirements.json"
+                bindings_path = staging / "requirement-bindings.json"
+                verification_path = staging / "requirements-verification.json"
+                requirements_path.write_text(
+                    serialize_requirement_ir_json(requirements),
+                    encoding="utf-8",
+                )
+                bindings_path.write_text(
+                    serialize_binding_set_json(binding_set),
+                    encoding="utf-8",
+                )
+                verification_path.write_text(
+                    json.dumps(
+                        requirement_verification.to_dict(),
+                        indent=2,
+                        sort_keys=True,
+                        allow_nan=False,
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+
             receipt = Build123dReceipt(
                 backend="build123d",
                 backend_version=self.version,
@@ -447,6 +513,17 @@ class Build123dBackend:
                 step_path=filename,
                 step_sha256=_sha256(step_path),
                 roundtrip_inspection=roundtrip,
+                requirements_path=None if requirements_path is None else requirements_path.name,
+                requirements_sha256=None if requirements_path is None else _sha256(requirements_path),
+                bindings_path=None if bindings_path is None else bindings_path.name,
+                bindings_sha256=None if bindings_path is None else _sha256(bindings_path),
+                requirements_verification_path=(
+                    None if verification_path is None else verification_path.name
+                ),
+                requirements_verification_sha256=(
+                    None if verification_path is None else _sha256(verification_path)
+                ),
+                requirements_satisfied=requirements_satisfied,
             )
             receipt_path = staging / "build-receipt.json"
             receipt_path.write_text(
