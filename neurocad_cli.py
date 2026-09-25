@@ -1781,6 +1781,22 @@ def _read_feature_program(path_value: str):
     return parse_feature_ir_json(text)
 
 
+def _read_requirement_ir(path_value: str):
+    from core.requirement_ir import MAX_REQUIREMENT_JSON_BYTES, parse_requirement_ir_json
+
+    source = _resolved_path(path_value)
+    text = read_bounded_utf8(source, max_bytes=MAX_REQUIREMENT_JSON_BYTES, label="requirement IR")
+    return parse_requirement_ir_json(text)
+
+
+def _read_requirement_bindings(path_value: str):
+    from core.requirement_verification import MAX_BINDING_JSON_BYTES, parse_binding_set_json
+
+    source = _resolved_path(path_value)
+    text = read_bounded_utf8(source, max_bytes=MAX_BINDING_JSON_BYTES, label="requirement bindings")
+    return parse_binding_set_json(text)
+
+
 def cmd_feature_validate(args: argparse.Namespace) -> int:
     from core.feature_ir import validate_feature_program
 
@@ -1817,11 +1833,20 @@ def cmd_feature_build(args: argparse.Namespace) -> int:
     program = _read_feature_program(args.input)
     output = _resolved_path(args.output_dir)
     _require_new_path(output, label="exact-CAD output directory")
+    if bool(args.requirements) != bool(args.bindings):
+        raise ValueError("--requirements and --bindings must be supplied together")
+    requirements = _read_requirement_ir(args.requirements) if args.requirements else None
+    binding_set = _read_requirement_bindings(args.bindings) if args.bindings else None
     require_exact_backend(args.backend)
     if args.backend == "build123d":
         from core.exact_build123d import Build123dBackend
 
-        receipt = Build123dBackend().export_verified_step(program, output)
+        receipt = Build123dBackend().export_verified_step(
+            program,
+            output,
+            requirements=requirements,
+            binding_set=binding_set,
+        )
     else:
         raise ValueError(f"backend {args.backend!r} is discovered but does not have a NeuroCAD compiler yet")
     print(json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False))
@@ -2182,6 +2207,8 @@ def build_parser() -> argparse.ArgumentParser:
     feature_build.add_argument("input", help="Feature IR JSON file")
     feature_build.add_argument("--backend", choices=["build123d"], default="build123d")
     feature_build.add_argument("--output-dir", required=True, help="New atomic exact-CAD artifact directory")
+    feature_build.add_argument("--requirements", help="Requirement IR JSON to enforce before publication")
+    feature_build.add_argument("--bindings", help="Hash-bound requirement-to-feature binding JSON")
     feature_build.set_defaults(func=cmd_feature_build)
 
     enclosure_parser = sub.add_parser("enclosure", help="Create, validate, edit, and build typed enclosure projects")
