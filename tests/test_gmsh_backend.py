@@ -92,3 +92,30 @@ def test_gmsh_rejects_symlinked_step_input(tmp_path) -> None:
         pytest.skip("symlink creation unavailable")
     with pytest.raises(FileNotFoundError, match="regular file"):
         GmshBackend().mesh_step(alias, tmp_path / "mesh", max_size_mm=4.0)
+
+
+def test_gmsh_cli_generates_verified_mesh_bundle(tmp_path, capsys) -> None:
+    from neurocad_cli import build_parser
+
+    source = tmp_path / "cli-box.step"
+    _write_box_step(source)
+    destination = tmp_path / "cli-mesh"
+    args = build_parser().parse_args(
+        [
+            "mesh",
+            "step",
+            str(source),
+            "--output-dir",
+            str(destination),
+            "--min-size",
+            "1",
+            "--max-size",
+            "4",
+        ]
+    )
+    assert args.func(args) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["backend"] == "gmsh"
+    assert payload["physical_groups"] == ["boundary", "domain"]
+    assert payload["roundtrip_volume_element_count"] == payload["volume_element_count"]
+    assert (destination / "design.msh").is_file()
