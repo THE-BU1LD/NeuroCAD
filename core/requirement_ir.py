@@ -7,14 +7,18 @@ never implies requirement satisfaction.
 
 from __future__ import annotations
 
+import json
 import math
 import re
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from .json_io import strict_json_loads
+
 REQUIREMENT_IR_VERSION = "neurocad-requirement-ir-v0alpha1"
 MAX_SOURCE_CHARS = 8192
 MAX_REQUIREMENTS = 2048
+MAX_REQUIREMENT_JSON_BYTES = 2 * 1024 * 1024
 ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$")
 
 REQUIREMENT_KINDS = frozenset(
@@ -162,12 +166,40 @@ class RequirementCoverageReport:
         }
 
 
+class RequirementIRParseError(ValueError):
+    def __init__(self, errors: list[str]):
+        self.errors = tuple(errors)
+        super().__init__("invalid NeuroCAD requirement IR:\n- " + "\n- ".join(errors))
+
+
 def _finite(value: Any) -> bool:
     return (
         not isinstance(value, bool)
         and isinstance(value, (int, float))
         and math.isfinite(float(value))
     )
+
+
+def _strict_json_error(value: Any, path: str) -> str | None:
+    if value is None or isinstance(value, (bool, str)):
+        return None
+    if isinstance(value, (int, float)):
+        return None if _finite(value) else f"{path} contains a non-finite number"
+    if isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            error = _strict_json_error(item, f"{path}[{index}]")
+            if error:
+                return error
+        return None
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if not isinstance(key, str):
+                return f"{path} contains a non-string key"
+            error = _strict_json_error(item, f"{path}.{key}")
+            if error:
+                return error
+        return None
+    return f"{path} contains unsupported type {type(value).__name__}"
 
 
 def validate_requirement_ir(document: RequirementIR) -> RequirementValidationReport:
@@ -187,6 +219,10 @@ def validate_requirement_ir(document: RequirementIR) -> RequirementValidationRep
         )
     if not isinstance(document.metadata, dict):
         errors.append(RequirementIssue("invalid_metadata", "$.metadata", "metadata must be an object"))
+    else:
+        metadata_error = _strict_json_error(document.metadata, "$.metadata")
+        if metadata_error:
+            errors.append(RequirementIssue("invalid_metadata", "$.metadata", metadata_error))
 
     ids: set[str] = set()
     for index, requirement in enumerate(document.requirements):
@@ -333,3 +369,135 @@ def requirement_coverage(
         missing_should=missing_should,
         invalid_bindings=tuple(invalid),
     )
+
+
+
+def serialize_requirement_ir_json(document: RequirementIR, *, pretty: bool = True) -> str:
+    report = validate_requirement_ir(document)
+    if not report.structurally_valid:
+        raise RequirementIRParseError(
+            [f"{issue.path}: {issue.code}: {issue.message}" for issue in report.errors]
+        )
+    kwargs: dict[str, Any] = {"sort_keys": True, "ensure_ascii": False, "allow_nan": False}
+    if pretty:
+        return json.dumps(document.to_dict(), indent=2, **kwargs) + "\n"
+    return json.dumps(document.to_dict(), separators=(",", ":"), **kwargs)
+
+
+def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:
+    unexpected = sorted(set(value) - allowed)
+    missing = sorted(required - set(value))
+    if unexpected:
+        raise RequirementIRParseError([f"{path}: unsupported keys: {', '.join(unexpected)}"])
+    if missing:
+        raise RequirementIRParseError([f"{path}: missing keys: {', '.join(missing)}"])
+
+
+def requirement_ir_from_dict(raw: dict[str, Any]) -> RequirementIR:
+    _only_keys(
+        raw,
+        {"version", "source", "requirements", "metadata"},
+        {"version", "source", "requirements", "metadata"},
+        "$",
+    )
+    if not isinstance(raw["requirements"], list):
+        raise RequirementIRParseError(["$.requirements: must be an array"])
+    if not isinstance(raw["metadata"], dict):
+        raise RequirementIRParseError(["$.metadata: must be an object"])
+
+    requirements: list[Requirement] = []
+    for index, item in enumerate(raw["requirements"]):
+        path = f"$.requirements[{index}]"
+        if not isinstance(item, dict):
+            raise RequirementIRParseError([f"{path}: must be an object"])
+        _only_keys(
+            item,
+            {
+                "id",
+                "kind",
+                "strength",
+                "target",
+                "source_start",
+                "source_end",
+                "source_text",
+                "provenance",
+                "verification",
+                "value",
+                "notes",
+            },
+            {
+                "id",
+                "kind",
+                "strength",
+                "target",
+                "source_start",
+                "source_end",
+                "source_text",
+                "provenance",
+                "verification",
+                "value",
+                "notes",
+            },
+            path,
+        )
+        raw_value = item["value"]
+        value = None
+        if raw_value is not None:
+            if not isinstance(raw_value, dict):
+                raise RequirementIRParseError([f"{path}.value: must be null or an object"])
+            _only_keys(
+                raw_value,
+                {"value", "unit", "tolerance"},
+                {"value", "unit", "tolerance"},
+                f"{path}.value",
+            )
+            value = RequirementValue(
+                value=raw_value["value"],
+                unit=raw_value["unit"],
+                tolerance=raw_value["tolerance"],
+            )
+        notes = item["notes"]
+        if not isinstance(notes, list) or any(not isinstance(note, str) for note in notes):
+            raise RequirementIRParseError([f"{path}.notes: must be an array of strings"])
+        requirements.append(
+            Requirement(
+                id=item["id"],
+                kind=item["kind"],
+                strength=item["strength"],
+                target=item["target"],
+                source_start=item["source_start"],
+                source_end=item["source_end"],
+                source_text=item["source_text"],
+                provenance=item["provenance"],
+                verification=item["verification"],
+                value=value,
+                notes=tuple(notes),
+            )
+        )
+
+    document = RequirementIR(
+        source=raw["source"],
+        requirements=tuple(requirements),
+        metadata=dict(raw["metadata"]),
+        version=raw["version"],
+    )
+    report = validate_requirement_ir(document)
+    if not report.structurally_valid:
+        raise RequirementIRParseError(
+            [f"{issue.path}: {issue.code}: {issue.message}" for issue in report.errors]
+        )
+    return document
+
+
+def parse_requirement_ir_json(text: str) -> RequirementIR:
+    if len(text.encode("utf-8")) > MAX_REQUIREMENT_JSON_BYTES:
+        raise RequirementIRParseError([f"$: input exceeds {MAX_REQUIREMENT_JSON_BYTES} bytes"])
+    try:
+        raw = strict_json_loads(text)
+    except json.JSONDecodeError as exc:
+        raise RequirementIRParseError(
+            [f"line {exc.lineno}, column {exc.colno}: {exc.msg}"]
+        ) from exc
+    if not isinstance(raw, dict):
+        raise RequirementIRParseError(["$: root must be an object"])
+    return requirement_ir_from_dict(raw)
