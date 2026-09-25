@@ -6,7 +6,7 @@ import pytest
 
 pytest.importorskip("build123d")
 
-from core.exact_build123d import Build123dBackend
+from core.exact_build123d import Build123dBackend, Build123dCompileError
 from core.feature_ir import EntitySelector, Feature, FeatureProgram
 
 
@@ -149,3 +149,19 @@ def test_build123d_step_roundtrip_retains_geometry(tmp_path) -> None:
     assert receipt.roundtrip_inspection.volume_mm3 == pytest.approx(receipt.inspection.volume_mm3, rel=1e-8)
     assert (tmp_path / "exact-export" / "design.step").is_file()
     assert (tmp_path / "exact-export" / "build-receipt.json").is_file()
+
+
+def test_build123d_step_roundtrip_fails_closed_on_geometry_drift(
+    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    program = _program(
+        Feature(id="body", kind="primitive_box", parameters={"size": [32.0, 24.0, 8.0]}),
+        output="body",
+    )
+    backend = Build123dBackend()
+    monkeypatch.setattr(backend.bd, "import_step", lambda _: backend.bd.Box(33.0, 24.0, 8.0))
+    destination = tmp_path / "drifted-export"
+    with pytest.raises(Build123dCompileError, match="changed extent"):
+        backend.export_verified_step(program, destination)
+    assert not destination.exists()
