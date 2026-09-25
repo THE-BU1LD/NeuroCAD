@@ -18,7 +18,14 @@ from importlib import metadata
 from pathlib import Path
 from typing import Any
 
-from .feature_ir import EntitySelector, Feature, FeatureProgram, serialize_feature_ir_json, validate_feature_program
+from .feature_ir import (
+    EntitySelector,
+    Feature,
+    FeatureProgram,
+    resolve_feature_parameters,
+    serialize_feature_ir_json,
+    validate_feature_program,
+)
 
 BUILD_RECEIPT_VERSION = "neurocad-build123d-receipt-v1"
 SUPPORTED_FEATURES = frozenset(
@@ -260,6 +267,14 @@ class Build123dBackend:
             )
         objects: dict[str, Any] = {}
         for feature in program.features:
+            feature = Feature(
+                id=feature.id,
+                kind=feature.kind,
+                inputs=feature.inputs,
+                parameters=resolve_feature_parameters(program, feature),
+                selectors=feature.selectors,
+                role=feature.role,
+            )
             if feature.kind not in SUPPORTED_FEATURES:
                 raise Build123dCompileError(f"build123d backend does not support feature kind {feature.kind!r}")
             if feature.kind == "primitive_box":
