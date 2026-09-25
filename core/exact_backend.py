@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import importlib.util
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from importlib import metadata
-from collections.abc import Callable
 
 EXACT_BACKEND_API_VERSION = "neurocad-exact-backend-v1"
 
