@@ -8,6 +8,13 @@ pytest.importorskip("build123d")
 
 from core.exact_build123d import Build123dBackend, Build123dCompileError
 from core.feature_ir import DesignParameter, EntitySelector, Feature, FeatureProgram
+from core.requirement_ir import Requirement, RequirementIR, RequirementValue
+from core.requirement_verification import (
+    ExactRequirementBinding,
+    RequirementBindingSet,
+    feature_ir_sha256,
+    requirement_ir_sha256,
+)
 
 
 def _program(*features: Feature, output: str) -> FeatureProgram:
@@ -214,3 +221,97 @@ def test_build123d_named_parameter_edit_changes_exact_geometry() -> None:
     assert small_receipt.inspection.extents_mm == pytest.approx((18.0, 12.0, 4.0), abs=1e-8)
     assert large_receipt.inspection.extents_mm == pytest.approx((27.0, 12.0, 4.0), abs=1e-8)
     assert large_receipt.inspection.volume_mm3 / small_receipt.inspection.volume_mm3 == pytest.approx(1.5)
+
+
+def _width_requirements(program: FeatureProgram, width_mm: float) -> tuple[RequirementIR, RequirementBindingSet]:
+    source = f"Make the box {width_mm:g} mm wide."
+    phrase = f"{width_mm:g} mm wide"
+    start = source.index(phrase)
+    document = RequirementIR(
+        source=source,
+        requirements=(
+            Requirement(
+                id="width",
+                kind="dimension",
+                strength="must",
+                target="body.width",
+                source_start=start,
+                source_end=start + len(phrase),
+                source_text=phrase,
+                provenance="explicit",
+                verification="exact_dimension",
+                value=RequirementValue(width_mm, "mm", 0.001),
+            ),
+        ),
+    )
+    bindings = RequirementBindingSet(
+        requirement_ir_sha256=requirement_ir_sha256(document),
+        feature_ir_sha256=feature_ir_sha256(program),
+        bindings=(
+            ExactRequirementBinding(
+                requirement_id="width",
+                feature_ids=("body",),
+                verification="exact_dimension",
+                probe={"kind": "output_extent", "axis": "x"},
+            ),
+        ),
+    )
+    return document, bindings
+
+
+def test_build123d_verified_export_publishes_requirement_evidence(tmp_path) -> None:
+    program = _program(
+        Feature(id="body", kind="primitive_box", parameters={"size": [40.0, 30.0, 20.0]}),
+        output="body",
+    )
+    requirements, bindings = _width_requirements(program, 40.0)
+    destination = tmp_path / "requirements-pass"
+    receipt = Build123dBackend().export_verified_step(
+        program,
+        destination,
+        requirements=requirements,
+        binding_set=bindings,
+    )
+    assert receipt.requirements_satisfied is True
+    assert receipt.requirements_path == "requirements.json"
+    assert receipt.bindings_path == "requirement-bindings.json"
+    assert receipt.requirements_verification_path == "requirements-verification.json"
+    assert receipt.requirements_sha256
+    assert receipt.bindings_sha256
+    assert receipt.requirements_verification_sha256
+    assert (destination / "requirements.json").is_file()
+    assert (destination / "requirement-bindings.json").is_file()
+    assert (destination / "requirements-verification.json").is_file()
+
+
+def test_build123d_valid_brep_with_wrong_must_dimension_publishes_nothing(tmp_path) -> None:
+    program = _program(
+        Feature(id="body", kind="primitive_box", parameters={"size": [40.0, 30.0, 20.0]}),
+        output="body",
+    )
+    requirements, bindings = _width_requirements(program, 41.0)
+    destination = tmp_path / "requirements-fail"
+    with pytest.raises(Build123dCompileError, match="must-level requirement verification failed"):
+        Build123dBackend().export_verified_step(
+            program,
+            destination,
+            requirements=requirements,
+            binding_set=bindings,
+        )
+    assert not destination.exists()
+
+
+def test_build123d_requires_requirement_document_and_bindings_together(tmp_path) -> None:
+    program = _program(
+        Feature(id="body", kind="primitive_box", parameters={"size": [40.0, 30.0, 20.0]}),
+        output="body",
+    )
+    requirements, _ = _width_requirements(program, 40.0)
+    destination = tmp_path / "requirements-incomplete"
+    with pytest.raises(Build123dCompileError, match="must be supplied together"):
+        Build123dBackend().export_verified_step(
+            program,
+            destination,
+            requirements=requirements,
+        )
+    assert not destination.exists()
