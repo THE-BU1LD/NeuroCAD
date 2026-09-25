@@ -6,9 +6,8 @@ import hashlib
 import json
 import math
 from dataclasses import asdict, dataclass, field
-from typing import Any
+from typing import Any, Protocol
 
-from .exact_build123d import GeometryInspection
 from .feature_ir import FeatureProgram, serialize_feature_ir_json
 from .json_io import strict_json_loads
 from .requirement_ir import (
@@ -18,6 +17,13 @@ from .requirement_ir import (
     serialize_requirement_ir_json,
     validate_requirement_ir,
 )
+
+class GeometryInspectionLike(Protocol):
+    valid_brep: bool
+    solid_count: int
+    volume_mm3: float
+    extents_mm: tuple[float, float, float]
+
 
 REQUIREMENT_BINDING_VERSION = "neurocad-requirement-binding-v0alpha1"
 MAX_BINDING_JSON_BYTES = 2 * 1024 * 1024
@@ -234,7 +240,7 @@ def validate_binding_set(binding_set: RequirementBindingSet) -> tuple[Requiremen
 def _dimension_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
-    inspection: GeometryInspection,
+    inspection: GeometryInspectionLike,
 ) -> RequirementCheck:
     if requirement.value is None or requirement.value.unit != "mm":
         raise RequirementBindingError(
@@ -272,7 +278,7 @@ def _dimension_check(
 def _kernel_validity_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
-    inspection: GeometryInspection,
+    inspection: GeometryInspectionLike,
 ) -> RequirementCheck:
     if binding.probe.get("kind") != "brep_valid":
         raise RequirementBindingError(
@@ -358,7 +364,7 @@ def _feature_history_check(
 def verify_exact_requirements(
     document: RequirementIR,
     program: FeatureProgram,
-    inspection: GeometryInspection,
+    inspection: GeometryInspectionLike,
     binding_set: RequirementBindingSet,
 ) -> ExactRequirementVerification:
     errors: list[RequirementIssue] = list(validate_binding_set(binding_set))
