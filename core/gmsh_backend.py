@@ -74,7 +74,7 @@ def _sha256(path: Path) -> str:
 
 def _finite_positive(value: Any, *, name: str) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
-        raise ValueError(f"{name} must be a positive finite number")
+        raise TypeError(f"{name} must be a positive finite number")
     parsed = float(value)
     if not math.isfinite(parsed) or parsed <= 0:
         raise ValueError(f"{name} must be a positive finite number")
@@ -119,9 +119,12 @@ class GmshBackend:
         max_size_mm: float,
         min_size_mm: float | None = None,
     ) -> GmshMeshReceipt:
-        source = source_step.expanduser().resolve()
+        source_input = source_step.expanduser()
+        if source_input.is_symlink():
+            raise FileNotFoundError(f"STEP source is missing or not a regular file: {source_input}")
+        source = source_input.resolve()
         destination = output_dir.expanduser().resolve()
-        if source.is_symlink() or not source.is_file():
+        if not source.is_file():
             raise FileNotFoundError(f"STEP source is missing or not a regular file: {source}")
         source_bytes = source.stat().st_size
         if source_bytes <= 0 or source_bytes > MAX_STEP_BYTES:
@@ -245,10 +248,7 @@ class GmshBackend:
                 raise
             finally:
                 if initialized:
-                    try:
-                        gmsh.finalize()
-                    except Exception:  # noqa: BLE001 - cleanup must not mask the primary result
-                        pass
+                    gmsh.finalize()
 
         os.replace(staging, destination)
         return receipt
