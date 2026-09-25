@@ -33,7 +33,7 @@ def test_research_truth_preserves_falsified_historical_claim() -> None:
     text = (ROOT / "RESEARCH_TRUTH.md").read_text(encoding="utf-8").casefold()
 
     assert "historical typed-parser causal claim is falsified" in text
-    assert "major scientific revision" in text
+    assert "evidence_partial" in text
 
 
 def test_model_card_cannot_imply_a_trained_neurocad_model() -> None:
@@ -53,5 +53,5 @@ def test_primary_question_keeps_the_compiler_scope_explicit() -> None:
 def test_conference_gate_remains_open_until_external_evidence_exists() -> None:
     text = (ROOT / "audit" / "CONFERENCE_READINESS_CHECKLIST.md").read_text(encoding="utf-8").casefold()
 
-    assert "evidence_partial" in text
+    assert "major scientific revision" in text
     assert "independent, licensed, hashed prompt/spec set" in text
