@@ -511,3 +511,19 @@ def test_kicad_extraction_request_is_a_non_execution_receipt(tmp_path: Path) -> 
     assert len(request["source"]["sha256"]) == 64
     output = write_kicad_extraction_request(tmp_path / "request.json", board_path)
     assert json.loads(output.read_text(encoding="utf-8"))["operation_executed"] is False
+
+
+def test_gmsh_registry_reports_real_adapter_only_when_module_is_available(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        registry_module.importlib.util,
+        "find_spec",
+        lambda name: object() if name == "gmsh" else None,
+    )
+    adapter = default_registry().get("gmsh")
+    assert adapter.prerequisites[0].available is True
+    capability = adapter.capability("tagged_volume_mesh")
+    assert capability.state is CapabilityState.AVAILABLE
+    assert capability.formats == ("step", "msh")
+    assert "round-trip-verify" in capability.detail
