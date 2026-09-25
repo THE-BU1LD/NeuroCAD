@@ -8,12 +8,18 @@ pytest.importorskip("build123d")
 
 from core.exact_build123d import Build123dBackend, Build123dCompileError
 from core.feature_ir import DesignParameter, EntitySelector, Feature, FeatureProgram
-from core.requirement_ir import Requirement, RequirementIR, RequirementValue
+from core.requirement_ir import (
+    Requirement,
+    RequirementIR,
+    RequirementValue,
+    serialize_requirement_ir_json,
+)
 from core.requirement_verification import (
     ExactRequirementBinding,
     RequirementBindingSet,
     feature_ir_sha256,
     requirement_ir_sha256,
+    serialize_binding_set_json,
 )
 
 
@@ -315,3 +321,41 @@ def test_build123d_requires_requirement_document_and_bindings_together(tmp_path)
             requirements=requirements,
         )
     assert not destination.exists()
+
+
+def test_feature_build_cli_enforces_requirement_files_atomically(tmp_path, capsys) -> None:
+    from core.feature_ir import serialize_feature_ir_json
+    from neurocad_cli import build_parser
+
+    program = _program(
+        Feature(id="body", kind="primitive_box", parameters={"size": [40.0, 30.0, 20.0]}),
+        output="body",
+    )
+    requirements, bindings = _width_requirements(program, 40.0)
+    program_path = tmp_path / "bound-box.ncad2.json"
+    requirements_path = tmp_path / "requirements.json"
+    bindings_path = tmp_path / "bindings.json"
+    program_path.write_text(serialize_feature_ir_json(program), encoding="utf-8")
+    requirements_path.write_text(serialize_requirement_ir_json(requirements), encoding="utf-8")
+    bindings_path.write_text(serialize_binding_set_json(bindings), encoding="utf-8")
+    destination = tmp_path / "bound-cli"
+
+    args = build_parser().parse_args(
+        [
+            "feature",
+            "build",
+            str(program_path),
+            "--backend",
+            "build123d",
+            "--output-dir",
+            str(destination),
+            "--requirements",
+            str(requirements_path),
+            "--bindings",
+            str(bindings_path),
+        ]
+    )
+    assert args.func(args) == 0
+    payload = __import__("json").loads(capsys.readouterr().out)
+    assert payload["requirements_satisfied"] is True
+    assert (destination / "requirements-verification.json").is_file()
