@@ -121,3 +121,20 @@ def test_release_command_labels_alpha_and_rc_without_marking_them_latest(tag: st
     assert "--verify-tag" in arguments
     assert ("--prerelease" in arguments) is prerelease
     assert ("--latest=false" in arguments) is prerelease
+
+
+def test_experimental_exact_backend_is_isolated_from_default_install() -> None:
+    root = Path(__file__).resolve().parents[1]
+    workflow = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    pyproject = (root / "pyproject.toml").read_text(encoding="utf-8")
+    assert "  exact-build123d:\n" in workflow
+    lane = workflow.split("  exact-build123d:\n", 1)[1].split("\n  workbench-browser:", 1)[0]
+    assert "python-version: \"3.12.14\"" in lane
+    assert "'.[dev,exact-build123d]'" in lane
+    assert "tests/test_exact_build123d.py" in lane
+    assert 'exact-build123d = ["build123d==0.13.0;' in pyproject
+    assert 'exact-cadquery = ["cadquery==2.8.0;' in pyproject
+    assert "exact-all" not in pyproject
+    default_dependencies = pyproject.split("dependencies = [", 1)[1].split("]", 1)[0]
+    assert "build123d" not in default_dependencies
+    assert "cadquery" not in default_dependencies
