@@ -12,7 +12,6 @@ from core.requirement_ir import (
     validate_requirement_ir,
 )
 
-
 SOURCE = "Make a plate 80 mm wide with four mounting holes and keep it lightweight."
 
 
