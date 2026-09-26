@@ -18,6 +18,7 @@ from .requirement_ir import (
     validate_requirement_ir,
 )
 
+
 class GeometryInspectionLike(Protocol):
     valid_brep: bool
     solid_count: int
