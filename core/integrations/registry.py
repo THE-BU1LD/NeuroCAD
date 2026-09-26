@@ -211,6 +211,152 @@ def _slicer(identifier: str, display_name: str, candidates: tuple[str, ...]) -> 
     )
 
 
+def _build123d() -> ApplicationAdapter:
+    prerequisite = _module_prerequisite("build123d_module", "build123d")
+    state = CapabilityState.AVAILABLE if prerequisite.available else CapabilityState.UNAVAILABLE
+    return ApplicationAdapter(
+        "build123d",
+        "build123d / OpenCascade",
+        (
+            Capability(
+                "exact_feature_compile",
+                state,
+                ("step", "brep", "stl") if prerequisite.available else (),
+                (
+                    "Experimental NeuroCAD Feature IR compiler is available; execution still requires explicit build/verification"
+                    if prerequisite.available
+                    else "Install the exact-build123d optional dependency to enable the experimental exact-CAD compiler"
+                ),
+            ),
+        ),
+        (prerequisite,),
+        (
+            "Python 3.11+ is required by build123d 0.13",
+            "Exact-kernel validity does not certify structural safety or manufacturability",
+            "The verified v1 OpenSCAD compiler remains a separate supported path",
+        ),
+    )
+
+
+def _cadquery() -> ApplicationAdapter:
+    prerequisite = _module_prerequisite("cadquery_module", "cadquery")
+    return ApplicationAdapter(
+        "cadquery",
+        "CadQuery / OpenCascade",
+        (
+            _unavailable_native(
+                "exact_feature_compile",
+                "CadQuery is a planned differential exact-CAD backend; the NeuroCAD compiler adapter is not implemented yet",
+            ),
+        ),
+        (prerequisite,),
+        (
+            "CadQuery 2.8 requires Python 3.11+",
+            "Keep CadQuery isolated from build123d 0.13 until their OCP dependency lines are proven compatible",
+        ),
+    )
+
+
+def _planned_python_tool(identifier: str, display_name: str, module: str, operation: str) -> ApplicationAdapter:
+    prerequisite = _module_prerequisite(f"{identifier}_module", module)
+    return ApplicationAdapter(
+        identifier,
+        display_name,
+        (
+            _unavailable_native(
+                operation,
+                "Software discovery is implemented, but NeuroCAD does not execute this workflow yet",
+            ),
+        ),
+        (prerequisite,),
+        ("Presence of the Python package is not evidence that an analysis or optimization was performed",),
+    )
+
+
+def _planned_external_tool(
+    identifier: str,
+    display_name: str,
+    candidates: tuple[str, ...],
+    operation: str,
+    formats: tuple[str, ...] = (),
+) -> ApplicationAdapter:
+    prerequisite = _executable_prerequisite(f"{identifier}_executable", candidates)
+    return ApplicationAdapter(
+        identifier,
+        display_name,
+        (
+            Capability(
+                operation,
+                CapabilityState.UNAVAILABLE,
+                formats,
+                "Executable discovery is implemented, but the NeuroCAD execution/verification adapter is not implemented yet",
+            ),
+        ),
+        (prerequisite,),
+        ("Executable presence alone is not evidence that the external workflow succeeded",),
+    )
+
+
+def _gmsh() -> ApplicationAdapter:
+    return _planned_external_tool(
+        "gmsh",
+        "Gmsh",
+        ("gmsh",),
+        "tagged_volume_mesh",
+        ("msh", "step"),
+    )
+
+
+def _calculix() -> ApplicationAdapter:
+    return _planned_external_tool(
+        "calculix",
+        "CalculiX",
+        ("ccx",),
+        "structural_fea",
+        ("inp", "frd"),
+    )
+
+
+def _openfoam() -> ApplicationAdapter:
+    return _planned_external_tool(
+        "openfoam",
+        "OpenFOAM",
+        ("foamRun", "simpleFoam"),
+        "cfd_simulation",
+        ("foam_case", "vtk"),
+    )
+
+
+def _openems() -> ApplicationAdapter:
+    return _planned_external_tool(
+        "openems",
+        "openEMS",
+        ("openEMS",),
+        "electromagnetic_fdtd",
+        ("xml", "h5"),
+    )
+
+
+def _lammps() -> ApplicationAdapter:
+    return _planned_external_tool(
+        "lammps",
+        "LAMMPS",
+        ("lmp", "lmp_mpi", "lammps"),
+        "atomistic_simulation",
+        ("lammps_data", "dump"),
+    )
+
+
+def _paraview() -> ApplicationAdapter:
+    return _planned_external_tool(
+        "paraview",
+        "ParaView",
+        ("paraview", "pvpython"),
+        "scientific_visualization",
+        ("vtk", "vtu", "xdmf"),
+    )
+
+
 FACTORIES: dict[str, Callable[[], ApplicationAdapter]] = {
     "openscad": _openscad,
     "kicad": _kicad,
@@ -222,6 +368,17 @@ FACTORIES: dict[str, Callable[[], ApplicationAdapter]] = {
     "orcaslicer": lambda: _slicer("orcaslicer", "OrcaSlicer", ("orca-slicer", "OrcaSlicer")),
     "bambu_studio": lambda: _slicer("bambu_studio", "Bambu Studio", ("bambu-studio", "BambuStudio")),
     "cura": lambda: _slicer("cura", "UltiMaker Cura", ("cura", "UltiMaker-Cura")),
+    "build123d": _build123d,
+    "cadquery": _cadquery,
+    "gmsh": _gmsh,
+    "calculix": _calculix,
+    "openfoam": _openfoam,
+    "openems": _openems,
+    "lammps": _lammps,
+    "paraview": _paraview,
+    "openmdao": lambda: _planned_python_tool("openmdao", "OpenMDAO", "openmdao", "multidisciplinary_optimization"),
+    "casadi": lambda: _planned_python_tool("casadi", "CasADi", "casadi", "nonlinear_optimization"),
+    "pyvista": lambda: _planned_python_tool("pyvista", "PyVista", "pyvista", "scientific_visualization"),
 }
 
 ALIASES = {
@@ -232,6 +389,9 @@ ALIASES = {
     "prusa_slicer": "prusaslicer",
     "orca_slicer": "orcaslicer",
     "bambustudio": "bambu_studio",
+    "build_123d": "build123d",
+    "open_foam": "openfoam",
+    "open_ems": "openems",
 }
 
 

@@ -511,3 +511,40 @@ def test_kicad_extraction_request_is_a_non_execution_receipt(tmp_path: Path) -> 
     assert len(request["source"]["sha256"]) == 64
     output = write_kicad_extraction_request(tmp_path / "request.json", board_path)
     assert json.loads(output.read_text(encoding="utf-8"))["operation_executed"] is False
+
+
+def test_registry_exposes_expansion_tools_without_claiming_unimplemented_work(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        "core.integrations.registry.importlib.util.find_spec",
+        lambda name: object() if name == "build123d" else None,
+    )
+    monkeypatch.setattr(
+        "core.integrations.registry.shutil.which",
+        lambda name: "/test/gmsh" if name == "gmsh" else None,
+    )
+    registry = default_registry()
+    expected = {
+        "build123d",
+        "cadquery",
+        "gmsh",
+        "calculix",
+        "openfoam",
+        "openems",
+        "lammps",
+        "paraview",
+        "openmdao",
+        "casadi",
+        "pyvista",
+    }
+    assert expected.issubset(set(registry.ids()))
+    assert registry.get("build123d").capability("exact_feature_compile").state is CapabilityState.AVAILABLE
+    assert registry.get("gmsh").prerequisites[0].available is True
+    assert registry.get("gmsh").capability("tagged_volume_mesh").state is CapabilityState.UNAVAILABLE
+    assert registry.get("calculix").capability("structural_fea").state is CapabilityState.UNAVAILABLE
+    assert registry.get("openfoam").capability("cfd_simulation").state is CapabilityState.UNAVAILABLE
+    assert registry.get("openems").capability("electromagnetic_fdtd").state is CapabilityState.UNAVAILABLE
+    assert registry.get("lammps").capability("atomistic_simulation").state is CapabilityState.UNAVAILABLE
+    assert registry.get("openmdao").capability("multidisciplinary_optimization").state is CapabilityState.UNAVAILABLE
+    assert registry.get("casadi").capability("nonlinear_optimization").state is CapabilityState.UNAVAILABLE
