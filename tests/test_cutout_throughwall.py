@@ -8,13 +8,19 @@ import pytest
 
 from core.artifacts import compile_scad_verified
 from core.enclosure import (
-    CutoutSpec, EnclosureSpec, LidSpec, VentPatternSpec,
-    _cutout_node, _lid_cutout_node, _lid_vent_nodes, _vent_nodes, build_enclosure,
+    CutoutSpec,
+    EnclosureSpec,
+    LidSpec,
+    VentPatternSpec,
+    _cutout_node,
+    _lid_cutout_node,
+    _lid_vent_nodes,
+    _vent_nodes,
+    build_enclosure,
 )
 from core.enclosure_verification import verify_enclosure_mesh
 from core.ir import Transform
 from core.ir_export import program_to_scad
-
 
 FACES = ('front', 'rear', 'left', 'right', 'bottom')
 
