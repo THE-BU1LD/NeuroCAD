@@ -120,6 +120,8 @@ def publish_directory_noreplace(staging: Path, destination: Path) -> None:
         raise ValueError("staging and destination must share a parent directory")
     if staging.is_symlink() or not staging.is_dir():
         raise ValueError("staging must be a regular directory")
+    function_name: str
+    flags: int
     if sys.platform == "win32":
         # Unlike POSIX rename(), Windows rename refuses an existing destination.
         os.rename(staging, destination)
