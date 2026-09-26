@@ -344,7 +344,7 @@ def _publish_worker(staging, destination, event, queue):
         queue.put((Path(staging).name, "published"))
     except FileExistsError:
         queue.put((Path(staging).name, "refused"))
-    except Exception as exc:
+    except (OSError, ValueError) as exc:
         queue.put((Path(staging).name, repr(exc)))
 
 

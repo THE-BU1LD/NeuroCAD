@@ -17,7 +17,7 @@ from typing import Any
 from core.gmsh_integrity import (
     COORD_ABS_TOL_MM,
     COORD_REL_TOL,
-    GmshMeshingError as GmshMeshingError,
+    GmshMeshingError,
     capture_mesh,
     publish_directory_noreplace,
     verify_mesh_roundtrip,

@@ -11,6 +11,7 @@ import struct
 import sys
 from array import array
 from dataclasses import dataclass
+from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
@@ -46,7 +47,7 @@ def capture_mesh(gmsh: Any) -> MeshSnapshot:
         raise GmshMeshingError("mesh node coordinate array has incorrect length")
     order = sorted(range(len(tags)), key=lambda i: int(tags[i]))
     node_tags = array("Q", (int(tags[i]) for i in order))
-    if node_tags[0] == 0 or any(a == b for a, b in zip(node_tags, node_tags[1:])):
+    if node_tags[0] == 0 or any(a == b for a, b in pairwise(node_tags)):
         raise GmshMeshingError("mesh node tags must be positive and unique")
     coordinates = array("d", (float(raw_coords[3 * i + j]) for i in order for j in range(3)))
     if any(not math.isfinite(value) for value in coordinates):
