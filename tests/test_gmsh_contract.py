@@ -32,6 +32,7 @@ class FakeGmsh:
             setPhysicalName=self.set_name,
             getPhysicalGroups=lambda: list(self.groups),
             getPhysicalName=lambda dim, tag: self.groups[(dim, tag)],
+            getEntitiesForPhysicalGroup=lambda dim, tag: [1],
         )
 
     def isInitialized(self):
@@ -63,11 +64,22 @@ class FakeGmsh:
         assert dim == 3
 
     def getNodes(self):
-        return [1, 2, 3, 4, 5], [], []
+        return [1, 2, 3, 4, 5], [
+            0., 0., 0., 1., 0., 0., 0., 1., 0., 0., 0., 1., 1., 1., 1.
+        ], []
 
-    def getElements(self, dim):
-        assert dim == 3
-        return [4], [[11, 12]], []
+    def getElements(self, dim, tag=-1):
+        assert tag in (-1, 1)
+        if dim == 3:
+            return [4], [[11, 12]], [[1, 2, 3, 4, 2, 3, 4, 5]]
+        assert dim == 2
+        return [2], [[21, 22]], [[1, 2, 3, 2, 3, 5]]
+
+    def getElementProperties(self, element_type):
+        return {
+            2: ("Triangle", 2, 1, 3, [], 3),
+            4: ("Tetrahedron", 3, 1, 4, [], 4),
+        }[element_type]
 
     def getElementQualities(self, tags, kind):
         assert tags == [11, 12]
@@ -209,7 +221,7 @@ def test_publication_failure_removes_staging(tmp_path, monkeypatch):
     def fail_replace(*args):
         raise PermissionError("injected publication failure")
 
-    monkeypatch.setattr(module.os, "replace", fail_replace)
+    monkeypatch.setattr(module, "publish_directory_noreplace", fail_replace)
     with pytest.raises(PermissionError, match="publication failure"):
         backend.mesh_step(source, destination, max_size_mm=4.0)
     assert fake.calls.count("finalize") == 1

@@ -6,7 +6,6 @@ import hashlib
 import importlib
 import json
 import math
-import os
 import shutil
 import tempfile
 import threading
@@ -14,6 +13,15 @@ from dataclasses import asdict, dataclass
 from importlib import metadata
 from pathlib import Path
 from typing import Any
+
+from core.gmsh_integrity import (
+    COORD_ABS_TOL_MM,
+    COORD_REL_TOL,
+    GmshMeshingError,
+    capture_mesh,
+    publish_directory_noreplace,
+    verify_mesh_roundtrip,
+)
 
 GMSH_RECEIPT_VERSION = "neurocad-gmsh-mesh-receipt-v1"
 MAX_STEP_BYTES = 256 * 1024 * 1024
@@ -23,10 +31,6 @@ _GMSH_LOCK = threading.Lock()
 
 
 class GmshUnavailable(RuntimeError):
-    pass
-
-
-class GmshMeshingError(ValueError):
     pass
 
 
@@ -51,6 +55,9 @@ class GmshMeshReceipt:
     roundtrip_node_count: int
     roundtrip_volume_element_count: int
     roundtrip_physical_groups: tuple[str, ...]
+    roundtrip_verification: str = "nodes-connectivity-physical-membership-v1"
+    roundtrip_coordinate_abs_tol_mm: float = COORD_ABS_TOL_MM
+    roundtrip_coordinate_rel_tol: float = COORD_REL_TOL
     claim_boundary: str = (
         "verified mesh generation and serialization only; not solver convergence, "
         "structural safety, manufacturability, or experimental validation"
@@ -237,6 +244,7 @@ class GmshBackend:
                         min_sicn = min(qualities)
                         mean_sicn = sum(qualities) / len(qualities)
 
+                    original_mesh = capture_mesh(gmsh)
                     gmsh.write(str(mesh_path))
                     if not mesh_path.is_file() or mesh_path.stat().st_size == 0:
                         raise GmshMeshingError("Gmsh did not write a non-empty mesh artifact")
@@ -253,6 +261,8 @@ class GmshBackend:
                         raise GmshMeshingError(
                             "serialized MSH roundtrip changed physical-group names"
                         )
+
+                    verify_mesh_roundtrip(original_mesh, capture_mesh(gmsh))
 
                     receipt = GmshMeshReceipt(
                         backend="gmsh",
@@ -283,7 +293,7 @@ class GmshBackend:
                     if initialized:
                         gmsh.finalize()
 
-            os.replace(staging, destination)
+            publish_directory_noreplace(staging, destination)
             return receipt
         except BaseException:
             shutil.rmtree(staging, ignore_errors=True)
