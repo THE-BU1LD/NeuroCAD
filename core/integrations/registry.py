@@ -298,12 +298,32 @@ def _planned_external_tool(
 
 
 def _gmsh() -> ApplicationAdapter:
-    return _planned_external_tool(
+    executable = _executable_prerequisite("gmsh_executable", ("gmsh",))
+    module = _module_prerequisite("gmsh_module", "gmsh")
+    state = CapabilityState.AVAILABLE if module.available else CapabilityState.UNAVAILABLE
+    return ApplicationAdapter(
         "gmsh",
         "Gmsh",
-        ("gmsh",),
-        "tagged_volume_mesh",
-        ("msh", "step"),
+        (
+            Capability(
+                "tagged_volume_mesh",
+                state,
+                ("step", "msh") if module.available else (),
+                (
+                    "Optional Python adapter detected; STEP import, meshing and receipt verification "
+                    "occur only when neurocad-mesh step is executed"
+                    if module.available
+                    else "Install mesh-gmsh to enable the Python adapter; a standalone Gmsh executable alone is insufficient"
+                ),
+            ),
+        ),
+        (executable, module),
+        (
+            "Standalone executable discovery is retained for compatibility; only gmsh_module gates this adapter",
+            "Module discovery is not proof that native libraries load or that meshing succeeded",
+            "All imported volumes are grouped as domain and all surfaces as boundary, not solver-role annotations",
+            "Mesh generation is not solver convergence, structural safety or engineering certification",
+        ),
     )
 
 
