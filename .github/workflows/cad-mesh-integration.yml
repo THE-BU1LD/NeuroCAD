@@ -1,0 +1,47 @@
+name: Exact CAD to Gmsh integration
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interoperability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12.14"
+          cache: pip
+      - name: Install both pinned optional backends
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglu1-mesa
+          python -m pip install -e '.[dev,exact-build123d,mesh-gmsh]'
+          python -m pip check
+          python -c 'import build123d, gmsh; from importlib.metadata import version; print({k: version(k) for k in ("build123d", "gmsh", "numpy")})'
+      - name: Run real interoperability and original backend tests
+        run: |
+          python -m pytest -q tests/test_cad_mesh_native.py tests/test_mesh_cli.py tests/test_exact_build123d.py tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py --basetemp="${{ runner.temp }}/cad-mesh-cases" --junitxml="${{ runner.temp }}/cad-mesh.xml"
+          python -m ruff check tests/test_cad_mesh_native.py tests/test_mesh_cli.py
+      - name: Exercise installed console commands on the shipped example
+        run: |
+          neurocad feature build docs/examples/cad_mesh_box.ncad2.json --output-dir "${{ runner.temp }}/cad-mesh-console/exact"
+          neurocad-mesh step "${{ runner.temp }}/cad-mesh-console/exact/design.step" --output-dir "${{ runner.temp }}/cad-mesh-console/mesh" --max-size 3
+      - name: Retain actual source and mesh fixtures including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: cad-mesh-interoperability
+          path: |
+            ${{ runner.temp }}/cad-mesh.xml
+            ${{ runner.temp }}/cad-mesh-cases
+            ${{ runner.temp }}/cad-mesh-console
+          retention-days: 14
