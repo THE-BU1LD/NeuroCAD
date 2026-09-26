@@ -68,6 +68,8 @@ def _nonempty_string(record: Mapping[str, Any], key: str, index: int) -> str:
 
 
 def _validate_record(record: Mapping[str, Any], index: int) -> dict[str, Any]:
+    if not isinstance(record, Mapping):
+        raise ExternalChallengeError(f"record {index}: record must be an object")
     missing = sorted(_REQUIRED_FIELDS - set(record))
     if missing:
         raise ExternalChallengeError(f"record {index}: missing required fields: {', '.join(missing)}")
@@ -85,7 +87,7 @@ def _validate_record(record: Mapping[str, Any], index: int) -> dict[str, Any]:
         normalized[key] = _nonempty_string(record, key, index)
 
     validity = record.get("validity")
-    if validity not in {"valid", "reject"}:
+    if not isinstance(validity, str) or validity not in {"valid", "reject"}:
         raise ExternalChallengeError(f"record {index}: validity must be 'valid' or 'reject'")
     normalized["validity"] = validity
 
@@ -109,8 +111,12 @@ def _validate_record(record: Mapping[str, Any], index: int) -> dict[str, Any]:
     # Canonical JSON serialization later uses allow_nan=False, but fail here with
     # a record-local error rather than relying on a less-informative encoder error.
     try:
-        json.dumps(normalized, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
-    except (TypeError, ValueError) as exc:
+        serialized = json.dumps(normalized, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+        serialized.encode("utf-8")
+        # Match the loader's strict nesting/JSON contract and detach nested
+        # caller-owned values from the snapshot bound by the manifest hash.
+        normalized = strict_json_loads(serialized)
+    except (TypeError, ValueError, RecursionError) as exc:
         raise ExternalChallengeError(f"record {index}: record is not canonical-JSON serializable: {exc}") from exc
     return normalized
 
@@ -146,6 +152,8 @@ def validate_external_challenge(
     if minimum_valid + minimum_reject > minimum_records:
         raise ExternalChallengeError("minimum_valid + minimum_reject cannot exceed minimum_records")
 
+    if isinstance(records, (str, bytes, bytearray, Mapping)) or not isinstance(records, Iterable):
+        raise ExternalChallengeError("records must be an iterable of objects")
     normalized = [_validate_record(record, index) for index, record in enumerate(records, start=1)]
     if len(normalized) < minimum_records:
         raise ExternalChallengeError(
@@ -204,16 +212,22 @@ def load_external_challenge(
     """Load strict JSONL after machine checks; never authorize scientific execution."""
 
     records: list[Mapping[str, Any]] = []
-    for line_number, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-        if not raw_line.strip():
-            raise ExternalChallengeError(f"line {line_number}: blank lines are not allowed")
-        try:
-            value = strict_json_loads(raw_line)
-        except json.JSONDecodeError as exc:
-            raise ExternalChallengeError(f"line {line_number}: invalid JSON: {exc.msg}") from exc
-        if not isinstance(value, dict):
-            raise ExternalChallengeError(f"line {line_number}: each JSONL record must be an object")
-        records.append(value)
+    try:
+        # JSONL records end at LF (with optional CR), not at Unicode separators
+        # inside strings. Text iteration also avoids a second full-file copy.
+        with path.open("r", encoding="utf-8", newline="\n") as handle:
+            for line_number, raw_line in enumerate(handle, start=1):
+                if not raw_line.strip():
+                    raise ExternalChallengeError(f"line {line_number}: blank lines are not allowed")
+                try:
+                    value = strict_json_loads(raw_line)
+                except json.JSONDecodeError as exc:
+                    raise ExternalChallengeError(f"line {line_number}: invalid JSON: {exc.msg}") from exc
+                if not isinstance(value, dict):
+                    raise ExternalChallengeError(f"line {line_number}: each JSONL record must be an object")
+                records.append(value)
+    except UnicodeError as exc:
+        raise ExternalChallengeError("challenge must be valid UTF-8") from exc
     return validate_external_challenge(
         records,
         minimum_records=minimum_records,
