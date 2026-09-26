@@ -212,7 +212,8 @@ class Build123dBackend:
                 result = result - item
             else:
                 result = result & item
-        assert result is not None
+        if result is None:
+            raise Build123dCompileError(f"sketch {feature.id!r} produced no profile")
         plane = self._plane(str(feature.parameters.get("plane", "XY")))
         if plane != self.bd.Plane.XY:
             result = plane * result
@@ -560,16 +561,14 @@ class Build123dBackend:
 
 
 def _as_positive_float(value: Any, label: str) -> float:
-    if not _positive(value):
+    if not isinstance(value, (int, float)) or isinstance(value, bool) or not _positive(value):
         raise Build123dCompileError(f"{label} must be a positive finite number")
-    assert isinstance(value, (int, float)) and not isinstance(value, bool)
     return float(value)
 
 
 def _as_vec3(value: Any, label: str) -> tuple[float, float, float]:
-    if not _vec3(value):
+    if not isinstance(value, (list, tuple)) or not _vec3(value):
         raise Build123dCompileError(f"{label} must be a finite 3-vector")
-    assert isinstance(value, (list, tuple))
     return float(value[0]), float(value[1]), float(value[2])
 
 
