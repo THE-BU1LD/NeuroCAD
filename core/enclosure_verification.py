@@ -269,9 +269,9 @@ def verify_enclosure_mesh(path: Path, spec: EnclosureSpec, *, part: str) -> Encl
         for cutout in (item for item in spec.cutouts if item.face != "top"):
             center = _wall_point(cutout.face, cutout.center_uv_mm, spec)
             probes.append(_probe(occupancy, cutout.id, "cutout center", center, False))
-            for side, fraction in (("outer", 0.02), ("inner", 0.98)):
+            for depth_side, fraction in (("outer", 0.02), ("inner", 0.98)):
                 probes.append(_probe(
-                    occupancy, cutout.id, f"cutout {side} depth",
+                    occupancy, cutout.id, f"cutout {depth_side} depth",
                     _wall_point(cutout.face, cutout.center_uv_mm, spec, fraction=fraction), False,
                 ))
             probes.append(_probe(occupancy, cutout.id, "adjacent wall", _cutout_boundary_probe(cutout, spec, lid=False), True))
@@ -280,9 +280,9 @@ def verify_enclosure_mesh(path: Path, spec: EnclosureSpec, *, part: str) -> Encl
                 probes.append(
                     _probe(occupancy, vent.id, f"vent center {index}", _wall_point(vent.face, center_uv, spec), False)
                 )
-                for side, fraction in (("outer", 0.02), ("inner", 0.98)):
+                for depth_side, fraction in (("outer", 0.02), ("inner", 0.98)):
                     probes.append(_probe(
-                        occupancy, vent.id, f"vent {index} {side} depth",
+                        occupancy, vent.id, f"vent {index} {depth_side} depth",
                         _wall_point(vent.face, center_uv, spec, fraction=fraction), False,
                     ))
         for standoff in spec.standoffs:
@@ -294,20 +294,20 @@ def verify_enclosure_mesh(path: Path, spec: EnclosureSpec, *, part: str) -> Encl
     else:
         for cutout in (item for item in spec.cutouts if item.face == "top"):
             probes.append(_probe(occupancy, cutout.id, "lid cutout center", _top_point(cutout.center_uv_mm), False))
-            for side, fraction in (("outer", 0.02), ("inner", 0.98)):
+            for depth_side, fraction in (("outer", 0.02), ("inner", 0.98)):
                 z = spec.lid.thickness_mm / 2 - fraction * (spec.lid.thickness_mm + spec.lid.lip_height_mm)
                 probes.append(_probe(
-                    occupancy, cutout.id, f"lid cutout {side} depth",
+                    occupancy, cutout.id, f"lid cutout {depth_side} depth",
                     (*cutout.center_uv_mm, z), False,
                 ))
             probes.append(_probe(occupancy, cutout.id, "adjacent lid", _cutout_boundary_probe(cutout, spec, lid=True), True))
         for vent in (item for item in spec.vents if item.face == "top"):
             for index, center_uv in enumerate(_vent_centers(vent), start=1):
                 probes.append(_probe(occupancy, vent.id, f"lid vent center {index}", _top_point(center_uv), False))
-                for side, fraction in (("outer", 0.02), ("inner", 0.98)):
+                for depth_side, fraction in (("outer", 0.02), ("inner", 0.98)):
                     z = spec.lid.thickness_mm / 2 - fraction * (spec.lid.thickness_mm + spec.lid.lip_height_mm)
                     probes.append(_probe(
-                        occupancy, vent.id, f"lid vent {index} {side} depth", (*center_uv, z), False,
+                        occupancy, vent.id, f"lid vent {index} {depth_side} depth", (*center_uv, z), False,
                     ))
         if spec.lid.kind == "screw":
             for index, position in enumerate(spec.lid.fastener_positions_xy_mm, start=1):
