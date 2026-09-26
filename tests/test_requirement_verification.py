@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
+
+import pytest
 
 from core.feature_ir import Feature, FeatureProgram
 from core.requirement_ir import Requirement, RequirementIR, RequirementValue
 from core.requirement_verification import (
     ExactRequirementBinding,
+    RequirementBindingError,
     RequirementBindingSet,
     feature_ir_sha256,
     parse_binding_set_json,
@@ -96,6 +100,30 @@ def _documents() -> tuple[RequirementIR, FeatureProgram, RequirementBindingSet]:
         ),
     )
     return requirements, program, bindings
+
+
+@pytest.mark.parametrize(
+    ("field", "bad_value", "expected_code"),
+    [
+        ("requirement_id", {"unexpected": "object"}, "invalid_requirement_id"),
+        ("requirement_id", ["width"], "invalid_requirement_id"),
+        ("verification", {"kind": "exact_dimension"}, "unsupported_exact_verification"),
+        ("verification", ["exact_dimension"], "unsupported_exact_verification"),
+    ],
+)
+def test_binding_parser_rejects_unhashable_scalars_without_typeerror(
+    field: str,
+    bad_value: object,
+    expected_code: str,
+) -> None:
+    _, _, bindings = _documents()
+    raw = json.loads(serialize_binding_set_json(bindings))
+    raw["bindings"][0][field] = bad_value
+
+    with pytest.raises(RequirementBindingError) as exc_info:
+        parse_binding_set_json(json.dumps(raw))
+
+    assert expected_code in str(exc_info.value)
 
 
 def test_binding_set_json_roundtrip_is_deterministic() -> None:

@@ -214,21 +214,31 @@ def validate_binding_set(binding_set: RequirementBindingSet) -> tuple[Requiremen
     seen: set[str] = set()
     for index, binding in enumerate(binding_set.bindings):
         path = f"$.bindings[{index}]"
-        if not isinstance(binding.requirement_id, str) or not binding.requirement_id:
+        requirement_id = binding.requirement_id
+        if not isinstance(requirement_id, str) or not requirement_id:
             errors.append(
-                RequirementIssue("invalid_requirement_id", f"{path}.requirement_id", "must be non-empty")
+                RequirementIssue(
+                    "invalid_requirement_id",
+                    f"{path}.requirement_id",
+                    "must be a non-empty string",
+                )
             )
-        elif binding.requirement_id in seen:
+        elif requirement_id in seen:
             errors.append(
-                RequirementIssue("duplicate_binding", f"{path}.requirement_id", binding.requirement_id)
+                RequirementIssue("duplicate_binding", f"{path}.requirement_id", requirement_id)
             )
-        seen.add(binding.requirement_id)
-        if binding.verification not in SUPPORTED_EXACT_VERIFICATION:
+        else:
+            seen.add(requirement_id)
+        verification = binding.verification
+        if (
+            not isinstance(verification, str)
+            or verification not in SUPPORTED_EXACT_VERIFICATION
+        ):
             errors.append(
                 RequirementIssue(
                     "unsupported_exact_verification",
                     f"{path}.verification",
-                    binding.verification,
+                    str(verification),
                 )
             )
         if not isinstance(binding.probe, dict):
