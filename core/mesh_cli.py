@@ -6,7 +6,7 @@ import json
 import sys
 from pathlib import Path
 
-from .gmsh_backend import GmshBackend
+from .gmsh_process import DEFAULT_TIMEOUT_SECONDS, GmshProcessBackend
 
 
 def cmd_step(args: argparse.Namespace) -> int:
@@ -15,7 +15,7 @@ def cmd_step(args: argparse.Namespace) -> int:
     if source.resolve() == destination.resolve():
         raise ValueError("STEP input and mesh output directory must be distinct")
     # Preserve the original paths so the backend can reject symlink inputs.
-    receipt = GmshBackend().mesh_step(
+    receipt = GmshProcessBackend(timeout_seconds=args.timeout_seconds).mesh_step(
         source, destination, min_size_mm=args.min_size, max_size_mm=args.max_size,
     )
     print(json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False))
@@ -33,6 +33,8 @@ def build_parser() -> argparse.ArgumentParser:
     step.add_argument("--output-dir", required=True, help="New output directory; existing paths are refused")
     step.add_argument("--max-size", type=float, required=True, help="Maximum target element size in mm")
     step.add_argument("--min-size", type=float, help="Minimum target size in mm; defaults to max(0.01, max-size/5)")
+    step.add_argument("--timeout-seconds", type=float, default=DEFAULT_TIMEOUT_SECONDS,
+                      help="Native worker wait limit, 0.1 to 3600 seconds (default: 120); not a RAM/CPU quota")
     step.set_defaults(func=cmd_step)
     return parser
 
