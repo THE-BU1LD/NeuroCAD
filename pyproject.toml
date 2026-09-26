@@ -34,6 +34,11 @@ exact-cadquery = ["cadquery==2.8.0; python_version >= '3.11'"]
 target-version = "py310"
 line-length = 140
 
+[tool.ruff.lint.per-file-ignores]
+# External manifest schema violations are intentionally normalized as ValueError
+# so the CLI reports one fail-closed validation error class for malformed packets.
+"core/independent_validation_gate.py" = ["TRY004"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--strict-markers"
