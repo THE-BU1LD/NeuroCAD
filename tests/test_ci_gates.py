@@ -121,3 +121,17 @@ def test_release_command_labels_alpha_and_rc_without_marking_them_latest(tag: st
     assert "--verify-tag" in arguments
     assert ("--prerelease" in arguments) is prerelease
     assert ("--latest=false" in arguments) is prerelease
+
+
+def test_experimental_gmsh_backend_is_isolated_from_default_install() -> None:
+    root = Path(__file__).resolve().parents[1]
+    workflow = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    pyproject = (root / "pyproject.toml").read_text(encoding="utf-8")
+    assert "  gmsh-meshing:\n" in workflow
+    lane = workflow.split("  gmsh-meshing:\n", 1)[1].split("\n  workbench-browser:", 1)[0]
+    assert "python-version: \"3.12.14\"" in lane
+    assert "'.[dev,mesh-gmsh]'" in lane
+    assert "tests/test_gmsh_backend.py" in lane
+    assert 'mesh-gmsh = ["gmsh==4.15.2"]' in pyproject
+    default_dependencies = pyproject.split("dependencies = [", 1)[1].split("]", 1)[0]
+    assert "gmsh" not in default_dependencies

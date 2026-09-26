@@ -1772,6 +1772,22 @@ def cmd_integrations_kicad_apply(args: argparse.Namespace) -> int:
     return 0
 
 
+
+def cmd_mesh_step(args: argparse.Namespace) -> int:
+    from core.gmsh_backend import GmshBackend
+
+    source = _resolved_path(args.step)
+    destination = _resolved_path(args.output_dir)
+    _require_distinct_paths(source=source, destination=destination)
+    receipt = GmshBackend().mesh_step(
+        source,
+        destination,
+        min_size_mm=args.min_size,
+        max_size_mm=args.max_size,
+    )
+    print(json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
 def cmd_fit_sample(args: argparse.Namespace) -> int:
     from core.fit_sample import cutout_fit_sample
     from core.project import read_project
@@ -2116,6 +2132,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     demo_parser.set_defaults(func=cmd_demo)
 
+    mesh_parser = sub.add_parser("mesh", help="Generate verified simulation meshes from CAD exchange geometry")
+    mesh_actions = mesh_parser.add_subparsers(dest="mesh_action", required=True)
+    mesh_step = mesh_actions.add_parser("step", help="Generate and round-trip-verify a tagged 3-D Gmsh mesh from STEP")
+    mesh_step.add_argument("step", help="Existing STEP solid or assembly")
+    mesh_step.add_argument("--output-dir", required=True, help="New atomic mesh artifact directory")
+    mesh_step.add_argument("--max-size", type=float, required=True, help="Maximum target element size in mm")
+    mesh_step.add_argument("--min-size", type=float, help="Minimum target element size in mm; defaults to max-size/5")
+    mesh_step.set_defaults(func=cmd_mesh_step)
+
     enclosure_parser = sub.add_parser("enclosure", help="Create, validate, edit, and build typed enclosure projects")
     enclosure_actions = enclosure_parser.add_subparsers(dest="enclosure_action", required=True)
 
@@ -2273,6 +2298,7 @@ KNOWN_COMMANDS = frozenset(
         "ir",
         "jobs",
         "math",
+        "mesh",
         "nlp",
         "open",
         "physics",
