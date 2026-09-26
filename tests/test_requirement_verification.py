@@ -14,7 +14,6 @@ from core.requirement_verification import (
     verify_exact_requirements,
 )
 
-
 SOURCE = "Make the box exactly 40 mm wide and keep the body feature."
 
 
