@@ -72,10 +72,33 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _snapshot_step(source: Path, snapshot: Path) -> tuple[int, str]:
+    """Hash exactly the bounded private copy passed to Gmsh, not a mutable source."""
+    digest = hashlib.sha256()
+    size = 0
+    with source.open("rb") as reader, snapshot.open("xb") as writer:
+        for chunk in iter(lambda: reader.read(1024 * 1024), b""):
+            size += len(chunk)
+            if size > MAX_STEP_BYTES:
+                raise GmshMeshingError(
+                    f"STEP source size must be from 1 through {MAX_STEP_BYTES} bytes"
+                )
+            writer.write(chunk)
+            digest.update(chunk)
+    if size == 0:
+        raise GmshMeshingError(
+            f"STEP source size must be from 1 through {MAX_STEP_BYTES} bytes"
+        )
+    return size, digest.hexdigest()
+
+
 def _finite_positive(value: Any, *, name: str) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise TypeError(f"{name} must be a positive finite number")
-    parsed = float(value)
+    try:
+        parsed = float(value)
+    except OverflowError as exc:
+        raise ValueError(f"{name} must be a positive finite number") from exc
     if not math.isfinite(parsed) or parsed <= 0:
         raise ValueError(f"{name} must be a positive finite number")
     if parsed < 0.01 or parsed > 1_000_000:
@@ -123,7 +146,10 @@ class GmshBackend:
         if source_input.is_symlink():
             raise FileNotFoundError(f"STEP source is missing or not a regular file: {source_input}")
         source = source_input.resolve()
-        destination = output_dir.expanduser().resolve()
+        destination_input = output_dir.expanduser()
+        if destination_input.exists() or destination_input.is_symlink():
+            raise FileExistsError(f"output directory already exists: {destination_input}")
+        destination = destination_input.resolve()
         if not source.is_file():
             raise FileNotFoundError(f"STEP source is missing or not a regular file: {source}")
         source_bytes = source.stat().st_size
@@ -133,7 +159,7 @@ class GmshBackend:
             )
         maximum = _finite_positive(max_size_mm, name="max_size_mm")
         minimum = _finite_positive(
-            maximum / 5.0 if min_size_mm is None else min_size_mm,
+            max(0.01, maximum / 5.0) if min_size_mm is None else min_size_mm,
             name="min_size_mm",
         )
         if minimum > maximum:
@@ -143,112 +169,122 @@ class GmshBackend:
         destination.parent.mkdir(parents=True, exist_ok=True)
 
         staging = Path(tempfile.mkdtemp(prefix=f".{destination.name}.", dir=destination.parent))
-        mesh_path = staging / "design.msh"
-        receipt_path = staging / "meshing-receipt.json"
-        source_hash = _sha256(source)
-        gmsh = self.gmsh
+        try:
+            mesh_path = staging / "design.msh"
+            receipt_path = staging / "meshing-receipt.json"
+            source_snapshot = staging / "source.step"
+            source_bytes, source_hash = _snapshot_step(source, source_snapshot)
+            gmsh = self.gmsh
 
-        with _GMSH_LOCK:
-            initialized = False
-            try:
-                gmsh.initialize(readConfigFiles=False)
-                initialized = True
-                gmsh.option.setNumber("General.Terminal", 0)
-                gmsh.option.setNumber("Mesh.MeshSizeMin", minimum)
-                gmsh.option.setNumber("Mesh.MeshSizeMax", maximum)
-                gmsh.option.setNumber("Mesh.MshFileVersion", 4.1)
-                gmsh.option.setNumber("Mesh.Binary", 0)
-                gmsh.open(str(source))
+            with _GMSH_LOCK:
+                if gmsh.isInitialized():
+                    raise GmshMeshingError("refusing to use an already initialized Gmsh session")
+                initialized = False
+                try:
+                    gmsh.initialize(readConfigFiles=False)
+                    initialized = True
+                    gmsh.option.setNumber("General.Terminal", 0)
+                    gmsh.option.setNumber("Mesh.MeshSizeMin", minimum)
+                    gmsh.option.setNumber("Mesh.MeshSizeMax", maximum)
+                    gmsh.option.setNumber("Mesh.MshFileVersion", 4.1)
+                    gmsh.option.setNumber("Mesh.Binary", 0)
+                    gmsh.open(str(source_snapshot))
+                    source_snapshot.unlink()
 
-                volumes = gmsh.model.getEntities(3)
-                surfaces = gmsh.model.getEntities(2)
-                if not volumes:
-                    raise GmshMeshingError("STEP input contains no 3-D volume entities")
-                if not surfaces:
-                    raise GmshMeshingError("STEP input contains no boundary surfaces")
+                    volumes = gmsh.model.getEntities(3)
+                    surfaces = gmsh.model.getEntities(2)
+                    if not volumes:
+                        raise GmshMeshingError("STEP input contains no 3-D volume entities")
+                    if not surfaces:
+                        raise GmshMeshingError("STEP input contains no boundary surfaces")
 
-                domain_tag = gmsh.model.addPhysicalGroup(3, [tag for _, tag in volumes])
-                gmsh.model.setPhysicalName(3, domain_tag, "domain")
-                boundary_tag = gmsh.model.addPhysicalGroup(2, [tag for _, tag in surfaces])
-                gmsh.model.setPhysicalName(2, boundary_tag, "boundary")
+                    domain_tag = gmsh.model.addPhysicalGroup(3, [tag for _, tag in volumes])
+                    gmsh.model.setPhysicalName(3, domain_tag, "domain")
+                    boundary_tag = gmsh.model.addPhysicalGroup(2, [tag for _, tag in surfaces])
+                    gmsh.model.setPhysicalName(2, boundary_tag, "boundary")
 
-                gmsh.model.mesh.generate(3)
-                node_count, element_count, element_tags = _mesh_counts(gmsh)
-                if node_count == 0 or element_count == 0:
-                    raise GmshMeshingError("Gmsh generated an empty volume mesh")
-                if element_count > MAX_MESH_ELEMENTS:
-                    raise GmshMeshingError(
-                        f"generated mesh has {element_count} volume elements; "
-                        f"limit is {MAX_MESH_ELEMENTS}"
-                    )
-                groups = _physical_group_names(gmsh)
-                if "domain" not in groups or "boundary" not in groups:
-                    raise GmshMeshingError("required domain/boundary physical groups were not created")
-
-                min_sicn: float | None = None
-                mean_sicn: float | None = None
-                if element_count <= MAX_QUALITY_ELEMENTS:
-                    qualities = [
-                        float(item)
-                        for item in gmsh.model.mesh.getElementQualities(
-                            element_tags,
-                            "minSICN",
+                    gmsh.model.mesh.generate(3)
+                    node_count, element_count, element_tags = _mesh_counts(gmsh)
+                    if node_count == 0 or element_count == 0:
+                        raise GmshMeshingError("Gmsh generated an empty volume mesh")
+                    if element_count > MAX_MESH_ELEMENTS:
+                        raise GmshMeshingError(
+                            f"generated mesh has {element_count} volume elements; "
+                            f"limit is {MAX_MESH_ELEMENTS}"
                         )
-                    ]
-                    if qualities:
+                    groups = _physical_group_names(gmsh)
+                    if "domain" not in groups or "boundary" not in groups:
+                        raise GmshMeshingError("required domain/boundary physical groups were not created")
+
+                    min_sicn: float | None = None
+                    mean_sicn: float | None = None
+                    if element_count <= MAX_QUALITY_ELEMENTS:
+                        qualities = [
+                            float(item)
+                            for item in gmsh.model.mesh.getElementQualities(
+                                element_tags,
+                                "minSICN",
+                            )
+                        ]
+                        if len(qualities) != element_count:
+                            raise GmshMeshingError(
+                                "Gmsh element quality count does not match volume-element count"
+                            )
                         if any(not math.isfinite(item) for item in qualities):
                             raise GmshMeshingError("Gmsh returned non-finite element quality")
+                        if any(item <= 0.0 for item in qualities):
+                            raise GmshMeshingError("Gmsh returned non-positive element quality")
                         min_sicn = min(qualities)
                         mean_sicn = sum(qualities) / len(qualities)
 
-                gmsh.write(str(mesh_path))
-                if not mesh_path.is_file() or mesh_path.stat().st_size == 0:
-                    raise GmshMeshingError("Gmsh did not write a non-empty mesh artifact")
+                    gmsh.write(str(mesh_path))
+                    if not mesh_path.is_file() or mesh_path.stat().st_size == 0:
+                        raise GmshMeshingError("Gmsh did not write a non-empty mesh artifact")
 
-                gmsh.clear()
-                gmsh.open(str(mesh_path))
-                roundtrip_nodes, roundtrip_elements, _ = _mesh_counts(gmsh)
-                roundtrip_groups = _physical_group_names(gmsh)
-                if roundtrip_nodes != node_count or roundtrip_elements != element_count:
-                    raise GmshMeshingError(
-                        "serialized MSH roundtrip changed mesh node or volume-element count"
+                    gmsh.clear()
+                    gmsh.open(str(mesh_path))
+                    roundtrip_nodes, roundtrip_elements, _ = _mesh_counts(gmsh)
+                    roundtrip_groups = _physical_group_names(gmsh)
+                    if roundtrip_nodes != node_count or roundtrip_elements != element_count:
+                        raise GmshMeshingError(
+                            "serialized MSH roundtrip changed mesh node or volume-element count"
+                        )
+                    if roundtrip_groups != groups:
+                        raise GmshMeshingError(
+                            "serialized MSH roundtrip changed physical-group names"
+                        )
+
+                    receipt = GmshMeshReceipt(
+                        backend="gmsh",
+                        backend_version=self.version,
+                        source_step_sha256=source_hash,
+                        source_step_bytes=source_bytes,
+                        mesh_path=mesh_path.name,
+                        mesh_sha256=_sha256(mesh_path),
+                        mesh_bytes=mesh_path.stat().st_size,
+                        volume_entity_count=len(volumes),
+                        boundary_surface_count=len(surfaces),
+                        node_count=node_count,
+                        volume_element_count=element_count,
+                        physical_groups=groups,
+                        mesh_size_min_mm=minimum,
+                        mesh_size_max_mm=maximum,
+                        min_sicn=min_sicn,
+                        mean_sicn=mean_sicn,
+                        roundtrip_node_count=roundtrip_nodes,
+                        roundtrip_volume_element_count=roundtrip_elements,
+                        roundtrip_physical_groups=roundtrip_groups,
                     )
-                if roundtrip_groups != groups:
-                    raise GmshMeshingError(
-                        "serialized MSH roundtrip changed physical-group names"
+                    receipt_path.write_text(
+                        json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n",
+                        encoding="utf-8",
                     )
+                finally:
+                    if initialized:
+                        gmsh.finalize()
 
-                receipt = GmshMeshReceipt(
-                    backend="gmsh",
-                    backend_version=self.version,
-                    source_step_sha256=source_hash,
-                    source_step_bytes=source_bytes,
-                    mesh_path=mesh_path.name,
-                    mesh_sha256=_sha256(mesh_path),
-                    mesh_bytes=mesh_path.stat().st_size,
-                    volume_entity_count=len(volumes),
-                    boundary_surface_count=len(surfaces),
-                    node_count=node_count,
-                    volume_element_count=element_count,
-                    physical_groups=groups,
-                    mesh_size_min_mm=minimum,
-                    mesh_size_max_mm=maximum,
-                    min_sicn=min_sicn,
-                    mean_sicn=mean_sicn,
-                    roundtrip_node_count=roundtrip_nodes,
-                    roundtrip_volume_element_count=roundtrip_elements,
-                    roundtrip_physical_groups=roundtrip_groups,
-                )
-                receipt_path.write_text(
-                    json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n",
-                    encoding="utf-8",
-                )
-            except BaseException:
-                shutil.rmtree(staging, ignore_errors=True)
-                raise
-            finally:
-                if initialized:
-                    gmsh.finalize()
-
-        os.replace(staging, destination)
-        return receipt
+            os.replace(staging, destination)
+            return receipt
+        except BaseException:
+            shutil.rmtree(staging, ignore_errors=True)
+            raise
