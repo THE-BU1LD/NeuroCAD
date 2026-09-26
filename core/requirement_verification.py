@@ -356,7 +356,8 @@ def _feature_history_check(
         raise RequirementBindingError(
             f"feature count requirement {requirement.id!r} must be a non-negative integer"
         )
-    present = [feature_id for feature_id in binding.feature_ids if feature_id in feature_ids]
+    # Repeated references cannot manufacture additional feature-history entries.
+    present = sorted(set(binding.feature_ids) & feature_ids)
     actual = len(present)
     passed = actual == expected and actual == len(binding.feature_ids)
     return RequirementCheck(
@@ -371,7 +372,7 @@ def _feature_history_check(
         source_start=requirement.source_start,
         source_end=requirement.source_end,
         source_text=requirement.source_text,
-        detail=f"{actual} bound Feature IR ids are present; expected {expected}",
+        detail=f"{actual} distinct bound Feature IR ids are present; expected {expected}",
     )
 
 
