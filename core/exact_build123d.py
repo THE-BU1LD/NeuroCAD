@@ -11,6 +11,7 @@ import importlib
 import json
 import math
 import os
+import re
 import shutil
 import tempfile
 from dataclasses import asdict, dataclass
@@ -118,6 +119,23 @@ def _sha256(path: Path) -> str:
 def _program_sha256(program: FeatureProgram) -> str:
     payload = serialize_feature_ir_json(program, pretty=False).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def _validate_step_filename(filename: str) -> str:
+    """Accept a portable STEP basename, never a path or receipt filename."""
+    if not isinstance(filename, str) or re.fullmatch(
+        r"[A-Za-z0-9][A-Za-z0-9._ -]*\.(?:step|stp)", filename, flags=re.IGNORECASE | re.ASCII
+    ) is None:
+        raise Build123dCompileError(
+            "filename must be a plain ASCII .step/.stp basename starting with a letter or digit; "
+            "only letters, digits, spaces, dots, underscores and hyphens are allowed"
+        )
+    stem = filename.split(".", 1)[0].rstrip(" ").upper()
+    reserved = {"CON", "PRN", "AUX", "NUL", "CONIN$", "CONOUT$"}
+    reserved.update(f"{prefix}{number}" for prefix in ("COM", "LPT") for number in range(1, 10))
+    if stem in reserved:
+        raise Build123dCompileError("filename cannot use a reserved device basename")
+    return filename
 
 
 class Build123dBackend:
@@ -434,7 +452,11 @@ class Build123dBackend:
         requirements: RequirementIR | None = None,
         binding_set: RequirementBindingSet | None = None,
     ) -> Build123dReceipt:
-        output_dir = output_dir.expanduser().resolve()
+        filename = _validate_step_filename(filename)
+        destination_input = output_dir.expanduser()
+        if destination_input.exists() or destination_input.is_symlink():
+            raise FileExistsError(f"output directory already exists: {destination_input}")
+        output_dir = destination_input.resolve()
         if output_dir.exists() or output_dir.is_symlink():
             raise FileExistsError(f"output directory already exists: {output_dir}")
         output_dir.parent.mkdir(parents=True, exist_ok=True)
