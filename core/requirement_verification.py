@@ -20,10 +20,23 @@ from .requirement_ir import (
 
 
 class GeometryInspectionLike(Protocol):
-    valid_brep: bool
-    solid_count: int
-    volume_mm3: float
-    extents_mm: tuple[float, float, float]
+    """Read-only inspection interface, including frozen kernel receipts."""
+
+    @property
+    def valid_brep(self) -> bool:
+        ...
+
+    @property
+    def solid_count(self) -> int:
+        ...
+
+    @property
+    def volume_mm3(self) -> float:
+        ...
+
+    @property
+    def extents_mm(self) -> tuple[float, float, float]:
+        ...
 
 
 REQUIREMENT_BINDING_VERSION = "neurocad-requirement-binding-v0alpha1"
