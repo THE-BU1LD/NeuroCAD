@@ -6,12 +6,13 @@ import errno
 import hashlib
 import json
 import multiprocessing
-import sys
+import os
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
+from core import gmsh_integrity as integrity
 from core.gmsh_backend import GmshBackend, GmshMeshingError
 from core.gmsh_integrity import capture_mesh, publish_directory_noreplace, verify_mesh_roundtrip
 
@@ -107,12 +108,12 @@ class FakeGmsh:
 
     def open(self, path):
         if Path(path).suffix == ".msh":
-            self.data = json.loads(Path(path).read_text())
+            self.data = json.loads(Path(path).read_text(encoding="utf-8"))
             if self.mutation:
                 self.mutation(self.data)
 
     def write(self, path):
-        Path(path).write_text(json.dumps(self.data))
+        Path(path).write_text(json.dumps(self.data), encoding="utf-8")
 
 
 def make_backend(fake):
@@ -124,7 +125,7 @@ def make_backend(fake):
 
 def source_file(tmp_path):
     path = tmp_path / "source.step"
-    path.write_text("not a real STEP file: engineering fake-adapter fixture\n")
+    path.write_text("not a real STEP file: engineering fake-adapter fixture\n", encoding="utf-8")
     return path
 
 
@@ -196,7 +197,7 @@ def test_backend_accepts_identical_reordered_or_tiny_roundoff_mesh(tmp_path, mut
     assert receipt.node_count == receipt.roundtrip_node_count == 5
     assert receipt.volume_element_count == receipt.roundtrip_volume_element_count == 2
     assert receipt.source_step_sha256 == hashlib.sha256(source.read_bytes()).hexdigest()
-    payload = json.loads((tmp_path / "bundle/meshing-receipt.json").read_text())
+    payload = json.loads((tmp_path / "bundle/meshing-receipt.json").read_text(encoding="utf-8"))
     assert payload["mesh_sha256"] == hashlib.sha256((tmp_path / "bundle/design.msh").read_bytes()).hexdigest()
     assert fake.finalized
 
@@ -212,10 +213,10 @@ def test_backend_refuses_destination_created_after_initial_check(tmp_path):
 
 def test_backend_refuses_file_created_after_initial_check(tmp_path):
     destination = tmp_path / "bundle"
-    fake = FakeGmsh(on_finalize=lambda: destination.write_text("other writer"))
+    fake = FakeGmsh(on_finalize=lambda: destination.write_text("other writer", encoding="utf-8"))
     with pytest.raises(OSError):
         make_backend(fake).mesh_step(source_file(tmp_path), destination, max_size_mm=4.)
-    assert destination.read_text() == "other writer"
+    assert destination.read_text(encoding="utf-8") == "other writer"
     assert not list(tmp_path.glob(".bundle.*"))
 
 
@@ -273,7 +274,7 @@ def test_snapshot_copies_mutable_backend_arrays():
 def staging_dir(tmp_path, name="staging"):
     path = tmp_path / name
     path.mkdir()
-    (path / "payload").write_text(name)
+    (path / "payload").write_text(name, encoding="utf-8")
     return path
 
 
@@ -285,16 +286,16 @@ def test_atomic_publish_never_replaces_existing_destination(tmp_path, kind):
         destination.mkdir()
     elif kind == "nonempty-dir":
         destination.mkdir()
-        (destination / "owned").write_text("keep")
+        (destination / "owned").write_text("keep", encoding="utf-8")
     elif kind == "file":
-        destination.write_text("keep")
+        destination.write_text("keep", encoding="utf-8")
     else:
         destination.symlink_to(tmp_path / "absent")
     inode = destination.lstat().st_ino
     with pytest.raises(FileExistsError):
         publish_directory_noreplace(staging, destination)
     assert destination.lstat().st_ino == inode
-    assert (staging / "payload").read_text() == "staging"
+    assert (staging / "payload").read_text(encoding="utf-8") == "staging"
 
 
 def test_atomic_publish_complete_bundle(tmp_path):
@@ -302,7 +303,7 @@ def test_atomic_publish_complete_bundle(tmp_path):
     destination = tmp_path / "destination"
     publish_directory_noreplace(staging, destination)
     assert not staging.exists()
-    assert (destination / "payload").read_text() == "staging"
+    assert (destination / "payload").read_text(encoding="utf-8") == "staging"
 
 
 def test_atomic_publish_refuses_different_parent(tmp_path):
@@ -320,7 +321,7 @@ def test_atomic_publish_refuses_symlink_staging(tmp_path):
 
 
 def test_atomic_publish_fails_closed_on_unsupported_platform(tmp_path, monkeypatch):
-    monkeypatch.setattr(sys, "platform", "unsupported-test-platform")
+    monkeypatch.setattr(integrity, "sys", SimpleNamespace(platform="unsupported-test-platform"))
     staging = staging_dir(tmp_path)
     with pytest.raises(OSError) as raised:
         publish_directory_noreplace(staging, tmp_path / "destination")
@@ -328,8 +329,10 @@ def test_atomic_publish_fails_closed_on_unsupported_platform(tmp_path, monkeypat
     assert staging.exists()
 
 
-def test_atomic_publish_fails_closed_on_missing_symbol(tmp_path, monkeypatch):
-    monkeypatch.setattr(ctypes, "CDLL", lambda *a, **k: SimpleNamespace())
+@pytest.mark.parametrize("platform", ["linux", "darwin"])
+def test_atomic_publish_fails_closed_on_missing_symbol(tmp_path, monkeypatch, platform):
+    monkeypatch.setattr(integrity, "sys", SimpleNamespace(platform=platform))
+    monkeypatch.setattr(integrity, "ctypes", SimpleNamespace(CDLL=lambda *a, **k: SimpleNamespace()))
     staging = staging_dir(tmp_path)
     with pytest.raises(OSError) as raised:
         publish_directory_noreplace(staging, tmp_path / "destination")
@@ -366,12 +369,81 @@ def test_atomic_publish_independent_processes_one_winner(tmp_path, iteration):
             assert worker.exitcode == 0
         assert sorted(status for _, status in results) == ["published", "refused"]
         winner = next(name for name, status in results if status == "published")
-        assert (destination / "payload").read_text() == winner
+        assert (destination / "payload").read_text(encoding="utf-8") == winner
         loser = next(name for name, status in results if status == "refused")
-        assert (tmp_path / loser / "payload").read_text() == loser
+        assert (tmp_path / loser / "payload").read_text(encoding="utf-8") == loser
     finally:
         for worker in workers:
             if worker.is_alive():
                 worker.terminate()
                 worker.join(5)
         queue.close()
+
+
+@pytest.mark.parametrize(
+    ("platform", "symbol", "flags"),
+    [("linux", "renameat2", 1), ("darwin", "renameatx_np", 4)],
+)
+@pytest.mark.parametrize("failure", [0, errno.EEXIST, errno.EACCES, errno.ENOTSUP])
+def test_posix_dispatch_preserves_no_replace_flags_and_errors(tmp_path, monkeypatch, platform, symbol, flags, failure):
+    """Mocked ABI contract only; real host publication is tested separately."""
+    staging = staging_dir(tmp_path)
+    destination = tmp_path / "destination"
+    opened, invoked, closed = [], [], []
+
+    def open_parent(path, mode):
+        opened.append((path, mode))
+        return 42
+
+    def native_rename(*args):
+        invoked.append(args)
+        return -1 if failure else 0
+
+    monkeypatch.setattr(integrity, "sys", SimpleNamespace(platform=platform))
+    monkeypatch.setattr(integrity, "os", SimpleNamespace(
+        O_RDONLY=0, O_DIRECTORY=65536, open=open_parent, close=closed.append,
+        fsencode=os.fsencode, strerror=os.strerror,
+    ))
+    monkeypatch.setattr(integrity, "ctypes", SimpleNamespace(
+        CDLL=lambda *args, **kwargs: SimpleNamespace(**{symbol: native_rename}),
+        c_int=ctypes.c_int, c_char_p=ctypes.c_char_p, c_uint=ctypes.c_uint,
+        get_errno=lambda: failure,
+    ))
+    if failure:
+        with pytest.raises(OSError) as raised:
+            publish_directory_noreplace(staging, destination)
+        assert raised.value.errno == failure
+        assert raised.value.filename == str(destination)
+    else:
+        publish_directory_noreplace(staging, destination)
+    assert opened == [(tmp_path, 65536)]
+    assert invoked == [(42, os.fsencode(staging.name), 42, os.fsencode(destination.name), flags)]
+    assert closed == [42]
+    assert native_rename.argtypes == [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+    assert native_rename.restype is ctypes.c_int
+    assert staging.is_dir() and not destination.exists()
+
+
+@pytest.mark.parametrize("failure", [0, errno.EEXIST, errno.EACCES])
+def test_windows_dispatch_uses_rename_and_preserves_errors(tmp_path, monkeypatch, failure):
+    """Mocked Windows routing; no POSIX or replacement fallback is available."""
+    staging = staging_dir(tmp_path)
+    destination = tmp_path / "destination"
+    invoked = []
+
+    def windows_rename(source, target):
+        invoked.append((source, target))
+        if failure:
+            raise OSError(failure, os.strerror(failure), str(target))
+
+    monkeypatch.setattr(integrity, "sys", SimpleNamespace(platform="win32"))
+    monkeypatch.setattr(integrity, "os", SimpleNamespace(rename=windows_rename))
+    monkeypatch.setattr(integrity, "ctypes", SimpleNamespace())
+    if failure:
+        with pytest.raises(OSError) as raised:
+            publish_directory_noreplace(staging, destination)
+        assert raised.value.errno == failure
+    else:
+        publish_directory_noreplace(staging, destination)
+    assert invoked == [(staging, destination)]
+    assert staging.is_dir() and not destination.exists()

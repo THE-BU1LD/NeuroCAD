@@ -8,6 +8,7 @@ on:
       - tests/test_gmsh_backend.py
       - tests/test_gmsh_contract.py
       - tests/test_gmsh_integrity.py
+      - tests/test_text_encoding.py
       - pyproject.toml
       - .github/workflows/gmsh-integrity.yml
   workflow_dispatch:
@@ -36,6 +37,6 @@ jobs:
           python -m pip check
       - name: Run native fixture and all mesh integrity contracts
         run: |
-          python -m pytest -q tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py
+          python -m pytest -q tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py tests/test_text_encoding.py
           python -m compileall -q core/gmsh_backend.py core/gmsh_integrity.py
           python -m ruff check core/gmsh_backend.py core/gmsh_integrity.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py
