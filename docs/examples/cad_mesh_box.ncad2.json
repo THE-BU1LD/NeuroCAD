@@ -1,0 +1,28 @@
+{
+  "features": [
+    {
+      "id": "body",
+      "inputs": [],
+      "kind": "primitive_box",
+      "parameters": {
+        "size": [
+          20.0,
+          12.0,
+          6.0
+        ]
+      },
+      "role": "",
+      "selectors": []
+    }
+  ],
+  "metadata": {
+    "example": "cad-to-mesh"
+  },
+  "outputs": [
+    "body"
+  ],
+  "parameters": [],
+  "title": "Verified CAD-to-mesh box",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}
