@@ -13,12 +13,13 @@ Gmsh runtime prerequisite `libglu1-mesa` first. In a fresh virtual environment:
 ```sh
 python -m pip install -e '.[exact-build123d,mesh-gmsh]'
 neurocad feature build docs/examples/cad_mesh_box.ncad2.json --output-dir cad-example
-neurocad-mesh step cad-example/design.step --output-dir mesh-example --max-size 3
+neurocad-mesh step cad-example/design.step --output-dir mesh-example --max-size 3 --timeout-seconds 120
 ```
 
 Both output directories must be new. The CAD bundle contains `design.step` and
 `build-receipt.json`; the mesh bundle contains `design.msh` and
-`meshing-receipt.json`. The original CAD bundle remains unchanged. The mesh
+`meshing-receipt.json`, plus the companion supervisor's `execution-receipt.json`.
+The original CAD bundle remains unchanged. The mesh
 receipt's `source_step_sha256` must equal the CAD receipt's `step_sha256`.
 The companion is also callable as `python -m core.mesh_cli`.
 
@@ -64,6 +65,59 @@ own exact revision; the parent branches' green checks are not transferred.
 Passing interoperability checks is not a solver result, physical validation,
 structural-safety assurance or manufacturability certification. The generic
 `domain` and `boundary` groups do not infer exterior/interface solver roles.
-Resource caps are post-generation verification limits, not native CPU/RAM/time
-containment. No research outcomes or frozen scientific protocols are changed.
+Element/node caps remain post-generation verification limits. The companion
+adds the worker-wait supervision below, not native RAM/CPU quotas or a
+whole-command deadline. No research outcomes or frozen scientific protocols are changed.
 Keep this integration draft for review; no merge, deployment or release is implied.
+
+## Supervised native worker
+
+The companion now defaults to a 120-second worker-wait timeout. Set
+`--timeout-seconds` to a finite number from 0.1 through 3600; there is no
+unbounded companion mode. This option applies to `neurocad-mesh step` and
+`python -m core.mesh_cli step`. The lower-level `GmshBackend.mesh_step` API
+remains in-process and has no native execution timeout. Programmatic callers
+can explicitly use `core.gmsh_process.GmshProcessBackend` instead.
+
+The parent validates sizes/paths, snapshots and hashes the bounded STEP source,
+and starts its own Python worker using an argument vector with `shell=False`.
+A fixed bootstrap pins `core` imports to the installed source directory rather
+than the caller's current directory. The worker receives only a private bundle
+path, never the final output path. Native import, meshing, serialization and
+round-trip verification all occur in that child. Native stdout/stderr go to
+DEVNULL rather than unbounded memory or log files; ordinary worker exceptions
+produce a bounded private diagnostic instead.
+
+On timeout or interruption, the parent kills and reaps only its own direct
+worker before workspace cleanup. A nonzero exit, a native crash or a zero exit
+with missing/invalid artifacts cannot publish a bundle. Successful workers
+must supply the exact supported receipt fields, strict UTF-8 JSON with finite
+numbers and unique keys, matching source/settings/mesh hashes and sizes,
+consistent round-trip counts/groups, and positive finite reported quality
+when available. Parent receipt reads are limited to 64 KiB; the companion
+refuses serialized meshes larger than 512 MiB before parent-side hashing.
+These checks do not independently recompute native geometric validity.
+
+After verification, the parent adds `execution-receipt.json`, promotes the
+validated files within its private sibling directory, and uses the existing
+native no-replace publication primitive. Existing destinations, including a
+destination created by another writer while the worker runs, are never
+intentionally replaced. The execution receipt binds the STEP hash, mesh hash,
+meshing-receipt hash, selected timeout, observed worker elapsed time and zero
+return code. No success receipt is published for timeout, crash or rejection.
+The existing meshing receipt and CLI JSON result keep their original schema.
+
+This is not a hard whole-command deadline: process creation, parent-side
+snapshotting/hashing/publication and operating-system termination/reaping are
+not bounded by the worker wait. It is not a RAM limit, CPU quota, descendant
+process-tree sandbox, hostile-filesystem isolation or power-loss durability
+claim. Parent directories and the installed source/environment remain trusted.
+No solver, physical-safety, manufacturing or scientific performance claim is
+created by this feature.
+
+The new `test_gmsh_process.py` cases use deliberately synthetic transport bytes
+to exercise real child exit/termination, malformed receipts, source mutation,
+no-clobber races and cleanup. They are not native mesh results. The existing
+real-kernel two-command test additionally checks the supervisor's retained
+hash-bound execution receipt. Read native/full CI for the exact new head;
+the parent integration's green checks do not certify this change.

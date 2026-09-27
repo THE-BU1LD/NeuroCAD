@@ -93,3 +93,11 @@ def test_both_cli_commands_form_one_hash_bound_pipeline(tmp_path, capsys):
     assert mesh["volume_element_count"] == mesh["roundtrip_volume_element_count"] > 0
     assert (mesh_dir / "design.msh").is_file()
     assert (exact_dir / "build-receipt.json").is_file()
+
+    execution = json.loads((mesh_dir / "execution-receipt.json").read_text(encoding="utf-8"))
+    assert execution["receipt_version"] == "neurocad-gmsh-worker-execution-v1"
+    assert execution["status"] == "success" and execution["worker_returncode"] == 0
+    assert execution["timeout_seconds"] == 120.0
+    assert execution["source_step_sha256"] == mesh["source_step_sha256"]
+    assert execution["mesh_sha256"] == mesh["mesh_sha256"]
+    assert execution["meshing_receipt_sha256"] == hashlib.sha256((mesh_dir / "meshing-receipt.json").read_bytes()).hexdigest()
