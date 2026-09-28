@@ -765,6 +765,12 @@ def test_revision_receipt_binds_baseline_candidate_and_tolerances(tmp_path) -> N
     assert payload["baseline_step_sha256"] == hashlib.sha256(
         (accepted / "design.step").read_bytes()
     ).hexdigest()
+    assert payload["baseline_requirements_verification_sha256"] == hashlib.sha256(
+        (accepted / "requirements-verification.json").read_bytes()
+    ).hexdigest()
+    assert payload["candidate_requirements_verification_sha256"] == hashlib.sha256(
+        (output / "requirements-verification.json").read_bytes()
+    ).hexdigest()
 
 
 def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
@@ -814,6 +820,109 @@ def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> Non
         )
     assert not (tmp_path / "must-not-publish").exists()
 
+
+
+def test_revision_rejects_tampered_baseline_verification_evidence(tmp_path) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-verification-tamper"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    verification_path = accepted / "requirements-verification.json"
+    verification_payload = json.loads(verification_path.read_text(encoding="utf-8"))
+    verification_payload["satisfied_for_all_must"] = False
+    verification_path.write_text(
+        json.dumps(verification_payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    receipt_path = accepted / "build-receipt.json"
+    receipt_payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt_payload["requirements_verification_sha256"] = hashlib.sha256(
+        verification_path.read_bytes()
+    ).hexdigest()
+    receipt_path.write_text(
+        json.dumps(receipt_payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        Build123dCompileError,
+        match="baseline requirement verification does not satisfy every must requirement",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            tmp_path / "must-not-publish-verification-tamper",
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not (tmp_path / "must-not-publish-verification-tamper").exists()
+
+
+def test_revision_rejects_baseline_verification_mutation_during_evaluation(
+    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-verification-race"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    original_export = backend.export_verified_step
+
+    def mutate_baseline_verification_after_candidate(*args, **kwargs):
+        receipt = original_export(*args, **kwargs)
+        verification_path = accepted / "requirements-verification.json"
+        verification_path.write_text(
+            verification_path.read_text(encoding="utf-8") + " ",
+            encoding="utf-8",
+        )
+        return receipt
+
+    monkeypatch.setattr(
+        backend,
+        "export_verified_step",
+        mutate_baseline_verification_after_candidate,
+    )
+
+    output = tmp_path / "must-not-publish-verification-race"
+    with pytest.raises(
+        Build123dCompileError,
+        match="baseline requirement verification changed during revision evaluation",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            output,
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not output.exists()
 
 
 def test_revision_rejects_baseline_requirement_mutation_during_evaluation(
