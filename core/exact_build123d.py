@@ -32,6 +32,7 @@ from .requirement_verification import (
     RequirementBindingSet,
     serialize_binding_set_json,
     verify_exact_requirements,
+    verify_unchanged_must_requirements,
 )
 
 BUILD_RECEIPT_VERSION = "neurocad-build123d-receipt-v1"
@@ -121,6 +122,31 @@ class PlanarRevisionEvidence:
         value["baseline_inspection"] = self.baseline_inspection.to_dict()
         value["candidate_inspection"] = self.candidate_inspection.to_dict()
         value["revision_evidence_version"] = "neurocad-planar-revision-evidence-v1"
+        return value
+
+
+@dataclass(frozen=True)
+class RevisionBundleReceipt:
+    backend: str
+    backend_version: str
+    baseline_feature_ir_sha256: str
+    candidate_feature_ir_sha256: str
+    baseline_step_sha256: str
+    baseline_build_receipt_sha256: str
+    candidate_step_sha256: str
+    candidate_build_receipt_sha256: str
+    edited_requirement_ids: tuple[str, ...]
+    evidence: PlanarRevisionEvidence
+    unchanged_requirements_guard_passed: bool | None
+    claim_boundary: str = (
+        "transactional publication evidence for one bounded planar revision invariant; "
+        "not proof of arbitrary CAD equivalence, manufacturability, physical fit, or safety"
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        value = asdict(self)
+        value["evidence"] = self.evidence.to_dict()
+        value["revision_bundle_receipt_version"] = "neurocad-revision-bundle-receipt-v1"
         return value
 
 
@@ -773,6 +799,152 @@ class Build123dBackend:
             max_sampled_cutout_deviation_mm=max_cutout_deviation,
             passed=passed,
         )
+
+    def export_verified_revision(
+        self,
+        baseline_program: FeatureProgram,
+        candidate_program: FeatureProgram,
+        baseline_bundle_dir: Path,
+        output_dir: Path,
+        *,
+        baseline_requirements: RequirementIR | None = None,
+        baseline_binding_set: RequirementBindingSet | None = None,
+        candidate_requirements: RequirementIR | None = None,
+        candidate_binding_set: RequirementBindingSet | None = None,
+        edited_requirement_ids: tuple[str, ...] = (),
+        axis: str = "z",
+        side: str = "min",
+        linear_tolerance_mm: float = 1e-6,
+        relative_scalar_tolerance: float = 1e-9,
+        absolute_scalar_floor: float = 1e-12,
+    ) -> tuple[Build123dReceipt, RevisionBundleReceipt]:
+        baseline_bundle = baseline_bundle_dir.expanduser()
+        if baseline_bundle.is_symlink() or not baseline_bundle.is_dir():
+            raise Build123dCompileError(
+                "baseline bundle must be an existing non-symlink directory"
+            )
+        baseline_step = baseline_bundle / "design.step"
+        baseline_receipt_path = baseline_bundle / "build-receipt.json"
+        if not baseline_step.is_file() or not baseline_receipt_path.is_file():
+            raise Build123dCompileError(
+                "baseline bundle must contain design.step and build-receipt.json"
+            )
+
+        destination_input = output_dir.expanduser()
+        if destination_input.exists() or destination_input.is_symlink():
+            raise FileExistsError(f"output directory already exists: {destination_input}")
+        destination = destination_input.resolve()
+        if destination.exists() or destination.is_symlink():
+            raise FileExistsError(f"output directory already exists: {destination}")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+
+        requirement_items = (
+            baseline_requirements,
+            baseline_binding_set,
+            candidate_requirements,
+            candidate_binding_set,
+        )
+        supplied_requirement_contract = all(item is not None for item in requirement_items)
+        if any(item is not None for item in requirement_items) and not supplied_requirement_contract:
+            raise Build123dCompileError(
+                "baseline/candidate requirements and binding sets must be supplied together"
+            )
+
+        baseline_step_sha256 = _sha256(baseline_step)
+        baseline_build_receipt_sha256 = _sha256(baseline_receipt_path)
+        evidence = self.compare_planar_revision_boundary(
+            baseline_program,
+            candidate_program,
+            axis=axis,
+            side=side,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+        if not evidence.passed:
+            raise Build123dCompileError(
+                "revision integrity comparison failed; candidate was not published"
+            )
+
+        unchanged_requirements_guard_passed: bool | None = None
+        if supplied_requirement_contract:
+            assert baseline_requirements is not None
+            assert baseline_binding_set is not None
+            assert candidate_requirements is not None
+            assert candidate_binding_set is not None
+            contract_errors = verify_unchanged_must_requirements(
+                baseline_requirements,
+                baseline_binding_set,
+                candidate_requirements,
+                candidate_binding_set,
+                edited_requirement_ids=edited_requirement_ids,
+            )
+            if contract_errors:
+                details = ", ".join(error.code for error in contract_errors)
+                raise Build123dCompileError(
+                    "unchanged must-level revision contract failed: " + details
+                )
+            unchanged_requirements_guard_passed = True
+
+        private_root = Path(
+            tempfile.mkdtemp(prefix=f".{destination.name}.revision.", dir=destination.parent)
+        )
+        private_bundle = private_root / "bundle"
+        try:
+            candidate_receipt = self.export_verified_step(
+                candidate_program,
+                private_bundle,
+                requirements=candidate_requirements,
+                binding_set=candidate_binding_set,
+            )
+            if candidate_receipt.step_path is None or candidate_receipt.step_sha256 is None:
+                raise Build123dCompileError("candidate export did not produce STEP evidence")
+            candidate_step = private_bundle / candidate_receipt.step_path
+            candidate_build_receipt = private_bundle / "build-receipt.json"
+            if not candidate_step.is_file() or not candidate_build_receipt.is_file():
+                raise Build123dCompileError(
+                    "candidate export did not produce the complete verified bundle"
+                )
+
+            if _sha256(baseline_step) != baseline_step_sha256:
+                raise Build123dCompileError(
+                    "baseline STEP changed during revision evaluation; refusing publication"
+                )
+            if _sha256(baseline_receipt_path) != baseline_build_receipt_sha256:
+                raise Build123dCompileError(
+                    "baseline build receipt changed during revision evaluation; refusing publication"
+                )
+
+            revision_receipt = RevisionBundleReceipt(
+                backend="build123d",
+                backend_version=self.version,
+                baseline_feature_ir_sha256=evidence.baseline_feature_ir_sha256,
+                candidate_feature_ir_sha256=evidence.candidate_feature_ir_sha256,
+                baseline_step_sha256=baseline_step_sha256,
+                baseline_build_receipt_sha256=baseline_build_receipt_sha256,
+                candidate_step_sha256=_sha256(candidate_step),
+                candidate_build_receipt_sha256=_sha256(candidate_build_receipt),
+                edited_requirement_ids=tuple(edited_requirement_ids),
+                evidence=evidence,
+                unchanged_requirements_guard_passed=unchanged_requirements_guard_passed,
+            )
+            revision_path = private_bundle / "revision-integrity.json"
+            revision_path.write_text(
+                json.dumps(
+                    revision_receipt.to_dict(),
+                    indent=2,
+                    sort_keys=True,
+                    allow_nan=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            os.replace(private_bundle, destination)
+            shutil.rmtree(private_root, ignore_errors=True)
+            return candidate_receipt, revision_receipt
+        except BaseException:
+            shutil.rmtree(private_root, ignore_errors=True)
+            raise
 
     def build_receipt(self, program: FeatureProgram) -> Build123dReceipt:
         outputs = self.compile(program)
