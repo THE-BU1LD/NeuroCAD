@@ -458,7 +458,7 @@ def _panel_requirement_document(wall_thickness_mm: float) -> RequirementIR:
                 id="wall_thickness",
                 kind="dimension",
                 strength="must",
-                target="panel.thickness",
+                target="panel.wall_thickness",
                 source_start=thickness_start,
                 source_end=thickness_start + len(thickness_text),
                 source_text=thickness_text,
@@ -600,6 +600,20 @@ def test_wall_thickness_edit_rechecks_unchanged_must_requirements(tmp_path) -> N
     ).hexdigest()
     assert revision_receipt.candidate_requirements_sha256 is not None
     assert revision_receipt.candidate_bindings_sha256 is not None
+    verification_payload = json.loads(
+        (
+            tmp_path
+            / "candidate-accepted"
+            / "requirements-verification.json"
+        ).read_text(encoding="utf-8")
+    )
+    wall_check = next(
+        check
+        for check in verification_payload["checks"]
+        if check["requirement_id"] == "wall_thickness"
+    )
+    assert wall_check["basis"] == "exact_kernel_planar_wall_thickness"
+    assert wall_check["actual"] == pytest.approx(3.0, abs=1e-6)
     assert (tmp_path / "candidate-accepted" / "revision-integrity.json").is_file()
 
 
