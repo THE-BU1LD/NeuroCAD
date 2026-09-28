@@ -497,6 +497,185 @@ def verify_exact_requirements(
     )
 
 
+def verify_unchanged_must_requirements(
+    baseline_document: RequirementIR,
+    baseline_binding_set: RequirementBindingSet,
+    candidate_document: RequirementIR,
+    candidate_binding_set: RequirementBindingSet,
+    *,
+    edited_requirement_ids: tuple[str, ...] = (),
+) -> tuple[RequirementIssue, ...]:
+    """Fail closed if an untouched must requirement or its binding changes across a revision.
+
+    This is intentionally independent of candidate geometry. It protects the
+    requirement contract itself before exact-kernel checks evaluate the edited model.
+    Top-level Feature IR hashes may legitimately differ after an edit, so comparison
+    is performed on the unchanged requirement and per-requirement binding payloads.
+    """
+
+    errors: list[RequirementIssue] = []
+    baseline_requirements = {
+        requirement.id: requirement for requirement in baseline_document.requirements
+    }
+    candidate_requirements = {
+        requirement.id: requirement for requirement in candidate_document.requirements
+    }
+    baseline_bindings = {
+        binding.requirement_id: binding for binding in baseline_binding_set.bindings
+    }
+    candidate_bindings = {
+        binding.requirement_id: binding for binding in candidate_binding_set.bindings
+    }
+
+    edited: set[str] = set()
+    for index, requirement_id in enumerate(edited_requirement_ids):
+        path = f"$.edited_requirement_ids[{index}]"
+        if not isinstance(requirement_id, str) or not requirement_id:
+            errors.append(
+                RequirementIssue(
+                    "invalid_edited_requirement_id",
+                    path,
+                    "must be a non-empty string",
+                )
+            )
+            continue
+        if requirement_id in edited:
+            errors.append(
+                RequirementIssue(
+                    "duplicate_edited_requirement_id",
+                    path,
+                    requirement_id,
+                )
+            )
+            continue
+
+        baseline_requirement = baseline_requirements.get(requirement_id)
+        if baseline_requirement is None:
+            errors.append(
+                RequirementIssue(
+                    "unknown_edited_requirement_id",
+                    path,
+                    requirement_id,
+                )
+            )
+            continue
+        edited.add(requirement_id)
+
+        if baseline_requirement.strength != "must":
+            continue
+
+        candidate_requirement = candidate_requirements.get(requirement_id)
+        if candidate_requirement is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_edited_must_requirement",
+                    "$.requirements",
+                    requirement_id,
+                )
+            )
+        else:
+            baseline_contract = (
+                baseline_requirement.kind,
+                baseline_requirement.strength,
+                baseline_requirement.target,
+                baseline_requirement.provenance,
+                baseline_requirement.verification,
+            )
+            candidate_contract = (
+                candidate_requirement.kind,
+                candidate_requirement.strength,
+                candidate_requirement.target,
+                candidate_requirement.provenance,
+                candidate_requirement.verification,
+            )
+            if candidate_contract != baseline_contract:
+                errors.append(
+                    RequirementIssue(
+                        "changed_edited_must_contract",
+                        "$.requirements",
+                        requirement_id,
+                    )
+                )
+
+        baseline_binding = baseline_bindings.get(requirement_id)
+        candidate_binding = candidate_bindings.get(requirement_id)
+        if baseline_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_baseline_must_binding",
+                    "$.baseline_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_edited_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding.to_dict() != baseline_binding.to_dict():
+            errors.append(
+                RequirementIssue(
+                    "changed_edited_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+
+    for requirement_id, baseline_requirement in baseline_requirements.items():
+        if baseline_requirement.strength != "must" or requirement_id in edited:
+            continue
+
+        candidate_requirement = candidate_requirements.get(requirement_id)
+        if candidate_requirement is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_unchanged_must_requirement",
+                    "$.requirements",
+                    requirement_id,
+                )
+            )
+        elif candidate_requirement.to_dict() != baseline_requirement.to_dict():
+            errors.append(
+                RequirementIssue(
+                    "changed_unchanged_must_requirement",
+                    "$.requirements",
+                    requirement_id,
+                )
+            )
+
+        baseline_binding = baseline_bindings.get(requirement_id)
+        candidate_binding = candidate_bindings.get(requirement_id)
+        if baseline_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_baseline_must_binding",
+                    "$.baseline_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_unchanged_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding.to_dict() != baseline_binding.to_dict():
+            errors.append(
+                RequirementIssue(
+                    "changed_unchanged_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+
+    return tuple(errors)
+
+
 def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:
     unexpected = sorted(set(value) - allowed)
     missing = sorted(required - set(value))
