@@ -834,6 +834,135 @@ class Build123dBackend:
             )
         return ranked[0]
 
+    def _verify_planar_step_matches_program(
+        self,
+        program: FeatureProgram,
+        step_path: Path,
+        *,
+        axis: str,
+        side: str,
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+    ) -> None:
+        """Prove the accepted STEP still represents the supplied pilot Feature IR."""
+
+        self._validate_planar_prism_program(program, axis=axis)
+        outputs = self.compile(program)
+        if len(outputs) != 1:
+            raise Build123dCompileError(
+                "baseline consistency check requires exactly one program output"
+            )
+        expected_shape = next(iter(outputs.values()))
+        try:
+            imported_shape = self.bd.import_step(step_path)
+        except Exception as exc:
+            raise Build123dCompileError(
+                "accepted baseline STEP could not be imported for consistency verification"
+            ) from exc
+
+        expected_inspection = self.inspect(expected_shape)
+        imported_inspection = self.inspect(imported_shape)
+        try:
+            self._verify_step_roundtrip(
+                expected_inspection,
+                imported_inspection,
+                absolute_tolerance_mm=linear_tolerance_mm,
+                relative_volume_tolerance=relative_scalar_tolerance,
+            )
+        except Build123dCompileError as exc:
+            raise Build123dCompileError(
+                "accepted baseline STEP does not match the supplied baseline Feature IR"
+            ) from exc
+        if (
+            not imported_inspection.manifold
+            or imported_inspection.solid_count != 1
+            or not self._self_intersection_free(imported_shape)
+        ):
+            raise Build123dCompileError(
+                "accepted baseline STEP is not one self-intersection-free manifold solid"
+            )
+
+        expected_face = self._select_planar_extreme_face(
+            expected_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+        imported_face = self._select_planar_extreme_face(
+            imported_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+
+        expected_outer = expected_face.outer_wire()
+        imported_outer = imported_face.outer_wire()
+        if (
+            not self._wire_signatures_equivalent(
+                self._analytic_wire_signature(expected_outer),
+                self._analytic_wire_signature(imported_outer),
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            )
+            or self._sampled_wire_deviation(expected_outer, imported_outer)
+            > linear_tolerance_mm
+            or self._sampled_wire_deviation(imported_outer, expected_outer)
+            > linear_tolerance_mm
+        ):
+            raise Build123dCompileError(
+                "accepted baseline STEP external boundary differs from the supplied baseline Feature IR"
+            )
+
+        (_expected_cavity_signature, expected_cavity), expected_cutouts = (
+            self._partition_revision_inner_wires(expected_face)
+        )
+        (_imported_cavity_signature, imported_cavity), imported_cutouts = (
+            self._partition_revision_inner_wires(imported_face)
+        )
+        if (
+            not self._wire_signatures_equivalent(
+                self._analytic_wire_signature(expected_cavity),
+                self._analytic_wire_signature(imported_cavity),
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            )
+            or self._sampled_wire_deviation(expected_cavity, imported_cavity)
+            > linear_tolerance_mm
+            or self._sampled_wire_deviation(imported_cavity, expected_cavity)
+            > linear_tolerance_mm
+        ):
+            raise Build123dCompileError(
+                "accepted baseline STEP authorized cavity differs from the supplied baseline Feature IR"
+            )
+
+        if len(expected_cutouts) != len(imported_cutouts):
+            raise Build123dCompileError(
+                "accepted baseline STEP cutout count differs from the supplied baseline Feature IR"
+            )
+        for (expected_signature, expected_wire), (
+            imported_signature,
+            imported_wire,
+        ) in zip(expected_cutouts, imported_cutouts, strict=True):
+            if (
+                not self._wire_signatures_equivalent(
+                    expected_signature,
+                    imported_signature,
+                    linear_tolerance_mm=linear_tolerance_mm,
+                    relative_scalar_tolerance=relative_scalar_tolerance,
+                    absolute_scalar_floor=absolute_scalar_floor,
+                )
+                or self._sampled_wire_deviation(expected_wire, imported_wire)
+                > linear_tolerance_mm
+                or self._sampled_wire_deviation(imported_wire, expected_wire)
+                > linear_tolerance_mm
+            ):
+                raise Build123dCompileError(
+                    "accepted baseline STEP cutout geometry differs from the supplied baseline Feature IR"
+                )
+
     def compare_planar_revision_boundary(
         self,
         baseline_program: FeatureProgram,
@@ -1184,6 +1313,16 @@ class Build123dBackend:
             raise Build123dCompileError(
                 "baseline requirement verification provenance does not match the supplied accepted contract"
             )
+
+        self._verify_planar_step_matches_program(
+            baseline_program,
+            baseline_step,
+            axis=axis,
+            side=side,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
 
         evidence = self.compare_planar_revision_boundary(
             baseline_program,
