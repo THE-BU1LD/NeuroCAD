@@ -1031,9 +1031,9 @@ class Build123dBackend:
                 "baseline requirements do not match the supplied accepted contract"
             )
         if baseline_bindings_sha256 != expected_bindings_sha256:
-        raise Build123dCompileError(
-            "baseline bindings do not match the supplied accepted contract"
-        )
+            raise Build123dCompileError(
+                "baseline bindings do not match the supplied accepted contract"
+            )
 
         evidence = self.compare_planar_revision_boundary(
             baseline_program,
