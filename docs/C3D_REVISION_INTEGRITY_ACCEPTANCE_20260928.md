@@ -88,6 +88,14 @@ Use one declared tolerance family for this pilot. Do not silently widen toleranc
 
 These intentionally align with the current exact-CAD STEP round-trip absolute tolerance in `core/exact_build123d.py`. If the native kernel demonstrates that these tolerances are below stable numerical precision on CI, revise this file in a separate reviewed commit before evaluating outcomes; do not change them inside a result-producing run.
 
+For `revision-integrity.json` publication, this v0.1 pilot is also frozen to:
+- comparison axis `z`;
+- selected side `min`;
+- edited requirement IDs exactly `["wall_thickness"]`;
+- the tolerance family above with no runtime widening.
+
+Lower-level comparison helpers may accept diagnostic arguments, but the evidence-bearing publication path must reject any widened or changed pilot contract.
+
 ## Required baseline evidence
 
 Before any edit is attempted, freeze and retain:
@@ -200,6 +208,13 @@ Implementation rule:
 - on any exception or failed invariant, delete candidate staging and return failure.
 
 The current `export_verified_step` staging behavior is a useful primitive, but the edit test must additionally verify preservation of the separate baseline artifact.
+
+The accepted baseline is not trusted from filenames or receipt hashes alone. Before revision publication, the implementation must also:
+- require the baseline `requirements-verification.json` as a regular file;
+- verify its SHA-256 against `build-receipt.json`;
+- require `satisfied_for_all_must == true`, no recorded verification errors, and matching Requirement IR / Feature IR / binding-set provenance hashes;
+- re-import the accepted baseline STEP and prove its bounded outer boundary, authorized cavity and unaffected cutout geometry match the supplied baseline Feature IR;
+- recheck the STEP, build receipt, Requirement IR, binding set and requirement-verification hashes after candidate evaluation and before atomic publication.
 
 ## Frozen acceptance tests
 
