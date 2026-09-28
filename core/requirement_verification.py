@@ -265,21 +265,45 @@ def _dimension_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
     inspection: GeometryInspectionLike,
+    exact_measurements_mm: dict[str, float] | None = None,
 ) -> RequirementCheck:
     if requirement.value is None or requirement.value.unit != "mm":
         raise RequirementBindingError(
             f"exact dimension requirement {requirement.id!r} requires a millimetre value"
         )
-    if binding.probe.get("kind") != "output_extent":
+
+    probe_kind = binding.probe.get("kind")
+    basis: str
+    detail_label: str
+    if probe_kind == "output_extent":
+        axis = binding.probe.get("axis")
+        if axis not in AXIS_INDEX:
+            raise RequirementBindingError(
+                f"exact dimension binding {requirement.id!r} axis must be x, y, or z"
+            )
+        actual = inspection.extents_mm[AXIS_INDEX[axis]]
+        basis = "exact_kernel_output_extent"
+        detail_label = f"output {axis}-extent"
+    elif probe_kind == "planar_wall_thickness":
+        if exact_measurements_mm is None or requirement.id not in exact_measurements_mm:
+            raise RequirementBindingError(
+                f"exact dimension binding {requirement.id!r} requires "
+                "backend planar-wall-thickness evidence"
+            )
+        actual = exact_measurements_mm[requirement.id]
+        if not math.isfinite(actual) or actual < 0:
+            raise RequirementBindingError(
+                f"exact dimension binding {requirement.id!r} produced an invalid "
+                "planar wall-thickness measurement"
+            )
+        basis = "exact_kernel_planar_wall_thickness"
+        detail_label = "planar outer-to-cavity clearance"
+    else:
         raise RequirementBindingError(
-            f"exact dimension binding {requirement.id!r} requires probe kind 'output_extent'"
+            f"exact dimension binding {requirement.id!r} requires probe kind "
+            "'output_extent' or 'planar_wall_thickness'"
         )
-    axis = binding.probe.get("axis")
-    if axis not in AXIS_INDEX:
-        raise RequirementBindingError(
-            f"exact dimension binding {requirement.id!r} axis must be x, y, or z"
-        )
-    actual = inspection.extents_mm[AXIS_INDEX[axis]]
+
     expected = float(requirement.value.value)
     tolerance = 1e-6 if requirement.value.tolerance is None else float(requirement.value.tolerance)
     passed = math.isclose(actual, expected, rel_tol=0.0, abs_tol=tolerance)
@@ -288,17 +312,18 @@ def _dimension_check(
         strength=requirement.strength,
         verification=requirement.verification,
         satisfied=passed,
-        basis="exact_kernel_output_extent",
+        basis=basis,
         expected=expected,
         actual=actual,
         tolerance=tolerance,
         source_start=requirement.source_start,
         source_end=requirement.source_end,
         source_text=requirement.source_text,
-        detail=f"output {axis}-extent is {actual:g} mm; expected {expected:g} ± {tolerance:g} mm",
+        detail=(
+            f"{detail_label} is {actual:g} mm; "
+            f"expected {expected:g} ± {tolerance:g} mm"
+        ),
     )
-
-
 def _kernel_validity_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
@@ -391,6 +416,8 @@ def verify_exact_requirements(
     program: FeatureProgram,
     inspection: GeometryInspectionLike,
     binding_set: RequirementBindingSet,
+    *,
+    exact_measurements_mm: dict[str, float] | None = None,
 ) -> ExactRequirementVerification:
     errors: list[RequirementIssue] = list(validate_binding_set(binding_set))
     validation = validate_requirement_ir(document)
@@ -454,7 +481,12 @@ def verify_exact_requirements(
                 continue
             try:
                 if requirement.verification == "exact_dimension":
-                    check = _dimension_check(requirement, binding, inspection)
+                    check = _dimension_check(
+                        requirement,
+                        binding,
+                        inspection,
+                        exact_measurements_mm,
+                    )
                 elif requirement.verification == "kernel_validity":
                     check = _kernel_validity_check(requirement, binding, inspection)
                 else:
@@ -495,6 +527,223 @@ def verify_exact_requirements(
         checks=tuple(checks),
         errors=tuple(errors),
     )
+
+
+def verify_unchanged_must_requirements(
+    baseline_document: RequirementIR,
+    baseline_binding_set: RequirementBindingSet,
+    candidate_document: RequirementIR,
+    candidate_binding_set: RequirementBindingSet,
+    *,
+    edited_requirement_ids: tuple[str, ...] = (),
+) -> tuple[RequirementIssue, ...]:
+    """Fail closed if an untouched must requirement or its binding changes across a revision.
+
+    This is intentionally independent of candidate geometry. It protects the
+    requirement contract itself before exact-kernel checks evaluate the edited model.
+    Top-level Feature IR hashes may legitimately differ after an edit, so comparison
+    is performed on the unchanged requirement and per-requirement binding payloads.
+    """
+
+    errors: list[RequirementIssue] = []
+
+    expected_baseline_requirement_hash = requirement_ir_sha256(baseline_document)
+    expected_candidate_requirement_hash = requirement_ir_sha256(candidate_document)
+    if baseline_binding_set.requirement_ir_sha256 != expected_baseline_requirement_hash:
+        errors.append(
+            RequirementIssue(
+                "baseline_binding_requirement_hash_mismatch",
+                "$.baseline_bindings.requirement_ir_sha256",
+                "baseline bindings do not target the supplied baseline Requirement IR",
+            )
+        )
+    if candidate_binding_set.requirement_ir_sha256 != expected_candidate_requirement_hash:
+        errors.append(
+            RequirementIssue(
+                "candidate_binding_requirement_hash_mismatch",
+                "$.candidate_bindings.requirement_ir_sha256",
+                "candidate bindings do not target the supplied candidate Requirement IR",
+            )
+        )
+
+    baseline_requirements = {
+        requirement.id: requirement for requirement in baseline_document.requirements
+    }
+    candidate_requirements = {
+        requirement.id: requirement for requirement in candidate_document.requirements
+    }
+    baseline_bindings = {
+        binding.requirement_id: binding for binding in baseline_binding_set.bindings
+    }
+    candidate_bindings = {
+        binding.requirement_id: binding for binding in candidate_binding_set.bindings
+    }
+
+    edited: set[str] = set()
+    for index, requirement_id in enumerate(edited_requirement_ids):
+        path = f"$.edited_requirement_ids[{index}]"
+        if not isinstance(requirement_id, str) or not requirement_id:
+            errors.append(
+                RequirementIssue(
+                    "invalid_edited_requirement_id",
+                    path,
+                    "must be a non-empty string",
+                )
+            )
+            continue
+        if requirement_id in edited:
+            errors.append(
+                RequirementIssue(
+                    "duplicate_edited_requirement_id",
+                    path,
+                    requirement_id,
+                )
+            )
+            continue
+
+        baseline_requirement = baseline_requirements.get(requirement_id)
+        if baseline_requirement is None:
+            errors.append(
+                RequirementIssue(
+                    "unknown_edited_requirement_id",
+                    path,
+                    requirement_id,
+                )
+            )
+            continue
+        edited.add(requirement_id)
+
+        if baseline_requirement.strength != "must":
+            continue
+
+        candidate_requirement = candidate_requirements.get(requirement_id)
+        if candidate_requirement is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_edited_must_requirement",
+                    "$.requirements",
+                    requirement_id,
+                )
+            )
+        else:
+            baseline_value_contract = (
+                None
+                if baseline_requirement.value is None
+                else (
+                    baseline_requirement.value.unit,
+                    baseline_requirement.value.tolerance,
+                )
+            )
+            candidate_value_contract = (
+                None
+                if candidate_requirement.value is None
+                else (
+                    candidate_requirement.value.unit,
+                    candidate_requirement.value.tolerance,
+                )
+            )
+            baseline_contract = (
+                baseline_requirement.kind,
+                baseline_requirement.strength,
+                baseline_requirement.target,
+                baseline_requirement.provenance,
+                baseline_requirement.verification,
+                baseline_value_contract,
+            )
+            candidate_contract = (
+                candidate_requirement.kind,
+                candidate_requirement.strength,
+                candidate_requirement.target,
+                candidate_requirement.provenance,
+                candidate_requirement.verification,
+                candidate_value_contract,
+            )
+            if candidate_contract != baseline_contract:
+                errors.append(
+                    RequirementIssue(
+                        "changed_edited_must_contract",
+                        "$.requirements",
+                        requirement_id,
+                    )
+                )
+
+        baseline_binding = baseline_bindings.get(requirement_id)
+        candidate_binding = candidate_bindings.get(requirement_id)
+        if baseline_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_baseline_must_binding",
+                    "$.baseline_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_edited_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding.to_dict() != baseline_binding.to_dict():
+            errors.append(
+                RequirementIssue(
+                    "changed_edited_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+
+    for requirement_id, baseline_requirement in baseline_requirements.items():
+        if baseline_requirement.strength != "must" or requirement_id in edited:
+            continue
+
+        candidate_requirement = candidate_requirements.get(requirement_id)
+        if candidate_requirement is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_unchanged_must_requirement",
+                    "$.requirements",
+                    requirement_id,
+                )
+            )
+        elif candidate_requirement.to_dict() != baseline_requirement.to_dict():
+            errors.append(
+                RequirementIssue(
+                    "changed_unchanged_must_requirement",
+                    "$.requirements",
+                    requirement_id,
+                )
+            )
+
+        baseline_binding = baseline_bindings.get(requirement_id)
+        candidate_binding = candidate_bindings.get(requirement_id)
+        if baseline_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_baseline_must_binding",
+                    "$.baseline_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding is None:
+            errors.append(
+                RequirementIssue(
+                    "missing_unchanged_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+        elif candidate_binding.to_dict() != baseline_binding.to_dict():
+            errors.append(
+                RequirementIssue(
+                    "changed_unchanged_must_binding",
+                    "$.candidate_bindings",
+                    requirement_id,
+                )
+            )
+
+    return tuple(errors)
 
 
 def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:

@@ -27,14 +27,24 @@ from .feature_ir import (
     serialize_feature_ir_json,
     validate_feature_program,
 )
+from .json_io import strict_json_loads
 from .requirement_ir import RequirementIR, serialize_requirement_ir_json
 from .requirement_verification import (
     RequirementBindingSet,
+    binding_set_sha256,
+    requirement_ir_sha256,
     serialize_binding_set_json,
     verify_exact_requirements,
+    verify_unchanged_must_requirements,
 )
 
 BUILD_RECEIPT_VERSION = "neurocad-build123d-receipt-v1"
+REVISION_PILOT_AXIS = "z"
+REVISION_PILOT_SIDE = "min"
+REVISION_PILOT_EDITED_REQUIREMENT_IDS = ("wall_thickness",)
+REVISION_PILOT_LINEAR_TOLERANCE_MM = 1e-6
+REVISION_PILOT_RELATIVE_SCALAR_TOLERANCE = 1e-9
+REVISION_PILOT_ABSOLUTE_SCALAR_FLOOR = 1e-12
 SUPPORTED_FEATURES = frozenset(
     {
         "primitive_box",
@@ -70,6 +80,98 @@ class GeometryInspection:
             "volume_mm3": self.volume_mm3,
             "extents_mm": list(self.extents_mm),
         }
+
+
+@dataclass(frozen=True)
+class AnalyticEdgeSignature:
+    geom_type: str
+    length_mm: float
+    bbox_min_mm: tuple[float, float, float]
+    bbox_max_mm: tuple[float, float, float]
+    endpoints_mm: tuple[tuple[float, float, float], ...]
+
+
+@dataclass(frozen=True)
+class AnalyticWireSignature:
+    length_mm: float
+    bbox_min_mm: tuple[float, float, float]
+    bbox_max_mm: tuple[float, float, float]
+    edges: tuple[AnalyticEdgeSignature, ...]
+
+
+@dataclass(frozen=True)
+class PlanarRevisionEvidence:
+    backend: str
+    backend_version: str
+    baseline_feature_ir_sha256: str
+    candidate_feature_ir_sha256: str
+    axis: str
+    side: str
+    linear_tolerance_mm: float
+    relative_scalar_tolerance: float
+    absolute_scalar_floor: float
+    baseline_inspection: GeometryInspection
+    candidate_inspection: GeometryInspection
+    baseline_face_area_mm2: float
+    candidate_face_area_mm2: float
+    baseline_wall_thickness_mm: float
+    candidate_wall_thickness_mm: float
+    external_boundary_equivalent: bool
+    external_extents_equivalent: bool
+    max_external_extent_delta_mm: float
+    cutout_count_baseline: int
+    cutout_count_candidate: int
+    cutouts_equivalent: bool
+    max_sampled_external_deviation_mm: float
+    max_sampled_cutout_deviation_mm: float
+    baseline_self_intersection_free: bool
+    candidate_self_intersection_free: bool
+    candidate_minimum_material_clearance_mm: float
+    candidate_zero_thickness_free: bool
+    passed: bool
+    claim_boundary: str = (
+        "bounded analytic planar-boundary comparison for LINE/CIRCLE edges only; "
+        "not arbitrary-surface CAD equivalence or a manufacturing/safety certification"
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        value = asdict(self)
+        value["baseline_inspection"] = self.baseline_inspection.to_dict()
+        value["candidate_inspection"] = self.candidate_inspection.to_dict()
+        value["revision_evidence_version"] = "neurocad-planar-revision-evidence-v1"
+        return value
+
+
+@dataclass(frozen=True)
+class RevisionBundleReceipt:
+    backend: str
+    backend_version: str
+    baseline_feature_ir_sha256: str
+    candidate_feature_ir_sha256: str
+    baseline_step_sha256: str
+    baseline_build_receipt_sha256: str
+    baseline_requirements_sha256: str
+    baseline_bindings_sha256: str
+    baseline_requirements_verification_sha256: str
+    candidate_step_sha256: str
+    candidate_build_receipt_sha256: str
+    candidate_requirements_sha256: str
+    candidate_bindings_sha256: str
+    candidate_requirements_verification_sha256: str
+    edited_requirement_ids: tuple[str, ...]
+    evidence: PlanarRevisionEvidence
+    unchanged_requirements_guard_passed: bool
+    claim_boundary: str = (
+        "transactional publication evidence for one bounded planar revision invariant; "
+        "not proof of arbitrary CAD equivalence, manufacturability, physical fit, or safety"
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        value = asdict(self)
+        value["edited_requirement_ids"] = list(self.edited_requirement_ids)
+        value["evidence"] = self.evidence.to_dict()
+        value["revision_bundle_receipt_version"] = "neurocad-revision-bundle-receipt-v1"
+        return value
 
 
 @dataclass(frozen=True)
@@ -401,6 +503,1075 @@ class Build123dBackend:
             extents_mm=(float(bounds.X), float(bounds.Y), float(bounds.Z)),
         )
 
+    @staticmethod
+    def _vector_tuple(value: Any) -> tuple[float, float, float]:
+        return float(value.X), float(value.Y), float(value.Z)
+
+    def _analytic_edge_signature(self, edge: Any) -> AnalyticEdgeSignature:
+        geom_type = getattr(edge.geom_type, "name", str(edge.geom_type)).upper()
+        if geom_type not in {"LINE", "CIRCLE"}:
+            raise Build123dCompileError(
+                "planar revision pilot supports only LINE/CIRCLE boundary edges; "
+                f"found {geom_type}"
+            )
+        bounds = edge.bounding_box()
+        endpoints: tuple[tuple[float, float, float], ...]
+        if geom_type == "LINE":
+            raw_endpoints = (
+                self._vector_tuple(edge.position_at(0.0)),
+                self._vector_tuple(edge.position_at(1.0)),
+            )
+            endpoints = tuple(sorted(raw_endpoints))
+        else:
+            endpoints = ()
+        return AnalyticEdgeSignature(
+            geom_type=geom_type,
+            length_mm=float(edge.length),
+            bbox_min_mm=self._vector_tuple(bounds.min),
+            bbox_max_mm=self._vector_tuple(bounds.max),
+            endpoints_mm=endpoints,
+        )
+
+    def _analytic_wire_signature(self, wire: Any) -> AnalyticWireSignature:
+        bounds = wire.bounding_box()
+        edges = tuple(
+            sorted(
+                (self._analytic_edge_signature(edge) for edge in wire.edges()),
+                key=lambda item: (
+                    item.geom_type,
+                    item.bbox_min_mm,
+                    item.bbox_max_mm,
+                    item.length_mm,
+                    item.endpoints_mm,
+                ),
+            )
+        )
+        return AnalyticWireSignature(
+            length_mm=float(wire.length),
+            bbox_min_mm=self._vector_tuple(bounds.min),
+            bbox_max_mm=self._vector_tuple(bounds.max),
+            edges=edges,
+        )
+
+    @staticmethod
+    def _close_scalar(
+        baseline: float,
+        candidate: float,
+        *,
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+        dimension: int = 1,
+    ) -> bool:
+        absolute = max(absolute_scalar_floor, linear_tolerance_mm**dimension)
+        return math.isclose(
+            baseline,
+            candidate,
+            rel_tol=relative_scalar_tolerance,
+            abs_tol=absolute,
+        )
+
+    def _wire_signatures_equivalent(
+        self,
+        baseline: AnalyticWireSignature,
+        candidate: AnalyticWireSignature,
+        *,
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+    ) -> bool:
+        if len(baseline.edges) != len(candidate.edges):
+            return False
+        if not self._close_scalar(
+            baseline.length_mm,
+            candidate.length_mm,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        ):
+            return False
+
+        def vector_close(
+            left: tuple[float, float, float],
+            right: tuple[float, float, float],
+        ) -> bool:
+            return all(
+                math.isclose(a, b, rel_tol=0.0, abs_tol=linear_tolerance_mm)
+                for a, b in zip(left, right, strict=True)
+            )
+
+        if not vector_close(baseline.bbox_min_mm, candidate.bbox_min_mm):
+            return False
+        if not vector_close(baseline.bbox_max_mm, candidate.bbox_max_mm):
+            return False
+
+        for left, right in zip(baseline.edges, candidate.edges, strict=True):
+            if left.geom_type != right.geom_type:
+                return False
+            if not self._close_scalar(
+                left.length_mm,
+                right.length_mm,
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            ):
+                return False
+            if not vector_close(left.bbox_min_mm, right.bbox_min_mm):
+                return False
+            if not vector_close(left.bbox_max_mm, right.bbox_max_mm):
+                return False
+            if len(left.endpoints_mm) != len(right.endpoints_mm):
+                return False
+            if any(
+                not vector_close(a, b)
+                for a, b in zip(left.endpoints_mm, right.endpoints_mm, strict=True)
+            ):
+                return False
+        return True
+
+    @staticmethod
+    def _wire_sort_key(signature: AnalyticWireSignature) -> tuple[Any, ...]:
+        return (
+            signature.bbox_min_mm,
+            signature.bbox_max_mm,
+            signature.length_mm,
+            tuple((edge.geom_type, edge.length_mm) for edge in signature.edges),
+        )
+
+    def _sampled_wire_deviation(self, source: Any, target: Any) -> float:
+        maximum = 0.0
+        for edge in source.edges():
+            for step in range(17):
+                point = edge.position_at(step / 16)
+                maximum = max(maximum, float(target.distance_to(point)))
+        return maximum
+
+    def _validate_planar_prism_program(
+        self,
+        program: FeatureProgram,
+        *,
+        axis: str,
+    ) -> None:
+        if len(program.features) != 2 or len(program.outputs) != 1:
+            raise Build123dCompileError(
+                "revision pilot requires exactly one sketch followed by one extrusion"
+            )
+        sketch, extrusion = program.features
+        if sketch.kind != "sketch" or extrusion.kind != "extrude":
+            raise Build123dCompileError(
+                "revision pilot requires exactly one sketch followed by one extrusion"
+            )
+        if program.outputs != (extrusion.id,) or extrusion.inputs != (sketch.id,):
+            raise Build123dCompileError(
+                "revision pilot output must be the extrusion of the pilot sketch"
+            )
+        resolved_extrusion = resolve_feature_parameters(program, extrusion)
+        if resolved_extrusion.get("operation") != "new":
+            raise Build123dCompileError(
+                "revision pilot extrusion must use operation 'new'"
+            )
+        plane = str(resolve_feature_parameters(program, sketch).get("plane", "XY")).upper()
+        expected_axis = {"XY": "z", "XZ": "y", "YZ": "x"}.get(plane)
+        if expected_axis is None or expected_axis != axis.lower():
+            raise Build123dCompileError(
+                "revision pilot comparison axis must be normal to the sketch plane"
+            )
+
+    def _self_intersection_free(self, shape: Any) -> bool:
+        try:
+            bop_algo = importlib.import_module("OCP.BOPAlgo")
+        except ModuleNotFoundError as exc:
+            raise Build123dCompileError(
+                "OCP self-interference analyzer is unavailable; failing closed"
+            ) from exc
+        analyzer = bop_algo.BOPAlgo_ArgumentAnalyzer()
+        for mode in (
+            "ArgumentTypeMode",
+            "ContinuityMode",
+            "CurveOnSurfaceMode",
+            "MergeEdgeMode",
+            "MergeVertexMode",
+            "RebuildFaceMode",
+            "SmallEdgeMode",
+            "TangentMode",
+        ):
+            if hasattr(analyzer, mode):
+                setattr(analyzer, mode, False)
+        analyzer.SelfInterMode = True
+        analyzer.SetShape1(shape.wrapped)
+        analyzer.Perform()
+        if analyzer.HasErrors():
+            raise Build123dCompileError(
+                "OCP self-interference analysis failed; refusing revision acceptance"
+            )
+        return not bool(analyzer.HasFaulty())
+
+    @staticmethod
+    def _minimum_material_clearance(outer_wire: Any, inner_wires: list[Any]) -> float:
+        if not inner_wires:
+            raise Build123dCompileError(
+                "revision pilot requires at least one cutout boundary"
+            )
+        distances = [float(outer_wire.distance_to(wire)) for wire in inner_wires]
+        for left_index, left in enumerate(inner_wires):
+            for right in inner_wires[left_index + 1 :]:
+                distances.append(float(left.distance_to(right)))
+        return min(distances)
+
+    def _partition_revision_inner_wires(
+        self,
+        face: Any,
+    ) -> tuple[
+        tuple[AnalyticWireSignature, Any],
+        list[tuple[AnalyticWireSignature, Any]],
+    ]:
+        authorized: list[tuple[AnalyticWireSignature, Any]] = []
+        cutouts: list[tuple[AnalyticWireSignature, Any]] = []
+        for wire in face.inner_wires():
+            signature = self._analytic_wire_signature(wire)
+            edge_types = {edge.geom_type for edge in signature.edges}
+            if edge_types == {"LINE"} and len(signature.edges) == 4:
+                authorized.append((signature, wire))
+            elif edge_types == {"CIRCLE"} and len(signature.edges) == 1:
+                cutouts.append((signature, wire))
+            else:
+                raise Build123dCompileError(
+                    "revision pilot inner boundaries must be one four-line cavity "
+                    "plus one or more circular cutouts"
+                )
+        if len(authorized) != 1:
+            raise Build123dCompileError(
+                "revision pilot requires exactly one four-line authorized cavity boundary"
+            )
+        if not cutouts:
+            raise Build123dCompileError(
+                "revision pilot requires at least one circular unaffected cutout"
+            )
+        return authorized[0], sorted(
+            cutouts,
+            key=lambda item: self._wire_sort_key(item[0]),
+        )
+
+    def _planar_wall_thickness_from_face(self, face: Any) -> float:
+        (_authorized_signature, authorized_wire), _cutouts = (
+            self._partition_revision_inner_wires(face)
+        )
+        return float(face.outer_wire().distance_to(authorized_wire))
+
+    def _exact_requirement_measurements(
+        self,
+        shape: Any,
+        binding_set: RequirementBindingSet,
+    ) -> dict[str, float]:
+        measurements: dict[str, float] = {}
+        for binding in binding_set.bindings:
+            if (
+                binding.verification != "exact_dimension"
+                or binding.probe.get("kind") != "planar_wall_thickness"
+            ):
+                continue
+            axis = binding.probe.get("axis")
+            side = binding.probe.get("side", "min")
+            if not isinstance(axis, str) or not isinstance(side, str):
+                raise Build123dCompileError(
+                    "planar_wall_thickness probe requires string axis and side"
+                )
+            face = self._select_planar_extreme_face(
+                shape,
+                axis=axis,
+                side=side,
+                tolerance_mm=1e-6,
+            )
+            measurements[binding.requirement_id] = (
+                self._planar_wall_thickness_from_face(face)
+            )
+        return measurements
+
+    def _select_planar_extreme_face(
+        self,
+        shape: Any,
+        *,
+        axis: str,
+        side: str,
+        tolerance_mm: float,
+    ) -> Any:
+        axis = axis.lower()
+        side = side.lower()
+        if axis not in {"x", "y", "z"}:
+            raise Build123dCompileError("revision comparison axis must be x, y, or z")
+        if side not in {"min", "max"}:
+            raise Build123dCompileError("revision comparison side must be min or max")
+        coordinate = {
+            "x": lambda point: float(point.X),
+            "y": lambda point: float(point.Y),
+            "z": lambda point: float(point.Z),
+        }[axis]
+        planar = [
+            face
+            for face in shape.faces()
+            if getattr(face.geom_type, "name", str(face.geom_type)).upper() == "PLANE"
+        ]
+        if not planar:
+            raise Build123dCompileError("revision comparison found no planar faces")
+        values = [coordinate(face.center()) for face in planar]
+        extreme = min(values) if side == "min" else max(values)
+        candidates = [
+            face
+            for face, value in zip(planar, values, strict=True)
+            if math.isclose(value, extreme, rel_tol=0.0, abs_tol=tolerance_mm)
+        ]
+        if not candidates:
+            raise Build123dCompileError("revision comparison could not resolve the requested face")
+        ranked = sorted(candidates, key=lambda face: float(face.area), reverse=True)
+        if len(ranked) > 1 and math.isclose(
+            float(ranked[0].area),
+            float(ranked[1].area),
+            rel_tol=0.0,
+            abs_tol=max(tolerance_mm**2, 1e-12),
+        ):
+            raise Build123dCompileError(
+                "revision comparison face selector is ambiguous at the requested extreme"
+            )
+        return ranked[0]
+
+    def _verify_planar_step_matches_program(
+        self,
+        program: FeatureProgram,
+        step_path: Path,
+        *,
+        axis: str,
+        side: str,
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+    ) -> Any:
+        """Prove a STEP artifact still represents the supplied pilot Feature IR."""
+
+        self._validate_planar_prism_program(program, axis=axis)
+        outputs = self.compile(program)
+        if len(outputs) != 1:
+            raise Build123dCompileError(
+                "baseline consistency check requires exactly one program output"
+            )
+        expected_shape = next(iter(outputs.values()))
+        try:
+            imported_shape = self.bd.import_step(step_path)
+        except Exception as exc:
+            raise Build123dCompileError(
+                "verified STEP could not be imported for consistency verification"
+            ) from exc
+
+        expected_inspection = self.inspect(expected_shape)
+        imported_inspection = self.inspect(imported_shape)
+        try:
+            self._verify_step_roundtrip(
+                expected_inspection,
+                imported_inspection,
+                absolute_tolerance_mm=linear_tolerance_mm,
+                relative_volume_tolerance=relative_scalar_tolerance,
+            )
+        except Build123dCompileError as exc:
+            raise Build123dCompileError(
+                "verified STEP does not match the supplied Feature IR"
+            ) from exc
+        if (
+            not imported_inspection.manifold
+            or imported_inspection.solid_count != 1
+            or not self._self_intersection_free(imported_shape)
+        ):
+            raise Build123dCompileError(
+                "verified STEP is not one self-intersection-free manifold solid"
+            )
+
+        expected_face = self._select_planar_extreme_face(
+            expected_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+        imported_face = self._select_planar_extreme_face(
+            imported_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+
+        expected_outer = expected_face.outer_wire()
+        imported_outer = imported_face.outer_wire()
+        if (
+            not self._wire_signatures_equivalent(
+                self._analytic_wire_signature(expected_outer),
+                self._analytic_wire_signature(imported_outer),
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            )
+            or self._sampled_wire_deviation(expected_outer, imported_outer)
+            > linear_tolerance_mm
+            or self._sampled_wire_deviation(imported_outer, expected_outer)
+            > linear_tolerance_mm
+        ):
+            raise Build123dCompileError(
+                "verified STEP external boundary differs from the supplied Feature IR"
+            )
+
+        (_expected_cavity_signature, expected_cavity), expected_cutouts = (
+            self._partition_revision_inner_wires(expected_face)
+        )
+        (_imported_cavity_signature, imported_cavity), imported_cutouts = (
+            self._partition_revision_inner_wires(imported_face)
+        )
+        if (
+            not self._wire_signatures_equivalent(
+                self._analytic_wire_signature(expected_cavity),
+                self._analytic_wire_signature(imported_cavity),
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            )
+            or self._sampled_wire_deviation(expected_cavity, imported_cavity)
+            > linear_tolerance_mm
+            or self._sampled_wire_deviation(imported_cavity, expected_cavity)
+            > linear_tolerance_mm
+        ):
+            raise Build123dCompileError(
+                "verified STEP authorized cavity differs from the supplied Feature IR"
+            )
+
+        if len(expected_cutouts) != len(imported_cutouts):
+            raise Build123dCompileError(
+                "verified STEP cutout count differs from the supplied Feature IR"
+            )
+        for (expected_signature, expected_wire), (
+            imported_signature,
+            imported_wire,
+        ) in zip(expected_cutouts, imported_cutouts, strict=True):
+            if (
+                not self._wire_signatures_equivalent(
+                    expected_signature,
+                    imported_signature,
+                    linear_tolerance_mm=linear_tolerance_mm,
+                    relative_scalar_tolerance=relative_scalar_tolerance,
+                    absolute_scalar_floor=absolute_scalar_floor,
+                )
+                or self._sampled_wire_deviation(expected_wire, imported_wire)
+                > linear_tolerance_mm
+                or self._sampled_wire_deviation(imported_wire, expected_wire)
+                > linear_tolerance_mm
+            ):
+                raise Build123dCompileError(
+                    "verified STEP cutout geometry differs from the supplied Feature IR"
+                )
+
+        return imported_shape
+
+    def compare_planar_revision_boundary(
+        self,
+        baseline_program: FeatureProgram,
+        candidate_program: FeatureProgram,
+        *,
+        axis: str = "z",
+        side: str = "min",
+        linear_tolerance_mm: float = 1e-6,
+        relative_scalar_tolerance: float = 1e-9,
+        absolute_scalar_floor: float = 1e-12,
+    ) -> PlanarRevisionEvidence:
+        if (
+            linear_tolerance_mm <= 0
+            or relative_scalar_tolerance < 0
+            or absolute_scalar_floor < 0
+        ):
+            raise Build123dCompileError(
+                "revision comparison tolerances must be non-negative and "
+                "linear tolerance positive"
+            )
+
+        self._validate_planar_prism_program(baseline_program, axis=axis)
+        self._validate_planar_prism_program(candidate_program, axis=axis)
+        baseline_outputs = self.compile(baseline_program)
+        candidate_outputs = self.compile(candidate_program)
+        if len(baseline_outputs) != 1 or len(candidate_outputs) != 1:
+            raise Build123dCompileError(
+                "revision comparison currently requires exactly one output "
+                "in baseline and candidate"
+            )
+        baseline_shape = next(iter(baseline_outputs.values()))
+        candidate_shape = next(iter(candidate_outputs.values()))
+        baseline_inspection = self.inspect(baseline_shape)
+        candidate_inspection = self.inspect(candidate_shape)
+        for label, inspection in (
+            ("baseline", baseline_inspection),
+            ("candidate", candidate_inspection),
+        ):
+            if (
+                not inspection.valid_brep
+                or not inspection.manifold
+                or inspection.solid_count != 1
+            ):
+                raise Build123dCompileError(
+                    f"{label} revision geometry must be one valid manifold solid"
+                )
+
+        extent_deltas = tuple(
+            abs(left - right)
+            for left, right in zip(
+                baseline_inspection.extents_mm,
+                candidate_inspection.extents_mm,
+                strict=True,
+            )
+        )
+        max_external_extent_delta = max(extent_deltas)
+        external_extents_equivalent = (
+            max_external_extent_delta <= linear_tolerance_mm
+        )
+
+        baseline_face = self._select_planar_extreme_face(
+            baseline_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+        candidate_face = self._select_planar_extreme_face(
+            candidate_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+        baseline_outer = baseline_face.outer_wire()
+        candidate_outer = candidate_face.outer_wire()
+        baseline_outer_signature = self._analytic_wire_signature(baseline_outer)
+        candidate_outer_signature = self._analytic_wire_signature(candidate_outer)
+        external_boundary_equivalent = self._wire_signatures_equivalent(
+            baseline_outer_signature,
+            candidate_outer_signature,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+        max_external_deviation = max(
+            self._sampled_wire_deviation(baseline_outer, candidate_outer),
+            self._sampled_wire_deviation(candidate_outer, baseline_outer),
+        )
+
+        (baseline_cavity_signature, baseline_cavity), baseline_cutouts = (
+            self._partition_revision_inner_wires(baseline_face)
+        )
+        (candidate_cavity_signature, candidate_cavity), candidate_cutouts = (
+            self._partition_revision_inner_wires(candidate_face)
+        )
+        del baseline_cavity_signature, candidate_cavity_signature
+
+        baseline_wall_thickness = float(
+            baseline_outer.distance_to(baseline_cavity)
+        )
+        candidate_wall_thickness = float(
+            candidate_outer.distance_to(candidate_cavity)
+        )
+
+        cutouts_equivalent = len(baseline_cutouts) == len(candidate_cutouts)
+        max_cutout_deviation = 0.0
+        if cutouts_equivalent:
+            for (left_signature, left_wire), (right_signature, right_wire) in zip(
+                baseline_cutouts,
+                candidate_cutouts,
+                strict=True,
+            ):
+                if not self._wire_signatures_equivalent(
+                    left_signature,
+                    right_signature,
+                    linear_tolerance_mm=linear_tolerance_mm,
+                    relative_scalar_tolerance=relative_scalar_tolerance,
+                    absolute_scalar_floor=absolute_scalar_floor,
+                ):
+                    cutouts_equivalent = False
+                max_cutout_deviation = max(
+                    max_cutout_deviation,
+                    self._sampled_wire_deviation(left_wire, right_wire),
+                    self._sampled_wire_deviation(right_wire, left_wire),
+                )
+
+        baseline_self_intersection_free = self._self_intersection_free(
+            baseline_shape
+        )
+        candidate_self_intersection_free = self._self_intersection_free(
+            candidate_shape
+        )
+        candidate_inner_wires = [
+            candidate_cavity,
+            *(wire for _signature, wire in candidate_cutouts),
+        ]
+        candidate_minimum_material_clearance = self._minimum_material_clearance(
+            candidate_outer,
+            candidate_inner_wires,
+        )
+        axis_index = {"x": 0, "y": 1, "z": 2}[axis.lower()]
+        candidate_zero_thickness_free = (
+            candidate_inspection.extents_mm[axis_index] > linear_tolerance_mm
+            and float(candidate_face.area)
+            > max(absolute_scalar_floor, linear_tolerance_mm**2)
+            and candidate_wall_thickness > linear_tolerance_mm
+            and candidate_minimum_material_clearance > linear_tolerance_mm
+        )
+        passed = (
+            external_boundary_equivalent
+            and external_extents_equivalent
+            and cutouts_equivalent
+            and max_external_deviation <= linear_tolerance_mm
+            and max_cutout_deviation <= linear_tolerance_mm
+            and baseline_self_intersection_free
+            and candidate_self_intersection_free
+            and candidate_zero_thickness_free
+        )
+        return PlanarRevisionEvidence(
+            backend="build123d",
+            backend_version=self.version,
+            baseline_feature_ir_sha256=_program_sha256(baseline_program),
+            candidate_feature_ir_sha256=_program_sha256(candidate_program),
+            axis=axis.lower(),
+            side=side.lower(),
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+            baseline_inspection=baseline_inspection,
+            candidate_inspection=candidate_inspection,
+            baseline_face_area_mm2=float(baseline_face.area),
+            candidate_face_area_mm2=float(candidate_face.area),
+            baseline_wall_thickness_mm=baseline_wall_thickness,
+            candidate_wall_thickness_mm=candidate_wall_thickness,
+            external_boundary_equivalent=external_boundary_equivalent,
+            external_extents_equivalent=external_extents_equivalent,
+            max_external_extent_delta_mm=max_external_extent_delta,
+            cutout_count_baseline=len(baseline_cutouts),
+            cutout_count_candidate=len(candidate_cutouts),
+            cutouts_equivalent=cutouts_equivalent,
+            max_sampled_external_deviation_mm=max_external_deviation,
+            max_sampled_cutout_deviation_mm=max_cutout_deviation,
+            baseline_self_intersection_free=baseline_self_intersection_free,
+            candidate_self_intersection_free=candidate_self_intersection_free,
+            candidate_minimum_material_clearance_mm=(
+                candidate_minimum_material_clearance
+            ),
+            candidate_zero_thickness_free=candidate_zero_thickness_free,
+            passed=passed,
+        )
+
+    @staticmethod
+    def _require_frozen_revision_pilot_contract(
+        *,
+        axis: str,
+        side: str,
+        edited_requirement_ids: tuple[str, ...],
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+    ) -> None:
+        if axis.lower() != REVISION_PILOT_AXIS or side.lower() != REVISION_PILOT_SIDE:
+            raise Build123dCompileError(
+                "verified revision publication is frozen to axis='z' and side='min'"
+            )
+        if tuple(edited_requirement_ids) != REVISION_PILOT_EDITED_REQUIREMENT_IDS:
+            raise Build123dCompileError(
+                "verified revision publication is frozen to the wall_thickness requirement only"
+            )
+        if (
+            linear_tolerance_mm != REVISION_PILOT_LINEAR_TOLERANCE_MM
+            or relative_scalar_tolerance != REVISION_PILOT_RELATIVE_SCALAR_TOLERANCE
+            or absolute_scalar_floor != REVISION_PILOT_ABSOLUTE_SCALAR_FLOOR
+        ):
+            raise Build123dCompileError(
+                "verified revision publication requires the frozen C3D pilot tolerances"
+            )
+
+    def export_verified_revision(
+        self,
+        baseline_program: FeatureProgram,
+        candidate_program: FeatureProgram,
+        baseline_bundle_dir: Path,
+        output_dir: Path,
+        *,
+        baseline_requirements: RequirementIR,
+        baseline_binding_set: RequirementBindingSet,
+        candidate_requirements: RequirementIR,
+        candidate_binding_set: RequirementBindingSet,
+        edited_requirement_ids: tuple[str, ...] = (),
+        axis: str = "z",
+        side: str = "min",
+        linear_tolerance_mm: float = 1e-6,
+        relative_scalar_tolerance: float = 1e-9,
+        absolute_scalar_floor: float = 1e-12,
+    ) -> tuple[Build123dReceipt, RevisionBundleReceipt]:
+        self._require_frozen_revision_pilot_contract(
+            axis=axis,
+            side=side,
+            edited_requirement_ids=edited_requirement_ids,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+
+        baseline_bundle = baseline_bundle_dir.expanduser()
+        if baseline_bundle.is_symlink() or not baseline_bundle.is_dir():
+            raise Build123dCompileError(
+                "baseline bundle must be an existing non-symlink directory"
+            )
+        baseline_receipt_path = baseline_bundle / "build-receipt.json"
+        if baseline_receipt_path.is_symlink() or not baseline_receipt_path.is_file():
+            raise Build123dCompileError(
+                "baseline bundle must contain a regular build-receipt.json"
+            )
+        try:
+            baseline_receipt_payload = strict_json_loads(
+                baseline_receipt_path.read_text(encoding="utf-8")
+            )
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise Build123dCompileError(
+                "baseline build receipt is unreadable or invalid JSON"
+            ) from exc
+        if not isinstance(baseline_receipt_payload, dict):
+            raise Build123dCompileError("baseline build receipt must be a JSON object")
+        if baseline_receipt_payload.get("receipt_version") != BUILD_RECEIPT_VERSION:
+            raise Build123dCompileError(
+                "baseline build receipt uses an unsupported receipt version"
+            )
+        if baseline_receipt_payload.get("backend") != "build123d":
+            raise Build123dCompileError(
+                "baseline build receipt was not produced by the build123d backend"
+            )
+        if baseline_receipt_payload.get("backend_version") != self.version:
+            raise Build123dCompileError(
+                "baseline build receipt backend version differs from the current evaluator"
+            )
+        expected_baseline_hash = _program_sha256(baseline_program)
+        if baseline_receipt_payload.get("feature_ir_sha256") != expected_baseline_hash:
+            raise Build123dCompileError(
+                "baseline build receipt does not target the supplied baseline Feature IR"
+            )
+        step_name = baseline_receipt_payload.get("step_path")
+        if not isinstance(step_name, str):
+            raise Build123dCompileError("baseline build receipt is missing step_path")
+        step_name = _validate_step_filename(step_name)
+        baseline_step = baseline_bundle / step_name
+        if baseline_step.is_symlink() or not baseline_step.is_file():
+            raise Build123dCompileError(
+                "baseline build receipt points to a missing or non-regular STEP file"
+            )
+
+        destination_input = output_dir.expanduser()
+        if destination_input.exists() or destination_input.is_symlink():
+            raise FileExistsError(f"output directory already exists: {destination_input}")
+        destination = destination_input.resolve()
+        if destination.exists() or destination.is_symlink():
+            raise FileExistsError(f"output directory already exists: {destination}")
+        baseline_resolved = baseline_bundle.resolve()
+        if baseline_resolved == destination or baseline_resolved in destination.parents:
+            raise Build123dCompileError(
+                "revision output directory must be outside the accepted baseline bundle"
+            )
+        destination.parent.mkdir(parents=True, exist_ok=True)
+
+        requirement_items = (
+            baseline_requirements,
+            baseline_binding_set,
+            candidate_requirements,
+            candidate_binding_set,
+        )
+        if any(item is None for item in requirement_items):
+            raise Build123dCompileError(
+                "verified revisions require baseline/candidate Requirement IR and binding sets"
+            )
+
+        baseline_step_sha256 = _sha256(baseline_step)
+        receipt_step_sha256 = baseline_receipt_payload.get("step_sha256")
+        if receipt_step_sha256 != baseline_step_sha256:
+            raise Build123dCompileError(
+                "baseline STEP hash does not match its accepted build receipt"
+            )
+        baseline_build_receipt_sha256 = _sha256(baseline_receipt_path)
+
+        baseline_requirements_path = baseline_bundle / "requirements.json"
+        baseline_bindings_path = baseline_bundle / "requirement-bindings.json"
+        baseline_verification_path = baseline_bundle / "requirements-verification.json"
+        if (
+            baseline_requirements_path.is_symlink()
+            or baseline_bindings_path.is_symlink()
+            or baseline_verification_path.is_symlink()
+            or not baseline_requirements_path.is_file()
+            or not baseline_bindings_path.is_file()
+            or not baseline_verification_path.is_file()
+        ):
+            raise Build123dCompileError(
+                "accepted baseline is missing regular requirement verification artifacts"
+            )
+        baseline_requirements_sha256 = _sha256(baseline_requirements_path)
+        baseline_bindings_sha256 = _sha256(baseline_bindings_path)
+        baseline_requirements_verification_sha256 = _sha256(
+            baseline_verification_path
+        )
+        if (
+            baseline_receipt_payload.get("requirements_sha256")
+            != baseline_requirements_sha256
+            or baseline_receipt_payload.get("bindings_sha256")
+            != baseline_bindings_sha256
+            or baseline_receipt_payload.get("requirements_verification_sha256")
+            != baseline_requirements_verification_sha256
+        ):
+            raise Build123dCompileError(
+                "baseline requirement artifact hashes do not match the accepted receipt"
+            )
+        if baseline_receipt_payload.get("requirements_satisfied") is not True:
+            raise Build123dCompileError(
+                "baseline build receipt does not record satisfied must-level requirements"
+            )
+        expected_requirements_sha256 = hashlib.sha256(
+            serialize_requirement_ir_json(baseline_requirements).encode("utf-8")
+        ).hexdigest()
+        expected_bindings_sha256 = hashlib.sha256(
+            serialize_binding_set_json(baseline_binding_set).encode("utf-8")
+        ).hexdigest()
+        if baseline_requirements_sha256 != expected_requirements_sha256:
+            raise Build123dCompileError(
+                "baseline requirements do not match the supplied accepted contract"
+            )
+        if baseline_bindings_sha256 != expected_bindings_sha256:
+            raise Build123dCompileError(
+                "baseline bindings do not match the supplied accepted contract"
+            )
+
+        try:
+            baseline_verification_payload = strict_json_loads(
+                baseline_verification_path.read_text(encoding="utf-8")
+            )
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise Build123dCompileError(
+                "baseline requirement verification evidence is unreadable or invalid JSON"
+            ) from exc
+        if not isinstance(baseline_verification_payload, dict):
+            raise Build123dCompileError(
+                "baseline requirement verification evidence must be a JSON object"
+            )
+        if baseline_verification_payload.get("satisfied_for_all_must") is not True:
+            raise Build123dCompileError(
+                "baseline requirement verification does not satisfy every must requirement"
+            )
+        if baseline_verification_payload.get("errors") != []:
+            raise Build123dCompileError(
+                "baseline requirement verification contains recorded errors"
+            )
+        if (
+            baseline_verification_payload.get("requirement_ir_sha256")
+            != requirement_ir_sha256(baseline_requirements)
+            or baseline_verification_payload.get("feature_ir_sha256")
+            != expected_baseline_hash
+            or baseline_verification_payload.get("binding_set_sha256")
+            != binding_set_sha256(baseline_binding_set)
+        ):
+            raise Build123dCompileError(
+                "baseline requirement verification provenance does not match the supplied accepted contract"
+            )
+
+        baseline_step_shape = self._verify_planar_step_matches_program(
+            baseline_program,
+            baseline_step,
+            axis=axis,
+            side=side,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+        baseline_recomputed_verification = verify_exact_requirements(
+            baseline_requirements,
+            baseline_program,
+            self.inspect(baseline_step_shape),
+            baseline_binding_set,
+            exact_measurements_mm=self._exact_requirement_measurements(
+                baseline_step_shape,
+                baseline_binding_set,
+            ),
+        )
+        if not baseline_recomputed_verification.satisfied_for_all_must:
+            raise Build123dCompileError(
+                "accepted baseline no longer satisfies its must-level requirements"
+            )
+        if (
+            baseline_verification_payload
+            != baseline_recomputed_verification.to_dict()
+        ):
+            raise Build123dCompileError(
+                "baseline requirement verification evidence does not reproduce from the accepted STEP"
+            )
+
+        evidence = self.compare_planar_revision_boundary(
+            baseline_program,
+            candidate_program,
+            axis=axis,
+            side=side,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+        if not evidence.passed:
+            raise Build123dCompileError(
+                "revision integrity comparison failed; candidate was not published"
+            )
+
+        contract_errors = verify_unchanged_must_requirements(
+            baseline_requirements,
+            baseline_binding_set,
+            candidate_requirements,
+            candidate_binding_set,
+            edited_requirement_ids=edited_requirement_ids,
+        )
+        if contract_errors:
+            details = ", ".join(error.code for error in contract_errors)
+            raise Build123dCompileError(
+                "unchanged must-level revision contract failed: " + details
+            )
+        unchanged_requirements_guard_passed = True
+
+        private_root = Path(
+            tempfile.mkdtemp(prefix=f".{destination.name}.revision.", dir=destination.parent)
+        )
+        private_bundle = private_root / "bundle"
+        try:
+            candidate_receipt = self.export_verified_step(
+                candidate_program,
+                private_bundle,
+                requirements=candidate_requirements,
+                binding_set=candidate_binding_set,
+            )
+            if candidate_receipt.step_path is None or candidate_receipt.step_sha256 is None:
+                raise Build123dCompileError("candidate export did not produce STEP evidence")
+            candidate_step = private_bundle / candidate_receipt.step_path
+            candidate_build_receipt = private_bundle / "build-receipt.json"
+            candidate_requirements_path = private_bundle / "requirements.json"
+            candidate_bindings_path = private_bundle / "requirement-bindings.json"
+            candidate_verification = private_bundle / "requirements-verification.json"
+            candidate_artifacts = (
+                candidate_step,
+                candidate_build_receipt,
+                candidate_requirements_path,
+                candidate_bindings_path,
+                candidate_verification,
+            )
+            if any(path.is_symlink() or not path.is_file() for path in candidate_artifacts):
+                raise Build123dCompileError(
+                    "candidate export did not produce a regular complete verified bundle"
+                )
+
+            candidate_step_sha256 = _sha256(candidate_step)
+            candidate_requirements_sha256 = _sha256(candidate_requirements_path)
+            candidate_bindings_sha256 = _sha256(candidate_bindings_path)
+            candidate_verification_sha256 = _sha256(candidate_verification)
+            if candidate_step_sha256 != candidate_receipt.step_sha256:
+                raise Build123dCompileError(
+                    "candidate STEP hash does not match its verified build receipt"
+                )
+            if candidate_requirements_sha256 != candidate_receipt.requirements_sha256:
+                raise Build123dCompileError(
+                    "candidate requirements hash does not match its verified build receipt"
+                )
+            if candidate_bindings_sha256 != candidate_receipt.bindings_sha256:
+                raise Build123dCompileError(
+                    "candidate bindings hash does not match its verified build receipt"
+                )
+            if (
+                candidate_verification_sha256
+                != candidate_receipt.requirements_verification_sha256
+            ):
+                raise Build123dCompileError(
+                    "candidate requirement verification hash does not match its verified build receipt"
+                )
+            try:
+                candidate_receipt_payload = strict_json_loads(
+                    candidate_build_receipt.read_text(encoding="utf-8")
+                )
+            except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                raise Build123dCompileError(
+                    "candidate build receipt is unreadable or invalid JSON"
+                ) from exc
+            if candidate_receipt_payload != candidate_receipt.to_dict():
+                raise Build123dCompileError(
+                    "candidate build receipt file does not match the verified in-memory receipt"
+                )
+
+            self._verify_planar_step_matches_program(
+                candidate_program,
+                candidate_step,
+                axis=axis,
+                side=side,
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            )
+
+            if _sha256(baseline_step) != baseline_step_sha256:
+                raise Build123dCompileError(
+                    "baseline STEP changed during revision evaluation; refusing publication"
+                )
+            if _sha256(baseline_receipt_path) != baseline_build_receipt_sha256:
+                raise Build123dCompileError(
+                    "baseline build receipt changed during revision evaluation; refusing publication"
+                )
+            if _sha256(baseline_requirements_path) != baseline_requirements_sha256:
+                raise Build123dCompileError(
+                    "baseline requirements changed during revision evaluation; "
+                    "refusing publication"
+                )
+            if _sha256(baseline_bindings_path) != baseline_bindings_sha256:
+                raise Build123dCompileError(
+                    "baseline bindings changed during revision evaluation; "
+                    "refusing publication"
+                )
+            if (
+                _sha256(baseline_verification_path)
+                != baseline_requirements_verification_sha256
+            ):
+                raise Build123dCompileError(
+                    "baseline requirement verification changed during revision evaluation; "
+                    "refusing publication"
+                )
+
+            revision_receipt = RevisionBundleReceipt(
+                backend="build123d",
+                backend_version=self.version,
+                baseline_feature_ir_sha256=evidence.baseline_feature_ir_sha256,
+                candidate_feature_ir_sha256=evidence.candidate_feature_ir_sha256,
+                baseline_step_sha256=baseline_step_sha256,
+                baseline_build_receipt_sha256=baseline_build_receipt_sha256,
+                baseline_requirements_sha256=baseline_requirements_sha256,
+                baseline_bindings_sha256=baseline_bindings_sha256,
+                baseline_requirements_verification_sha256=(
+                    baseline_requirements_verification_sha256
+                ),
+                candidate_step_sha256=candidate_step_sha256,
+                candidate_build_receipt_sha256=_sha256(candidate_build_receipt),
+                candidate_requirements_sha256=candidate_requirements_sha256,
+                candidate_bindings_sha256=candidate_bindings_sha256,
+                candidate_requirements_verification_sha256=(
+                    candidate_verification_sha256
+                ),
+                edited_requirement_ids=tuple(edited_requirement_ids),
+                evidence=evidence,
+                unchanged_requirements_guard_passed=unchanged_requirements_guard_passed,
+            )
+            revision_path = private_bundle / "revision-integrity.json"
+            revision_path.write_text(
+                json.dumps(
+                    revision_receipt.to_dict(),
+                    indent=2,
+                    sort_keys=True,
+                    allow_nan=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            os.replace(private_bundle, destination)
+            shutil.rmtree(private_root, ignore_errors=True)
+            return candidate_receipt, revision_receipt
+        except BaseException:
+            shutil.rmtree(private_root, ignore_errors=True)
+            raise
+
     def build_receipt(self, program: FeatureProgram) -> Build123dReceipt:
         outputs = self.compile(program)
         if len(outputs) != 1:
@@ -487,11 +1658,16 @@ class Build123dBackend:
             verification_path: Path | None = None
             requirements_satisfied: bool | None = None
             if requirements is not None and binding_set is not None:
+                exact_measurements_mm = self._exact_requirement_measurements(
+                    imported,
+                    binding_set,
+                )
                 requirement_verification = verify_exact_requirements(
                     requirements,
                     program,
                     roundtrip,
                     binding_set,
+                    exact_measurements_mm=exact_measurements_mm,
                 )
                 requirements_satisfied = requirement_verification.satisfied_for_all_must
                 if not requirements_satisfied:
