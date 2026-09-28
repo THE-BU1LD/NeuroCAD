@@ -816,6 +816,55 @@ def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> Non
 
 
 
+def test_revision_rejects_baseline_requirement_mutation_during_evaluation(
+    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-race"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    original_export = backend.export_verified_step
+
+    def mutate_baseline_after_candidate(*args, **kwargs):
+        receipt = original_export(*args, **kwargs)
+        requirements_path = accepted / "requirements.json"
+        requirements_path.write_text(
+            requirements_path.read_text(encoding="utf-8") + " ",
+            encoding="utf-8",
+        )
+        return receipt
+
+    monkeypatch.setattr(backend, "export_verified_step", mutate_baseline_after_candidate)
+
+    output = tmp_path / "must-not-publish-race"
+    with pytest.raises(
+        Build123dCompileError,
+        match="baseline requirements changed during revision evaluation",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            output,
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not output.exists()
+
+
 def test_revision_comparison_fails_closed_outside_planar_prism_scope() -> None:
     box = _program(
         Feature(
