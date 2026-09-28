@@ -571,6 +571,14 @@ def test_wall_thickness_edit_rechecks_unchanged_must_requirements(tmp_path) -> N
 
     assert candidate_receipt.requirements_satisfied is True
     assert revision_receipt.unchanged_requirements_guard_passed is True
+    assert revision_receipt.baseline_requirements_sha256 == hashlib.sha256(
+        (accepted / "requirements.json").read_bytes()
+    ).hexdigest()
+    assert revision_receipt.baseline_bindings_sha256 == hashlib.sha256(
+        (accepted / "requirement-bindings.json").read_bytes()
+    ).hexdigest()
+    assert revision_receipt.candidate_requirements_sha256 is not None
+    assert revision_receipt.candidate_bindings_sha256 is not None
     assert (tmp_path / "candidate-accepted" / "revision-integrity.json").is_file()
 
 
