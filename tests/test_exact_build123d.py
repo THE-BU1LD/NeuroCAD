@@ -596,7 +596,17 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
     before = _bundle_hashes(accepted)
 
     candidate = _revision_wall_panel(40.0)
-    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
+    candidate_requirements = _panel_requirement_document(40.0)
+    candidate_bindings = RequirementBindingSet(
+        requirement_ir_sha256=requirement_ir_sha256(candidate_requirements),
+        # The candidate Feature IR is intentionally invalid and cannot be
+        # serialized as accepted geometry. This binding set carries only the
+        # pre-edit requirement intent into the fail-closed rejection path.
+        feature_ir_sha256=baseline_bindings.feature_ir_sha256,
+        bindings=baseline_bindings.bindings,
+        metadata=dict(baseline_bindings.metadata),
+        version=baseline_bindings.version,
+    )
     rejected = tmp_path / "rejected"
     with pytest.raises(Build123dCompileError, match="above upper bound"):
         backend.export_verified_revision(
