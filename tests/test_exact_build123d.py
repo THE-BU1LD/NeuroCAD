@@ -534,6 +534,13 @@ def test_wall_thickness_edit_keeps_single_valid_manifold_solid() -> None:
     assert evidence.candidate_inspection.valid_brep
     assert evidence.candidate_inspection.manifold
     assert evidence.candidate_inspection.solid_count == 1
+    assert evidence.baseline_self_intersection_free
+    assert evidence.candidate_self_intersection_free
+    assert evidence.candidate_zero_thickness_free
+    assert (
+        evidence.candidate_minimum_material_clearance_mm
+        > evidence.linear_tolerance_mm
+    )
 
 
 def test_wall_thickness_edit_rechecks_unchanged_must_requirements(tmp_path) -> None:
@@ -672,3 +679,17 @@ def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> Non
             tmp_path / "must-not-publish",
         )
     assert not (tmp_path / "must-not-publish").exists()
+
+
+
+def test_revision_comparison_fails_closed_outside_planar_prism_scope() -> None:
+    box = _program(
+        Feature(
+            id="body",
+            kind="primitive_box",
+            parameters={"size": [80.0, 60.0, 2.0]},
+        ),
+        output="body",
+    )
+    with pytest.raises(Build123dCompileError, match="one sketch followed by one extrusion"):
+        Build123dBackend().compare_planar_revision_boundary(box, box)
