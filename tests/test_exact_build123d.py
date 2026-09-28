@@ -918,6 +918,60 @@ def test_revision_rejects_baseline_step_geometry_tamper_even_if_receipt_hash_is_
     assert not (tmp_path / "must-not-publish-step-tamper").exists()
 
 
+def test_revision_rejects_staged_candidate_verification_mutation(
+    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-candidate-verification-mutation"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    original_export = backend.export_verified_step
+
+    def mutate_candidate_verification_after_export(*args, **kwargs):
+        receipt = original_export(*args, **kwargs)
+        candidate_bundle = args[1]
+        verification_path = candidate_bundle / "requirements-verification.json"
+        verification_path.write_text(
+            verification_path.read_text(encoding="utf-8") + " ",
+            encoding="utf-8",
+        )
+        return receipt
+
+    monkeypatch.setattr(
+        backend,
+        "export_verified_step",
+        mutate_candidate_verification_after_export,
+    )
+
+    output = tmp_path / "must-not-publish-candidate-verification-mutation"
+    with pytest.raises(
+        Build123dCompileError,
+        match="candidate requirement verification hash does not match",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            output,
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not output.exists()
+
+
 def test_revision_rejects_candidate_step_export_drift_with_same_extents_and_volume(
     tmp_path,
     monkeypatch: pytest.MonkeyPatch,
