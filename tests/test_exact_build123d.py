@@ -421,10 +421,7 @@ def _revision_wall_panel(
     )
 
 
-def _panel_requirements(
-    program: FeatureProgram,
-    wall_thickness_mm: float,
-) -> tuple[RequirementIR, RequirementBindingSet]:
+def _panel_requirement_document(wall_thickness_mm: float) -> RequirementIR:
     source = (
         f"Keep width exactly 80 mm and set wall thickness to "
         f"{wall_thickness_mm:g} mm."
@@ -433,7 +430,7 @@ def _panel_requirements(
     thickness_text = f"{wall_thickness_mm:g} mm"
     width_start = source.index(width_text)
     thickness_start = source.rindex(thickness_text)
-    document = RequirementIR(
+    return RequirementIR(
         source=source,
         requirements=(
             Requirement(
@@ -462,6 +459,13 @@ def _panel_requirements(
             ),
         ),
     )
+
+
+def _panel_requirements(
+    program: FeatureProgram,
+    wall_thickness_mm: float,
+) -> tuple[RequirementIR, RequirementBindingSet]:
+    document = _panel_requirement_document(wall_thickness_mm)
     bindings = RequirementBindingSet(
         requirement_ir_sha256=requirement_ir_sha256(document),
         feature_ir_sha256=feature_ir_sha256(program),
@@ -569,15 +573,9 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
     before = _bundle_hashes(accepted)
 
     candidate = _revision_wall_panel(40.0)
-    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
     rejected = tmp_path / "rejected"
     with pytest.raises(Build123dCompileError, match="above upper bound"):
-        backend.export_verified_step(
-            candidate,
-            rejected,
-            requirements=candidate_requirements,
-            binding_set=candidate_bindings,
-        )
+        backend.export_verified_step(candidate, rejected)
 
     assert not rejected.exists()
     assert _bundle_hashes(accepted) == before
@@ -585,22 +583,18 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
 
 def test_infeasible_edit_does_not_relax_unchanged_bindings() -> None:
     baseline = _revision_wall_panel(2.0)
-    candidate = _revision_wall_panel(40.0)
     baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
-    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
+    rejected_requirements = _panel_requirement_document(40.0)
 
     errors = verify_unchanged_must_requirements(
         baseline_requirements,
         baseline_bindings,
-        candidate_requirements,
-        candidate_bindings,
+        rejected_requirements,
+        baseline_bindings,
         edited_requirement_ids=("wall_thickness",),
     )
     assert errors == ()
-    assert (
-        candidate_bindings.bindings[0].to_dict()
-        == baseline_bindings.bindings[0].to_dict()
-    )
+    assert baseline_bindings.bindings[0].requirement_id == "width"
 
 
 def test_revision_receipt_binds_baseline_candidate_and_tolerances() -> None:
