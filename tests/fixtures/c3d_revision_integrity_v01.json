@@ -8,8 +8,8 @@
     "feedback_date": "2026-09-28"
   },
   "tolerances": {
-    "linear_mm": 1e-6,
-    "centroid_axis_mm": 1e-6,
+    "linear_mm": 0.000001,
+    "centroid_axis_mm": 0.000001,
     "relative_scalar": 1e-9,
     "absolute_scalar_floor": 1e-12
   },
@@ -31,7 +31,7 @@
     "all_unchanged_must_requirements_satisfied"
   ],
   "infeasible_case": {
-    "wall_thickness_mm": 40.0,
+    "wall_thickness_mm": 40,
     "expected": "explicit_failure",
     "must_preserve_last_accepted_bundle": true,
     "must_not_relax_unchanged_constraints": true,
@@ -46,5 +46,25 @@
       "tests/test_exact_build123d.py",
       "tests/test_requirement_verification.py"
     ]
+  },
+  "implementation_scope": {
+    "history": "single planar sketch followed by one operation=new extrusion",
+    "boundary_edge_types": [
+      "LINE",
+      "CIRCLE"
+    ],
+    "generic_hausdorff_claim": false,
+    "sampled_points_per_edge": 17,
+    "self_interference_predicate": "OCP.BOPAlgo.BOPAlgo_ArgumentAnalyzer(SelfInterMode)",
+    "zero_thickness_predicate": "positive extrusion extent + positive planar material area + positive inter-boundary clearance",
+    "unsupported_geometry": "fail_closed"
+  },
+  "transaction": {
+    "baseline_receipt_binds_feature_ir": true,
+    "baseline_step_hash_rechecked_before_publish": true,
+    "baseline_requirement_artifacts_bound_when_supplied": true,
+    "private_candidate_staging": true,
+    "atomic_candidate_directory_publish": true,
+    "revision_receipt": "revision-integrity.json"
   }
 }
