@@ -844,7 +844,7 @@ class Build123dBackend:
         linear_tolerance_mm: float,
         relative_scalar_tolerance: float,
         absolute_scalar_floor: float,
-    ) -> None:
+    ) -> Any:
         """Prove a STEP artifact still represents the supplied pilot Feature IR."""
 
         self._validate_planar_prism_program(program, axis=axis)
@@ -962,6 +962,8 @@ class Build123dBackend:
                 raise Build123dCompileError(
                     "verified STEP cutout geometry differs from the supplied Feature IR"
                 )
+
+        return imported_shape
 
     def compare_planar_revision_boundary(
         self,
@@ -1350,7 +1352,7 @@ class Build123dBackend:
                 "baseline requirement verification provenance does not match the supplied accepted contract"
             )
 
-        self._verify_planar_step_matches_program(
+        baseline_step_shape = self._verify_planar_step_matches_program(
             baseline_program,
             baseline_step,
             axis=axis,
@@ -1359,6 +1361,27 @@ class Build123dBackend:
             relative_scalar_tolerance=relative_scalar_tolerance,
             absolute_scalar_floor=absolute_scalar_floor,
         )
+        baseline_recomputed_verification = verify_exact_requirements(
+            baseline_requirements,
+            baseline_program,
+            self.inspect(baseline_step_shape),
+            baseline_binding_set,
+            exact_measurements_mm=self._exact_requirement_measurements(
+                baseline_step_shape,
+                baseline_binding_set,
+            ),
+        )
+        if not baseline_recomputed_verification.satisfied_for_all_must:
+            raise Build123dCompileError(
+                "accepted baseline no longer satisfies its must-level requirements"
+            )
+        if (
+            baseline_verification_payload
+            != baseline_recomputed_verification.to_dict()
+        ):
+            raise Build123dCompileError(
+                "baseline requirement verification evidence does not reproduce from the accepted STEP"
+            )
 
         evidence = self.compare_planar_revision_boundary(
             baseline_program,
