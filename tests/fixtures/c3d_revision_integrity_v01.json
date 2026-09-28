@@ -80,7 +80,11 @@
     "unchanged_must_bindings_enforced": true,
     "private_candidate_staging": true,
     "atomic_candidate_directory_publish": true,
-    "revision_receipt": "revision-integrity.json"
+    "revision_receipt": "revision-integrity.json",
+    "baseline_requirement_verification_artifact_required": true,
+    "baseline_requirement_verification_hash_rechecked_before_publish": true,
+    "accepted_baseline_step_revalidated_against_feature_ir": true,
+    "candidate_requirement_verification_hash_bound_in_revision_receipt": true
   },
   "pilot_geometry": {
     "external_envelope_mm": [
@@ -111,5 +115,14 @@
         10
       ]
     }
+  },
+  "publication_contract": {
+    "comparison_axis": "z",
+    "comparison_side": "min",
+    "edited_requirement_ids": [
+      "wall_thickness"
+    ],
+    "runtime_tolerance_override_allowed": false,
+    "tolerances_source": "tolerances"
   }
 }
