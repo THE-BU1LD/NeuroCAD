@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 
 import pytest
@@ -536,27 +537,34 @@ def test_wall_thickness_edit_keeps_single_valid_manifold_solid() -> None:
 
 
 def test_wall_thickness_edit_rechecks_unchanged_must_requirements(tmp_path) -> None:
+    backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
     candidate = _revision_wall_panel(3.0)
     baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
     candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "baseline-accepted"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
 
-    contract_errors = verify_unchanged_must_requirements(
-        baseline_requirements,
-        baseline_bindings,
-        candidate_requirements,
-        candidate_bindings,
+    candidate_receipt, revision_receipt = backend.export_verified_revision(
+        baseline,
+        candidate,
+        accepted,
+        tmp_path / "candidate-accepted",
+        baseline_requirements=baseline_requirements,
+        baseline_binding_set=baseline_bindings,
+        candidate_requirements=candidate_requirements,
+        candidate_binding_set=candidate_bindings,
         edited_requirement_ids=("wall_thickness",),
     )
-    assert contract_errors == ()
 
-    receipt = Build123dBackend().export_verified_step(
-        candidate,
-        tmp_path / "candidate-accepted",
-        requirements=candidate_requirements,
-        binding_set=candidate_bindings,
-    )
-    assert receipt.requirements_satisfied is True
+    assert candidate_receipt.requirements_satisfied is True
+    assert revision_receipt.unchanged_requirements_guard_passed is True
+    assert (tmp_path / "candidate-accepted" / "revision-integrity.json").is_file()
 
 
 def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> None:
@@ -575,7 +583,12 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
     candidate = _revision_wall_panel(40.0)
     rejected = tmp_path / "rejected"
     with pytest.raises(Build123dCompileError, match="above upper bound"):
-        backend.export_verified_step(candidate, rejected)
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            rejected,
+        )
 
     assert not rejected.exists()
     assert _bundle_hashes(accepted) == before
@@ -597,21 +610,33 @@ def test_infeasible_edit_does_not_relax_unchanged_bindings() -> None:
     assert baseline_bindings.bindings[0].requirement_id == "width"
 
 
-def test_revision_receipt_binds_baseline_candidate_and_tolerances() -> None:
+def test_revision_receipt_binds_baseline_candidate_and_tolerances(tmp_path) -> None:
+    backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
     candidate = _revision_wall_panel(3.0)
-    evidence = Build123dBackend().compare_planar_revision_boundary(
+    accepted = tmp_path / "accepted-receipt"
+    backend.export_verified_step(baseline, accepted)
+    output = tmp_path / "candidate-receipt"
+
+    _candidate_receipt, revision_receipt = backend.export_verified_revision(
         baseline,
         candidate,
+        accepted,
+        output,
     )
-    payload = evidence.to_dict()
-    assert payload["revision_evidence_version"] == "neurocad-planar-revision-evidence-v1"
+    payload = json.loads((output / "revision-integrity.json").read_text(encoding="utf-8"))
+
+    assert payload == revision_receipt.to_dict()
+    assert payload["revision_bundle_receipt_version"] == "neurocad-revision-bundle-receipt-v1"
     assert payload["baseline_feature_ir_sha256"] == feature_ir_sha256(baseline)
     assert payload["candidate_feature_ir_sha256"] == feature_ir_sha256(candidate)
-    assert payload["linear_tolerance_mm"] == 1e-6
-    assert payload["relative_scalar_tolerance"] == 1e-9
-    assert payload["absolute_scalar_floor"] == 1e-12
-    assert payload["passed"] is True
+    assert payload["evidence"]["linear_tolerance_mm"] == 1e-6
+    assert payload["evidence"]["relative_scalar_tolerance"] == 1e-9
+    assert payload["evidence"]["absolute_scalar_floor"] == 1e-12
+    assert payload["evidence"]["passed"] is True
+    assert payload["baseline_step_sha256"] == hashlib.sha256(
+        (accepted / "design.step").read_bytes()
+    ).hexdigest()
 
 
 def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
@@ -622,3 +647,28 @@ def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
     assert not evidence.cutouts_equivalent
     assert evidence.max_sampled_cutout_deviation_mm > evidence.linear_tolerance_mm
     assert not evidence.passed
+
+
+
+def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    accepted = tmp_path / "accepted-baseline-binding"
+    backend.export_verified_step(baseline, accepted)
+
+    receipt_path = accepted / "build-receipt.json"
+    payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    payload["feature_ir_sha256"] = "0" * 64
+    receipt_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(Build123dCompileError, match="does not target"):
+        backend.export_verified_revision(
+            baseline,
+            _revision_wall_panel(3.0),
+            accepted,
+            tmp_path / "must-not-publish",
+        )
+    assert not (tmp_path / "must-not-publish").exists()
