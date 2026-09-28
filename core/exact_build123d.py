@@ -1419,6 +1419,16 @@ class Build123dBackend:
                     "candidate export did not produce the complete verified bundle"
                 )
 
+            self._verify_planar_step_matches_program(
+                candidate_program,
+                candidate_step,
+                axis=axis,
+                side=side,
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            )
+
             if _sha256(baseline_step) != baseline_step_sha256:
                 raise Build123dCompileError(
                     "baseline STEP changed during revision evaluation; refusing publication"
