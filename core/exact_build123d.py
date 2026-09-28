@@ -1409,14 +1409,55 @@ class Build123dBackend:
                 raise Build123dCompileError("candidate export did not produce STEP evidence")
             candidate_step = private_bundle / candidate_receipt.step_path
             candidate_build_receipt = private_bundle / "build-receipt.json"
+            candidate_requirements_path = private_bundle / "requirements.json"
+            candidate_bindings_path = private_bundle / "requirement-bindings.json"
             candidate_verification = private_bundle / "requirements-verification.json"
+            candidate_artifacts = (
+                candidate_step,
+                candidate_build_receipt,
+                candidate_requirements_path,
+                candidate_bindings_path,
+                candidate_verification,
+            )
+            if any(path.is_symlink() or not path.is_file() for path in candidate_artifacts):
+                raise Build123dCompileError(
+                    "candidate export did not produce a regular complete verified bundle"
+                )
+
+            candidate_step_sha256 = _sha256(candidate_step)
+            candidate_requirements_sha256 = _sha256(candidate_requirements_path)
+            candidate_bindings_sha256 = _sha256(candidate_bindings_path)
+            candidate_verification_sha256 = _sha256(candidate_verification)
+            if candidate_step_sha256 != candidate_receipt.step_sha256:
+                raise Build123dCompileError(
+                    "candidate STEP hash does not match its verified build receipt"
+                )
+            if candidate_requirements_sha256 != candidate_receipt.requirements_sha256:
+                raise Build123dCompileError(
+                    "candidate requirements hash does not match its verified build receipt"
+                )
+            if candidate_bindings_sha256 != candidate_receipt.bindings_sha256:
+                raise Build123dCompileError(
+                    "candidate bindings hash does not match its verified build receipt"
+                )
             if (
-                not candidate_step.is_file()
-                or not candidate_build_receipt.is_file()
-                or not candidate_verification.is_file()
+                candidate_verification_sha256
+                != candidate_receipt.requirements_verification_sha256
             ):
                 raise Build123dCompileError(
-                    "candidate export did not produce the complete verified bundle"
+                    "candidate requirement verification hash does not match its verified build receipt"
+                )
+            try:
+                candidate_receipt_payload = strict_json_loads(
+                    candidate_build_receipt.read_text(encoding="utf-8")
+                )
+            except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                raise Build123dCompileError(
+                    "candidate build receipt is unreadable or invalid JSON"
+                ) from exc
+            if candidate_receipt_payload != candidate_receipt.to_dict():
+                raise Build123dCompileError(
+                    "candidate build receipt file does not match the verified in-memory receipt"
                 )
 
             self._verify_planar_step_matches_program(
@@ -1468,19 +1509,12 @@ class Build123dBackend:
                 baseline_requirements_verification_sha256=(
                     baseline_requirements_verification_sha256
                 ),
-                candidate_step_sha256=_sha256(candidate_step),
+                candidate_step_sha256=candidate_step_sha256,
                 candidate_build_receipt_sha256=_sha256(candidate_build_receipt),
-                candidate_requirements_sha256=_require_revision_hash(
-                    candidate_receipt.requirements_sha256,
-                    "candidate requirements",
-                ),
-                candidate_bindings_sha256=_require_revision_hash(
-                    candidate_receipt.bindings_sha256,
-                    "candidate bindings",
-                ),
-                candidate_requirements_verification_sha256=_require_revision_hash(
-                    candidate_receipt.requirements_verification_sha256,
-                    "candidate requirement verification",
+                candidate_requirements_sha256=candidate_requirements_sha256,
+                candidate_bindings_sha256=candidate_bindings_sha256,
+                candidate_requirements_verification_sha256=(
+                    candidate_verification_sha256
                 ),
                 edited_requirement_ids=tuple(edited_requirement_ids),
                 evidence=evidence,
