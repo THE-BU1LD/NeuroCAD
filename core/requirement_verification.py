@@ -514,6 +514,26 @@ def verify_unchanged_must_requirements(
     """
 
     errors: list[RequirementIssue] = []
+
+    expected_baseline_requirement_hash = requirement_ir_sha256(baseline_document)
+    expected_candidate_requirement_hash = requirement_ir_sha256(candidate_document)
+    if baseline_binding_set.requirement_ir_sha256 != expected_baseline_requirement_hash:
+        errors.append(
+            RequirementIssue(
+                "baseline_binding_requirement_hash_mismatch",
+                "$.baseline_bindings.requirement_ir_sha256",
+                "baseline bindings do not target the supplied baseline Requirement IR",
+            )
+        )
+    if candidate_binding_set.requirement_ir_sha256 != expected_candidate_requirement_hash:
+        errors.append(
+            RequirementIssue(
+                "candidate_binding_requirement_hash_mismatch",
+                "$.candidate_bindings.requirement_ir_sha256",
+                "candidate bindings do not target the supplied candidate Requirement IR",
+            )
+        )
+
     baseline_requirements = {
         requirement.id: requirement for requirement in baseline_document.requirements
     }
@@ -574,12 +594,29 @@ def verify_unchanged_must_requirements(
                 )
             )
         else:
+            baseline_value_contract = (
+                None
+                if baseline_requirement.value is None
+                else (
+                    baseline_requirement.value.unit,
+                    baseline_requirement.value.tolerance,
+                )
+            )
+            candidate_value_contract = (
+                None
+                if candidate_requirement.value is None
+                else (
+                    candidate_requirement.value.unit,
+                    candidate_requirement.value.tolerance,
+                )
+            )
             baseline_contract = (
                 baseline_requirement.kind,
                 baseline_requirement.strength,
                 baseline_requirement.target,
                 baseline_requirement.provenance,
                 baseline_requirement.verification,
+                baseline_value_contract,
             )
             candidate_contract = (
                 candidate_requirement.kind,
@@ -587,6 +624,7 @@ def verify_unchanged_must_requirements(
                 candidate_requirement.target,
                 candidate_requirement.provenance,
                 candidate_requirement.verification,
+                candidate_value_contract,
             )
             if candidate_contract != baseline_contract:
                 errors.append(
