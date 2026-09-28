@@ -426,3 +426,58 @@ def test_revision_contract_allows_value_only_change_to_edited_must() -> None:
     )
 
     assert errors == ()
+
+
+def test_revision_contract_rejects_stale_candidate_binding_hash() -> None:
+    baseline, program, bindings = _documents()
+    width, body_required = baseline.requirements
+    assert width.value is not None
+    changed_width = replace(
+        width,
+        value=replace(width.value, value=float(width.value.value) + 1.0),
+    )
+    candidate = RequirementIR(
+        source=baseline.source,
+        requirements=(changed_width, body_required),
+    )
+
+    errors = verify_unchanged_must_requirements(
+        baseline,
+        bindings,
+        candidate,
+        bindings,
+        edited_requirement_ids=("width",),
+    )
+
+    assert "candidate_binding_requirement_hash_mismatch" in {
+        error.code for error in errors
+    }
+
+
+def test_revision_contract_rejects_unit_or_tolerance_change_to_edited_must() -> None:
+    baseline, program, bindings = _documents()
+    width, body_required = baseline.requirements
+    assert width.value is not None
+    changed_width = replace(
+        width,
+        value=replace(
+            width.value,
+            value=float(width.value.value) + 1.0,
+            unit="cm",
+        ),
+    )
+    candidate = RequirementIR(
+        source=baseline.source,
+        requirements=(changed_width, body_required),
+    )
+    candidate_bindings = _rebound_bindings(candidate, program, bindings.bindings)
+
+    errors = verify_unchanged_must_requirements(
+        baseline,
+        bindings,
+        candidate,
+        candidate_bindings,
+        edited_requirement_ids=("width",),
+    )
+
+    assert [error.code for error in errors] == ["changed_edited_must_contract"]
