@@ -25,6 +25,16 @@ def server() -> Iterator[DemoServer]:
         thread.join(timeout=2)
 
 
+def _wait_for_worker_release(server: DemoServer) -> None:
+    # EOF is visible to the client just before ThreadingHTTPServer unwinds
+    # process_request_thread() and releases NeuroCAD's worker semaphore.
+    # Synchronize here so back-to-back request assertions test HTTP behavior
+    # rather than racing the one-worker test server's cleanup path.
+    if not server._worker_slots.acquire(timeout=2):
+        pytest.fail("demo server worker slot was not released after request completion")
+    server._worker_slots.release()
+
+
 def send(server: DemoServer, headers: str, body: bytes = b"", *, eof: bool = False) -> bytes:
     with socket.create_connection(server.server_address, timeout=2) as client:
         client.sendall((f"POST /api/generate HTTP/1.1\r\nHost: 127.0.0.1:{server.server_port}\r\n"
@@ -34,7 +44,9 @@ def send(server: DemoServer, headers: str, body: bytes = b"", *, eof: bool = Fal
         chunks = []
         while chunk := client.recv(4096):
             chunks.append(chunk)
-        return b"".join(chunks)
+        response = b"".join(chunks)
+    _wait_for_worker_release(server)
+    return response
 
 
 def test_stalled_body_times_out_and_worker_can_be_reused(server: DemoServer) -> None:
