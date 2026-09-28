@@ -822,6 +822,53 @@ def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> Non
 
 
 
+def test_revision_rejects_baseline_step_geometry_tamper_even_if_receipt_hash_is_updated(
+    tmp_path,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-step-tamper"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    moved_baseline = _revision_wall_panel(2.0, cutout_center=(-39.0, 11.0))
+    moved_shape = next(iter(backend.compile(moved_baseline).values()))
+    step_path = accepted / "design.step"
+    assert backend.bd.export_step(moved_shape, step_path)
+
+    receipt_path = accepted / "build-receipt.json"
+    receipt_payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt_payload["step_sha256"] = hashlib.sha256(step_path.read_bytes()).hexdigest()
+    receipt_path.write_text(
+        json.dumps(receipt_payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        Build123dCompileError,
+        match="accepted baseline STEP cutout geometry differs",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            tmp_path / "must-not-publish-step-tamper",
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not (tmp_path / "must-not-publish-step-tamper").exists()
+
+
 def test_revision_rejects_tampered_baseline_verification_evidence(tmp_path) -> None:
     backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
