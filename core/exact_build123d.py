@@ -73,6 +73,58 @@ class GeometryInspection:
 
 
 @dataclass(frozen=True)
+class AnalyticEdgeSignature:
+    geom_type: str
+    length_mm: float
+    bbox_min_mm: tuple[float, float, float]
+    bbox_max_mm: tuple[float, float, float]
+    endpoints_mm: tuple[tuple[float, float, float], ...]
+
+
+@dataclass(frozen=True)
+class AnalyticWireSignature:
+    length_mm: float
+    bbox_min_mm: tuple[float, float, float]
+    bbox_max_mm: tuple[float, float, float]
+    edges: tuple[AnalyticEdgeSignature, ...]
+
+
+@dataclass(frozen=True)
+class PlanarRevisionEvidence:
+    backend: str
+    backend_version: str
+    baseline_feature_ir_sha256: str
+    candidate_feature_ir_sha256: str
+    axis: str
+    side: str
+    linear_tolerance_mm: float
+    relative_scalar_tolerance: float
+    absolute_scalar_floor: float
+    baseline_inspection: GeometryInspection
+    candidate_inspection: GeometryInspection
+    baseline_face_area_mm2: float
+    candidate_face_area_mm2: float
+    external_boundary_equivalent: bool
+    cutout_count_baseline: int
+    cutout_count_candidate: int
+    cutouts_equivalent: bool
+    max_sampled_external_deviation_mm: float
+    max_sampled_cutout_deviation_mm: float
+    passed: bool
+    claim_boundary: str = (
+        "bounded analytic planar-boundary comparison for LINE/CIRCLE edges only; "
+        "not arbitrary-surface CAD equivalence or a manufacturing/safety certification"
+    )
+
+    def to_dict(self) -> dict[str, Any]:
+        value = asdict(self)
+        value["baseline_inspection"] = self.baseline_inspection.to_dict()
+        value["candidate_inspection"] = self.candidate_inspection.to_dict()
+        value["revision_evidence_version"] = "neurocad-planar-revision-evidence-v1"
+        return value
+
+
+@dataclass(frozen=True)
 class Build123dReceipt:
     backend: str
     backend_version: str
@@ -399,6 +451,327 @@ class Build123dBackend:
             solid_count=len(shape.solids()),
             volume_mm3=float(shape.volume),
             extents_mm=(float(bounds.X), float(bounds.Y), float(bounds.Z)),
+        )
+
+    @staticmethod
+    def _vector_tuple(value: Any) -> tuple[float, float, float]:
+        return float(value.X), float(value.Y), float(value.Z)
+
+    def _analytic_edge_signature(self, edge: Any) -> AnalyticEdgeSignature:
+        geom_type = getattr(edge.geom_type, "name", str(edge.geom_type)).upper()
+        if geom_type not in {"LINE", "CIRCLE"}:
+            raise Build123dCompileError(
+                "planar revision pilot supports only LINE/CIRCLE boundary edges; "
+                f"found {geom_type}"
+            )
+        bounds = edge.bounding_box()
+        endpoints: tuple[tuple[float, float, float], ...]
+        if geom_type == "LINE":
+            raw_endpoints = (
+                self._vector_tuple(edge.position_at(0.0)),
+                self._vector_tuple(edge.position_at(1.0)),
+            )
+            endpoints = tuple(sorted(raw_endpoints))
+        else:
+            endpoints = ()
+        return AnalyticEdgeSignature(
+            geom_type=geom_type,
+            length_mm=float(edge.length),
+            bbox_min_mm=self._vector_tuple(bounds.min),
+            bbox_max_mm=self._vector_tuple(bounds.max),
+            endpoints_mm=endpoints,
+        )
+
+    def _analytic_wire_signature(self, wire: Any) -> AnalyticWireSignature:
+        bounds = wire.bounding_box()
+        edges = tuple(
+            sorted(
+                (self._analytic_edge_signature(edge) for edge in wire.edges()),
+                key=lambda item: (
+                    item.geom_type,
+                    item.bbox_min_mm,
+                    item.bbox_max_mm,
+                    item.length_mm,
+                    item.endpoints_mm,
+                ),
+            )
+        )
+        return AnalyticWireSignature(
+            length_mm=float(wire.length),
+            bbox_min_mm=self._vector_tuple(bounds.min),
+            bbox_max_mm=self._vector_tuple(bounds.max),
+            edges=edges,
+        )
+
+    @staticmethod
+    def _close_scalar(
+        baseline: float,
+        candidate: float,
+        *,
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+        dimension: int = 1,
+    ) -> bool:
+        absolute = max(absolute_scalar_floor, linear_tolerance_mm**dimension)
+        return math.isclose(
+            baseline,
+            candidate,
+            rel_tol=relative_scalar_tolerance,
+            abs_tol=absolute,
+        )
+
+    def _wire_signatures_equivalent(
+        self,
+        baseline: AnalyticWireSignature,
+        candidate: AnalyticWireSignature,
+        *,
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+    ) -> bool:
+        if len(baseline.edges) != len(candidate.edges):
+            return False
+        if not self._close_scalar(
+            baseline.length_mm,
+            candidate.length_mm,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        ):
+            return False
+
+        def vector_close(
+            left: tuple[float, float, float],
+            right: tuple[float, float, float],
+        ) -> bool:
+            return all(
+                math.isclose(a, b, rel_tol=0.0, abs_tol=linear_tolerance_mm)
+                for a, b in zip(left, right, strict=True)
+            )
+
+        if not vector_close(baseline.bbox_min_mm, candidate.bbox_min_mm):
+            return False
+        if not vector_close(baseline.bbox_max_mm, candidate.bbox_max_mm):
+            return False
+
+        for left, right in zip(baseline.edges, candidate.edges, strict=True):
+            if left.geom_type != right.geom_type:
+                return False
+            if not self._close_scalar(
+                left.length_mm,
+                right.length_mm,
+                linear_tolerance_mm=linear_tolerance_mm,
+                relative_scalar_tolerance=relative_scalar_tolerance,
+                absolute_scalar_floor=absolute_scalar_floor,
+            ):
+                return False
+            if not vector_close(left.bbox_min_mm, right.bbox_min_mm):
+                return False
+            if not vector_close(left.bbox_max_mm, right.bbox_max_mm):
+                return False
+            if len(left.endpoints_mm) != len(right.endpoints_mm):
+                return False
+            if any(
+                not vector_close(a, b)
+                for a, b in zip(left.endpoints_mm, right.endpoints_mm, strict=True)
+            ):
+                return False
+        return True
+
+    @staticmethod
+    def _wire_sort_key(signature: AnalyticWireSignature) -> tuple[Any, ...]:
+        return (
+            signature.bbox_min_mm,
+            signature.bbox_max_mm,
+            signature.length_mm,
+            tuple((edge.geom_type, edge.length_mm) for edge in signature.edges),
+        )
+
+    def _sampled_wire_deviation(self, source: Any, target: Any) -> float:
+        maximum = 0.0
+        for edge in source.edges():
+            for step in range(17):
+                point = edge.position_at(step / 16)
+                maximum = max(maximum, float(target.distance_to(point)))
+        return maximum
+
+    def _select_planar_extreme_face(
+        self,
+        shape: Any,
+        *,
+        axis: str,
+        side: str,
+        tolerance_mm: float,
+    ) -> Any:
+        axis = axis.lower()
+        side = side.lower()
+        if axis not in {"x", "y", "z"}:
+            raise Build123dCompileError("revision comparison axis must be x, y, or z")
+        if side not in {"min", "max"}:
+            raise Build123dCompileError("revision comparison side must be min or max")
+        coordinate = {
+            "x": lambda point: float(point.X),
+            "y": lambda point: float(point.Y),
+            "z": lambda point: float(point.Z),
+        }[axis]
+        planar = [
+            face
+            for face in shape.faces()
+            if getattr(face.geom_type, "name", str(face.geom_type)).upper() == "PLANE"
+        ]
+        if not planar:
+            raise Build123dCompileError("revision comparison found no planar faces")
+        values = [coordinate(face.center()) for face in planar]
+        extreme = min(values) if side == "min" else max(values)
+        candidates = [
+            face
+            for face, value in zip(planar, values, strict=True)
+            if math.isclose(value, extreme, rel_tol=0.0, abs_tol=tolerance_mm)
+        ]
+        if not candidates:
+            raise Build123dCompileError("revision comparison could not resolve the requested face")
+        ranked = sorted(candidates, key=lambda face: float(face.area), reverse=True)
+        if len(ranked) > 1 and math.isclose(
+            float(ranked[0].area),
+            float(ranked[1].area),
+            rel_tol=0.0,
+            abs_tol=max(tolerance_mm**2, 1e-12),
+        ):
+            raise Build123dCompileError(
+                "revision comparison face selector is ambiguous at the requested extreme"
+            )
+        return ranked[0]
+
+    def compare_planar_revision_boundary(
+        self,
+        baseline_program: FeatureProgram,
+        candidate_program: FeatureProgram,
+        *,
+        axis: str = "z",
+        side: str = "min",
+        linear_tolerance_mm: float = 1e-6,
+        relative_scalar_tolerance: float = 1e-9,
+        absolute_scalar_floor: float = 1e-12,
+    ) -> PlanarRevisionEvidence:
+        if linear_tolerance_mm <= 0 or relative_scalar_tolerance < 0 or absolute_scalar_floor < 0:
+            raise Build123dCompileError("revision comparison tolerances must be non-negative and linear tolerance positive")
+
+        baseline_outputs = self.compile(baseline_program)
+        candidate_outputs = self.compile(candidate_program)
+        if len(baseline_outputs) != 1 or len(candidate_outputs) != 1:
+            raise Build123dCompileError(
+                "revision comparison currently requires exactly one output in baseline and candidate"
+            )
+        baseline_shape = next(iter(baseline_outputs.values()))
+        candidate_shape = next(iter(candidate_outputs.values()))
+        baseline_inspection = self.inspect(baseline_shape)
+        candidate_inspection = self.inspect(candidate_shape)
+        for label, inspection in (
+            ("baseline", baseline_inspection),
+            ("candidate", candidate_inspection),
+        ):
+            if not inspection.valid_brep or not inspection.manifold or inspection.solid_count != 1:
+                raise Build123dCompileError(
+                    f"{label} revision geometry must be one valid manifold solid"
+                )
+
+        baseline_face = self._select_planar_extreme_face(
+            baseline_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+        candidate_face = self._select_planar_extreme_face(
+            candidate_shape,
+            axis=axis,
+            side=side,
+            tolerance_mm=linear_tolerance_mm,
+        )
+        baseline_outer = baseline_face.outer_wire()
+        candidate_outer = candidate_face.outer_wire()
+        baseline_outer_signature = self._analytic_wire_signature(baseline_outer)
+        candidate_outer_signature = self._analytic_wire_signature(candidate_outer)
+        external_boundary_equivalent = self._wire_signatures_equivalent(
+            baseline_outer_signature,
+            candidate_outer_signature,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+        max_external_deviation = max(
+            self._sampled_wire_deviation(baseline_outer, candidate_outer),
+            self._sampled_wire_deviation(candidate_outer, baseline_outer),
+        )
+
+        baseline_inner_wires = list(baseline_face.inner_wires())
+        candidate_inner_wires = list(candidate_face.inner_wires())
+        baseline_inner = sorted(
+            ((self._analytic_wire_signature(wire), wire) for wire in baseline_inner_wires),
+            key=lambda item: self._wire_sort_key(item[0]),
+        )
+        candidate_inner = sorted(
+            ((self._analytic_wire_signature(wire), wire) for wire in candidate_inner_wires),
+            key=lambda item: self._wire_sort_key(item[0]),
+        )
+        cutouts_equivalent = len(baseline_inner) == len(candidate_inner)
+        max_cutout_deviation = 0.0
+        if cutouts_equivalent:
+            for (left_signature, left_wire), (right_signature, right_wire) in zip(
+                baseline_inner,
+                candidate_inner,
+                strict=True,
+            ):
+                if not self._wire_signatures_equivalent(
+                    left_signature,
+                    right_signature,
+                    linear_tolerance_mm=linear_tolerance_mm,
+                    relative_scalar_tolerance=relative_scalar_tolerance,
+                    absolute_scalar_floor=absolute_scalar_floor,
+                ):
+                    cutouts_equivalent = False
+                max_cutout_deviation = max(
+                    max_cutout_deviation,
+                    self._sampled_wire_deviation(left_wire, right_wire),
+                    self._sampled_wire_deviation(right_wire, left_wire),
+                )
+
+        face_area_equivalent = self._close_scalar(
+            float(baseline_face.area),
+            float(candidate_face.area),
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+            dimension=2,
+        )
+        passed = (
+            external_boundary_equivalent
+            and cutouts_equivalent
+            and face_area_equivalent
+            and max_external_deviation <= linear_tolerance_mm
+            and max_cutout_deviation <= linear_tolerance_mm
+        )
+        return PlanarRevisionEvidence(
+            backend="build123d",
+            backend_version=self.version,
+            baseline_feature_ir_sha256=_program_sha256(baseline_program),
+            candidate_feature_ir_sha256=_program_sha256(candidate_program),
+            axis=axis.lower(),
+            side=side.lower(),
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+            baseline_inspection=baseline_inspection,
+            candidate_inspection=candidate_inspection,
+            baseline_face_area_mm2=float(baseline_face.area),
+            candidate_face_area_mm2=float(candidate_face.area),
+            external_boundary_equivalent=external_boundary_equivalent,
+            cutout_count_baseline=len(baseline_inner),
+            cutout_count_candidate=len(candidate_inner),
+            cutouts_equivalent=cutouts_equivalent,
+            max_sampled_external_deviation_mm=max_external_deviation,
+            max_sampled_cutout_deviation_mm=max_cutout_deviation,
+            passed=passed,
         )
 
     def build_receipt(self, program: FeatureProgram) -> Build123dReceipt:
