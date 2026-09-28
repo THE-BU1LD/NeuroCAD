@@ -1,6 +1,6 @@
 # NeuroCAD revision-integrity acceptance contract
 
-Status: frozen external-feedback acceptance specification, v0.1  
+Status: frozen external-feedback acceptance specification, v0.1; bounded executable pilot implemented on draft branch, CI evidence pending  
 Date: 2026-09-28  
 Primary implementation issue: #68  
 External provenance: C3D Labs feedback from Daniil Kalmykov, 2026-09-28, on the bounded enclosure wall-thickness evaluation.
@@ -36,6 +36,25 @@ The smallest implementation should extend the current exact-CAD path rather than
   - unchanged must-level binding regression checks
 
 Do not infer geometric invariance from Feature IR parameter equality. The invariant must be evaluated against resulting exact geometry.
+
+## Implementation amendment — bounded analytic pilot
+
+The frozen acceptance intent is unchanged, but the executable pilot is deliberately narrower than arbitrary B-Rep equivalence.
+
+The current branch implements revision comparison only when all of these are true:
+- baseline and candidate each contain exactly one planar sketch followed by one `operation=new` extrusion;
+- the comparison axis is normal to that sketch plane;
+- selected boundary edges are analytic `LINE` or `CIRCLE` geometry;
+- at least one cutout boundary exists;
+- both results are one valid manifold solid.
+
+For this supported class, equality is gated by analytic edge/wire signatures derived from kernel geometry: geometry type, exact-kernel length, bounding coordinates, and canonicalized line endpoints, together with face area and cutout count. A 17-point-per-edge bidirectional point-to-curve deviation is recorded as additional diagnostic evidence. NeuroCAD does **not** call that finite sampling a generic Hausdorff-distance proof. Any unsupported curve/history falls outside the pilot and fails closed.
+
+Self-interference is checked separately with OpenCascade `BOPAlgo_ArgumentAnalyzer` in self-interference mode; `is_valid` alone is not treated as sufficient evidence. For the single-sketch/single-extrusion pilot, zero-thickness rejection additionally requires positive extrusion extent, positive planar material area, and positive exact-kernel clearance between the outer wire and every cutout (and between cutouts) above the frozen linear tolerance.
+
+Transactional publication is implemented by `Build123dBackend.export_verified_revision`: it binds the caller-supplied baseline Feature IR to the accepted baseline build receipt and STEP hash, evaluates the candidate privately, optionally enforces unchanged-must contracts, rechecks the baseline hashes before publication, writes `revision-integrity.json`, and only then atomically publishes the new candidate directory.
+
+This is a scope reduction, not a relaxation of the numerical tolerances or a claim of general CAD equivalence.
 
 ## Frozen terminology
 
@@ -122,10 +141,10 @@ Candidate must satisfy all of:
 - `valid_brep == true`;
 - `manifold == true`;
 - `solid_count == 1`;
-- no self-intersection reported by the kernel validation path;
-- no zero-thickness or degenerate region accepted as valid output.
+- no self-interference reported by OpenCascade `BOPAlgo_ArgumentAnalyzer`;
+- no zero-thickness region under the bounded planar-prism predicate: positive extrusion extent, positive planar material area, and positive material clearance above `1e-6 mm`.
 
-If build123d/OCP cannot independently expose one of the last two checks, record that capability as unsupported and keep the case failing closed until an exact predicate exists. Do not relabel `is_valid` as proof of every topology condition.
+The zero-thickness predicate is only claimed for the supported single-sketch/single-extrusion analytic pilot. More general histories remain unsupported and fail closed. Do not relabel `is_valid` as proof of every topology condition.
 
 ### A5. Unchanged requirements remain satisfied
 
@@ -199,10 +218,10 @@ Add a dependency-light regression to `tests/test_requirement_verification.py` pr
    - inner wall,
    - cutout boundary.
 2. Add exact-kernel selector helpers that return those regions without persisted raw face/edge indices.
-3. Add a small geometric-comparison helper using the frozen tolerance family.
-4. Add the seven tests above first.
-5. Implement candidate revision receipt + transactional wrapper until tests pass.
-6. Run the native exact-CAD lane and full CI on the exact head.
+3. Add a small geometric-comparison helper using the frozen tolerance family. **Implemented on draft branch.**
+4. Add the seven tests above first. **Implemented, plus adversarial cutout-motion, baseline-binding and scope-gate tests.**
+5. Implement candidate revision receipt + transactional wrapper until tests pass. **Implemented; execution status remains CI-dependent.**
+6. Run the native exact-CAD lane and full CI on the exact head. **Pending on the latest head.**
 7. Record executed evidence on #68.
 8. Only after executed evidence exists, send the acceptance table back to C3D Labs.
 
