@@ -1192,6 +1192,16 @@ class Build123dBackend:
                 raise Build123dCompileError(
                     "baseline build receipt changed during revision evaluation; refusing publication"
                 )
+            if _sha256(baseline_requirements_path) != baseline_requirements_sha256:
+                raise Build123dCompileError(
+                    "baseline requirements changed during revision evaluation; "
+                    "refusing publication"
+                )
+            if _sha256(baseline_bindings_path) != baseline_bindings_sha256:
+                raise Build123dCompileError(
+                    "baseline bindings changed during revision evaluation; "
+                    "refusing publication"
+                )
 
             revision_receipt = RevisionBundleReceipt(
                 backend="build123d",
