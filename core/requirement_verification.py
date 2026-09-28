@@ -265,21 +265,45 @@ def _dimension_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
     inspection: GeometryInspectionLike,
+    exact_measurements_mm: dict[str, float] | None = None,
 ) -> RequirementCheck:
     if requirement.value is None or requirement.value.unit != "mm":
         raise RequirementBindingError(
             f"exact dimension requirement {requirement.id!r} requires a millimetre value"
         )
-    if binding.probe.get("kind") != "output_extent":
+
+    probe_kind = binding.probe.get("kind")
+    basis: str
+    detail_label: str
+    if probe_kind == "output_extent":
+        axis = binding.probe.get("axis")
+        if axis not in AXIS_INDEX:
+            raise RequirementBindingError(
+                f"exact dimension binding {requirement.id!r} axis must be x, y, or z"
+            )
+        actual = inspection.extents_mm[AXIS_INDEX[axis]]
+        basis = "exact_kernel_output_extent"
+        detail_label = f"output {axis}-extent"
+    elif probe_kind == "planar_wall_thickness":
+        if exact_measurements_mm is None or requirement.id not in exact_measurements_mm:
+            raise RequirementBindingError(
+                f"exact dimension binding {requirement.id!r} requires "
+                "backend planar-wall-thickness evidence"
+            )
+        actual = exact_measurements_mm[requirement.id]
+        if not math.isfinite(actual) or actual < 0:
+            raise RequirementBindingError(
+                f"exact dimension binding {requirement.id!r} produced an invalid "
+                "planar wall-thickness measurement"
+            )
+        basis = "exact_kernel_planar_wall_thickness"
+        detail_label = "planar outer-to-cavity clearance"
+    else:
         raise RequirementBindingError(
-            f"exact dimension binding {requirement.id!r} requires probe kind 'output_extent'"
+            f"exact dimension binding {requirement.id!r} requires probe kind "
+            "'output_extent' or 'planar_wall_thickness'"
         )
-    axis = binding.probe.get("axis")
-    if axis not in AXIS_INDEX:
-        raise RequirementBindingError(
-            f"exact dimension binding {requirement.id!r} axis must be x, y, or z"
-        )
-    actual = inspection.extents_mm[AXIS_INDEX[axis]]
+
     expected = float(requirement.value.value)
     tolerance = 1e-6 if requirement.value.tolerance is None else float(requirement.value.tolerance)
     passed = math.isclose(actual, expected, rel_tol=0.0, abs_tol=tolerance)
@@ -288,17 +312,18 @@ def _dimension_check(
         strength=requirement.strength,
         verification=requirement.verification,
         satisfied=passed,
-        basis="exact_kernel_output_extent",
+        basis=basis,
         expected=expected,
         actual=actual,
         tolerance=tolerance,
         source_start=requirement.source_start,
         source_end=requirement.source_end,
         source_text=requirement.source_text,
-        detail=f"output {axis}-extent is {actual:g} mm; expected {expected:g} ± {tolerance:g} mm",
+        detail=(
+            f"{detail_label} is {actual:g} mm; "
+            f"expected {expected:g} ± {tolerance:g} mm"
+        ),
     )
-
-
 def _kernel_validity_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
@@ -391,6 +416,8 @@ def verify_exact_requirements(
     program: FeatureProgram,
     inspection: GeometryInspectionLike,
     binding_set: RequirementBindingSet,
+    *,
+    exact_measurements_mm: dict[str, float] | None = None,
 ) -> ExactRequirementVerification:
     errors: list[RequirementIssue] = list(validate_binding_set(binding_set))
     validation = validate_requirement_ir(document)
@@ -454,7 +481,12 @@ def verify_exact_requirements(
                 continue
             try:
                 if requirement.verification == "exact_dimension":
-                    check = _dimension_check(requirement, binding, inspection)
+                    check = _dimension_check(
+                        requirement,
+                        binding,
+                        inspection,
+                        exact_measurements_mm,
+                    )
                 elif requirement.verification == "kernel_validity":
                     check = _kernel_validity_check(requirement, binding, inspection)
                 else:
