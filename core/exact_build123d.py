@@ -39,6 +39,12 @@ from .requirement_verification import (
 )
 
 BUILD_RECEIPT_VERSION = "neurocad-build123d-receipt-v1"
+REVISION_PILOT_AXIS = "z"
+REVISION_PILOT_SIDE = "min"
+REVISION_PILOT_EDITED_REQUIREMENT_IDS = ("wall_thickness",)
+REVISION_PILOT_LINEAR_TOLERANCE_MM = 1e-6
+REVISION_PILOT_RELATIVE_SCALAR_TOLERANCE = 1e-9
+REVISION_PILOT_ABSOLUTE_SCALAR_FLOOR = 1e-12
 SUPPORTED_FEATURES = frozenset(
     {
         "primitive_box",
@@ -1153,6 +1159,33 @@ class Build123dBackend:
             passed=passed,
         )
 
+    @staticmethod
+    def _require_frozen_revision_pilot_contract(
+        *,
+        axis: str,
+        side: str,
+        edited_requirement_ids: tuple[str, ...],
+        linear_tolerance_mm: float,
+        relative_scalar_tolerance: float,
+        absolute_scalar_floor: float,
+    ) -> None:
+        if axis.lower() != REVISION_PILOT_AXIS or side.lower() != REVISION_PILOT_SIDE:
+            raise Build123dCompileError(
+                "verified revision publication is frozen to axis='z' and side='min'"
+            )
+        if tuple(edited_requirement_ids) != REVISION_PILOT_EDITED_REQUIREMENT_IDS:
+            raise Build123dCompileError(
+                "verified revision publication is frozen to the wall_thickness requirement only"
+            )
+        if (
+            linear_tolerance_mm != REVISION_PILOT_LINEAR_TOLERANCE_MM
+            or relative_scalar_tolerance != REVISION_PILOT_RELATIVE_SCALAR_TOLERANCE
+            or absolute_scalar_floor != REVISION_PILOT_ABSOLUTE_SCALAR_FLOOR
+        ):
+            raise Build123dCompileError(
+                "verified revision publication requires the frozen C3D pilot tolerances"
+            )
+
     def export_verified_revision(
         self,
         baseline_program: FeatureProgram,
@@ -1171,6 +1204,15 @@ class Build123dBackend:
         relative_scalar_tolerance: float = 1e-9,
         absolute_scalar_floor: float = 1e-12,
     ) -> tuple[Build123dReceipt, RevisionBundleReceipt]:
+        self._require_frozen_revision_pilot_contract(
+            axis=axis,
+            side=side,
+            edited_requirement_ids=edited_requirement_ids,
+            linear_tolerance_mm=linear_tolerance_mm,
+            relative_scalar_tolerance=relative_scalar_tolerance,
+            absolute_scalar_floor=absolute_scalar_floor,
+        )
+
         baseline_bundle = baseline_bundle_dir.expanduser()
         if baseline_bundle.is_symlink() or not baseline_bundle.is_dir():
             raise Build123dCompileError(
