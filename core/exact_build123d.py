@@ -223,12 +223,6 @@ def _program_sha256(program: FeatureProgram) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def _require_revision_hash(value: str | None, label: str) -> str:
-    if value is None:
-        raise Build123dCompileError(f"{label} hash missing from verified candidate receipt")
-    return value
-
-
 def _validate_step_filename(filename: str) -> str:
     """Accept a portable STEP basename, never a path or receipt filename."""
     if not isinstance(filename, str) or re.fullmatch(
