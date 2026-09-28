@@ -429,7 +429,7 @@ def test_revision_contract_allows_value_only_change_to_edited_must() -> None:
 
 
 def test_revision_contract_rejects_stale_candidate_binding_hash() -> None:
-    baseline, program, bindings = _documents()
+    baseline, _program, bindings = _documents()
     width, body_required = baseline.requirements
     assert width.value is not None
     changed_width = replace(
