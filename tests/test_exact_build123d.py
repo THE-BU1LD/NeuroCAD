@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import math
 
 import pytest
@@ -20,6 +21,7 @@ from core.requirement_verification import (
     feature_ir_sha256,
     requirement_ir_sha256,
     serialize_binding_set_json,
+    verify_unchanged_must_requirements,
 )
 
 
@@ -359,3 +361,270 @@ def test_feature_build_cli_enforces_requirement_files_atomically(tmp_path, capsy
     payload = __import__("json").loads(capsys.readouterr().out)
     assert payload["requirements_satisfied"] is True
     assert (destination / "requirements-verification.json").is_file()
+
+
+
+def _revision_wall_panel(
+    wall_thickness_mm: float,
+    *,
+    cutout_center: tuple[float, float] = (10.0, 5.0),
+) -> FeatureProgram:
+    return FeatureProgram(
+        title="C3D bounded wall-thickness revision fixture",
+        parameters=(
+            DesignParameter(
+                "wall_thickness",
+                wall_thickness_mm,
+                lower=1.0,
+                upper=10.0,
+                role="edited wall thickness",
+            ),
+        ),
+        features=(
+            Feature(
+                id="front_profile",
+                kind="sketch",
+                parameters={
+                    "plane": "XY",
+                    "entities": [
+                        {
+                            "kind": "rectangle",
+                            "width": 80.0,
+                            "height": 60.0,
+                            "operation": "add",
+                            "center": [0.0, 0.0],
+                        },
+                        {
+                            "kind": "circle",
+                            "radius": 5.0,
+                            "operation": "subtract",
+                            "center": [cutout_center[0], cutout_center[1]],
+                        },
+                    ],
+                    "constraints": [],
+                },
+                role="external_boundary_and_cutout",
+            ),
+            Feature(
+                id="panel",
+                kind="extrude",
+                inputs=("front_profile",),
+                parameters={
+                    "distance": {"parameter": "wall_thickness"},
+                    "operation": "new",
+                },
+                role="enclosure_front_wall",
+            ),
+        ),
+        outputs=("panel",),
+        metadata={"fixture": "c3d-revision-integrity-v0.1"},
+    )
+
+
+def _panel_requirements(
+    program: FeatureProgram,
+    wall_thickness_mm: float,
+) -> tuple[RequirementIR, RequirementBindingSet]:
+    source = (
+        f"Keep width exactly 80 mm and set wall thickness to "
+        f"{wall_thickness_mm:g} mm."
+    )
+    width_text = "80 mm"
+    thickness_text = f"{wall_thickness_mm:g} mm"
+    width_start = source.index(width_text)
+    thickness_start = source.rindex(thickness_text)
+    document = RequirementIR(
+        source=source,
+        requirements=(
+            Requirement(
+                id="width",
+                kind="dimension",
+                strength="must",
+                target="panel.width",
+                source_start=width_start,
+                source_end=width_start + len(width_text),
+                source_text=width_text,
+                provenance="explicit",
+                verification="exact_dimension",
+                value=RequirementValue(80.0, "mm", 1e-6),
+            ),
+            Requirement(
+                id="wall_thickness",
+                kind="dimension",
+                strength="must",
+                target="panel.thickness",
+                source_start=thickness_start,
+                source_end=thickness_start + len(thickness_text),
+                source_text=thickness_text,
+                provenance="explicit",
+                verification="exact_dimension",
+                value=RequirementValue(wall_thickness_mm, "mm", 1e-6),
+            ),
+        ),
+    )
+    bindings = RequirementBindingSet(
+        requirement_ir_sha256=requirement_ir_sha256(document),
+        feature_ir_sha256=feature_ir_sha256(program),
+        bindings=(
+            ExactRequirementBinding(
+                requirement_id="width",
+                feature_ids=("panel",),
+                verification="exact_dimension",
+                probe={"kind": "output_extent", "axis": "x"},
+            ),
+            ExactRequirementBinding(
+                requirement_id="wall_thickness",
+                feature_ids=("panel",),
+                verification="exact_dimension",
+                probe={"kind": "output_extent", "axis": "z"},
+            ),
+        ),
+    )
+    return document, bindings
+
+
+def _bundle_hashes(path) -> dict[str, str]:
+    return {
+        item.relative_to(path).as_posix(): hashlib.sha256(item.read_bytes()).hexdigest()
+        for item in sorted(path.rglob("*"))
+        if item.is_file()
+    }
+
+
+def test_wall_thickness_edit_preserves_external_boundary_exactly() -> None:
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    evidence = Build123dBackend().compare_planar_revision_boundary(
+        baseline,
+        candidate,
+    )
+    assert evidence.external_boundary_equivalent
+    assert evidence.max_sampled_external_deviation_mm <= evidence.linear_tolerance_mm
+    assert evidence.baseline_face_area_mm2 == pytest.approx(
+        evidence.candidate_face_area_mm2,
+        rel=1e-9,
+    )
+    assert evidence.passed
+
+
+def test_wall_thickness_edit_preserves_cutout_geometry_and_position() -> None:
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    evidence = Build123dBackend().compare_planar_revision_boundary(
+        baseline,
+        candidate,
+    )
+    assert evidence.cutout_count_baseline == 1
+    assert evidence.cutout_count_candidate == 1
+    assert evidence.cutouts_equivalent
+    assert evidence.max_sampled_cutout_deviation_mm <= evidence.linear_tolerance_mm
+    assert evidence.passed
+
+
+def test_wall_thickness_edit_keeps_single_valid_manifold_solid() -> None:
+    evidence = Build123dBackend().compare_planar_revision_boundary(
+        _revision_wall_panel(2.0),
+        _revision_wall_panel(3.0),
+    )
+    assert evidence.candidate_inspection.valid_brep
+    assert evidence.candidate_inspection.manifold
+    assert evidence.candidate_inspection.solid_count == 1
+
+
+def test_wall_thickness_edit_rechecks_unchanged_must_requirements(tmp_path) -> None:
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+
+    contract_errors = verify_unchanged_must_requirements(
+        baseline_requirements,
+        baseline_bindings,
+        candidate_requirements,
+        candidate_bindings,
+        edited_requirement_ids=("wall_thickness",),
+    )
+    assert contract_errors == ()
+
+    receipt = Build123dBackend().export_verified_step(
+        candidate,
+        tmp_path / "candidate-accepted",
+        requirements=candidate_requirements,
+        binding_set=candidate_bindings,
+    )
+    assert receipt.requirements_satisfied is True
+
+
+def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    accepted = tmp_path / "accepted"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+    before = _bundle_hashes(accepted)
+
+    candidate = _revision_wall_panel(40.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
+    rejected = tmp_path / "rejected"
+    with pytest.raises(Build123dCompileError, match="above upper bound"):
+        backend.export_verified_step(
+            candidate,
+            rejected,
+            requirements=candidate_requirements,
+            binding_set=candidate_bindings,
+        )
+
+    assert not rejected.exists()
+    assert _bundle_hashes(accepted) == before
+
+
+def test_infeasible_edit_does_not_relax_unchanged_bindings() -> None:
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(40.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
+
+    errors = verify_unchanged_must_requirements(
+        baseline_requirements,
+        baseline_bindings,
+        candidate_requirements,
+        candidate_bindings,
+        edited_requirement_ids=("wall_thickness",),
+    )
+    assert errors == ()
+    assert (
+        candidate_bindings.bindings[0].to_dict()
+        == baseline_bindings.bindings[0].to_dict()
+    )
+
+
+def test_revision_receipt_binds_baseline_candidate_and_tolerances() -> None:
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    evidence = Build123dBackend().compare_planar_revision_boundary(
+        baseline,
+        candidate,
+    )
+    payload = evidence.to_dict()
+    assert payload["revision_evidence_version"] == "neurocad-planar-revision-evidence-v1"
+    assert payload["baseline_feature_ir_sha256"] == feature_ir_sha256(baseline)
+    assert payload["candidate_feature_ir_sha256"] == feature_ir_sha256(candidate)
+    assert payload["linear_tolerance_mm"] == 1e-6
+    assert payload["relative_scalar_tolerance"] == 1e-9
+    assert payload["absolute_scalar_floor"] == 1e-12
+    assert payload["passed"] is True
+
+
+def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
+    evidence = Build123dBackend().compare_planar_revision_boundary(
+        _revision_wall_panel(2.0),
+        _revision_wall_panel(3.0, cutout_center=(11.0, 5.0)),
+    )
+    assert not evidence.cutouts_equivalent
+    assert evidence.max_sampled_cutout_deviation_mm > evidence.linear_tolerance_mm
+    assert not evidence.passed
