@@ -651,6 +651,41 @@ def test_wall_thickness_requirement_uses_geometry_not_parameter_store(
     assert not (tmp_path / "parameter-store-lie").exists()
 
 
+def test_revision_output_cannot_be_published_inside_accepted_baseline(tmp_path) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-output-isolation"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+    before = _bundle_hashes(accepted)
+
+    with pytest.raises(
+        Build123dCompileError,
+        match="outside the accepted baseline bundle",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            accepted / "candidate",
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+
+    assert not (accepted / "candidate").exists()
+    assert _bundle_hashes(accepted) == before
+
+
 def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> None:
     backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
