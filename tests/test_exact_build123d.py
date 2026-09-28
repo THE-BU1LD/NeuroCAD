@@ -368,16 +368,17 @@ def test_feature_build_cli_enforces_requirement_files_atomically(tmp_path, capsy
 def _revision_wall_panel(
     wall_thickness_mm: float,
     *,
-    cutout_center: tuple[float, float] = (10.0, 5.0),
+    cutout_center: tuple[float, float] = (-39.0, 10.0),
 ) -> FeatureProgram:
+    inner_width = 80.0 - 2.0 * wall_thickness_mm
+    inner_height = 60.0 - 2.0 * wall_thickness_mm
     return FeatureProgram(
         title="C3D bounded wall-thickness revision fixture",
         parameters=(
             DesignParameter(
                 "wall_thickness",
                 wall_thickness_mm,
-                lower=1.0,
-                upper=10.0,
+                lower=0.25,
                 role="edited wall thickness",
             ),
         ),
@@ -396,25 +397,32 @@ def _revision_wall_panel(
                             "center": [0.0, 0.0],
                         },
                         {
+                            "kind": "rectangle",
+                            "width": inner_width,
+                            "height": inner_height,
+                            "operation": "subtract",
+                            "center": [0.0, 0.0],
+                        },
+                        {
                             "kind": "circle",
-                            "radius": 5.0,
+                            "radius": 0.4,
                             "operation": "subtract",
                             "center": [cutout_center[0], cutout_center[1]],
                         },
                     ],
                     "constraints": [],
                 },
-                role="external_boundary_and_cutout",
+                role="constant_external_envelope_with_authorized_inner_cavity",
             ),
             Feature(
                 id="panel",
                 kind="extrude",
                 inputs=("front_profile",),
                 parameters={
-                    "distance": {"parameter": "wall_thickness"},
+                    "distance": 20.0,
                     "operation": "new",
                 },
-                role="enclosure_front_wall",
+                role="bounded_enclosure_wall_fixture",
             ),
         ),
         outputs=("panel",),
@@ -481,7 +489,11 @@ def _panel_requirements(
                 requirement_id="wall_thickness",
                 feature_ids=("panel",),
                 verification="exact_dimension",
-                probe={"kind": "output_extent", "axis": "z"},
+                probe={
+                    "kind": "planar_wall_thickness",
+                    "axis": "z",
+                    "side": "min",
+                },
             ),
         ),
     )
@@ -504,11 +516,20 @@ def test_wall_thickness_edit_preserves_external_boundary_exactly() -> None:
         candidate,
     )
     assert evidence.external_boundary_equivalent
+    assert evidence.external_extents_equivalent
+    assert evidence.max_external_extent_delta_mm <= evidence.linear_tolerance_mm
     assert evidence.max_sampled_external_deviation_mm <= evidence.linear_tolerance_mm
-    assert evidence.baseline_face_area_mm2 == pytest.approx(
-        evidence.candidate_face_area_mm2,
-        rel=1e-9,
+    assert evidence.baseline_inspection.extents_mm == pytest.approx(
+        (80.0, 60.0, 20.0),
+        abs=1e-6,
     )
+    assert evidence.candidate_inspection.extents_mm == pytest.approx(
+        (80.0, 60.0, 20.0),
+        abs=1e-6,
+    )
+    assert evidence.baseline_wall_thickness_mm == pytest.approx(2.0, abs=1e-6)
+    assert evidence.candidate_wall_thickness_mm == pytest.approx(3.0, abs=1e-6)
+    assert evidence.candidate_face_area_mm2 > evidence.baseline_face_area_mm2
     assert evidence.passed
 
 
@@ -582,6 +603,40 @@ def test_wall_thickness_edit_rechecks_unchanged_must_requirements(tmp_path) -> N
     assert (tmp_path / "candidate-accepted" / "revision-integrity.json").is_file()
 
 
+def test_wall_thickness_requirement_uses_geometry_not_parameter_store(
+    tmp_path,
+) -> None:
+    backend = Build123dBackend()
+    geometric_two_mm = _revision_wall_panel(2.0)
+    lying_program = FeatureProgram(
+        title=geometric_two_mm.title,
+        parameters=(
+            DesignParameter(
+                "wall_thickness",
+                3.0,
+                lower=0.25,
+                role="edited wall thickness",
+            ),
+        ),
+        features=geometric_two_mm.features,
+        outputs=geometric_two_mm.outputs,
+        metadata=dict(geometric_two_mm.metadata),
+    )
+    requirements, bindings = _panel_requirements(lying_program, 3.0)
+
+    with pytest.raises(
+        Build123dCompileError,
+        match="must-level requirement verification failed: wall_thickness",
+    ):
+        backend.export_verified_step(
+            lying_program,
+            tmp_path / "parameter-store-lie",
+            requirements=requirements,
+            binding_set=bindings,
+        )
+    assert not (tmp_path / "parameter-store-lie").exists()
+
+
 def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> None:
     backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
@@ -608,7 +663,10 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
         version=baseline_bindings.version,
     )
     rejected = tmp_path / "rejected"
-    with pytest.raises(Build123dCompileError, match="above upper bound"):
+    with pytest.raises(
+        Build123dCompileError,
+        match="rectangle 1 requires positive width and height",
+    ):
         backend.export_verified_revision(
             baseline,
             candidate,
@@ -698,7 +756,7 @@ def test_revision_receipt_binds_baseline_candidate_and_tolerances(tmp_path) -> N
 def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
     evidence = Build123dBackend().compare_planar_revision_boundary(
         _revision_wall_panel(2.0),
-        _revision_wall_panel(3.0, cutout_center=(11.0, 5.0)),
+        _revision_wall_panel(3.0, cutout_center=(-39.0, 11.0)),
     )
     assert not evidence.cutouts_equivalent
     assert evidence.max_sampled_cutout_deviation_mm > evidence.linear_tolerance_mm
