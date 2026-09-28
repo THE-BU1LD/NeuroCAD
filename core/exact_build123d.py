@@ -851,7 +851,7 @@ class Build123dBackend:
         relative_scalar_tolerance: float,
         absolute_scalar_floor: float,
     ) -> None:
-        """Prove the accepted STEP still represents the supplied pilot Feature IR."""
+        """Prove a STEP artifact still represents the supplied pilot Feature IR."""
 
         self._validate_planar_prism_program(program, axis=axis)
         outputs = self.compile(program)
@@ -864,7 +864,7 @@ class Build123dBackend:
             imported_shape = self.bd.import_step(step_path)
         except Exception as exc:
             raise Build123dCompileError(
-                "accepted baseline STEP could not be imported for consistency verification"
+                "verified STEP could not be imported for consistency verification"
             ) from exc
 
         expected_inspection = self.inspect(expected_shape)
@@ -878,7 +878,7 @@ class Build123dBackend:
             )
         except Build123dCompileError as exc:
             raise Build123dCompileError(
-                "accepted baseline STEP does not match the supplied baseline Feature IR"
+                "verified STEP does not match the supplied Feature IR"
             ) from exc
         if (
             not imported_inspection.manifold
@@ -886,7 +886,7 @@ class Build123dBackend:
             or not self._self_intersection_free(imported_shape)
         ):
             raise Build123dCompileError(
-                "accepted baseline STEP is not one self-intersection-free manifold solid"
+                "verified STEP is not one self-intersection-free manifold solid"
             )
 
         expected_face = self._select_planar_extreme_face(
@@ -918,7 +918,7 @@ class Build123dBackend:
             > linear_tolerance_mm
         ):
             raise Build123dCompileError(
-                "accepted baseline STEP external boundary differs from the supplied baseline Feature IR"
+                "verified STEP external boundary differs from the supplied Feature IR"
             )
 
         (_expected_cavity_signature, expected_cavity), expected_cutouts = (
@@ -941,12 +941,12 @@ class Build123dBackend:
             > linear_tolerance_mm
         ):
             raise Build123dCompileError(
-                "accepted baseline STEP authorized cavity differs from the supplied baseline Feature IR"
+                "verified STEP authorized cavity differs from the supplied Feature IR"
             )
 
         if len(expected_cutouts) != len(imported_cutouts):
             raise Build123dCompileError(
-                "accepted baseline STEP cutout count differs from the supplied baseline Feature IR"
+                "verified STEP cutout count differs from the supplied Feature IR"
             )
         for (expected_signature, expected_wire), (
             imported_signature,
@@ -966,7 +966,7 @@ class Build123dBackend:
                 > linear_tolerance_mm
             ):
                 raise Build123dCompileError(
-                    "accepted baseline STEP cutout geometry differs from the supplied baseline Feature IR"
+                    "verified STEP cutout geometry differs from the supplied Feature IR"
                 )
 
     def compare_planar_revision_boundary(
