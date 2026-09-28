@@ -1229,6 +1229,18 @@ class Build123dBackend:
             ) from exc
         if not isinstance(baseline_receipt_payload, dict):
             raise Build123dCompileError("baseline build receipt must be a JSON object")
+        if baseline_receipt_payload.get("receipt_version") != BUILD_RECEIPT_VERSION:
+            raise Build123dCompileError(
+                "baseline build receipt uses an unsupported receipt version"
+            )
+        if baseline_receipt_payload.get("backend") != "build123d":
+            raise Build123dCompileError(
+                "baseline build receipt was not produced by the build123d backend"
+            )
+        if baseline_receipt_payload.get("backend_version") != self.version:
+            raise Build123dCompileError(
+                "baseline build receipt backend version differs from the current evaluator"
+            )
         expected_baseline_hash = _program_sha256(baseline_program)
         if baseline_receipt_payload.get("feature_ir_sha256") != expected_baseline_hash:
             raise Build123dCompileError(
