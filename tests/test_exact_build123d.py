@@ -596,6 +596,7 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
     before = _bundle_hashes(accepted)
 
     candidate = _revision_wall_panel(40.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
     rejected = tmp_path / "rejected"
     with pytest.raises(Build123dCompileError, match="above upper bound"):
         backend.export_verified_revision(
@@ -603,6 +604,11 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
             candidate,
             accepted,
             rejected,
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
         )
 
     assert not rejected.exists()
@@ -629,8 +635,15 @@ def test_revision_receipt_binds_baseline_candidate_and_tolerances(tmp_path) -> N
     backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
     candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
     accepted = tmp_path / "accepted-receipt"
-    backend.export_verified_step(baseline, accepted)
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
     output = tmp_path / "candidate-receipt"
 
     _candidate_receipt, revision_receipt = backend.export_verified_revision(
@@ -638,6 +651,11 @@ def test_revision_receipt_binds_baseline_candidate_and_tolerances(tmp_path) -> N
         candidate,
         accepted,
         output,
+        baseline_requirements=baseline_requirements,
+        baseline_binding_set=baseline_bindings,
+        candidate_requirements=candidate_requirements,
+        candidate_binding_set=candidate_bindings,
+        edited_requirement_ids=("wall_thickness",),
     )
     payload = json.loads((output / "revision-integrity.json").read_text(encoding="utf-8"))
 
@@ -668,8 +686,16 @@ def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
 def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> None:
     backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
     accepted = tmp_path / "accepted-baseline-binding"
-    backend.export_verified_step(baseline, accepted)
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
 
     receipt_path = accepted / "build-receipt.json"
     payload = json.loads(receipt_path.read_text(encoding="utf-8"))
@@ -682,9 +708,14 @@ def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> Non
     with pytest.raises(Build123dCompileError, match="does not target"):
         backend.export_verified_revision(
             baseline,
-            _revision_wall_panel(3.0),
+            candidate,
             accepted,
             tmp_path / "must-not-publish",
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
         )
     assert not (tmp_path / "must-not-publish").exists()
 
