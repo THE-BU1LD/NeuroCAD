@@ -996,8 +996,10 @@ class Build123dBackend:
         baseline_requirements_sha256: str | None = None
         baseline_bindings_sha256: str | None = None
         if supplied_requirement_contract:
-            assert baseline_requirements is not None
-            assert baseline_binding_set is not None
+            if baseline_requirements is None or baseline_binding_set is None:
+                raise Build123dCompileError(
+                    "internal revision contract state is incomplete"
+                )
             baseline_requirements_path = baseline_bundle / "requirements.json"
             baseline_bindings_path = baseline_bundle / "requirement-bindings.json"
             if (
@@ -1051,10 +1053,15 @@ class Build123dBackend:
 
         unchanged_requirements_guard_passed: bool | None = None
         if supplied_requirement_contract:
-            assert baseline_requirements is not None
-            assert baseline_binding_set is not None
-            assert candidate_requirements is not None
-            assert candidate_binding_set is not None
+            if (
+                baseline_requirements is None
+                or baseline_binding_set is None
+                or candidate_requirements is None
+                or candidate_binding_set is None
+            ):
+                raise Build123dCompileError(
+                    "internal revision contract state is incomplete"
+                )
             contract_errors = verify_unchanged_must_requirements(
                 baseline_requirements,
                 baseline_binding_set,
