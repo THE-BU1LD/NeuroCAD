@@ -105,7 +105,11 @@ class PlanarRevisionEvidence:
     candidate_inspection: GeometryInspection
     baseline_face_area_mm2: float
     candidate_face_area_mm2: float
+    baseline_wall_thickness_mm: float
+    candidate_wall_thickness_mm: float
     external_boundary_equivalent: bool
+    external_extents_equivalent: bool
+    max_external_extent_delta_mm: float
     cutout_count_baseline: int
     cutout_count_candidate: int
     cutouts_equivalent: bool
@@ -709,6 +713,75 @@ class Build123dBackend:
                 distances.append(float(left.distance_to(right)))
         return min(distances)
 
+    def _partition_revision_inner_wires(
+        self,
+        face: Any,
+    ) -> tuple[
+        tuple[AnalyticWireSignature, Any],
+        list[tuple[AnalyticWireSignature, Any]],
+    ]:
+        authorized: list[tuple[AnalyticWireSignature, Any]] = []
+        cutouts: list[tuple[AnalyticWireSignature, Any]] = []
+        for wire in face.inner_wires():
+            signature = self._analytic_wire_signature(wire)
+            edge_types = {edge.geom_type for edge in signature.edges}
+            if edge_types == {"LINE"} and len(signature.edges) == 4:
+                authorized.append((signature, wire))
+            elif edge_types == {"CIRCLE"} and len(signature.edges) == 1:
+                cutouts.append((signature, wire))
+            else:
+                raise Build123dCompileError(
+                    "revision pilot inner boundaries must be one four-line cavity "
+                    "plus one or more circular cutouts"
+                )
+        if len(authorized) != 1:
+            raise Build123dCompileError(
+                "revision pilot requires exactly one four-line authorized cavity boundary"
+            )
+        if not cutouts:
+            raise Build123dCompileError(
+                "revision pilot requires at least one circular unaffected cutout"
+            )
+        return authorized[0], sorted(
+            cutouts,
+            key=lambda item: self._wire_sort_key(item[0]),
+        )
+
+    def _planar_wall_thickness_from_face(self, face: Any) -> float:
+        (_authorized_signature, authorized_wire), _cutouts = (
+            self._partition_revision_inner_wires(face)
+        )
+        return float(face.outer_wire().distance_to(authorized_wire))
+
+    def _exact_requirement_measurements(
+        self,
+        shape: Any,
+        binding_set: RequirementBindingSet,
+    ) -> dict[str, float]:
+        measurements: dict[str, float] = {}
+        for binding in binding_set.bindings:
+            if (
+                binding.verification != "exact_dimension"
+                or binding.probe.get("kind") != "planar_wall_thickness"
+            ):
+                continue
+            axis = binding.probe.get("axis")
+            side = binding.probe.get("side", "min")
+            if not isinstance(axis, str) or not isinstance(side, str):
+                raise Build123dCompileError(
+                    "planar_wall_thickness probe requires string axis and side"
+                )
+            face = self._select_planar_extreme_face(
+                shape,
+                axis=axis,
+                side=side,
+                tolerance_mm=1e-6,
+            )
+            measurements[binding.requirement_id] = (
+                self._planar_wall_thickness_from_face(face)
+            )
+        return measurements
+
     def _select_planar_extreme_face(
         self,
         shape: Any,
@@ -767,8 +840,15 @@ class Build123dBackend:
         relative_scalar_tolerance: float = 1e-9,
         absolute_scalar_floor: float = 1e-12,
     ) -> PlanarRevisionEvidence:
-        if linear_tolerance_mm <= 0 or relative_scalar_tolerance < 0 or absolute_scalar_floor < 0:
-            raise Build123dCompileError("revision comparison tolerances must be non-negative and linear tolerance positive")
+        if (
+            linear_tolerance_mm <= 0
+            or relative_scalar_tolerance < 0
+            or absolute_scalar_floor < 0
+        ):
+            raise Build123dCompileError(
+                "revision comparison tolerances must be non-negative and "
+                "linear tolerance positive"
+            )
 
         self._validate_planar_prism_program(baseline_program, axis=axis)
         self._validate_planar_prism_program(candidate_program, axis=axis)
@@ -776,7 +856,8 @@ class Build123dBackend:
         candidate_outputs = self.compile(candidate_program)
         if len(baseline_outputs) != 1 or len(candidate_outputs) != 1:
             raise Build123dCompileError(
-                "revision comparison currently requires exactly one output in baseline and candidate"
+                "revision comparison currently requires exactly one output "
+                "in baseline and candidate"
             )
         baseline_shape = next(iter(baseline_outputs.values()))
         candidate_shape = next(iter(candidate_outputs.values()))
@@ -786,10 +867,27 @@ class Build123dBackend:
             ("baseline", baseline_inspection),
             ("candidate", candidate_inspection),
         ):
-            if not inspection.valid_brep or not inspection.manifold or inspection.solid_count != 1:
+            if (
+                not inspection.valid_brep
+                or not inspection.manifold
+                or inspection.solid_count != 1
+            ):
                 raise Build123dCompileError(
                     f"{label} revision geometry must be one valid manifold solid"
                 )
+
+        extent_deltas = tuple(
+            abs(left - right)
+            for left, right in zip(
+                baseline_inspection.extents_mm,
+                candidate_inspection.extents_mm,
+                strict=True,
+            )
+        )
+        max_external_extent_delta = max(extent_deltas)
+        external_extents_equivalent = (
+            max_external_extent_delta <= linear_tolerance_mm
+        )
 
         baseline_face = self._select_planar_extreme_face(
             baseline_shape,
@@ -819,25 +917,27 @@ class Build123dBackend:
             self._sampled_wire_deviation(candidate_outer, baseline_outer),
         )
 
-        baseline_inner_wires = list(baseline_face.inner_wires())
-        candidate_inner_wires = list(candidate_face.inner_wires())
-        baseline_inner = sorted(
-            ((self._analytic_wire_signature(wire), wire) for wire in baseline_inner_wires),
-            key=lambda item: self._wire_sort_key(item[0]),
+        (baseline_cavity_signature, baseline_cavity), baseline_cutouts = (
+            self._partition_revision_inner_wires(baseline_face)
         )
-        candidate_inner = sorted(
-            ((self._analytic_wire_signature(wire), wire) for wire in candidate_inner_wires),
-            key=lambda item: self._wire_sort_key(item[0]),
+        (candidate_cavity_signature, candidate_cavity), candidate_cutouts = (
+            self._partition_revision_inner_wires(candidate_face)
         )
-        cutouts_equivalent = (
-            len(baseline_inner) == len(candidate_inner)
-            and len(baseline_inner) > 0
+        del baseline_cavity_signature, candidate_cavity_signature
+
+        baseline_wall_thickness = float(
+            baseline_outer.distance_to(baseline_cavity)
         )
+        candidate_wall_thickness = float(
+            candidate_outer.distance_to(candidate_cavity)
+        )
+
+        cutouts_equivalent = len(baseline_cutouts) == len(candidate_cutouts)
         max_cutout_deviation = 0.0
         if cutouts_equivalent:
             for (left_signature, left_wire), (right_signature, right_wire) in zip(
-                baseline_inner,
-                candidate_inner,
+                baseline_cutouts,
+                candidate_cutouts,
                 strict=True,
             ):
                 if not self._wire_signatures_equivalent(
@@ -854,20 +954,16 @@ class Build123dBackend:
                     self._sampled_wire_deviation(right_wire, left_wire),
                 )
 
-        face_area_equivalent = self._close_scalar(
-            float(baseline_face.area),
-            float(candidate_face.area),
-            linear_tolerance_mm=linear_tolerance_mm,
-            relative_scalar_tolerance=relative_scalar_tolerance,
-            absolute_scalar_floor=absolute_scalar_floor,
-            dimension=2,
-        )
         baseline_self_intersection_free = self._self_intersection_free(
             baseline_shape
         )
         candidate_self_intersection_free = self._self_intersection_free(
             candidate_shape
         )
+        candidate_inner_wires = [
+            candidate_cavity,
+            *(wire for _signature, wire in candidate_cutouts),
+        ]
         candidate_minimum_material_clearance = self._minimum_material_clearance(
             candidate_outer,
             candidate_inner_wires,
@@ -875,16 +971,15 @@ class Build123dBackend:
         axis_index = {"x": 0, "y": 1, "z": 2}[axis.lower()]
         candidate_zero_thickness_free = (
             candidate_inspection.extents_mm[axis_index] > linear_tolerance_mm
-            and float(candidate_face.area) > max(
-                absolute_scalar_floor,
-                linear_tolerance_mm**2,
-            )
+            and float(candidate_face.area)
+            > max(absolute_scalar_floor, linear_tolerance_mm**2)
+            and candidate_wall_thickness > linear_tolerance_mm
             and candidate_minimum_material_clearance > linear_tolerance_mm
         )
         passed = (
             external_boundary_equivalent
+            and external_extents_equivalent
             and cutouts_equivalent
-            and face_area_equivalent
             and max_external_deviation <= linear_tolerance_mm
             and max_cutout_deviation <= linear_tolerance_mm
             and baseline_self_intersection_free
@@ -905,15 +1000,21 @@ class Build123dBackend:
             candidate_inspection=candidate_inspection,
             baseline_face_area_mm2=float(baseline_face.area),
             candidate_face_area_mm2=float(candidate_face.area),
+            baseline_wall_thickness_mm=baseline_wall_thickness,
+            candidate_wall_thickness_mm=candidate_wall_thickness,
             external_boundary_equivalent=external_boundary_equivalent,
-            cutout_count_baseline=len(baseline_inner),
-            cutout_count_candidate=len(candidate_inner),
+            external_extents_equivalent=external_extents_equivalent,
+            max_external_extent_delta_mm=max_external_extent_delta,
+            cutout_count_baseline=len(baseline_cutouts),
+            cutout_count_candidate=len(candidate_cutouts),
             cutouts_equivalent=cutouts_equivalent,
             max_sampled_external_deviation_mm=max_external_deviation,
             max_sampled_cutout_deviation_mm=max_cutout_deviation,
             baseline_self_intersection_free=baseline_self_intersection_free,
             candidate_self_intersection_free=candidate_self_intersection_free,
-            candidate_minimum_material_clearance_mm=candidate_minimum_material_clearance,
+            candidate_minimum_material_clearance_mm=(
+                candidate_minimum_material_clearance
+            ),
             candidate_zero_thickness_free=candidate_zero_thickness_free,
             passed=passed,
         )
@@ -1219,11 +1320,16 @@ class Build123dBackend:
             verification_path: Path | None = None
             requirements_satisfied: bool | None = None
             if requirements is not None and binding_set is not None:
+                exact_measurements_mm = self._exact_requirement_measurements(
+                    imported,
+                    binding_set,
+                )
                 requirement_verification = verify_exact_requirements(
                     requirements,
                     program,
                     roundtrip,
                     binding_set,
+                    exact_measurements_mm=exact_measurements_mm,
                 )
                 requirements_satisfied = requirement_verification.satisfied_for_all_must
                 if not requirements_satisfied:
