@@ -44,15 +44,19 @@ The frozen acceptance intent is unchanged, but the executable pilot is deliberat
 The current branch implements revision comparison only when all of these are true:
 - baseline and candidate each contain exactly one planar sketch followed by one `operation=new` extrusion;
 - the comparison axis is normal to that sketch plane;
+- the planar profile has one four-line outer boundary, one four-line authorized cavity boundary, and one or more circular unaffected cutouts;
 - selected boundary edges are analytic `LINE` or `CIRCLE` geometry;
-- at least one cutout boundary exists;
 - both results are one valid manifold solid.
 
-For this supported class, equality is gated by analytic edge/wire signatures derived from kernel geometry: geometry type, exact-kernel length, bounding coordinates, and canonicalized line endpoints, together with face area and cutout count. A 17-point-per-edge bidirectional point-to-curve deviation is recorded as additional diagnostic evidence. NeuroCAD does **not** call that finite sampling a generic Hausdorff-distance proof. Any unsupported curve/history falls outside the pilot and fails closed.
+The deterministic C3D fixture is a constant-envelope 80 × 60 × 20 mm prismatic wall section. A 2 → 3 mm wall edit changes only the derived internal cavity dimensions. The outer X/Y/Z extents and outer boundary stay fixed, while the circular through-cutout keeps the same geometry and position. A 40 mm wall request makes the derived internal rectangle non-positive (80 − 2t = 0 mm and 60 − 2t = −20 mm) and is rejected by the exact builder rather than by an arbitrary wall-thickness upper bound.
 
-Self-interference is checked separately with OpenCascade `BOPAlgo_ArgumentAnalyzer` in self-interference mode; `is_valid` alone is not treated as sufficient evidence. For the single-sketch/single-extrusion pilot, zero-thickness rejection additionally requires positive extrusion extent, positive planar material area, and positive exact-kernel clearance between the outer wire and every cutout (and between cutouts) above the frozen linear tolerance.
+For this supported class, unaffected-geometry equality is gated by analytic edge/wire signatures derived from kernel geometry: geometry type, exact-kernel length, bounding coordinates, and canonicalized line endpoints, plus equality of all three global model extents. The authorized rectangular cavity is intentionally excluded from the unaffected-cutout comparison. Circular-cutout bounding boxes and curve lengths jointly bind their center, radius and position within the frozen tolerance. A 17-point-per-edge bidirectional point-to-curve deviation is recorded as additional diagnostic evidence. NeuroCAD does **not** call that finite sampling a generic Hausdorff-distance proof. Any unsupported curve/history falls outside the pilot and fails closed.
 
-Transactional publication is implemented by `Build123dBackend.export_verified_revision`: it binds the caller-supplied baseline Feature IR to the accepted baseline build receipt and STEP hash, evaluates the candidate privately, optionally enforces unchanged-must contracts, rechecks the baseline hashes before publication, writes `revision-integrity.json`, and only then atomically publishes the new candidate directory.
+The requested wall thickness is not accepted from the parameter store. After STEP export and re-import, a dedicated `planar_wall_thickness` exact probe measures the kernel distance from the outer wire to the authorized cavity wire and compares that value against the Requirement IR.
+
+Self-interference is checked separately with OpenCascade `BOPAlgo_ArgumentAnalyzer` in self-interference mode; `is_valid` alone is not treated as sufficient evidence. For the single-sketch/single-extrusion pilot, zero-thickness rejection additionally requires positive extrusion extent, positive planar material area, positive outer-to-cavity wall thickness, and positive exact-kernel clearance among the outer boundary, cavity and cutouts above the frozen linear tolerance.
+
+Transactional publication is implemented by `Build123dBackend.export_verified_revision`: it requires baseline and candidate Requirement IR plus binding sets, binds the baseline Feature IR/Requirement IR/bindings/STEP to the accepted receipt, evaluates the candidate privately, enforces unchanged-must contracts, rechecks the baseline hashes before publication, writes `revision-integrity.json`, and only then atomically publishes the new candidate directory.
 
 This is a scope reduction, not a relaxation of the numerical tolerances or a claim of general CAD equivalence.
 
@@ -107,7 +111,7 @@ The edit passes only if all of the following are true.
 
 ### A1. Requested edit took effect
 
-The wall-thickness requirement is satisfied using exact geometric evidence or a dedicated exact probe. Parameter-store equality alone is insufficient.
+The wall-thickness requirement is satisfied by the dedicated `planar_wall_thickness` probe on STEP-round-tripped exact geometry. The probe measures outer-boundary-to-authorized-cavity clearance. Parameter-store equality alone is explicitly insufficient.
 
 ### A2. External boundary preserved
 
@@ -116,23 +120,23 @@ Compare the selected external-boundary geometry from candidate against baseline.
 Required:
 - same semantic selector identity / declared role;
 - same number of selected external faces;
-- bidirectional maximum point-to-surface deviation <= `1e-6 mm`;
-- external-boundary bounding extents unchanged within `1e-6 mm`.
+- analytic outer-wire signature unchanged within the frozen tolerances;
+- sampled bidirectional boundary deviation <= `1e-6 mm`;
+- all three global model extents unchanged within `1e-6 mm`.
 
-A global model bounding box is not sufficient by itself.
+A global model bounding box is required but is not sufficient by itself; the selected exact boundary must independently match.
 
 ### A3. Cutout geometry preserved
 
-For the cutout boundary selected by semantic role:
+For the unaffected circular cutout boundary:
 
 Required:
-- same number of boundary wires/edges;
-- centroid coordinate delta on each axis <= `1e-6 mm`;
+- same number of circular cutout wires/edges;
+- bounding-coordinate agreement within `1e-6 mm` (which fixes center and diameter for the analytic circle);
 - perimeter/curve-length agreement within `1e-9` relative tolerance;
-- enclosed area agreement within `1e-9` relative tolerance;
-- bidirectional maximum boundary deviation <= `1e-6 mm`.
+- sampled bidirectional boundary deviation <= `1e-6 mm`.
 
-Do not infer this from unchanged cutout parameters.
+The four-line internal cavity is the authorized wall-thickness change region and is not compared as an unaffected cutout. Do not infer cutout preservation from unchanged parameters.
 
 ### A4. Solid validity preserved
 
@@ -169,7 +173,7 @@ No receipt should claim complete CAD equivalence; it proves only the declared in
 
 ## Case B — infeasible 40 mm wall-thickness edit
 
-Attempt the 40 mm wall-thickness edit under the same unchanged external envelope and cutout constraints.
+Attempt the 40 mm wall-thickness edit under the same unchanged 80 × 60 × 20 mm external envelope and cutout constraints. In the frozen fixture, the derived cavity becomes 0 × −20 mm, so exact construction must fail before publication.
 
 Expected behavior:
 
