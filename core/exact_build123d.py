@@ -111,6 +111,10 @@ class PlanarRevisionEvidence:
     cutouts_equivalent: bool
     max_sampled_external_deviation_mm: float
     max_sampled_cutout_deviation_mm: float
+    baseline_self_intersection_free: bool
+    candidate_self_intersection_free: bool
+    candidate_minimum_material_clearance_mm: float
+    candidate_zero_thickness_free: bool
     passed: bool
     claim_boundary: str = (
         "bounded analytic planar-boundary comparison for LINE/CIRCLE edges only; "
@@ -623,6 +627,47 @@ class Build123dBackend:
                 maximum = max(maximum, float(target.distance_to(point)))
         return maximum
 
+    def _self_intersection_free(self, shape: Any) -> bool:
+        try:
+            bop_algo = importlib.import_module("OCP.BOPAlgo")
+        except ModuleNotFoundError as exc:
+            raise Build123dCompileError(
+                "OCP self-interference analyzer is unavailable; failing closed"
+            ) from exc
+        analyzer = bop_algo.BOPAlgo_ArgumentAnalyzer()
+        for mode in (
+            "ArgumentTypeMode",
+            "ContinuityMode",
+            "CurveOnSurfaceMode",
+            "MergeEdgeMode",
+            "MergeVertexMode",
+            "RebuildFaceMode",
+            "SmallEdgeMode",
+            "TangentMode",
+        ):
+            if hasattr(analyzer, mode):
+                setattr(analyzer, mode, False)
+        analyzer.SelfInterMode = True
+        analyzer.SetShape1(shape.wrapped)
+        analyzer.Perform()
+        if analyzer.HasErrors():
+            raise Build123dCompileError(
+                "OCP self-interference analysis failed; refusing revision acceptance"
+            )
+        return not bool(analyzer.HasFaulty())
+
+    @staticmethod
+    def _minimum_material_clearance(outer_wire: Any, inner_wires: list[Any]) -> float:
+        if not inner_wires:
+            raise Build123dCompileError(
+                "revision pilot requires at least one cutout boundary"
+            )
+        distances = [float(outer_wire.distance_to(wire)) for wire in inner_wires]
+        for left_index, left in enumerate(inner_wires):
+            for right in inner_wires[left_index + 1 :]:
+                distances.append(float(left.distance_to(right)))
+        return min(distances)
+
     def _select_planar_extreme_face(
         self,
         shape: Any,
@@ -741,7 +786,10 @@ class Build123dBackend:
             ((self._analytic_wire_signature(wire), wire) for wire in candidate_inner_wires),
             key=lambda item: self._wire_sort_key(item[0]),
         )
-        cutouts_equivalent = len(baseline_inner) == len(candidate_inner)
+        cutouts_equivalent = (
+            len(baseline_inner) == len(candidate_inner)
+            and len(baseline_inner) > 0
+        )
         max_cutout_deviation = 0.0
         if cutouts_equivalent:
             for (left_signature, left_wire), (right_signature, right_wire) in zip(
@@ -771,12 +819,34 @@ class Build123dBackend:
             absolute_scalar_floor=absolute_scalar_floor,
             dimension=2,
         )
+        baseline_self_intersection_free = self._self_intersection_free(
+            baseline_shape
+        )
+        candidate_self_intersection_free = self._self_intersection_free(
+            candidate_shape
+        )
+        candidate_minimum_material_clearance = self._minimum_material_clearance(
+            candidate_outer,
+            candidate_inner_wires,
+        )
+        axis_index = {"x": 0, "y": 1, "z": 2}[axis.lower()]
+        candidate_zero_thickness_free = (
+            candidate_inspection.extents_mm[axis_index] > linear_tolerance_mm
+            and float(candidate_face.area) > max(
+                absolute_scalar_floor,
+                linear_tolerance_mm**2,
+            )
+            and candidate_minimum_material_clearance > linear_tolerance_mm
+        )
         passed = (
             external_boundary_equivalent
             and cutouts_equivalent
             and face_area_equivalent
             and max_external_deviation <= linear_tolerance_mm
             and max_cutout_deviation <= linear_tolerance_mm
+            and baseline_self_intersection_free
+            and candidate_self_intersection_free
+            and candidate_zero_thickness_free
         )
         return PlanarRevisionEvidence(
             backend="build123d",
@@ -798,6 +868,10 @@ class Build123dBackend:
             cutouts_equivalent=cutouts_equivalent,
             max_sampled_external_deviation_mm=max_external_deviation,
             max_sampled_cutout_deviation_mm=max_cutout_deviation,
+            baseline_self_intersection_free=baseline_self_intersection_free,
+            candidate_self_intersection_free=candidate_self_intersection_free,
+            candidate_minimum_material_clearance_mm=candidate_minimum_material_clearance,
+            candidate_zero_thickness_free=candidate_zero_thickness_free,
             passed=passed,
         )
 
