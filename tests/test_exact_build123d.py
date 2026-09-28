@@ -1067,6 +1067,58 @@ def test_revision_rejects_tampered_baseline_verification_evidence(tmp_path) -> N
     assert not (tmp_path / "must-not-publish-verification-tamper").exists()
 
 
+def test_revision_rejects_forged_baseline_verification_checks_even_with_updated_hash(
+    tmp_path,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-forged-verification"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    verification_path = accepted / "requirements-verification.json"
+    verification_payload = json.loads(verification_path.read_text(encoding="utf-8"))
+    verification_payload["checks"][0]["detail"] = "forged-but-still-marked-satisfied"
+    verification_path.write_text(
+        json.dumps(verification_payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    receipt_path = accepted / "build-receipt.json"
+    receipt_payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt_payload["requirements_verification_sha256"] = hashlib.sha256(
+        verification_path.read_bytes()
+    ).hexdigest()
+    receipt_path.write_text(
+        json.dumps(receipt_payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        Build123dCompileError,
+        match="baseline requirement verification evidence does not reproduce",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            tmp_path / "must-not-publish-forged-verification",
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not (tmp_path / "must-not-publish-forged-verification").exists()
+
+
 def test_revision_rejects_baseline_verification_mutation_during_evaluation(
     tmp_path,
     monkeypatch: pytest.MonkeyPatch,
