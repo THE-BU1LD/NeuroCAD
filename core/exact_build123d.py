@@ -27,9 +27,12 @@ from .feature_ir import (
     serialize_feature_ir_json,
     validate_feature_program,
 )
+from .json_io import strict_json_loads
 from .requirement_ir import RequirementIR, serialize_requirement_ir_json
 from .requirement_verification import (
     RequirementBindingSet,
+    binding_set_sha256,
+    requirement_ir_sha256,
     serialize_binding_set_json,
     verify_exact_requirements,
     verify_unchanged_must_requirements,
@@ -143,10 +146,12 @@ class RevisionBundleReceipt:
     baseline_build_receipt_sha256: str
     baseline_requirements_sha256: str
     baseline_bindings_sha256: str
+    baseline_requirements_verification_sha256: str
     candidate_step_sha256: str
     candidate_build_receipt_sha256: str
     candidate_requirements_sha256: str
     candidate_bindings_sha256: str
+    candidate_requirements_verification_sha256: str
     edited_requirement_ids: tuple[str, ...]
     evidence: PlanarRevisionEvidence
     unchanged_requirements_guard_passed: bool
@@ -1048,7 +1053,7 @@ class Build123dBackend:
                 "baseline bundle must contain a regular build-receipt.json"
             )
         try:
-            baseline_receipt_payload = json.loads(
+            baseline_receipt_payload = strict_json_loads(
                 baseline_receipt_path.read_text(encoding="utf-8")
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -1101,25 +1106,37 @@ class Build123dBackend:
 
         baseline_requirements_path = baseline_bundle / "requirements.json"
         baseline_bindings_path = baseline_bundle / "requirement-bindings.json"
+        baseline_verification_path = baseline_bundle / "requirements-verification.json"
         if (
             baseline_requirements_path.is_symlink()
             or baseline_bindings_path.is_symlink()
+            or baseline_verification_path.is_symlink()
             or not baseline_requirements_path.is_file()
             or not baseline_bindings_path.is_file()
+            or not baseline_verification_path.is_file()
         ):
             raise Build123dCompileError(
-                "accepted baseline is missing regular requirement artifacts"
+                "accepted baseline is missing regular requirement verification artifacts"
             )
         baseline_requirements_sha256 = _sha256(baseline_requirements_path)
         baseline_bindings_sha256 = _sha256(baseline_bindings_path)
+        baseline_requirements_verification_sha256 = _sha256(
+            baseline_verification_path
+        )
         if (
             baseline_receipt_payload.get("requirements_sha256")
             != baseline_requirements_sha256
             or baseline_receipt_payload.get("bindings_sha256")
             != baseline_bindings_sha256
+            or baseline_receipt_payload.get("requirements_verification_sha256")
+            != baseline_requirements_verification_sha256
         ):
             raise Build123dCompileError(
                 "baseline requirement artifact hashes do not match the accepted receipt"
+            )
+        if baseline_receipt_payload.get("requirements_satisfied") is not True:
+            raise Build123dCompileError(
+                "baseline build receipt does not record satisfied must-level requirements"
             )
         expected_requirements_sha256 = hashlib.sha256(
             serialize_requirement_ir_json(baseline_requirements).encode("utf-8")
@@ -1134,6 +1151,38 @@ class Build123dBackend:
         if baseline_bindings_sha256 != expected_bindings_sha256:
             raise Build123dCompileError(
                 "baseline bindings do not match the supplied accepted contract"
+            )
+
+        try:
+            baseline_verification_payload = strict_json_loads(
+                baseline_verification_path.read_text(encoding="utf-8")
+            )
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise Build123dCompileError(
+                "baseline requirement verification evidence is unreadable or invalid JSON"
+            ) from exc
+        if not isinstance(baseline_verification_payload, dict):
+            raise Build123dCompileError(
+                "baseline requirement verification evidence must be a JSON object"
+            )
+        if baseline_verification_payload.get("satisfied_for_all_must") is not True:
+            raise Build123dCompileError(
+                "baseline requirement verification does not satisfy every must requirement"
+            )
+        if baseline_verification_payload.get("errors") != []:
+            raise Build123dCompileError(
+                "baseline requirement verification contains recorded errors"
+            )
+        if (
+            baseline_verification_payload.get("requirement_ir_sha256")
+            != requirement_ir_sha256(baseline_requirements)
+            or baseline_verification_payload.get("feature_ir_sha256")
+            != expected_baseline_hash
+            or baseline_verification_payload.get("binding_set_sha256")
+            != binding_set_sha256(baseline_binding_set)
+        ):
+            raise Build123dCompileError(
+                "baseline requirement verification provenance does not match the supplied accepted contract"
             )
 
         evidence = self.compare_planar_revision_boundary(
@@ -1179,7 +1228,12 @@ class Build123dBackend:
                 raise Build123dCompileError("candidate export did not produce STEP evidence")
             candidate_step = private_bundle / candidate_receipt.step_path
             candidate_build_receipt = private_bundle / "build-receipt.json"
-            if not candidate_step.is_file() or not candidate_build_receipt.is_file():
+            candidate_verification = private_bundle / "requirements-verification.json"
+            if (
+                not candidate_step.is_file()
+                or not candidate_build_receipt.is_file()
+                or not candidate_verification.is_file()
+            ):
                 raise Build123dCompileError(
                     "candidate export did not produce the complete verified bundle"
                 )
@@ -1202,6 +1256,14 @@ class Build123dBackend:
                     "baseline bindings changed during revision evaluation; "
                     "refusing publication"
                 )
+            if (
+                _sha256(baseline_verification_path)
+                != baseline_requirements_verification_sha256
+            ):
+                raise Build123dCompileError(
+                    "baseline requirement verification changed during revision evaluation; "
+                    "refusing publication"
+                )
 
             revision_receipt = RevisionBundleReceipt(
                 backend="build123d",
@@ -1212,6 +1274,9 @@ class Build123dBackend:
                 baseline_build_receipt_sha256=baseline_build_receipt_sha256,
                 baseline_requirements_sha256=baseline_requirements_sha256,
                 baseline_bindings_sha256=baseline_bindings_sha256,
+                baseline_requirements_verification_sha256=(
+                    baseline_requirements_verification_sha256
+                ),
                 candidate_step_sha256=_sha256(candidate_step),
                 candidate_build_receipt_sha256=_sha256(candidate_build_receipt),
                 candidate_requirements_sha256=_require_revision_hash(
@@ -1221,6 +1286,10 @@ class Build123dBackend:
                 candidate_bindings_sha256=_require_revision_hash(
                     candidate_receipt.bindings_sha256,
                     "candidate bindings",
+                ),
+                candidate_requirements_verification_sha256=_require_revision_hash(
+                    candidate_receipt.requirements_verification_sha256,
+                    "candidate requirement verification",
                 ),
                 edited_requirement_ids=tuple(edited_requirement_ids),
                 evidence=evidence,
