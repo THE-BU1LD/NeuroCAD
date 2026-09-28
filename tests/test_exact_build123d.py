@@ -822,6 +822,55 @@ def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> Non
 
 
 
+@pytest.mark.parametrize(
+    ("override", "message"),
+    [
+        ({"linear_tolerance_mm": 2.0}, "frozen C3D pilot tolerances"),
+        ({"side": "max"}, "frozen to axis='z' and side='min'"),
+        (
+            {"edited_requirement_ids": ("wall_thickness", "width")},
+            "frozen to the wall_thickness requirement only",
+        ),
+    ],
+)
+def test_revision_publication_rejects_frozen_contract_widening(
+    tmp_path,
+    override,
+    message,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-frozen-contract"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    kwargs = {
+        "baseline_requirements": baseline_requirements,
+        "baseline_binding_set": baseline_bindings,
+        "candidate_requirements": candidate_requirements,
+        "candidate_binding_set": candidate_bindings,
+        "edited_requirement_ids": ("wall_thickness",),
+    }
+    kwargs.update(override)
+
+    with pytest.raises(Build123dCompileError, match=message):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            tmp_path / "must-not-publish-widened-contract",
+            **kwargs,
+        )
+    assert not (tmp_path / "must-not-publish-widened-contract").exists()
+
+
 def test_revision_rejects_baseline_step_geometry_tamper_even_if_receipt_hash_is_updated(
     tmp_path,
 ) -> None:
