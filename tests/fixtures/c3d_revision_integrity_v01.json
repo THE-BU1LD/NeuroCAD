@@ -19,8 +19,9 @@
     "cutout_position"
   ],
   "required_candidate_checks": [
-    "requested_edit_exactly_satisfied",
+    "requested_edit_exactly_satisfied_from_roundtripped_geometry",
     "external_boundary_geometrically_equivalent",
+    "all_external_extents_unchanged",
     "cutout_geometry_geometrically_equivalent",
     "cutout_position_unchanged",
     "valid_brep",
@@ -32,7 +33,12 @@
   ],
   "infeasible_case": {
     "wall_thickness_mm": 40,
-    "expected": "explicit_failure",
+    "derived_cavity_size_mm": [
+      0,
+      -20
+    ],
+    "expected": "explicit_exact_construction_failure",
+    "failure_basis": "authorized cavity rectangle has non-positive derived width/height under the fixed external envelope",
     "must_preserve_last_accepted_bundle": true,
     "must_not_relax_unchanged_constraints": true,
     "must_not_publish_candidate": true
@@ -49,22 +55,61 @@
   },
   "implementation_scope": {
     "history": "single planar sketch followed by one operation=new extrusion",
+    "profile_contract": "one four-LINE outer boundary + exactly one four-LINE authorized cavity + one or more single-CIRCLE unaffected cutouts",
+    "authorized_change_boundary": "four-LINE cavity",
+    "unaffected_cutout_boundary": "single-CIRCLE wire(s)",
     "boundary_edge_types": [
       "LINE",
       "CIRCLE"
     ],
+    "all_external_extents_must_match": true,
+    "wall_thickness_probe": "planar_wall_thickness on STEP-round-tripped exact geometry",
+    "parameter_store_sufficient": false,
     "generic_hausdorff_claim": false,
     "sampled_points_per_edge": 17,
     "self_interference_predicate": "OCP.BOPAlgo.BOPAlgo_ArgumentAnalyzer(SelfInterMode)",
-    "zero_thickness_predicate": "positive extrusion extent + positive planar material area + positive inter-boundary clearance",
+    "zero_thickness_predicate": "positive extrusion extent + positive planar material area + positive outer-to-cavity thickness + positive inter-boundary clearance",
     "unsupported_geometry": "fail_closed"
   },
   "transaction": {
     "baseline_receipt_binds_feature_ir": true,
     "baseline_step_hash_rechecked_before_publish": true,
-    "baseline_requirement_artifacts_bound_when_supplied": true,
+    "baseline_requirement_artifacts_required": true,
+    "candidate_requirement_artifacts_required": true,
+    "baseline_requirement_hashes_rechecked_before_publish": true,
+    "unchanged_must_bindings_enforced": true,
     "private_candidate_staging": true,
     "atomic_candidate_directory_publish": true,
     "revision_receipt": "revision-integrity.json"
+  },
+  "pilot_geometry": {
+    "external_envelope_mm": [
+      80,
+      60,
+      20
+    ],
+    "baseline_wall_thickness_mm": 2,
+    "candidate_wall_thickness_mm": 3,
+    "wall_thickness_measurement": "exact outer-wire to authorized-cavity-wire clearance on STEP-round-tripped geometry",
+    "authorized_cavity": {
+      "role": "authorized_change_region",
+      "baseline_size_mm": [
+        76,
+        56
+      ],
+      "candidate_size_mm": [
+        74,
+        54
+      ],
+      "formula": "[80 - 2*t, 60 - 2*t]"
+    },
+    "unaffected_cutout": {
+      "geometry": "circle",
+      "radius_mm": 0.4,
+      "center_mm": [
+        -39,
+        10
+      ]
+    }
   }
 }
