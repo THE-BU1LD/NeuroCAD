@@ -1262,6 +1262,11 @@ class Build123dBackend:
         destination = destination_input.resolve()
         if destination.exists() or destination.is_symlink():
             raise FileExistsError(f"output directory already exists: {destination}")
+        baseline_resolved = baseline_bundle.resolve()
+        if baseline_resolved == destination or baseline_resolved in destination.parents:
+            raise Build123dCompileError(
+                "revision output directory must be outside the accepted baseline bundle"
+            )
         destination.parent.mkdir(parents=True, exist_ok=True)
 
         requirement_items = (
