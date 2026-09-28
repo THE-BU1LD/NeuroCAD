@@ -902,7 +902,7 @@ def test_revision_rejects_baseline_step_geometry_tamper_even_if_receipt_hash_is_
 
     with pytest.raises(
         Build123dCompileError,
-        match="accepted baseline STEP cutout geometry differs",
+        match="verified STEP cutout geometry differs",
     ):
         backend.export_verified_revision(
             baseline,
@@ -916,6 +916,51 @@ def test_revision_rejects_baseline_step_geometry_tamper_even_if_receipt_hash_is_
             edited_requirement_ids=("wall_thickness",),
         )
     assert not (tmp_path / "must-not-publish-step-tamper").exists()
+
+
+def test_revision_rejects_candidate_step_export_drift_with_same_extents_and_volume(
+    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / "accepted-candidate-export-drift"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    moved_candidate = _revision_wall_panel(3.0, cutout_center=(-39.0, 11.0))
+    moved_shape = next(iter(backend.compile(moved_candidate).values()))
+    original_export_step = backend.bd.export_step
+
+    def export_shifted_cutout(_shape, path):
+        return original_export_step(moved_shape, path)
+
+    monkeypatch.setattr(backend.bd, "export_step", export_shifted_cutout)
+
+    output = tmp_path / "must-not-publish-export-drift"
+    with pytest.raises(
+        Build123dCompileError,
+        match="verified STEP cutout geometry differs",
+    ):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            output,
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+    assert not output.exists()
 
 
 def test_revision_rejects_tampered_baseline_verification_evidence(tmp_path) -> None:
