@@ -145,6 +145,7 @@ class RevisionBundleReceipt:
 
     def to_dict(self) -> dict[str, Any]:
         value = asdict(self)
+        value["edited_requirement_ids"] = list(self.edited_requirement_ids)
         value["evidence"] = self.evidence.to_dict()
         value["revision_bundle_receipt_version"] = "neurocad-revision-bundle-receipt-v1"
         return value
