@@ -784,6 +784,59 @@ def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
 
 
 
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("receipt_version", "future-receipt-v999", "unsupported receipt version"),
+        ("backend", "other-kernel", "not produced by the build123d backend"),
+        (
+            "backend_version",
+            "0.0-forged",
+            "backend version differs from the current evaluator",
+        ),
+    ],
+)
+def test_revision_rejects_baseline_backend_provenance_drift(
+    tmp_path,
+    field,
+    value,
+    message,
+) -> None:
+    backend = Build123dBackend()
+    baseline = _revision_wall_panel(2.0)
+    candidate = _revision_wall_panel(3.0)
+    baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
+    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 3.0)
+    accepted = tmp_path / f"accepted-provenance-{field}"
+    backend.export_verified_step(
+        baseline,
+        accepted,
+        requirements=baseline_requirements,
+        binding_set=baseline_bindings,
+    )
+
+    receipt_path = accepted / "build-receipt.json"
+    payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    payload[field] = value
+    receipt_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(Build123dCompileError, match=message):
+        backend.export_verified_revision(
+            baseline,
+            candidate,
+            accepted,
+            tmp_path / f"must-not-publish-provenance-{field}",
+            baseline_requirements=baseline_requirements,
+            baseline_binding_set=baseline_bindings,
+            candidate_requirements=candidate_requirements,
+            candidate_binding_set=candidate_bindings,
+            edited_requirement_ids=("wall_thickness",),
+        )
+
+
 def test_revision_rejects_unrelated_or_tampered_baseline_bundle(tmp_path) -> None:
     backend = Build123dBackend()
     baseline = _revision_wall_panel(2.0)
