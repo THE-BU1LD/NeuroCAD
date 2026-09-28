@@ -617,21 +617,32 @@ def test_infeasible_40mm_wall_edit_preserves_last_accepted_bundle(tmp_path) -> N
 
 def test_infeasible_edit_does_not_relax_unchanged_bindings() -> None:
     baseline = _revision_wall_panel(2.0)
-    candidate = _revision_wall_panel(40.0)
     baseline_requirements, baseline_bindings = _panel_requirements(baseline, 2.0)
-    candidate_requirements, candidate_bindings = _panel_requirements(candidate, 40.0)
+    rejected_requirements = _panel_requirement_document(40.0)
+    rejected_bindings = RequirementBindingSet(
+        requirement_ir_sha256=requirement_ir_sha256(rejected_requirements),
+        feature_ir_sha256=baseline_bindings.feature_ir_sha256,
+        bindings=baseline_bindings.bindings,
+        metadata=dict(baseline_bindings.metadata),
+        version=baseline_bindings.version,
+    )
 
     errors = verify_unchanged_must_requirements(
         baseline_requirements,
         baseline_bindings,
-        candidate_requirements,
-        candidate_bindings,
+        rejected_requirements,
+        rejected_bindings,
         edited_requirement_ids=("wall_thickness",),
     )
     assert errors == ()
-    assert baseline_bindings.bindings[0].requirement_id == "width"
-    assert candidate_bindings.bindings[0].to_dict() == baseline_bindings.bindings[0].to_dict()
-
+    assert (
+        rejected_bindings.bindings[0].to_dict()
+        == baseline_bindings.bindings[0].to_dict()
+    )
+    assert (
+        rejected_bindings.bindings[1].to_dict()
+        == baseline_bindings.bindings[1].to_dict()
+    )
 
 def test_revision_receipt_binds_baseline_candidate_and_tolerances(tmp_path) -> None:
     backend = Build123dBackend()
