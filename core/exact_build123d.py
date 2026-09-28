@@ -137,8 +137,12 @@ class RevisionBundleReceipt:
     candidate_feature_ir_sha256: str
     baseline_step_sha256: str
     baseline_build_receipt_sha256: str
+    baseline_requirements_sha256: str | None
+    baseline_bindings_sha256: str | None
     candidate_step_sha256: str
     candidate_build_receipt_sha256: str
+    candidate_requirements_sha256: str | None
+    candidate_bindings_sha256: str | None
     edited_requirement_ids: tuple[str, ...]
     evidence: PlanarRevisionEvidence
     unchanged_requirements_guard_passed: bool | None
@@ -988,6 +992,49 @@ class Build123dBackend:
                 "baseline STEP hash does not match its accepted build receipt"
             )
         baseline_build_receipt_sha256 = _sha256(baseline_receipt_path)
+
+        baseline_requirements_sha256: str | None = None
+        baseline_bindings_sha256: str | None = None
+        if supplied_requirement_contract:
+            assert baseline_requirements is not None
+            assert baseline_binding_set is not None
+            baseline_requirements_path = baseline_bundle / "requirements.json"
+            baseline_bindings_path = baseline_bundle / "requirement-bindings.json"
+            if (
+                baseline_requirements_path.is_symlink()
+                or baseline_bindings_path.is_symlink()
+                or not baseline_requirements_path.is_file()
+                or not baseline_bindings_path.is_file()
+            ):
+                raise Build123dCompileError(
+                    "accepted baseline is missing regular requirement artifacts"
+                )
+            baseline_requirements_sha256 = _sha256(baseline_requirements_path)
+            baseline_bindings_sha256 = _sha256(baseline_bindings_path)
+            if (
+                baseline_receipt_payload.get("requirements_sha256")
+                != baseline_requirements_sha256
+                or baseline_receipt_payload.get("bindings_sha256")
+                != baseline_bindings_sha256
+            ):
+                raise Build123dCompileError(
+                    "baseline requirement artifact hashes do not match the accepted receipt"
+                )
+            expected_requirements_sha256 = hashlib.sha256(
+                serialize_requirement_ir_json(baseline_requirements).encode("utf-8")
+            ).hexdigest()
+            expected_bindings_sha256 = hashlib.sha256(
+                serialize_binding_set_json(baseline_binding_set).encode("utf-8")
+            ).hexdigest()
+            if baseline_requirements_sha256 != expected_requirements_sha256:
+                raise Build123dCompileError(
+                    "baseline requirements do not match the supplied accepted contract"
+                )
+            if baseline_bindings_sha256 != expected_bindings_sha256:
+                raise Build123dCompileError(
+                    "baseline bindings do not match the supplied accepted contract"
+                )
+
         evidence = self.compare_planar_revision_boundary(
             baseline_program,
             candidate_program,
@@ -1058,8 +1105,12 @@ class Build123dBackend:
                 candidate_feature_ir_sha256=evidence.candidate_feature_ir_sha256,
                 baseline_step_sha256=baseline_step_sha256,
                 baseline_build_receipt_sha256=baseline_build_receipt_sha256,
+                baseline_requirements_sha256=baseline_requirements_sha256,
+                baseline_bindings_sha256=baseline_bindings_sha256,
                 candidate_step_sha256=_sha256(candidate_step),
                 candidate_build_receipt_sha256=_sha256(candidate_build_receipt),
+                candidate_requirements_sha256=candidate_receipt.requirements_sha256,
+                candidate_bindings_sha256=candidate_receipt.bindings_sha256,
                 edited_requirement_ids=tuple(edited_requirement_ids),
                 evidence=evidence,
                 unchanged_requirements_guard_passed=unchanged_requirements_guard_passed,
