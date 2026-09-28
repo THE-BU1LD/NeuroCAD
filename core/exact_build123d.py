@@ -627,6 +627,37 @@ class Build123dBackend:
                 maximum = max(maximum, float(target.distance_to(point)))
         return maximum
 
+    def _validate_planar_prism_program(
+        self,
+        program: FeatureProgram,
+        *,
+        axis: str,
+    ) -> None:
+        if len(program.features) != 2 or len(program.outputs) != 1:
+            raise Build123dCompileError(
+                "revision pilot requires exactly one sketch followed by one extrusion"
+            )
+        sketch, extrusion = program.features
+        if sketch.kind != "sketch" or extrusion.kind != "extrude":
+            raise Build123dCompileError(
+                "revision pilot requires exactly one sketch followed by one extrusion"
+            )
+        if program.outputs != (extrusion.id,) or extrusion.inputs != (sketch.id,):
+            raise Build123dCompileError(
+                "revision pilot output must be the extrusion of the pilot sketch"
+            )
+        resolved_extrusion = resolve_feature_parameters(program, extrusion)
+        if resolved_extrusion.get("operation") != "new":
+            raise Build123dCompileError(
+                "revision pilot extrusion must use operation 'new'"
+            )
+        plane = str(resolve_feature_parameters(program, sketch).get("plane", "XY")).upper()
+        expected_axis = {"XY": "z", "XZ": "y", "YZ": "x"}.get(plane)
+        if expected_axis is None or expected_axis != axis.lower():
+            raise Build123dCompileError(
+                "revision pilot comparison axis must be normal to the sketch plane"
+            )
+
     def _self_intersection_free(self, shape: Any) -> bool:
         try:
             bop_algo = importlib.import_module("OCP.BOPAlgo")
@@ -729,6 +760,8 @@ class Build123dBackend:
         if linear_tolerance_mm <= 0 or relative_scalar_tolerance < 0 or absolute_scalar_floor < 0:
             raise Build123dCompileError("revision comparison tolerances must be non-negative and linear tolerance positive")
 
+        self._validate_planar_prism_program(baseline_program, axis=axis)
+        self._validate_planar_prism_program(candidate_program, axis=axis)
         baseline_outputs = self.compile(baseline_program)
         candidate_outputs = self.compile(candidate_program)
         if len(baseline_outputs) != 1 or len(candidate_outputs) != 1:
