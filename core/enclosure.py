@@ -767,15 +767,19 @@ def _face_transform(
 ) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
     width, depth, height = spec.outer_size_mm
     u, v = center_uv
+    # Center each cutter inside its wall, not on the outer face. A centered
+    # thickness+2 cutter then has one millimetre of overtravel on both sides.
+    half_wall = spec.wall_mm / 2
     if face == "front":
-        return (u, -depth / 2, v), ((90.0, 0.0, 0.0) if circular else (0.0, 0.0, 0.0))
+        return (u, -depth / 2 + half_wall, v), ((90.0, 0.0, 0.0) if circular else (0.0, 0.0, 0.0))
     if face == "rear":
-        return (u, depth / 2, v), ((90.0, 0.0, 0.0) if circular else (0.0, 0.0, 0.0))
+        return (u, depth / 2 - half_wall, v), ((90.0, 0.0, 0.0) if circular else (0.0, 0.0, 0.0))
     if face == "left":
-        return (-width / 2, u, v), ((0.0, 90.0, 0.0) if circular else (0.0, 0.0, 0.0))
+        return (-width / 2 + half_wall, u, v), ((0.0, 90.0, 0.0) if circular else (0.0, 0.0, 0.0))
     if face == "right":
-        return (width / 2, u, v), ((0.0, 90.0, 0.0) if circular else (0.0, 0.0, 0.0))
-    z = -height / 2 if face == "bottom" else height / 2
+        return (width / 2 - half_wall, u, v), ((0.0, 90.0, 0.0) if circular else (0.0, 0.0, 0.0))
+    floor = spec.floor_mm if spec.floor_mm is not None else spec.wall_mm
+    z = -height / 2 + floor / 2 if face == "bottom" else height / 2
     return (u, v, z), (0.0, 0.0, 0.0)
 
 
@@ -840,7 +844,7 @@ def _lid_cutout_node(cutout: CutoutSpec, spec: EnclosureSpec) -> Node:
                 / 2,
                 "height": through,
             },
-            translate=(u, v, 0.0),
+            translate=(u, v, -spec.lid.lip_height_mm / 2),
             role="lid_cutout",
         )
     width, depth = cutout.size_mm or (0.0, 0.0)
@@ -848,7 +852,7 @@ def _lid_cutout_node(cutout: CutoutSpec, spec: EnclosureSpec) -> Node:
     parameters: dict[str, Any] = {"size": [width, depth, through]}
     if kind == "rounded_box":
         parameters["radius"] = cutout.corner_radius_mm
-    return _primitive_node(cutout.id, kind, parameters, translate=(u, v, 0.0), role="lid_cutout")
+    return _primitive_node(cutout.id, kind, parameters, translate=(u, v, -spec.lid.lip_height_mm / 2), role="lid_cutout")
 
 
 def _lid_vent_nodes(vent: VentPatternSpec, spec: EnclosureSpec) -> list[Node]:
