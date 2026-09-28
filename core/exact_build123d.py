@@ -823,11 +823,34 @@ class Build123dBackend:
             raise Build123dCompileError(
                 "baseline bundle must be an existing non-symlink directory"
             )
-        baseline_step = baseline_bundle / "design.step"
         baseline_receipt_path = baseline_bundle / "build-receipt.json"
-        if not baseline_step.is_file() or not baseline_receipt_path.is_file():
+        if baseline_receipt_path.is_symlink() or not baseline_receipt_path.is_file():
             raise Build123dCompileError(
-                "baseline bundle must contain design.step and build-receipt.json"
+                "baseline bundle must contain a regular build-receipt.json"
+            )
+        try:
+            baseline_receipt_payload = json.loads(
+                baseline_receipt_path.read_text(encoding="utf-8")
+            )
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise Build123dCompileError(
+                "baseline build receipt is unreadable or invalid JSON"
+            ) from exc
+        if not isinstance(baseline_receipt_payload, dict):
+            raise Build123dCompileError("baseline build receipt must be a JSON object")
+        expected_baseline_hash = _program_sha256(baseline_program)
+        if baseline_receipt_payload.get("feature_ir_sha256") != expected_baseline_hash:
+            raise Build123dCompileError(
+                "baseline build receipt does not target the supplied baseline Feature IR"
+            )
+        step_name = baseline_receipt_payload.get("step_path")
+        if not isinstance(step_name, str):
+            raise Build123dCompileError("baseline build receipt is missing step_path")
+        step_name = _validate_step_filename(step_name)
+        baseline_step = baseline_bundle / step_name
+        if baseline_step.is_symlink() or not baseline_step.is_file():
+            raise Build123dCompileError(
+                "baseline build receipt points to a missing or non-regular STEP file"
             )
 
         destination_input = output_dir.expanduser()
@@ -851,6 +874,11 @@ class Build123dBackend:
             )
 
         baseline_step_sha256 = _sha256(baseline_step)
+        receipt_step_sha256 = baseline_receipt_payload.get("step_sha256")
+        if receipt_step_sha256 != baseline_step_sha256:
+            raise Build123dCompileError(
+                "baseline STEP hash does not match its accepted build receipt"
+            )
         baseline_build_receipt_sha256 = _sha256(baseline_receipt_path)
         evidence = self.compare_planar_revision_boundary(
             baseline_program,
