@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "case_id": "rimac-gbx700-coreform-dirty-cad-v1",
+  "purpose": "DEVELOPMENT_CAPTURE",
+  "cubit_version": "NOT_YET_RECORDED",
+  "input_format": "NOT_YET_RECORDED",
+  "units": "NOT_YET_RECORDED",
+  "source_reference": "https://grabcad.com/library/rimac-automobili-gbx-700-1",
+  "rights_status": "VERIFY_BEFORE_DOWNLOAD_OR_REDISTRIBUTION",
+  "import_settings": {},
+  "target_mesh_size": 1.0,
+  "interface_assumptions": "FREEZE_BEFORE_EXECUTION: identify intended clearances, contacts, and shared-node interfaces.",
+  "repair_description": "No repair performed. Baseline experiment has not been executed.",
+  "mesh_settings": "NOT_RUN",
+  "as_imported_model": {
+    "path": "REPLACE_WITH_LOCAL_BASELINE_FILENAME",
+    "sha256": "REPLACE_WITH_ACTUAL_SHA256"
+  },
+  "repaired_model": null,
+  "stages": {
+    "geometry_before": {
+      "status": "NOT_RUN",
+      "command": null,
+      "evidence": null
+    },
+    "geometry_after": {
+      "status": "NOT_RUN",
+      "command": null,
+      "evidence": null
+    },
+    "tet_meshing": {
+      "status": "NOT_RUN",
+      "command": null,
+      "evidence": null
+    }
+  }
+}

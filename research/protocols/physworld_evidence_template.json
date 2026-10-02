@@ -1,0 +1,41 @@
+{
+  "schema_version": "physworld-evidence-v1",
+  "case_id": "example-case",
+  "title": "Example case - replace before execution",
+  "source_identity": {
+    "url": "https://example.invalid/source",
+    "retrieved_at": "REPLACE_WITH_ACTUAL_TIMESTAMP",
+    "format": "STEP"
+  },
+  "baseline_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "provenance": {
+    "tool_versions": {
+      "example_tool": "REPLACE_WITH_ACTUAL_VERSION"
+    },
+    "commands": [],
+    "units": "mm",
+    "import_settings": {}
+  },
+  "visual_plausibility": {
+    "applicable": true,
+    "status": "not_run",
+    "evidence": []
+  },
+  "geometry_validity": {
+    "applicable": true,
+    "status": "not_run",
+    "evidence": []
+  },
+  "revision_integrity": {
+    "applicable": false,
+    "status": "na",
+    "evidence": []
+  },
+  "meshability": {
+    "applicable": true,
+    "status": "not_run",
+    "evidence": []
+  },
+  "derived_artifacts": [],
+  "notes": "Template only. Do not treat as evidence."
+}
