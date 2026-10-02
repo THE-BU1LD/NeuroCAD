@@ -1,8 +1,9 @@
 # NeuroCAD for Physical-World AI: Evidence-Preserving Geometry Validation Across Revision and Meshing Workflows
 
-**Target:** NeurIPS 2026 Workshop on Physical World AI: Geometry, Characteristics, and Multimodal Sensing  
-**Track:** Non-archival workshop submission  
-**Status:** Submission draft scaffold; claims frozen conservatively pending execution of the external geometry cases  
+**Reference workshop:** NeurIPS 2026 Workshop on Physical World AI: Geometry, Characteristics, and Multimodal Sensing  
+**2026 CFP status:** Closed; official contribution deadline was August 29, 2026  
+**Current output:** 4-page conference technical brief + evidence-complete 2027/preprint manuscript pipeline  
+**Status:** Claims frozen conservatively pending execution of the external geometry cases  
 **Primary repository issue:** #82
 
 ## Abstract
@@ -179,7 +180,7 @@ A failed mesh remains a reportable and useful outcome.
 
 ## 7. Primary results table
 
-The final submission should contain a compact table of this form:
+The final technical brief and full manuscript should contain a compact table of this form:
 
 | Case | Visual plausibility | Geometry validity | Revision invariants | Meshability | Notes |
 |---|---|---|---|---|---|
@@ -225,7 +226,7 @@ The workflow does not establish full engineering correctness. Geometry validity,
 
 The controlled language/compiler experiments remain useful implementation evidence but are not evidence of broad natural-language generalization. The historical claim that a typed parser caused learned-model improvement remains falsified and is outside this submission.
 
-## 11. Submission completion gates
+## 11. Completion gates
 
 - [ ] Execute and retain the dirty-CAD baseline.
 - [ ] Execute and retain at least one derived repair path.
@@ -235,9 +236,10 @@ The controlled language/compiler experiments remain useful implementation eviden
 - [ ] Generate the evidence-flow figure.
 - [ ] Run a claim-to-artifact audit.
 - [ ] Write related work using verified primary sources.
-- [ ] Convert this scaffold to the workshop's required paper template.
-- [ ] Produce and visually inspect the final PDF.
-- [ ] Record the exact submitted revision and OpenReview identifier.
+- [ ] Produce a concise 4-page NeurIPS-conversation brief in NeurIPS style.
+- [ ] Produce and visually inspect the conference-brief PDF.
+- [ ] Produce a full preprint/2027-submission manuscript after evidence gates pass.
+- [ ] Record the exact public/preprint or future submitted revision when applicable.
 
 ## References to repository evidence
 
