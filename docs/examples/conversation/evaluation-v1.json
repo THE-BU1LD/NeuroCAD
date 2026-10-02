@@ -1,0 +1,1207 @@
+{
+  "version": "neurocad-conversation-regression-v1",
+  "claim": "200 constructed regression executions; repeated templates, not independent or human-reviewed prompts; no general language accuracy claim",
+  "baseline": "baseline.json",
+  "cases": [
+    {
+      "id": "conversation-001",
+      "source": "walls 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-002",
+      "source": "please make the walls like 3.1mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-003",
+      "source": "wals thikness 3.2 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-004",
+      "source": "okay just walls 3.3mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-005",
+      "source": "walls 0.34cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-006",
+      "source": "walls 2.5mm actually 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-007",
+      "source": "walls 3.1mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-008",
+      "source": "walls 3.2mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-009",
+      "source": "walls 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-010",
+      "source": "please make the walls like 3.4mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-011",
+      "source": "wals thikness 3.0 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-012",
+      "source": "okay just walls 3.1mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-013",
+      "source": "walls 0.32cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-014",
+      "source": "walls 2.5mm actually 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-015",
+      "source": "walls 3.4mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-016",
+      "source": "walls 3.0mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-017",
+      "source": "walls 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-018",
+      "source": "please make the walls like 3.2mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-019",
+      "source": "wals thikness 3.3 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-020",
+      "source": "okay just walls 3.4mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-021",
+      "source": "walls 0.30cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-022",
+      "source": "walls 2.5mm actually 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-023",
+      "source": "walls 3.2mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-024",
+      "source": "walls 3.3mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-025",
+      "source": "walls 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-026",
+      "source": "please make the walls like 3.0mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-027",
+      "source": "wals thikness 3.1 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-028",
+      "source": "okay just walls 3.2mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-029",
+      "source": "walls 0.33cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-030",
+      "source": "walls 2.5mm actually 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-031",
+      "source": "walls 3.0mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-032",
+      "source": "walls 3.1mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-033",
+      "source": "walls 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-034",
+      "source": "please make the walls like 3.3mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-035",
+      "source": "wals thikness 3.4 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-036",
+      "source": "okay just walls 3.0mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-037",
+      "source": "walls 0.31cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-038",
+      "source": "walls 2.5mm actually 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-039",
+      "source": "walls 3.3mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-040",
+      "source": "walls 3.4mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-041",
+      "source": "walls 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-042",
+      "source": "please make the walls like 3.1mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-043",
+      "source": "wals thikness 3.2 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-044",
+      "source": "okay just walls 3.3mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-045",
+      "source": "walls 0.34cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-046",
+      "source": "walls 2.5mm actually 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-047",
+      "source": "walls 3.1mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-048",
+      "source": "walls 3.2mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-049",
+      "source": "walls 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-050",
+      "source": "please make the walls like 3.4mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-051",
+      "source": "wals thikness 3.0 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-052",
+      "source": "okay just walls 3.1mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-053",
+      "source": "walls 0.32cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-054",
+      "source": "walls 2.5mm actually 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-055",
+      "source": "walls 3.4mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-056",
+      "source": "walls 3.0mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-057",
+      "source": "walls 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-058",
+      "source": "please make the walls like 3.2mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-059",
+      "source": "wals thikness 3.3 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-060",
+      "source": "okay just walls 3.4mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-061",
+      "source": "walls 0.30cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-062",
+      "source": "walls 2.5mm actually 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-063",
+      "source": "walls 3.2mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-064",
+      "source": "walls 3.3mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-065",
+      "source": "walls 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-066",
+      "source": "please make the walls like 3.0mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-067",
+      "source": "wals thikness 3.1 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-068",
+      "source": "okay just walls 3.2mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-069",
+      "source": "walls 0.33cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-070",
+      "source": "walls 2.5mm actually 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-071",
+      "source": "walls 3.0mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-072",
+      "source": "walls 3.1mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-073",
+      "source": "walls 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-074",
+      "source": "please make the walls like 3.3mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-075",
+      "source": "wals thikness 3.4 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-076",
+      "source": "okay just walls 3.0mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-077",
+      "source": "walls 0.31cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-078",
+      "source": "walls 2.5mm actually 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-079",
+      "source": "walls 3.3mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-080",
+      "source": "walls 3.4mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-081",
+      "source": "walls 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-082",
+      "source": "please make the walls like 3.1mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-083",
+      "source": "wals thikness 3.2 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-084",
+      "source": "okay just walls 3.3mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-085",
+      "source": "walls 0.34cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-086",
+      "source": "walls 2.5mm actually 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-087",
+      "source": "walls 3.1mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-088",
+      "source": "walls 3.2mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-089",
+      "source": "walls 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-090",
+      "source": "please make the walls like 3.4mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-091",
+      "source": "wals thikness 3.0 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-092",
+      "source": "okay just walls 3.1mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-093",
+      "source": "walls 0.32cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-094",
+      "source": "walls 2.5mm actually 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-095",
+      "source": "walls 3.4mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-096",
+      "source": "walls 3.0mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-097",
+      "source": "walls 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-098",
+      "source": "please make the walls like 3.2mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-099",
+      "source": "wals thikness 3.3 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-100",
+      "source": "okay just walls 3.4mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-101",
+      "source": "walls 0.30cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-102",
+      "source": "walls 2.5mm actually 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-103",
+      "source": "walls 3.2mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-104",
+      "source": "walls 3.3mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-105",
+      "source": "walls 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-106",
+      "source": "please make the walls like 3.0mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-107",
+      "source": "wals thikness 3.1 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-108",
+      "source": "okay just walls 3.2mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-109",
+      "source": "walls 0.33cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-110",
+      "source": "walls 2.5mm actually 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-111",
+      "source": "walls 3.0mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-112",
+      "source": "walls 3.1mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-113",
+      "source": "walls 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-114",
+      "source": "please make the walls like 3.3mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-115",
+      "source": "wals thikness 3.4 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-116",
+      "source": "okay just walls 3.0mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-117",
+      "source": "walls 0.31cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-118",
+      "source": "walls 2.5mm actually 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-119",
+      "source": "walls 3.3mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-120",
+      "source": "walls 3.4mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-121",
+      "source": "walls 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-122",
+      "source": "please make the walls like 3.1mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-123",
+      "source": "wals thikness 3.2 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-124",
+      "source": "okay just walls 3.3mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-125",
+      "source": "walls 0.34cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-126",
+      "source": "walls 2.5mm actually 3.0mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-127",
+      "source": "walls 3.1mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-128",
+      "source": "walls 3.2mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-129",
+      "source": "walls 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-130",
+      "source": "please make the walls like 3.4mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-131",
+      "source": "wals thikness 3.0 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-132",
+      "source": "okay just walls 3.1mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-133",
+      "source": "walls 0.32cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-134",
+      "source": "walls 2.5mm actually 3.3mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-135",
+      "source": "walls 3.4mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-136",
+      "source": "walls 3.0mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-137",
+      "source": "walls 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-138",
+      "source": "please make the walls like 3.2mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-139",
+      "source": "wals thikness 3.3 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-140",
+      "source": "okay just walls 3.4mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-141",
+      "source": "walls 0.30cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-142",
+      "source": "walls 2.5mm actually 3.1mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-143",
+      "source": "walls 3.2mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-144",
+      "source": "walls 3.3mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-145",
+      "source": "walls 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-146",
+      "source": "please make the walls like 3.0mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-147",
+      "source": "wals thikness 3.1 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-148",
+      "source": "okay just walls 3.2mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-149",
+      "source": "walls 0.33cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-150",
+      "source": "walls 2.5mm actually 3.4mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-151",
+      "source": "walls 3.0mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-152",
+      "source": "walls 3.1mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-153",
+      "source": "walls 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-154",
+      "source": "please make the walls like 3.3mm thick",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-155",
+      "source": "wals thikness 3.4 mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-156",
+      "source": "okay just walls 3.0mm please",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.0
+    },
+    {
+      "id": "conversation-157",
+      "source": "walls 0.31cm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.1
+    },
+    {
+      "id": "conversation-158",
+      "source": "walls 2.5mm actually 3.2mm",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.2
+    },
+    {
+      "id": "conversation-159",
+      "source": "walls 3.3mm and dont move the outside",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.3
+    },
+    {
+      "id": "conversation-160",
+      "source": "walls 3.4mm and dont lose that hole",
+      "expected_status": "proposal",
+      "expected_wall_mm": 3.4
+    },
+    {
+      "id": "conversation-161",
+      "source": "make it thicker",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-162",
+      "source": "wall thickness 3",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-163",
+      "source": "walls 3mm and walls 4mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-164",
+      "source": "walls 2mm and walls 3mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-165",
+      "source": "walls 40mm",
+      "expected_status": "rejected",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-166",
+      "source": "walls 3mm and add a warp drive",
+      "expected_status": "unsupported",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-167",
+      "source": "resize enclosure to 90 x 60 x 30 mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-168",
+      "source": "corner radius 4mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-169",
+      "source": "make it thicker",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-170",
+      "source": "wall thickness 3",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-171",
+      "source": "walls 3mm and walls 4mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-172",
+      "source": "walls 2mm and walls 3mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-173",
+      "source": "walls 40mm",
+      "expected_status": "rejected",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-174",
+      "source": "walls 3mm and add a warp drive",
+      "expected_status": "unsupported",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-175",
+      "source": "resize enclosure to 90 x 60 x 30 mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-176",
+      "source": "corner radius 4mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-177",
+      "source": "make it thicker",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-178",
+      "source": "wall thickness 3",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-179",
+      "source": "walls 3mm and walls 4mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-180",
+      "source": "walls 2mm and walls 3mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-181",
+      "source": "walls 40mm",
+      "expected_status": "rejected",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-182",
+      "source": "walls 3mm and add a warp drive",
+      "expected_status": "unsupported",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-183",
+      "source": "resize enclosure to 90 x 60 x 30 mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-184",
+      "source": "corner radius 4mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-185",
+      "source": "make it thicker",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-186",
+      "source": "wall thickness 3",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-187",
+      "source": "walls 3mm and walls 4mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-188",
+      "source": "walls 2mm and walls 3mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-189",
+      "source": "walls 40mm",
+      "expected_status": "rejected",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-190",
+      "source": "walls 3mm and add a warp drive",
+      "expected_status": "unsupported",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-191",
+      "source": "resize enclosure to 90 x 60 x 30 mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-192",
+      "source": "corner radius 4mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-193",
+      "source": "make it thicker",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-194",
+      "source": "wall thickness 3",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-195",
+      "source": "walls 3mm and walls 4mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-196",
+      "source": "walls 2mm and walls 3mm",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-197",
+      "source": "walls 40mm",
+      "expected_status": "rejected",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-198",
+      "source": "walls 3mm and add a warp drive",
+      "expected_status": "unsupported",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-199",
+      "source": "resize enclosure to 90 x 60 x 30 mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    },
+    {
+      "id": "conversation-200",
+      "source": "corner radius 4mm and keep the outside same",
+      "expected_status": "clarification",
+      "expected_wall_mm": null
+    }
+  ]
+}

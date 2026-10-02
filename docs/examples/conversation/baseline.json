@@ -1,0 +1,48 @@
+{
+  "changes": [],
+  "phrase_mappings": [],
+  "project_id": "conversation-example",
+  "revision": 1,
+  "source_text": null,
+  "spec": {
+    "corner_radius_mm": 0.0,
+    "cutouts": [
+      {
+        "center_uv_mm": [
+          0,
+          10
+        ],
+        "corner_radius_mm": 0.0,
+        "diameter_mm": 4,
+        "face": "front",
+        "id": "power",
+        "kind": "circular",
+        "purpose": "generic",
+        "size_mm": null
+      }
+    ],
+    "floor_mm": 2,
+    "lid": {
+      "clearance_mm": 0.3,
+      "fastener_positions_xy_mm": [],
+      "hardware": null,
+      "kind": "friction",
+      "lip_height_mm": 2,
+      "thickness_mm": 2.5
+    },
+    "outer_size_mm": [
+      80,
+      60,
+      30
+    ],
+    "pcb": null,
+    "profile": "fdm_standard",
+    "standoffs": [],
+    "title": "electronics enclosure",
+    "units": "mm",
+    "vents": [],
+    "version": "neurocad-enclosure-v1",
+    "wall_mm": 2
+  },
+  "version": "neurocad-project-v1"
+}

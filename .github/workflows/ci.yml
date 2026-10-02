@@ -72,6 +72,18 @@ jobs:
       - name: Lint maintained product
         run: python -m ruff check core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py tests
 
+      - name: Run constructed conversational parser regression
+        run: python scripts/evaluate_conversational_parser.py --output-dir "${{ runner.temp }}/conversation-evaluation"
+
+      - name: Retain conversational parser evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: conversation-python-${{ matrix.python-version }}
+          path: ${{ runner.temp }}/conversation-evaluation/
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Type-check maintained product and research tooling
         if: startsWith(matrix.python-version, '3.12.')
         run: python -m mypy core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py

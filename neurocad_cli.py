@@ -1453,6 +1453,57 @@ def cmd_enclosure_interpret(args: argparse.Namespace) -> int:
     return _run_enclosure_interpretation(args, human_default=False)
 
 
+def cmd_enclosure_understand(args: argparse.Namespace) -> int:
+    from core.conversational_parser import parse_conversation
+    from core.json_io import strict_json_loads
+    from core.language_provider import ChatLanguageProvider
+    from core.project import read_project
+
+    destination = _resolved_path(args.output) if args.output else None
+    _require_distinct_paths(project=Path(args.project).resolve(), proposal=destination,
+                            history=Path(args.history).resolve() if args.history else None)
+    if destination is not None:
+        _require_new_path(destination, label="language proposal")
+    project = read_project(Path(args.project))
+    source = _prompt(args.prompt)
+    if args.provider_url or args.model:
+        if not args.provider_url or not args.model:
+            raise ValueError("Both --provider-url and --model are required for model-backed interpretation")
+        history = strict_json_loads(read_bounded_utf8(Path(args.history), max_bytes=32768, label="conversation history")) if args.history else None
+        provider = ChatLanguageProvider(endpoint=args.provider_url, model=args.model,
+                                        api_key=os.environ.get("NEUROCAD_LANGUAGE_API_KEY", ""),
+                                        timeout_seconds=args.timeout_seconds)
+        proposal = provider.interpret(source, project, recent_messages=history)
+    else:
+        if args.history:
+            raise ValueError("Conversation history requires an explicitly configured language provider")
+        proposal = parse_conversation(source, project)
+    encoded = json.dumps(proposal.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n"
+    if destination is not None:
+        write_text_atomic(destination, encoded)
+    print(encoded, end="")
+    return 0 if proposal.status in {"proposal", "unchanged"} else 2
+
+
+def cmd_enclosure_apply_proposal(args: argparse.Namespace) -> int:
+    from core.conversational_parser import apply_proposal, review_saved_proposal
+    from core.json_io import strict_json_loads
+    from core.project import read_project, write_project
+
+    if not args.confirm:
+        raise ValueError("Review the proposal and supply --confirm before applying it")
+    project_path, proposal_path, destination = Path(args.project), Path(args.proposal), _resolved_path(args.output)
+    _require_distinct_paths(project=project_path.resolve(), proposal=proposal_path.resolve(), output=destination)
+    _require_new_path(destination, label="reviewed project")
+    project = read_project(project_path)
+    raw = strict_json_loads(read_bounded_utf8(proposal_path, max_bytes=262144, label="language proposal"))
+    proposal = review_saved_proposal(raw, project)
+    candidate = apply_proposal(proposal, project, confirmed=True)
+    write_project(destination, candidate)
+    print(destination)
+    return 0
+
+
 def cmd_nlp(args: argparse.Namespace) -> int:
     return _run_enclosure_interpretation(args, human_default=True)
 
@@ -2277,6 +2328,23 @@ def build_parser() -> argparse.ArgumentParser:
     enclosure_interpret_output.add_argument("--human", action="store_true", help="Print a terminal-oriented explanation")
     enclosure_interpret_output.add_argument("--json", action="store_true", help="Print machine-readable JSON (the default)")
     enclosure_interpret.set_defaults(func=cmd_enclosure_interpret)
+
+    enclosure_understand = enclosure_actions.add_parser("understand", help="Propose reviewed conversational edits against an existing enclosure")
+    enclosure_understand.add_argument("project", help="Existing enclosure project; never modified by this command")
+    enclosure_understand.add_argument("prompt", nargs="+", help="Original conversational edit request")
+    enclosure_understand.add_argument("-o", "--output", help="New auditable proposal JSON file")
+    enclosure_understand.add_argument("--provider-url", help="Explicit Chat Completions endpoint; HTTPS or loopback HTTP")
+    enclosure_understand.add_argument("--model", help="Explicit provider model ID; key comes from NEUROCAD_LANGUAGE_API_KEY")
+    enclosure_understand.add_argument("--history", help="JSON array of up to ten recent messages, for model-backed interpretation")
+    enclosure_understand.add_argument("--timeout-seconds", type=float, default=30, help="Provider socket timeout (0.1 through 120 seconds)")
+    enclosure_understand.set_defaults(func=cmd_enclosure_understand)
+
+    enclosure_apply_proposal = enclosure_actions.add_parser("apply-proposal", help="Apply a reviewed proposal to a new project file")
+    enclosure_apply_proposal.add_argument("project", help="Original project matching the proposal's baseline hash")
+    enclosure_apply_proposal.add_argument("proposal", help="Reviewed proposal JSON from enclosure understand")
+    enclosure_apply_proposal.add_argument("-o", "--output", required=True, help="New project file; baseline is preserved")
+    enclosure_apply_proposal.add_argument("--confirm", action="store_true", help="Explicitly confirm the reviewed interpretation")
+    enclosure_apply_proposal.set_defaults(func=cmd_enclosure_apply_proposal)
 
     enclosure_build = enclosure_actions.add_parser("build", help="Build a new collision-refusing enclosure artifact bundle")
     enclosure_build.add_argument("project", help="NeuroCAD enclosure project JSON")

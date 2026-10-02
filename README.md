@@ -349,6 +349,13 @@ neurocad enclosure verify controller-r2
 hashes, project metadata, regenerated canonical IR and OpenSCAD, fabrication
 preflight, and current request-level mesh evidence for compiled bundles.
 
+For conversational edits, `neurocad enclosure understand PROJECT "walls 3mm and dont move the outside"`
+returns a reviewable, context-bound proposal. The local parser supports documented
+messy phrasing; an explicitly configured Chat Completions provider supports broader
+interpretation. Neither path applies changes automatically. See
+[the conversational parser workflow](docs/CONVERSATIONAL_PARSER.md) for model
+configuration, clarification, explicit review and the bounded acceptance contract.
+
 Inspect application support and create a verified file handoff:
 
 ```bash
