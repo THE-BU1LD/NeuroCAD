@@ -1,11 +1,13 @@
-"""Reproduce the frozen C3D pilot through the maintained CLI, preserving evidence."""
+"""Reproduce the frozen C3D pilot through the maintained CLI, preserving evidence.
+
+Process calls use fixed executable argv; no shell or prompt-generated commands.
+"""
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
 import shutil
-# Fixed executable argv; no shell or prompt-generated commands.
 import subprocess  # nosec B404
 import sys
 from importlib.metadata import version
