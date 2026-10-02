@@ -102,7 +102,15 @@ def validate_receipt(path: Path, *, strict: bool) -> dict[str, Any]:
 
 def cell(dimension: dict[str, Any]) -> str:
     status = dimension["status"]
-    return {"pass": "PASS", "fail": "FAIL", "not_run": "NOT RUN", "na": "N/A"}[status]
+    if status == "pass":
+        return "PASS"
+    if status == "fail":
+        return "FAIL"
+    if status == "not_run":
+        return "NOT RUN"
+    if status == "na":
+        return "N/A"
+    raise ValueError(f"unsupported result status: {status!r}")
 
 
 def compile_results(receipts: list[dict[str, Any]]) -> tuple[str, dict[str, Any]]:
