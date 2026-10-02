@@ -15,8 +15,10 @@ def cmd_step(args: argparse.Namespace) -> int:
     if source.resolve() == destination.resolve():
         raise ValueError("STEP input and mesh output directory must be distinct")
     # Preserve the original paths so the backend can reject symlink inputs.
+    policy = {} if args.minimum_sicn is None else {"minimum_sicn": args.minimum_sicn}
     receipt = GmshProcessBackend(timeout_seconds=args.timeout_seconds).mesh_step(
         source, destination, min_size_mm=args.min_size, max_size_mm=args.max_size,
+        **policy,
     )
     print(json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False))
     return 0
@@ -33,6 +35,7 @@ def build_parser() -> argparse.ArgumentParser:
     step.add_argument("--output-dir", required=True, help="New output directory; existing paths are refused")
     step.add_argument("--max-size", type=float, required=True, help="Maximum target element size in mm")
     step.add_argument("--min-size", type=float, help="Minimum target size in mm; defaults to max(0.01, max-size/5)")
+    step.add_argument("--minimum-sicn", type=float, help="Require minimum element SICN in (0, 1] before publication; not solver certification")
     step.add_argument("--timeout-seconds", type=float, default=DEFAULT_TIMEOUT_SECONDS,
                       help="Native worker wait limit, 0.1 to 3600 seconds (default: 120); not a RAM/CPU quota")
     step.set_defaults(func=cmd_step)

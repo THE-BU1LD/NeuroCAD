@@ -109,6 +109,37 @@ def _use_fixture_worker(monkeypatch, mode="success"):
     monkeypatch.setattr(module, "_worker_command", command)
 
 
+@pytest.mark.parametrize("floor", [0.001, 0.1, 0.5])
+def test_quality_floor_accepts_and_records_equal_or_better_quality(monkeypatch, source, tmp_path, floor):
+    _use_fixture_worker(monkeypatch)
+    destination = tmp_path / "quality-accepted"
+    GmshProcessBackend().mesh_step(source, destination, max_size_mm=3, minimum_sicn=floor)
+    execution = json.loads((destination / "execution-receipt.json").read_text(encoding="utf-8"))
+    assert execution["quality_policy"]["minimum_required"] == floor
+    assert execution["quality_policy"]["observed"] == 0.5
+    assert execution["quality_policy"]["passed"] is True
+
+
+@pytest.mark.parametrize("mode,floor", [("success", 0.6), ("null_quality", 0.1)])
+def test_quality_floor_rejection_preserves_source_and_publishes_nothing(monkeypatch, source, tmp_path, mode, floor):
+    _use_fixture_worker(monkeypatch, mode)
+    before = source.read_bytes()
+    destination = tmp_path / "quality-rejected"
+    with pytest.raises(GmshMeshingError, match="mesh quality policy failed"):
+        GmshProcessBackend().mesh_step(source, destination, max_size_mm=3, minimum_sicn=floor)
+    assert not destination.exists()
+    assert source.read_bytes() == before
+    assert not list(tmp_path.glob(".neurocad-gmsh-worker-*"))
+
+
+@pytest.mark.parametrize("floor", [True, 0, -1, 1.1, float("nan"), float("inf")])
+def test_invalid_quality_floor_fails_before_workspace_creation(source, tmp_path, floor):
+    output = tmp_path / "parent" / "out"
+    with pytest.raises((TypeError, ValueError), match="minimum_sicn"):
+        GmshProcessBackend().mesh_step(source, output, max_size_mm=3, minimum_sicn=floor)
+    assert not output.parent.exists()
+
+
 @pytest.mark.parametrize("value", [True, False, None, "120", 0, -1, 0.09, 3601, float("nan"), float("inf"), -float("inf"), 10 ** 1000])
 def test_timeout_contract_rejects_invalid_values(value):
     with pytest.raises((TypeError, ValueError), match="timeout_seconds"):

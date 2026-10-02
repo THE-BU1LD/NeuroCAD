@@ -11,7 +11,8 @@ pytest.importorskip("gmsh")
 
 from core.exact_build123d import Build123dBackend
 from core.feature_ir import EntitySelector, Feature, FeatureProgram, serialize_feature_ir_json
-from core.gmsh_backend import GmshBackend
+from core.gmsh_backend import GmshBackend, GmshMeshingError
+from core.gmsh_process import GmshProcessBackend
 from core.mesh_cli import build_parser as build_mesh_parser
 from neurocad_cli import build_parser
 
@@ -101,3 +102,26 @@ def test_both_cli_commands_form_one_hash_bound_pipeline(tmp_path, capsys):
     assert execution["source_step_sha256"] == mesh["source_step_sha256"]
     assert execution["mesh_sha256"] == mesh["mesh_sha256"]
     assert execution["meshing_receipt_sha256"] == hashlib.sha256((mesh_dir / "meshing-receipt.json").read_bytes()).hexdigest()
+
+
+def test_native_quality_policy_accepts_or_rejects_before_publication(tmp_path):
+    exact_dir = tmp_path / "exact"
+    Build123dBackend().export_verified_step(_program("box"), exact_dir)
+    source = exact_dir / "design.step"
+    source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    backend = GmshProcessBackend()
+    accepted = tmp_path / "accepted"
+    receipt = backend.mesh_step(source, accepted, min_size_mm=0.5, max_size_mm=3.0,
+                                minimum_sicn=0.000001)
+    _check_mesh(receipt, source, accepted, source_hash)
+    assert receipt.min_sicn is not None and receipt.min_sicn < 1.0
+    execution = json.loads((accepted / "execution-receipt.json").read_text(encoding="utf-8"))
+    assert execution["quality_policy"]["minimum_required"] == 0.000001
+    assert execution["quality_policy"]["observed"] == receipt.min_sicn
+    assert execution["quality_policy"]["passed"] is True
+    rejected = tmp_path / "rejected"
+    with pytest.raises(GmshMeshingError, match="mesh quality policy failed"):
+        backend.mesh_step(source, rejected, min_size_mm=0.5, max_size_mm=3.0,
+                          minimum_sicn=1.0)
+    assert not rejected.exists()
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == source_hash

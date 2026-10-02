@@ -174,9 +174,19 @@ class GmshProcessBackend:
 
     def mesh_step(
         self, source_step: Path, output_dir: Path, *,
-        max_size_mm: float, min_size_mm: float | None = None,
+        max_size_mm: float, min_size_mm: float | None = None, minimum_sicn: float | None = None,
     ) -> GmshMeshReceipt:
         timeout = _validate_timeout(self.timeout_seconds)
+        if minimum_sicn is not None:
+            if isinstance(minimum_sicn, bool) or not isinstance(minimum_sicn, (int, float)):
+                raise ValueError("minimum_sicn must be a finite number in (0, 1]")
+            try:
+                valid_floor = math.isfinite(minimum_sicn) and 0 < minimum_sicn <= 1
+            except OverflowError:
+                valid_floor = False
+            if not valid_floor:
+                raise ValueError("minimum_sicn must be a finite number in (0, 1]")
+            minimum_sicn = float(minimum_sicn)
         maximum = _finite_positive(max_size_mm, name="max_size_mm")
         minimum = _finite_positive(
             max(0.01, maximum / 5.0) if min_size_mm is None else min_size_mm, name="min_size_mm",
@@ -207,6 +217,11 @@ class GmshProcessBackend:
             if returncode != 0:
                 raise GmshMeshingError(_worker_error(workspace, returncode))
             receipt = _verified_receipt(bundle, source_hash, source_bytes, minimum, maximum)
+            if minimum_sicn is not None and (receipt.min_sicn is None or receipt.min_sicn < minimum_sicn):
+                raise GmshMeshingError(
+                    f"mesh quality policy failed: minimum SICN {receipt.min_sicn!r} "
+                    f"is below required {minimum_sicn:g} or unavailable; no mesh bundle was published"
+                )
             execution = {
                 "receipt_version": EXECUTION_RECEIPT_VERSION, "status": "success",
                 "supervisor": "single-worker-subprocess", "worker_returncode": returncode,
@@ -215,6 +230,12 @@ class GmshProcessBackend:
                 "meshing_receipt_sha256": _sha256(bundle / "meshing-receipt.json"),
                 "claim_boundary": "worker-wait timeout only; not RAM/CPU quotas, process-tree isolation or a whole-command deadline",
             }
+            if minimum_sicn is not None:
+                execution["quality_policy"] = {
+                    "metric": "minimum_sicn", "minimum_required": minimum_sicn,
+                    "observed": receipt.min_sicn, "passed": True,
+                    "claim_boundary": "caller-selected element quality floor; not solver convergence or physical certification",
+                }
             (bundle / "execution-receipt.json").write_text(
                 json.dumps(execution, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8",
             )

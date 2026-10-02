@@ -88,6 +88,13 @@ def test_mesh_companion_accepts_explicit_worker_timeout():
     assert args.timeout_seconds == 2.5
 
 
+def test_mesh_companion_exposes_explicit_quality_floor():
+    args = mesh_cli.build_parser().parse_args([
+        "step", "part.step", "--output-dir", "new-mesh", "--max-size", "3", "--minimum-sicn", "0.1",
+    ])
+    assert args.minimum_sicn == 0.1
+
+
 @pytest.mark.parametrize("timeout", ["0", "nan", "3601"])
 def test_mesh_companion_rejects_invalid_timeout_before_native_import(timeout, tmp_path, capsys):
     with pytest.raises(SystemExit) as result:
