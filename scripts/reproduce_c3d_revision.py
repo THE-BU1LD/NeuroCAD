@@ -78,11 +78,12 @@ def main() -> None:
     valid = (evidence["passed"] and before == after and not rejected.exists()
              and inspection.valid_brep and inspection.manifold and inspection.solid_count == 1
              and checks.satisfied_for_all_must)
+    source_ref = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True, check=False)
     report = {
         "scope": "frozen C3D v0.1 planar wall-thickness revision",
         "passed": valid, "python": sys.version,
         "dependencies": {key: version(key) for key in ("build123d", "cadquery-ocp", "numpy", "trimesh", "jsonschema")},
-        "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
+        "source_commit": source_ref.stdout.strip() if source_ref.returncode == 0 else None,
         "source_sha256": {
             name: hashlib.sha256((root / name).read_bytes()).hexdigest()
             for name in ("neurocad_cli.py", "core/exact_build123d.py", "core/requirement_verification.py",
