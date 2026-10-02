@@ -356,6 +356,11 @@ interpretation. Neither path applies changes automatically. See
 [the conversational parser workflow](docs/CONVERSATIONAL_PARSER.md) for model
 configuration, clarification, explicit review and the bounded acceptance contract.
 
+Measure intended edits separately from geometric validity with
+`neurocad-language-eval CHALLENGE.json --output-dir NEW_DIRECTORY`. See
+[language evaluation](docs/LANGUAGE_EVALUATION.md) for local/live model runs,
+complete-spec scoring, failure retention and the independent benchmark boundary.
+
 Inspect application support and create a verified file handoff:
 
 ```bash

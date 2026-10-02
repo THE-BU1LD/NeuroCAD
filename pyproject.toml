@@ -53,6 +53,7 @@ Repository = "https://github.com/THE-BU1LD/NeuroCAD"
 [project.scripts]
 neurocad = "neurocad_cli:main"
 neurocad-mesh = "core.mesh_cli:main"
+neurocad-language-eval = "core.language_evaluation:main"
 text-to-cad = "text_to_openscad:main"
 
 [tool.setuptools]

@@ -75,12 +75,34 @@ jobs:
       - name: Run constructed conversational parser regression
         run: python scripts/evaluate_conversational_parser.py --output-dir "${{ runner.temp }}/conversation-evaluation"
 
+      - name: Retain language intent diagnostics
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          import sys
+          from pathlib import Path
+          output = Path("${{ runner.temp }}") / "language-intent-evaluation"
+          run = subprocess.run([sys.executable, "-m", "core.language_evaluation",
+                                "docs/examples/conversation/language-challenge-v1.json",
+                                "--output-dir", str(output)], check=False)
+          if run.returncode not in (0, 2):
+              raise SystemExit(run.returncode)
+          summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
+          assert summary["completed_cases"] == summary["case_count"]
+          assert summary["baseline_unchanged"] and summary["provider_error_count"] == 0
+          assert summary["unsafe_acceptance_count"] == 0
+          # Semantic misses remain visible; this is diagnostics, not a perfect-accuracy gate.
+          PY
+
       - name: Retain conversational parser evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: conversation-python-${{ matrix.python-version }}
-          path: ${{ runner.temp }}/conversation-evaluation/
+          path: |
+            ${{ runner.temp }}/conversation-evaluation/
+            ${{ runner.temp }}/language-intent-evaluation/
           if-no-files-found: warn
           retention-days: 14
 
