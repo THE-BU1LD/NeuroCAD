@@ -26,12 +26,12 @@ def read_json(path: Path) -> Any:
 
 def validate_dimension(case_id: str, name: str, value: Any, *, strict: bool) -> dict[str, Any]:
     if not isinstance(value, dict):
-        raise ValueError(f"{case_id}: {name} must be an object")
+        raise TypeError(f"{case_id}: {name} must be an object")
     applicable = value.get("applicable")
     status = value.get("status")
     evidence = value.get("evidence", [])
     if not isinstance(applicable, bool):
-        raise ValueError(f"{case_id}: {name}.applicable must be boolean")
+        raise TypeError(f"{case_id}: {name}.applicable must be boolean")
     if status not in VALID:
         raise ValueError(f"{case_id}: {name}.status must be one of {sorted(VALID)}")
     if not isinstance(evidence, list) or not all(isinstance(x, str) and x.strip() for x in evidence):
@@ -52,7 +52,7 @@ def validate_dimension(case_id: str, name: str, value: Any, *, strict: bool) -> 
 def validate_receipt(path: Path, *, strict: bool) -> dict[str, Any]:
     data = read_json(path)
     if not isinstance(data, dict):
-        raise ValueError(f"{path}: receipt must be an object")
+        raise TypeError(f"{path}: receipt must be an object")
     for key in ("schema_version", "case_id", "title", "source_identity", "baseline_sha256", "provenance"):
         if key not in data:
             raise ValueError(f"{path}: missing required key {key}")
@@ -66,14 +66,14 @@ def validate_receipt(path: Path, *, strict: bool) -> dict[str, Any]:
         raise ValueError(f"{case_id}: baseline_sha256 must be a 64-character hex digest")
     provenance = data["provenance"]
     if not isinstance(provenance, dict):
-        raise ValueError(f"{case_id}: provenance must be an object")
+        raise TypeError(f"{case_id}: provenance must be an object")
     for key in ("tool_versions", "commands", "units"):
         if key not in provenance:
             raise ValueError(f"{case_id}: provenance missing {key}")
     if not isinstance(provenance["tool_versions"], dict) or not provenance["tool_versions"]:
         raise ValueError(f"{case_id}: tool_versions must be non-empty")
     if not isinstance(provenance["commands"], list):
-        raise ValueError(f"{case_id}: commands must be a list")
+        raise TypeError(f"{case_id}: commands must be a list")
     if not isinstance(provenance["units"], str) or not provenance["units"].strip():
         raise ValueError(f"{case_id}: units must be non-empty")
 
@@ -82,10 +82,10 @@ def validate_receipt(path: Path, *, strict: bool) -> dict[str, Any]:
 
     derived = data.get("derived_artifacts", [])
     if not isinstance(derived, list):
-        raise ValueError(f"{case_id}: derived_artifacts must be a list")
+        raise TypeError(f"{case_id}: derived_artifacts must be a list")
     for index, item in enumerate(derived):
         if not isinstance(item, dict):
-            raise ValueError(f"{case_id}: derived_artifacts[{index}] must be an object")
+            raise TypeError(f"{case_id}: derived_artifacts[{index}] must be an object")
         if not item.get("path") or not item.get("sha256"):
             raise ValueError(f"{case_id}: derived_artifacts[{index}] requires path and sha256")
         digest = item["sha256"]
