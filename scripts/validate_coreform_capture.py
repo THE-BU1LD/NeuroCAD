@@ -61,6 +61,10 @@ def require_file_record(root: Path, record: Any, *, label: str) -> dict[str, str
         raise TypeError(f"{label} must be an object")
     path = record.get("path")
     digest = record.get("sha256")
+    if not isinstance(path, str):
+        raise TypeError(f"{label}.path must be a string")
+    if not isinstance(digest, str):
+        raise TypeError(f"{label}.sha256 must be a string")
     safe_file(root, path, digest)
     return {"path": path, "sha256": digest.lower()}
 
