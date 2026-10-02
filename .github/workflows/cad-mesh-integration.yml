@@ -29,7 +29,7 @@ jobs:
           python -c 'import build123d, gmsh; from importlib.metadata import version; print({k: version(k) for k in ("build123d", "gmsh", "numpy")})'
       - name: Run real interoperability and original backend tests
         run: |
-          python -m pytest -q tests/test_cad_mesh_native.py tests/test_mesh_cli.py tests/test_exact_build123d.py tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py --basetemp="${{ runner.temp }}/cad-mesh-cases" --junitxml="${{ runner.temp }}/cad-mesh.xml"
+          python -m pytest -q tests/test_cad_mesh_native.py tests/test_mesh_cli.py tests/test_exact_build123d.py tests/test_feature_revision_cli.py tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py --basetemp="${{ runner.temp }}/cad-mesh-cases" --junitxml="${{ runner.temp }}/cad-mesh.xml"
           python -m ruff check tests/test_cad_mesh_native.py tests/test_mesh_cli.py
       - name: Exercise installed console commands on the shipped example
         run: |

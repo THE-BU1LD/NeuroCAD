@@ -1852,6 +1852,42 @@ def cmd_feature_build(args: argparse.Namespace) -> int:
     print(json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False))
     return 0
 
+def cmd_feature_revise(args: argparse.Namespace) -> int:
+    """Publish a revision using the frozen C3D v0.1 acceptance contract."""
+    from core.exact_backend import require_exact_backend
+
+    baseline = _read_feature_program(args.baseline)
+    candidate = _read_feature_program(args.candidate)
+    baseline_requirements = _read_requirement_ir(args.baseline_requirements)
+    baseline_bindings = _read_requirement_bindings(args.baseline_bindings)
+    candidate_requirements = _read_requirement_ir(args.candidate_requirements)
+    candidate_bindings = _read_requirement_bindings(args.candidate_bindings)
+    accepted = Path(args.baseline_bundle).expanduser().absolute()
+    output = Path(args.output_dir).expanduser().absolute()
+    _require_new_path(output, label="verified revision output directory")
+    if output.resolve() == accepted.resolve() or accepted.resolve() in output.resolve().parents:
+        raise ValueError("revision output directory must be outside the accepted baseline bundle")
+    require_exact_backend("build123d")
+    from core.exact_build123d import Build123dBackend
+
+    build_receipt, revision_receipt = Build123dBackend().export_verified_revision(
+        baseline,
+        candidate,
+        accepted,
+        output,
+        baseline_requirements=baseline_requirements,
+        baseline_binding_set=baseline_bindings,
+        candidate_requirements=candidate_requirements,
+        candidate_binding_set=candidate_bindings,
+        edited_requirement_ids=("wall_thickness",),
+    )
+    print(json.dumps({
+        "build_receipt": build_receipt.to_dict(),
+        "revision_integrity": revision_receipt.to_dict(),
+    }, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
 def cmd_fit_sample(args: argparse.Namespace) -> int:
     from core.fit_sample import cutout_fit_sample
     from core.project import read_project
@@ -2210,6 +2246,17 @@ def build_parser() -> argparse.ArgumentParser:
     feature_build.add_argument("--requirements", help="Requirement IR JSON to enforce before publication")
     feature_build.add_argument("--bindings", help="Hash-bound requirement-to-feature binding JSON")
     feature_build.set_defaults(func=cmd_feature_build)
+
+    feature_revise = feature_actions.add_parser("revise", help="Publish a verified wall-thickness revision under the frozen C3D v0.1 contract")
+    feature_revise.add_argument("baseline", help="Accepted baseline Feature IR JSON")
+    feature_revise.add_argument("candidate", help="Candidate Feature IR JSON")
+    feature_revise.add_argument("--baseline-bundle", required=True, help="Existing accepted exact-CAD artifact directory")
+    feature_revise.add_argument("--baseline-requirements", required=True, help="Baseline Requirement IR JSON")
+    feature_revise.add_argument("--baseline-bindings", required=True, help="Baseline hash-bound requirement bindings JSON")
+    feature_revise.add_argument("--candidate-requirements", required=True, help="Candidate Requirement IR JSON")
+    feature_revise.add_argument("--candidate-bindings", required=True, help="Candidate hash-bound requirement bindings JSON")
+    feature_revise.add_argument("--output-dir", required=True, help="New verified artifact directory outside the accepted baseline")
+    feature_revise.set_defaults(func=cmd_feature_revise)
 
     enclosure_parser = sub.add_parser("enclosure", help="Create, validate, edit, and build typed enclosure projects")
     enclosure_actions = enclosure_parser.add_subparsers(dest="enclosure_action", required=True)

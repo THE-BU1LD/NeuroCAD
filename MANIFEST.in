@@ -54,6 +54,7 @@ recursive-include research/vericodegen *.py *.json *.md *.tex
 recursive-include research/s3 *.json *.txt
 include research/s3/benchmark_candidate_pool_v0.csv
 recursive-include tests *.py *.cjs
+recursive-include tests/fixtures *.json
 exclude tests/test_repository_archive.py
 include research/benchmarks/neurocad_benchmark_v1.jsonl
 include research/results/neurocad_benchmark_v1.json

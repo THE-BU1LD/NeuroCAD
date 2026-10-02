@@ -1,0 +1,41 @@
+{
+  "metadata": {},
+  "requirements": [
+    {
+      "id": "width",
+      "kind": "dimension",
+      "notes": [],
+      "provenance": "explicit",
+      "source_end": 24,
+      "source_start": 19,
+      "source_text": "80 mm",
+      "strength": "must",
+      "target": "panel.width",
+      "value": {
+        "tolerance": 1e-06,
+        "unit": "mm",
+        "value": 80.0
+      },
+      "verification": "exact_dimension"
+    },
+    {
+      "id": "wall_thickness",
+      "kind": "dimension",
+      "notes": [],
+      "provenance": "explicit",
+      "source_end": 56,
+      "source_start": 51,
+      "source_text": "40 mm",
+      "strength": "must",
+      "target": "panel.wall_thickness",
+      "value": {
+        "tolerance": 1e-06,
+        "unit": "mm",
+        "value": 40.0
+      },
+      "verification": "exact_dimension"
+    }
+  ],
+  "source": "Keep width exactly 80 mm and set wall thickness to 40 mm.",
+  "version": "neurocad-requirement-ir-v0alpha1"
+}
