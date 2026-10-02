@@ -1,0 +1,151 @@
+{
+  "version": "neurocad-c3d-evaluation-v1",
+  "scope": "Constructed adversarial regression suite for the existing planar pilot; not held-out design-family or learned-model performance.",
+  "cases": [
+    {
+      "id": "wall_1p5mm",
+      "wall_mm": 1.5,
+      "mutation": "none",
+      "expected_accept": true,
+      "error_tokens": []
+    },
+    {
+      "id": "wall_2p5mm",
+      "wall_mm": 2.5,
+      "mutation": "none",
+      "expected_accept": true,
+      "error_tokens": []
+    },
+    {
+      "id": "wall_3p0mm",
+      "wall_mm": 3.0,
+      "mutation": "none",
+      "expected_accept": true,
+      "error_tokens": []
+    },
+    {
+      "id": "wall_4p0mm",
+      "wall_mm": 4.0,
+      "mutation": "none",
+      "expected_accept": true,
+      "error_tokens": []
+    },
+    {
+      "id": "wall_8p0mm",
+      "wall_mm": 8.0,
+      "mutation": "none",
+      "expected_accept": true,
+      "error_tokens": []
+    },
+    {
+      "id": "thin_wall_hole_overlap",
+      "wall_mm": 1.0,
+      "mutation": "none",
+      "expected_accept": false,
+      "error_tokens": [
+        "cutout",
+        "cavity",
+        "integrity"
+      ]
+    },
+    {
+      "id": "zero_cavity",
+      "wall_mm": 30.0,
+      "mutation": "none",
+      "expected_accept": false,
+      "error_tokens": [
+        "positive"
+      ]
+    },
+    {
+      "id": "negative_cavity",
+      "wall_mm": 40.0,
+      "mutation": "none",
+      "expected_accept": false,
+      "error_tokens": [
+        "positive"
+      ]
+    },
+    {
+      "id": "move_cutout",
+      "wall_mm": 3.0,
+      "mutation": "move_cutout",
+      "expected_accept": false,
+      "error_tokens": [
+        "integrity"
+      ]
+    },
+    {
+      "id": "resize_cutout",
+      "wall_mm": 3.0,
+      "mutation": "resize_cutout",
+      "expected_accept": false,
+      "error_tokens": [
+        "integrity"
+      ]
+    },
+    {
+      "id": "remove_cutout",
+      "wall_mm": 3.0,
+      "mutation": "remove_cutout",
+      "expected_accept": false,
+      "error_tokens": [
+        "requires at least one circular unaffected cutout"
+      ]
+    },
+    {
+      "id": "change_width",
+      "wall_mm": 3.0,
+      "mutation": "change_width",
+      "expected_accept": false,
+      "error_tokens": [
+        "integrity"
+      ]
+    },
+    {
+      "id": "change_height",
+      "wall_mm": 3.0,
+      "mutation": "change_height",
+      "expected_accept": false,
+      "error_tokens": [
+        "integrity"
+      ]
+    },
+    {
+      "id": "change_depth",
+      "wall_mm": 3.0,
+      "mutation": "change_depth",
+      "expected_accept": false,
+      "error_tokens": [
+        "integrity"
+      ]
+    },
+    {
+      "id": "wrong_wall_requirement",
+      "wall_mm": 3.0,
+      "mutation": "wrong_wall_requirement",
+      "expected_accept": false,
+      "error_tokens": [
+        "must-level"
+      ]
+    },
+    {
+      "id": "change_frozen_requirement",
+      "wall_mm": 3.0,
+      "mutation": "change_frozen_requirement",
+      "expected_accept": false,
+      "error_tokens": [
+        "unchanged must-level"
+      ]
+    },
+    {
+      "id": "stale_binding",
+      "wall_mm": 3.0,
+      "mutation": "stale_binding",
+      "expected_accept": false,
+      "error_tokens": [
+        "hash"
+      ]
+    }
+  ]
+}

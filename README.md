@@ -463,3 +463,5 @@ history for high-confidence secret patterns.
 ## License
 
 MIT. See `LICENSE`.
+
+Constructed verification coverage and reproduction: [C3D evaluation](docs/C3D_EVALUATION.md).
