@@ -247,7 +247,8 @@ def test_transport_posts_schema_and_never_follows_redirects(monkeypatch):
         provider.complete({"model": "test"})
 
 
-@pytest.mark.parametrize("raw", [b'x' * 262145, b'{"a":1,"a":2}', b'{"a":NaN}', b'[]'])
+@pytest.mark.parametrize("raw", [b'x' * 262145, b'{"a":1,"a":2}', b'{"a":NaN}', b'[]'],
+                         ids=["oversized", "duplicate-key", "nan", "non-object"])
 def test_transport_rejects_unbounded_or_invalid_responses(monkeypatch, raw):
     import core.language_provider as module
     class Connection:
