@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from types import SimpleNamespace
 
 import pytest
 
@@ -62,3 +63,18 @@ def test_timeout_preserves_output_and_cannot_count_as_expected_rejection(tmp_pat
     assert (tmp_path / "timed.stdout.txt").read_text(encoding="utf-8") == "partial output"
     assert "partial error" in (tmp_path / "timed.stderr.txt").read_text(encoding="utf-8")
     assert not rejection_matches(result.returncode, result.stderr, ["error"], False)
+
+
+@pytest.mark.parametrize("module_name", ["scripts.evaluate_c3d_revision", "scripts.reproduce_c3d_revision"])
+def test_kernel_provenance_supports_split_ocp_distributions(module_name, monkeypatch) -> None:
+    import importlib
+
+    module = importlib.import_module(module_name)
+    installed = [SimpleNamespace(metadata={"Name": name}, version="8.0.1.0.0")
+                 for name in ("cadquery-ocp-proxy", "cadquery-ocp-novtk")]
+    monkeypatch.setattr(module, "distributions", lambda: installed)
+    monkeypatch.setattr(module, "version", lambda name: "test-installed-version")
+    dependencies = module.dependency_versions()
+    assert dependencies["cadquery-ocp-proxy"] == dependencies["cadquery-ocp-novtk"] == "8.0.1.0.0"
+    assert "cadquery-ocp" not in dependencies
+    assert dependencies["build123d"] == "test-installed-version"

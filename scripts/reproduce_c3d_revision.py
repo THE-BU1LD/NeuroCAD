@@ -10,7 +10,7 @@ import json
 import shutil
 import subprocess  # nosec B404
 import sys
-from importlib.metadata import version
+from importlib.metadata import distributions, version
 from pathlib import Path
 
 
@@ -19,6 +19,15 @@ def hashes(directory: Path) -> dict[str, str]:
         path.relative_to(directory).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
         for path in sorted(directory.rglob("*")) if path.is_file()
     }
+
+
+def dependency_versions() -> dict[str, str]:
+    result = {name: version(name) for name in ("build123d", "jsonschema", "numpy", "trimesh")}
+    for distribution in distributions():
+        name = distribution.metadata["Name"] or ""
+        if name.lower().replace("_", "-").startswith("cadquery-ocp"):
+            result[name] = distribution.version
+    return result
 
 
 def main() -> None:
@@ -91,7 +100,7 @@ def main() -> None:
     report = {
         "scope": "frozen C3D v0.1 planar wall-thickness revision",
         "passed": valid, "python": sys.version,
-        "dependencies": {key: version(key) for key in ("build123d", "cadquery-ocp", "numpy", "trimesh", "jsonschema")},
+        "dependencies": dependency_versions(),
         "source_commit": source_ref.stdout.strip() if source_ref is not None and source_ref.returncode == 0 else None,
         "source_sha256": {
             name: hashlib.sha256((root / name).read_bytes()).hexdigest()

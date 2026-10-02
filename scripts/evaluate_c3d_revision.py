@@ -11,7 +11,7 @@ import hashlib
 import json
 import subprocess  # nosec B404
 import sys
-from importlib.metadata import version
+from importlib.metadata import distributions, version
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +40,16 @@ def write_json(path: Path, payload: Any) -> None:
 def hashes(directory: Path) -> dict[str, str]:
     return {p.relative_to(directory).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sorted(directory.rglob("*")) if p.is_file()}
+
+
+def dependency_versions() -> dict[str, str]:
+    result = {name: version(name) for name in ("build123d", "jsonschema", "numpy", "trimesh")}
+    # OCP ships under the original name or split proxy/novtk distributions.
+    for distribution in distributions():
+        name = distribution.metadata["Name"] or ""
+        if name.lower().replace("_", "-").startswith("cadquery-ocp"):
+            result[name] = distribution.version
+    return result
 
 
 def candidate_inputs(case: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
@@ -194,7 +204,7 @@ def evaluate(output: Path, *, mesh: bool = False) -> dict[str, Any]:
         "source_sha256": {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
                           for name in ("scripts/evaluate_c3d_revision.py", "neurocad_cli.py", "core/exact_build123d.py",
                                        "core/requirement_verification.py", "tests/fixtures/c3d_revision_integrity_v01.json")},
-        "dependencies": {name: version(name) for name in ("build123d", "cadquery-ocp", "jsonschema")},
+        "dependencies": dependency_versions(),
         "case_count": len(results), "passed_count": sum(row["passed"] for row in results),
         "expected_accept_count": sum(row["expected_accept"] for row in results),
         "expected_reject_count": sum(not row["expected_accept"] for row in results),
