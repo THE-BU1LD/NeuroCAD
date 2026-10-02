@@ -46,7 +46,9 @@ def safe_file(root: Path, rel: str, expected_hash: str) -> Path:
         raise ValueError(f"evidence path is not a regular file: {rel}")
     if resolved.stat().st_size > MAX_EVIDENCE_BYTES:
         raise ValueError(f"evidence file exceeds {MAX_EVIDENCE_BYTES} bytes: {rel}")
-    if not isinstance(expected_hash, str) or len(expected_hash) != 64:
+    if not isinstance(expected_hash, str):
+        raise TypeError(f"sha256 for {rel} must be a string")
+    if len(expected_hash) != 64:
         raise ValueError(f"invalid sha256 for {rel}")
     observed = sha256(resolved)
     if observed != expected_hash.lower():
