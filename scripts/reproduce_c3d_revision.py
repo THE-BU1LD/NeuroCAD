@@ -5,7 +5,8 @@ import argparse
 import hashlib
 import json
 import shutil
-import subprocess
+# Fixed executable argv; no shell or prompt-generated commands.
+import subprocess  # nosec B404
 import sys
 from importlib.metadata import version
 from pathlib import Path
@@ -34,7 +35,8 @@ def main() -> None:
 
     def run(name: str, arguments: list[str], expected: int) -> subprocess.CompletedProcess[str]:
         command = [sys.executable, "-m", "neurocad_cli", *arguments]
-        result = subprocess.run(command, cwd=root, capture_output=True, text=True, timeout=120, check=False)
+        # Current Python, fixed CLI, and file paths passed as argv.
+        result = subprocess.run(command, cwd=root, capture_output=True, text=True, timeout=120, check=False)  # nosec B603
         (output / f"{name}.stdout.json").write_text(result.stdout, encoding="utf-8")
         (output / f"{name}.stderr.txt").write_text(result.stderr, encoding="utf-8")
         commands.append({"command": command, "returncode": result.returncode, "expected_returncode": expected})
@@ -78,12 +80,17 @@ def main() -> None:
     valid = (evidence["passed"] and before == after and not rejected.exists()
              and inspection.valid_brep and inspection.manifold and inspection.solid_count == 1
              and checks.satisfied_for_all_must)
-    source_ref = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True, check=False)
+    git_executable = shutil.which("git")
+    # Resolved executable and constant read-only arguments.
+    source_ref = None if git_executable is None else subprocess.run(
+        [git_executable, "rev-parse", "HEAD"], cwd=root, capture_output=True,
+        text=True, timeout=10, check=False,
+    )  # nosec B603
     report = {
         "scope": "frozen C3D v0.1 planar wall-thickness revision",
         "passed": valid, "python": sys.version,
         "dependencies": {key: version(key) for key in ("build123d", "cadquery-ocp", "numpy", "trimesh", "jsonschema")},
-        "source_commit": source_ref.stdout.strip() if source_ref.returncode == 0 else None,
+        "source_commit": source_ref.stdout.strip() if source_ref is not None and source_ref.returncode == 0 else None,
         "source_sha256": {
             name: hashlib.sha256((root / name).read_bytes()).hexdigest()
             for name in ("neurocad_cli.py", "core/exact_build123d.py", "core/requirement_verification.py",
