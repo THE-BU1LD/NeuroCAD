@@ -1,5 +1,7 @@
 # ShapeDiver call capture — 2026-10-02
 
+> **Status update — 2026-10-02:** the scheduled discussion was **not completed** because the external participant was not present. A reschedule/update request was sent. No ShapeDiver technical feedback has been received or inferred from the missed call, no invariants below are frozen, and no benchmark fixture may be executed from this template until an actual discussion or another independently sourced public protocol supplies the missing technical inputs.
+
 **Use immediately after the call. Do not fill from memory later if exact wording is uncertain.**
 
 ## Call metadata
