@@ -418,9 +418,14 @@ with the portal deployment runbook rather than this package.
 
 ## Current boundaries
 
+The optional build123d Feature IR path now supports bounded exact STEP export
+and verified wall-thickness revisions under the frozen C3D v0.1 contract. See
+[Verified C3D revisions](docs/C3D_REVISION_CLI.md) for executable examples,
+editable inputs, reproduction, and its deliberately narrow geometry scope.
+
 Not implemented:
 
-- STEP/BREP export or sketch constraint solving;
+- general STEP/BREP generation from arbitrary natural language or sketch constraint solving;
 - slide lids, hinges, snap fits, threads, or true 3D edge fillets;
 - native Fusion/Onshape/FreeCAD/Blender documents or native slicer projects;
 - structural, thermal, fluid, electromagnetic, or material simulation;

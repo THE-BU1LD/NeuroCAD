@@ -1,0 +1,78 @@
+{
+  "features": [
+    {
+      "id": "front_profile",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              0.0,
+              0.0
+            ],
+            "height": 60.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 80.0
+          },
+          {
+            "center": [
+              0.0,
+              0.0
+            ],
+            "height": 56.0,
+            "kind": "rectangle",
+            "operation": "subtract",
+            "width": 76.0
+          },
+          {
+            "center": [
+              -39.0,
+              10.0
+            ],
+            "kind": "circle",
+            "operation": "subtract",
+            "radius": 0.4
+          }
+        ],
+        "plane": "XY"
+      },
+      "role": "constant_external_envelope_with_authorized_inner_cavity",
+      "selectors": []
+    },
+    {
+      "id": "panel",
+      "inputs": [
+        "front_profile"
+      ],
+      "kind": "extrude",
+      "parameters": {
+        "distance": 20.0,
+        "operation": "new"
+      },
+      "role": "bounded_enclosure_wall_fixture",
+      "selectors": []
+    }
+  ],
+  "metadata": {
+    "fixture": "c3d-revision-integrity-v0.1"
+  },
+  "outputs": [
+    "panel"
+  ],
+  "parameters": [
+    {
+      "id": "wall_thickness",
+      "lower": 0.25,
+      "role": "edited wall thickness",
+      "unit": "mm",
+      "upper": null,
+      "value": 2.0
+    }
+  ],
+  "title": "C3D bounded wall-thickness revision fixture",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}

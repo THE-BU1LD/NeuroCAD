@@ -1,0 +1,31 @@
+{
+  "bindings": [
+    {
+      "feature_ids": [
+        "panel"
+      ],
+      "probe": {
+        "axis": "x",
+        "kind": "output_extent"
+      },
+      "requirement_id": "width",
+      "verification": "exact_dimension"
+    },
+    {
+      "feature_ids": [
+        "panel"
+      ],
+      "probe": {
+        "axis": "z",
+        "kind": "planar_wall_thickness",
+        "side": "min"
+      },
+      "requirement_id": "wall_thickness",
+      "verification": "exact_dimension"
+    }
+  ],
+  "feature_ir_sha256": "7f0b66c58eda6dc4284a4a4ed30581999f6c4f6410c3b8058cfd4c7134862c2b",
+  "metadata": {},
+  "requirement_ir_sha256": "de41510744cce0dbdeb8cf04bd71abcaa998516a803f36f87feaaba3aafb6f6b",
+  "version": "neurocad-requirement-binding-v0alpha1"
+}
