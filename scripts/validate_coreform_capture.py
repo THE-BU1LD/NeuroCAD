@@ -11,12 +11,33 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from typing import Any
+from typing import Any, NoReturn
 
 MAX_EVIDENCE_BYTES = 256 * 1024 * 1024
 STATUSES = {"NOT_RUN", "REPORTED_PASS", "REPORTED_FAIL", "INCONCLUSIVE"}
 PURPOSES = {"DEVELOPMENT_CAPTURE", "SYNTHETIC_SOFTWARE_TEST"}
 STAGE_NAMES = ("geometry_before", "geometry_after", "tet_meshing")
+
+
+def unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Reject ambiguous objects, including repeated keys in nested receipts."""
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key!r}")
+        result[key] = value
+    return result
+
+
+def reject_nonfinite_json_number(token: str) -> NoReturn:
+    raise ValueError(f"non-finite JSON number: {token}")
+
+
+def finite_json_float(token: str) -> float:
+    value = float(token)
+    if not math.isfinite(value):
+        reject_nonfinite_json_number(token)
+    return value
 
 
 def sha256(path: Path) -> str:
@@ -86,7 +107,14 @@ def validate_stage(root: Path, name: str, stage: Any, *, repaired_present: bool)
             raise ValueError(f"stage {name}: NOT_RUN must not claim a command")
         return {"status": status}
 
-    if not isinstance(command, (str, list)) or command in ("", []):
+    valid_command = (
+        isinstance(command, str) and bool(command.strip())
+    ) or (
+        isinstance(command, list)
+        and bool(command)
+        and all(isinstance(part, str) and bool(part.strip()) for part in command)
+    )
+    if not valid_command:
         raise ValueError(f"stage {name}: non-NOT_RUN requires command/procedure")
     if not isinstance(interpretation, str) or not interpretation.strip():
         raise ValueError(f"stage {name}: non-NOT_RUN requires interpretation")
@@ -115,7 +143,12 @@ def validate_capture(manifest_path: Path) -> dict[str, Any]:
         raise ValueError("manifest must not be a symlink")
     manifest_path = manifest_path.resolve(strict=True)
     root = manifest_path.parent
-    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    data = json.loads(
+        manifest_path.read_text(encoding="utf-8"),
+        object_pairs_hook=unique_json_object,
+        parse_constant=reject_nonfinite_json_number,
+        parse_float=finite_json_float,
+    )
     if not isinstance(data, dict):
         raise TypeError("capture manifest must be an object")
 
@@ -129,7 +162,7 @@ def validate_capture(manifest_path: Path) -> dict[str, Any]:
     if missing:
         raise ValueError(f"missing required fields: {', '.join(missing)}")
 
-    if data["schema_version"] != 1:
+    if type(data["schema_version"]) is not int or data["schema_version"] != 1:
         raise ValueError("schema_version must be integer 1")
     if data["purpose"] not in PURPOSES:
         raise ValueError(f"purpose must be one of {sorted(PURPOSES)}")
