@@ -26,7 +26,7 @@ from core.gmsh_integrity import (
 GMSH_RECEIPT_VERSION = "neurocad-gmsh-mesh-receipt-v1"
 MAX_STEP_BYTES = 256 * 1024 * 1024
 MAX_MESH_ELEMENTS = 2_000_000
-MAX_QUALITY_ELEMENTS = 200_000
+QUALITY_BATCH_ELEMENTS = 200_000
 _GMSH_LOCK = threading.Lock()
 
 
@@ -128,6 +128,32 @@ def _mesh_counts(gmsh: Any) -> tuple[int, int, list[int]]:
     return len(node_tags), len(element_tags), element_tags
 
 
+def _mesh_quality(gmsh: Any, element_tags: list[int]) -> tuple[float, float]:
+    """Check every volume element with bounded native result arrays.
+
+    The mesh-size ceiling and the quality-query batch size are separate limits.
+    A mesh above one batch must not silently bypass inverted-element checks.
+    """
+    if not element_tags:
+        raise GmshMeshingError("cannot check quality of an empty volume mesh")
+    minimum = math.inf
+    batch_sums: list[float] = []
+    for offset in range(0, len(element_tags), QUALITY_BATCH_ELEMENTS):
+        tags = element_tags[offset:offset + QUALITY_BATCH_ELEMENTS]
+        qualities = [float(item) for item in gmsh.model.mesh.getElementQualities(tags, "minSICN")]
+        if len(qualities) != len(tags):
+            raise GmshMeshingError(
+                "Gmsh element quality count does not match volume-element count in batch"
+            )
+        if any(not math.isfinite(item) for item in qualities):
+            raise GmshMeshingError("Gmsh returned non-finite element quality")
+        if any(item <= 0.0 for item in qualities):
+            raise GmshMeshingError("Gmsh returned non-positive element quality")
+        minimum = min(minimum, min(qualities))
+        batch_sums.append(math.fsum(qualities))
+    return minimum, math.fsum(batch_sums) / len(element_tags)
+
+
 class GmshBackend:
     def __init__(self) -> None:
         try:
@@ -223,26 +249,7 @@ class GmshBackend:
                     if "domain" not in groups or "boundary" not in groups:
                         raise GmshMeshingError("required domain/boundary physical groups were not created")
 
-                    min_sicn: float | None = None
-                    mean_sicn: float | None = None
-                    if element_count <= MAX_QUALITY_ELEMENTS:
-                        qualities = [
-                            float(item)
-                            for item in gmsh.model.mesh.getElementQualities(
-                                element_tags,
-                                "minSICN",
-                            )
-                        ]
-                        if len(qualities) != element_count:
-                            raise GmshMeshingError(
-                                "Gmsh element quality count does not match volume-element count"
-                            )
-                        if any(not math.isfinite(item) for item in qualities):
-                            raise GmshMeshingError("Gmsh returned non-finite element quality")
-                        if any(item <= 0.0 for item in qualities):
-                            raise GmshMeshingError("Gmsh returned non-positive element quality")
-                        min_sicn = min(qualities)
-                        mean_sicn = sum(qualities) / len(qualities)
+                    min_sicn, mean_sicn = _mesh_quality(gmsh, element_tags)
 
                     original_mesh = capture_mesh(gmsh)
                     gmsh.write(str(mesh_path))

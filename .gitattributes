@@ -2,3 +2,6 @@
 # Windows checkout line-ending conversion must not change hash evidence.
 core/static/*.js -text
 legacy/** -text
+# Native serialization is retained byte-for-byte, including writer whitespace.
+research/results/native-mesh-reference-v1/**/*.msh -text -diff linguist-generated=true
+research/results/native-mesh-reference-v1/**/*.step -text -diff linguist-generated=true

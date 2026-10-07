@@ -452,6 +452,10 @@ manufacturing certification.
 Use `docs/PHYSICAL_VALIDATION_PROTOCOL.md` to collect the physical evidence
 required before describing an enclosure as fit-checked.
 
+## Native mesh reference artifact
+
+The [native mesh reference audit](docs/NATIVE_MESH_REFERENCE_AUDIT.md) provides runnable box and through-hole-plate examples, six retained STEP/MSH results, analytic volume checks and all-element quality validation in bounded batches. This is engineering evidence for the maintained geometry backend.
+
 ## Evidence and research boundaries
 
 The maintained engineering suite is under `tests/`; root-level historical test

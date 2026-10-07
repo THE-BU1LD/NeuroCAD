@@ -261,9 +261,54 @@ def test_snapshot_rechecks_size_after_initial_stat(tmp_path, monkeypatch, replac
     _assert_not_published(destination)
 
 
-def test_quality_omission_above_budget_is_explicit(tmp_path, monkeypatch):
-    backend, _, source, destination = _case(tmp_path, qualities=())
-    monkeypatch.setattr(module, "MAX_QUALITY_ELEMENTS", 1)
+def test_quality_above_one_batch_is_checked_and_published(tmp_path, monkeypatch):
+    backend, fake, source, destination = _case(tmp_path)
+    monkeypatch.setattr(module, "QUALITY_BATCH_ELEMENTS", 1)
+    seen = []
+
+    def get_quality(tags, kind):
+        assert kind == "minSICN"
+        seen.append(tags)
+        return [{11: 0.5, 12: 0.75}[tag] for tag in tags]
+
+    fake.getElementQualities = get_quality
     receipt = backend.mesh_step(source, destination, max_size_mm=4.0)
-    assert receipt.min_sicn is None
-    assert receipt.mean_sicn is None
+    assert seen == [[11], [12]]
+    assert receipt.min_sicn == 0.5
+    assert receipt.mean_sicn == 0.625
+
+
+@pytest.mark.parametrize("bad", [0.0, -0.1, float("nan"), float("inf")])
+def test_bad_quality_in_later_batch_prevents_publication(tmp_path, monkeypatch, bad):
+    backend, fake, source, destination = _case(tmp_path)
+    monkeypatch.setattr(module, "QUALITY_BATCH_ELEMENTS", 1)
+    fake.getElementQualities = lambda tags, kind: [0.5 if tags == [11] else bad]
+    with pytest.raises(GmshMeshingError, match="element quality"):
+        backend.mesh_step(source, destination, max_size_mm=4.0)
+    assert fake.calls.count("finalize") == 1
+    _assert_not_published(destination)
+
+
+def test_short_later_quality_batch_prevents_publication(tmp_path, monkeypatch):
+    backend, fake, source, destination = _case(tmp_path)
+    monkeypatch.setattr(module, "QUALITY_BATCH_ELEMENTS", 1)
+    fake.getElementQualities = lambda tags, kind: [0.5] if tags == [11] else []
+    with pytest.raises(GmshMeshingError, match="quality count"):
+        backend.mesh_step(source, destination, max_size_mm=4.0)
+    _assert_not_published(destination)
+
+
+def test_quality_mean_weights_an_uneven_final_batch_by_elements(monkeypatch):
+    monkeypatch.setattr(module, "QUALITY_BATCH_ELEMENTS", 2)
+    seen = []
+
+    def get_quality(tags, kind):
+        assert kind == "minSICN"
+        seen.append(tags)
+        return [tag / 10 for tag in tags]
+
+    fake = SimpleNamespace(model=SimpleNamespace(mesh=SimpleNamespace(getElementQualities=get_quality)))
+    minimum, mean = module._mesh_quality(fake, [1, 2, 3, 4, 5])
+    assert seen == [[1, 2], [3, 4], [5]]
+    assert minimum == 0.1
+    assert mean == pytest.approx(0.3)
