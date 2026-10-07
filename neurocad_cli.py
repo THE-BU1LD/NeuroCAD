@@ -1432,7 +1432,7 @@ def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bo
     encoded = json.dumps(interpretation.to_dict(), indent=2, sort_keys=True) + "\n"
     human = (human_default or getattr(args, "human", False)) and not getattr(args, "json", False)
     if output is not None:
-        write_text_atomic(output, encoded)
+        write_text_atomic(output, encoded, overwrite=False)
     if human:
         _print_interpretation(interpretation)
         if output is not None:
@@ -1442,7 +1442,7 @@ def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bo
     else:
         print(output)
     if project is not None and project_output is not None:
-        write_project(project_output, project)
+        write_project(project_output, project, overwrite=False)
         print(f"  project      {project_output}" if human else project_output)
     elif project_output is not None:
         _show_errors([issue.message for issue in interpretation.issues])
@@ -1480,7 +1480,7 @@ def cmd_enclosure_understand(args: argparse.Namespace) -> int:
         proposal = parse_conversation(source, project)
     encoded = json.dumps(proposal.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n"
     if destination is not None:
-        write_text_atomic(destination, encoded)
+        write_text_atomic(destination, encoded, overwrite=False)
     print(encoded, end="")
     return 0 if proposal.status in {"proposal", "unchanged"} else 2
 
@@ -1499,7 +1499,7 @@ def cmd_enclosure_apply_proposal(args: argparse.Namespace) -> int:
     raw = strict_json_loads(read_bounded_utf8(proposal_path, max_bytes=262144, label="language proposal"))
     proposal = review_saved_proposal(raw, project)
     candidate = apply_proposal(proposal, project, confirmed=True)
-    write_project(destination, candidate)
+    write_project(destination, candidate, overwrite=False)
     print(destination)
     return 0
 
@@ -1585,7 +1585,7 @@ def cmd_enclosure_edit(args: argparse.Namespace) -> int:
             raise ValueError("edit value is limited to 64 KiB")
         value = strict_json_loads(args.value)
         edited = update_project(project, args.field, value, reason=args.reason)
-    write_project(output, edited)
+    write_project(output, edited, overwrite=False)
     print(json.dumps({"output": str(output), "revision": edited.revision, "changes": semantic_diff(project, edited)}, indent=2))
     return 0
 
