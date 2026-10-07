@@ -22,13 +22,24 @@ from .validation import ValidationReport
 _NATIVE_RENDER_AVAILABLE: bool | None = None
 
 
-def write_text_atomic(path: Path, text: str) -> Path:
+def write_text_atomic(path: Path, text: str, *, overwrite: bool = True) -> Path:
+    """Publish complete UTF-8 text, optionally refusing replacement atomically."""
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent, text=True)
     try:
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(text)
-        os.replace(temporary, path)
+            if not overwrite:
+                handle.flush()
+                os.fsync(handle.fileno())
+        if overwrite:
+            os.replace(temporary, path)
+        else:
+            try:
+                os.link(temporary, path)
+            except FileExistsError:
+                raise FileExistsError(f"refusing to overwrite existing text artifact: {path}") from None
+            os.unlink(temporary)
     except Exception:
         try:
             os.unlink(temporary)
