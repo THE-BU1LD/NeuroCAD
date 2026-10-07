@@ -202,3 +202,70 @@ def test_all_not_run_stages_remain_valid(tmp_path: Path) -> None:
     path.write_text(json.dumps(data), encoding="utf-8")
     result = validate_capture(path)
     assert all(stage == {"status": "NOT_RUN"} for stage in result["stages"].values())
+
+
+def add_repaired_model(tmp_path: Path, data: dict) -> None:
+    repaired = tmp_path / "repaired.step"
+    repaired.write_text("synthetic repaired model", encoding="utf-8")
+    data["repaired_model"] = {"path": repaired.name, "sha256": digest(repaired)}
+
+
+@pytest.mark.parametrize("status", ["REPORTED_PASS", "REPORTED_FAIL", "INCONCLUSIVE"])
+@pytest.mark.parametrize("stage_name", ["geometry_before", "geometry_after", "tet_meshing"])
+@pytest.mark.parametrize("model_role", ["as_imported_model", "repaired_model"])
+def test_reported_stage_rejects_model_as_diagnostic_evidence(
+    tmp_path: Path, status: str, stage_name: str, model_role: str,
+) -> None:
+    path = make_capture(tmp_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    add_repaired_model(tmp_path, data)
+    stage = dict(data["stages"]["geometry_before"])
+    stage.update(status=status, evidence=dict(data[model_role]))
+    if stage_name == "tet_meshing":
+        stage["model_basis"] = model_role
+    data["stages"][stage_name] = stage
+    path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(ValueError, match="diagnostic evidence must be distinct"):
+        validate_capture(path)
+
+
+@pytest.mark.parametrize("model_role", ["as_imported_model", "repaired_model"])
+def test_renamed_model_bytes_are_not_diagnostic_evidence(
+    tmp_path: Path, model_role: str,
+) -> None:
+    path = make_capture(tmp_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    add_repaired_model(tmp_path, data)
+    copied = tmp_path / "diagnostic-looking-output.txt"
+    copied.write_bytes((tmp_path / data[model_role]["path"]).read_bytes())
+    data["stages"]["geometry_before"]["evidence"] = {
+        "path": copied.name, "sha256": digest(copied).upper(),
+    }
+    path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(ValueError, match="diagnostic evidence must be distinct"):
+        validate_capture(path)
+
+
+def test_relative_model_path_alias_is_not_diagnostic_evidence(tmp_path: Path) -> None:
+    path = make_capture(tmp_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    (tmp_path / "nested").mkdir()
+    data["stages"]["geometry_before"]["evidence"] = {
+        "path": "nested/../baseline.step", "sha256": data["as_imported_model"]["sha256"],
+    }
+    path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(ValueError, match="diagnostic evidence must be distinct"):
+        validate_capture(path)
+
+
+def test_distinct_combined_diagnostic_log_can_support_all_stages(tmp_path: Path) -> None:
+    path = make_capture(tmp_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    add_repaired_model(tmp_path, data)
+    diagnostic = dict(data["stages"]["geometry_before"])
+    data["stages"]["geometry_after"] = dict(diagnostic)
+    data["stages"]["tet_meshing"] = {**diagnostic, "model_basis": "repaired_model"}
+    path.write_text(json.dumps(data), encoding="utf-8")
+    result = validate_capture(path)
+    assert all(stage["evidence"]["path"] == "geometry.txt" for stage in result["stages"].values())
+    assert "does not establish geometry validity" in result["claim_boundary"]

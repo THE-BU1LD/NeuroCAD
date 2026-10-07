@@ -1,7 +1,7 @@
 """Validate a Coreform-style dirty-CAD capture manifest without running CAD software.
 
 The validator is intentionally structural. It verifies provenance fields, path safety,
-file sizes, hashes, baseline/repair separation, and stage consistency. It does not
+file sizes, hashes, model/evidence role separation, and stage consistency. It does not
 interpret Cubit output or decide whether a scientific claim is correct.
 """
 from __future__ import annotations
@@ -197,6 +197,21 @@ def validate_capture(manifest_path: Path) -> dict[str, Any]:
         name: validate_stage(root, name, stages[name], repaired_present=repaired is not None)
         for name in STAGE_NAMES
     }
+
+    # A valid file/hash proves identity, not that CAD bytes are diagnostic output.
+    # Check both resolved paths and content so a renamed copy cannot change roles.
+    models = [baseline] + ([repaired] if repaired is not None else [])
+    model_paths = {(root / model["path"]).resolve(strict=True) for model in models}
+    model_hashes = {model["sha256"] for model in models}
+    for name, stage in validated_stages.items():
+        if stage["status"] == "NOT_RUN":
+            continue
+        evidence = stage["evidence"]
+        if (
+            (root / evidence["path"]).resolve(strict=True) in model_paths
+            or evidence["sha256"] in model_hashes
+        ):
+            raise ValueError(f"stage {name}: diagnostic evidence must be distinct from CAD models")
 
     return {
         "schema_version": 1,
