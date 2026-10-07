@@ -1,0 +1,63 @@
+name: Retained mesh research note
+
+on:
+  pull_request:
+    paths:
+      - 'publication/imr2027_mesh_verification/**'
+      - 'research/results/native-mesh-reference-v1/**'
+      - '.github/workflows/retained-mesh-note.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'publication/imr2027_mesh_verification/**'
+      - 'research/results/native-mesh-reference-v1/**'
+      - '.github/workflows/retained-mesh-note.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: retained-mesh-note-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  PAPER_ROOT: publication/imr2027_mesh_verification
+
+jobs:
+  retained-analysis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+      - name: Verify source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+      - name: Setup Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12.14'
+      - name: Check parser and incidence counterexamples
+        run: python -B -m unittest discover -s "${PAPER_ROOT}" -p 'test_*.py' -v
+      - name: Reproduce retained diagnostics without remeshing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python "${PAPER_ROOT}/analyze_retained_meshes.py" \
+            --bundle research/results/native-mesh-reference-v1 \
+            --output "${RUNNER_TEMP}/retained-mesh-note"
+          cmp "${RUNNER_TEMP}/retained-mesh-note/summary.json" \
+            "${PAPER_ROOT}/evidence/retained-topology-v1/summary.json"
+      - name: Upload independent diagnostics
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: retained-mesh-note-${{ env.SOURCE_SHA }}
+          path: ${{ runner.temp }}/retained-mesh-note/summary.json
+          if-no-files-found: error
+          retention-days: 14
