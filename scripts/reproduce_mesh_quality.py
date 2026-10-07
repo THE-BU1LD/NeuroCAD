@@ -12,7 +12,8 @@ import hashlib
 import json
 import math
 import platform
-import subprocess
+import shutil
+import subprocess  # Fixed Git metadata argv; no shell or user-supplied command.  # nosec B404
 import sys
 from importlib.metadata import version
 from pathlib import Path
@@ -38,6 +39,18 @@ def sha256(path: Path) -> str:
 
 def source_hashes() -> dict[str, str]:
     return {name: sha256(ROOT / name) for name in SOURCE_FILES}
+
+
+def source_commit() -> str:
+    """Record the local source base using a bounded, fixed Git invocation."""
+    executable = shutil.which("git")
+    if executable is None:
+        raise RuntimeError("Git is required to record the reference run source base")
+    git = str(Path(executable).resolve(strict=True))
+    # Resolved executable and fixed argv, never a shell or user-supplied command.
+    return subprocess.check_output(
+        [git, "rev-parse", "HEAD"], cwd=ROOT, text=True, shell=False, timeout=10  # nosec B603
+    ).strip()
 
 
 def make_step(name: str, path: Path) -> float:
@@ -140,7 +153,7 @@ def reproduce(output: Path) -> dict:
             "protocol": "NEUROCAD_NATIVE_MESH_REFERENCE_V1", "evidence_kind": "executed native geometry engineering controls",
             "status": "PASS" if all(row["status"] == "PASS" for row in cases) else "FAIL",
             "source_sha256": before,
-            "source_base_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+            "source_base_commit": source_commit(),
             "environment": {"python": platform.python_version(), "platform": platform.platform(),
                             "gmsh": version("gmsh"), "numpy": version("numpy")},
             "cases": cases,

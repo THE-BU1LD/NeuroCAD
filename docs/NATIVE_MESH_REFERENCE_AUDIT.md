@@ -27,6 +27,8 @@ python -m pytest -q tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests
 
 The output directory must not exist. The runner hashes relevant source before and after execution and refuses a completed result if it changes. Each receipt binds the STEP snapshot consumed and the actual MSH bytes. `summary.json` records the environment and source hashes; the git commit is the source base, while file hashes identify working-tree changes used in the run. Hashes of native output are evidence for that run; reproduction does not promise byte-identical STEP headers or native mesh ordering across environments.
 
+The subsequent CI compatibility repair resolves Git to an absolute executable and bounds the fixed `rev-parse HEAD` metadata query to ten seconds, without invoking a shell. Its two narrowly scoped Bandit annotations document this audited command boundary; the security scan and dependency audit remain enabled. This changes metadata collection only. The retained six-run directory and its original source hashes are unchanged; the exact recipe used for that retained execution remains available at commit `6ae6c96e73c747fbccff36451714ed88e3225616`.
+
 ## Interpretation and remaining research work
 
 This is a completed engineering reference artifact for a bounded STEP-to-tetrahedron tool demonstration. It establishes executable geometry examples, all-element quality-query behavior, fail-closed publication tests and a transparent analytic volume comparison. The native examples contain 643–5,033 tetrahedra each; the large-query boundary itself is exercised with deliberately small batch limits in fault-injection tests. No runtime or memory advantage on a mesh exceeding 200,000 elements is claimed.
