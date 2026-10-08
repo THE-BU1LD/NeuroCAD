@@ -5,7 +5,6 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-import os
 import re
 import shutil
 import tempfile
@@ -16,6 +15,7 @@ from typing import Any
 from .artifacts import compile_scad_verified, verify_stl, write_text_atomic
 from .enclosure import EnclosureBuild, build_enclosure
 from .enclosure_verification import verify_enclosure_mesh
+from .gmsh_integrity import publish_directory_noreplace
 from .ir_export import program_to_scad
 from .ir_parser import parse_ir_json, serialize_ir_json
 from .json_io import strict_json_loads
@@ -103,8 +103,9 @@ def build_project_bundle(
     artifact hashes detect later changes but do not make it physically immutable.
     """
 
-    output = output_directory.expanduser().resolve()
-    if output.exists():
+    requested_output = output_directory.expanduser()
+    output = requested_output.parent.resolve() / requested_output.name
+    if output.exists() or output.is_symlink():
         raise FileExistsError(f"output bundle already exists: {output}")
     if not 3 <= fn <= 1000:
         raise ValueError("fn must be between 3 and 1000")
@@ -155,7 +156,7 @@ def build_project_bundle(
             "verification": verification_by_part,
         }
         write_text_atomic(staging / "manifest.json", json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-        os.replace(staging, output)
+        publish_directory_noreplace(staging, output)
     except Exception:
         shutil.rmtree(staging, ignore_errors=True)
         raise
