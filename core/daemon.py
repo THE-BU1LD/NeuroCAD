@@ -288,15 +288,15 @@ class DaemonRuntime:
                 if record is None:
                     continue
                 log_event("job.started", job_id=job_id)
-                request_data = record["request"]
-                request = GenerationRequest(
-                    prompt=request_data["prompt"],
-                    output_dir=record["output_dir"],
-                    formats=tuple(request_data["formats"]),
-                    fn=request_data["fn"],
-                    timeout_seconds=request_data["timeout_seconds"],
-                )
                 try:
+                    request_data = record["request"]
+                    request = GenerationRequest(
+                        prompt=request_data["prompt"],
+                        output_dir=record["output_dir"],
+                        formats=tuple(request_data["formats"]),
+                        fn=request_data["fn"],
+                        timeout_seconds=request_data["timeout_seconds"],
+                    )
                     started = time.monotonic()
                     result = generate_artifacts(request)
                     elapsed = time.monotonic() - started
@@ -331,7 +331,8 @@ class DaemonRuntime:
                         finished_at=utc_now(),
                     )
                     if cancelled is not None:
-                        shutil.rmtree(request.output_dir, ignore_errors=True)
+                        # Failed generation removes only its private staging directory.
+                        # The requested destination may predate the job and is not ours to delete.
                         log_event("job.cancelled", job_id=job_id)
                     else:
                         self.store.transition(

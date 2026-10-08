@@ -289,6 +289,77 @@ def test_running_job_can_be_cancelled_at_atomic_publication_boundary(runtime_roo
         runtime.stop_workers()
 
 
+def test_cancelled_generation_preserves_an_existing_output_directory(
+    runtime_root: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    entered = threading.Event()
+    release = threading.Event()
+    original_generate = generate_artifacts
+
+    def blocked_generation(request: GenerationRequest) -> dict[str, object]:
+        entered.set()
+        assert release.wait(timeout=10)
+        return original_generate(request)
+
+    monkeypatch.setattr("core.daemon.generate_artifacts", blocked_generation)
+    runtime = DaemonRuntime(_config(runtime_root))
+    runtime.start_workers()
+    try:
+        submitted = runtime.submit({"prompt": "a 12 x 12 x 12 mm plate", "formats": ["ir", "scad"]})
+        assert entered.wait(timeout=10)
+        output = Path(submitted["output_dir"])
+        output.mkdir(parents=True)
+        preserved = output / "existing-design.scad"
+        preserved.write_text("user-owned design\n", encoding="utf-8")
+        assert runtime.cancel(submitted["job_id"])["status"] == "cancellation_requested"
+        release.set()
+
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            record = runtime.store.read(submitted["job_id"])
+            if record["status"] in {"succeeded", "failed", "cancelled"}:
+                break
+            time.sleep(0.01)
+        assert record["status"] == "cancelled"
+        assert preserved.read_text(encoding="utf-8") == "user-owned design\n"
+        assert not (output / "manifest.json").exists()
+    finally:
+        release.set()
+        runtime.stop_workers()
+
+
+@pytest.mark.parametrize("persisted_request", [{"formats": ["ir"], "fn": 32, "timeout_seconds": 30}, None])
+def test_malformed_persisted_request_fails_without_stopping_the_worker(runtime_root: Path, persisted_request: object) -> None:
+    runtime = DaemonRuntime(_config(runtime_root))
+    invalid_job_id = "NCJ-20200101T000000Z-00000000"
+    runtime.store.write(
+        {
+            "job_id": invalid_job_id,
+            "status": "queued",
+            "request": persisted_request,
+            "output_dir": str(runtime_root / "invalid-output"),
+        }
+    )
+    runtime.start_workers()
+    try:
+        valid = runtime.submit({"prompt": "a 12 x 12 x 12 mm plate", "formats": ["ir", "scad"]})
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            record = runtime.store.read(valid["job_id"])
+            if record["status"] in {"succeeded", "failed", "cancelled"} or not runtime.workers[0].is_alive():
+                break
+            time.sleep(0.01)
+        invalid = runtime.store.read(invalid_job_id)
+        assert invalid["status"] == "failed"
+        assert invalid["error"]["type"] in {"KeyError", "TypeError"}
+        assert invalid["finished_at"]
+        assert not (runtime_root / "invalid-output").exists()
+        assert record["status"] == "succeeded", record
+        assert runtime.workers[0].is_alive()
+    finally:
+        runtime.stop_workers()
+
+
 def test_direct_prompt_is_primary_cli(runtime_root: Path, capsys: pytest.CaptureFixture[str]) -> None:
     config_path = write_config(_config(runtime_root), runtime_root / "config.json")
     output = runtime_root / "direct"
