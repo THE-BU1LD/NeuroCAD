@@ -137,6 +137,12 @@ def _resolved_path(value: str) -> Path:
     return Path(value).expanduser().resolve()
 
 
+def _resolved_output_path(value: str, *, force: bool) -> Path:
+    """Keep an unforced final symlink visible to admission and publication."""
+    path = Path(value).expanduser()
+    return path.resolve() if force else path.parent.resolve() / path.name
+
+
 def _paths_collide(left: Path, right: Path) -> bool:
     if left == right:
         return True
@@ -376,23 +382,23 @@ def _build(prompt_parts: list[str], fn: int):
     return doc
 
 
-def _generate(prompt_parts: list[str], output: Path, fn: int):
+def _generate(prompt_parts: list[str], output: Path, fn: int, *, overwrite: bool = True):
     doc = _build(prompt_parts, fn)
     path = output
-    TextToCAD(output_path=str(path), fn=fn).export(doc.prompt)
+    TextToCAD(output_path=str(path), fn=fn).export(doc.prompt, overwrite=overwrite)
     if not path.exists() or path.stat().st_size == 0:
         raise SystemExit("NeuroCAD generated an empty output file.")
     return path, doc
 
 
 def cmd_create(args: argparse.Namespace) -> int:
-    output = _resolved_path(args.output)
-    manifest = _resolved_path(args.manifest) if args.manifest else None
+    output = _resolved_output_path(args.output, force=args.force)
+    manifest = _resolved_output_path(args.manifest, force=args.force) if args.manifest else None
     _require_distinct_paths(output=output, manifest=manifest)
     _require_new_paths(force=args.force, output=output, manifest=manifest)
-    path, doc = _generate(args.prompt, output, args.fn)
+    path, doc = _generate(args.prompt, output, args.fn, overwrite=args.force)
     if manifest is not None:
-        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation)
+        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation, overwrite=args.force)
     print(path)
     return 0
 
@@ -403,16 +409,16 @@ def build_verification_report(prompt: str, fn: int = 96):
 
 
 def cmd_verify(args: argparse.Namespace) -> int:
-    report_path = _resolved_path(args.json_output) if args.json_output else None
-    scad_path = _resolved_path(args.scad_output) if args.scad_output else None
+    report_path = _resolved_output_path(args.json_output, force=args.force) if args.json_output else None
+    scad_path = _resolved_output_path(args.scad_output, force=args.force) if args.scad_output else None
     _require_distinct_paths(report=report_path, scad=scad_path)
     _require_new_paths(force=args.force, report=report_path, scad=scad_path)
     report, scad = _build_verification_bundle(_prompt(args.prompt), args.fn)
     if scad_path is not None and report["status"] == "valid":
-        write_text_atomic(scad_path, scad)
+        write_text_atomic(scad_path, scad, overwrite=args.force)
     payload = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if report_path is not None:
-        write_text_atomic(report_path, payload)
+        write_text_atomic(report_path, payload, overwrite=args.force)
         print(report_path)
     else:
         print(payload, end="")
@@ -421,14 +427,14 @@ def cmd_verify(args: argparse.Namespace) -> int:
 
 def cmd_export(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
-    path = _resolved_path(args.output or f"generated.{args.format}")
-    manifest = _resolved_path(args.manifest) if args.manifest else None
+    path = _resolved_output_path(args.output or f"generated.{args.format}", force=args.force)
+    manifest = _resolved_output_path(args.manifest, force=args.force) if args.manifest else None
     _require_distinct_paths(output=path, manifest=manifest)
     _require_new_paths(force=args.force, output=path, manifest=manifest)
     if args.format == "scad":
-        TextToCAD(output_path=str(path), fn=args.fn).export(doc.prompt)
+        TextToCAD(output_path=str(path), fn=args.fn).export(doc.prompt, overwrite=args.force)
     elif args.format == "json":
-        write_manifest(path, doc.design, doc.validation, doc.program, doc.ir_validation)
+        write_manifest(path, doc.design, doc.validation, doc.program, doc.ir_validation, overwrite=args.force)
     else:
         with tempfile.TemporaryDirectory(prefix="neurocad-") as temporary:
             source = Path(temporary) / "design.scad"
@@ -438,10 +444,11 @@ def cmd_export(args: argparse.Namespace) -> int:
                 path,
                 timeout=args.timeout,
                 expected_extents_mm=_program_extents(doc.require_program()),
+                overwrite=args.force,
             )
         print(json.dumps({"mesh_verification": verification}, sort_keys=True), file=sys.stderr)
     if manifest is not None:
-        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation)
+        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation, overwrite=args.force)
     print(path)
     return 0
 
@@ -492,9 +499,9 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
 def cmd_ir(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
-    output = _resolved_path(args.output)
+    output = _resolved_output_path(args.output, force=args.force)
     _require_new_paths(force=args.force, output=output)
-    write_text_atomic(output, serialize_ir_json(doc.require_program()))
+    write_text_atomic(output, serialize_ir_json(doc.require_program()), overwrite=args.force)
     print(output)
     return 0
 
@@ -514,15 +521,15 @@ def _read_structured_input(value: str) -> str:
 
 
 def cmd_compile(args: argparse.Namespace) -> int:
-    output = _resolved_path(args.output or f"compiled.{args.format}")
+    output = _resolved_output_path(args.output or f"compiled.{args.format}", force=args.force)
     input_path = None if args.input == "-" else _resolved_path(args.input)
     _require_distinct_paths(input=input_path, output=output)
     _require_new_paths(force=args.force, output=output)
     program = parse_ir_json(_read_structured_input(args.input))
     if args.format == "json":
-        write_text_atomic(output, serialize_ir_json(program))
+        write_text_atomic(output, serialize_ir_json(program), overwrite=args.force)
     elif args.format == "scad":
-        write_text_atomic(output, program_to_scad(program, fn=args.fn))
+        write_text_atomic(output, program_to_scad(program, fn=args.fn), overwrite=args.force)
     else:
         with tempfile.TemporaryDirectory(prefix="neurocad-compile-") as temporary:
             source = Path(temporary) / "program.scad"
@@ -532,6 +539,7 @@ def cmd_compile(args: argparse.Namespace) -> int:
                 output,
                 timeout=args.timeout,
                 expected_extents_mm=_program_extents(program),
+                overwrite=args.force,
             )
         print(json.dumps({"mesh_verification": verification}, sort_keys=True), file=sys.stderr)
     print(output)
