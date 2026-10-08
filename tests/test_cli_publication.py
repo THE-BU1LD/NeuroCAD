@@ -28,6 +28,16 @@ CASES = [
 ]
 
 
+@pytest.fixture
+def successful_mesh_compiler(monkeypatch):
+    def compile_fixture(source, output, *, timeout):
+        output.write_bytes(b"verified fixture mesh\n")
+        return subprocess.CompletedProcess(["openscad-fixture"], 0, "", "")
+
+    monkeypatch.setattr(artifacts, "compile_scad", compile_fixture)
+    monkeypatch.setattr(artifacts, "verify_stl", lambda *args, **kwargs: {"kernel_validity": True})
+
+
 def command_arguments(kind: str, root: Path) -> list[str]:
     if kind == "create":
         return [kind, PROMPT, "-o", str(root / "output.scad"), "--manifest", str(root / "manifest.json")]
@@ -49,7 +59,9 @@ def command_arguments(kind: str, root: Path) -> list[str]:
 
 @pytest.mark.parametrize("kind,target", CASES)
 @pytest.mark.parametrize("force", [False, True])
-def test_public_cli_preserves_concurrent_output_unless_forced(tmp_path, monkeypatch, kind, target, force):
+def test_public_cli_preserves_concurrent_output_unless_forced(
+    tmp_path, monkeypatch, successful_mesh_compiler, kind, target, force,
+):
     arguments = command_arguments(kind, tmp_path)
     if force:
         arguments.append("--force")
@@ -62,13 +74,7 @@ def test_public_cli_preserves_concurrent_output_unless_forced(tmp_path, monkeypa
         destination.write_bytes(WINNER)
         observed.append(destination)
 
-    def compiled_fixture(source, output, *, timeout):
-        output.write_bytes(b"verified fixture mesh\n")
-        return subprocess.CompletedProcess(["openscad-fixture"], 0, "", "")
-
     monkeypatch.setattr(cli, "_require_new_paths", publish_after_admission)
-    monkeypatch.setattr(artifacts, "compile_scad", compiled_fixture)
-    monkeypatch.setattr(artifacts, "verify_stl", lambda *args, **kwargs: {"kernel_validity": True})
 
     with pytest.raises(SystemExit) as exit_info:
         cli.main(arguments)
@@ -81,6 +87,33 @@ def test_public_cli_preserves_concurrent_output_unless_forced(tmp_path, monkeypa
     else:
         assert observed[0].read_bytes() == WINNER
         assert status == 2
+    assert not list(tmp_path.glob(".*"))
+
+
+@pytest.mark.parametrize("kind,target", CASES)
+@pytest.mark.parametrize("force", [False, True])
+def test_public_cli_rejects_dangling_output_symlinks_unless_forced(
+    tmp_path, successful_mesh_compiler, kind, target, force,
+):
+    arguments = command_arguments(kind, tmp_path)
+    if force:
+        arguments.append("--force")
+    parsed = cli.build_parser().parse_args(arguments)
+    attribute = {"output": "output", "manifest": "manifest", "report": "json_output", "scad": "scad_output"}[target]
+    destination = Path(getattr(parsed, attribute))
+    referent = tmp_path / "missing-target"
+    destination.symlink_to(referent)
+
+    with pytest.raises(SystemExit) as exit_info:
+        cli.main(arguments)
+
+    assert destination.is_symlink()
+    if force:
+        assert exit_info.value.code == 0
+        assert referent.is_file()
+    else:
+        assert not referent.exists()
+        assert exit_info.value.code == 2
     assert not list(tmp_path.glob(".*"))
 
 

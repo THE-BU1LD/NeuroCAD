@@ -137,6 +137,12 @@ def _resolved_path(value: str) -> Path:
     return Path(value).expanduser().resolve()
 
 
+def _resolved_output_path(value: str, *, force: bool) -> Path:
+    """Keep an unforced final symlink visible to admission and publication."""
+    path = Path(value).expanduser()
+    return path.resolve() if force else path.parent.resolve() / path.name
+
+
 def _paths_collide(left: Path, right: Path) -> bool:
     if left == right:
         return True
@@ -386,8 +392,8 @@ def _generate(prompt_parts: list[str], output: Path, fn: int, *, overwrite: bool
 
 
 def cmd_create(args: argparse.Namespace) -> int:
-    output = _resolved_path(args.output)
-    manifest = _resolved_path(args.manifest) if args.manifest else None
+    output = _resolved_output_path(args.output, force=args.force)
+    manifest = _resolved_output_path(args.manifest, force=args.force) if args.manifest else None
     _require_distinct_paths(output=output, manifest=manifest)
     _require_new_paths(force=args.force, output=output, manifest=manifest)
     path, doc = _generate(args.prompt, output, args.fn, overwrite=args.force)
@@ -403,8 +409,8 @@ def build_verification_report(prompt: str, fn: int = 96):
 
 
 def cmd_verify(args: argparse.Namespace) -> int:
-    report_path = _resolved_path(args.json_output) if args.json_output else None
-    scad_path = _resolved_path(args.scad_output) if args.scad_output else None
+    report_path = _resolved_output_path(args.json_output, force=args.force) if args.json_output else None
+    scad_path = _resolved_output_path(args.scad_output, force=args.force) if args.scad_output else None
     _require_distinct_paths(report=report_path, scad=scad_path)
     _require_new_paths(force=args.force, report=report_path, scad=scad_path)
     report, scad = _build_verification_bundle(_prompt(args.prompt), args.fn)
@@ -421,8 +427,8 @@ def cmd_verify(args: argparse.Namespace) -> int:
 
 def cmd_export(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
-    path = _resolved_path(args.output or f"generated.{args.format}")
-    manifest = _resolved_path(args.manifest) if args.manifest else None
+    path = _resolved_output_path(args.output or f"generated.{args.format}", force=args.force)
+    manifest = _resolved_output_path(args.manifest, force=args.force) if args.manifest else None
     _require_distinct_paths(output=path, manifest=manifest)
     _require_new_paths(force=args.force, output=path, manifest=manifest)
     if args.format == "scad":
@@ -493,7 +499,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
 def cmd_ir(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
-    output = _resolved_path(args.output)
+    output = _resolved_output_path(args.output, force=args.force)
     _require_new_paths(force=args.force, output=output)
     write_text_atomic(output, serialize_ir_json(doc.require_program()), overwrite=args.force)
     print(output)
@@ -515,7 +521,7 @@ def _read_structured_input(value: str) -> str:
 
 
 def cmd_compile(args: argparse.Namespace) -> int:
-    output = _resolved_path(args.output or f"compiled.{args.format}")
+    output = _resolved_output_path(args.output or f"compiled.{args.format}", force=args.force)
     input_path = None if args.input == "-" else _resolved_path(args.input)
     _require_distinct_paths(input=input_path, output=output)
     _require_new_paths(force=args.force, output=output)
