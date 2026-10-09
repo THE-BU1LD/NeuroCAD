@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import shutil
 import tempfile
 from collections.abc import Iterable
@@ -13,6 +12,7 @@ from typing import Any
 from ..artifacts import compile_scad_verified, write_text_atomic
 from ..enclosure import EnclosureBuild, build_enclosure, validate_enclosure_spec
 from ..enclosure_verification import verify_enclosure_mesh
+from ..gmsh_integrity import publish_directory_noreplace
 from ..ir import validate_program
 from ..ir_export import program_to_scad
 from ..ir_parser import serialize_ir_json
@@ -95,8 +95,9 @@ def export_openscad_bundle(
         compile_capability = default_registry().get("openscad").capability("compile_verified_stl")
         if compile_capability.state is CapabilityState.UNAVAILABLE:
             raise IntegrationUnavailableError(compile_capability.detail)
-    destination = Path(destination).expanduser().resolve()
-    if destination.exists():
+    requested_output = Path(destination).expanduser()
+    destination = requested_output.parent.resolve() / requested_output.name
+    if destination.exists() or destination.is_symlink():
         raise FileExistsError(f"exchange destination already exists: {destination}")
     destination.parent.mkdir(parents=True, exist_ok=True)
     bundle_stem = safe_filename_stem(build.spec.title)
@@ -172,9 +173,7 @@ def export_openscad_bundle(
         }
         manifest_path = staging / "manifest.json"
         write_json_atomic(manifest_path, manifest)
-        if destination.exists():
-            raise FileExistsError(f"exchange destination appeared during export: {destination}")
-        os.replace(staging, destination)
+        publish_directory_noreplace(staging, destination)
     except Exception:
         if staging.exists():
             shutil.rmtree(staging)

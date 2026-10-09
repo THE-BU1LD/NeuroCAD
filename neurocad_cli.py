@@ -137,6 +137,12 @@ def _resolved_path(value: str) -> Path:
     return Path(value).expanduser().resolve()
 
 
+def _resolved_output_path(value: str, *, force: bool) -> Path:
+    """Keep an unforced final symlink visible to admission and publication."""
+    path = Path(value).expanduser()
+    return path.resolve() if force else path.parent.resolve() / path.name
+
+
 def _paths_collide(left: Path, right: Path) -> bool:
     if left == right:
         return True
@@ -376,23 +382,23 @@ def _build(prompt_parts: list[str], fn: int):
     return doc
 
 
-def _generate(prompt_parts: list[str], output: Path, fn: int):
+def _generate(prompt_parts: list[str], output: Path, fn: int, *, overwrite: bool = True):
     doc = _build(prompt_parts, fn)
     path = output
-    TextToCAD(output_path=str(path), fn=fn).export(doc.prompt)
+    TextToCAD(output_path=str(path), fn=fn).export(doc.prompt, overwrite=overwrite)
     if not path.exists() or path.stat().st_size == 0:
         raise SystemExit("NeuroCAD generated an empty output file.")
     return path, doc
 
 
 def cmd_create(args: argparse.Namespace) -> int:
-    output = _resolved_path(args.output)
-    manifest = _resolved_path(args.manifest) if args.manifest else None
+    output = _resolved_output_path(args.output, force=args.force)
+    manifest = _resolved_output_path(args.manifest, force=args.force) if args.manifest else None
     _require_distinct_paths(output=output, manifest=manifest)
     _require_new_paths(force=args.force, output=output, manifest=manifest)
-    path, doc = _generate(args.prompt, output, args.fn)
+    path, doc = _generate(args.prompt, output, args.fn, overwrite=args.force)
     if manifest is not None:
-        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation)
+        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation, overwrite=args.force)
     print(path)
     return 0
 
@@ -403,16 +409,16 @@ def build_verification_report(prompt: str, fn: int = 96):
 
 
 def cmd_verify(args: argparse.Namespace) -> int:
-    report_path = _resolved_path(args.json_output) if args.json_output else None
-    scad_path = _resolved_path(args.scad_output) if args.scad_output else None
+    report_path = _resolved_output_path(args.json_output, force=args.force) if args.json_output else None
+    scad_path = _resolved_output_path(args.scad_output, force=args.force) if args.scad_output else None
     _require_distinct_paths(report=report_path, scad=scad_path)
     _require_new_paths(force=args.force, report=report_path, scad=scad_path)
     report, scad = _build_verification_bundle(_prompt(args.prompt), args.fn)
     if scad_path is not None and report["status"] == "valid":
-        write_text_atomic(scad_path, scad)
+        write_text_atomic(scad_path, scad, overwrite=args.force)
     payload = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if report_path is not None:
-        write_text_atomic(report_path, payload)
+        write_text_atomic(report_path, payload, overwrite=args.force)
         print(report_path)
     else:
         print(payload, end="")
@@ -421,14 +427,14 @@ def cmd_verify(args: argparse.Namespace) -> int:
 
 def cmd_export(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
-    path = _resolved_path(args.output or f"generated.{args.format}")
-    manifest = _resolved_path(args.manifest) if args.manifest else None
+    path = _resolved_output_path(args.output or f"generated.{args.format}", force=args.force)
+    manifest = _resolved_output_path(args.manifest, force=args.force) if args.manifest else None
     _require_distinct_paths(output=path, manifest=manifest)
     _require_new_paths(force=args.force, output=path, manifest=manifest)
     if args.format == "scad":
-        TextToCAD(output_path=str(path), fn=args.fn).export(doc.prompt)
+        TextToCAD(output_path=str(path), fn=args.fn).export(doc.prompt, overwrite=args.force)
     elif args.format == "json":
-        write_manifest(path, doc.design, doc.validation, doc.program, doc.ir_validation)
+        write_manifest(path, doc.design, doc.validation, doc.program, doc.ir_validation, overwrite=args.force)
     else:
         with tempfile.TemporaryDirectory(prefix="neurocad-") as temporary:
             source = Path(temporary) / "design.scad"
@@ -438,10 +444,11 @@ def cmd_export(args: argparse.Namespace) -> int:
                 path,
                 timeout=args.timeout,
                 expected_extents_mm=_program_extents(doc.require_program()),
+                overwrite=args.force,
             )
         print(json.dumps({"mesh_verification": verification}, sort_keys=True), file=sys.stderr)
     if manifest is not None:
-        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation)
+        write_manifest(manifest, doc.design, doc.validation, doc.program, doc.ir_validation, overwrite=args.force)
     print(path)
     return 0
 
@@ -492,9 +499,9 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
 def cmd_ir(args: argparse.Namespace) -> int:
     doc = _build(args.prompt, args.fn)
-    output = _resolved_path(args.output)
+    output = _resolved_output_path(args.output, force=args.force)
     _require_new_paths(force=args.force, output=output)
-    write_text_atomic(output, serialize_ir_json(doc.require_program()))
+    write_text_atomic(output, serialize_ir_json(doc.require_program()), overwrite=args.force)
     print(output)
     return 0
 
@@ -514,15 +521,15 @@ def _read_structured_input(value: str) -> str:
 
 
 def cmd_compile(args: argparse.Namespace) -> int:
-    output = _resolved_path(args.output or f"compiled.{args.format}")
+    output = _resolved_output_path(args.output or f"compiled.{args.format}", force=args.force)
     input_path = None if args.input == "-" else _resolved_path(args.input)
     _require_distinct_paths(input=input_path, output=output)
     _require_new_paths(force=args.force, output=output)
     program = parse_ir_json(_read_structured_input(args.input))
     if args.format == "json":
-        write_text_atomic(output, serialize_ir_json(program))
+        write_text_atomic(output, serialize_ir_json(program), overwrite=args.force)
     elif args.format == "scad":
-        write_text_atomic(output, program_to_scad(program, fn=args.fn))
+        write_text_atomic(output, program_to_scad(program, fn=args.fn), overwrite=args.force)
     else:
         with tempfile.TemporaryDirectory(prefix="neurocad-compile-") as temporary:
             source = Path(temporary) / "program.scad"
@@ -532,6 +539,7 @@ def cmd_compile(args: argparse.Namespace) -> int:
                 output,
                 timeout=args.timeout,
                 expected_extents_mm=_program_extents(program),
+                overwrite=args.force,
             )
         print(json.dumps({"mesh_verification": verification}, sort_keys=True), file=sys.stderr)
     print(output)
@@ -604,7 +612,7 @@ def cmd_generate(args: argparse.Namespace) -> int:
     fn = args.fn or config.default_fn
     timeout = args.timeout or config.default_timeout_seconds
     if args.local or args.output:
-        output = _resolved_path(args.output) if args.output else Path(config.output_root) / new_job_id()
+        output = _resolved_output_path(args.output, force=False) if args.output else Path(config.output_root) / new_job_id()
         result = generate_artifacts(
             GenerationRequest(prompt=prompt, output_dir=str(output), formats=formats, fn=fn, timeout_seconds=timeout)
         )
@@ -1421,8 +1429,8 @@ def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bo
 
     source = _prompt(args.prompt)
     interpretation = interpret_enclosure(source)
-    output = _resolved_path(args.output) if args.output else None
-    project_output = _resolved_path(args.project_output) if args.project_output else None
+    output = _resolved_output_path(args.output, force=False) if args.output else None
+    project_output = _resolved_output_path(args.project_output, force=False) if args.project_output else None
     _require_distinct_paths(interpretation=output, project=project_output)
     if output is not None:
         _require_new_path(output, label="interpretation output")
@@ -1432,7 +1440,7 @@ def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bo
     encoded = json.dumps(interpretation.to_dict(), indent=2, sort_keys=True) + "\n"
     human = (human_default or getattr(args, "human", False)) and not getattr(args, "json", False)
     if output is not None:
-        write_text_atomic(output, encoded)
+        write_text_atomic(output, encoded, overwrite=False)
     if human:
         _print_interpretation(interpretation)
         if output is not None:
@@ -1442,7 +1450,7 @@ def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bo
     else:
         print(output)
     if project is not None and project_output is not None:
-        write_project(project_output, project)
+        write_project(project_output, project, overwrite=False)
         print(f"  project      {project_output}" if human else project_output)
     elif project_output is not None:
         _show_errors([issue.message for issue in interpretation.issues])
@@ -1459,7 +1467,7 @@ def cmd_enclosure_understand(args: argparse.Namespace) -> int:
     from core.language_provider import ChatLanguageProvider
     from core.project import read_project
 
-    destination = _resolved_path(args.output) if args.output else None
+    destination = _resolved_output_path(args.output, force=False) if args.output else None
     _require_distinct_paths(project=Path(args.project).resolve(), proposal=destination,
                             history=Path(args.history).resolve() if args.history else None)
     if destination is not None:
@@ -1480,7 +1488,7 @@ def cmd_enclosure_understand(args: argparse.Namespace) -> int:
         proposal = parse_conversation(source, project)
     encoded = json.dumps(proposal.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n"
     if destination is not None:
-        write_text_atomic(destination, encoded)
+        write_text_atomic(destination, encoded, overwrite=False)
     print(encoded, end="")
     return 0 if proposal.status in {"proposal", "unchanged"} else 2
 
@@ -1492,14 +1500,15 @@ def cmd_enclosure_apply_proposal(args: argparse.Namespace) -> int:
 
     if not args.confirm:
         raise ValueError("Review the proposal and supply --confirm before applying it")
-    project_path, proposal_path, destination = Path(args.project), Path(args.proposal), _resolved_path(args.output)
+    project_path, proposal_path = Path(args.project), Path(args.proposal)
+    destination = _resolved_output_path(args.output, force=False)
     _require_distinct_paths(project=project_path.resolve(), proposal=proposal_path.resolve(), output=destination)
     _require_new_path(destination, label="reviewed project")
     project = read_project(project_path)
     raw = strict_json_loads(read_bounded_utf8(proposal_path, max_bytes=262144, label="language proposal"))
     proposal = review_saved_proposal(raw, project)
     candidate = apply_proposal(proposal, project, confirmed=True)
-    write_project(destination, candidate)
+    write_project(destination, candidate, overwrite=False)
     print(destination)
     return 0
 
@@ -1513,7 +1522,7 @@ def cmd_enclosure_build(args: argparse.Namespace) -> int:
     from core.workflow import build_project_bundle
 
     project_path = _resolved_path(args.project)
-    output = _resolved_path(args.output_dir)
+    output = _resolved_output_path(args.output_dir, force=False)
     if project_path == output or project_path in output.parents:
         raise ValueError("output bundle must not contain or replace the source project")
     project = read_project(project_path)
@@ -1568,7 +1577,7 @@ def cmd_enclosure_edit(args: argparse.Namespace) -> int:
     from core.project import read_project, semantic_diff, update_project, write_project
 
     source = _resolved_path(args.project)
-    output = _resolved_path(args.output)
+    output = _resolved_output_path(args.output, force=False)
     _require_distinct_paths(input=source, output=output)
     _require_new_path(output, label="project revision")
     project = read_project(source)
@@ -1585,7 +1594,7 @@ def cmd_enclosure_edit(args: argparse.Namespace) -> int:
             raise ValueError("edit value is limited to 64 KiB")
         value = strict_json_loads(args.value)
         edited = update_project(project, args.field, value, reason=args.reason)
-    write_project(output, edited)
+    write_project(output, edited, overwrite=False)
     print(json.dumps({"output": str(output), "revision": edited.revision, "changes": semantic_diff(project, edited)}, indent=2))
     return 0
 
@@ -1683,7 +1692,7 @@ def cmd_integrations_export(args: argparse.Namespace) -> int:
     from core.project import read_project
 
     project_path = _resolved_path(args.project)
-    destination = _resolved_path(args.output_dir)
+    destination = _resolved_output_path(args.output_dir, force=False)
     manifest_path = _resolved_path(args.manifest) if args.manifest else None
     _require_distinct_paths(project=project_path, destination=destination, manifest=manifest_path)
     if manifest_path is not None:
