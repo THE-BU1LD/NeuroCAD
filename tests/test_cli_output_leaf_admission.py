@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import tempfile
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
@@ -22,15 +24,23 @@ COMMANDS = [
 ]
 
 
+@pytest.fixture
+def short_runtime_root() -> Iterator[Path]:
+    # The normal pytest path on Windows/macOS can exceed the product's
+    # existing portable socket-path limit before output admission is reached.
+    with tempfile.TemporaryDirectory(prefix="nc-") as temporary:
+        yield Path(temporary)
+
+
 @pytest.mark.parametrize("command", COMMANDS)
 @pytest.mark.parametrize("existing_link", [True, False], ids=["dangling-link", "new-output"])
 def test_cli_preserves_dangling_output_leaf_and_accepts_new_output(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
+    tmp_path: Path, short_runtime_root: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
     command: str, existing_link: bool,
 ) -> None:
-    monkeypatch.setenv("NEUROCAD_CONFIG_DIR", str(tmp_path / "config"))
-    monkeypatch.setenv("NEUROCAD_DATA_DIR", str(tmp_path / "data"))
-    monkeypatch.setenv("NEUROCAD_STATE_DIR", str(tmp_path / "state"))
+    monkeypatch.setenv("NEUROCAD_CONFIG_DIR", str(short_runtime_root / "config"))
+    monkeypatch.setenv("NEUROCAD_DATA_DIR", str(short_runtime_root / "data"))
+    monkeypatch.setenv("NEUROCAD_STATE_DIR", str(short_runtime_root / "state"))
     project = EnclosureProject("leaf-admission", EnclosureSpec(
         outer_size_mm=(80, 60, 30), wall_mm=2, profile="fdm_standard",
         lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
