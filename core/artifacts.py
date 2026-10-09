@@ -22,13 +22,24 @@ from .validation import ValidationReport
 _NATIVE_RENDER_AVAILABLE: bool | None = None
 
 
-def write_text_atomic(path: Path, text: str) -> Path:
+def write_text_atomic(path: Path, text: str, *, overwrite: bool = True) -> Path:
+    """Publish complete UTF-8 text, optionally refusing replacement atomically."""
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent, text=True)
     try:
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(text)
-        os.replace(temporary, path)
+            if not overwrite:
+                handle.flush()
+                os.fsync(handle.fileno())
+        if overwrite:
+            os.replace(temporary, path)
+        else:
+            try:
+                os.link(temporary, path)
+            except FileExistsError:
+                raise FileExistsError(f"refusing to overwrite existing text artifact: {path}") from None
+            os.unlink(temporary)
     except Exception:
         try:
             os.unlink(temporary)
@@ -78,10 +89,13 @@ def write_manifest(
     report: ValidationReport,
     program: CADProgram | None = None,
     ir_report: IRValidationReport | None = None,
+    *,
+    overwrite: bool = True,
 ) -> Path:
     return write_text_atomic(
         path,
         json.dumps(design_manifest(design, report, program, ir_report), indent=2, sort_keys=True) + "\n",
+        overwrite=overwrite,
     )
 
 
@@ -297,6 +311,7 @@ def compile_scad_verified(
     *,
     timeout: int = 120,
     expected_extents_mm: tuple[float, float, float] | list[float] | None = None,
+    overwrite: bool = True,
 ) -> tuple[subprocess.CompletedProcess[str], dict[str, Any]]:
     """Compile and kernel-verify an STL before atomically publishing it."""
 
@@ -306,7 +321,16 @@ def compile_scad_verified(
     try:
         completed = compile_scad(source, temporary, timeout=timeout)
         verification = verify_stl(temporary, expected_extents_mm=expected_extents_mm)
-        os.replace(temporary, output)
+        if overwrite:
+            os.replace(temporary, output)
+        else:
+            with temporary.open("rb+") as handle:
+                os.fsync(handle.fileno())
+            try:
+                os.link(temporary, output)
+            except FileExistsError:
+                raise FileExistsError(f"refusing to overwrite existing mesh artifact: {output}") from None
+            temporary.unlink()
     except Exception:
         temporary.unlink(missing_ok=True)
         raise

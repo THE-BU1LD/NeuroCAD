@@ -177,6 +177,7 @@ class DaemonRuntime:
         self.started_monotonic = time.monotonic()
         self.workers: list[threading.Thread] = []
         self.server: NeuroCADUnixServer | None = None
+        self._stopping = threading.Event()
 
     def start_workers(self) -> None:
         for index in range(self.config.worker_count):
@@ -187,12 +188,16 @@ class DaemonRuntime:
             self.queue.put_nowait(job_id)
 
     def stop_workers(self) -> None:
-        for _ in self.workers:
-            self.queue.put(None)
+        # A shutdown sentinel can block indefinitely behind a full work queue.
+        # Stop taking queued jobs and leave their durable records for recovery.
+        self._stopping.set()
+        deadline = time.monotonic() + 5
         for worker in self.workers:
-            worker.join(timeout=5)
+            worker.join(timeout=max(0.0, deadline - time.monotonic()))
 
     def submit(self, payload: dict[str, Any], *, retried_from: str | None = None) -> dict[str, Any]:
+        if self._stopping.is_set():
+            raise RuntimeError("daemon is stopping; submit again after it restarts")
         allowed = {"prompt", "formats", "fn", "timeout_seconds"}
         unknown = set(payload) - allowed
         if unknown:
@@ -279,24 +284,27 @@ class DaemonRuntime:
         return record
 
     def _worker(self) -> None:
-        while True:
-            job_id = self.queue.get()
+        while not self._stopping.is_set():
             try:
-                if job_id is None:
+                job_id = self.queue.get(timeout=0.2)
+            except queue.Empty:
+                continue
+            try:
+                if job_id is None or self._stopping.is_set():
                     return
                 record = self.store.transition(job_id, {"queued"}, status="running", started_at=utc_now())
                 if record is None:
                     continue
                 log_event("job.started", job_id=job_id)
-                request_data = record["request"]
-                request = GenerationRequest(
-                    prompt=request_data["prompt"],
-                    output_dir=record["output_dir"],
-                    formats=tuple(request_data["formats"]),
-                    fn=request_data["fn"],
-                    timeout_seconds=request_data["timeout_seconds"],
-                )
                 try:
+                    request_data = record["request"]
+                    request = GenerationRequest(
+                        prompt=request_data["prompt"],
+                        output_dir=record["output_dir"],
+                        formats=tuple(request_data["formats"]),
+                        fn=request_data["fn"],
+                        timeout_seconds=request_data["timeout_seconds"],
+                    )
                     started = time.monotonic()
                     result = generate_artifacts(request)
                     elapsed = time.monotonic() - started
@@ -331,7 +339,8 @@ class DaemonRuntime:
                         finished_at=utc_now(),
                     )
                     if cancelled is not None:
-                        shutil.rmtree(request.output_dir, ignore_errors=True)
+                        # Failed generation removes only its private staging directory.
+                        # The requested destination may predate the job and is not ours to delete.
                         log_event("job.cancelled", job_id=job_id)
                     else:
                         self.store.transition(

@@ -66,11 +66,11 @@ class TextToCAD:
         doc.require_program()
         return doc.scad
 
-    def export(self, text: str, output_path: str | None = None) -> str:
+    def export(self, text: str, output_path: str | None = None, *, overwrite: bool = True) -> str:
         doc = self.build(text)
         doc.require_program()
         path = Path(output_path or self.output_path or "output.scad")
-        write_text_atomic(path, doc.scad)
+        write_text_atomic(path, doc.scad, overwrite=overwrite)
         return str(path)
 
     def __call__(self, text: str) -> TextCADDocument:
