@@ -297,20 +297,24 @@ def quadratic_tolerance_stack(
         sigmas.append(_positive(contribution.sigma_mm, f"{contribution.name} sigma", allow_zero=True))
         worst_cases.append(_positive(contribution.worst_case_mm, f"{contribution.name} worst case", allow_zero=True))
 
-    if len(sensitivities) != count or any(isinstance(value, bool) for value in sensitivities):
-        raise ValueError("sensitivities must contain one finite number per contribution")
     gradient = np.asarray(sensitivities)
-    hessian = np.asarray(hessian_per_mm)
-    correlation = np.eye(count) if correlations is None else np.asarray(correlations)
-    for name, matrix in (("hessian_per_mm", hessian), ("correlations", correlation)):
-        has_booleans = any(isinstance(value, (bool, np.bool_)) for value in np.asarray(matrix, dtype=object).flat)
+    has_boolean_sensitivity = any(
+        isinstance(value, (bool, np.bool_)) for value in np.asarray(sensitivities, dtype=object).flat
+    )
+    if (has_boolean_sensitivity or gradient.shape != (count,)
+            or gradient.dtype.kind not in "iuf" or not np.isfinite(gradient).all()):
+        raise ValueError("sensitivities must contain one finite number per contribution")
+    # Inspect original values before NumPy can coerce a mixed boolean/float
+    # matrix to floats and silently reinterpret True as a coefficient of one.
+    raw_correlation = np.eye(count) if correlations is None else correlations
+    for name, values in (("hessian_per_mm", hessian_per_mm), ("correlations", raw_correlation)):
+        matrix = np.asarray(values)
+        has_booleans = any(isinstance(value, (bool, np.bool_)) for value in np.asarray(values, dtype=object).flat)
         if has_booleans or matrix.shape != (count, count) or matrix.dtype.kind not in "iuf" or not np.isfinite(matrix).all():
             raise ValueError(f"{name} must be a finite {count} x {count} numeric matrix")
-    if gradient.dtype.kind not in "iuf" or not np.isfinite(gradient).all():
-        raise ValueError("sensitivities must contain one finite number per contribution")
     gradient = gradient.astype(float)
-    hessian = hessian.astype(float)
-    correlation = correlation.astype(float)
+    hessian = np.asarray(hessian_per_mm, dtype=float)
+    correlation = np.asarray(raw_correlation, dtype=float)
     if not np.allclose(hessian, hessian.T, rtol=0, atol=1e-12):
         raise ValueError("hessian_per_mm must be symmetric")
     hessian = (hessian + hessian.T) / 2.0
@@ -336,6 +340,10 @@ def quadratic_tolerance_stack(
         interval_loss += 0.5 * float(worst_vector @ np.abs(hessian) @ worst_vector)
     mean_effect = center_effect + curvature_bias
     mean_clearance = nominal + mean_effect
+    # max(0.0, NaN) is 0.0 in Python. Validate the raw moment before allowing
+    # the existing roundoff clamp, or overflow can be reported as certainty.
+    if not math.isfinite(variance):
+        raise ValueError("quadratic tolerance stack exceeds the finite numerical range")
     variance = max(0.0, variance)
     sigma_total = math.sqrt(variance)
     worst_low = nominal + center_effect - interval_loss

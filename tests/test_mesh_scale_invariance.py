@@ -5,7 +5,6 @@ import pytest
 
 from core.mesh_geometry import analyze_self_intersections
 
-
 FACES = [[0, 1, 2], [3, 4, 5]]
 CASES = [
     # Coplanar, disjoint triangles with overlapping axis-aligned boxes.

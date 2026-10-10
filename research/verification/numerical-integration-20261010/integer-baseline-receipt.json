@@ -1,0 +1,10 @@
+{
+  "evidence_scope": "Authored integer-residual regression",
+  "source": "Automatic integration of PRs #95/#97 scientific_kernel.py before lossless integer admission",
+  "source_sha256": "1712f2f78ccb7d341510f10ffb3ae1ffc30c5a88dacbc2cb5be6fbcb714937df",
+  "test_source_sha256": "38fb0821437d240b7149f153c6048dbcb3221fe9f558e8c0fec921d2534aea5a",
+  "exit_code": 1,
+  "failed": 12,
+  "passed": 4,
+  "log": "integer-baseline.log"
+}
