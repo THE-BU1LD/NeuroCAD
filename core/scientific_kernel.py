@@ -241,7 +241,9 @@ class Jet:
 
     @classmethod
     def variable(cls, value: float, index: int, size: int) -> Jet:
-        if not 1 <= size <= MAX_VARIABLES or not 0 <= index < size:
+        if isinstance(size, bool) or not isinstance(size, int) or not 1 <= size <= MAX_VARIABLES:
+            raise ValueError("invalid automatic-differentiation variable shape")
+        if isinstance(index, bool) or not isinstance(index, int) or not 0 <= index < size:
             raise ValueError("invalid automatic-differentiation variable shape")
         gradient = np.zeros(size)
         gradient[index] = 1.0
@@ -249,7 +251,7 @@ class Jet:
 
     @classmethod
     def constant(cls, value: float, size: int) -> Jet:
-        if not 1 <= size <= MAX_VARIABLES:
+        if isinstance(size, bool) or not isinstance(size, int) or not 1 <= size <= MAX_VARIABLES:
             raise ValueError("invalid automatic-differentiation size")
         return cls(_finite(value, "constant"), np.zeros(size), np.zeros((size, size)))
 
@@ -305,6 +307,12 @@ class Jet:
 
     def __pow__(self, exponent: float) -> Jet:
         power = _finite(exponent, "exponent")
+        # Polynomial constants and identity maps are differentiable at zero.
+        # Handle them before forming negative powers in the derivative formula.
+        if power == 0:
+            return Jet.constant(1.0, len(self.gradient))
+        if power == 1:
+            return self
         if self.value <= 0 and not power.is_integer():
             raise ValueError("fractional powers require a positive value")
         if self.value == 0 and power < 2:
@@ -355,6 +363,8 @@ def value_gradient_hessian(function: Callable[[tuple[Jet, ...]], Jet], values: t
     result = function(variables)
     if not isinstance(result, Jet) or not np.isfinite(result.gradient).all() or not np.isfinite(result.hessian).all():
         raise ValueError("automatic-differentiation function must return one finite Jet")
+    if result.gradient.shape != (len(values),):
+        raise ValueError("automatic-differentiation result dimension must match the input variables")
     return result.value, result.gradient.copy(), result.hessian.copy()
 
 
