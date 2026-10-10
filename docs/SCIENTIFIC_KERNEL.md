@@ -48,6 +48,13 @@ parameters, not global topology optimization or certification.
 division by an interval containing zero. It does not yet implement transcendental
 interval functions or a full IEEE 1788 decoration model.
 
+Division rounds the four endpoint quotients outward directly. This keeps finite
+quotients available when the divisor is subnormal and its standalone reciprocal
+would overflow; for example, `[1e-310, 1e-310] / [1e-310, 1e-310]` encloses one.
+Bounds can be tighter than the former reciprocal-then-product calculation.
+Results that require a nonfinite enclosing endpoint remain outside the finite
+`Interval` contract and raise `ValueError`.
+
 `monte_carlo_propagate` validates a covariance matrix, uses an explicit seed,
 propagates correlated normal samples through a scalar model, and reports summary
 statistics and quantiles. Results are numerical uncertainty propagation, not
