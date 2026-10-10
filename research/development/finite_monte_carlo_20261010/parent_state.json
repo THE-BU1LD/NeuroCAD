@@ -157,44 +157,5 @@
       "scientific_outcomes_created": false,
       "independent_review": "completed; independent 48-case exact-rational check passed; source hash in follow-up record"
     }
-  ],
-  "engineering_sessions": [
-    {
-      "id": "finite_monte_carlo_20261010",
-      "contract": "research/development/finite_monte_carlo_20261010/contract.json",
-      "parent_state": "research/development/finite_monte_carlo_20261010/parent_state.json",
-      "status": "CLOSED",
-      "started_utc": "2026-10-10T09:51:35.070969+00:00",
-      "prior_budgets_reopened": false,
-      "closed_utc": "2026-10-10T10:15:05.015812+00:00",
-      "closure": "research/development/finite_monte_carlo_20261010/closure.json",
-      "closure_sha256": "27368f52fbe2d4d03a3acc66335d26df03d8ce4948b7b1e077fa15a25c3454ee",
-      "documentation": "research/FINITE_MONTE_CARLO_20261010.md",
-      "engineering_result": "NUMERICAL_CORRECTION_VERIFIED",
-      "budget_use": {
-        "test_commands": 2,
-        "test_wall_seconds": 2.699215759013896,
-        "demo_commands": 1,
-        "demo_wall_seconds": 0.961078781998367,
-        "lint_commands": 1,
-        "lint_wall_seconds": 0.10311767700477503,
-        "repair_cycles": 0,
-        "new_regression_cases": 21,
-        "final_selected_passed": 63,
-        "independent_review_execution_commands": 0,
-        "protected_outcome_accesses": 0,
-        "paid_compute": 0,
-        "scientific_runs": 0
-      },
-      "scientific_checkpoint_advanced": false,
-      "historical_disposition_preserved": true,
-      "protected_boundary_unchanged": true,
-      "new_session_required_before_further_execution": true
-    }
-  ],
-  "latest_engineering_session": "finite_monte_carlo_20261010",
-  "latest_engineering_read_order": [
-    "research/FINITE_MONTE_CARLO_20261010.md",
-    "research/development/finite_monte_carlo_20261010/closure.json"
   ]
 }

@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import math
 import re
+import statistics
 from collections.abc import Callable
 from dataclasses import dataclass
+from fractions import Fraction
 from typing import Any
 
 import numpy as np
@@ -717,16 +719,39 @@ def monte_carlo_propagate(
     if not np.array_equal(matrix, matrix.T):
         matrix = normalized * covariance_scale
     draws = np.random.default_rng(seed).multivariate_normal(center, matrix, size=samples, check_valid="raise")
-    outcomes = np.asarray([_finite(function(draw), "Monte Carlo outcome") for draw in draws])
-    standard_deviation = float(np.std(outcomes, ddof=1))
+    outcomes = [_finite(function(draw), "Monte Carlo outcome") for draw in draws]
+    # statistics uses exact ratios for the input floats when accumulating the
+    # mean and sample variance. Finite outputs can otherwise overflow an
+    # intermediate sum or square even when their reported statistics are finite.
+    # The distribution, draw order and Bessel correction are unchanged.
+    try:
+        outcome_mean = statistics.mean(outcomes)
+        standard_deviation = statistics.stdev(outcomes)
+        standard_error = standard_deviation / math.sqrt(samples)
+        ordered = sorted(outcomes)
+        quantiles = {}
+        for level in (0.005, 0.025, 0.5, 0.975, 0.995):
+            # Linear interpolation is a convex combination. Computing b-a
+            # first can overflow for opposite finite endpoints. Exact ratios
+            # also retain subnormal endpoints and round only the final value.
+            index = (samples - 1) * Fraction.from_float(level)
+            lower = index.numerator // index.denominator
+            weight = index - lower
+            left = Fraction.from_float(ordered[lower])
+            right = Fraction.from_float(ordered[min(lower + 1, samples - 1)])
+            quantiles[str(level)] = float((1 - weight) * left + weight * right)
+    except (OverflowError, ValueError) as exc:
+        raise ValueError("sample statistics exceed the finite numerical range") from exc
+    if not all(math.isfinite(value) for value in (outcome_mean, standard_deviation, standard_error, *quantiles.values())):
+        raise ValueError("sample statistics exceed the finite numerical range")
     return {
         "schema_version": "neurocad-monte-carlo-v1",
         "samples": samples,
         "seed": seed,
-        "mean": float(np.mean(outcomes)),
+        "mean": outcome_mean,
         "standard_deviation": standard_deviation,
-        "standard_error": standard_deviation / math.sqrt(samples),
-        "quantiles": {str(level): float(np.quantile(outcomes, level)) for level in (0.005, 0.025, 0.5, 0.975, 0.995)},
+        "standard_error": standard_error,
+        "quantiles": quantiles,
         "claim_boundary": "sampling estimate under the declared distribution; not empirical validation or a safety guarantee",
     }
 

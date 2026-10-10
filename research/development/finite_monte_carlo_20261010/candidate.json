@@ -1,0 +1,42 @@
+{
+  "schema": "bounded-engineering-command-v1",
+  "started_utc": "2026-10-10T09:57:04.966563+00:00",
+  "cwd": "/workspace/scratch/2a0c1e6ddd92/development-0945/NeuroCAD",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "-W",
+    "error",
+    "-o",
+    "addopts=",
+    "tests/test_monte_carlo_finite_summary.py",
+    "tests/test_scientific_kernel.py",
+    "tests/test_interval_division.py"
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "environment": {
+    "PYTHONPATH": "/workspace/scratch/2a0c1e6ddd92/cad-test-deps:.",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MPLBACKEND": "Agg",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "parent_commit": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
+  "source_sha256": {
+    "core/scientific_kernel.py": "6384bb15fa73ea22f6d7aff9ed70872d0e81456308e069dd3802fbb649b3c1d6",
+    "tests/test_monte_carlo_finite_summary.py": "4b65e29a812223d0bba423176630cf8227eb0203534739bade9545e5d142ecae"
+  },
+  "timeout_seconds": 90,
+  "wall_seconds": 1.499948223005049,
+  "returncode": 0,
+  "peak_child_rss_kib": 47940,
+  "logs": {
+    "candidate.stdout.log": "2b7e8b2ae449b6a9ec7f847f7d8c164a310bea7adb339f428718282bfcfcca55",
+    "candidate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
