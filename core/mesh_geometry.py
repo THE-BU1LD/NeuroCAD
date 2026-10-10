@@ -170,9 +170,20 @@ def analyze_self_intersections(
         raise ValueError("max_reported must be a positive integer")
 
     points = points.astype(float)
-    span = np.ptp(points, axis=0)
-    scale = max(1.0, float(np.max(span)))
-    normalized = (points - (np.min(points, axis=0) + np.max(points, axis=0)) / 2.0) / scale
+    lower, upper = np.min(points, axis=0), np.max(points, axis=0)
+    with np.errstate(over="ignore", invalid="ignore"):
+        span = upper - lower
+    scale = float(np.max(span))
+    if not math.isfinite(scale) or scale <= 0:
+        raise ValueError("mesh span must be positive and representable as a finite float")
+    # A one-millimetre floor made the relative tolerance an absolute tolerance
+    # for small meshes, changing intersection verdicts after a unit conversion.
+    # Always normalize by the actual extent. Halving the endpoints separately
+    # avoids overflow of lower + upper for a finite, translated bounding box.
+    center = lower * 0.5 + upper * 0.5
+    normalized = (points - center) / scale
+    if not np.isfinite(normalized).all():
+        raise ValueError("mesh span cannot be normalized to finite coordinates")
     geometry = normalized[triangles]
     normals = np.cross(geometry[:, 1] - geometry[:, 0], geometry[:, 2] - geometry[:, 0])
     if (np.max(np.abs(normals), axis=1) == 0).any():

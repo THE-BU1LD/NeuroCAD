@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-10",
+  "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
+  "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
+  "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
+  "repository": "THE-BU1LD/NeuroCAD",
+  "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "development_branch": "codex/mesh-scale-invariance-20261010",
+  "phase": "DEVELOPMENT_GEOMETRY_REPAIR_VERIFIED",
+  "research_question": "Does the bounded deterministic compiler meet its declared semantic and fail-closed endpoints on an independently authored external challenge?",
+  "scientific_objective": "Maintain correct geometry checks while preserving the distinction between grammar conformance and external generalization.",
+  "current_hypothesis": "Existing controlled conformance does not establish open-world language generalization; independent external challenge evidence is still required.",
+  "intended_contribution_this_revision": "Make normalized triangle-intersection geometry invariant to representable physical scale and robust to large finite translations.",
+  "scope": {
+    "code_paths": [
+      "core/mesh_geometry.py",
+      "tests/test_mesh_scale_invariance.py"
+    ],
+    "study_outcome": "No new study outcome produced"
+  },
+  "historical_disposition": "EVIDENCE_PARTIAL; historical typed-parser causal claim remains falsified.",
+  "terminal_research_disposition": null,
+  "scientific_checkpoint_change": "None. Targeted engineering verification does not complete a scientific checkpoint.",
+  "protected_evaluation": {
+    "boundary": "No external challenge outcomes exist in the referenced truth record. This uses authored geometry regression fixtures, not independent scientific confirmation. Existing source-bound controlled run and frozen protocols are unchanged.",
+    "protected_outcome_accesses": 0,
+    "protected_runs": 0
+  },
+  "development_budget": {
+    "scope": "Bounded artificial regression fixtures and relevant existing implementation tests only",
+    "new_training_runs": 0,
+    "paid_compute": 0,
+    "numeric_threads": 1,
+    "scientific_development_budget": "Not inferred or expanded by this maintenance change"
+  },
+  "datasets_and_splits": {
+    "new_scientific_dataset": null,
+    "authority": "Applicable referenced frozen protocol; no dataset version or split is silently replaced.",
+    "fixtures": "Analytically specified or generated test fixtures, identified by hashed test source."
+  },
+  "artifacts": {
+    "historical_records": [
+      "RESEARCH_TRUTH.md",
+      "research/protocols/EXTERNAL_EVALUATION_V0.md",
+      "research/protocols/FROZEN_CONFIRMATORY_V1.md"
+    ],
+    "development_note": "research/DEVELOPMENT_MESH_SCALE_INVARIANCE_20261010.md",
+    "verification_receipt": "research/verification/mesh_scale_invariance_20261010/receipt.json"
+  },
+  "baseline_failures_preserved": {
+    "new_suite_tests": 23,
+    "failed_on_base": 14,
+    "passed_on_base": 9,
+    "qualification": "Failures include incorrect reported normalization scale as well as geometry/overflow failures; not all 14 are false intersection verdicts.",
+    "environment_failure": "An initial broader run could not import jsonschema. Isolated dependencies were installed and the four targeted test files then passed.",
+    "final_regression_receipt": "research/verification/mesh_scale_invariance_20261010/base_receipt.json",
+    "final_suite_counts_on_base": {
+      "failed": 14,
+      "passed": 9
+    }
+  },
+  "decisions": [
+    {
+      "date": "2026-10-10",
+      "observation": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "hypothesized_cause": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "change": "Normalize by actual maximum mesh extent, center with half-weighted extrema, and reject zero or unrepresentable extent before geometric predicates.",
+      "predicted_consequence": "Four analytically chosen intersection/nonintersection fixtures preserve their verdict from 1e-180 to 1e160; a representable mesh near 1e308 can be centered without overflow.",
+      "discriminating_experiment": "Compare the new regression fixtures with the original base source, then run relevant existing checks.",
+      "result": "See retained verification receipt; no efficacy result is inferred."
+    }
+  ],
+  "claim_evidence": [
+    {
+      "claim": "Make normalized triangle-intersection geometry invariant to representable physical scale and robust to large finite translations.",
+      "evidence_scope": "Engineering only",
+      "raw_artifact": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+      "analysis": "Analytic regression assertions and independent source review",
+      "figure_or_table": "No scientific figure or table generated"
+    }
+  ],
+  "independent_review": {
+    "status": "COMPLETED",
+    "scope": "Independent agent source and regression-test review; no human peer-review claim",
+    "date": "2026-10-10"
+  },
+  "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization.",
+  "next_required_work": [
+    "Review and integrate alongside separate jet differentiation and mesh integration work without discarding concurrent changes.",
+    "Obtain independent challenge data and adjudication under the frozen external protocol.",
+    "Complete strong comparator execution, external replication, release evidence and final artifact gates before stronger scientific or release claims."
+  ]
+}
