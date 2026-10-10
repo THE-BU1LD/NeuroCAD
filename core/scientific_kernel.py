@@ -674,7 +674,11 @@ def monte_carlo_propagate(
     samples: int = 10_000,
     seed: int = 0,
 ) -> dict[str, Any]:
-    """Reproducibly propagate a correlated normal input through a scalar model."""
+    """Reproducibly propagate a correlated normal input through a scalar model.
+
+    Symmetry and positive-semidefinite tolerances are relative to covariance
+    magnitude, so changing physical units cannot admit an invalid distribution.
+    """
 
     count = len(mean)
     if not 1 <= count <= MAX_VARIABLES:
@@ -688,11 +692,19 @@ def monte_carlo_propagate(
     if matrix.shape != (count, count) or matrix.dtype.kind not in "iuf" or not np.isfinite(matrix).all():
         raise ValueError(f"covariance must be a finite {count} x {count} numeric matrix")
     matrix = matrix.astype(float)
-    if not np.allclose(matrix, matrix.T, rtol=0, atol=1e-12):
+    if not np.isfinite(matrix).all():
+        raise ValueError("covariance exceeds the finite numerical range")
+    covariance_scale = float(np.max(np.abs(matrix)))
+    normalized = matrix / covariance_scale if covariance_scale else matrix
+    if not np.allclose(normalized, normalized.T, rtol=0, atol=1e-12):
         raise ValueError("covariance must be symmetric")
-    matrix = (matrix + matrix.T) / 2.0
-    if float(np.linalg.eigvalsh(matrix).min()) < -1e-12:
+    normalized = (normalized + normalized.T) / 2.0
+    if (np.diag(matrix) < 0).any() or float(np.linalg.eigvalsh(normalized).min()) < -1e-12:
         raise ValueError("covariance must be positive semidefinite")
+    # Retain identical draws for already-symmetric valid inputs. For tolerated
+    # roundoff asymmetry, symmetrize in normalized units to avoid overflow.
+    if not np.array_equal(matrix, matrix.T):
+        matrix = normalized * covariance_scale
     draws = np.random.default_rng(seed).multivariate_normal(center, matrix, size=samples, check_valid="raise")
     outcomes = np.asarray([_finite(function(draw), "Monte Carlo outcome") for draw in draws])
     standard_deviation = float(np.std(outcomes, ddof=1))
@@ -709,7 +721,12 @@ def monte_carlo_propagate(
 
 
 def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[float, ...], solution: tuple[float, ...]) -> dict[str, Any]:
-    """Report rank, conditioning, and scaled residual for a linear solve."""
+    """Report rank, conditioning, and normwise backward error for a linear solve.
+
+    Power-of-two scaling keeps integer products and finite extreme-scale data
+    out of overflowing arithmetic. An unrepresentable residual norm is rejected;
+    the backward error is computed before restoring the residual's physical scale.
+    """
 
     coefficients = np.asarray(matrix)
     target = np.asarray(rhs)
@@ -723,15 +740,63 @@ def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[
         raise ValueError("rhs and solution dimensions must match the matrix")
     if not np.isfinite(target).all() or not np.isfinite(estimate).all():
         raise ValueError("rhs and solution must be finite")
-    residual = coefficients @ estimate - target
-    residual_norm = float(np.linalg.norm(residual))
-    denominator = float(np.linalg.norm(coefficients) * np.linalg.norm(estimate) + np.linalg.norm(target))
-    condition = float(np.linalg.cond(coefficients))
+    # Cast before multiplication/subtraction: NumPy integer arithmetic wraps
+    # silently and can otherwise label a non-solution as an exact solution.
+    coefficients = coefficients.astype(float)
+    target = target.astype(float)
+    estimate = estimate.astype(float)
+    if not all(np.isfinite(value).all() for value in (coefficients, target, estimate)):
+        raise ValueError("linear system exceeds the finite numerical range")
+
+    coefficient_max = float(np.max(np.abs(coefficients)))
+    estimate_max = float(np.max(np.abs(estimate)))
+    target_max = float(np.max(np.abs(target)))
+    coefficient_exponent = math.frexp(coefficient_max)[1]
+    estimate_exponent = math.frexp(estimate_max)[1]
+    product_exponent = coefficient_exponent + estimate_exponent
+    has_product = coefficient_max > 0 and estimate_max > 0
+    exponents = ([product_exponent] if has_product else []) + (
+        [math.frexp(target_max)[1]] if target_max > 0 else []
+    )
+    residual_exponent = max(exponents, default=0)
+    scaled_coefficients = np.ldexp(coefficients, -coefficient_exponent)
+    scaled_estimate = np.ldexp(estimate, -estimate_exponent)
+    scaled_target = np.ldexp(target, -residual_exponent)
+    if has_product:
+        scaled_product = np.ldexp(
+            scaled_coefficients @ scaled_estimate, product_exponent - residual_exponent
+        )
+        product_norm_bound = math.ldexp(
+            float(np.linalg.norm(scaled_coefficients) * np.linalg.norm(scaled_estimate)),
+            product_exponent - residual_exponent,
+        )
+    else:
+        scaled_product = np.zeros(rows)
+        product_norm_bound = 0.0
+    scaled_residual_norm = math.hypot(*(scaled_product - scaled_target))
+    denominator = product_norm_bound + math.hypot(*scaled_target)
+    # Preserve a representable residual in mixed-scale systems, where global
+    # normalization can erase small coefficients multiplied by large variables.
+    # An overflowing direct product is not accepted as a cancellation certificate.
+    with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+        direct_residual = coefficients @ estimate - target
+    if not np.isfinite(direct_residual).all():
+        raise ValueError("residual norm exceeds the finite numerical range")
+    direct_norm = math.hypot(*direct_residual)
+    if direct_norm > 0.0:
+        scaled_residual_norm = math.ldexp(direct_norm, -residual_exponent)
+    try:
+        residual_norm = direct_norm or math.ldexp(scaled_residual_norm, residual_exponent)
+    except OverflowError as exc:
+        raise ValueError("residual norm exceeds the finite numerical range") from exc
+    if not math.isfinite(residual_norm):
+        raise ValueError("residual norm exceeds the finite numerical range")
+    condition = float(np.linalg.cond(scaled_coefficients))
     return {
         "shape": [rows, columns],
-        "rank": int(np.linalg.matrix_rank(coefficients)),
+        "rank": int(np.linalg.matrix_rank(scaled_coefficients)),
         "condition_number": condition if math.isfinite(condition) else None,
         "residual_norm": residual_norm,
-        "relative_backward_error": residual_norm / denominator if denominator else residual_norm,
+        "relative_backward_error": scaled_residual_norm / denominator if denominator else 0.0,
         "ill_conditioned": not math.isfinite(condition) or condition > 1.0 / math.sqrt(np.finfo(float).eps),
     }
