@@ -1,0 +1,24 @@
+{
+  "schema": "bounded-engineering-contract-v1",
+  "started_utc": "2026-10-10T09:51:35.070969+00:00",
+  "parent_commit": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
+  "status": "SPECIFIED_BEFORE_IMPLEMENTATION_AND_EXECUTION",
+  "question": "Can the existing Monte Carlo report produce finite correctly rounded sample summaries when finite outputs have representable statistics, and reject statistics outside float64 range?",
+  "observation": "The current report directly uses NumPy mean/std/linear quantiles on finite samples. Their intermediate sums, squares or endpoint differences may overflow even where the requested statistic is finite.",
+  "contract": "Retain input distribution, generator, samples, quantile levels and report schema. Use standard-library exact-rational sample mean/variance reduction and bounded exact-rational interpolation of sorted binary64 samples at the existing linear quantile levels; reject nonfinite or unrepresentable reported statistics before returning a success-shaped record. Preserve zero variance, subnormal values, signed finite outcomes, and Bessel correction. No sampling distribution or default seed change.",
+  "implementation": "Replace only outcome summary arithmetic in core/scientific_kernel.py, with a private helper if useful, tests using deterministic callable outputs and independently computed rational/Decimal oracles, and one retained bounded report fixture. No physics/model change, external challenges, protected labels or old result regeneration.",
+  "falsifier": "For accepted deterministic finite outcomes, summary mean/std/SE/quantiles disagree with independent high-precision sample statistics beyond binary64 rounding tolerance, or an unrepresentable statistic returns infinity/NaN as a valid report.",
+  "budget": {
+    "maximum_test_commands": 5,
+    "maximum_total_test_wall_seconds": 180,
+    "maximum_demo_commands": 1,
+    "maximum_demo_seconds": 30,
+    "maximum_samples_per_new_case": 32,
+    "repair_cycles": 2,
+    "numeric_threads": 1,
+    "paid_compute": 0,
+    "protected_outcome_accesses": 0,
+    "scientific_runs": 0
+  },
+  "qualification": "Arithmetic correctness under a caller-specified normal input remains distinct from empirical validation, manufacturability or safety. Existing partial evidence and falsified typed-parser claim remain unchanged."
+}

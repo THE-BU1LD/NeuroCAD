@@ -679,67 +679,6 @@ def minimize_constrained(
     )
 
 
-def _round_sqrt_ratio(numerator: int, denominator: int) -> float:
-    """Round a nonnegative rational square root to binary64, ties to even.
-
-    Neither the variance nor its reciprocal needs a floating representation.
-    Integer comparisons choose the normal/subnormal grid and its exact midpoint.
-    ``ldexp`` raises when the correctly rounded result exceeds the finite range.
-    """
-
-    if numerator < 0 or denominator <= 0:
-        raise ValueError("square root requires a nonnegative numerator and positive denominator")
-    if numerator == 0:
-        return 0.0
-
-    exponent = numerator.bit_length() - denominator.bit_length()
-    if exponent >= 0:
-        if numerator < denominator << exponent:
-            exponent -= 1
-    elif numerator << -exponent < denominator:
-        exponent -= 1
-
-    # floor(log2(sqrt(numerator / denominator))) is exponent // 2.
-    # A normal float has 53 significant bits; subnormals use the fixed grid.
-    quantum_exponent = max(exponent // 2 - 52, -1074)
-    shift = -2 * quantum_exponent
-    if shift >= 0:
-        scaled_numerator = numerator << shift
-        scaled_denominator = denominator
-    else:
-        scaled_numerator = numerator
-        scaled_denominator = denominator << -shift
-    lower = math.isqrt(scaled_numerator // scaled_denominator)
-    midpoint_comparison = 4 * scaled_numerator - scaled_denominator * (2 * lower + 1) ** 2
-    if midpoint_comparison > 0 or (midpoint_comparison == 0 and lower % 2):
-        lower += 1
-    return math.ldexp(float(lower), quantum_exponent)
-
-
-def _sample_standard_deviation(values: list[float]) -> float:
-    """Bessel-corrected SD of already admitted finite binary64 outcomes.
-
-    Float denominators are powers of two. Their maximum is a common denominator,
-    so integer sums preserve cancellation exactly with constant auxiliary space.
-    Only the final square root is rounded; this also works on Python 3.10.
-    """
-
-    count = len(values)
-    if count < 2:
-        raise ValueError("sample standard deviation requires at least two values")
-    common_denominator = max(value.as_integer_ratio()[1] for value in values)
-    total = 0
-    square_total = 0
-    for value in values:
-        numerator, denominator = value.as_integer_ratio()
-        integer = numerator * (common_denominator // denominator)
-        total += integer
-        square_total += integer * integer
-    variance_numerator = count * square_total - total * total
-    variance_denominator = count * (count - 1) * common_denominator * common_denominator
-    return _round_sqrt_ratio(variance_numerator, variance_denominator)
-
-
 def monte_carlo_propagate(
     function: Callable[[np.ndarray], float],
     mean: tuple[float, ...],
@@ -781,13 +720,13 @@ def monte_carlo_propagate(
         matrix = normalized * covariance_scale
     draws = np.random.default_rng(seed).multivariate_normal(center, matrix, size=samples, check_valid="raise")
     outcomes = [_finite(function(draw), "Monte Carlo outcome") for draw in draws]
-    # Accumulate the mean and sample variance as exact ratios. The private SD
-    # reduction avoids Python-version-dependent conversion of variance to float
-    # before sqrt. Finite summaries may have unrepresentable sums or squares.
+    # statistics uses exact ratios for the input floats when accumulating the
+    # mean and sample variance. Finite outputs can otherwise overflow an
+    # intermediate sum or square even when their reported statistics are finite.
     # The distribution, draw order and Bessel correction are unchanged.
     try:
         outcome_mean = statistics.mean(outcomes)
-        standard_deviation = _sample_standard_deviation(outcomes)
+        standard_deviation = statistics.stdev(outcomes)
         standard_error = standard_deviation / math.sqrt(samples)
         ordered = sorted(outcomes)
         quantiles = {}
