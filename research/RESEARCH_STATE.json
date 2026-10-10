@@ -87,6 +87,15 @@
       "predicted_consequence": "The formerly false-zero cases fail explicitly while exact large-integer controls and existing numerical/geometry behavior remain supported.",
       "discriminating_experiment": "Retained predecessor regressions, focused numerical tests and the full maintained product suite.",
       "result": "See the integration verification receipt and exact-revision hosted checks; no scientific efficacy outcome is inferred."
+    },
+    {
+      "date": "2026-10-10",
+      "observation": "Interval(1e-310,1e-310) divided by itself raises ValueError even though its exact quotient is one.",
+      "hypothesized_cause": "Constructing the standalone reciprocal overflows before multiplication by the small numerator.",
+      "change": "Round the minimum and maximum of the four direct endpoint quotients outward. Keep zero-containing divisors and nonfinite enclosure endpoints rejected.",
+      "predicted_consequence": "Finite subnormal ratios enclose their exact rational results; ordinary controls and prior rejection boundaries remain valid.",
+      "discriminating_experiment": "Exact-rational endpoint tests on both original and integrated parent source, plus maintained numerical tests.",
+      "result": "See research/ENGINEERING_INTERVAL_DIVISION_20261010.json; no scientific outcome inferred."
     }
   ],
   "claim_evidence": [
@@ -112,6 +121,7 @@
   },
   "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization. Linear diagnostics reject integer values not exactly representable in float64; they cannot recover precision already lost upstream or supply arbitrary-precision residual arithmetic.",
   "next_required_work": [
+    "Review the interval-division follow-up and its exact-revision checks on the integrated numerical/geometry candidate.",
     "Review the integrated candidate alongside the separately scoped output-preservation and native-backend work.",
     "Read exact-revision hosted checks; this state records the source candidate rather than a release authorization.",
     "Obtain independent challenge data and adjudication under the frozen external protocol.",
@@ -132,5 +142,20 @@
       "AF_UNIX socket creation denied locally; unchanged daemon cases remain required in hosted CI."
     ],
     "formatting_note": "Imported mesh and polynomial test blank lines corrected after full-suite execution; both AST identities preserved. Source/document whitespace checks exclude unchanged raw traceback whitespace."
-  }
+  },
+  "current_followup": "research/ENGINEERING_INTERVAL_DIVISION_20261010.json",
+  "engineering_followups": [
+    {
+      "date": "2026-10-10",
+      "parent_commit": "30cffcdd8881b60445355faffcd5752ef51aa32e",
+      "branch": "codex/neurocad-finite-interval-division-20261010",
+      "record": "research/ENGINEERING_INTERVAL_DIVISION_20261010.json",
+      "scope": [
+        "core/scientific_kernel.py:Interval.__truediv__",
+        "tests/test_interval_division.py"
+      ],
+      "scientific_outcomes_created": false,
+      "independent_review": "pending"
+    }
+  ]
 }

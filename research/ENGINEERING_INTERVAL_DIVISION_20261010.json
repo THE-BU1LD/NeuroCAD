@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-10",
+  "kind": "ENGINEERING_CORRECTNESS_REVISION",
+  "repository": "THE-BU1LD/NeuroCAD",
+  "parent_commit": "30cffcdd8881b60445355faffcd5752ef51aa32e",
+  "stacked_on_pr": 99,
+  "title": "Finite interval division without overflowing a reciprocal",
+  "observation": "Interval(1e-310,1e-310) divided by itself raises ValueError even though its exact quotient is one.",
+  "cause": "Constructing the standalone reciprocal overflows before multiplication by the small numerator.",
+  "change": "Round the minimum and maximum of the four direct endpoint quotients outward. Keep zero-containing divisors and nonfinite enclosure endpoints rejected.",
+  "predicted_consequence": "Finite subnormal ratios enclose their exact rational results; ordinary controls and prior rejection boundaries remain valid.",
+  "evidence": {
+    "baseline_on_default": "11 failed, 13 passed on 23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+    "baseline_on_stacked_parent": "11 failed, 13 passed against independently loaded scientific_kernel.py from 30cffcdd8881b60445355faffcd5752ef51aa32e",
+    "oracle": "fractions.Fraction.from_float compares returned endpoints with exact rational corner quotients; no rounded quotient is used as the reference",
+    "local_initial_suite": "42 passed (24 new cases plus 18 maintained scientific-kernel cases)",
+    "public_consumer": "from core import Interval returns [0.9999999999999999, 1.0000000000000002] for the original witness",
+    "scoped_static_checks": "Ruff, Mypy and git diff --check passed",
+    "environment": {
+      "python": "3.12.14",
+      "numpy": "2.3.5",
+      "pytest": "9.1.1",
+      "numeric_threads": 1
+    },
+    "initial_environment_issue": "Declared jsonschema dependency was absent and installed into an isolated task directory; a test initially imported the tests/core compatibility shim, corrected to the maintained core.scientific_kernel import before baseline measurement.",
+    "stacked_numerical_suite": "132 passed with warnings treated as errors: interval, maintained kernel, polynomial, linear diagnostic, covariance, integer admission and quadratic tolerance tests",
+    "stacked_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python -m pytest -q -W error tests/test_interval_division.py tests/test_scientific_kernel.py tests/test_scientific_kernel_polynomials.py tests/test_linear_system_numerics.py tests/test_monte_carlo_covariance.py tests/test_linear_integer_admission.py tests/test_quadratic_tolerance_numerics.py"
+  },
+  "changed_python_sha256": {
+    "core/scientific_kernel.py": "a22a6ff110f092c68f66d27caf508393cebcce97c7a16c6e36e290d5969d64f6",
+    "tests/test_interval_division.py": "a432c7e6b91e440755d1affecb7e7d55b273dc1ad80234318a796932dbf6421e"
+  },
+  "compatibility": "Division bounds can be tighter than the former two-operation reciprocal/product enclosure. Finite endpoint and zero-divisor contracts remain unchanged.",
+  "scientific_runs": 0,
+  "protected_outcome_accesses": 0,
+  "scientific_result_changed": false,
+  "scientific_disposition": "EVIDENCE_PARTIAL; historical typed-parser causal claim remains falsified",
+  "independent_review": "pending for this follow-up; prior integrated review retained in its originating records",
+  "integration": "draft pull request; not merged",
+  "next_action": "Review the source-bound engineering follow-up and exact-head hosted checks; independent external evaluation and release gates remain separate."
+}

@@ -399,8 +399,9 @@ class Interval:
     def __truediv__(self, other: Interval) -> Interval:
         if other.lower <= 0 <= other.upper:
             raise ZeroDivisionError("interval divisor contains zero")
-        reciprocal = Interval(self._down(1.0 / other.upper), self._up(1.0 / other.lower))
-        return self * reciprocal
+        # A reciprocal can overflow even when every endpoint quotient is finite.
+        quotients = (self.lower / other.lower, self.lower / other.upper, self.upper / other.lower, self.upper / other.upper)
+        return Interval(self._down(min(quotients)), self._up(max(quotients)))
 
     def sqrt(self) -> Interval:
         if self.lower < 0:
