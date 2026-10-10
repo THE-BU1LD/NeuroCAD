@@ -1,0 +1,99 @@
+........................................................................ [  5%]
+........................................................................ [ 11%]
+........................................................................ [ 16%]
+........................................................................ [ 22%]
+........................................................................ [ 27%]
+...................................................sssss................ [ 33%]
+........................................................................ [ 38%]
+........................................................................ [ 44%]
+........................................................................ [ 49%]
+........................................................................ [ 55%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+.....................................................................s.. [ 77%]
+.......................................................................F [ 83%]
+F....................................................................... [ 88%]
+........................................................................ [ 94%]
+........................................................................ [ 99%]
+.                                                                        [100%]
+=================================== FAILURES ===================================
+___________________ test_daemon_runs_durable_generation_job ____________________
+
+runtime_root = PosixPath('/tmp/nc-4ix7v_3z')
+
+    @pytest.mark.skipif(not hasattr(os, "getuid"), reason="Unix-domain daemon")
+    def test_daemon_runs_durable_generation_job(runtime_root: Path) -> None:
+        config = _config(runtime_root)
+        config_path = write_config(config, runtime_root / "config.json")
+        probe_path = runtime_root / "probe.sock"
+>       with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as probe:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_terminal_daemon.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_UNIX: 1>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_________ test_shutdown_acknowledgement_is_flushed_before_server_stops _________
+
+runtime_root = PosixPath('/tmp/nc-ncna2f70')
+
+    @pytest.mark.skipif(not hasattr(os, "getuid"), reason="Unix-domain daemon")
+    def test_shutdown_acknowledgement_is_flushed_before_server_stops(runtime_root: Path) -> None:
+        for index in range(10):
+            config = replace(_config(runtime_root), socket_path=str(runtime_root / f"shutdown-{index}.sock"))
+            runtime = DaemonRuntime(config)
+>           server = NeuroCADUnixServer(config.socket_path, runtime)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_terminal_daemon.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/daemon.py:441: in __init__
+    super().__init__(socket_path, NeuroCADRequestHandler)
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_UNIX: 1>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+=========================== short test summary info ============================
+FAILED tests/test_terminal_daemon.py::test_daemon_runs_durable_generation_job
+FAILED tests/test_terminal_daemon.py::test_shutdown_acknowledgement_is_flushed_before_server_stops
+2 failed, 1289 passed, 9 skipped in 406.50s (0:06:46)

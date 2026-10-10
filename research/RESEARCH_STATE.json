@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-10",
+  "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
+  "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
+  "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
+  "repository": "THE-BU1LD/NeuroCAD",
+  "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "development_branch": "codex/integrated-numeric-geometry-20261010",
+  "phase": "INTEGRATED_NUMERIC_GEOMETRY_CANDIDATE",
+  "research_question": "Does the bounded deterministic compiler meet its declared semantic and fail-closed endpoints on an independently authored external challenge?",
+  "scientific_objective": "Maintain correct geometry checks while preserving the distinction between grammar conformance and external generalization.",
+  "current_hypothesis": "Existing controlled conformance does not establish open-world language generalization; independent external challenge evidence is still required.",
+  "intended_contribution_this_revision": "Combine polynomial, tolerance, residual/covariance and mesh-scale repairs; reject lossy integer inputs that would create false zero residuals.",
+  "scope": {
+    "code_paths": [
+      "core/mesh_geometry.py",
+      "tests/test_mesh_scale_invariance.py",
+      "core/scientific_kernel.py",
+      "core/engineering_math.py",
+      "tests/test_linear_integer_admission.py",
+      "tests/test_linear_system_numerics.py",
+      "tests/test_monte_carlo_covariance.py",
+      "tests/test_scientific_kernel_polynomials.py",
+      "tests/test_quadratic_tolerance_numerics.py"
+    ],
+    "study_outcome": "No new study outcome produced"
+  },
+  "historical_disposition": "EVIDENCE_PARTIAL; historical typed-parser causal claim remains falsified.",
+  "terminal_research_disposition": null,
+  "scientific_checkpoint_change": "None. Targeted engineering verification does not complete a scientific checkpoint.",
+  "protected_evaluation": {
+    "boundary": "No external challenge outcomes exist in the referenced truth record. This uses authored geometry regression fixtures, not independent scientific confirmation. Existing source-bound controlled run and frozen protocols are unchanged.",
+    "protected_outcome_accesses": 0,
+    "protected_runs": 0
+  },
+  "development_budget": {
+    "scope": "Bounded artificial regression fixtures and relevant existing implementation tests only",
+    "new_training_runs": 0,
+    "paid_compute": 0,
+    "numeric_threads": 1,
+    "scientific_development_budget": "Not inferred or expanded by this maintenance change"
+  },
+  "datasets_and_splits": {
+    "new_scientific_dataset": null,
+    "authority": "Applicable referenced frozen protocol; no dataset version or split is silently replaced.",
+    "fixtures": "Analytically specified or generated test fixtures, identified by hashed test source."
+  },
+  "artifacts": {
+    "historical_records": [
+      "RESEARCH_TRUTH.md",
+      "research/protocols/EXTERNAL_EVALUATION_V0.md",
+      "research/protocols/FROZEN_CONFIRMATORY_V1.md"
+    ],
+    "development_note": "research/DEVELOPMENT_MESH_SCALE_INVARIANCE_20261010.md",
+    "verification_receipt": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+    "integration_note": "docs/INTEGRATED_NUMERICAL_GEOMETRY_20261010.md",
+    "integration_verification": "research/verification/numerical-integration-20261010/receipt.json"
+  },
+  "baseline_failures_preserved": {
+    "new_suite_tests": 23,
+    "failed_on_base": 14,
+    "passed_on_base": 9,
+    "qualification": "Failures include incorrect reported normalization scale as well as geometry/overflow failures; not all 14 are false intersection verdicts.",
+    "environment_failure": "An initial broader run could not import jsonschema. Isolated dependencies were installed and the four targeted test files then passed.",
+    "final_regression_receipt": "research/verification/mesh_scale_invariance_20261010/base_receipt.json",
+    "final_suite_counts_on_base": {
+      "failed": 14,
+      "passed": 9
+    }
+  },
+  "decisions": [
+    {
+      "date": "2026-10-10",
+      "observation": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "hypothesized_cause": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "change": "Normalize by actual maximum mesh extent, center with half-weighted extrema, and reject zero or unrepresentable extent before geometric predicates.",
+      "predicted_consequence": "Four analytically chosen intersection/nonintersection fixtures preserve their verdict from 1e-180 to 1e160; a representable mesh near 1e308 can be centered without overflow.",
+      "discriminating_experiment": "Compare the new regression fixtures with the original base source, then run relevant existing checks.",
+      "result": "See retained verification receipt; no efficacy result is inferred."
+    },
+    {
+      "date": "2026-10-10",
+      "observation": "Four independent numerical/geometry candidates needed combined validation. Review found an integer-to-float conversion that reported residual zero for an integer equation whose true residual is one.",
+      "hypothesized_cause": "The conversion erased integer identity before the existing floating residual calculation.",
+      "change": "Merge all four histories, then inspect original integer scalars for exact float64 representation and reject lossy conversion. Preserve exactly representable large integers.",
+      "predicted_consequence": "The formerly false-zero cases fail explicitly while exact large-integer controls and existing numerical/geometry behavior remain supported.",
+      "discriminating_experiment": "Retained predecessor regressions, focused numerical tests and the full maintained product suite.",
+      "result": "See the integration verification receipt and exact-revision hosted checks; no scientific efficacy outcome is inferred."
+    }
+  ],
+  "claim_evidence": [
+    {
+      "claim": "Make normalized triangle-intersection geometry invariant to representable physical scale and robust to large finite translations.",
+      "evidence_scope": "Engineering only",
+      "raw_artifact": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+      "analysis": "Analytic regression assertions and independent source review",
+      "figure_or_table": "No scientific figure or table generated"
+    },
+    {
+      "claim": "Original integer matrix/rhs/solution values cannot silently round into a false-zero residual via float64 admission.",
+      "evidence_scope": "Engineering input admission; floating arithmetic remains finite precision.",
+      "raw_artifact": "research/verification/numerical-integration-20261010/integer-baseline-receipt.json",
+      "analysis": "Independent review, analytically specified invalid equations and exactly representable large-integer controls.",
+      "figure_or_table": "No scientific figure or table generated"
+    }
+  ],
+  "independent_review": {
+    "status": "COMPLETED",
+    "scope": "Independent agent source and regression-test review; no human peer-review claim",
+    "date": "2026-10-10"
+  },
+  "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization. Linear diagnostics reject integer values not exactly representable in float64; they cannot recover precision already lost upstream or supply arbitrary-precision residual arithmetic.",
+  "next_required_work": [
+    "Review the integrated candidate alongside the separately scoped output-preservation and native-backend work.",
+    "Read exact-revision hosted checks; this state records the source candidate rather than a release authorization.",
+    "Obtain independent challenge data and adjudication under the frozen external protocol.",
+    "Complete strong-comparator execution, external replication, physical validation where claimed, release evidence and final artifact gates before stronger scientific or release claims."
+  ],
+  "integration_parents": [
+    "982eafb1665a9c31868cfcfda7c75571885c2cd8",
+    "6b3c27f0b07732b7b61dc83035ec2282d7ac2ff5",
+    "c906105907cdd710b717d04d5d75b95ec3cac54a",
+    "e87726d3c7efe575e697770cbba5a064ec371e35"
+  ],
+  "engineering_validation": {
+    "status_at_commit": "LOCAL_NUMERICAL_CHECKS_PASS; TWO_FULL_SUITE_SOCKET_PERMISSION_FAILURES_RETAINED",
+    "source_receipt": "research/verification/numerical-integration-20261010/receipt.json",
+    "hosted_results": "Consult the integration pull request checks for the exact source revision; no local test failure is suppressed.",
+    "environment_issues": [
+      "Initial missing jsonschema dependency resolved in isolated project/dev environment.",
+      "AF_UNIX socket creation denied locally; unchanged daemon cases remain required in hosted CI."
+    ],
+    "formatting_note": "Imported mesh and polynomial test blank lines corrected after full-suite execution; both AST identities preserved. Source/document whitespace checks exclude unchanged raw traceback whitespace."
+  }
+}

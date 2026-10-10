@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "evidence_class": "BOUNDED_ENGINEERING_VERIFICATION",
+  "repository": "THE-BU1LD/NeuroCAD",
+  "source_base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "base_tree": "6c7d35730e6ccdb123c65e7224bf12ae3d5f99c3",
+  "date": "2026-10-10",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-m",
+    "pytest",
+    "-o",
+    "addopts=",
+    "-q",
+    "tests/test_mesh_scale_invariance.py",
+    "tests/test_topology.py",
+    "tests/test_mesh_cli.py",
+    "tests/test_mesh_preview.py",
+    "--tb=short"
+  ],
+  "cwd_relative_to_repository": ".",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "versions": {
+      "numpy": "2.5.3",
+      "scipy": "1.17.0",
+      "pytest": "9.1.1"
+    },
+    "numeric_threads": 1,
+    "dependency_location": "/workspace/scratch/2a0c1e6ddd92/cad-test-deps"
+  },
+  "source_sha256": {
+    "core/mesh_geometry.py": "647a302aecf4cc0e08e6a2bfe25251a561be6ad06e44af51f6382e78c54e1e23",
+    "tests/test_mesh_scale_invariance.py": "6ffe2f6fc24ca26a7740f2816d723b5eff8fff458652fcecdd5a721b428a0667"
+  },
+  "test_sources": [
+    "tests/test_mesh_scale_invariance.py",
+    "tests/test_topology.py",
+    "tests/test_mesh_cli.py",
+    "tests/test_mesh_preview.py"
+  ],
+  "passed": 66,
+  "exit_code": 0,
+  "wall_seconds": 7.629861651999818,
+  "child_max_rss_kib": 115264,
+  "memory_scope": "Maximum RSS of completed child processes in this bounded verifier; Linux KiB. This is not model training compute or a scientific efficiency benchmark.",
+  "raw_output": "pytest.log",
+  "raw_output_sha256": "ae0628f3ad026ace0dc9d1c02a85c55cbb9caea8345eb302999753e9650a40b8",
+  "historical_outcomes_recomputed": false,
+  "protected_outcomes_accessed": false
+}
