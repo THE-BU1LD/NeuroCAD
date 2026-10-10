@@ -11,6 +11,7 @@ import math
 import re
 from collections.abc import Callable
 from dataclasses import dataclass
+from fractions import Fraction
 from typing import Any
 
 import numpy as np
@@ -719,7 +720,14 @@ def monte_carlo_propagate(
 
 
 def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[float, ...], solution: tuple[float, ...]) -> dict[str, Any]:
-    """Report rank, conditioning, and scaled residual for a linear solve."""
+    """Report finite float64 solve diagnostics without integer/norm overflow.
+
+    Inputs must survive conversion to float64 exactly. The backward-error
+    denominator is assembled from scaled norm factors without overflowing;
+    an unrepresentable reported residual or nonzero ratio is rejected.
+    Nonzero scalar products that round to zero are also rejected before
+    matrix multiplication can disguise underflow as an exact solution.
+    """
 
     coefficients = np.asarray(matrix)
     target = np.asarray(rhs)
@@ -733,15 +741,52 @@ def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[
         raise ValueError("rhs and solution dimensions must match the matrix")
     if not np.isfinite(target).all() or not np.isfinite(estimate).all():
         raise ValueError("rhs and solution must be finite")
-    residual = coefficients @ estimate - target
-    residual_norm = float(np.linalg.norm(residual))
-    denominator = float(np.linalg.norm(coefficients) * np.linalg.norm(estimate) + np.linalg.norm(target))
-    condition = float(np.linalg.cond(coefficients))
+    def as_float64(array: np.ndarray) -> np.ndarray:
+        with np.errstate(over="ignore", invalid="ignore"):
+            converted = array.astype(np.float64)
+            lossless = np.array_equal(array, converted.astype(array.dtype))
+        if not np.isfinite(converted).all() or not lossless:
+            raise ValueError("diagnostic inputs must be exactly representable as finite float64 values")
+        return converted
+
+    def norm_parts(array: np.ndarray) -> tuple[float, float]:
+        scale = float(np.max(np.abs(array)))
+        return (scale, float(np.linalg.norm(array / scale))) if scale else (0.0, 0.0)
+
+    coefficients, target, estimate = map(as_float64, (coefficients, target, estimate))
+    smallest_coefficients = np.min(
+        np.where(coefficients != 0, np.abs(coefficients), np.inf), axis=0,
+    )
+    with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+        smallest_products = smallest_coefficients * np.abs(estimate)
+    if np.any(np.isfinite(smallest_coefficients) & (estimate != 0) & (smallest_products == 0)):
+        raise ValueError("nonzero linear products underflow the representable float64 range")
+    with np.errstate(over="ignore", invalid="ignore"):
+        residual = coefficients @ estimate - target
+    if not np.isfinite(residual).all():
+        raise ValueError("linear residual is not representable as finite float64")
+    residual_scale, residual_unit_norm = norm_parts(residual)
+    residual_norm = residual_scale * residual_unit_norm
+    if not math.isfinite(residual_norm):
+        raise ValueError("residual norm is not representable as finite float64")
+    matrix_scale, matrix_unit_norm = norm_parts(coefficients)
+    estimate_scale, estimate_unit_norm = norm_parts(estimate)
+    target_scale, target_unit_norm = norm_parts(target)
+    denominator = (
+        Fraction(matrix_scale) * Fraction(matrix_unit_norm)
+        * Fraction(estimate_scale) * Fraction(estimate_unit_norm)
+        + Fraction(target_scale) * Fraction(target_unit_norm)
+    )
+    relative_error = float(Fraction(residual_norm) / denominator) if denominator else residual_norm
+    if not math.isfinite(relative_error) or (residual_norm and not relative_error):
+        raise ValueError("nonzero backward error is not representable as finite float64")
+    scaled_matrix = coefficients / matrix_scale if matrix_scale else coefficients
+    condition = float(np.linalg.cond(scaled_matrix))
     return {
         "shape": [rows, columns],
-        "rank": int(np.linalg.matrix_rank(coefficients)),
+        "rank": int(np.linalg.matrix_rank(scaled_matrix)),
         "condition_number": condition if math.isfinite(condition) else None,
         "residual_norm": residual_norm,
-        "relative_backward_error": residual_norm / denominator if denominator else residual_norm,
+        "relative_backward_error": relative_error,
         "ill_conditioned": not math.isfinite(condition) or condition > 1.0 / math.sqrt(np.finfo(float).eps),
     }
