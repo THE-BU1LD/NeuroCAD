@@ -13,3 +13,19 @@
 - The historical typed-parser causal claim is falsified. No later compiler result or successor protocol rehabilitates it.
 - No trained checkpoint, real STEP/BREP path, physical validation, safety proof, public release receipt, or independent replication exists.
 - Current conference-readiness verdict: **EVIDENCE_PARTIAL**. Local reproducibility and citation audit now pass, and the external-evaluation protocol is frozen; independent challenge data, strong-comparator execution, external replication, public release evidence, and final-PDF gates remain open.
+
+## Quadratic tolerance numerical repair — 10 October 2026
+
+The quadratic clearance utility now rejects nonfinite variance before its
+roundoff clamp: finite but overflowing correlated inputs previously produced
+`NaN`, which `max(0.0, NaN)` silently changed to zero uncertainty and a success
+probability of one. Mixed boolean matrices and nonscalar sensitivity vectors
+are also rejected before numerical evaluation. Ordinary finite moment formulas,
+singular positive-semidefinite correlations and true zero variance are retained.
+
+Validation consists of analytical software cases, including exact Gaussian
+cubature and rejection before CLI report publication. The connected tolerance,
+enclosure and CLI suites passed 70 tests; the final focused suite passed 12,
+including one later CLI case (the other 11 overlap the connected run). This is
+71 distinct software tests, with no new manufacturing observation, protected
+benchmark, model outcome or scientific-readiness change.
