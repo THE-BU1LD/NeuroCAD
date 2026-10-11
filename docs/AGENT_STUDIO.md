@@ -44,8 +44,12 @@ wireframes until the deterministic Boolean export is compiled.
 ## Planning providers
 
 The built-in offline planner covers primitive concepts, capacity-driven water
-bottles, and a decorative Mark III-inspired cosplay/display shell. It exists as
-a credential-free baseline, not as general intelligence.
+bottles, wheels, dimension-labeled hollow shafts, I-beams, L-brackets,
+perforated plates, a non-operational jet cutaway, and a decorative Mark
+III-inspired cosplay/display shell. It exists as a credential-free baseline,
+not as general intelligence. For the complex profiles, the conversational path
+creates geometry; use `neurocad complex-shape` with sourced material/load inputs
+to generate the separate analytical receipt.
 
 Use a local OpenAI-compatible Ollama endpoint:
 

@@ -19,6 +19,9 @@ that would require an actual external solver or physical evidence.
 | Monte Carlo propagation | Seeded independent uniform sampling, up to 10,000 samples | Repeatability test | Implemented, engineering-tested; not a reliability or tail certificate |
 | Local sensitivity | Central finite differences at the declared base point | Analytic derivative comparison | Implemented, engineering-tested |
 | CAD result overlay | Hash-bound component-level scalar annotation and pass/fail/not-evaluated legend | CLI integration and hash tests | Implemented, engineering-tested; explicitly not a spatial field |
+| Composite-shape generation | Hollow shaft, I-beam, L-bracket, and perforated-plate canonical IR plus OpenSCAD bundles | IR validation, deterministic receipt, and CLI publication tests | Implemented, engineering-tested |
+| Composite section/mass analysis | Exact idealized volume, surface, centroid, section and mass inertia; unsymmetric L-section coupling | Hand-calculated formula and invariant tests | Implemented, engineering-tested |
+| Composite structural screening | Axial/biaxial bending, shaft torsion, cantilever deflection, Euler screening, and ideal modes when inputs are explicit | Formula tests plus fail-closed unsupported-load tests | Implemented, engineering-tested; not FEA |
 | FEA adapter and solver | No solver invocation, mesh, convergence, or result-file contract exists | None | Not implemented |
 | CFD adapter and solver | No solver invocation, mesh, turbulence model, convergence, or result-file contract exists | None | Not implemented |
 | Physical validation | No new experiment or calibrated benchmark was executed for v3 | None | Not performed |

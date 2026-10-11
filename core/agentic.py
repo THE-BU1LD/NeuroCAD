@@ -476,6 +476,155 @@ def _wheel_plan(prompt: str = "", previous: AgentPlan | None = None) -> AgentPla
     )
 
 
+def _prompt_dimension(prompt: str, label: str, default: float) -> tuple[float, bool]:
+    match = re.search(
+        rf"\b{label}\s*(?:=|of|is)?\s*(\d+(?:\.\d+)?)\s*(mm|millimeters?|millimetres?|cm|centimeters?|centimetres?|inches?|inch|in)\b",
+        prompt,
+        re.IGNORECASE,
+    )
+    if match is None:
+        return default, False
+    value = float(match.group(1))
+    unit = match.group(2).lower()
+    if unit.startswith(("cm", "centim")):
+        value *= 10.0
+    elif unit in {"in", "inch", "inches"}:
+        value *= 25.4
+    return value, True
+
+
+def _prompt_count(prompt: str, label: str, default: int) -> tuple[int, bool]:
+    match = re.search(rf"\b{label}\s*(?:=|of|is)?\s*(\d+)\b", prompt, re.IGNORECASE)
+    return (default, False) if match is None else (int(match.group(1)), True)
+
+
+def _complex_profile_plan(prompt: str) -> AgentPlan | None:
+    lowered = prompt.lower()
+    if re.search(r"\b(?:hollow\s+shaft|hollow\s+tube|round\s+tube)\b", lowered):
+        outer, outer_set = _prompt_dimension(prompt, r"outer\s+diameter", 40.0)
+        inner, inner_set = _prompt_dimension(prompt, r"inner\s+diameter", 24.0)
+        length, length_set = _prompt_dimension(prompt, r"length", 500.0)
+        if not 0 <= inner < outer:
+            raise ValueError("hollow-shaft inner diameter must be non-negative and smaller than outer diameter")
+        component_items = [
+            AgentComponent("outer", "Shaft outer solid", "hollow_shaft", "add", "cylinder", {"radius": outer / 2.0, "height": length})
+        ]
+        if inner > 0:
+            component_items.append(
+                AgentComponent("bore", "Coaxial shaft bore", "hollow_shaft", "subtract", "cylinder", {"radius": inner / 2.0, "height": length + 2.0})
+            )
+        components = tuple(component_items)
+        dimensions = f"outer diameter {outer:g} mm, inner diameter {inner:g} mm, length {length:g} mm"
+        explicit = outer_set or inner_set or length_set
+        title = "Hollow shaft concept"
+        summary = "An editable cylindrical shaft with a coaxial through bore."
+    elif re.search(r"\bi[- ]?beam\b", lowered):
+        width, width_set = _prompt_dimension(prompt, r"width", 100.0)
+        height, height_set = _prompt_dimension(prompt, r"height", 200.0)
+        flange, flange_set = _prompt_dimension(prompt, r"flange\s+thickness", 10.0)
+        web, web_set = _prompt_dimension(prompt, r"web\s+thickness", 8.0)
+        length, length_set = _prompt_dimension(prompt, r"length", 1_000.0)
+        if 2.0 * flange >= height or web >= width:
+            raise ValueError("I-beam requires twice the flange thickness below its height and web thickness below its width")
+        flange_y = (height - flange) / 2.0
+        components = (
+            AgentComponent("top_flange", "Top flange", "i_beam", "add", "box", {"size": [width, flange, length]}, (0.0, flange_y, 0.0)),
+            AgentComponent("bottom_flange", "Bottom flange", "i_beam", "add", "box", {"size": [width, flange, length]}, (0.0, -flange_y, 0.0)),
+            AgentComponent("web", "Central web", "i_beam", "add", "box", {"size": [web, height - 2.0 * flange, length]}),
+        )
+        dimensions = f"{width:g} x {height:g} mm section, {flange:g} mm flanges, {web:g} mm web, {length:g} mm length"
+        explicit = width_set or height_set or flange_set or web_set or length_set
+        title = "I-beam concept"
+        summary = "An editable face-connected symmetric I-section extrusion."
+    elif re.search(r"\b(?:l[- ]?bracket|angle\s+bracket|angle\s+section)\b", lowered):
+        width, width_set = _prompt_dimension(prompt, r"width", 50.0)
+        height, height_set = _prompt_dimension(prompt, r"height", 80.0)
+        thickness, thickness_set = _prompt_dimension(prompt, r"thickness", 5.0)
+        length, length_set = _prompt_dimension(prompt, r"length", 300.0)
+        if thickness >= min(width, height):
+            raise ValueError("L-bracket thickness must be smaller than its width and height")
+        components = (
+            AgentComponent(
+                "horizontal_leg",
+                "Horizontal angle leg",
+                "l_bracket",
+                "add",
+                "box",
+                {"size": [width, thickness, length]},
+                (0.0, -height / 2.0 + thickness / 2.0, 0.0),
+            ),
+            AgentComponent(
+                "vertical_leg",
+                "Vertical angle leg",
+                "l_bracket",
+                "add",
+                "box",
+                {"size": [thickness, height - thickness, length]},
+                (-width / 2.0 + thickness / 2.0, thickness / 2.0, 0.0),
+            ),
+        )
+        dimensions = f"{width:g} x {height:g} mm legs, {thickness:g} mm thickness, {length:g} mm length"
+        explicit = width_set or height_set or thickness_set or length_set
+        title = "L-bracket concept"
+        summary = "An editable face-connected unsymmetric angle-section extrusion."
+    elif re.search(r"\bperforated\s+plate\b", lowered):
+        width, width_set = _prompt_dimension(prompt, r"width", 120.0)
+        height, height_set = _prompt_dimension(prompt, r"height", 80.0)
+        thickness, thickness_set = _prompt_dimension(prompt, r"thickness", 4.0)
+        diameter, diameter_set = _prompt_dimension(prompt, r"hole\s+diameter", 10.0)
+        margin, margin_set = _prompt_dimension(prompt, r"edge\s+margin", 15.0)
+        columns, columns_set = _prompt_count(prompt, r"columns", 4)
+        rows, rows_set = _prompt_count(prompt, r"rows", 3)
+        if not 1 <= rows <= 20 or not 1 <= columns <= 20:
+            raise ValueError("perforated-plate rows and columns must each be from 1 to 20")
+        if margin < diameter / 2.0 or 2.0 * margin >= min(width, height):
+            raise ValueError("perforated-plate edge margin must contain each hole and leave an interior grid span")
+        x_positions = [0.0] if columns == 1 else [-width / 2.0 + margin + index * (width - 2.0 * margin) / (columns - 1) for index in range(columns)]
+        y_positions = [0.0] if rows == 1 else [-height / 2.0 + margin + index * (height - 2.0 * margin) / (rows - 1) for index in range(rows)]
+        if (columns > 1 and x_positions[1] - x_positions[0] <= diameter) or (rows > 1 and y_positions[1] - y_positions[0] <= diameter):
+            raise ValueError("perforated-plate hole grid overlaps")
+        component_items = [AgentComponent("plate", "Plate blank", "perforated_plate", "add", "box", {"size": [width, height, thickness]})]
+        for row, y in enumerate(y_positions):
+            for column, x in enumerate(x_positions):
+                component_items.append(
+                    AgentComponent(
+                        f"hole_{row + 1}_{column + 1}",
+                        f"Through hole {row + 1}-{column + 1}",
+                        "perforated_plate",
+                        "subtract",
+                        "cylinder",
+                        {"radius": diameter / 2.0, "height": thickness + 2.0},
+                        (x, y, 0.0),
+                    )
+                )
+        components = tuple(component_items)
+        dimensions = f"{width:g} x {height:g} x {thickness:g} mm, {rows} x {columns} holes of diameter {diameter:g} mm"
+        explicit = width_set or height_set or thickness_set or diameter_set or margin_set or columns_set or rows_set
+        title = "Perforated plate concept"
+        summary = "An editable plate with a bounded rectangular grid of circular through holes."
+    else:
+        return None
+    return AgentPlan(
+        title,
+        summary,
+        (
+            AgentAssumption(
+                "geometry dimensions",
+                dimensions,
+                "Used explicitly labeled dimensions where supplied; remaining dimensions use the documented family defaults",
+                "user" if explicit else "inferred",
+            ),
+            AgentAssumption(
+                "analysis boundary",
+                "geometry only in the conversational agent",
+                "Use neurocad complex-shape with explicit material/load provenance for section, mass, and structural analysis",
+                "calculated",
+            ),
+        ),
+        components,
+    )
+
+
 def _jet_engine_cutaway_plan() -> AgentPlan:
     """Return an intentionally non-operational educational cutaway.
 
@@ -720,6 +869,9 @@ class BuiltinPlanningProvider:
         if re.search(r"\b(?:water\s+)?bottle\b", source, re.IGNORECASE):
             prior = previous if previous is not None and "bottle" in previous.title.lower() else None
             return _water_bottle_plan(source, prior)
+        complex_profile = _complex_profile_plan(source)
+        if complex_profile is not None:
+            return complex_profile
         primitive = _primitive_concept_plan(source)
         if primitive is not None:
             return primitive
@@ -738,7 +890,7 @@ class BuiltinPlanningProvider:
         if context_is_wheel and wheel_revision:
             return _wheel_plan(source, previous)
         raise ValueError(
-            "the offline planner currently knows bottles, wheels, non-operational jet-engine cutaways, basic primitives, and cosplay shells; configure an OpenAI-compatible provider "
+            "the offline planner currently knows bottles, wheels, hollow shafts, I-beams, L-brackets, perforated plates, non-operational jet-engine cutaways, basic primitives, and cosplay shells; configure an OpenAI-compatible provider "
             "with NEUROCAD_LLM_ENDPOINT and NEUROCAD_LLM_MODEL for open-ended benign objects"
         )
 

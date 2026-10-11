@@ -81,6 +81,39 @@ def test_builtin_underspecified_primitive_uses_visible_defaults() -> None:
     assert any(item.name == "overall dimensions" and item.source == "inferred" for item in plan.assumptions)
 
 
+@pytest.mark.parametrize(
+    ("prompt", "title", "component_count"),
+    [
+        (
+            "make a hollow shaft with outer diameter 40 mm inner diameter 24 mm and length 500 mm",
+            "Hollow shaft concept",
+            2,
+        ),
+        (
+            "make an I-beam width 100 mm height 200 mm flange thickness 10 mm web thickness 8 mm length 1000 mm",
+            "I-beam concept",
+            3,
+        ),
+        (
+            "make an L-bracket width 50 mm height 80 mm thickness 5 mm length 300 mm",
+            "L-bracket concept",
+            2,
+        ),
+        (
+            "make a perforated plate width 120 mm height 80 mm thickness 4 mm hole diameter 10 mm columns 4 rows 3 edge margin 15 mm",
+            "Perforated plate concept",
+            13,
+        ),
+    ],
+)
+def test_builtin_generates_dimensioned_complex_profiles(prompt: str, title: str, component_count: int) -> None:
+    plan = BuiltinPlanningProvider().plan(prompt)
+    assert plan.title == title
+    assert len(plan.components) == component_count
+    assert plan.assumptions[0].source == "user"
+    assert validate_program(plan_to_program(plan)).valid
+
+
 def test_workspace_revises_bottle_and_keeps_checkpoints(tmp_path: Path) -> None:
     workspace = AgentWorkspace(tmp_path / "bottle")
     provider = BuiltinPlanningProvider()

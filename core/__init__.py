@@ -32,6 +32,14 @@ from .calibration import (
     serialize_calibration_dataset,
     serialize_calibration_profile,
 )
+from .complex_shapes import (
+    COMPLEX_SHAPE_ANALYSIS_VERSION,
+    COMPLEX_SHAPE_REQUEST_VERSION,
+    SUPPORTED_COMPLEX_SHAPES,
+    ComplexShapeBundle,
+    build_complex_shape,
+    complex_shape_catalog,
+)
 from .design_graph import Component, Connection, DesignGraph
 from .edit_language import EditInterpretationError, edit_project_from_text
 from .enclosure import (
@@ -175,6 +183,8 @@ from .validation import ValidationReport, validate_design
 from .workflow import BuildBundle, build_project_bundle, project_from_text
 
 __all__ = [
+    "COMPLEX_SHAPE_ANALYSIS_VERSION",
+    "COMPLEX_SHAPE_REQUEST_VERSION",
     "LOAD_COMBINATION_VERSION",
     "LOAD_CASE_VERSION",
     "MATERIAL_CARD_VERSION",
@@ -200,6 +210,7 @@ __all__ = [
     "CantileverResult",
     "CircularShaftTorsionInput",
     "ClearanceObservation",
+    "ComplexShapeBundle",
     "Component",
     "CombinedStressInput",
     "Connection",
@@ -244,6 +255,7 @@ __all__ = [
     "ScoredOrientation",
     "SpecValidationReport",
     "SpringMassDamperInput",
+    "SUPPORTED_COMPLEX_SHAPES",
     "StalePhysicsBindingError",
     "StandoffSpec",
     "SteadyConductionInput",
@@ -262,12 +274,14 @@ __all__ = [
     "box",
     "build_enclosure",
     "build_component_overlay",
+    "build_complex_shape",
     "build_project_bundle",
     "canonical_sha256",
     "cantilever_beam",
     "circular_shaft_torsion",
     "component_geometry_metrics",
     "component_geometry_sha256",
+    "complex_shape_catalog",
     "combined_stress",
     "cone",
     "cylinder",

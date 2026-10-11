@@ -21,7 +21,9 @@
     "series and single-bank parallel pipe networks",
     "lumped electro-thermal-mechanical wire workflow",
     "interval-corner, seeded Monte Carlo, and local-sensitivity propagation",
-    "hash-bound non-spatial component result overlays"
+    "hash-bound non-spatial component result overlays",
+    "canonical composite generation for hollow shafts, I-beams, L-brackets, and perforated plates",
+    "exact idealized composite geometry, centroid, section, mass-inertia, and bounded structural screening"
   ],
   "excluded": [
     "finite-element analysis",
@@ -37,12 +39,13 @@
   ],
   "claim_boundary": "The implementation and automated tests support software behavior and hand-checkable formula conformance only. They do not establish real-world accuracy, safety, publication novelty, FEA/CFD equivalence, or scientific independence.",
   "engineering_verification": {
-    "targeted_tests": "42 passed",
-    "runnable_examples": "6 of 6 executed successfully",
+    "targeted_tests": "54 passed across Physics, complex-shape, planner, and runnable-example suites",
+    "runnable_examples": "10 of 10 executed successfully",
     "ruff": "PASS for core, CLI, and Physics test files",
-    "mypy": "PASS, 74 source files",
-    "full_repository_tests": "1213 passed, 9 skipped in 272.45 seconds",
-    "full_repository_mypy": "PASS, 74 source files"
+    "mypy": "PASS, 75 source files",
+    "full_repository_tests": "1225 passed, 9 skipped in 407.99 seconds",
+    "full_repository_mypy": "PASS, 75 source files",
+    "complex_shape_mesh_verification": "4 of 4 generated examples compiled as single, finite, watertight, winding-consistent volumes with no detected non-adjacent triangle intersections"
   },
   "scientific_evidence": {
     "protected_evaluation": "NOT_CREATED_OR_EXECUTED",
@@ -57,8 +60,12 @@
     "core/physics_v3_context.py",
     "core/physics_uncertainty.py",
     "core/physics_overlay.py",
+    "core/complex_shapes.py",
     "tests/test_physics_advanced.py",
+    "tests/test_complex_shapes.py",
     "docs/PHYSICS.md",
-    "research/physics_v3/FEATURE_MATRIX.md"
+    "docs/COMPLEX_SHAPES.md",
+    "research/physics_v3/FEATURE_MATRIX.md",
+    "research/physics_v3/COMPLEX_SHAPE_VERIFICATION.json"
   ]
 }

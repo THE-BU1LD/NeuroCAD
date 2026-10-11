@@ -1,0 +1,17 @@
+{
+  "schema_version": "neurocad-complex-shape-request-v1",
+  "shape": "perforated_plate",
+  "parameters": {
+    "width_mm": 120,
+    "height_mm": 80,
+    "thickness_mm": 4,
+    "hole_diameter_mm": 10,
+    "columns": 4,
+    "rows": 3,
+    "edge_margin_mm": 15
+  },
+  "analysis": {
+    "source": "Illustrative declared density only; no plate boundary condition or load is inferred.",
+    "density_kg_m3": 2700
+  }
+}

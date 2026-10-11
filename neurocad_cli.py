@@ -1491,6 +1491,73 @@ def cmd_physics(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_complex_shape(args: argparse.Namespace) -> int:
+    import hashlib
+
+    from core.complex_shapes import build_complex_shape, complex_shape_catalog
+    from core.ir_export import program_to_scad
+    from core.ir_parser import serialize_ir_json
+    from core.json_io import strict_json_loads
+    from core.physics_context import canonical_sha256
+
+    if args.list:
+        if args.input is not None or args.output_dir is not None:
+            raise ValueError("--list cannot be combined with an input or --output-dir")
+        print(json.dumps(complex_shape_catalog(), indent=2, sort_keys=True, allow_nan=False))
+        return 0
+    if args.input is None or args.output_dir is None:
+        raise ValueError("complex-shape requires an input request and --output-dir")
+    source = _resolved_path(args.input)
+    destination = _resolved_path(args.output_dir)
+    _require_new_path(destination, label="complex-shape output directory")
+    with source.open("rb") as handle:
+        payload = handle.read(MAX_IR_INPUT_BYTES + 1)
+    if len(payload) > MAX_IR_INPUT_BYTES:
+        raise ValueError("complex-shape request exceeds 1 MiB")
+    raw_request = strict_json_loads(payload.decode("utf-8"))
+    bundle = build_complex_shape(raw_request)
+    request_text = json.dumps(bundle.request, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    ir_text = serialize_ir_json(bundle.program)
+    scad_text = program_to_scad(bundle.program, fn=args.fn)
+    analysis_text = json.dumps(bundle.analysis, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    artifacts = {
+        "request.json": request_text,
+        "shape.ncad.json": ir_text,
+        "shape.scad": scad_text,
+        "analysis.json": analysis_text,
+    }
+    manifest = {
+        "schema_version": "neurocad-complex-shape-bundle-v1",
+        "shape": bundle.analysis["shape"],
+        "request_sha256": bundle.analysis["request_sha256"],
+        "program_sha256": bundle.analysis["program_sha256"],
+        "analysis_sha256": bundle.analysis["analysis_sha256"],
+        "artifacts": {
+            name: {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(), "bytes": len(text.encode("utf-8"))}
+            for name, text in artifacts.items()
+        },
+        "claim_boundary": bundle.analysis["claim_boundary"],
+    }
+    manifest["manifest_sha256"] = canonical_sha256(manifest)
+    artifacts["manifest.json"] = json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    staging = Path(tempfile.mkdtemp(prefix=f".{destination.name}.", dir=destination.parent))
+    try:
+        for name, text_value in artifacts.items():
+            write_text_atomic(staging / name, text_value)
+        os.replace(staging, destination)
+    except Exception:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
+    receipt = {
+        **manifest,
+        "output_dir": str(destination),
+        "artifact_paths": {name: str(destination / name) for name in artifacts},
+    }
+    print(json.dumps(receipt, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
 def _run_enclosure_interpretation(args: argparse.Namespace, *, human_default: bool) -> int:
     from core.natural_language import interpret_enclosure
     from core.project import write_project
@@ -2254,6 +2321,16 @@ def build_parser() -> argparse.ArgumentParser:
     physics.add_argument("--force", action="store_true", help="Explicitly replace the report file")
     physics.set_defaults(func=cmd_physics)
 
+    complex_shape = sub.add_parser(
+        "complex-shape",
+        help="Generate a validated composite CAD shape with exact section, mass, and bounded structural analysis",
+    )
+    complex_shape.add_argument("input", nargs="?", help="Strict complex-shape JSON request")
+    complex_shape.add_argument("--list", action="store_true", help="Print the supported shape and analysis catalog")
+    complex_shape.add_argument("--output-dir", help="New atomic bundle directory containing request, IR, SCAD, analysis, and manifest")
+    complex_shape.add_argument("--fn", type=_fn, default=96, help="OpenSCAD facet count")
+    complex_shape.set_defaults(func=cmd_complex_shape)
+
     create = sub.add_parser("create", help="Generate OpenSCAD from an engineering prompt")
     create.add_argument("prompt", nargs="+", help="Engineering prompt")
     create.add_argument("-o", "--output", default="generated.scad", help="New SCAD path; existing files are refused")
@@ -2548,6 +2625,7 @@ KNOWN_COMMANDS = frozenset(
         "benchmark",
         "calibration",
         "compile",
+        "complex-shape",
         "config",
         "create",
         "daemon",

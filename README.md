@@ -186,6 +186,7 @@ neurocad physics docs/examples/physics-brayton-cycle.json -o brayton-report.json
 neurocad physics docs/examples/physics-bound-shaft.json -o shaft-report.json
 neurocad physics docs/examples/physics-v3-electrothermal-bound.json -o coupled-report.json
 neurocad physics --verify shaft-report.json
+neurocad complex-shape docs/examples/complex-i-beam.json --output-dir output/complex-shapes/i-beam
 neurocad agent run "generate a physics-aware jet engine cutaway" --project jet-engine-concept
 ```
 
@@ -202,7 +203,9 @@ singular vertex links and detected non-adjacent triangle self-intersections.
 The geometric predicates are bounded floating-point evidence, not an exact BREP,
 surface-equivalence, or physical-fit proof. See [Mathematics](docs/MATHEMATICS.md)
 and [Physics](docs/PHYSICS.md) for equations, assumptions, numerical/resource
-limits, and reference tests. The [Scientific kernel](docs/SCIENTIFIC_KERNEL.md)
+limits, and reference tests. [Complex shapes](docs/COMPLEX_SHAPES.md) documents
+composite IR generation plus exact section, mass, and bounded structural
+screening. The [Scientific kernel](docs/SCIENTIFIC_KERNEL.md)
 documents dimensional quantities, automatic differentiation, local nonlinear
 constraints/optimization, intervals, Monte Carlo, and numerical diagnostics.
 
