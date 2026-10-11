@@ -88,8 +88,9 @@
       "path": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD",
       "branch": "codex/physics-v2-provenance-study",
       "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+      "implementation_commit": "faeede8",
       "freeze_commit": null,
-      "git_state": "DIRTY_IMPLEMENTATION_IN_PROGRESS"
+      "git_state": "CLEAN_PRE_FREEZE"
     }
   ],
   "datasets": [
@@ -168,6 +169,10 @@
     {
       "date": "2026-10-11",
       "event": "Final version-1 development revision closed control-arm endpoints and fail-before-execute protected gates; development budget exhausted."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Locked the version-1 implementation, protocol, development evidence, and pre-results manuscript at Git commit faeede8."
     }
   ]
 }

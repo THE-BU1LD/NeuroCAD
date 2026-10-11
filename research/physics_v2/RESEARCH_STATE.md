@@ -49,6 +49,8 @@ small unit tests are admissible; protected and expensive runs are not.
   with no execution errors. This is development evidence only.
 - The two-revision development budget is exhausted. Version 1 must now remain
   unchanged or be superseded by a new version before protected execution.
+- The version-1 implementation and pre-results manuscript were committed at
+  `faeede8`; a subsequent governance-only commit records that identity.
 
 The machine-readable authority is `RESEARCH_STATE.json`. Update it before every
 session ends and preserve negative, mixed, invalid, and blocked outcomes.
