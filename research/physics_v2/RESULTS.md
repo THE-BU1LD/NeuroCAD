@@ -72,3 +72,15 @@ artifacts (but did not independently author or execute the cases), regenerated
 the analysis byte-for-byte, compiled both repository and arXiv sources, matched
 the extracted PDF text, and passed 1,203 tests with 9 expected skips. See
 `CLEAN_CHECKOUT_VERIFICATION.json` for its exact narrower boundary.
+
+## Final local release
+
+- release source commit: `9d3733ca15816f23c63f5382dedef548d0034ea7`
+- final PDF SHA-256: `8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5`
+- minimal arXiv source SHA-256: `2b2c34c6c66e98067ca716e35a1c06709c7b036d8ec0014185f96840d8fc7c78`
+- release manifest SHA-256: `f74f2cdc560447c012b00f11b608b55be30b834e5faecdb41706409ba2d1b3fb`
+- complete release archive SHA-256: `386079a3cec9b5f417a8ec7ae88858540be3eacdc4f7dc5fbf3f534aff452372`
+
+The complete archive was extracted and all 53 manifest entries matched their
+recorded sizes and SHA-256 hashes. This closes the local version-1 release. It
+does not close independent reproduction or perform an arXiv submission.

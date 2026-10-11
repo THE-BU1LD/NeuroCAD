@@ -55,7 +55,7 @@
       "comparison with commercial PLM or CAE systems"
     ]
   },
-  "phase": "RELEASE_CANDIDATE_VERIFIED_EXTERNAL_VALIDATION_OPEN",
+  "phase": "RELEASE_COMPLETE_WITHIN_CONTROLLED_CONTRACT_EXTERNAL_VALIDATION_OPEN",
   "checkpoints": {
     "idea_ready": "PASS_BOUNDED",
     "model_specification_ready": "PASS",
@@ -66,7 +66,7 @@
     "confirmatory_protocol_frozen": "PASS",
     "evidence_locked": "PASS",
     "verified": "PASS_INTERNAL_CLEAN_CHECKOUT_EXTERNAL_INDEPENDENT_NOT_YET",
-    "research_complete": "TERMINAL_SUPPORTED_WITHIN_CONTROLLED_CONTRACT_RELEASE_PACKAGING_PENDING_EXTERNAL_VALIDATION_OPEN"
+    "research_complete": "TERMINAL_SUPPORTED_WITHIN_CONTROLLED_CONTRACT_RELEASE_PACKAGED_EXTERNAL_VALIDATION_OPEN"
   },
   "budgets": {
     "development_rounds": 2,
@@ -88,6 +88,7 @@
     "clean_checkout_paper_regeneration": "PASS, repository and two-file arXiv sources compile to text identical to committed PDF",
     "clean_checkout_ruff": "PASS for core, CLI, tests, Physics v2 study, and paper generator; legacy directory is outside this release gate",
     "clean_checkout_mypy": "PASS, 71 in-scope source files",
+    "release_package_integrity": "PASS, 53 manifest entries rehashed after archive extraction",
     "boundary": "engineering and artifact checks only; not scientific independence or physical validation"
   },
   "protected_evaluation": {
@@ -115,6 +116,8 @@
       "freeze_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
       "result_artifact_commit": "64ec85fa0b98f170ee4b6b205111ed27ae0bbd36",
       "release_candidate_commit": "0896fba43336c03af8bd5ff7008506691832d7f5",
+      "release_source_commit": "9d3733ca15816f23c63f5382dedef548d0034ea7",
+      "release_tag": "physics-v2-v1.0.0",
       "git_state": "CLEAN_RESULT_LOCKED"
     }
   ],
@@ -209,6 +212,30 @@
     {
       "path": "research/physics_v2/CHECKPOINT_AUDIT.md",
       "status": "CHECKPOINTS_1_TO_10_RECONCILED"
+    },
+    {
+      "path": "output/pdf/neurocad-physics-v2-paper.pdf",
+      "status": "FINAL_RELEASE_PDF_SIX_PAGES_VISUALLY_INSPECTED",
+      "sha256": "8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5"
+    },
+    {
+      "path": "output/arxiv/neurocad-physics-v2-arxiv-source.tar.gz",
+      "status": "MINIMAL_TWO_FILE_SOURCE_COMPILED_NOT_SUBMITTED",
+      "sha256": "2b2c34c6c66e98067ca716e35a1c06709c7b036d8ec0014185f96840d8fc7c78"
+    },
+    {
+      "path": "release/physics_v2/RELEASE_MANIFEST.json",
+      "status": "HASH_MANIFEST_53_FILES",
+      "sha256": "f74f2cdc560447c012b00f11b608b55be30b834e5faecdb41706409ba2d1b3fb"
+    },
+    {
+      "path": "output/release/neurocad-physics-v2-research-release.tar.gz",
+      "status": "COMPLETE_LOCAL_RESEARCH_RELEASE",
+      "sha256": "386079a3cec9b5f417a8ec7ae88858540be3eacdc4f7dc5fbf3f534aff452372"
+    },
+    {
+      "path": "output/release/RELEASE_RECEIPT.json",
+      "status": "LOCAL_PACKAGING_RECEIPT_NOT_EXTERNAL_SUBMISSION_RECEIPT"
     }
   ],
   "claims": [
@@ -273,6 +300,11 @@
       "date": "2026-10-11",
       "decision": "Verify the release from a fresh local clone without rerunning protected cases.",
       "reason": "Locked raw artifacts can regenerate the analysis and paper, while the single-attempt confirmatory ledger must remain closed. This internal pass is not labeled independent reproduction."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Close version 1 as a locally packaged release while leaving external validation and arXiv submission open.",
+      "reason": "The controlled question has a terminal supported result and complete internal artifact chain, but independence, author metadata, license choice, category selection, endorsement, and submission require external action."
     }
   ],
   "failures": [

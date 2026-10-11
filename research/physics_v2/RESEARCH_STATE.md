@@ -2,7 +2,7 @@
 
 ## Current verdict
 
-`CONFIRMATORY_SUPPORTED_WITHIN_CONTROLLED_CONTRACT / INTERNAL_CLEAN_CHECKOUT_PASS / RELEASE_CANDIDATE / EXTERNAL_VALIDATION_OPEN`
+`CONFIRMATORY_SUPPORTED_WITHIN_CONTROLLED_CONTRACT / INTERNAL_CLEAN_CHECKOUT_PASS / RELEASE_PACKAGED / EXTERNAL_VALIDATION_OPEN`
 
 This is a versioned successor to the terminal NeuroCAD controlled-compiler
 study. It does not reopen, overwrite, or upgrade the predecessor's evidence.
@@ -102,6 +102,25 @@ locked virtual environment. It is not a clean-environment dependency install,
 independent reproduction, external adjudication, physical validation, or an
 arXiv submission receipt. Exact author metadata, arXiv license/category,
 submission, and independent execution remain external actions.
+
+## Release identity
+
+- release version: `NC-PHYSICS-V2-PROVENANCE-v1.0.0`
+- release source commit: `9d3733ca15816f23c63f5382dedef548d0034ea7`
+- local tag: `physics-v2-v1.0.0`
+- final six-page PDF SHA-256:
+  `8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5`
+- minimal two-file arXiv source SHA-256:
+  `2b2c34c6c66e98067ca716e35a1c06709c7b036d8ec0014185f96840d8fc7c78`
+- 53-file release manifest SHA-256:
+  `f74f2cdc560447c012b00f11b608b55be30b834e5faecdb41706409ba2d1b3fb`
+- complete release archive SHA-256:
+  `386079a3cec9b5f417a8ec7ae88858540be3eacdc4f7dc5fbf3f534aff452372`
+
+The release package was extracted and all 53 manifest entries were rehashed
+successfully. The arXiv bundle contains only `main.tex` and
+`generated_results.tex` and compiles locally. These are local technical release
+receipts, not publication or external-verification receipts.
 
 The machine-readable authority is `RESEARCH_STATE.json`. Update it before every
 session ends and preserve negative, mixed, invalid, and blocked outcomes.

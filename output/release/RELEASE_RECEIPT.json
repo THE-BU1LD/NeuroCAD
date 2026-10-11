@@ -1,0 +1,22 @@
+{
+  "arxiv_source": {
+    "path": "output/arxiv/neurocad-physics-v2-arxiv-source.tar.gz",
+    "sha256": "2b2c34c6c66e98067ca716e35a1c06709c7b036d8ec0014185f96840d8fc7c78"
+  },
+  "boundary": "local packaging receipt; not an external repository or submission receipt",
+  "paper_pdf": {
+    "path": "output/pdf/neurocad-physics-v2-paper.pdf",
+    "sha256": "8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5"
+  },
+  "release_archive": {
+    "path": "output/release/neurocad-physics-v2-research-release.tar.gz",
+    "sha256": "386079a3cec9b5f417a8ec7ae88858540be3eacdc4f7dc5fbf3f534aff452372"
+  },
+  "release_manifest": {
+    "path": "release/physics_v2/RELEASE_MANIFEST.json",
+    "sha256": "f74f2cdc560447c012b00f11b608b55be30b834e5faecdb41706409ba2d1b3fb"
+  },
+  "release_version": "NC-PHYSICS-V2-PROVENANCE-v1.0.0",
+  "schema_version": "nc-physics-v2-release-receipt-v1",
+  "source_commit": "9d3733ca15816f23c63f5382dedef548d0034ea7"
+}
