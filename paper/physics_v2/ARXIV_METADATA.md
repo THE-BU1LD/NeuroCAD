@@ -55,5 +55,5 @@ accompany the paper.
 - DOI: none for this manuscript.
 - Report number: `NC-PHYSICS-V2-PROVENANCE-v1.0.0`.
 - Human/animal participants or personal data: none; cases are synthetic.
-- Code license: repository license applies; verify it before public release.
+- Code license: MIT; see the repository `LICENSE` file.
 
