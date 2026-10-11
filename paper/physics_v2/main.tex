@@ -239,6 +239,17 @@ clean-environment reproduction can check software behavior, but is not labeled
 independent external validation unless performed and adjudicated by an
 independent party.
 
+\section{Ethics, licensing, and release boundary}
+
+The evaluation uses generated synthetic cases and contains no human or animal
+participants and no personal data. Repository licensing governs the released
+code and artifacts. An arXiv distribution license is intentionally not selected
+in this manuscript because it must be chosen by the submitting author. The
+public author name, affiliation, subject category, and platform-generated PDF
+must likewise be confirmed during submission. A local release package is
+therefore technical submission preparation, not evidence of arXiv acceptance,
+endorsement, or publication.
+
 \section{Conclusion}
 
 This study narrows a broad digital-thread ambition to a testable local
@@ -247,6 +258,46 @@ material declaration, and load case it depends on, checks exact agreements at
 evaluation time, and exposes later geometry drift. The confirmatory conclusion
 is limited to the preregistered synthetic matrix and the stated implementation
 boundary. It does not establish physical correctness or engineering safety.
+
+\appendix
+\section{Claim traceability}
+
+Table~\ref{tab:traceability} records the paper-level evidence boundary. Full
+paths, hashes, endpoint names, and prohibited interpretations are retained in
+the release evidence matrix.
+
+\begin{center}
+\footnotesize
+\refstepcounter{table}
+\label{tab:traceability}
+\textbf{Table \thetable: Claim-to-artifact traceability. C6--C8 are boundary
+claims, not positive experimental findings.}\par\medskip
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.06\textwidth}@{\hspace{6pt}}>{\raggedright\arraybackslash}p{0.27\textwidth}@{\hspace{6pt}}>{\raggedright\arraybackslash}p{0.28\textwidth}@{\hspace{6pt}}>{\raggedright\arraybackslash}p{0.27\textwidth}@{}}
+\toprule
+Claim & Frozen test & Retained artifact & Disposition \\
+\midrule
+C1 & 48 valid requests and deterministic repeats & raw JSONL; acceptance and determinism endpoints & supported: 48/48 and 48/48 \\
+C2 & 96 stratified contradictions & raw JSONL; four detection endpoints & supported: 96/96 \\
+C3 & 48 paired geometry mutations & raw JSONL; freshness endpoints; McNemar summary & supported as bounded mechanism contrast \\
+C4 & 24 label/revision-only mutations & raw JSONL; specificity endpoints & supported: 24/24 per bound arm \\
+C5 & successful evaluations on one host & timing and receipt-size fields; metrics JSON & descriptive only \\
+C6 & prior-art review & literature and citation audits & algorithmic novelty rejected \\
+C7 & no physical or qualified solver study & protocol and claim ledger & physical/safety claim prohibited \\
+C8 & no external enterprise-system study & protocol and claim ledger & generalization claim prohibited \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\FloatBarrier
+\section{Release and verification status}
+
+The release audit regenerated analysis from locked raw artifacts without
+executing a study case, compiled the paper from a clean checkout, compared the
+extracted paper text, and reran the engineering checks. This is an internal
+clean-checkout verification, not an independent reproduction. The latter
+requires independent execution, artifact custody, and adjudication under the
+separate handoff protocol. The version-1 execution ledger continues to prohibit
+another primary confirmatory run.
 
 \begin{sloppypar}
 \begin{thebibliography}{9}
