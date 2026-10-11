@@ -82,5 +82,9 @@ physical validation, solver validation, safety evidence, algorithmic novelty,
 enterprise CAD/CAE generalization, independent reproduction, or external
 adjudication.
 
+The result artifacts were committed at
+`64ec85fa0b98f170ee4b6b205111ed27ae0bbd36`; the following governance-only
+commit records that identity.
+
 The machine-readable authority is `RESEARCH_STATE.json`. Update it before every
 session ends and preserve negative, mixed, invalid, and blocked outcomes.

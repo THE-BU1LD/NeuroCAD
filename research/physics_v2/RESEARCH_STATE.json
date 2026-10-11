@@ -108,7 +108,8 @@
       "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
       "implementation_commit": "faeede8",
       "freeze_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
-      "git_state": "RESULT_ARTIFACT_COMMIT_PENDING"
+      "result_artifact_commit": "64ec85fa0b98f170ee4b6b205111ed27ae0bbd36",
+      "git_state": "CLEAN_RESULT_LOCKED"
     }
   ],
   "datasets": [
@@ -299,6 +300,10 @@
     {
       "date": "2026-10-11",
       "event": "Completed repository-wide engineering verification: 1203 tests passed, 9 skipped; Ruff passed; mypy passed across 100 source files."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Committed the locked confirmatory evidence, internal audit, generated Results source, inspected PDF, and arXiv bundle at 64ec85fa0b98f170ee4b6b205111ed27ae0bbd36."
     }
   ]
 }
