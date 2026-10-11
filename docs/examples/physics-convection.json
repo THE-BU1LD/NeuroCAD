@@ -1,0 +1,9 @@
+{
+  "model": "steady_convection",
+  "inputs": {
+    "heat_transfer_coefficient_w_m2k": 25,
+    "area_mm2": 20000,
+    "surface_temperature_k": 350,
+    "fluid_temperature_k": 295
+  }
+}

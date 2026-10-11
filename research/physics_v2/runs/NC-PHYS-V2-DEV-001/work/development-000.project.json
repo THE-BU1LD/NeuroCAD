@@ -1,0 +1,34 @@
+{
+  "plan": {
+    "assumptions": [],
+    "components": [
+      {
+        "id": "component",
+        "label": "Study shaft",
+        "operation": "add",
+        "parameters": {
+          "height": 132.6929069471492,
+          "radius": 10.252871800194452
+        },
+        "part": "shaft",
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shape": "cylinder",
+        "translate": [
+          0.0,
+          0.0,
+          66.3464534735746
+        ]
+      }
+    ],
+    "summary": "Synthetic primitive for the frozen provenance conformance matrix.",
+    "title": "Physics v2 controlled study component",
+    "version": "neurocad-agent-plan-v1"
+  },
+  "project_id": "physics-v2-study-case",
+  "revision": 1,
+  "schema_version": "neurocad-agent-project-v1"
+}

@@ -1361,17 +1361,120 @@ def cmd_physics(args: argparse.Namespace) -> int:
 
     from core.json_io import strict_json_loads
     from core.physics import (
+        CircularShaftTorsionInput,
         EulerBucklingInput,
+        HydrostaticBuoyancyInput,
+        IdealBraytonCycleInput,
         InternalPipeFlowInput,
+        LumpedThermalTransientInput,
+        RadiativeExchangeInput,
+        SpringMassDamperInput,
         SteadyConductionInput,
+        SteadyConvectionInput,
         ThermalExpansionInput,
         ThinWallCylinderInput,
+        circular_shaft_torsion,
         euler_buckling,
+        hydrostatic_buoyancy,
+        ideal_brayton_cycle,
         internal_pipe_flow,
+        lumped_thermal_transient,
+        radiative_exchange,
+        spring_mass_damper,
         steady_conduction,
+        steady_convection,
         thermal_expansion,
         thin_wall_cylinder,
     )
+    from core.physics_context import canonical_sha256, resolve_physics_context, verify_physics_report
+
+    models: dict[str, tuple[type[Any], Callable[[Any], dict[str, Any]]]] = {
+        "circular_shaft_torsion": (CircularShaftTorsionInput, circular_shaft_torsion),
+        "euler_buckling": (EulerBucklingInput, euler_buckling),
+        "hydrostatic_buoyancy": (HydrostaticBuoyancyInput, hydrostatic_buoyancy),
+        "ideal_brayton_cycle": (IdealBraytonCycleInput, ideal_brayton_cycle),
+        "internal_pipe_flow": (InternalPipeFlowInput, internal_pipe_flow),
+        "lumped_thermal_transient": (LumpedThermalTransientInput, lumped_thermal_transient),
+        "radiative_exchange": (RadiativeExchangeInput, radiative_exchange),
+        "spring_mass_damper": (SpringMassDamperInput, spring_mass_damper),
+        "steady_conduction": (SteadyConductionInput, steady_conduction),
+        "steady_convection": (SteadyConvectionInput, steady_convection),
+        "thermal_expansion": (ThermalExpansionInput, thermal_expansion),
+        "thin_wall_cylinder": (ThinWallCylinderInput, thin_wall_cylinder),
+    }
+    descriptions = {
+        "circular_shaft_torsion": "Elastic stress and twist of a solid or hollow circular shaft.",
+        "euler_buckling": "Ideal elastic critical load for a prismatic column.",
+        "hydrostatic_buoyancy": "Static-fluid gauge pressure and Archimedes buoyancy.",
+        "ideal_brayton_cycle": "Ideal-gas cycle temperatures and specific work without propulsion sizing.",
+        "internal_pipe_flow": "Reynolds number and Darcy-Weisbach major loss in a round pipe.",
+        "lumped_thermal_transient": "Heating or cooling with a fail-closed Biot-number check.",
+        "radiative_exchange": "Gray-surface radiation to large isothermal surroundings.",
+        "spring_mass_damper": "Linear single-degree-of-freedom modal properties.",
+        "steady_conduction": "Steady one-dimensional Fourier conduction through a slab.",
+        "steady_convection": "Steady Newton cooling with a supplied film coefficient.",
+        "thermal_expansion": "Uniform free expansion and optional restrained elastic stress.",
+        "thin_wall_cylinder": "Closed-end pressure-vessel membrane stress with a thin-wall check.",
+    }
+    if args.verify is not None:
+        if args.input is not None or args.list:
+            raise ValueError("--verify cannot be combined with an input request or --list")
+        source = _resolved_path(args.verify)
+        output = _resolved_path(args.output) if args.output else None
+        _require_distinct_paths(report=source, output=output)
+        _require_new_paths(force=args.force, output=output)
+        with source.open("rb") as handle:
+            payload = handle.read(MAX_IR_INPUT_BYTES + 1)
+        if len(payload) > MAX_IR_INPUT_BYTES:
+            raise ValueError("physics report exceeds 1 MiB")
+        verification = verify_physics_report(strict_json_loads(payload.decode("utf-8")))
+        text = json.dumps(verification, indent=2, sort_keys=True, allow_nan=False) + "\n"
+        if output:
+            write_text_atomic(output, text)
+        print(text, end="")
+        return 0 if verification["current"] else 2
+    if args.list:
+        if args.input is not None:
+            raise ValueError("--list cannot be combined with an input request")
+        output = _resolved_path(args.output) if args.output else None
+        _require_new_paths(force=args.force, output=output)
+        catalog_models = []
+        for name, (input_type, _) in sorted(models.items()):
+            parameters = []
+            for field in fields(input_type):
+                field_required = field.default is MISSING and field.default_factory is MISSING
+                parameter: dict[str, Any] = {"name": field.name, "required": field_required}
+                if not field_required:
+                    parameter["default"] = field.default
+                parameters.append(parameter)
+            catalog_models.append(
+                {
+                    "name": name,
+                    "description": descriptions[name],
+                    "parameters": parameters,
+                }
+            )
+        text = (
+            json.dumps(
+                {
+                    "schema_version": "neurocad-physics-catalog-v1",
+                    "models": catalog_models,
+                    "claim_boundary": (
+                        "bounded analytical estimates; not simulation, certification, or physical validation"
+                    ),
+                },
+                indent=2,
+                sort_keys=True,
+                allow_nan=False,
+            )
+            + "\n"
+        )
+        if output:
+            write_text_atomic(output, text)
+        print(text, end="")
+        return 0
+    if args.input is None:
+        raise ValueError("physics requires an input request or --list")
 
     source = _resolved_path(args.input)
     output = _resolved_path(args.output) if args.output else None
@@ -1382,17 +1485,10 @@ def cmd_physics(args: argparse.Namespace) -> int:
     if len(payload) > MAX_IR_INPUT_BYTES:
         raise ValueError("physics input exceeds 1 MiB")
     request = strict_json_loads(payload.decode("utf-8"))
-    if not isinstance(request, dict) or set(request) != {"model", "inputs"}:
-        raise ValueError("physics input requires exactly model and inputs")
+    if not isinstance(request, dict) or set(request) not in ({"model", "inputs"}, {"model", "inputs", "context"}):
+        raise ValueError("physics input requires model and inputs, with optional context")
     if not isinstance(request["model"], str) or not isinstance(request["inputs"], dict):
         raise TypeError("physics model must be a string and inputs must be an object")
-    models: dict[str, tuple[type[Any], Callable[[Any], dict[str, Any]]]] = {
-        "euler_buckling": (EulerBucklingInput, euler_buckling),
-        "thermal_expansion": (ThermalExpansionInput, thermal_expansion),
-        "steady_conduction": (SteadyConductionInput, steady_conduction),
-        "internal_pipe_flow": (InternalPipeFlowInput, internal_pipe_flow),
-        "thin_wall_cylinder": (ThinWallCylinderInput, thin_wall_cylinder),
-    }
     if request["model"] not in models:
         raise ValueError("unsupported physics model; use " + ", ".join(sorted(models)))
     input_type, evaluate = models[request["model"]]
@@ -1403,10 +1499,17 @@ def cmd_physics(args: argparse.Namespace) -> int:
         raise ValueError(f"{request['model']} inputs require {sorted(required)} and allow {sorted(allowed - required)}")
     result = evaluate(input_type(**request["inputs"]))
     report = {
-        "schema_version": "neurocad-physics-v1",
+        "schema_version": "neurocad-physics-v2" if "context" in request else "neurocad-physics-v1",
         "requested_model": request["model"],
+        "inputs": request["inputs"],
+        "input_sha256": canonical_sha256(request["inputs"]),
+        "request_sha256": canonical_sha256(request),
         **result,
     }
+    if "context" in request:
+        report["bindings"] = resolve_physics_context(
+            request["context"], model=request["model"], inputs=request["inputs"], base_dir=source.parent
+        )
     text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if output:
         write_text_atomic(output, text)
@@ -2170,8 +2273,10 @@ def build_parser() -> argparse.ArgumentParser:
     math_beam.set_defaults(func=cmd_math_beam)
 
     physics = sub.add_parser("physics", help="Evaluate a bounded analytical physics constraint model")
-    physics.add_argument("input", help="Physics JSON request; see docs/PHYSICS.md")
-    physics.add_argument("-o", "--output", help="Optional new JSON report path")
+    physics.add_argument("input", nargs="?", help="Physics JSON request; see docs/PHYSICS.md")
+    physics.add_argument("--list", action="store_true", help="Print the model and input catalog as JSON")
+    physics.add_argument("--verify", metavar="REPORT", help="Check whether a bound result still matches its CAD component")
+    physics.add_argument("-o", "--output", help="Optional new JSON report or catalog path")
     physics.add_argument("--force", action="store_true", help="Explicitly replace the report file")
     physics.set_defaults(func=cmd_physics)
 

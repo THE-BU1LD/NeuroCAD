@@ -1,0 +1,286 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\newif\ifresultavailable
+\IfFileExists{generated_results.tex}{
+  \input{generated_results.tex}
+}{
+  \resultavailablefalse
+  \newcommand{\ResultAbstract}{The confirmatory evaluation has not been executed; no result is claimed in this source state.}
+  \newcommand{\ResultSection}{\textbf{Not executed.} The protected matrix remains unavailable until its preregistered resource and repository gates pass.}
+  \newcommand{\ResultCommit}{not available}
+}
+
+\title{Contract-Carrying Analytical Physics Receipts for Bounded CAD Screening:\\A Controlled Conformance Study}
+\author{Ryan\\Independent Research}
+\date{October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Analytical engineering calculations are often copied away from the geometry,
+material declarations, and load assumptions on which they depend. This paper
+specifies and evaluates a small, fail-closed receipt that binds a versioned
+analytical result to canonical CAD-primitive identity, an explicit material
+card, and a named load case. The mechanism performs exact semantic checks only
+where the mapping is unambiguous and can later test whether the selected
+geometry has changed. We compare a full binding with a hash-only ablation and
+an unbound analytical request in a preregistered synthetic conformance matrix.
+\ResultAbstract{} The study concerns software-contract conformance, not physical
+accuracy, solver validity, safety, or enterprise CAD/CAE generalization.
+\end{abstract}
+
+\section{Introduction}
+
+Digital-thread and simulation-provenance research has long argued that model
+artifacts, assumptions, executions, and results should remain traceable across
+the engineering lifecycle \cite{hedberg2016,helu2017,nistthread,w3cprov}.
+Nevertheless, a lightweight analytical calculation can still be preserved as
+an isolated JSON or spreadsheet result with no executable link to the exact
+geometry, material declaration, or load case that produced it. The resulting
+number may remain syntactically valid after its dependencies change.
+
+This work asks a deliberately narrow question: for closed-form calculations
+over a bounded set of CAD primitives, can a machine-readable receipt detect
+predeclared contradictions and post-result geometry drift while retaining
+deterministic valid-case behavior? We contribute (1) a strict open reference
+contract; (2) an implementation in NeuroCAD; and (3) a preregistered controlled
+ablation across full, hash-only, and unbound arms. We do not claim to invent
+provenance, hashing, CAD/CAE associativity, or the digital thread. We also do
+not claim that correct provenance makes an analytical model physically valid.
+
+\section{Related work and novelty boundary}
+
+Hedberg et al. frame the digital thread around lifecycle traceability and reuse
+of authoritative product data \cite{hedberg2016}. NIST reference architectures
+address contextual integration among heterogeneous engineering systems
+\cite{helu2017,nistthread}, while the W3C PROV data model supplies a general
+representation of entities, activities, agents, and derivations
+\cite{w3cprov}. Simulation-specific work captures provenance across tools and
+workflow stages \cite{simprov,olaya2020,horsch2025}, and NIST has studied
+traceability between systems-engineering and finite-element artifacts
+\cite{nistfea}. RO-Crate provides a practical packaging model for research
+objects and their metadata \cite{rocrate}.
+
+Accordingly, the contribution here is not an algorithmic novelty claim. It is
+an executable, bounded reference contract and a controlled conformance study of
+one implementation choice: bind a small analytical result to canonical
+primitive geometry plus explicit material and load declarations, then fail
+closed on exact contradictions or later geometry drift.
+
+\section{Receipt contract}
+
+Let an analytical request be $R=(m,x,c)$, where $m$ is a versioned analytical
+model, $x$ is a strict mapping of numeric inputs whose names encode units, and
+$c$ optionally contains geometry, material, and load bindings. Canonical JSON
+uses lexicographically sorted object keys, compact separators, UTF-8 encoding,
+and forbids non-finite numbers. For any value $z$,
+
+\begin{equation}
+  H(z)=\operatorname{SHA256}(\operatorname{canonical\_json}(z)).
+\end{equation}
+
+The returned receipt records the executed model version, exact inputs and
+outputs, disclosed assumptions, claim boundary, $H(R)$, $H(x)$, and hashes of
+each declared context object. A hash establishes content identity only; it is
+not a signature, an authority proof, or evidence that the content is correct.
+
+\subsection{Geometry identity}
+
+For one selected component, the geometry-relevant tuple is
+
+\begin{equation}
+G=(\text{id},\text{part},\text{operation},\text{shape},\text{parameters},
+\text{translation},\text{rotation}).
+\end{equation}
+
+Display labels and project revision counters are excluded. Re-verification
+reloads the component and returns \emph{current} exactly when its observed
+$H(G)$ equals the receipt. The implementation reports closed-form isolated-
+primitive volume, surface area, centroid, transformed axis-aligned bounds, and
+selected unambiguous section properties. These are not Boolean part or assembly
+properties. Mass is reported only for an additive primitive with an explicit
+density.
+
+\subsection{Material, load, and exact semantic checks}
+
+A versioned material card declares a source and finite properties; a named
+load case declares a coordinate system, source, and values. The evaluator does
+not select materials, interpolate curves, infer directions, combine loads, or
+invent safety factors. Repeated material or load values must numerically agree
+with model inputs to relative tolerance $10^{-12}$.
+
+Geometry/model checks are restricted to three exact mappings: cylinder
+diameter and length for circular-shaft torsion, isolated displaced volume for
+hydrostatic buoyancy, and isolated volume and total surface area for a lumped
+thermal transient. Ambiguous quantities such as effective buckling length,
+convection face area, and internal pipe diameter are never inferred.
+
+\section{Experimental design}
+
+The protocol was written before protected outcome access. The independent unit
+is one generated case. Repeated evaluation of a case is a determinism check,
+not an additional independent unit. The fixed seed is 20261011.
+
+\begin{table}[t]
+\centering
+\caption{Preregistered confirmatory matrix.}
+\label{tab:matrix}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Case family & Count \\
+\midrule
+Valid bound requests & 48 \\
+Geometry/input contradictions & 24 \\
+Material/input contradictions & 24 \\
+Load/input contradictions & 24 \\
+Stale expected geometry hashes & 24 \\
+Post-result geometry mutations & 48 \\
+Non-geometric mutations & 24 \\
+\midrule
+Total & 216 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Mechanism ablation. A dash means that the arm has no such mechanism.}
+\label{tab:arms}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Capability & Full & Hash-only & Unbound \\
+\midrule
+Canonical component identity & yes & yes & -- \\
+Semantic geometry checks & yes & -- & -- \\
+Material/load agreement checks & yes & -- & -- \\
+Post-result freshness API & yes & yes & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All applicable deterministic contract endpoints require 100\% conformance; a
+single miss falsifies the corresponding claim. We report exact numerators and
+denominators. Wilson 95\% intervals describe the fixed matrix and are not used
+as population inference. A paired exact two-sided McNemar test summarizes
+full-versus-unbound post-mutation discordance, but the decision rule remains
+the all-cases threshold. Timing, resident memory, and report size are host-only
+diagnostics, not cross-system performance benchmarks.
+
+The protected run requires a clean frozen Git revision, exact source and case
+hashes, at least 512 MiB of free plus speculative memory, at least 2 GiB of
+output storage, one process, a new output directory, and an absent execution
+ledger. The ledger is written before case execution so a crash consumes the
+single attempt. Runtime errors and mismatches remain outcomes; no failed case
+may be removed.
+
+\section{Results}
+
+\ResultSection{}
+
+\section{Threats to validity}
+
+\paragraph{Construct validity.}
+Several endpoints are intentionally contractual: a content hash should change
+when hashed geometry changes. The study tests implementation conformance, not a
+new physical phenomenon. An unbound arm's failure to detect drift follows from
+its lack of a geometry dependency and should not be interpreted as a defect in
+all unbound calculation workflows.
+
+\paragraph{Internal validity.}
+The implementer authored the code, generator, and cases. A frozen manifest,
+single-attempt ledger, retained raw records, exact hashes, and fail-closed gates
+limit post-outcome flexibility, but do not supply independent authorship or
+adjudication.
+
+\paragraph{External validity.}
+The cases use synthetic bounded primitives and three exact geometry/model
+mappings. They do not represent full CSG, assemblies, meshing, nonlinear
+solvers, enterprise PLM, or heterogeneous commercial CAD/CAE environments.
+No physical experiment or qualified solver comparison is included.
+
+\paragraph{Conclusion validity.}
+Wilson intervals are descriptive for this fixed matrix. Timing on one host and
+small JSON artifacts cannot support a general performance claim. Any
+confirmatory failure remains negative or mixed evidence under the frozen rule.
+
+\section{Discussion}
+
+The practical value of the contract is modest but concrete: it makes a result's
+declared dependencies inspectable and gives downstream automation a fail-closed
+freshness test. Its limitations are equally important. Provenance cannot repair
+an inappropriate analytical model, an unreliable source, an omitted load, or
+an invalid safety argument. For higher-consequence use, the receipt would need
+qualified source governance, solver verification and validation, uncertainty
+analysis, access control, signatures, and domain review.
+
+\section{Reproducibility and artifact availability}
+
+The implementation, protocol, generator, raw JSONL records, metrics, manifest,
+execution ledger, and paper-generation script are retained in the NeuroCAD
+repository. The result-bearing source revision is \texttt{\ResultCommit}. The
+artifact records Python and platform identity, exact file hashes, case-manifest
+hashes, raw-result and metric hashes, resource admission, and Git state. A
+clean-environment reproduction can check software behavior, but is not labeled
+independent external validation unless performed and adjudicated by an
+independent party.
+
+\section{Conclusion}
+
+This study narrows a broad digital-thread ambition to a testable local
+contract: an analytical result names and hashes the primitive geometry,
+material declaration, and load case it depends on, checks exact agreements at
+evaluation time, and exposes later geometry drift. The confirmatory conclusion
+is limited to the preregistered synthetic matrix and the stated implementation
+boundary. It does not establish physical correctness or engineering safety.
+
+\begin{thebibliography}{9}
+\bibitem{hedberg2016}
+T. Hedberg Jr. et al. ``Testing the Digital Thread in Support of Model-Based
+Manufacturing and Inspection.'' \emph{Journal of Computing and Information
+Science in Engineering}, 16(2), 2016. \url{https://doi.org/10.1115/1.4032697}.
+
+\bibitem{helu2017}
+M. Helu, T. Hedberg Jr., and A. Feeney. ``Reference architecture to integrate
+heterogeneous manufacturing systems for the digital thread.'' 2017.
+\url{https://www.nist.gov/publications/reference-architecture-integrate-heterogeneous-manufacturing-systems-digital-thread}.
+
+\bibitem{nistthread}
+National Institute of Standards and Technology. ``Digital Thread for
+Manufacturing.'' \url{https://www.nist.gov/programs-projects/digital-thread-manufacturing}.
+
+\bibitem{w3cprov}
+W3C. ``PROV-DM: The PROV Data Model.'' Recommendation, 2013.
+\url{https://www.w3.org/TR/prov-dm/}.
+
+\bibitem{simprov}
+M. Ruscheinski et al. ``SIMPROV: Provenance capturing for simulation studies.''
+\emph{PLOS ONE}, 2025. \url{https://doi.org/10.1371/journal.pone.0327607}.
+
+\bibitem{olaya2020}
+P. Olaya, J. Lofstead, and M. Taufer. ``Building Containerized Environments for
+Reproducibility and Traceability of Scientific Workflows.'' 2020.
+\url{https://arxiv.org/abs/2009.08495}.
+
+\bibitem{horsch2025}
+M. T. Horsch et al. ``Metadata practices for simulation workflows.''
+\emph{Scientific Data}, 2025. \url{https://doi.org/10.1038/s41597-025-05126-1}.
+
+\bibitem{nistfea}
+National Institute of Standards and Technology. ``Integrating Finite Element
+Analysis With Systems Engineering Models.'' 2017.
+\url{https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=922742}.
+
+\bibitem{rocrate}
+RO-Crate Community. ``RO-Crate Metadata Specification 1.3.''
+\url{https://www.researchobject.org/ro-crate/specification}.
+\end{thebibliography}
+
+\end{document}

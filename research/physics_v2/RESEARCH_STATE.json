@@ -1,0 +1,173 @@
+{
+  "schema_version": "neurocad-research-state-v1",
+  "project_id": "NC-PHYSICS-V2-PROVENANCE",
+  "title": "Contract-Carrying Analytical Physics Receipts for CAD",
+  "predecessor": {
+    "project_id": "NEUROCAD-CONTROLLED-COMPILER",
+    "disposition": "MIXED_TERMINAL",
+    "relationship": "versioned successor; predecessor evidence and claims remain unchanged"
+  },
+  "research_question": "For bounded analytical-physics requests over NeuroCAD agent primitives, do geometry-, material-, and load-bound receipts detect predeclared stale or contradictory analyses that an unbound request file cannot detect, while retaining deterministic valid-case behavior?",
+  "scientific_objective": "Evaluate a narrow executable provenance and invalidation contract for analytical CAD screening, not the physical validity of FEA, CFD, fabrication, or safety claims.",
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "Valid bound requests are accepted deterministically with exact input, geometry, material, load, and request hashes.",
+      "falsifier": "Any predeclared valid case is rejected or produces nondeterministic scientific fields."
+    },
+    {
+      "id": "H2",
+      "statement": "The full binding rejects every predeclared geometry/input, material/input, load/input, and expected-hash contradiction; hash-only and unbound controls do not detect semantic contradictions they do not evaluate.",
+      "falsifier": "The full binding accepts any in-scope contradiction or a control is credited with a detection it does not actually perform."
+    },
+    {
+      "id": "H3",
+      "statement": "Full and hash-only receipts detect every predeclared post-result geometry mutation, whereas unbound requests expose no machine-verifiable geometry freshness check.",
+      "falsifier": "A bound receipt remains current after an in-scope geometry mutation."
+    },
+    {
+      "id": "H4",
+      "statement": "Non-geometric label changes and revision-only changes do not invalidate a geometry receipt.",
+      "falsifier": "A predeclared non-geometric mutation changes the canonical geometry hash."
+    }
+  ],
+  "intended_contribution": "An open, strict, machine-readable reference implementation and controlled conformance study for hash-bound analytical-physics receipts. No algorithmic-novelty, physical-validation, safety, or general CAD/CAE claim is intended.",
+  "scope": {
+    "included": [
+      "NeuroCAD agent-project primitive bindings",
+      "canonical geometry hashes",
+      "versioned material cards",
+      "named load cases",
+      "exact model-input contradiction checks where mappings are unambiguous",
+      "post-result geometry freshness verification",
+      "controlled synthetic conformance evaluation",
+      "determinism and bounded overhead diagnostics"
+    ],
+    "excluded": [
+      "finite-element analysis",
+      "computational fluid dynamics",
+      "full CSG mass or surface evaluation",
+      "material database authority",
+      "temperature interpolation",
+      "physical experiments",
+      "manufacturing or safety certification",
+      "general natural-language or CAD intelligence",
+      "comparison with commercial PLM or CAE systems"
+    ]
+  },
+  "phase": "PRE_FREEZE_RESOURCE_BLOCKED",
+  "checkpoints": {
+    "idea_ready": "PASS_BOUNDED",
+    "model_specification_ready": "PASS",
+    "methodology_ready": "PASS",
+    "model_implemented": "PASS_ENGINEERING",
+    "experiment_system_implemented": "PASS_ENGINEERING",
+    "run_ready": "BLOCKED_RESOURCE_ADMISSION",
+    "confirmatory_protocol_frozen": "NOT_YET",
+    "evidence_locked": "NOT_YET",
+    "verified": "DEVELOPMENT_ONLY",
+    "research_complete": "NOT_YET"
+  },
+  "budgets": {
+    "development_rounds": 2,
+    "development_revisions_used": 2,
+    "confirmatory_runs": 1,
+    "cpu_processes": 1,
+    "memory_ceiling_mib": 512,
+    "resource_admission_floor_free_plus_speculative_mib": 512,
+    "wall_time_minutes": 15
+  },
+  "protected_evaluation": {
+    "status": "UNMATERIALIZED_RESOURCE_BLOCKED",
+    "outcomes_observed": false,
+    "seed": 20261011,
+    "policy": "Freeze source revision, generator, case manifest hash, endpoints, thresholds, exclusions, and analysis before the single confirmatory execution. Development cases may not be copied into confirmatory evidence."
+  },
+  "repositories": [
+    {
+      "path": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD",
+      "branch": "codex/physics-v2-provenance-study",
+      "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+      "freeze_commit": null,
+      "git_state": "DIRTY_IMPLEMENTATION_IN_PROGRESS"
+    }
+  ],
+  "datasets": [
+    {
+      "id": "NC-PHYS-V2-DEV",
+      "status": "EXECUTED_TWO_ROUNDS",
+      "purpose": "development and dry-run cases",
+      "results": [
+        "NC-PHYS-V2-DEV-001:NO_RESULT_HARNESS_ERROR",
+        "NC-PHYS-V2-DEV-002:SUPPORTED_WITHIN_CONTROLLED_CONTRACT"
+      ]
+    },
+    {
+      "id": "NC-PHYS-V2-CONFIRM",
+      "status": "PROTECTED_UNMATERIALIZED",
+      "purpose": "single frozen controlled confirmatory conformance matrix"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-001/FAILURE.json",
+      "status": "RETAINED_NEGATIVE_ENGINEERING_EVIDENCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/manifest.json",
+      "status": "DEVELOPMENT_ONLY"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/metrics.json",
+      "status": "DEVELOPMENT_ONLY"
+    }
+  ],
+  "claims": [],
+  "decisions": [
+    {
+      "date": "2026-10-11",
+      "decision": "Treat Physics v2 as a successor study rather than reopening the terminal controlled-compiler study.",
+      "reason": "The new mechanism and research question are materially different."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Reject algorithmic novelty and physical-validation claims.",
+      "reason": "Digital-thread traceability, model associativity, and simulation provenance have substantial prior art; the contribution is an executable bounded reference contract."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Exhaust the two-revision development budget before protocol freeze.",
+      "reason": "Revision 1 repaired the retained path-resolution failure; revision 2 completed control-arm scoring and protected-run fail-closed gates. Further version-1 changes are prohibited."
+    }
+  ],
+  "failures": [
+    {
+      "date": "2026-10-11",
+      "kind": "RESOURCE_ADMISSION",
+      "detail": "Free plus speculative memory was approximately 104 MiB, below the 512 MiB floor; no protected or expensive scientific run is authorized in this state."
+    },
+    {
+      "date": "2026-10-11",
+      "kind": "DEVELOPMENT_HARNESS",
+      "detail": "NC-PHYS-V2-DEV-001 terminated before endpoint evaluation because a relative project path was resolved twice; classified NO_RESULT and retained."
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-10-11",
+      "event": "Initialized canonical successor state after reading the predecessor truth, terminal disposition, and frozen external-evaluation protocol."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "NC-PHYS-V2-DEV-001 retained as NO_RESULT after a harness path-resolution failure."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "NC-PHYS-V2-DEV-002 completed 12 cases without execution errors; result remains development-only."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Final version-1 development revision closed control-arm endpoints and fail-before-execute protected gates; development budget exhausted."
+    }
+  ]
+}

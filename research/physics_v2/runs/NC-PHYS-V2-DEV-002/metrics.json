@@ -1,0 +1,142 @@
+{
+  "case_count": 12,
+  "claim_boundary": "fixed synthetic conformance matrix; not physical validation, safety certification, enterprise CAD/CAE generalization, or algorithmic novelty",
+  "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+  "endpoints": {
+    "full_geometry_input_detection": {
+      "rate": 1.0,
+      "successes": 2,
+      "total": 2,
+      "wilson_95": [
+        0.34238022750665303,
+        1.0
+      ]
+    },
+    "full_load_input_detection": {
+      "rate": 1.0,
+      "successes": 1,
+      "total": 1,
+      "wilson_95": [
+        0.20654931437723745,
+        1.0
+      ]
+    },
+    "full_material_input_detection": {
+      "rate": 1.0,
+      "successes": 1,
+      "total": 1,
+      "wilson_95": [
+        0.20654931437723745,
+        1.0
+      ]
+    },
+    "full_non_geometric_specificity": {
+      "rate": 1.0,
+      "successes": 1,
+      "total": 1,
+      "wilson_95": [
+        0.20654931437723745,
+        1.0
+      ]
+    },
+    "full_post_mutation_detection": {
+      "rate": 1.0,
+      "successes": 3,
+      "total": 3,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    "full_stale_expected_hash_detection": {
+      "rate": 1.0,
+      "successes": 1,
+      "total": 1,
+      "wilson_95": [
+        0.20654931437723745,
+        1.0
+      ]
+    },
+    "hash_only_non_geometric_specificity": {
+      "rate": 1.0,
+      "successes": 1,
+      "total": 1,
+      "wilson_95": [
+        0.20654931437723745,
+        1.0
+      ]
+    },
+    "hash_only_post_mutation_detection": {
+      "rate": 1.0,
+      "successes": 3,
+      "total": 3,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    "unbound_post_mutation_non_detection": {
+      "rate": 1.0,
+      "successes": 3,
+      "total": 3,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    "valid_full_acceptance": {
+      "rate": 1.0,
+      "successes": 3,
+      "total": 3,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    },
+    "valid_full_determinism": {
+      "rate": 1.0,
+      "successes": 3,
+      "total": 3,
+      "wilson_95": [
+        0.4385029682449546,
+        1.0
+      ]
+    }
+  },
+  "execution_errors": [],
+  "family_counts": {
+    "geometry_input_contradiction": 2,
+    "load_input_contradiction": 1,
+    "material_input_contradiction": 1,
+    "non_geometric_mutation": 1,
+    "post_result_geometry_mutation": 3,
+    "stale_expected_hash": 1,
+    "valid": 3
+  },
+  "paired_full_vs_unbound_post_mutation": {
+    "exact_two_sided_mcnemar_p": 0.25,
+    "full_only": 3,
+    "unbound_only": 0
+  },
+  "schema_version": "nc-physics-v2-study-v1",
+  "timing_diagnostics": {
+    "full": {
+      "count": 7,
+      "maximum_ms": 2.248667,
+      "median_ms": 1.520292,
+      "p95_ms": 2.248667
+    },
+    "hash_only": {
+      "count": 11,
+      "maximum_ms": 1.071125,
+      "median_ms": 0.460292,
+      "p95_ms": 1.071125
+    },
+    "unbound": {
+      "count": 12,
+      "maximum_ms": 0.05775,
+      "median_ms": 0.020875,
+      "p95_ms": 0.05775
+    }
+  }
+}

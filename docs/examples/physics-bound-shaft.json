@@ -1,0 +1,39 @@
+{
+  "context": {
+    "geometry": {
+      "agent_project": "agent-shaft-project.json",
+      "component_id": "shaft"
+    },
+    "load_case": {
+      "case_id": "rated-torque",
+      "coordinate_system": "component-local",
+      "schema_version": "neurocad-load-case-v1",
+      "source": "Declared documentation example; replace with the applicable requirement or measured load.",
+      "values": {
+        "safety_factor": 2.0,
+        "torque_n_m": 120.0
+      }
+    },
+    "material": {
+      "material_id": "documented-steel-example",
+      "properties": {
+        "density_kg_m3": 7850.0,
+        "shear_modulus_mpa": 79000.0,
+        "yield_strength_mpa": 250.0
+      },
+      "revision": 1,
+      "schema_version": "neurocad-material-card-v1",
+      "source": "Illustrative values only; replace with the exact governed datasheet or measured dataset."
+    },
+    "schema_version": "neurocad-physics-context-v1"
+  },
+  "inputs": {
+    "length_mm": 100.0,
+    "outer_diameter_mm": 20.0,
+    "safety_factor": 2.0,
+    "shear_modulus_mpa": 79000.0,
+    "torque_n_m": 120.0,
+    "yield_strength_mpa": 250.0
+  },
+  "model": "circular_shaft_torsion"
+}

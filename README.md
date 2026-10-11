@@ -180,7 +180,12 @@ neurocad topology plate.stl --require-closed-manifold -o topology.json
 neurocad tolerance docs/examples/tolerance.json -o tolerance-report.json
 neurocad math tolerance docs/examples/tolerance-quadratic.json
 neurocad math beam --force 10 --length 50 --width 10 --thickness 4 --modulus 2200
+neurocad physics --list
 neurocad physics docs/examples/physics-buckling.json -o buckling-report.json
+neurocad physics docs/examples/physics-brayton-cycle.json -o brayton-report.json
+neurocad physics docs/examples/physics-bound-shaft.json -o shaft-report.json
+neurocad physics --verify shaft-report.json
+neurocad agent run "generate a physics-aware jet engine cutaway" --project jet-engine-concept
 ```
 
 `neurocad nlp` prints recognized source spans, precise unresolved locations,

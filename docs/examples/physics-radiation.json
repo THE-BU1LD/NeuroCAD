@@ -1,0 +1,10 @@
+{
+  "model": "radiative_exchange",
+  "inputs": {
+    "emissivity": 0.85,
+    "area_mm2": 20000,
+    "surface_temperature_k": 500,
+    "surroundings_temperature_k": 295,
+    "view_factor": 1.0
+  }
+}

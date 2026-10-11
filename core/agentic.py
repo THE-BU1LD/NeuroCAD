@@ -476,6 +476,145 @@ def _wheel_plan(prompt: str = "", previous: AgentPlan | None = None) -> AgentPla
     )
 
 
+def _jet_engine_cutaway_plan() -> AgentPlan:
+    """Return an intentionally non-operational educational cutaway.
+
+    The concept communicates axial component ordering and an annular gas path.
+    It deliberately contains no blade geometry, fuel system, combustor detail,
+    bearing design, shaft-speed inputs, or performance sizing.
+    """
+
+    axial = (0.0, 90.0, 0.0)
+    components = (
+        AgentComponent(
+            "casing_outer", "Sectioned outer casing", "casing", "add", "cylinder",
+            {"radius": 70.0, "height": 300.0}, (0.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "casing_duct", "Annular gas-path clearance", "casing", "subtract", "cylinder",
+            {"radius": 62.0, "height": 306.0}, (0.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "casing_cutaway", "Display cutaway window", "casing", "subtract", "box",
+            {"size": [270.0, 84.0, 92.0]}, (0.0, -48.0, 38.0),
+        ),
+        AgentComponent(
+            "inlet_outer", "Inlet shell", "inlet", "add", "cone",
+            {"r1": 72.0, "r2": 64.0, "height": 60.0}, (-165.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "inlet_bore", "Inlet flow opening", "inlet", "subtract", "cone",
+            {"r1": 64.0, "r2": 57.0, "height": 62.0}, (-165.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "centerbody", "Inlet centerbody", "centerbody", "add", "cone",
+            {"r1": 11.0, "r2": 25.0, "height": 72.0}, (-111.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "shaft", "Schematic center shaft", "shaft", "add", "cylinder",
+            {"radius": 5.0, "height": 248.0}, (4.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "fan_display_bridge", "Non-engine fan display bridge", "display_supports", "add", "cylinder",
+            {"radius": 4.5, "height": 142.0}, (-100.0, 0.0, 0.0), (90.0, 0.0, 0.0),
+        ),
+        AgentComponent(
+            "chamber_display_bridge", "Non-engine chamber display bridge", "display_supports", "add", "cylinder",
+            {"radius": 4.5, "height": 142.0}, (28.0, 0.0, 1.5), (90.0, 0.0, 0.0),
+        ),
+        AgentComponent(
+            "turbine_display_bridge", "Non-engine turbine display bridge", "display_supports", "add", "cylinder",
+            {"radius": 4.5, "height": 142.0}, (70.0, 0.0, -1.5), (90.0, 0.0, 0.0),
+        ),
+        AgentComponent(
+            "fan_disk", "Schematic fan disk without blades", "fan", "add", "cylinder",
+            {"radius": 52.0, "height": 6.0}, (-100.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "fan_hub", "Fan hub volume", "fan", "add", "cylinder",
+            {"radius": 16.0, "height": 14.0}, (-100.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "compressor_stage_1", "Schematic compressor station 1", "compressor_1", "add", "cylinder",
+            {"radius": 44.0, "height": 4.0}, (-64.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "compressor_stage_2", "Schematic compressor station 2", "compressor_2", "add", "cylinder",
+            {"radius": 40.0, "height": 4.0}, (-36.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "compressor_stage_3", "Schematic compressor station 3", "compressor_3", "add", "cylinder",
+            {"radius": 36.0, "height": 4.0}, (-8.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "chamber_outer", "Non-combusting chamber envelope", "chamber", "add", "cylinder",
+            {"radius": 35.0, "height": 50.0}, (28.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "chamber_void", "Chamber display cavity", "chamber", "subtract", "cylinder",
+            {"radius": 28.0, "height": 52.0}, (28.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "turbine_stage_1", "Schematic turbine station 1", "turbine_1", "add", "cylinder",
+            {"radius": 34.0, "height": 4.0}, (70.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "turbine_stage_2", "Schematic turbine station 2", "turbine_2", "add", "cylinder",
+            {"radius": 29.0, "height": 4.0}, (94.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_coupler_outer", "Display-only nozzle coupling ring", "nozzle_coupler", "add", "cylinder",
+            {"radius": 66.0, "height": 16.0}, (120.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_coupler_bore", "Nozzle coupling opening", "nozzle_coupler", "subtract", "cylinder",
+            {"radius": 54.0, "height": 18.0}, (120.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_outer", "Exhaust display shell", "nozzle", "add", "cone",
+            {"r1": 58.0, "r2": 36.0, "height": 72.0}, (150.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_bore", "Exhaust display opening", "nozzle", "subtract", "cone",
+            {"r1": 51.0, "r2": 29.0, "height": 74.0}, (150.0, 0.0, 0.0), axial,
+        ),
+    )
+    return AgentPlan(
+        "Non-operational jet-engine cutaway concept",
+        "An educational axial cutaway showing inlet, fan, compressor stations, chamber envelope, turbine stations, and exhaust nozzle.",
+        (
+            AgentAssumption(
+                "intended use", "educational cutaway and display only",
+                "The geometry is intentionally unsuitable for propulsion, pressure, combustion, or high-speed rotation", "inferred",
+            ),
+            AgentAssumption(
+                "physics binding", "explicit analytical-model inputs required",
+                "Use ideal_brayton_cycle, lumped_thermal_transient, radiative_exchange, circular_shaft_torsion, "
+                "and spring_mass_damper separately; NeuroCAD does not infer temperatures, loads, material properties, "
+                "pressure ratio, efficiencies, mass flow, thrust, or shaft speed, and these models are not coupled",
+                "calculated",
+            ),
+            AgentAssumption(
+                "gas-path representation", "schematic axial ordering and annular clearances",
+                "Station disks communicate architecture only; they are not aerodynamic blades or component maps", "inferred",
+            ),
+            AgentAssumption(
+                "omitted systems", "blades, fuel, injectors, combustion, cooling, bearings, seals, controls, and fasteners",
+                "Those systems require specialist analysis, controlled testing, materials evidence, and qualified review", "inferred",
+            ),
+            AgentAssumption(
+                "fabrication boundary", "not fabrication-ready",
+                "No load, fatigue, creep, thermal-gradient, containment, vibration, or failure analysis is supplied", "inferred",
+            ),
+            AgentAssumption(
+                "display supports", "three non-engine bridges",
+                "The bridges create one connected educational mesh and do not represent aerodynamic or structural engine hardware", "inferred",
+            ),
+        ),
+        components,
+    )
+
+
 def _primitive_concept_plan(prompt: str) -> AgentPlan | None:
     lowered = prompt.lower()
     if re.search(r"\bcylinder\b", lowered):
@@ -571,6 +710,8 @@ class BuiltinPlanningProvider:
         source = _text(prompt, "agent prompt", maximum=8_192)
         if WEAPON_TERMS.search(source):
             raise ValueError("weapon design requests are outside the NeuroCAD agent boundary")
+        if re.search(r"\b(?:jet\s+engine|turbojet|turbofan)\b", source, re.IGNORECASE):
+            return _jet_engine_cutaway_plan()
         if re.search(r"\b(?:iron\s+man|mark\s*(?:iii|3)|cosplay\s+(?:armor|suit))\b", source, re.IGNORECASE):
             return _mark_three_cosplay_plan(source)
         if re.search(r"\bwheel\b", source, re.IGNORECASE):
@@ -597,7 +738,7 @@ class BuiltinPlanningProvider:
         if context_is_wheel and wheel_revision:
             return _wheel_plan(source, previous)
         raise ValueError(
-            "the offline planner currently knows bottles, wheels, basic primitives, and cosplay shells; configure an OpenAI-compatible provider "
+            "the offline planner currently knows bottles, wheels, non-operational jet-engine cutaways, basic primitives, and cosplay shells; configure an OpenAI-compatible provider "
             "with NEUROCAD_LLM_ENDPOINT and NEUROCAD_LLM_MODEL for open-ended benign objects"
         )
 
@@ -606,7 +747,9 @@ _SYSTEM_PROMPT = """You are NeuroCAD's concept planner. Convert the user's benig
 Use only the supplied schema and millimetres. Make reasonable concept-stage assumptions instead of asking questions.
 Build useful assemblies from box, rounded_box, sphere, cylinder, cone, and torus primitives. Each part must begin with
 an additive component; subtractive components form cavities. Do not design weapons, life-critical equipment, or claim
-manufacturing safety. Keep components under 64 unless the request truly requires more. Output JSON only.
+manufacturing safety. For turbine or jet-engine requests, produce non-operational educational cutaways only and omit
+blades, fuel, combustion details, bearings, shaft-speed inputs, and performance sizing. Keep components under 64 unless
+the request truly requires more. Output JSON only.
 
 Schema:
 {"version":"neurocad-agent-plan-v1","title":"...","summary":"...","assumptions":[{"name":"...","value":"...","reason":"...","source":"user|inferred|provider|calculated"}],"components":[{"id":"portable_id","label":"...","part":"part_name","operation":"add|subtract","shape":"box|rounded_box|sphere|cylinder|cone|torus","parameters":{},"translate":[0,0,0],"rotate":[0,0,0]}]}

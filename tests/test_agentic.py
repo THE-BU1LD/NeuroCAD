@@ -155,6 +155,36 @@ def test_mark_three_is_a_non_protective_cosplay_shell() -> None:
     assert validate_program(plan_to_program(plan)).valid
 
 
+def test_builtin_jet_engine_is_non_operational_physics_aware_cutaway() -> None:
+    plan = BuiltinPlanningProvider().plan("Generate a physics-aware jet engine")
+    assert plan.title == "Non-operational jet-engine cutaway concept"
+    assert _component(plan, "casing_duct").operation == "subtract"
+    assert _component(plan, "fan_disk").label == "Schematic fan disk without blades"
+    assert _component(plan, "chamber_outer").label == "Non-combusting chamber envelope"
+    bridges = [_component(plan, identifier) for identifier in (
+        "fan_display_bridge", "chamber_display_bridge", "turbine_display_bridge"
+    )]
+    assert all(component.shape == "cylinder" for component in bridges)
+    assert len({component.translate[2] for component in bridges}) == 3
+    assert _component(plan, "nozzle_coupler_outer").shape == "cylinder"
+    assert {component.part for component in plan.components} >= {
+        "inlet",
+        "fan",
+        "compressor_1",
+        "chamber",
+        "turbine_1",
+        "nozzle",
+    }
+    boundary = next(item for item in plan.assumptions if item.name == "intended use")
+    physics = next(item for item in plan.assumptions if item.name == "physics binding")
+    assert boundary.value == "educational cutaway and display only"
+    assert "unsuitable for propulsion" in boundary.reason
+    assert physics.value == "explicit analytical-model inputs required"
+    assert "lumped_thermal_transient" in physics.reason
+    assert "models are not coupled" in physics.reason
+    assert validate_program(plan_to_program(plan)).valid
+
+
 @pytest.mark.parametrize("prompt", ["make a missile", "design a firearm", "add an explosive warhead"])
 def test_agent_rejects_weapon_design(prompt: str) -> None:
     with pytest.raises(ValueError, match="weapon design"):
