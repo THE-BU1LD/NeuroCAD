@@ -1,0 +1,30 @@
+{
+  "case_count": 216,
+  "cases_file_sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+  "cases_path": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl",
+  "cases_semantic_sha256": "2e6bb79b5a649b191fb7b9a0635b9e0ae4053aae8d23b72af104fc5937ac0696",
+  "outcomes_observed": false,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "protocol_status": "FROZEN_PREOUTCOME",
+  "python": "3.14.0 (main, Nov 19 2025, 23:04:28) [Clang 21.1.4 ]",
+  "resource_receipt": {
+    "admitted": true,
+    "disk_floor_mib": 2048.0,
+    "disk_free_mib": 266173.8359375,
+    "free_plus_speculative_mib": 868.71875,
+    "memory_floor_mib": 512.0
+  },
+  "schema_version": "nc-physics-v2-study-v1",
+  "seed": 20261011,
+  "source_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
+  "source_hashes": {
+    "core/agentic.py": "9a5cac2a14f16f92e41739dec760099830484031794f54830d7f9f491796a455",
+    "core/physics.py": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+    "core/physics_context.py": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+    "neurocad_cli.py": "d62ef395fa1ae7219d86ff12fbde0e20bd642940441a8330ee6b5be14cc7abfa",
+    "requirements-research.lock": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792",
+    "research/physics_v2/MODEL_SPEC.md": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e",
+    "research/physics_v2/PROTOCOL.md": "83d9cbe6a5211349ecb91a4b8390e70003ff02cd257980c3dd3b907dacdcc31d",
+    "research/physics_v2/study.py": "6f84ee5684370e3ed0c4c474449df42878510fa1e02c88c778286729838b8097"
+  }
+}

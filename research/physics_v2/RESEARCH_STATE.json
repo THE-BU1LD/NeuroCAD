@@ -55,16 +55,16 @@
       "comparison with commercial PLM or CAE systems"
     ]
   },
-  "phase": "PRE_FREEZE_RESOURCE_BLOCKED",
+  "phase": "FROZEN_PREOUTCOME_AWAITING_EXECUTION_GATE",
   "checkpoints": {
     "idea_ready": "PASS_BOUNDED",
     "model_specification_ready": "PASS",
     "methodology_ready": "PASS",
     "model_implemented": "PASS_ENGINEERING",
     "experiment_system_implemented": "PASS_ENGINEERING",
-    "run_ready": "BLOCKED_RESOURCE_ADMISSION",
-    "confirmatory_protocol_frozen": "NOT_YET",
-    "evidence_locked": "NOT_YET",
+    "run_ready": "FROZEN_AWAITING_EXECUTION_RESOURCE_ADMISSION",
+    "confirmatory_protocol_frozen": "PASS",
+    "evidence_locked": "PREOUTCOME_LOCKED",
     "verified": "DEVELOPMENT_ONLY",
     "research_complete": "NOT_YET"
   },
@@ -78,9 +78,13 @@
     "wall_time_minutes": 15
   },
   "protected_evaluation": {
-    "status": "UNMATERIALIZED_RESOURCE_BLOCKED",
+    "status": "FROZEN_PREOUTCOME",
     "outcomes_observed": false,
     "seed": 20261011,
+    "case_count": 216,
+    "cases_file_sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "cases_semantic_sha256": "2e6bb79b5a649b191fb7b9a0635b9e0ae4053aae8d23b72af104fc5937ac0696",
+    "freeze_source_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
     "policy": "Freeze source revision, generator, case manifest hash, endpoints, thresholds, exclusions, and analysis before the single confirmatory execution. Development cases may not be copied into confirmatory evidence."
   },
   "repositories": [
@@ -89,8 +93,8 @@
       "branch": "codex/physics-v2-provenance-study",
       "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
       "implementation_commit": "faeede8",
-      "freeze_commit": null,
-      "git_state": "CLEAN_PRE_FREEZE"
+      "freeze_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
+      "git_state": "CLEAN_FROZEN_PREOUTCOME"
     }
   ],
   "datasets": [
@@ -105,7 +109,7 @@
     },
     {
       "id": "NC-PHYS-V2-CONFIRM",
-      "status": "PROTECTED_UNMATERIALIZED",
+      "status": "FROZEN_PREOUTCOME",
       "purpose": "single frozen controlled confirmatory conformance matrix"
     }
   ],
@@ -121,6 +125,14 @@
     {
       "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/metrics.json",
       "status": "DEVELOPMENT_ONLY"
+    },
+    {
+      "path": "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl",
+      "status": "FROZEN_PREOUTCOME"
+    },
+    {
+      "path": "research/physics_v2/frozen/freeze.json",
+      "status": "FROZEN_PREOUTCOME"
     }
   ],
   "claims": [],
@@ -173,6 +185,14 @@
     {
       "date": "2026-10-11",
       "event": "Locked the version-1 implementation, protocol, development evidence, and pre-results manuscript at Git commit faeede8."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Materialized and committed the 216-case protected manifest without executing outcomes."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Froze protocol version 1 at source commit 2627c106ede6c2ac4e3570700f2bd545a763943c with 868.71875 MiB free plus speculative memory and outcomes_observed=false."
     }
   ]
 }
