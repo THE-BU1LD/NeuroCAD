@@ -2,7 +2,7 @@
 
 ## Current verdict
 
-`CONFIRMATORY_SUPPORTED_WITHIN_CONTROLLED_CONTRACT / INTERNAL_AUDIT_PASS / EXTERNAL_VALIDATION_OPEN`
+`CONFIRMATORY_SUPPORTED_WITHIN_CONTROLLED_CONTRACT / INTERNAL_CLEAN_CHECKOUT_PASS / RELEASE_CANDIDATE / EXTERNAL_VALIDATION_OPEN`
 
 This is a versioned successor to the terminal NeuroCAD controlled-compiler
 study. It does not reopen, overwrite, or upgrade the predecessor's evidence.
@@ -85,6 +85,23 @@ adjudication.
 The result artifacts were committed at
 `64ec85fa0b98f170ee4b6b205111ed27ae0bbd36`; the following governance-only
 commit records that identity.
+
+## Release verification
+
+The release candidate was committed at
+`0896fba43336c03af8bd5ff7008506691832d7f5` and verified from a fresh local
+clone made with `--no-hardlinks`. Without executing a study case, the locked
+raw evidence regenerated `generated_results.tex` and the post-outcome audit
+byte-for-byte. Repository and minimal two-file arXiv sources both compiled to
+six-page PDFs whose extracted text matched the committed paper. The clean
+checkout passed 1,203 tests with 9 expected skips in 186.93 seconds, scoped
+Ruff checks, and mypy across 71 in-scope source files.
+
+This is internal clean-checkout verification using the project's existing
+locked virtual environment. It is not a clean-environment dependency install,
+independent reproduction, external adjudication, physical validation, or an
+arXiv submission receipt. Exact author metadata, arXiv license/category,
+submission, and independent execution remain external actions.
 
 The machine-readable authority is `RESEARCH_STATE.json`. Update it before every
 session ends and preserve negative, mixed, invalid, and blocked outcomes.

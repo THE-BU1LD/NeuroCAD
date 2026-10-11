@@ -54,9 +54,21 @@ Median full-receipt size was 3,902 bytes; maximum was 4,199 bytes.
 - paper PDF SHA-256: `8443a359789854d4aec8da99844d995044ccbd246cf0028e3f400cc716cba733`
 - arXiv source SHA-256: `b9ec3c45f7280a38cb58a77283f92e65159b300b6adf0c439a1fb4575f8afa60`
 
+The two release hashes above identify the original five-page result artifact
+at commit `64ec85f`. The release-candidate paper adds audit appendices and an
+explicit submission boundary without altering the generated results. Its final
+hashes are recorded by the release receipt rather than overwriting the original
+result identity.
+
 The internal post-outcome audit passed without case re-execution. It is not an
 independent reproduction or external adjudication.
 
 The repository-wide engineering gate passed with 1,203 tests and 9 expected
 skips. Ruff passed, and mypy reported no issues across 100 source files. These
 are engineering checks, not additional scientific or external evidence.
+
+The later clean-checkout release pass independently re-read the retained raw
+artifacts (but did not independently author or execute the cases), regenerated
+the analysis byte-for-byte, compiled both repository and arXiv sources, matched
+the extracted PDF text, and passed 1,203 tests with 9 expected skips. See
+`CLEAN_CHECKOUT_VERIFICATION.json` for its exact narrower boundary.

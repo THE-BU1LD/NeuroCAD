@@ -55,7 +55,7 @@
       "comparison with commercial PLM or CAE systems"
     ]
   },
-  "phase": "CONFIRMATORY_COMPLETE_EXTERNAL_VALIDATION_OPEN",
+  "phase": "RELEASE_CANDIDATE_VERIFIED_EXTERNAL_VALIDATION_OPEN",
   "checkpoints": {
     "idea_ready": "PASS_BOUNDED",
     "model_specification_ready": "PASS",
@@ -65,8 +65,8 @@
     "run_ready": "EXECUTED_ONCE",
     "confirmatory_protocol_frozen": "PASS",
     "evidence_locked": "PASS",
-    "verified": "INTERNAL_POST_OUTCOME_AUDIT_PASS_EXTERNAL_NOT_YET",
-    "research_complete": "COMPLETE_WITHIN_CONTROLLED_CONTRACT_EXTERNAL_VALIDATION_OPEN"
+    "verified": "PASS_INTERNAL_CLEAN_CHECKOUT_EXTERNAL_INDEPENDENT_NOT_YET",
+    "research_complete": "TERMINAL_SUPPORTED_WITHIN_CONTROLLED_CONTRACT_RELEASE_PACKAGING_PENDING_EXTERNAL_VALIDATION_OPEN"
   },
   "budgets": {
     "development_rounds": 2,
@@ -82,7 +82,12 @@
     "ruff": "PASS",
     "mypy": "PASS, 100 source files",
     "paper_compile": "PASS",
-    "paper_visual_inspection": "PASS, 5 pages",
+    "paper_visual_inspection": "PASS, 6 pages inspected after release edits",
+    "clean_checkout_tests": "1203 passed, 9 skipped in 186.93 seconds",
+    "clean_checkout_analysis_regeneration": "PASS, generated results and post-outcome audit byte-identical; no case execution",
+    "clean_checkout_paper_regeneration": "PASS, repository and two-file arXiv sources compile to text identical to committed PDF",
+    "clean_checkout_ruff": "PASS for core, CLI, tests, Physics v2 study, and paper generator; legacy directory is outside this release gate",
+    "clean_checkout_mypy": "PASS, 71 in-scope source files",
     "boundary": "engineering and artifact checks only; not scientific independence or physical validation"
   },
   "protected_evaluation": {
@@ -109,6 +114,7 @@
       "implementation_commit": "faeede8",
       "freeze_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
       "result_artifact_commit": "64ec85fa0b98f170ee4b6b205111ed27ae0bbd36",
+      "release_candidate_commit": "0896fba43336c03af8bd5ff7008506691832d7f5",
       "git_state": "CLEAN_RESULT_LOCKED"
     }
   ],
@@ -187,6 +193,22 @@
     {
       "path": "research/physics_v2/EXTERNAL_REPRODUCTION.md",
       "status": "READY_NOT_EXECUTED_BY_INDEPENDENT_PARTY"
+    },
+    {
+      "path": "research/physics_v2/CLEAN_CHECKOUT_VERIFICATION.json",
+      "status": "PASS_INTERNAL_CLEAN_CHECKOUT_EXTERNAL_INDEPENDENT_NOT_YET"
+    },
+    {
+      "path": "research/physics_v2/EVIDENCE_MATRIX.md",
+      "status": "CLAIM_TO_ARTIFACT_AUDIT_PASS"
+    },
+    {
+      "path": "research/physics_v2/CITATION_AND_EQUATION_AUDIT.md",
+      "status": "PASS_WITH_DECLARED_SCOPE"
+    },
+    {
+      "path": "research/physics_v2/CHECKPOINT_AUDIT.md",
+      "status": "CHECKPOINTS_1_TO_10_RECONCILED"
     }
   ],
   "claims": [
@@ -246,6 +268,11 @@
       "date": "2026-10-11",
       "decision": "Exhaust the two-revision development budget before protocol freeze.",
       "reason": "Revision 1 repaired the retained path-resolution failure; revision 2 completed control-arm scoring and protected-run fail-closed gates. Further version-1 changes are prohibited."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Verify the release from a fresh local clone without rerunning protected cases.",
+      "reason": "Locked raw artifacts can regenerate the analysis and paper, while the single-attempt confirmatory ledger must remain closed. This internal pass is not labeled independent reproduction."
     }
   ],
   "failures": [

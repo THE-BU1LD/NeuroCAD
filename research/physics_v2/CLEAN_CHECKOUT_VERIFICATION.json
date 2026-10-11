@@ -1,0 +1,49 @@
+{
+  "arxiv_archive_compile": {
+    "file_count": 2,
+    "files": [
+      "generated_results.tex",
+      "main.tex"
+    ],
+    "page_count": 6,
+    "status": "PASS",
+    "text_sha256": "a3b76e96068122786defd3193d5e916e425b313490315630ff1e584863e7d501"
+  },
+  "artifact_regeneration": {
+    "audit_byte_identical": true,
+    "audit_sha256": "054117e0dfadbaec5423fc4e5aa672b1bdf52b285e84c515dada8f905440eb5b",
+    "case_execution_performed": false,
+    "generated_results_byte_identical": true,
+    "generated_results_sha256": "f7fe2030c7173bf17705409841fad99aaa0b67747487512fe4d597ad8c806145"
+  },
+  "boundary": "internal clean-checkout artifact and engineering verification using the project's existing locked virtual environment; not an independent reproduction, clean-environment dependency installation, external adjudication, physical validation, or arXiv submission receipt",
+  "checkout": {
+    "clean_before_checks": true,
+    "clean_after_checks": true,
+    "commit": "0896fba43336c03af8bd5ff7008506691832d7f5",
+    "method": "fresh local git clone with --no-hardlinks"
+  },
+  "completed_at_utc": "2026-10-11T12:27:10Z",
+  "paper_compile": {
+    "committed_pdf_sha256": "8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5",
+    "extracted_text_byte_identical": true,
+    "page_count": 6,
+    "status": "PASS",
+    "text_sha256": "a3b76e96068122786defd3193d5e916e425b313490315630ff1e584863e7d501"
+  },
+  "protected_confirmatory_run": "NOT_EXECUTED",
+  "schema_version": "nc-physics-v2-clean-checkout-verification-v1",
+  "static_checks": {
+    "mypy": "PASS, 71 in-scope source files",
+    "ruff_format": "PASS, release builder",
+    "ruff_lint": "PASS, core CLI tests Physics v2 study and paper generator"
+  },
+  "status": "PASS_INTERNAL_CLEAN_CHECKOUT_EXTERNAL_INDEPENDENT_NOT_YET",
+  "tests": {
+    "command": "pytest -q",
+    "duration_seconds": 186.93,
+    "passed": 1203,
+    "skipped": 9,
+    "status": "PASS"
+  }
+}
