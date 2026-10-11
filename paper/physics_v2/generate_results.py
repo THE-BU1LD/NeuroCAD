@@ -121,10 +121,14 @@ $p={paired["exact_two_sided_mcnemar_p"]:.6g}$. This comparison describes the
 presence or absence of the preregistered dependency mechanism and is not a
 population-effect estimate.
 
-On this host, median evaluation times were {timing["full"]["median_ms"]:.3f} ms
-for full binding, {timing["hash_only"]["median_ms"]:.3f} ms for hash-only, and
-{timing["unbound"]["median_ms"]:.3f} ms for unbound requests. Corresponding p95
-times were {timing["full"]["p95_ms"]:.3f},
+On this host, median recorded successful evaluation times were
+{timing["full"]["median_ms"]:.3f} ms for full binding
+($n={timing["full"]["count"]}$), {timing["hash_only"]["median_ms"]:.3f} ms for
+hash-only ($n={timing["hash_only"]["count"]}$), and
+{timing["unbound"]["median_ms"]:.3f} ms for unbound requests
+($n={timing["unbound"]["count"]}$). Failed evaluations have no elapsed-time
+record, so these samples are conditional and must not be compared as balanced
+performance arms. Corresponding p95 times were {timing["full"]["p95_ms"]:.3f},
 {timing["hash_only"]["p95_ms"]:.3f}, and {timing["unbound"]["p95_ms"]:.3f} ms.
 The median serialized full receipt was {sizes["median"]} bytes and the maximum
 was {sizes["maximum"]} bytes. These are local diagnostics only.
