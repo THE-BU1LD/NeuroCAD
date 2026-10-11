@@ -1,0 +1,55 @@
+\resultavailabletrue
+\newcommand{\ResultCommit}{786ba9ba5c2249a710529c3b07bf82d4e29c7f36}
+\newcommand{\ResultAbstract}{The locked 216-case run was classified \texttt{SUPPORTED\_WITHIN\_CONTROLLED\_CONTRACT}; the predeclared arm-specific endpoints recorded 528/528 expected outcomes. For post-result mutation, the full-versus-unbound discordance was 48 to 0 (exact two-sided McNemar $p=7.11e-15$).}
+\newcommand{\ResultSection}{%
+The single protected execution completed 216 cases and was
+classified \texttt{SUPPORTED\_WITHIN\_CONTROLLED\_CONTRACT}. Table~\ref{tab:endpoints} reports every
+predeclared arm-specific endpoint. The intervals are descriptive Wilson 95\%
+intervals for the fixed matrix.
+
+\begin{table*}[t]
+\centering
+\caption{Confirmatory contract endpoints. ``Expected outcome'' includes both
+detection where a mechanism applies and declared non-detection where an arm has
+no such mechanism.}
+\label{tab:endpoints}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Endpoint & Expected outcomes & Wilson 95\% interval \\
+\midrule
+Valid full acceptance & 48/48 & 0.926--1.000 \\
+Valid full determinism & 48/48 & 0.926--1.000 \\
+Full geometry contradiction detection & 24/24 & 0.862--1.000 \\
+Full material contradiction detection & 24/24 & 0.862--1.000 \\
+Full load contradiction detection & 24/24 & 0.862--1.000 \\
+Full stale-hash detection & 24/24 & 0.862--1.000 \\
+Hash-only semantic non-detection & 72/72 & 0.949--1.000 \\
+Unbound semantic non-detection & 72/72 & 0.949--1.000 \\
+Full post-mutation detection & 48/48 & 0.926--1.000 \\
+Hash-only post-mutation detection & 48/48 & 0.926--1.000 \\
+Unbound post-mutation non-detection & 48/48 & 0.926--1.000 \\
+Full non-geometric specificity & 24/24 & 0.862--1.000 \\
+Hash-only non-geometric specificity & 24/24 & 0.862--1.000 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+For the paired post-result geometry mutations, the full arm alone detected
+48 cases and the unbound arm alone detected
+0 cases; the exact two-sided McNemar value was
+$p=7.10543e-15$. This comparison describes the
+presence or absence of the preregistered dependency mechanism and is not a
+population-effect estimate.
+
+On this host, median recorded successful evaluation times were
+0.619 ms for full binding
+($n=120$), 0.248 ms for
+hash-only ($n=192$), and
+0.013 ms for unbound requests
+($n=216$). Failed evaluations have no elapsed-time
+record, so these samples are conditional and must not be compared as balanced
+performance arms. Corresponding p95 times were 1.146,
+0.534, and 0.034 ms.
+The median serialized full receipt was 3902 bytes and the maximum
+was 4199 bytes. These are local diagnostics only.
+}

@@ -55,18 +55,18 @@
       "comparison with commercial PLM or CAE systems"
     ]
   },
-  "phase": "FROZEN_PREOUTCOME_AWAITING_EXECUTION_GATE",
+  "phase": "CONFIRMATORY_COMPLETE_EXTERNAL_VALIDATION_OPEN",
   "checkpoints": {
     "idea_ready": "PASS_BOUNDED",
     "model_specification_ready": "PASS",
     "methodology_ready": "PASS",
     "model_implemented": "PASS_ENGINEERING",
     "experiment_system_implemented": "PASS_ENGINEERING",
-    "run_ready": "FROZEN_AWAITING_EXECUTION_RESOURCE_ADMISSION",
+    "run_ready": "EXECUTED_ONCE",
     "confirmatory_protocol_frozen": "PASS",
-    "evidence_locked": "PREOUTCOME_LOCKED",
-    "verified": "DEVELOPMENT_ONLY",
-    "research_complete": "NOT_YET"
+    "evidence_locked": "PASS",
+    "verified": "INTERNAL_POST_OUTCOME_AUDIT_PASS_EXTERNAL_NOT_YET",
+    "research_complete": "COMPLETE_WITHIN_CONTROLLED_CONTRACT_EXTERNAL_VALIDATION_OPEN"
   },
   "budgets": {
     "development_rounds": 2,
@@ -77,14 +77,28 @@
     "resource_admission_floor_free_plus_speculative_mib": 512,
     "wall_time_minutes": 15
   },
+  "engineering_verification": {
+    "pytest": "1203 passed, 9 skipped in 191.07 seconds",
+    "ruff": "PASS",
+    "mypy": "PASS, 100 source files",
+    "paper_compile": "PASS",
+    "paper_visual_inspection": "PASS, 5 pages",
+    "boundary": "engineering and artifact checks only; not scientific independence or physical validation"
+  },
   "protected_evaluation": {
-    "status": "FROZEN_PREOUTCOME",
-    "outcomes_observed": false,
+    "status": "EXECUTED_ONCE",
+    "outcomes_observed": true,
     "seed": 20261011,
     "case_count": 216,
     "cases_file_sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
     "cases_semantic_sha256": "2e6bb79b5a649b191fb7b9a0635b9e0ae4053aae8d23b72af104fc5937ac0696",
     "freeze_source_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
+    "execution_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+    "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "execution_errors": 0,
+    "raw_results_sha256": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "metrics_sha256": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "manifest_sha256": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
     "policy": "Freeze source revision, generator, case manifest hash, endpoints, thresholds, exclusions, and analysis before the single confirmatory execution. Development cases may not be copied into confirmatory evidence."
   },
   "repositories": [
@@ -94,7 +108,7 @@
       "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
       "implementation_commit": "faeede8",
       "freeze_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
-      "git_state": "CLEAN_FROZEN_PREOUTCOME"
+      "git_state": "RESULT_ARTIFACT_COMMIT_PENDING"
     }
   ],
   "datasets": [
@@ -109,8 +123,9 @@
     },
     {
       "id": "NC-PHYS-V2-CONFIRM",
-      "status": "FROZEN_PREOUTCOME",
-      "purpose": "single frozen controlled confirmatory conformance matrix"
+      "status": "EXECUTED_ONCE",
+      "purpose": "single frozen controlled confirmatory conformance matrix",
+      "result": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT"
     }
   ],
   "artifacts": [
@@ -133,9 +148,84 @@
     {
       "path": "research/physics_v2/frozen/freeze.json",
       "status": "FROZEN_PREOUTCOME"
+    },
+    {
+      "path": "research/physics_v2/CONFIRMATORY_EXECUTION.json",
+      "status": "EXECUTED_ONCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json",
+      "status": "LOCKED_CONFIRMATORY_EVIDENCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json",
+      "status": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl",
+      "status": "LOCKED_CONFIRMATORY_EVIDENCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/audit.json",
+      "status": "INTERNAL_POST_OUTCOME_AUDIT_PASS"
+    },
+    {
+      "path": "paper/physics_v2/generated_results.tex",
+      "status": "GENERATED_FROM_LOCKED_METRICS"
+    },
+    {
+      "path": "output/pdf/neurocad-physics-v2-paper.pdf",
+      "status": "COMPILED_AND_VISUALLY_INSPECTED",
+      "sha256": "8443a359789854d4aec8da99844d995044ccbd246cf0028e3f400cc716cba733"
+    },
+    {
+      "path": "output/arxiv/neurocad-physics-v2-arxiv-source.tar.gz",
+      "status": "ARXIV_SOURCE_BUNDLE",
+      "sha256": "b9ec3c45f7280a38cb58a77283f92e65159b300b6adf0c439a1fb4575f8afa60"
     }
   ],
-  "claims": [],
+  "claims": [
+    {
+      "id": "P2-C1",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "48/48 valid full-binding acceptances and 48/48 deterministic repeats"
+    },
+    {
+      "id": "P2-C2",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "96/96 full-binding detections across four contradiction families"
+    },
+    {
+      "id": "P2-C3",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "48/48 full and 48/48 hash-only post-mutation detections; unbound exposes no freshness mechanism"
+    },
+    {
+      "id": "P2-C4",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "24/24 full and 24/24 hash-only non-geometric changes remained current"
+    },
+    {
+      "id": "P2-C5",
+      "status": "DESCRIPTIVE_ONE_HOST_ONLY",
+      "evidence": "conditional successful-evaluation timing and receipt-size diagnostics"
+    },
+    {
+      "id": "P2-C6",
+      "status": "REJECTED",
+      "evidence": "substantial provenance, digital-thread, and associativity prior art"
+    },
+    {
+      "id": "P2-C7",
+      "status": "NOT_SUPPORTED_PROHIBITED",
+      "evidence": "no physical, solver, safety, or certification study"
+    },
+    {
+      "id": "P2-C8",
+      "status": "NOT_SUPPORTED_PROHIBITED",
+      "evidence": "no enterprise CAD/CAE or PLM evaluation"
+    }
+  ],
   "decisions": [
     {
       "date": "2026-10-11",
@@ -193,6 +283,22 @@
     {
       "date": "2026-10-11",
       "event": "Froze protocol version 1 at source commit 2627c106ede6c2ac4e3570700f2bd545a763943c with 868.71875 MiB free plus speculative memory and outcomes_observed=false."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Executed the protected version-1 matrix once at Git commit 786ba9ba5c2249a710529c3b07bf82d4e29c7f36 after a passing 1004.328125 MiB resource receipt; disposition SUPPORTED_WITHIN_CONTROLLED_CONTRACT."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Completed an internal post-outcome artifact audit without re-executing cases; all locked hashes, family counts, raw arm outcomes, and 13 endpoints passed."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Generated the Results section only from ledger-authenticated metrics and compiled and visually inspected the five-page paper PDF."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Completed repository-wide engineering verification: 1203 tests passed, 9 skipped; Ruff passed; mypy passed across 100 source files."
     }
   ]
 }

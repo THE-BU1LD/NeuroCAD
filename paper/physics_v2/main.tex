@@ -4,6 +4,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{microtype}
+\usepackage{placeins}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 
@@ -181,9 +182,15 @@ ledger. The ledger is written before case execution so a crash consumes the
 single attempt. Runtime errors and mismatches remain outcomes; no failed case
 may be removed.
 
+\FloatBarrier
 \section{Results}
 
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
 \ResultSection{}
+\endgroup
+\FloatBarrier
 
 \section{Threats to validity}
 
@@ -241,6 +248,7 @@ evaluation time, and exposes later geometry drift. The confirmatory conclusion
 is limited to the preregistered synthetic matrix and the stated implementation
 boundary. It does not establish physical correctness or engineering safety.
 
+\begin{sloppypar}
 \begin{thebibliography}{9}
 \bibitem{hedberg2016}
 T. Hedberg Jr. et al. ``Testing the Digital Thread in Support of Model-Based
@@ -282,5 +290,6 @@ Analysis With Systems Engineering Models.'' 2017.
 RO-Crate Community. ``RO-Crate Metadata Specification 1.3.''
 \url{https://www.researchobject.org/ro-crate/specification}.
 \end{thebibliography}
+\end{sloppypar}
 
 \end{document}

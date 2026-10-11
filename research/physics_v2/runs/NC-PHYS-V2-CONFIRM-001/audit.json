@@ -1,0 +1,22 @@
+{
+  "boundary": "internal post-outcome artifact audit; not independent reproduction or external validation",
+  "case_count": 216,
+  "case_execution_performed": false,
+  "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+  "endpoint_count": 13,
+  "family_counts": {
+    "geometry_input_contradiction": 24,
+    "load_input_contradiction": 24,
+    "material_input_contradiction": 24,
+    "non_geometric_mutation": 24,
+    "post_result_geometry_mutation": 48,
+    "stale_expected_hash": 24,
+    "valid": 48
+  },
+  "freeze_sha256": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+  "manifest_sha256": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+  "metrics_sha256": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+  "raw_results_sha256": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+  "schema_version": "nc-physics-v2-post-outcome-audit-v1",
+  "status": "PASS"
+}
