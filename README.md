@@ -184,6 +184,7 @@ neurocad physics --list
 neurocad physics docs/examples/physics-buckling.json -o buckling-report.json
 neurocad physics docs/examples/physics-brayton-cycle.json -o brayton-report.json
 neurocad physics docs/examples/physics-bound-shaft.json -o shaft-report.json
+neurocad physics docs/examples/physics-v3-electrothermal-bound.json -o coupled-report.json
 neurocad physics --verify shaft-report.json
 neurocad agent run "generate a physics-aware jet engine cutaway" --project jet-engine-concept
 ```

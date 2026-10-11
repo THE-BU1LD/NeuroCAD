@@ -1,0 +1,21 @@
+{
+  "model": "cantilever_beam",
+  "inputs": {
+    "length_mm": 1000,
+    "elastic_modulus_mpa": 200000,
+    "second_moment_mm4": 1000000,
+    "tip_force_n": 1000,
+    "uniform_load_n_per_mm": 0.2,
+    "section_modulus_mm3": 10000,
+    "yield_strength_mpa": 250,
+    "safety_factor": 2
+  },
+  "uncertainty": {
+    "method": "interval",
+    "inputs": {
+      "tip_force_n": {"lower": 900, "upper": 1100},
+      "uniform_load_n_per_mm": {"lower": 0.1, "upper": 0.3}
+    },
+    "outputs": ["tip_deflection_mm", "maximum_bending_stress_mpa"]
+  }
+}

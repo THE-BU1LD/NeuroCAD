@@ -1,0 +1,64 @@
+{
+  "schema_version": "neurocad-research-state-v1",
+  "project_id": "NC-PHYSICS-V3-WORKFLOW",
+  "title": "NeuroCAD Physics v3 bounded analytical workflow expansion",
+  "status_date": "2026-10-11",
+  "predecessor": {
+    "project_id": "NC-PHYSICS-V2-PROVENANCE",
+    "release_tag": "physics-v2-v1.0.0",
+    "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "relationship": "versioned engineering successor; frozen v2 protocol, evidence, release artifacts, and claims remain unchanged"
+  },
+  "objective": "Add bounded mechanics, thermal, vibration, fluid, coupled, uncertainty, and CAD-annotation workflows without presenting analytical scalars as FEA, CFD, physical validation, or independent reproduction.",
+  "phase": "ENGINEERING_IMPLEMENTED_SCIENTIFIC_VALIDATION_NOT_STARTED",
+  "implemented": [
+    "temperature-aware material cards with in-range interpolation only",
+    "reusable named load cases and algebraic load combinations",
+    "Euler-Bernoulli cantilever response",
+    "three-dimensional combined-stress invariants",
+    "steady linear thermal networks",
+    "forced and base-excited SDOF vibration",
+    "series and single-bank parallel pipe networks",
+    "lumped electro-thermal-mechanical wire workflow",
+    "interval-corner, seeded Monte Carlo, and local-sensitivity propagation",
+    "hash-bound non-spatial component result overlays"
+  ],
+  "excluded": [
+    "finite-element analysis",
+    "computational fluid dynamics",
+    "spatial stress, displacement, temperature, pressure, or velocity fields",
+    "nonlinear constitutive behavior",
+    "general pipe-network loops",
+    "multimode structural dynamics",
+    "probabilistic reliability certification",
+    "physical experiments",
+    "safety or manufacturing certification",
+    "independent reproduction"
+  ],
+  "claim_boundary": "The implementation and automated tests support software behavior and hand-checkable formula conformance only. They do not establish real-world accuracy, safety, publication novelty, FEA/CFD equivalence, or scientific independence.",
+  "engineering_verification": {
+    "targeted_tests": "42 passed",
+    "runnable_examples": "6 of 6 executed successfully",
+    "ruff": "PASS for core, CLI, and Physics test files",
+    "mypy": "PASS, 74 source files",
+    "full_repository_tests": "1213 passed, 9 skipped in 272.45 seconds",
+    "full_repository_mypy": "PASS, 74 source files"
+  },
+  "scientific_evidence": {
+    "protected_evaluation": "NOT_CREATED_OR_EXECUTED",
+    "physical_validation": "NOT_STARTED",
+    "independent_reproduction": "NOT_STARTED",
+    "paper": "NOT_CREATED",
+    "arxiv_submission": "NOT_REQUESTED_OR_PERFORMED"
+  },
+  "artifacts": [
+    "core/physics_advanced.py",
+    "core/physics_registry.py",
+    "core/physics_v3_context.py",
+    "core/physics_uncertainty.py",
+    "core/physics_overlay.py",
+    "tests/test_physics_advanced.py",
+    "docs/PHYSICS.md",
+    "research/physics_v3/FEATURE_MATRIX.md"
+  ]
+}

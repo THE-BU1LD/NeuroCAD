@@ -293,9 +293,9 @@ def test_physics_cli_lists_machine_readable_model_catalog(tmp_path, capsys) -> N
     assert args.func(args) == 0
     catalog = json.loads(capsys.readouterr().out)
     assert json.loads(output.read_text(encoding="utf-8")) == catalog
-    assert catalog["schema_version"] == "neurocad-physics-catalog-v1"
+    assert catalog["schema_version"] == "neurocad-physics-catalog-v2"
     models = {entry["name"]: entry for entry in catalog["models"]}
-    assert len(models) == 12
+    assert len(models) == 18
     assert models["lumped_thermal_transient"]["parameters"][0] == {
         "name": "density_kg_m3",
         "required": True,

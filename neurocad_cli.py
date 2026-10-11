@@ -1356,66 +1356,17 @@ def cmd_math_beam(args: argparse.Namespace) -> int:
 
 
 def cmd_physics(args: argparse.Namespace) -> int:
-    from collections.abc import Callable
     from dataclasses import MISSING, fields
 
     from core.json_io import strict_json_loads
-    from core.physics import (
-        CircularShaftTorsionInput,
-        EulerBucklingInput,
-        HydrostaticBuoyancyInput,
-        IdealBraytonCycleInput,
-        InternalPipeFlowInput,
-        LumpedThermalTransientInput,
-        RadiativeExchangeInput,
-        SpringMassDamperInput,
-        SteadyConductionInput,
-        SteadyConvectionInput,
-        ThermalExpansionInput,
-        ThinWallCylinderInput,
-        circular_shaft_torsion,
-        euler_buckling,
-        hydrostatic_buoyancy,
-        ideal_brayton_cycle,
-        internal_pipe_flow,
-        lumped_thermal_transient,
-        radiative_exchange,
-        spring_mass_damper,
-        steady_conduction,
-        steady_convection,
-        thermal_expansion,
-        thin_wall_cylinder,
-    )
-    from core.physics_context import canonical_sha256, resolve_physics_context, verify_physics_report
+    from core.physics_context import canonical_sha256, verify_physics_report
+    from core.physics_overlay import build_component_overlay
+    from core.physics_registry import ADVANCED_MODEL_NAMES, physics_descriptions, physics_models
+    from core.physics_uncertainty import propagate_uncertainty
+    from core.physics_v3_context import PHYSICS_CONTEXT_V2_VERSION, resolve_physics_context_v3
 
-    models: dict[str, tuple[type[Any], Callable[[Any], dict[str, Any]]]] = {
-        "circular_shaft_torsion": (CircularShaftTorsionInput, circular_shaft_torsion),
-        "euler_buckling": (EulerBucklingInput, euler_buckling),
-        "hydrostatic_buoyancy": (HydrostaticBuoyancyInput, hydrostatic_buoyancy),
-        "ideal_brayton_cycle": (IdealBraytonCycleInput, ideal_brayton_cycle),
-        "internal_pipe_flow": (InternalPipeFlowInput, internal_pipe_flow),
-        "lumped_thermal_transient": (LumpedThermalTransientInput, lumped_thermal_transient),
-        "radiative_exchange": (RadiativeExchangeInput, radiative_exchange),
-        "spring_mass_damper": (SpringMassDamperInput, spring_mass_damper),
-        "steady_conduction": (SteadyConductionInput, steady_conduction),
-        "steady_convection": (SteadyConvectionInput, steady_convection),
-        "thermal_expansion": (ThermalExpansionInput, thermal_expansion),
-        "thin_wall_cylinder": (ThinWallCylinderInput, thin_wall_cylinder),
-    }
-    descriptions = {
-        "circular_shaft_torsion": "Elastic stress and twist of a solid or hollow circular shaft.",
-        "euler_buckling": "Ideal elastic critical load for a prismatic column.",
-        "hydrostatic_buoyancy": "Static-fluid gauge pressure and Archimedes buoyancy.",
-        "ideal_brayton_cycle": "Ideal-gas cycle temperatures and specific work without propulsion sizing.",
-        "internal_pipe_flow": "Reynolds number and Darcy-Weisbach major loss in a round pipe.",
-        "lumped_thermal_transient": "Heating or cooling with a fail-closed Biot-number check.",
-        "radiative_exchange": "Gray-surface radiation to large isothermal surroundings.",
-        "spring_mass_damper": "Linear single-degree-of-freedom modal properties.",
-        "steady_conduction": "Steady one-dimensional Fourier conduction through a slab.",
-        "steady_convection": "Steady Newton cooling with a supplied film coefficient.",
-        "thermal_expansion": "Uniform free expansion and optional restrained elastic stress.",
-        "thin_wall_cylinder": "Closed-end pressure-vessel membrane stress with a thin-wall check.",
-    }
+    models = physics_models()
+    descriptions = physics_descriptions()
     if args.verify is not None:
         if args.input is not None or args.list:
             raise ValueError("--verify cannot be combined with an input request or --list")
@@ -1445,7 +1396,9 @@ def cmd_physics(args: argparse.Namespace) -> int:
                 field_required = field.default is MISSING and field.default_factory is MISSING
                 parameter: dict[str, Any] = {"name": field.name, "required": field_required}
                 if not field_required:
-                    parameter["default"] = field.default
+                    parameter["default"] = (
+                        field.default if field.default is not MISSING else field.default_factory()  # type: ignore[misc]
+                    )
                 parameters.append(parameter)
             catalog_models.append(
                 {
@@ -1457,10 +1410,15 @@ def cmd_physics(args: argparse.Namespace) -> int:
         text = (
             json.dumps(
                 {
-                    "schema_version": "neurocad-physics-catalog-v1",
+                    "schema_version": "neurocad-physics-catalog-v2",
                     "models": catalog_models,
+                    "capabilities": {
+                        "context_versions": ["neurocad-physics-context-v1", PHYSICS_CONTEXT_V2_VERSION],
+                        "uncertainty_methods": ["interval", "local_sensitivity", "monte_carlo"],
+                        "component_overlay": "uniform bound-component annotation; never a spatial field",
+                    },
                     "claim_boundary": (
-                        "bounded analytical estimates; not simulation, certification, or physical validation"
+                        "bounded analytical estimates and small networks; not FEA, CFD, certification, or physical validation"
                     ),
                 },
                 indent=2,
@@ -1485,8 +1443,13 @@ def cmd_physics(args: argparse.Namespace) -> int:
     if len(payload) > MAX_IR_INPUT_BYTES:
         raise ValueError("physics input exceeds 1 MiB")
     request = strict_json_loads(payload.decode("utf-8"))
-    if not isinstance(request, dict) or set(request) not in ({"model", "inputs"}, {"model", "inputs", "context"}):
-        raise ValueError("physics input requires model and inputs, with optional context")
+    if not isinstance(request, dict) or not {"model", "inputs"} <= set(request) or not set(request) <= {
+        "model",
+        "inputs",
+        "context",
+        "uncertainty",
+    }:
+        raise ValueError("physics input requires model and inputs, with optional context and uncertainty")
     if not isinstance(request["model"], str) or not isinstance(request["inputs"], dict):
         raise TypeError("physics model must be a string and inputs must be an object")
     if request["model"] not in models:
@@ -1498,8 +1461,14 @@ def cmd_physics(args: argparse.Namespace) -> int:
     if not required <= supplied or supplied - allowed:
         raise ValueError(f"{request['model']} inputs require {sorted(required)} and allow {sorted(allowed - required)}")
     result = evaluate(input_type(**request["inputs"]))
+    context_version = request.get("context", {}).get("schema_version") if isinstance(request.get("context"), dict) else None
+    schema_version = (
+        "neurocad-physics-v3"
+        if request["model"] in ADVANCED_MODEL_NAMES or "uncertainty" in request or context_version == PHYSICS_CONTEXT_V2_VERSION
+        else ("neurocad-physics-v2" if "context" in request else "neurocad-physics-v1")
+    )
     report = {
-        "schema_version": "neurocad-physics-v2" if "context" in request else "neurocad-physics-v1",
+        "schema_version": schema_version,
         "requested_model": request["model"],
         "inputs": request["inputs"],
         "input_sha256": canonical_sha256(request["inputs"]),
@@ -1507,9 +1476,14 @@ def cmd_physics(args: argparse.Namespace) -> int:
         **result,
     }
     if "context" in request:
-        report["bindings"] = resolve_physics_context(
+        report["bindings"] = resolve_physics_context_v3(
             request["context"], model=request["model"], inputs=request["inputs"], base_dir=source.parent
         )
+    if "uncertainty" in request:
+        report["uncertainty"] = propagate_uncertainty(input_type, evaluate, request["inputs"], request["uncertainty"])
+    overlay = build_component_overlay(report)
+    if overlay is not None:
+        report["overlay"] = overlay
     text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if output:
         write_text_atomic(output, text)

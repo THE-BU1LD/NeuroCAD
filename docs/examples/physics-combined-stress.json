@@ -1,0 +1,13 @@
+{
+  "model": "combined_stress",
+  "inputs": {
+    "normal_x_mpa": 100,
+    "normal_y_mpa": 20,
+    "normal_z_mpa": 0,
+    "shear_xy_mpa": 30,
+    "shear_yz_mpa": 5,
+    "shear_zx_mpa": 0,
+    "yield_strength_mpa": 250,
+    "safety_factor": 1.5
+  }
+}

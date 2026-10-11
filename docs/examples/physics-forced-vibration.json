@@ -1,0 +1,11 @@
+{
+  "model": "forced_vibration",
+  "inputs": {
+    "mass_kg": 2,
+    "stiffness_n_m": 8000,
+    "damping_n_s_m": 40,
+    "excitation_frequency_hz": 8,
+    "force_amplitude_n": 100,
+    "resonance_warning_margin": 0.05
+  }
+}
