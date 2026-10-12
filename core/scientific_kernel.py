@@ -170,7 +170,7 @@ class Quantity:
         parsed = parse_unit(unit)
         if parsed.dimension != self.dimension:
             raise ValueError(f"cannot convert {self.dimension.label()} to {parsed.dimension.label()}")
-        return self.si_value / parsed.scale_to_si
+        return _finite(self.si_value / parsed.scale_to_si, "converted quantity value")
 
     def _matching(self, other: Quantity) -> None:
         if not isinstance(other, Quantity) or other.dimension != self.dimension:
