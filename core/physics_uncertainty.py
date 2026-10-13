@@ -156,7 +156,7 @@ def propagate_uncertainty(
             raise ValueError("uncertainty.samples must be an integer from 2 to 10000")
         if isinstance(seed, bool) or not isinstance(seed, int) or not 0 <= seed <= 2**63 - 1:
             raise ValueError("uncertainty.seed must be an integer from 0 to 2^63-1")
-        generator = random.Random(seed)
+        generator = random.Random(seed)  # nosec B311: reproducible Monte Carlo, not cryptography
         collected: dict[str, list[float]] = {output: [] for output in outputs}
         failed_constraints = 0
         for _ in range(samples):

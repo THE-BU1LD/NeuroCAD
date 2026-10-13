@@ -355,7 +355,8 @@ def forced_vibration(request: ForcedVibrationInput) -> dict[str, Any]:
             }
         )
     else:
-        assert base is not None
+        if base is None:
+            raise ValueError("base excitation amplitude is required")
         base_m = base * 1e-3
         relative_amplitude_m = base_m * mass * omega**2 / denominator
         absolute_amplitude_m = base_m * math.hypot(stiffness, damping * omega) / denominator

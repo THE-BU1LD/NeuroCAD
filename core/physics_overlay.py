@@ -82,7 +82,7 @@ def build_component_overlay(report: dict[str, Any]) -> dict[str, Any] | None:
         "scope": "uniform annotation on the exact bound primitive; values are model-level scalars, not nodal or per-vertex fields",
         "metrics": metrics,
         "legend": {
-            "pass": "the model's explicitly supplied constraint evaluated true",
+            "pass": "the model's explicitly supplied constraint evaluated true",  # nosec B105: display legend, not a password
             "fail": "the model's explicitly supplied constraint evaluated false",
             "not_evaluated": "the request did not provide enough information for a pass/fail constraint",
         },

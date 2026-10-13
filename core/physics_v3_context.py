@@ -121,7 +121,8 @@ def _interpolate_material(raw: Any) -> tuple[dict[str, Any], dict[str, float], l
                 raise ValueError(f"temperature table {name!r} temperatures must be strictly increasing")
             points.append({"temperature_k": temperature, "value": property_value})
             last_temperature = temperature
-        assert evaluation_temperature is not None
+        if evaluation_temperature is None:
+            raise ValueError("evaluation_temperature_k is required for temperature tables")
         if not points[0]["temperature_k"] <= evaluation_temperature <= points[-1]["temperature_k"]:
             raise ValueError(f"evaluation_temperature_k is outside table {name!r}; extrapolation is not allowed")
         for left, right in pairwise(points):
