@@ -6,8 +6,9 @@ import itertools
 import math
 import random
 import statistics
+from collections.abc import Callable
 from dataclasses import fields
-from typing import Any, Callable
+from typing import Any
 
 from .physics_context import canonical_sha256
 
@@ -72,7 +73,7 @@ def _bounds(raw: Any, base_inputs: dict[str, Any], input_type: type[Any]) -> dic
         if name not in allowed or name not in base_inputs:
             raise ValueError(f"uncertainty input {name!r} is not a supplied model input")
         if not isinstance(base_inputs[name], (int, float)) or isinstance(base_inputs[name], bool):
-            raise ValueError(f"uncertainty input {name!r} is not a top-level numeric scalar")
+            raise TypeError(f"uncertainty input {name!r} is not a top-level numeric scalar")
         if not isinstance(value, dict) or set(value) != {"lower", "upper"}:
             raise ValueError(f"uncertainty.inputs.{name} requires exactly lower and upper")
         lower = _finite(value["lower"], f"uncertainty.inputs.{name}.lower")

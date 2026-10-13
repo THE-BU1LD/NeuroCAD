@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import re
+from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
@@ -123,7 +124,7 @@ def _interpolate_material(raw: Any) -> tuple[dict[str, Any], dict[str, float], l
         assert evaluation_temperature is not None
         if not points[0]["temperature_k"] <= evaluation_temperature <= points[-1]["temperature_k"]:
             raise ValueError(f"evaluation_temperature_k is outside table {name!r}; extrapolation is not allowed")
-        for left, right in zip(points, points[1:], strict=False):
+        for left, right in pairwise(points):
             if evaluation_temperature <= right["temperature_k"]:
                 fraction = (evaluation_temperature - left["temperature_k"]) / (right["temperature_k"] - left["temperature_k"])
                 resolved[name] = left["value"] + fraction * (right["value"] - left["value"])
