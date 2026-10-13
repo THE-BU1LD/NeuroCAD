@@ -1,5 +1,14 @@
 # Terminal status — 2026-10-11
 
+## Current version routing — 2026-10-13
+
+See [CURRENT_STATUS.md](CURRENT_STATUS.md) for the current version index.
+The original compiler study remains terminal mixed. Physics v2 has a separate
+controlled 216-case result and local tagged research package; Physics v3 has
+engineering receipts only. Neither upgrades the predecessor or establishes
+independent or physical validation. The historical assessment below retains its
+dated scope and must not be read as an inventory of all later implementations.
+
 ## Verdict
 
 **TERMINAL CURRENT RESEARCH VERSION — MIXED; RELEASE AND EXTERNAL VALIDATION

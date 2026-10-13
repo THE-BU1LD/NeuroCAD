@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-10-13T14:40:36.390690+00:00",
+  "source_head": "a7eb80c54e3133e018b37e595413622dc0687a4a",
+  "gate": "FAIL",
+  "floor_mib": 512,
+  "samples": [
+    {
+      "free_pages": 8356,
+      "speculative_pages": 2108,
+      "page_size_bytes": 16384,
+      "reserve_mib": 163.5,
+      "pageouts": 135420,
+      "swapouts": 137800
+    },
+    {
+      "free_pages": 4703,
+      "speculative_pages": 2633,
+      "page_size_bytes": 16384,
+      "reserve_mib": 114.625,
+      "pageouts": 136334,
+      "swapouts": 137800,
+      "swap_used_mib": 1928.38
+    }
+  ],
+  "disk_available_gib": {
+    "project": 237,
+    "system": 14
+  },
+  "processes": "Existing NeuroCAD daemon PID 1007 observed; untouched. No pytest/OpenSCAD/pip installer shown by scoped process check.",
+  "bounded_action": "Fresh wheel/install, compiled enclosure acceptance and required CI checks only after admission. One serial verification pipeline; retain failures and stop on resource loss or conflicting ownership. No research execution.",
+  "executed": {
+    "fresh_install": false,
+    "compiled_acceptance": false,
+    "commit": false
+  },
+  "hosted_ci": {
+    "lookup": "First attempt TLS timeout; retry succeeded",
+    "latest_observed_head": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
+    "passing_runs": [
+      38026811475,
+      38026811472
+    ],
+    "candidate_verified": false
+  },
+  "automation_id": "finish-neurocad-enclosure-verification",
+  "frozen_research_diff": "EMPTY"
+}

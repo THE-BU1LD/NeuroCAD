@@ -20,3 +20,14 @@
 | Physical/public/external validation | not yet run | nothing yet | `EXTERNAL_EXECUTION_REQUIRED` |
 
 Detailed quantitative claim policy remains in `audits/CLAIM_LEDGER.md`.
+
+## Versioned successors and current engineering — 2026-10-13
+
+- Physics v2: 216-case controlled conformance result and local tagged package;
+  authority: `research/physics_v2/RESEARCH_STATE.json`. Independent reproduction open.
+- Physics v3: retained engineering verification only;
+  authority: `research/physics_v3/RESEARCH_STATE.json`. Scientific validation not started.
+- Current enclosure changes: source hardening and installed-wheel CI acceptance
+  added; runtime verification pending resource admission. See `CURRENT_STATUS.md`.
+- The earlier physical/public/external row describes its historical scope;
+  a local Physics v2 research package is not a public product release receipt.

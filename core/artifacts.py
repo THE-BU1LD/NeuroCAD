@@ -22,13 +22,19 @@ from .validation import ValidationReport
 _NATIVE_RENDER_AVAILABLE: bool | None = None
 
 
-def write_text_atomic(path: Path, text: str) -> Path:
+def write_text_atomic(path: Path, text: str, *, overwrite: bool = True) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent, text=True)
     try:
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(text)
-        os.replace(temporary, path)
+        if overwrite:
+            os.replace(temporary, path)
+        else:
+            # Publish the complete file without a check-then-replace race.
+            # link refuses existing files and symlinks, including dangling ones.
+            os.link(temporary, path)
+            os.unlink(temporary)
     except Exception:
         try:
             os.unlink(temporary)

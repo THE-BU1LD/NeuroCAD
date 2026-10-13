@@ -460,7 +460,7 @@ def parse_project(text: str) -> EnclosureProject:
 
 
 def write_project(path: Path, project: EnclosureProject) -> Path:
-    return write_text_atomic(path, serialize_project(project))
+    return write_text_atomic(path, serialize_project(project), overwrite=False)
 
 
 def read_project(path: Path) -> EnclosureProject:

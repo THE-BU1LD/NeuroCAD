@@ -1,0 +1,25 @@
+{
+  "source_base": "a7eb80c54e3133e018b37e595413622dc0687a4a",
+  "working_tree": "uncommitted",
+  "checks": {
+    "focused_tests": {
+      "passed": 11
+    },
+    "ruff": "PASS",
+    "mypy": "PASS; 5 files",
+    "diff_check": "PASS",
+    "portfolio_validation": "PASS; 33 projects, 0 warnings",
+    "bandit": "UNAVAILABLE",
+    "fresh_install": "NOT_RUN_RESOURCE_BLOCKED",
+    "mesh_acceptance": "NOT_RUN_RESOURCE_BLOCKED",
+    "frozen_research_diff": "EMPTY"
+  },
+  "source_sha256": {
+    "core/artifacts.py": "b9eeedce257d9ee4ff549a94463c0c709cb06ad86aa2e6a93c97b5f815714d88",
+    "core/project.py": "adf2ab0b4e7f070a8bddfc945e04ca97e68551eaf7dd4ae2ab009b738c8ed3e0",
+    "core/workflow.py": "9abac172cdb608a5a2acd2022a76a1074f80d1cf35a5c524de60edc26672e063",
+    "neurocad_cli.py": "dd75465a5645d17a066b9e4f00b28afe6813e8fa5f02b102d23d2b1900171470",
+    "scripts/verify_enclosure_install.py": "495ffdf8bab0b8c8f0a9fdf1209ad572804156e9b32a0fcf30e5255c7453a86c",
+    ".github/workflows/ci.yml": "8def13f61e8d03eb025219cd8a2c357b5f4034902fbaf535e9216069f607c2ea"
+  }
+}

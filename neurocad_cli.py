@@ -1673,9 +1673,13 @@ def cmd_enclosure_build(args: argparse.Namespace) -> int:
 
 
 def cmd_enclosure_verify(args: argparse.Namespace) -> int:
+    from core.project import read_project
     from core.workflow import verify_project_bundle
 
-    report = verify_project_bundle(_resolved_path(args.bundle))
+    project = read_project(_resolved_path(args.project)) if args.project else None
+    report = verify_project_bundle(
+        _resolved_path(args.bundle), expected_project=project, require_stl=args.require_stl,
+    )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 
@@ -2512,6 +2516,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     enclosure_verify = enclosure_actions.add_parser("verify", help="Rebuild and verify every source and artifact in an enclosure bundle")
     enclosure_verify.add_argument("bundle", help="Existing enclosure bundle directory")
+    enclosure_verify.add_argument("--project", help="Require the bundle to match this exact project revision")
+    enclosure_verify.add_argument("--require-stl", action="store_true", help="Reject source-only bundles")
     enclosure_verify.set_defaults(func=cmd_enclosure_verify)
 
     enclosure_preflight = enclosure_actions.add_parser("preflight", help="Run exact and disclosed heuristic fabrication checks")

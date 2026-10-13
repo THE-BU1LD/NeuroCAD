@@ -7,12 +7,11 @@ accepted plan still compiles through a versioned, schema-validated internal
 representation to deterministic OpenSCAD. Every exported length is expressed in
 millimetres.
 
-Research status: the maintained compiler is engineering-verified, while the
-conference evidence is **partial**. The current full benchmark is source-bound,
-non-resumed, and reproducible locally, but remains synthetic and must not be read
-as independent external validation. Start
-with `RESEARCH_TRUTH.md`, `audit/REPOSITORY_MAP.md`, and
-`audit/CONFERENCE_READINESS_CHECKLIST.md` for the current evidence boundary.
+Current status: see [CURRENT_STATUS.md](CURRENT_STATUS.md) and the machine-readable
+[RESEARCH_STATE.json](RESEARCH_STATE.json). The original compiler study remains
+terminal mixed; Physics v2 has a separate controlled result and local research
+release; Physics v3 is engineering-implemented with scientific validation not
+started. The public alpha and independent validation remain separate open gates.
 
 NeuroCAD is an alpha design aid. Agent projects are concept drafts, and generated parts must still be reviewed by a
 qualified person before fabrication. It does not calculate load capacity,
