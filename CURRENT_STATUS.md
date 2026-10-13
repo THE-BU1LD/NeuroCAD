@@ -58,3 +58,11 @@ pending. The hosted CI lookup succeeded on retry: runs 38026811475 and
 verify the local candidate. An hourly follow-up now rechecks admission and will
 resume the authorized verification when it passes, retaining failures and frozen
 research. See `docs/verification/enclosure-20261013/RESOURCE_RECHECK.json`.
+
+## Remote verification authorized
+
+The candidate is committed on `codex/enclosure-verification`. GitHub run
+38424324609 on 951f8b8 executed 1,226 passing tests with 9 skips and one failure:
+the new publication regression test omitted an explicit UTF-8 encoding. The
+omission is corrected; a replacement run will verify the fix and the remaining
+wheel/mesh gates. Local resource blockage no longer blocks remote execution.

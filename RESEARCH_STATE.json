@@ -17,7 +17,7 @@
     "source": "research/physics_v3/RESEARCH_STATE.json"
   },
   "product": {
-    "status": "SOURCE_HARDENED_RUNTIME_ACCEPTANCE_PENDING",
+    "status": "REMOTE_CI_VERIFICATION_IN_PROGRESS",
     "receipt": "docs/ENCLOSURE_ACCEPTANCE.md",
     "public_release": "NOT_VERIFIED",
     "verification": {
@@ -26,7 +26,7 @@
       "development_environment_acceptance": "PASS; source-only, existing environment, not clean install",
       "fresh_install": "NOT_RUN_RESOURCE_BLOCKED",
       "compiled_mesh_acceptance": "NOT_RUN_RESOURCE_BLOCKED",
-      "hosted_ci": "NOT_RUN",
+      "hosted_ci": "First candidate: 1226 passed, 9 skipped, 1 text-encoding test failed; corrected; new run pending",
       "mypy": "PASS; 5 scoped files",
       "bandit": "NOT_RUN; module unavailable"
     }
@@ -58,6 +58,10 @@
     {
       "date": "2026-10-13",
       "event": "Hourly heartbeat 15:34Z: 166.0625/150.890625 MiB with rising pageouts; heavy verification and commit remain pending. Frozen research unchanged."
+    },
+    {
+      "date": "2026-10-13",
+      "event": "User authorized branch push and remote CI. Run 38424324609 on 951f8b8 found missing explicit UTF-8 in new regression test; fixed without relaxing the check. Frozen research preserved."
     }
   ],
   "resource_rechecks": [
