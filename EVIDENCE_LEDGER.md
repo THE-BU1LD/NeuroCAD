@@ -31,3 +31,5 @@ Detailed quantitative claim policy remains in `audits/CLAIM_LEDGER.md`.
   added; runtime verification pending resource admission. See `CURRENT_STATUS.md`.
 - The earlier physical/public/external row describes its historical scope;
   a local Physics v2 research package is not a public product release receipt.
+
+- Hosted product verification: run `38425980085`, source `5351903`, 1,227 tests passed/9 skipped, fresh isolated wheel install and compiled enclosure acceptance PASS. See `docs/verification/enclosure-20261013/ci-38425980085/SUMMARY.json`. Internal engineering evidence only.
