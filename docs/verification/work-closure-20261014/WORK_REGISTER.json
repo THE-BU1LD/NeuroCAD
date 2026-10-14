@@ -1,0 +1,963 @@
+{
+  "captured_at": "2026-10-14T12:00:42.334685+00:00",
+  "scope": "All current open GitHub issues and PRs plus every unchecked expansion proposal; not a promise of unspecified future research.",
+  "work": [
+    {
+      "kind": "issue",
+      "id": 2,
+      "title": "Public alpha release gate: v0.5.0a6 tag + anonymous install verification",
+      "status": "RELEASE_EVIDENCE_EXISTS_PENDING_LIVE_RECONCILIATION",
+      "evidence_or_blocker": "docs/verification/alpha-20261014/REPORT.md",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/2"
+    },
+    {
+      "kind": "issue",
+      "id": 5,
+      "title": "Run clean-room verification for v0.5.0a6 public alpha",
+      "status": "RELEASE_EVIDENCE_EXISTS_PENDING_LIVE_RECONCILIATION",
+      "evidence_or_blocker": "docs/verification/alpha-20261014/REPORT.md",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/5"
+    },
+    {
+      "kind": "issue",
+      "id": 6,
+      "title": "Capture exact experiment provenance for NeuroCAD research claims",
+      "status": "HISTORICAL_CLAIM_AUDIT_REVIEW_REQUIRED",
+      "evidence_or_blocker": "RESEARCH_TRUTH.md; EVIDENCE_LEDGER.md",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/6"
+    },
+    {
+      "kind": "issue",
+      "id": 7,
+      "title": "Define decisive baseline matrix for the central NeuroCAD claim",
+      "status": "CLOSED_PREDECESSOR_EXTERNAL_SUCCESSOR_GATED",
+      "evidence_or_blocker": "BASELINES.md; research/protocols/EXTERNAL_EVALUATION_V0.md",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/7"
+    },
+    {
+      "kind": "issue",
+      "id": 11,
+      "title": "Record v0.5.0a6 release checksums and provenance",
+      "status": "RELEASE_EVIDENCE_EXISTS_PENDING_LIVE_RECONCILIATION",
+      "evidence_or_blocker": "docs/verification/alpha-20261014/published/RELEASE_PROVENANCE.json",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/11"
+    },
+    {
+      "kind": "issue",
+      "id": 21,
+      "title": "Freeze the 120-task VeriCodeGen held-out benchmark before Stage 2 execution",
+      "status": "EXTERNAL_AUTHORSHIP_AND_REVIEW_REQUIRED",
+      "evidence_or_blocker": "Final independent benchmark and human labels absent",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/21"
+    },
+    {
+      "kind": "issue",
+      "id": 22,
+      "title": "Authorize and execute first frozen VeriCodeGen Stage-2 pilot",
+      "status": "BLOCKED_BY_BENCHMARK_PROVIDER_AND_BUDGET",
+      "evidence_or_blocker": "No exact provider/revision/cost and human-reviewed benchmark freeze",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/22"
+    },
+    {
+      "kind": "issue",
+      "id": 27,
+      "title": "COPES external pressure-test evidence record \u2014 2026-09-01",
+      "status": "EXTERNAL_SESSION_RECORD_REQUIRED",
+      "evidence_or_blocker": "No new retrospective evidence may be invented",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/27"
+    },
+    {
+      "kind": "issue",
+      "id": 36,
+      "title": "P0 S3 successor: freeze benchmark taxonomy + 100-prompt candidate pool",
+      "status": "CANDIDATE_POOL_EXISTS_SELECTION_REVIEW_REQUIRED",
+      "evidence_or_blocker": "110 candidates are not a human-reviewed frozen final study",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/36"
+    },
+    {
+      "kind": "issue",
+      "id": 41,
+      "title": "P1 external product pilots + commercial-readiness gate",
+      "status": "EXTERNAL_USERS_AND_DESIGN_PARTNERS_REQUIRED",
+      "evidence_or_blocker": "No completed external pilot supplied",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/41"
+    },
+    {
+      "kind": "issue",
+      "id": 42,
+      "title": "P2 fabrication-aware successor benchmark after current S3 freeze",
+      "status": "SEPARATE_FUTURE_SUCCESSOR",
+      "evidence_or_blocker": "Requires defined fabrication process and physical evidence",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/42"
+    },
+    {
+      "kind": "issue",
+      "id": 44,
+      "title": "P1 complete historical VertexED \u2192 NeuroCAD provenance map",
+      "status": "PROVENANCE_MAP_EXISTS_REVIEW_SCOPE",
+      "evidence_or_blocker": "docs/HISTORICAL_VERTEXED_PROVENANCE.md",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/44"
+    },
+    {
+      "kind": "issue",
+      "id": 58,
+      "title": "ops: protect main with stable CI and review gates",
+      "status": "REPOSITORY_ADMIN_POLICY_OPEN",
+      "evidence_or_blocker": "main currently reports protected=false; independent reviewer not assigned",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/58"
+    },
+    {
+      "kind": "issue",
+      "id": 60,
+      "title": "P0: close exact-revision CI, security, and distribution receipts",
+      "status": "RELEASE_EVIDENCE_EXISTS_PENDING_LIVE_RECONCILIATION",
+      "evidence_or_blocker": "docs/verification/alpha-20261014/REPORT.md",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/60"
+    },
+    {
+      "kind": "issue",
+      "id": 64,
+      "title": "P0: Add build123d/OCP exact-CAD backend spike",
+      "status": "IMPLEMENTED_AWAITING_INTEGRATED_NATIVE_CHECKS",
+      "evidence_or_blocker": "core/exact_cad.py; tests/test_exact_build123d.py",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/64"
+    },
+    {
+      "kind": "issue",
+      "id": 65,
+      "title": "P1: Add Gmsh tagged meshing adapter",
+      "status": "IMPLEMENTED_BOUNDED_NATIVE_COVERAGE",
+      "evidence_or_blocker": "core/gmsh_backend.py; tests/test_cad_mesh_native.py; reference suite",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/65"
+    },
+    {
+      "kind": "issue",
+      "id": 68,
+      "title": "P0: Bind Requirement IR to exact-CAD verification receipts",
+      "status": "IMPLEMENTED_AWAITING_INTEGRATED_CHECKS",
+      "evidence_or_blocker": "core/requirement_verification.py; requirement verification tests",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/68"
+    },
+    {
+      "kind": "issue",
+      "id": 76,
+      "title": "External validation: WayKen thin-wall housing revision fixture",
+      "status": "EXTERNAL_REFERENCE_CONFIRMATION_REQUIRED",
+      "evidence_or_blocker": "Cannot contact WayKen without explicit communication instruction",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/76"
+    },
+    {
+      "kind": "issue",
+      "id": 78,
+      "title": "Dirty-CAD benchmark: geometry validation \u2192 repair \u2192 tet-mesh outcome",
+      "status": "EXTERNAL_DATA_LICENSE_AND_TOOL_ACCESS_REQUIRED",
+      "evidence_or_blocker": "Actual source geometry, permissions and Cubit availability unresolved",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/78"
+    },
+    {
+      "kind": "issue",
+      "id": 82,
+      "title": "NeurIPS 2026 conference brief + 2027 submission pipeline \u2014 NeuroCAD physical-world evidence",
+      "status": "EXTERNAL_EVIDENCE_AND_AUTHORSHIP_REQUIRED",
+      "evidence_or_blocker": "Physical-world manuscript cannot claim measurements not collected",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/82"
+    },
+    {
+      "kind": "pull_request",
+      "id": 88,
+      "title": "fix(enclosure): preserve outputs published by concurrent writers",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "c1e2fcdfa6aac7b267a096712a62756a00401446",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/88"
+    },
+    {
+      "kind": "pull_request",
+      "id": 89,
+      "title": "Validate every Gmsh element in batches and retain native reference meshes",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "ad0993afd435ad80627ce1134c0df1aa61d39534",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/89"
+    },
+    {
+      "kind": "pull_request",
+      "id": 90,
+      "title": "fix(cli): preserve concurrently published CAD outputs",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "ce49e2c4f175f8088ee5b9cb01ecce70432c61c7",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/90"
+    },
+    {
+      "kind": "pull_request",
+      "id": 91,
+      "title": "fix(daemon): preserve existing outputs and contain malformed jobs",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "33a5b556e8aaddccc6e4fb275c5d15905f108f63",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/91"
+    },
+    {
+      "kind": "pull_request",
+      "id": 92,
+      "title": "fix(daemon): bound shutdown and preserve queued work for restart",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "3216f04f149f224fbba208bfcdbed5c82c88fa20",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/92"
+    },
+    {
+      "kind": "pull_request",
+      "id": 93,
+      "title": "fix(artifacts): preserve bundle output ownership during publication",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "700b2a4a37bcf86ed7a63fd338c79365a253776a",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/93"
+    },
+    {
+      "kind": "pull_request",
+      "id": 94,
+      "title": "Integrate output preservation fixes and close CLI symlink bypass",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "0080ddbd85567ae443ba06e0da5b25fb154b00d1",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/94"
+    },
+    {
+      "kind": "pull_request",
+      "id": 95,
+      "title": "Fix polynomial differentiation at zero and reject malformed Jet dimensions",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "89356e653e24b9053ac95003fd5bcb7323ede37b",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/95"
+    },
+    {
+      "kind": "pull_request",
+      "id": 96,
+      "title": "Reject false zero-variance quadratic tolerance reports",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "c906105907cdd710b717d04d5d75b95ec3cac54a",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/96"
+    },
+    {
+      "kind": "pull_request",
+      "id": 97,
+      "title": "Fix integer-overflow diagnostics and scale-dependent covariance admission",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "e87726d3c7efe575e697770cbba5a064ec371e35",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/97"
+    },
+    {
+      "kind": "pull_request",
+      "id": 98,
+      "title": "Fix mesh intersection normalization across physical scales",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "982eafb1665a9c31868cfcfda7c75571885c2cd8",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/98"
+    },
+    {
+      "kind": "pull_request",
+      "id": 99,
+      "title": "Integrate numerical and geometry repairs; prevent false exact solutions",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "30cffcdd8881b60445355faffcd5752ef51aa32e",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/99"
+    },
+    {
+      "kind": "pull_request",
+      "id": 100,
+      "title": "Preserve finite interval quotients at subnormal scales",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/100"
+    },
+    {
+      "kind": "pull_request",
+      "id": 101,
+      "title": "Keep Monte Carlo summaries finite with portable exact-ratio reductions",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "48237e7afa575b4678e137707cce5a7303f7e784",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/101"
+    },
+    {
+      "kind": "pull_request",
+      "id": 102,
+      "title": "Reject nonfinite unit-conversion outputs with source-bound regressions",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "61b8427375e2fa6e6201383e2674ce8fe6f96f4a",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/102"
+    },
+    {
+      "kind": "pull_request",
+      "id": 105,
+      "title": "Freeze Physics v3 validation and retain opposing-load stress failure",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "327d9b5d78b038985f0d28d4f19c8de76bcdfff2",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/105"
+    },
+    {
+      "kind": "pull_request",
+      "id": 106,
+      "title": "Correct opposing-load beam stress with frozen successor verification",
+      "status": "INTEGRATED_PENDING_COMBINED_VERIFICATION",
+      "head": "a7a83d18d2a27f83ca6684a42030582c74106d67",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/106"
+    }
+  ],
+  "expansion_proposals": [
+    {
+      "source_line": 31,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Define the user problem, supported inputs, exclusions, and measurable outcome.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 32,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Locate existing implementation and record the smallest extension required.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 33,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Define typed inputs, units, limits, versioning, and deterministic behavior.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 34,
+      "section": "Acceptance rules for every feature",
+      "proposal": "State assumptions and classify checks as analytical, geometric, empirical, or heuristic.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 35,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Implement a complete user path with useful diagnostics and failure recovery.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 36,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Exercise representative success, boundary, contradictory, and malformed cases.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 37,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Verify results independently of the generator where practical.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 38,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Bind acceptance artifacts to source revision, inputs, dependency versions, and hashes.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 39,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Update help, examples, capability boundaries, and migration notes as applicable.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 40,
+      "section": "Acceptance rules for every feature",
+      "proposal": "Demonstrate the feature from an installed package outside the source checkout.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 44,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Reconcile canonical repository history without losing working code or evidence.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 45,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Record one clean candidate revision and exact wheel/sdist checksums.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 46,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Obtain CI evidence for that revision on the supported platform matrix.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 47,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Verify license, dependency notices, distribution contents, and history secret scan.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 48,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Publish an immutable tag and release artifacts after publication authorization.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 49,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Test the documented installer anonymously on a clean machine.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 50,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Confirm supported prompt examples and deliberate rejection examples from that install.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 51,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Complete the physical validation protocol before claiming physical fit.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 52,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Publish an evidence ledger with failures and external blockers still visible.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 53,
+      "section": "P0 \u2014 Finish and publish the existing supported alpha",
+      "proposal": "Keep portal deployment readiness separate from CAD package release readiness.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 59,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Design contract: present resolved dimensions, sources, assumptions, and unknowns; reject unresolved required fields.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 60,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Unit extensions: normalize supported mixed units; verify equivalent inputs produce equivalent dimensions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 61,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Interval dimensions: retain measurement bounds; test feasible, impossible, and indeterminate cases.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 62,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Constraint explanations: identify violated rules and the contributing parameter values.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 63,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Conflict diagnosis: return a conflicting subset of requirements; do not call it minimal without checking minimality.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 64,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Smallest feasible repair: minimize a disclosed weighted change objective while respecting locked parameters; independently recheck the proposal.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 65,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Parameter operating ranges: report validated bounds and any disconnected feasible intervals.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 66,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Protected interfaces: lock selected mounting patterns and connector locations; reject edits that violate them.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 67,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Change-impact report: identify altered dimensions, dependent features, and invalidated evidence.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 68,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Compatibility tests: check an old lid against a new body using explicit interface dimensions and tolerance bounds.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 69,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Constraint report: emit passed, failed, and unknown results with check versions and assumptions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 70,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Report authenticity: verify hashes; introduce signatures only with explicit issuer identity and key management.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 71,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Evidence expiry: invalidate only affected checks when geometry, process, material, or checker version changes.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 72,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Design regression tests: rerun user requirements after edits; demonstrate detection of a deliberately broken interface.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 73,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Robust tolerance calculations: distinguish worst-case bounds from statistical estimates; disclose independence and distribution assumptions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 74,
+      "section": "P1 \u2014 Requirements and mathematical foundations",
+      "proposal": "Sensitivity analysis: compare perturbations against known analytical cases and disclose step sizes or derivatives.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 80,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Fit-only preview: extract a connector opening or mounting interface while retaining production dimensions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 81,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Tolerance ladder: generate labeled clearance variants; verify labels correspond to measured geometry.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 82,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Calibration coupon: include known reference dimensions and a measurement worksheet.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 83,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Printer passport: record machine, nozzle, material, orientation, settings, measurements, date, and uncertainty.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 84,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Compensation model: estimate supported dimensional bias from measurements; validate on held-out coupons.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 85,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Nominal/compensated separation: preserve intended dimensions and make compensation reversible without double application.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 86,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Cross-machine transfer: identify evidence that no longer applies when the process profile changes.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 87,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Measurement assistant: show where to measure each required dimension and how uncertainty affects fit.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 88,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Scale-check sheet: export a 1:1 template with calibration marks and instructions to disable print scaling.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 89,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Acceptance worksheet: list critical dimensions, limits, instruments, observed values, and pass/fail/unknown results.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 90,
+      "section": "P1 \u2014 Fast physical-fit workflow",
+      "proposal": "Full workflow demo: request \u2192 fit sample \u2192 measurement \u2192 revised enclosure \u2192 independent verification.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 96,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Hardware-on-hand mode: select from an explicit user inventory and explain incompatible choices.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 97,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Hardware source records: attach dimensional references and revisions; require review for uncertain entries.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 98,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Component revision alerts: identify affected designs when board or connector dimensions change.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 99,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Interface library: reuse versioned mounting patterns with compatibility tests.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 100,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Cable/plug envelopes: include plug bodies, insertion travel, and specified cable bend limits.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 101,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Tool access: validate a declared tool envelope and approach path for supported fasteners.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 102,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Service access: check a declared removal path for batteries, boards, and filters.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 103,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Assembly sequence: validate supported insertion paths; distinguish a checked sequence from exhaustive feasibility.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 104,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Incorrect-assembly prevention: propose keyed geometry and test the prohibited orientation.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 105,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Captive hardware: generate supported nut pockets and retention features with process-specific fit checks.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 106,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Motion envelopes: check sampled or bounded hinge/slider travel and state coverage limits.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 107,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Hardware simplification: propose fewer fastener types while preserving interface and load assumptions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 108,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Bracket templates: define mounting, envelope, and supported analytical checks before adding prompt syntax.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 109,
+      "section": "P2 \u2014 Hardware and assembly",
+      "proposal": "Jig/fixture templates: define locating surfaces and workpiece clearances; verify the intended positioning behavior.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 115,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Oversized-part splitting: preserve reconstruction dimensions and validate generated joint interfaces.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 116,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Support-reduction proposals: compare candidate orientations or geometries using a disclosed metric.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 117,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Slicer integration: pin supported slicer versions; parse real output and handle failures/timeouts safely.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 118,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Print-time/material comparisons: show slicer settings and measured estimates; avoid unsupported fixed-time promises.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 119,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Scrap-stock constraints: accept stock bounds and keepouts; verify placement within available material.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 120,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Process conversion: support one explicit conversion pair first; validate changed geometry and allowances.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 121,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Manufacturability profiles: attach sources and applicability ranges to each rule; separate defaults from measured limits.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 122,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Multi-objective variants: report feasible tradeoffs in mass, time, and clearance without claiming global optimality.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 123,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Independent feasibility checks: reject optimizer outputs that violate the original contract.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 124,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Analytical mechanics: restrict calculations to documented geometries, loads, and material assumptions; verify against reference cases.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 125,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Calibration experiment planner: select informative coupons under a declared model and compare against a simple baseline.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 126,
+      "section": "P2 \u2014 Fabrication and optimization",
+      "proposal": "Failure attribution: report evidence for model error, process bias, or measurement error; retain ambiguous outcomes.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 130,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Evidence overlay: link highlighted features to specific checks; avoid unsupported numerical confidence scores.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 131,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Counterexample view: display the failing region, measured value, and required bound.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 132,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Independent CAD critic: use separate geometric/checking logic and demonstrate detection of injected defects.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 133,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Repair workflow: turn measured failures into reviewable parameter edits with before/after validation.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 134,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Reproducibility capsule: extend existing bundles only where required; verify from a clean environment.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 135,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Local operation: document all network use and demonstrate the supported offline workflow.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 136,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "User trials: observe users completing a fixed task and record completion, interventions, and failures.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 137,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Accessibility: support keyboard navigation and readable textual equivalents for visual diagnostics.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 138,
+      "section": "P2 \u2014 Product experience and reproducibility",
+      "proposal": "Design-family validation: exercise supported parameter boundaries and representative combinations.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 145,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Finish current portal integration and rerun tests on the merged revision.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 146,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Certify migrations and row-level security against a fresh database.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 147,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Verify the deployed revision, migration ledger, and two-member isolation with controlled identities.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 148,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Implement design uploads with ownership, size/type limits, and safe artifact handling.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 149,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Attach build reports to exact design, machine, and process revisions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 150,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Track generated, checked, printed, measured, and field-tested evidence as separate attributes.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 151,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Require measurement records before displaying measured-fit claims.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 152,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Preserve failed builds and allow corrections without silently replacing history.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 153,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Support export/deletion policies for member designs and measurement data.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 154,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Define moderation, abuse reporting, and provenance for community contributions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 155,
+      "section": "P3 \u2014 Portal and shared physical evidence",
+      "proposal": "Obtain contributor permission before reusing private designs or measurements for research.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 159,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "STEP/B-rep backend: choose supported operations and verify actual solid geometry and external import.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 160,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "Arbitrary component extraction: evaluate known dimensions, uncertainty, and failure cases on a held-out dataset.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 161,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "General assembly planning: specify a bounded problem and compare with declared baselines.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 162,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "Learned prompt interpretation: freeze evaluation inputs and reject proposals that fail the typed contract.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 163,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "Simulation integration: verify solver setup, boundary conditions, reference problems, and artifact provenance.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 164,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "Formal proofs: specify exactly which properties and geometry representations are covered.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 165,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "Optimization research: freeze objectives, budgets, and baselines before evaluating outcomes.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 166,
+      "section": "Research track \u2014 Separate from alpha promises",
+      "proposal": "Publish negative results and distinguish mathematical guarantees from sampled checks.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 172,
+      "section": "First integrated milestone",
+      "proposal": "A user resolves a contract and locks its mounting interface.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 173,
+      "section": "First integrated milestone",
+      "proposal": "NeuroCAD generates a dimensionally equivalent fit sample.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 174,
+      "section": "First integrated milestone",
+      "proposal": "The user records real measurements with process metadata.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 175,
+      "section": "First integrated milestone",
+      "proposal": "Compensation produces a new, inspectable revision of the complete enclosure.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 176,
+      "section": "First integrated milestone",
+      "proposal": "Validation detects a deliberately introduced fit or wall violation.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 177,
+      "section": "First integrated milestone",
+      "proposal": "A second clean installation reproduces and verifies the delivered bundle.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 178,
+      "section": "First integrated milestone",
+      "proposal": "A physical build is measured against declared acceptance dimensions.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    },
+    {
+      "source_line": 179,
+      "section": "First integrated milestone",
+      "proposal": "Report completion time, user interventions, failed attempts, and fit results without omitting failures.",
+      "status": "PROPOSED_NOT_CURRENT_RELEASE_REQUIREMENT"
+    }
+  ],
+  "external_evidence_gates": {
+    "physical": "NOT_EXECUTED",
+    "independent_reproduction": "NOT_EXECUTED",
+    "usability": "NOT_EXECUTED"
+  }
+}

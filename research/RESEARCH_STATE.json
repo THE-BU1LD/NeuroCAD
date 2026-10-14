@@ -245,6 +245,22 @@
       "protected_boundary_unchanged": true,
       "historical_disposition_preserved": true,
       "new_session_required_before_further_execution": true
+    },
+    {
+      "id": "integration_20261014",
+      "status": "IN_PROGRESS",
+      "source_base": "a7a83d1",
+      "authorization": "User: find all the work to do and do it",
+      "scope": "Combine existing fixes, resolve contracts, run hosted compatibility and installed conformance; reconcile stale work records.",
+      "budget": {
+        "hosted_attempts_per_workflow": 4,
+        "new_provider_calls": 0,
+        "physical_experiments": 0,
+        "protected_outcomes": 0,
+        "inherited_seeded_engineering_regression_samples": 40000
+      },
+      "prior_budgets_reopened": false,
+      "started_utc": "2026-10-14T11:59:57.485793+00:00"
     }
   ],
   "latest_engineering_session": "portable_sample_stdev_20261010",

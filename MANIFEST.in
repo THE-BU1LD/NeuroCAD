@@ -75,3 +75,8 @@ prune output_models
 prune test_output
 prune legacy
 include research/VERICODEGEN_2026_PROTOCOL.md
+
+# Frozen conformance harnesses require unshipped study fixtures and provenance.
+exclude tests/test_v3_validation_harness.py
+exclude tests/test_v3_validation_v2_harness.py
+exclude tests/test_v3_validation_v3_harness.py

@@ -57,17 +57,18 @@ def test_residual_in_a_small_coefficient_direction_remains_visible() -> None:
     assert result["relative_backward_error"] == pytest.approx(1e-200 / math.sqrt(2), rel=1e-12, abs=0.0)
 
 
-def test_representable_residual_survives_mixed_dynamic_range() -> None:
-    result = linear_system_diagnostics(((1e308, 0.0), (0.0, 1e-308)), (0.0, 0.0), (0.0, 1e308))
-    assert result["residual_norm"] == pytest.approx(1.0)
-    assert result["relative_backward_error"] == 0.0  # Its exact ratio is below binary64 range.
-    assert result["ill_conditioned"]
+def test_unrepresentable_backward_error_is_not_reported_as_exact_zero() -> None:
+    # The residual is representable, but its nonzero normwise ratio is not.
+    # The integrated contract rejects instead of publishing a false exact zero.
+    with pytest.raises(ValueError, match="backward error.*representable"):
+        linear_system_diagnostics(((1e308, 0.0), (0.0, 1e-308)), (0.0, 0.0), (0.0, 1e308))
 
 
-def test_subnormal_product_still_has_a_scale_free_backward_error() -> None:
-    result = linear_system_diagnostics(((1e-200,),), (0.0,), (1e-200,))
-    assert result["residual_norm"] == 0.0  # The true 1e-400 norm cannot be represented.
-    assert result["relative_backward_error"] == pytest.approx(1.0)
+def test_subnormal_product_cannot_publish_a_false_zero_residual() -> None:
+    # Retain the original input; the later fail-closed range contract supersedes
+    # the historical zero-residual observation, which remains in PR #97 history.
+    with pytest.raises(ValueError, match="underflow|representable"):
+        linear_system_diagnostics(((1e-200,),), (0.0,), (1e-200,))
 
 
 def test_unrepresentable_residual_fails_instead_of_returning_nonfinite_json() -> None:

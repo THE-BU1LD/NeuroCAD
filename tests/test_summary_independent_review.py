@@ -1,7 +1,7 @@
 """Source-bound numerical review with exact rational reference calculations."""
+import math
 from decimal import Decimal, localcontext
 from fractions import Fraction
-import math
 
 import pytest
 

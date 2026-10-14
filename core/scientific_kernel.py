@@ -868,11 +868,11 @@ def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[
     with np.errstate(over="ignore", invalid="ignore"):
         residual = coefficients @ estimate - target
     if not np.isfinite(residual).all():
-        raise ValueError("linear residual is not representable as finite float64")
+        raise ValueError("residual norm exceeds the finite numerical range")
     residual_scale, residual_unit_norm = norm_parts(residual)
     residual_norm = residual_scale * residual_unit_norm
     if not math.isfinite(residual_norm):
-        raise ValueError("residual norm is not representable as finite float64")
+        raise ValueError("residual norm exceeds the finite numerical range")
     matrix_scale, matrix_unit_norm = norm_parts(coefficients)
     estimate_scale, estimate_unit_norm = norm_parts(estimate)
     target_scale, target_unit_norm = norm_parts(target)
