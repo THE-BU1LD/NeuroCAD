@@ -1,0 +1,1326 @@
+test-and-package (3.10.21)	Run maintained release tests	﻿2026-10-14T12:09:27.6429054Z ##[group]Run python -m pytest -q tests --junitxml="/home/runner/work/_temp/neurocad-tests.xml"
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6429800Z ^[[36;1mpython -m pytest -q tests --junitxml="/home/runner/work/_temp/neurocad-tests.xml"^[[0m
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6491303Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6491664Z env:
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6491992Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6492467Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6492918Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6493508Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6493923Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6494348Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:27.6494696Z ##[endgroup]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:31.7037286Z ....................................... [  2%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:36.5409501Z ...........................................F.F.......................... [  6%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:38.7961560Z ........................................................................ [ 11%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:39.0166752Z ........................................................................ [ 15%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:39.1845005Z ........................................................................ [ 19%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:09:43.1222559Z ........................................................................ [ 24%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:14.5955601Z ........................................................................ [ 28%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:14.8333239Z ...............................................................sssss.... [ 33%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:16.5954556Z ........................................................................ [ 37%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:18.2337464Z ........................................................................ [ 41%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:24.0054317Z ........................................................................ [ 46%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:24.1320255Z ........................................................................ [ 50%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:31.1844929Z ........................................................................ [ 55%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:35.8343728Z ........................................................................ [ 59%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:35.9415412Z ........................................................................ [ 63%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:40.6623476Z ........................................................................ [ 68%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:41.1256710Z ........................................................................ [ 72%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:41.2545784Z ........................................................................ [ 77%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:56.4439116Z .......................s................................................ [ 81%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:10:56.7491888Z ........................................................................ [ 85%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:00.1039420Z ................................................................................................................................. [ 93%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:00.2036638Z ........................................................................ [ 98%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9520473Z ..............................                                           [100%]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9521306Z =================================== FAILURES ===================================
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9522239Z _______ test_real_browser_lane_is_required_and_retains_failure_evidence ________
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9522872Z 
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9523460Z     def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9524829Z         workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9526027Z         assert "browser: [chromium, firefox, webkit]" in workflow
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9526729Z         assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9528490Z         assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9529243Z         lane = workflow.split("  workbench-browser:", 1)[1]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9529699Z         assert "continue-on-error" not in lane
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9530093Z         assert "if: always()" in lane
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9530556Z         for revision in re.findall(r"uses: actions/[^@]+@([^ ]+)", workflow):
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9531259Z >           assert re.fullmatch("[a-f0-9]{40}", revision), "Actions must retain reviewed immutable pins"
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9532150Z E           AssertionError: Actions must retain reviewed immutable pins
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9532618Z E           assert None
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9533227Z E            +  where None = <function fullmatch at 0x7f6ea2b467a0>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9534022Z E            +    where <function fullmatch at 0x7f6ea2b467a0> = re.fullmatch
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9534374Z 
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9534514Z tests/test_ci_gates.py:64: AssertionError
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9535050Z ____ test_all_maintained_scripts_are_checked_and_test_failures_are_retained ____
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9535457Z 
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9535778Z     def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9536372Z         root = Path(__file__).resolve().parents[1]
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9536779Z         for name in ("ci.yml", "release.yml"):
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9537289Z             workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9537882Z             for command in ("ruff check", "mypy", "bandit -q -r"):
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9538659Z >               assert f"python -m {command} core research/vericodegen scripts " in workflow
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9540017Z E               AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9543300Z 
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9543514Z tests/test_ci_gates.py:85: AssertionError
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9544108Z =========================== short test summary info ============================
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9545371Z FAILED tests/test_ci_gates.py::test_real_browser_lane_is_required_and_retains_failure_evidence - AssertionError: Actions must retain reviewed immutable pins
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9546532Z assert None
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9547302Z  +  where None = <function fullmatch at 0x7f6ea2b467a0>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9548513Z  +    where <function fullmatch at 0x7f6ea2b467a0> = re.fullmatch
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9551159Z FAILED tests/test_ci_gates.py::test_all_maintained_scripts_are_checked_and_test_failures_are_retained - AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:20.9553542Z 2 failed, 1630 passed, 9 skipped, 48 subtests passed in 112.96s (0:01:52)
+test-and-package (3.10.21)	Run maintained release tests	2026-10-14T12:11:21.0940169Z ##[error]Process completed with exit code 1.
+Portable Python / windows-2025	UNKNOWN STEP	﻿2026-10-14T12:08:37.3262234Z Current runner version: '2.337.0'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3298475Z ##[group]Runner Image Provisioner
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3299952Z Hosted Compute Agent
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3300871Z Version: 20260901.588
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3301925Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3303228Z Build Date: 2026-09-01T19:56:44Z
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3304322Z Worker ID: {bf497d7c-4858-4ae7-b80f-cfe99974ed52}
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3305471Z Azure Region: westus2
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3306342Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3308556Z ##[group]Operating System
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3309588Z Microsoft Windows Server 2025
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3310543Z 10.0.26100
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3311379Z Datacenter
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3312283Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3313137Z ##[group]Runner Image
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3315014Z Image: windows-2025-vs2026
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3316026Z Version: 20260925.250.1
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3317959Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3320135Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3321571Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3322896Z ##[group]GITHUB_TOKEN Permissions
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3326258Z Contents: read
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3327168Z Metadata: read
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3328042Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3330963Z Secret source: Actions
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3332409Z Cache mode: write
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3333999Z Prepare workflow directory
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3857106Z Prepare all required actions
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.3930154Z Getting action download info
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.7323310Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:37.8918024Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.1998199Z Complete job name: Portable Python / windows-2025
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.3986901Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.3988818Z with:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.3989574Z   repository: THE-BU1LD/NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.3997879Z   token: ***
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.3998600Z   ssh-strict: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.3999290Z   ssh-user: git
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4000039Z   persist-credentials: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4000886Z   clean: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4001628Z   sparse-checkout-cone-mode: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4002546Z   fetch-depth: 1
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4003273Z   fetch-tags: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4004028Z   show-progress: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4004803Z   lfs: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4005515Z   submodules: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4006259Z   set-safe-directory: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4007108Z   allow-unsafe-pr-checkout: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.4008282Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.6585582Z Syncing repository: THE-BU1LD/NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.6588555Z ##[group]Getting Git version info
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.6589514Z Working directory is 'D:\a\NeuroCAD\NeuroCAD'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:38.7909907Z [command]"C:\Program Files\Git\bin\git.exe" version
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.2286231Z git version 2.55.0.windows.5
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.2355823Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.2374261Z Temporarily overriding HOME='D:\a\_temp\8eff9085-e866-490a-bb3d-4163816aa76a' before making global git config changes
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.2377762Z Adding repository directory to the temporary git global config as a safe directory
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.2388116Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NeuroCAD\NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.4234324Z Deleting the contents of 'D:\a\NeuroCAD\NeuroCAD'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.4239573Z ##[group]Determining repository object format
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.4242581Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.4244976Z ##[group]Initializing the repository
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.4261140Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\NeuroCAD\NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.6041823Z Initialized empty Git repository in D:/a/NeuroCAD/NeuroCAD/.git/
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.6136103Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/THE-BU1LD/NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.7990510Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.7991402Z ##[group]Disabling automatic garbage collection
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:39.8022352Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:40.1481024Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:40.1482280Z ##[group]Setting up auth
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:40.1482955Z Removing SSH command configuration
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:40.1497302Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:40.3444762Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:43.4426240Z Removing HTTP extra header
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:43.4437188Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:43.5802177Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:44.5805762Z Removing includeIf entries pointing to credentials config files
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:44.5823004Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:44.6276903Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.2239267Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.2577436Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path D:\a\_temp\git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.2872136Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path D:\a\_temp\git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.3215371Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.3557886Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.3847709Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.3848544Z ##[group]Fetching the repository
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:45.3863754Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bcf15d738dd6129d84772a4224945fb7d793e10f:refs/remotes/pull/107/merge
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0159421Z From https://github.com/THE-BU1LD/NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0160117Z  * [new ref]         bcf15d738dd6129d84772a4224945fb7d793e10f -> pull/107/merge
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0202383Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0203000Z ##[group]Determining the checkout info
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0204416Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0213057Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0675138Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0963906Z ##[group]Checking out the ref
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:47.0976491Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/107/merge
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.1770995Z Updating files:  67% (3054/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.1942865Z Updating files:  68% (3093/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.2136360Z Updating files:  69% (3139/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.2294972Z Updating files:  70% (3184/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.2449542Z Updating files:  71% (3230/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.2606653Z Updating files:  72% (3275/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.2760286Z Updating files:  73% (3321/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.2928962Z Updating files:  74% (3366/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.4816498Z Updating files:  75% (3411/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.4983407Z Updating files:  76% (3457/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.5128721Z Updating files:  77% (3502/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.5300585Z Updating files:  78% (3548/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.5434230Z Updating files:  79% (3593/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.5576313Z Updating files:  80% (3639/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.5728803Z Updating files:  81% (3684/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.5861486Z Updating files:  82% (3730/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6008234Z Updating files:  83% (3775/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6149894Z Updating files:  84% (3821/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6295590Z Updating files:  85% (3866/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6442385Z Updating files:  86% (3912/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6580745Z Updating files:  87% (3957/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6717614Z Updating files:  88% (4003/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.6857042Z Updating files:  89% (4048/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7012097Z Updating files:  90% (4094/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7196867Z Updating files:  91% (4139/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7323729Z Updating files:  92% (4185/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7474016Z Updating files:  93% (4230/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7617887Z Updating files:  94% (4276/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7796779Z Updating files:  95% (4321/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.7919052Z Updating files:  96% (4367/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8036411Z Updating files:  97% (4412/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8152020Z Updating files:  98% (4458/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8291860Z Updating files:  99% (4503/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8293748Z Updating files: 100% (4548/4548)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8294541Z Updating files: 100% (4548/4548), done.
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8454547Z Note: switching to 'refs/remotes/pull/107/merge'.
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8454954Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8455280Z You are in 'detached HEAD' state. You can look around, make experimental
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8456102Z changes and commit them, and you can discard any commits you make in this
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8457755Z state without impacting any branches by switching back to a branch.
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8458223Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8458545Z If you want to create a new branch to retain commits you create, you may
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8459190Z do so (now or later) by using -c with the switch command. Example:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8459438Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8459578Z   git switch -c <new-branch-name>
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8459754Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8459861Z Or undo this operation with:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8460010Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8460089Z   git switch -
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8460201Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8460405Z Turn off this advice by setting config variable advice.detachedHead to false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8460698Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8461037Z HEAD is now at bcf15d7 Merge b1bc3ec433f130357e071b734b72f6951389fc73 into e7d7ef4ac058963c0a94cbb821660df0a5de4a66
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.8591353Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.9102836Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:48.9414857Z bcf15d738dd6129d84772a4224945fb7d793e10f
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0021301Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0021806Z with:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0022050Z   python-version: 3.13.15
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0022388Z   cache: pip
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0022673Z   check-latest: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0025360Z   token: ***
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0025565Z   update-environment: true
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0026037Z   allow-prereleases: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0026248Z   freethreaded: false
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.0026441Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.2219500Z ##[group]Installed versions
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.2358630Z Successfully set up CPython (3.13.15)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:49.2361816Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:53.6862198Z Cache hit for: setup-python-Windows-x64-python-3.13.15-pip-8c57096f17f4ef44162279b09635f6b02814b55ab54a02321351abf60e7e1474
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:54.9603366Z Received 39186763 of 39186763 (100.0%), 37.7 MBs/sec
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:54.9605920Z Cache Size: ~37 MB (39186763 B)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:54.9685714Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/1169691e-9f9c-480c-86c0-bed4d7383bb0/cache.tzst -P -C D:/a/NeuroCAD/NeuroCAD --force-local --use-compress-program "zstd -d"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.4557546Z Cache restored successfully
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.4609031Z Cache restored from key: setup-python-Windows-x64-python-3.13.15-pip-8c57096f17f4ef44162279b09635f6b02814b55ab54a02321351abf60e7e1474
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5071024Z ##[group]Run python -m pip install --upgrade "pip==26.2.1"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5071862Z ^[[36;1mpython -m pip install --upgrade "pip==26.2.1"^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5072407Z ^[[36;1mpython -m pip install -e '.[dev]'^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5621003Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5621462Z env:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5621808Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5622528Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5623131Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5623661Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5624188Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:55.5624612Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:57.9703596Z Requirement already satisfied: pip==26.2.1 in C:\hostedtoolcache\windows\Python\3.13.15\x64\Lib\site-packages (26.2.1)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:59.6415222Z Obtaining file:///D:/a/NeuroCAD/NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:08:59.6448171Z   Installing build dependencies: started
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:01.8571253Z   Installing build dependencies: finished with status 'done'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:01.8588179Z   Checking if build backend supports build_editable: started
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:02.3883281Z   Checking if build backend supports build_editable: finished with status 'done'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:02.3909021Z   Getting requirements to build editable: started
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:03.1567399Z   Getting requirements to build editable: finished with status 'done'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:03.1601873Z   Preparing editable metadata (pyproject.toml): started
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:03.6734700Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:03.9771222Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:03.9794978Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.4125326Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.6937511Z   Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.7940164Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.8056330Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.8776299Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.8796367Z   Using cached build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.9950838Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:04.9974494Z   Using cached mypy-1.18.2-cp313-cp313-win_amd64.whl.metadata (2.2 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.0349310Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.0370085Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.4153707Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.4176900Z   Using cached ruff-0.16.5-py3-none-win_amd64.whl.metadata (26 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.4306500Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.4692714Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.6478294Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.6500101Z   Using cached pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.6962565Z Collecting colorama (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.6983868Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.7483634Z Collecting typing_extensions>=4.6.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.7504741Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.8088680Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.8109729Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.8654134Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.8674933Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.9316014Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:05.9409709Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.0671732Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.0742552Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.1357882Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.1514731Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.1970148Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.2029731Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.2445958Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.2504242Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.2969164Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.3037087Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.6288996Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:06.6384149Z   Downloading rpds_py-2026.9.1-cp313-cp313-win_amd64.whl.metadata (4.2 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:08.7309964Z Using cached build-1.6.0-py3-none-any.whl (31 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:08.7330028Z Using cached mypy-1.18.2-cp313-cp313-win_amd64.whl (9.8 MB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.0473961Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.0501332Z Using cached ruff-0.16.5-py3-none-win_amd64.whl (10.5 MB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.0585356Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.0682785Z Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.6654175Z    ---------------------------------------- 12.6/12.6 MB 22.5 MB/s  0:00:00
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.6673897Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.6764846Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.7334013Z    ---------------------------------------- 750.4/750.4 kB 9.1 MB/s  0:00:00
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.7352168Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.7371328Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.7457041Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.7627020Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9182544Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9202571Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9222217Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9254786Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9321401Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9410107Z Downloading rpds_py-2026.9.1-cp313-cp313-win_amd64.whl (222 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9610072Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:09.9628770Z Using cached pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.1023629Z Building wheels for collected packages: neurocad-research
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.1059178Z   Building editable for neurocad-research (pyproject.toml): started
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.6340284Z   Building editable for neurocad-research (pyproject.toml): finished with status 'done'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.6385281Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-0.editable-py3-none-any.whl size=13742 sha256=090fa58b4a2383c13b1600eb1279ba2ca2bf62afa8591951062354b2dd3a9028
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.6387919Z   Stored in directory: C:\Users\runneradmin\AppData\Local\Temp\pip-ephem-wheel-cache-71hwqi3q\wheels\7d\f4\c3\898eb91130b4e1fd3440db9ef3dbcf0c44dbc3c62ec881814a
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.6449864Z Successfully built neurocad-research
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:10.7187532Z Installing collected packages: typing_extensions, ruff, rpds-py, pyproject_hooks, pygments, pluggy, pathspec, packaging, numpy, mypy_extensions, iniconfig, colorama, attrs, trimesh, referencing, pytest, mypy, build, jsonschema-specifications, jsonschema, neurocad-research
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.5970188Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.6001686Z Successfully installed attrs-26.1.0 build-1.6.0 colorama-0.4.6 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mypy-1.18.2 mypy_extensions-1.1.0 neurocad-research-0.5.0a6 numpy-2.5.4 packaging-26.3 pathspec-1.1.1 pluggy-1.6.0 pygments-2.21.0 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.16.5 trimesh-5.1.1 typing_extensions-4.16.0
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9752688Z ##[group]Run set -euo pipefail
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9753102Z ^[[36;1mset -euo pipefail^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9753378Z ^[[36;1mtest -s tests/test_workbench_ui.py^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9753687Z ^[[36;1mtest -s tests/workbench_contract.cjs^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9753965Z ^[[36;1mnode --version^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9772969Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9773361Z env:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9773631Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9774091Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9774541Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9774948Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9775361Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:25.9775677Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9572405Z v22.23.3
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9820400Z ##[group]Run python -m pytest -q tests
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9820776Z ^[[36;1mpython -m pytest -q tests^[[0m
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9891241Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9891581Z env:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9891861Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9892324Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9892784Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9893189Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9893619Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:26.9893940Z ##[endgroup]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:32.5892112Z ....................................... [  2%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:39.6330420Z ...........................................F.F.......................... [  6%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:41.4402815Z ........................................................................ [ 11%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:41.6870963Z ........................................................................ [ 15%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:42.2834808Z ........................................................................ [ 20%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:09:44.1541822Z .......................................................ssssssss......... [ 24%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:04.0566964Z .......................................ssssss........................... [ 28%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:04.3040971Z ...............................................................sssss.... [ 33%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:05.8896339Z ...............ss....................................................... [ 37%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:08.3886477Z ........................................................................ [ 42%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:13.6929527Z ...............................................sssss.........ss......... [ 46%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:13.8862893Z ........................................................................ [ 50%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:14.1834182Z .................................ss....ssss............................. [ 55%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:14.3265721Z ..............................ss..........................ss............ [ 59%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:14.4335962Z ........................................................................ [ 64%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:18.9097676Z ........................s............................................... [ 68%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:19.1196830Z ........................................................................ [ 72%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:19.3169464Z ........................................................................ [ 77%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:38.1002889Z ...................s.................................................... [ 81%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:38.8232733Z .....................................................................ss. [ 86%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:43.3033946Z ................................................................... [ 90%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:43.4166310Z .............................................................. [ 94%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:44.6231976Z ........................................................................ [ 98%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1379087Z ..........sssss.........s.                                               [100%]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1380162Z ================================== FAILURES ===================================
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1381200Z _______ test_real_browser_lane_is_required_and_retains_failure_evidence _______
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1381944Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1382378Z     def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1383656Z         workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1384681Z         assert "browser: [chromium, firefox, webkit]" in workflow
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1388236Z         assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1389462Z         assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1390323Z         lane = workflow.split("  workbench-browser:", 1)[1]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1390792Z         assert "continue-on-error" not in lane
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1391192Z         assert "if: always()" in lane
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1391686Z         for revision in re.findall(r"uses: actions/[^@]+@([^ ]+)", workflow):
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1392462Z >           assert re.fullmatch("[a-f0-9]{40}", revision), "Actions must retain reviewed immutable pins"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1393236Z E           AssertionError: Actions must retain reviewed immutable pins
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1393741Z E           assert None
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1394629Z E            +  where None = <function fullmatch at 0x000001A9BD254B80>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1395529Z E            +    where <function fullmatch at 0x000001A9BD254B80> = re.fullmatch
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1395941Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1396083Z tests\test_ci_gates.py:64: AssertionError
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1396656Z ___ test_all_maintained_scripts_are_checked_and_test_failures_are_retained ____
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1397104Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1397454Z     def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1398100Z         root = Path(__file__).resolve().parents[1]
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1398533Z         for name in ("ci.yml", "release.yml"):
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1399091Z             workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1399688Z             for command in ("ruff check", "mypy", "bandit -q -r"):
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1400192Z >               assert f"python -m {command} core research/vericodegen scripts " in workflow
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1401720Z E               AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1403004Z 
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1403119Z tests\test_ci_gates.py:85: AssertionError
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1403551Z =========================== short test summary info ===========================
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1404560Z FAILED tests/test_ci_gates.py::test_real_browser_lane_is_required_and_retains_failure_evidence - AssertionError: Actions must retain reviewed immutable pins
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1405481Z assert None
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1405978Z  +  where None = <function fullmatch at 0x000001A9BD254B80>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1406648Z  +    where <function fullmatch at 0x000001A9BD254B80> = re.fullmatch
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1408509Z FAILED tests/test_ci_gates.py::test_all_maintained_scripts_are_checked_and_test_failures_are_retained - AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.1410364Z 2 failed, 1584 passed, 52 skipped, 48 subtests passed in 82.30s (0:01:22)
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.3798479Z ##[error]Process completed with exit code 1.
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.4092628Z Post job cleanup.
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6237650Z [command]"C:\Program Files\Git\bin\git.exe" version
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6518166Z git version 2.55.0.windows.5
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6587868Z Temporarily overriding HOME='D:\a\_temp\78a7b240-d7df-4546-b2f4-65d7b4150f26' before making global git config changes
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6589542Z Adding repository directory to the temporary git global config as a safe directory
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6599176Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NeuroCAD\NeuroCAD
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6907369Z Removing SSH command configuration
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.6917812Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:50.7230469Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.2689801Z Removing HTTP extra header
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.2700416Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.3004598Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8433771Z Removing includeIf entries pointing to credentials config files
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8451236Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8711202Z includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8711904Z includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8712561Z includeif.gitdir:/github/workspace/.git.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8713209Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.8753629Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.9006286Z D:\a\_temp\git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.9049986Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path D\:\\a\\_temp\\git\-credentials\-d74d3c2e\-5a58\-49ce\-b8ed\-39daef081cb3\.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.9404092Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.9662709Z D:\a\_temp\git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:51.9705654Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-d74d3c2e\-5a58\-49ce\-b8ed\-39daef081cb3\.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.0040924Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.0304584Z /github/runner_temp/git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.0345012Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-d74d3c2e\-5a58\-49ce\-b8ed\-39daef081cb3\.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.0639217Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.0884833Z /github/runner_temp/git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.0927553Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-d74d3c2e\-5a58\-49ce\-b8ed\-39daef081cb3\.config
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.1234414Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.6360953Z Removing credentials config 'D:\a\_temp\git-credentials-d74d3c2e-5a58-49ce-b8ed-39daef081cb3.config'
+Portable Python / windows-2025	UNKNOWN STEP	2026-10-14T12:10:52.6566169Z Cleaning up orphan processes
+Portable Python / macos-15	UNKNOWN STEP	﻿2026-10-14T12:08:39.4462280Z Current runner version: '2.337.0'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4479770Z ##[group]Runner Image Provisioner
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4480380Z Hosted Compute Agent
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4480760Z Version: 20260828.587
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4481190Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4481670Z Build Date: 2026-08-28T16:44:25Z
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4482130Z Worker ID: {9244a85c-3aac-48f1-b5f2-ec464faa4882}
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4482640Z Azure Region: westus
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4483100Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4484050Z ##[group]Operating System
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4484450Z macOS
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4484790Z 15.7.9
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4485120Z 24G830
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4485530Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4486030Z ##[group]Runner Image
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4486530Z Image: macos-15-arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4486930Z Version: 20260907.0337.1
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4488010Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20260907.0337/images/macos/macos-15-arm64-Readme.md
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4489340Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20260907.0337
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4490010Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4490770Z ##[group]GITHUB_TOKEN Permissions
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4492030Z Contents: read
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4492390Z Metadata: read
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4492770Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4494130Z Secret source: Actions
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4494780Z Cache mode: write
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4495280Z Prepare workflow directory
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4715360Z Prepare all required actions
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.4750110Z Getting action download info
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.6190740Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:39.8798540Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.0865170Z Complete job name: Portable Python / macos-15
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1645550Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1648600Z with:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1649680Z   repository: THE-BU1LD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1660410Z   token: ***
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1660860Z   ssh-strict: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1661230Z   ssh-user: git
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1661580Z   persist-credentials: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1661950Z   clean: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1662300Z   sparse-checkout-cone-mode: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1662690Z   fetch-depth: 1
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1663020Z   fetch-tags: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1663380Z   show-progress: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1692870Z   lfs: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1693380Z   submodules: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1693710Z   set-safe-directory: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1694090Z   allow-unsafe-pr-checkout: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.1694830Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6077200Z Syncing repository: THE-BU1LD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6084350Z ##[group]Getting Git version info
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6088690Z Working directory is '/Users/runner/work/NeuroCAD/NeuroCAD'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6093230Z [command]/opt/homebrew/bin/git version
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6631040Z git version 2.55.0
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6642900Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6655110Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/000a226b-9289-4c34-8cd6-255b78fe5649/.gitconfig'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6657070Z Temporarily overriding HOME='/Users/runner/work/_temp/000a226b-9289-4c34-8cd6-255b78fe5649' before making global git config changes
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6658080Z Adding repository directory to the temporary git global config as a safe directory
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.6663620Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/NeuroCAD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7118390Z Deleting the contents of '/Users/runner/work/NeuroCAD/NeuroCAD'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7120690Z ##[group]Determining repository object format
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7121710Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7123030Z ##[group]Initializing the repository
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7124740Z [command]/opt/homebrew/bin/git init /Users/runner/work/NeuroCAD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7329180Z hint: Using 'master' as the name for the initial branch. This default branch name
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7330200Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7330920Z hint: to use in all of your new repositories, which will suppress this warning,
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7331460Z hint: call:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7331800Z hint:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7332210Z hint: 	git config --global init.defaultBranch <name>
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7332660Z hint:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7333100Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7333860Z hint: 'development'. The just-created branch can be renamed via this command:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7334450Z hint:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7334790Z hint: 	git branch -m <name>
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7335170Z hint:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7336110Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7336950Z Initialized empty Git repository in /Users/runner/work/NeuroCAD/NeuroCAD/.git/
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7346690Z [command]/opt/homebrew/bin/git remote add origin https://github.com/THE-BU1LD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7435500Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7437430Z ##[group]Disabling automatic garbage collection
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7438390Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7495010Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7495660Z ##[group]Setting up auth
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7496090Z Removing SSH command configuration
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7500110Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.7565020Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.8745920Z Removing HTTP extra header
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.8749140Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.8821950Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.9676850Z Removing includeIf entries pointing to credentials config files
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.9702250Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:40.9785470Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.0841820Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.0922560Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git.path /Users/runner/work/_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.0985110Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.1055190Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.1143820Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.1206420Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.1220390Z ##[group]Fetching the repository
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:41.1225390Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bcf15d738dd6129d84772a4224945fb7d793e10f:refs/remotes/pull/107/merge
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5313990Z From https://github.com/THE-BU1LD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5316410Z  * [new ref]         bcf15d738dd6129d84772a4224945fb7d793e10f -> pull/107/merge
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5319730Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5320460Z ##[group]Determining the checkout info
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5320970Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5321880Z [command]/opt/homebrew/bin/git sparse-checkout disable
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5425270Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5561820Z ##[group]Checking out the ref
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:42.5567880Z [command]/opt/homebrew/bin/git checkout --progress --force refs/remotes/pull/107/merge
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.5929830Z HEAD is now at bcf15d7 Merge b1bc3ec433f130357e071b734b72f6951389fc73 into e7d7ef4ac058963c0a94cbb821660df0a5de4a66
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.5953730Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6084500Z [command]/opt/homebrew/bin/git log -1 --format=%H
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6160990Z bcf15d738dd6129d84772a4224945fb7d793e10f
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6450180Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6450560Z with:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6450740Z   python-version: 3.13.15
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6450930Z   cache: pip
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6451090Z   check-latest: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6453100Z   token: ***
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6453270Z   update-environment: true
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6453480Z   allow-prereleases: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6453670Z   freethreaded: false
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.6453860Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.7683130Z ##[group]Installed versions
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.7704730Z Successfully set up CPython (3.13.15)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:43.7707870Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:44.2853730Z [command]/Users/runner/hostedtoolcache/Python/3.13.15/arm64/bin/pip cache dir
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:44.8617770Z /Users/runner/Library/Caches/pip
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:44.9826950Z Cache hit for: setup-python-macOS-arm64-python-3.13.15-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.3321030Z Received 35637687 of 35637687 (100.0%), 117.6 MBs/sec
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.3336430Z Cache Size: ~34 MB (35637687 B)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.3411180Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/ecf64bbb-c800-4e17-9c0b-c83cb78ececc/cache.tzst -P -C /Users/runner/work/NeuroCAD/NeuroCAD --delay-directory-restore --use-compress-program unzstd
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5318640Z Cache restored successfully
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5334090Z Cache restored from key: setup-python-macOS-arm64-python-3.13.15-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5506290Z ##[group]Run python -m pip install --upgrade "pip==26.2.1"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5506800Z ^[[36;1mpython -m pip install --upgrade "pip==26.2.1"^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5507300Z ^[[36;1mpython -m pip install -e '.[dev]'^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5560640Z shell: /bin/bash -e {0}
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5561030Z env:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5561320Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5561880Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.13.15/arm64/lib/pkgconfig
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5562370Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5562850Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5563360Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:45.5563700Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:46.3120500Z Requirement already satisfied: pip==26.2.1 in /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages (26.2.1)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:46.9758990Z Obtaining file:///Users/runner/work/NeuroCAD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:46.9781640Z   Installing build dependencies: started
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:47.5051600Z   Installing build dependencies: finished with status 'done'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:47.5061070Z   Checking if build backend supports build_editable: started
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:47.7365820Z   Checking if build backend supports build_editable: finished with status 'done'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:47.7379120Z   Getting requirements to build editable: started
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.0695850Z   Getting requirements to build editable: finished with status 'done'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.0709010Z   Preparing editable metadata (pyproject.toml): started
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.2706680Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.3139190Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.3151280Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.4387610Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.4787800Z   Downloading numpy-2.5.4-cp313-cp313-macosx_14_0_arm64.whl.metadata (6.6 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.5490250Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.5525650Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.5653180Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.5663490Z   Using cached build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.6115540Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.6129180Z   Using cached mypy-1.18.2-cp313-cp313-macosx_11_0_arm64.whl.metadata (2.2 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.6255810Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.6266930Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.7808160Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.7906200Z   Using cached ruff-0.16.5-py3-none-macosx_11_0_arm64.whl.metadata (26 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.7943570Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.7953260Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8040110Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8074550Z   Using cached pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8252570Z Collecting typing_extensions>=4.6.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8276680Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8409420Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8420020Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8504130Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8515770Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8657600Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8691390Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8801740Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8811770Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8902350Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8912980Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.8991290Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.9000460Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.9068550Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.9077840Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.9192990Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:48.9202790Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0649050Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0709010Z   Downloading rpds_py-2026.9.1-cp313-cp313-macosx_11_0_arm64.whl.metadata (4.1 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0850050Z Using cached build-1.6.0-py3-none-any.whl (31 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0859490Z Using cached mypy-1.18.2-cp313-cp313-macosx_11_0_arm64.whl (11.9 MB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0918490Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0932640Z Using cached ruff-0.16.5-py3-none-macosx_11_0_arm64.whl (9.8 MB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.0993970Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1051020Z Downloading numpy-2.5.4-cp313-cp313-macosx_14_0_arm64.whl (5.4 MB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1687010Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 95.0 MB/s  0:00:00
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1717710Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1757370Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1897120Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 750.4/750.4 kB 42.4 MB/s  0:00:00
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1915960Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.1957570Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2016190Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2040560Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2063820Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2094020Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2115890Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2134030Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2182830Z Downloading rpds_py-2026.9.1-cp313-cp313-macosx_11_0_arm64.whl (340 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2248540Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2264320Z Using cached pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2716170Z Building wheels for collected packages: neurocad-research
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.2722790Z   Building editable for neurocad-research (pyproject.toml): started
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.4939720Z   Building editable for neurocad-research (pyproject.toml): finished with status 'done'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.4945660Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-0.editable-py3-none-any.whl size=13636 sha256=8195532fa046a1739969901008406514574c221d05e6cc14822f5d8ddd0f6190
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.4947580Z   Stored in directory: /private/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/pip-ephem-wheel-cache-8ekryn7d/wheels/fa/f1/90/fed674818970dbcf3471de333eaca3338d6bc1aebbb1037e2a
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.4967830Z Successfully built neurocad-research
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:49.5234760Z Installing collected packages: typing_extensions, ruff, rpds-py, pyproject_hooks, pygments, pluggy, pathspec, packaging, numpy, mypy_extensions, iniconfig, attrs, trimesh, referencing, pytest, mypy, build, jsonschema-specifications, jsonschema, neurocad-research
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.1584720Z 
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.1599200Z Successfully installed attrs-26.1.0 build-1.6.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mypy-1.18.2 mypy_extensions-1.1.0 neurocad-research-0.5.0a6 numpy-2.5.4 packaging-26.3 pathspec-1.1.1 pluggy-1.6.0 pygments-2.21.0 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.16.5 trimesh-5.1.1 typing_extensions-4.16.0
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2675640Z ##[group]Run set -euo pipefail
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2675950Z ^[[36;1mset -euo pipefail^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2676180Z ^[[36;1mtest -s tests/test_workbench_ui.py^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2676440Z ^[[36;1mtest -s tests/workbench_contract.cjs^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2676750Z ^[[36;1mnode --version^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2716390Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2716660Z env:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2716960Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2717430Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.13.15/arm64/lib/pkgconfig
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2717870Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2718290Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2718740Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.2719030Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4178340Z v22.23.2
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4245610Z ##[group]Run python -m pytest -q tests
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4245970Z ^[[36;1mpython -m pytest -q tests^[[0m
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4281570Z shell: /bin/bash -e {0}
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4281780Z env:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4282040Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4282530Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.13.15/arm64/lib/pkgconfig
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4282940Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4283380Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4283740Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.13.15/arm64
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:08:53.4284030Z ##[endgroup]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:31.1496580Z ....................................... [  2%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:35.3686290Z ...........................................F.F.......................... [  6%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:36.2129190Z ........................................................................ [ 11%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:36.3006620Z ........................................................................ [ 15%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:36.4267440Z ........................................................................ [ 19%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:37.3297120Z .......................................................ssssssss......... [ 24%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:50.8443960Z .......................................ssssss........................... [ 28%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:50.9331710Z ...............................................................sssss.... [ 33%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:51.6251550Z ...............ss....................................................... [ 37%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:53.6314490Z ........................................................................ [ 41%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:59.1184660Z .............................................................ss......... [ 46%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:59.1831010Z ........................................................................ [ 50%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:59.2943030Z .................................ss....ssss............................. [ 55%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:59.3488570Z ..............................ss..........................ss............ [ 59%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:09:59.3943940Z ........................................................................ [ 63%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:01.7091800Z ........................s............................................... [ 68%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:01.8903570Z ........................................................................ [ 72%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:01.9555300Z ........................................................................ [ 77%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:13.4412600Z .......................s................................................ [ 81%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:13.8109890Z ........................................................................ [ 85%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:16.9810590Z ................................................................................................................................. [ 93%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:17.0768360Z ........................................................................ [ 98%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.6750560Z ..............sssss.........s.                                           [100%]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.6844390Z =================================== FAILURES ===================================
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.6954530Z _______ test_real_browser_lane_is_required_and_retains_failure_evidence ________
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7054360Z 
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7080270Z     def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7083150Z         workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7083820Z         assert "browser: [chromium, firefox, webkit]" in workflow
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7084530Z         assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7087300Z         assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7088010Z         lane = workflow.split("  workbench-browser:", 1)[1]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7088750Z         assert "continue-on-error" not in lane
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7089210Z         assert "if: always()" in lane
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7090170Z         for revision in re.findall(r"uses: actions/[^@]+@([^ ]+)", workflow):
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7090970Z >           assert re.fullmatch("[a-f0-9]{40}", revision), "Actions must retain reviewed immutable pins"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7091840Z E           AssertionError: Actions must retain reviewed immutable pins
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7092320Z E           assert None
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7093680Z E            +  where None = <function fullmatch at 0x102da4fe0>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7095170Z E            +    where <function fullmatch at 0x102da4fe0> = re.fullmatch
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7097320Z 
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7097540Z tests/test_ci_gates.py:64: AssertionError
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7098230Z ____ test_all_maintained_scripts_are_checked_and_test_failures_are_retained ____
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7098620Z 
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7098980Z     def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7100020Z         root = Path(__file__).resolve().parents[1]
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7100930Z         for name in ("ci.yml", "release.yml"):
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7101610Z             workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7102870Z             for command in ("ruff check", "mypy", "bandit -q -r"):
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7104400Z >               assert f"python -m {command} core research/vericodegen scripts " in workflow
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7105740Z E               AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7108350Z 
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7109700Z tests/test_ci_gates.py:85: AssertionError
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7111770Z =========================== short test summary info ============================
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7117440Z FAILED tests/test_ci_gates.py::test_real_browser_lane_is_required_and_retains_failure_evidence - AssertionError: Actions must retain reviewed immutable pins
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7118300Z assert None
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7119620Z  +  where None = <function fullmatch at 0x102da4fe0>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7120300Z  +    where <function fullmatch at 0x102da4fe0> = re.fullmatch
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7123970Z FAILED tests/test_ci_gates.py::test_all_maintained_scripts_are_checked_and_test_failures_are_retained - AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.7129000Z 2 failed, 1595 passed, 44 skipped, 48 subtests passed in 89.94s (0:01:29)
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.9003140Z ##[error]Process completed with exit code 1.
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:23.9432580Z Post job cleanup.
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3533170Z [command]/opt/homebrew/bin/git version
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3641030Z git version 2.55.0
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3665430Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/cc958cdd-3a46-44bd-93c1-56f3528b5dc7/.gitconfig'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3698600Z Temporarily overriding HOME='/Users/runner/work/_temp/cc958cdd-3a46-44bd-93c1-56f3528b5dc7' before making global git config changes
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3703470Z Adding repository directory to the temporary git global config as a safe directory
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3705010Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/NeuroCAD/NeuroCAD
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3844620Z Removing SSH command configuration
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3854890Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.3984310Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.5346810Z Removing HTTP extra header
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.5352000Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.5437060Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.6863890Z Removing includeIf entries pointing to credentials config files
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.6966740Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7069610Z includeif.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7174420Z includeif.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7278970Z includeif.gitdir:/github/workspace/.git.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7384200Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7463590Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7469350Z /Users/runner/work/_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7521340Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-12ce8bc6\-8055\-48a8\-814e\-77886cbc4b9d\.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7668390Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7697940Z /Users/runner/work/_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.7990650Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-12ce8bc6\-8055\-48a8\-814e\-77886cbc4b9d\.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.8295500Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.8398590Z /github/runner_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.8781510Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-12ce8bc6\-8055\-48a8\-814e\-77886cbc4b9d\.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.9101020Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.9202620Z /github/runner_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.9536790Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-12ce8bc6\-8055\-48a8\-814e\-77886cbc4b9d\.config
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:24.9852580Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:25.0188440Z Removing credentials config '/Users/runner/work/_temp/git-credentials-12ce8bc6-8055-48a8-814e-77886cbc4b9d.config'
+Portable Python / macos-15	UNKNOWN STEP	2026-10-14T12:10:25.0576140Z Cleaning up orphan processes
+Portable Python / ubuntu-24.04	UNKNOWN STEP	﻿2026-10-14T12:08:35.9341706Z Current runner version: '2.337.0'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9377129Z ##[group]Runner Image Provisioner
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9378726Z Hosted Compute Agent
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9379744Z Version: 20261002.596
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9380851Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9382067Z Build Date: 2026-10-02T22:28:27Z
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9383576Z Worker ID: {c9105e84-3b53-4927-b63a-8a301d135681}
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9384945Z Region: centralus
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9385897Z Cloud: Azure
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9386932Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9389229Z ##[group]Operating System
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9390331Z Ubuntu
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9391463Z 24.04.5
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9392663Z LTS
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9393613Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9394590Z ##[group]Runner Image
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9395643Z Image: ubuntu-24.04
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9396910Z Version: 20261004.327.1
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9399075Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9402130Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9404360Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9406543Z ##[group]GITHUB_TOKEN Permissions
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9409433Z Contents: read
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9410660Z Metadata: read
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9411671Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9415076Z Secret source: Actions
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9416701Z Cache mode: write
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9418055Z Prepare workflow directory
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9827094Z Prepare all required actions
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:35.9886072Z Getting action download info
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.2742967Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.4036584Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.5901792Z Complete job name: Portable Python / ubuntu-24.04
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6724865Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6725982Z with:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6726439Z   repository: THE-BU1LD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6730472Z   token: ***
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6730919Z   ssh-strict: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6731367Z   ssh-user: git
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6731825Z   persist-credentials: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6732542Z   clean: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6733003Z   sparse-checkout-cone-mode: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6733520Z   fetch-depth: 1
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6733969Z   fetch-tags: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6734431Z   show-progress: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6734893Z   lfs: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6735311Z   submodules: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6735771Z   set-safe-directory: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6736294Z   allow-unsafe-pr-checkout: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.6737105Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7781902Z Syncing repository: THE-BU1LD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7785148Z ##[group]Getting Git version info
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7786447Z Working directory is '/home/runner/work/NeuroCAD/NeuroCAD'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7788090Z [command]/usr/bin/git version
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7853347Z git version 2.55.0
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7876241Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7888339Z Temporarily overriding HOME='/home/runner/work/_temp/fee68b6b-da9d-459f-b325-fa4d615cc21e' before making global git config changes
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7890921Z Adding repository directory to the temporary git global config as a safe directory
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7893462Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroCAD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7946408Z Deleting the contents of '/home/runner/work/NeuroCAD/NeuroCAD'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7949998Z ##[group]Determining repository object format
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7951902Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7953402Z ##[group]Initializing the repository
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.7956286Z [command]/usr/bin/git init /home/runner/work/NeuroCAD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8064474Z hint: Using 'master' as the name for the initial branch. This default branch name
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8066625Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8068403Z hint: to use in all of your new repositories, which will suppress this warning,
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8069856Z hint: call:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8071048Z hint:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8072062Z hint: 	git config --global init.defaultBranch <name>
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8073545Z hint:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8074663Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8076180Z hint: 'development'. The just-created branch can be renamed via this command:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8077048Z hint:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8077491Z hint: 	git branch -m <name>
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8077995Z hint:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8078631Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8079656Z Initialized empty Git repository in /home/runner/work/NeuroCAD/NeuroCAD/.git/
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8083937Z [command]/usr/bin/git remote add origin https://github.com/THE-BU1LD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8138776Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8140055Z ##[group]Disabling automatic garbage collection
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8142171Z [command]/usr/bin/git config --local gc.auto 0
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8180110Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8181676Z ##[group]Setting up auth
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8182830Z Removing SSH command configuration
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8186238Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8239695Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8590655Z Removing HTTP extra header
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8597675Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8644260Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8882946Z Removing includeIf entries pointing to credentials config files
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8888679Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.8932842Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9189924Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9233473Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path /home/runner/work/_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9270310Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9313280Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9351619Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9385821Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9387306Z ##[group]Fetching the repository
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:36.9393925Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bcf15d738dd6129d84772a4224945fb7d793e10f:refs/remotes/pull/107/merge
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.1948543Z From https://github.com/THE-BU1LD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.1963932Z  * [new ref]         bcf15d738dd6129d84772a4224945fb7d793e10f -> pull/107/merge
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.1984835Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.1986500Z ##[group]Determining the checkout info
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.1988420Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.1989706Z [command]/usr/bin/git sparse-checkout disable
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.2033323Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.2067724Z ##[group]Checking out the ref
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.2069836Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/107/merge
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6931223Z Note: switching to 'refs/remotes/pull/107/merge'.
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6931970Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6932783Z You are in 'detached HEAD' state. You can look around, make experimental
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6933830Z changes and commit them, and you can discard any commits you make in this
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6934869Z state without impacting any branches by switching back to a branch.
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6935511Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6935965Z If you want to create a new branch to retain commits you create, you may
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6936913Z do so (now or later) by using -c with the switch command. Example:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6937443Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6937690Z   git switch -c <new-branch-name>
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6938111Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6938374Z Or undo this operation with:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6938715Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6938928Z   git switch -
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6939232Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6939745Z Turn off this advice by setting config variable advice.detachedHead to false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6953075Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6954003Z HEAD is now at bcf15d7 Merge b1bc3ec433f130357e071b734b72f6951389fc73 into e7d7ef4ac058963c0a94cbb821660df0a5de4a66
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.6956891Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7015674Z [command]/usr/bin/git log -1 --format=%H
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7047729Z bcf15d738dd6129d84772a4224945fb7d793e10f
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7416213Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7416807Z with:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7417127Z   python-version: 3.13.15
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7417451Z   cache: pip
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7417746Z   check-latest: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7420827Z   token: ***
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7421138Z   update-environment: true
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7421570Z   allow-prereleases: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7421901Z   freethreaded: false
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.7422214Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.8627676Z ##[group]Installed versions
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:38.8647683Z Version 3.13.15 was not found in the local cache
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:39.8762136Z Version 3.13.15 is available for downloading
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:39.8763719Z Download from "https://github.com/actions/python-versions/releases/download/3.13.15-31064747964/python-3.13.15-linux-24.04-x64.tar.gz"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:40.6048284Z Extract downloaded archive
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:40.6177445Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/e18c1bea-d7ea-4461-96e2-68e1b943a25b -f /home/runner/work/_temp/a5a6f726-3812-47bf-94dd-80662a3f028e
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:42.6713919Z Execute installation script
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:42.6820320Z Check if Python hostedtoolcache folder exist...
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:42.6821775Z Create Python 3.13.15 folder
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:42.6879426Z Copy Python binaries to hostedtoolcache folder
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:43.1754384Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:43.1800455Z Upgrading pip...
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:44.9340971Z Collecting pip
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.0171228Z Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.0379342Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.1454035Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 23.9 MB/s  0:00:00
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.1454683Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.2420918Z Installing collected packages: pip
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.2422261Z Attempting uninstall: pip
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.2450232Z Found existing installation: pip 26.2.1
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.2811073Z Uninstalling pip-26.2.1:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:45.2872860Z Successfully uninstalled pip-26.2.1
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:46.2375994Z Successfully installed pip-26.2.1
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:46.3023074Z Create complete file
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:46.3061313Z Successfully set up CPython (3.13.15)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:46.3062193Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:47.3080797Z [command]/opt/hostedtoolcache/Python/3.13.15/x64/bin/pip cache dir
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:47.4663582Z /home/runner/.cache/pip
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:47.6518502Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.13.15-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.5577485Z Received 46901447 of 46901447 (100.0%), 60.0 MBs/sec
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.5583254Z Cache Size: ~45 MB (46901447 B)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.5623632Z [command]/usr/bin/tar -xf /home/runner/work/_temp/83d724bb-8f46-4f03-b7da-0ea5eefe5629/cache.tzst -P -C /home/runner/work/NeuroCAD/NeuroCAD --use-compress-program unzstd
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6375839Z Cache restored successfully
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6406752Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.13.15-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6606905Z ##[group]Run python -m pip install --upgrade "pip==26.2.1"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6607430Z ^[[36;1mpython -m pip install --upgrade "pip==26.2.1"^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6607789Z ^[[36;1mpython -m pip install -e '.[dev]'^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6887882Z shell: /usr/bin/bash -e {0}
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6888241Z env:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6888599Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6889213Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.15/x64/lib/pkgconfig
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6889798Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6890314Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6890827Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6891367Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.15/x64/lib
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:48.6891798Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:49.0301734Z Requirement already satisfied: pip==26.2.1 in /opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/site-packages (26.2.1)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:49.5530437Z Obtaining file:///home/runner/work/NeuroCAD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:49.5552043Z   Installing build dependencies: started
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:50.2968627Z   Installing build dependencies: finished with status 'done'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:50.2974922Z   Checking if build backend supports build_editable: started
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:50.6352118Z   Checking if build backend supports build_editable: finished with status 'done'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:50.6360057Z   Getting requirements to build editable: started
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.0420073Z   Getting requirements to build editable: finished with status 'done'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.0429204Z   Preparing editable metadata (pyproject.toml): started
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.2983573Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.3904575Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.3918149Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.6474937Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.7153130Z   Downloading numpy-2.5.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.7906059Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.8015654Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.8293666Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.8306885Z   Using cached build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.9361456Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.9376973Z   Using cached mypy-1.18.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.2 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.9687291Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:51.9701862Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3445043Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3459668Z   Using cached ruff-0.16.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (26 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3568642Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3581234Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3742654Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3755670Z   Using cached pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3975523Z Collecting typing_extensions>=4.6.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.3990195Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4150467Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4164996Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4343577Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4357312Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4537386Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4644928Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4863466Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.4875955Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5109913Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5123478Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5320489Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5333423Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5513449Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5528008Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5775190Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.5788432Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.8660002Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.8766059Z   Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.8912577Z Using cached build-1.6.0-py3-none-any.whl (31 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.8925241Z Using cached mypy-1.18.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (13.3 MB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.8991254Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.9006536Z Using cached ruff-0.16.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.3 MB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.9057612Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:52.9163948Z Downloading numpy-2.5.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.0723215Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 131.1 MB/s  0:00:00
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.0735471Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.0843927Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.0898555Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 750.4/750.4 kB 159.3 MB/s  0:00:00
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.0911015Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1013211Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1053226Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1066031Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1078298Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1090503Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1102495Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1118877Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1227763Z Downloading rpds_py-2026.9.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (370 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1269001Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.1280864Z Using cached pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.2153180Z Building wheels for collected packages: neurocad-research
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.2161785Z   Building editable for neurocad-research (pyproject.toml): started
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.5287550Z   Building editable for neurocad-research (pyproject.toml): finished with status 'done'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.5293640Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-0.editable-py3-none-any.whl size=13635 sha256=3bcef2237fe816fff49e5e5af10667c167e33ae8e8110fd581765591155b29a4
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.5295514Z   Stored in directory: /tmp/pip-ephem-wheel-cache-an3yeksc/wheels/61/d6/8d/2f94fa8a0d247ef73cccde21b25c53bf515c180538bb8714c9
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.5322949Z Successfully built neurocad-research
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:53.5846458Z Installing collected packages: typing_extensions, ruff, rpds-py, pyproject_hooks, pygments, pluggy, pathspec, packaging, numpy, mypy_extensions, iniconfig, attrs, trimesh, referencing, pytest, mypy, build, jsonschema-specifications, jsonschema, neurocad-research
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.1467382Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.1499171Z Successfully installed attrs-26.1.0 build-1.6.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mypy-1.18.2 mypy_extensions-1.1.0 neurocad-research-0.5.0a6 numpy-2.5.4 packaging-26.3 pathspec-1.1.1 pluggy-1.6.0 pygments-2.21.0 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.16.5 trimesh-5.1.1 typing_extensions-4.16.0
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.2989319Z ##[group]Run set -euo pipefail
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.2989668Z ^[[36;1mset -euo pipefail^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.2989954Z ^[[36;1mtest -s tests/test_workbench_ui.py^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.2990288Z ^[[36;1mtest -s tests/workbench_contract.cjs^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.2990637Z ^[[36;1mnode --version^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3060140Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3060516Z env:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3060805Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3061259Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.15/x64/lib/pkgconfig
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3061762Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3062178Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3062891Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3063303Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.15/x64/lib
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3063709Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3794617Z v22.23.3
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3852962Z ##[group]Run python -m pytest -q tests
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3853336Z ^[[36;1mpython -m pytest -q tests^[[0m
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3920506Z shell: /usr/bin/bash -e {0}
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3920777Z env:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3921066Z   pythonLocation: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3921551Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.15/x64/lib/pkgconfig
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3922036Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3922841Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3923508Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.15/x64
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3923940Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.15/x64/lib
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:08:59.3924302Z ##[endgroup]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:03.9685877Z ....................................... [  2%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:08.7373267Z ...........................................F.F.......................... [  6%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:10.4055292Z ........................................................................ [ 11%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:10.5773675Z ........................................................................ [ 15%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:10.7296935Z ........................................................................ [ 19%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:11.8795758Z .......................................................ssssssss......... [ 24%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:28.5137190Z .......................................ssssss........................... [ 28%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:28.6923563Z ...............................................................sssss.... [ 33%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:29.8890899Z ...............ss....................................................... [ 37%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:31.5370159Z ........................................................................ [ 41%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:36.6682645Z .............................................................ss......... [ 46%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:36.7727468Z ........................................................................ [ 50%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:36.9607507Z .................................ss....ssss............................. [ 55%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:37.0679273Z ..............................ss..........................ss............ [ 59%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:37.1576552Z ........................................................................ [ 63%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:41.2051091Z ........................s............................................... [ 68%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:41.5555229Z ........................................................................ [ 72%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:41.7255863Z ........................................................................ [ 77%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:59.4069654Z .......................s................................................ [ 81%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:09:59.6625451Z ........................................................................ [ 85%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:02.7043800Z ................................................................................................................................. [ 93%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:02.7867001Z ........................................................................ [ 98%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2084763Z ..............sssss.........s.                                           [100%]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2085854Z =================================== FAILURES ===================================
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2086944Z _______ test_real_browser_lane_is_required_and_retains_failure_evidence ________
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2087769Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2088418Z     def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2090233Z         workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2091828Z         assert "browser: [chromium, firefox, webkit]" in workflow
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2093471Z         assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2094852Z         assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2095590Z         lane = workflow.split("  workbench-browser:", 1)[1]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2096046Z         assert "continue-on-error" not in lane
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2096433Z         assert "if: always()" in lane
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2096912Z         for revision in re.findall(r"uses: actions/[^@]+@([^ ]+)", workflow):
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2097635Z >           assert re.fullmatch("[a-f0-9]{40}", revision), "Actions must retain reviewed immutable pins"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2117142Z E           AssertionError: Actions must retain reviewed immutable pins
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2117956Z E           assert None
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2118716Z E            +  where None = <function fullmatch at 0x7f5a27978400>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2119662Z E            +    where <function fullmatch at 0x7f5a27978400> = re.fullmatch
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2120119Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2120326Z tests/test_ci_gates.py:64: AssertionError
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2121020Z ____ test_all_maintained_scripts_are_checked_and_test_failures_are_retained ____
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2121552Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2122025Z     def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2123152Z         root = Path(__file__).resolve().parents[1]
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2123738Z         for name in ("ci.yml", "release.yml"):
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2124174Z             workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2124676Z             for command in ("ruff check", "mypy", "bandit -q -r"):
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2125163Z >               assert f"python -m {command} core research/vericodegen scripts " in workflow
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2126517Z E               AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2127627Z 
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2127753Z tests/test_ci_gates.py:85: AssertionError
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2128111Z =========================== short test summary info ============================
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2128884Z FAILED tests/test_ci_gates.py::test_real_browser_lane_is_required_and_retains_failure_evidence - AssertionError: Actions must retain reviewed immutable pins
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2129545Z assert None
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2129988Z  +  where None = <function fullmatch at 0x7f5a27978400>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2130557Z  +    where <function fullmatch at 0x7f5a27978400> = re.fullmatch
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2132154Z FAILED tests/test_ci_gates.py::test_all_maintained_scripts_are_checked_and_test_failures_are_retained - AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.2134161Z 2 failed, 1595 passed, 44 skipped, 48 subtests passed in 69.46s (0:01:09)
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.3534035Z ##[error]Process completed with exit code 1.
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.3695824Z Post job cleanup.
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4600931Z [command]/usr/bin/git version
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4654880Z git version 2.55.0
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4691737Z Temporarily overriding HOME='/home/runner/work/_temp/bea7ad40-a999-44d4-807a-acb0cb1dfade' before making global git config changes
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4693601Z Adding repository directory to the temporary git global config as a safe directory
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4704928Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroCAD/NeuroCAD
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4739582Z Removing SSH command configuration
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4748307Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.4797409Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5078118Z Removing HTTP extra header
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5084507Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5127861Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5405366Z Removing includeIf entries pointing to credentials config files
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5406196Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5449884Z includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5451076Z includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5452115Z includeif.gitdir:/github/workspace/.git.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5453176Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5460762Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5490088Z /home/runner/work/_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5501527Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-a27839ad\-0682\-4fbf\-b83d\-a3e6baed1ec5\.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5546903Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5577202Z /home/runner/work/_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5586043Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-a27839ad\-0682\-4fbf\-b83d\-a3e6baed1ec5\.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5623358Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5649918Z /github/runner_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5659242Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-a27839ad\-0682\-4fbf\-b83d\-a3e6baed1ec5\.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5699454Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5728591Z /github/runner_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5738778Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-a27839ad\-0682\-4fbf\-b83d\-a3e6baed1ec5\.config
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.5779527Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.6021253Z Removing credentials config '/home/runner/work/_temp/git-credentials-a27839ad-0682-4fbf-b83d-a3e6baed1ec5.config'
+Portable Python / ubuntu-24.04	UNKNOWN STEP	2026-10-14T12:10:09.6189174Z Cleaning up orphan processes
+test-and-package (3.11.16)	Run maintained release tests	﻿2026-10-14T12:09:21.5341699Z ##[group]Run python -m pytest -q tests --junitxml="/home/runner/work/_temp/neurocad-tests.xml"
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5342820Z ^[[36;1mpython -m pytest -q tests --junitxml="/home/runner/work/_temp/neurocad-tests.xml"^[[0m
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5406523Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5406872Z env:
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5407149Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5407604Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5408039Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5408431Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5408838Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5409269Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:21.5409601Z ##[endgroup]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:24.9998737Z ....................................... [  2%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:29.2418907Z ...........................................F.F.......................... [  6%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:30.9337873Z ........................................................................ [ 11%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:31.1396833Z ........................................................................ [ 15%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:31.2807093Z ........................................................................ [ 19%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:09:35.0317409Z ........................................................................ [ 24%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:04.7280612Z ........................................................................ [ 28%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:04.9139811Z ...............................................................sssss.... [ 33%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:06.4874296Z ........................................................................ [ 37%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:07.9218080Z ........................................................................ [ 41%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:13.3889559Z ........................................................................ [ 46%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:13.4877438Z ........................................................................ [ 50%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:19.9275871Z ........................................................................ [ 55%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:23.9848113Z ........................................................................ [ 59%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:24.0708693Z ........................................................................ [ 63%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:28.3170499Z ........................................................................ [ 68%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:28.6713779Z ........................................................................ [ 72%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:28.7724107Z ........................................................................ [ 77%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:46.8686269Z .......................s................................................ [ 81%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:47.1372359Z ........................................................................ [ 85%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:50.1497330Z ................................................................................................................................. [ 93%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:10:50.2299583Z ........................................................................ [ 98%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5129283Z ..............................                                           [100%]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5129939Z =================================== FAILURES ===================================
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5130485Z _______ test_real_browser_lane_is_required_and_retains_failure_evidence ________
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5130842Z 
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5131134Z     def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5131876Z         workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5132839Z         assert "browser: [chromium, firefox, webkit]" in workflow
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5133420Z         assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5134600Z         assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5135293Z         lane = workflow.split("  workbench-browser:", 1)[1]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5135721Z         assert "continue-on-error" not in lane
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5136082Z         assert "if: always()" in lane
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5136516Z         for revision in re.findall(r"uses: actions/[^@]+@([^ ]+)", workflow):
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5137200Z >           assert re.fullmatch("[a-f0-9]{40}", revision), "Actions must retain reviewed immutable pins"
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5137866Z E           AssertionError: Actions must retain reviewed immutable pins
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5138307Z E           assert None
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5138885Z E            +  where None = <function fullmatch at 0x7fcd0f416700>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5139643Z E            +    where <function fullmatch at 0x7fcd0f416700> = re.fullmatch
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5139987Z 
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5140127Z tests/test_ci_gates.py:64: AssertionError
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5140627Z ____ test_all_maintained_scripts_are_checked_and_test_failures_are_retained ____
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5141083Z 
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5141416Z     def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5142530Z         root = Path(__file__).resolve().parents[1]
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5143014Z         for name in ("ci.yml", "release.yml"):
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5157070Z             workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5158140Z             for command in ("ruff check", "mypy", "bandit -q -r"):
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5158879Z >               assert f"python -m {command} core research/vericodegen scripts " in workflow
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5161179Z E               AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5163544Z 
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5163773Z tests/test_ci_gates.py:85: AssertionError
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5164411Z =========================== short test summary info ============================
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5165784Z FAILED tests/test_ci_gates.py::test_real_browser_lane_is_required_and_retains_failure_evidence - AssertionError: Actions must retain reviewed immutable pins
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5166876Z assert None
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5167339Z  +  where None = <function fullmatch at 0x7fcd0f416700>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5167935Z  +    where <function fullmatch at 0x7fcd0f416700> = re.fullmatch
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5169555Z FAILED tests/test_ci_gates.py::test_all_maintained_scripts_are_checked_and_test_failures_are_retained - AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.5171176Z 2 failed, 1630 passed, 9 skipped, 48 subtests passed in 107.68s (0:01:47)
+test-and-package (3.11.16)	Run maintained release tests	2026-10-14T12:11:09.6163023Z ##[error]Process completed with exit code 1.
+test-and-package (3.12.14)	Run maintained release tests	﻿2026-10-14T12:09:23.6528866Z ##[group]Run python -m pytest -q tests --junitxml="/home/runner/work/_temp/neurocad-tests.xml"
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6529242Z ^[[36;1mpython -m pytest -q tests --junitxml="/home/runner/work/_temp/neurocad-tests.xml"^[[0m
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6577030Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6577238Z env:
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6577392Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6577638Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6577879Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6578098Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6578458Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6578681Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:23.6578865Z ##[endgroup]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:26.3447612Z ....................................... [  2%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:29.8972936Z ...........................................F.F.......................... [  6%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:30.7916056Z ........................................................................ [ 11%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:30.8930471Z ........................................................................ [ 15%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:30.9835471Z ........................................................................ [ 19%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:33.2889694Z ........................................................................ [ 24%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:53.2659902Z ........................................................................ [ 28%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:53.3622170Z ...............................................................sssss.... [ 33%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:54.3785728Z ........................................................................ [ 37%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:09:55.5949564Z ........................................................................ [ 41%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:01.5948403Z ........................................................................ [ 46%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:01.7994944Z ........................................................................ [ 50%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:05.3180470Z ........................................................................ [ 55%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:07.6718986Z ........................................................................ [ 59%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:07.7263425Z ........................................................................ [ 63%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:11.0634904Z ........................................................................ [ 68%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:11.2703129Z ........................................................................ [ 72%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:11.3468773Z ........................................................................ [ 77%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:21.8652502Z .......................s................................................ [ 81%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:22.0540897Z ........................................................................ [ 85%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:24.4434417Z ................................................................................................................................. [ 93%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:24.4912061Z ........................................................................ [ 98%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1141152Z ..............................                                           [100%]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1141632Z =================================== FAILURES ===================================
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1142032Z _______ test_real_browser_lane_is_required_and_retains_failure_evidence ________
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1142503Z 
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1142745Z     def test_real_browser_lane_is_required_and_retains_failure_evidence() -> None:
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1143311Z         workflow = (Path(__file__).resolve().parents[1] / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1143800Z         assert "browser: [chromium, firefox, webkit]" in workflow
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1144209Z         assert "playwright install --with-deps ${{ matrix.browser }}" in workflow
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1145050Z         assert "tests/browser/run_workbench.py --browser ${{ matrix.browser }} --require-kernel" in workflow
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1145348Z         lane = workflow.split("  workbench-browser:", 1)[1]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1145552Z         assert "continue-on-error" not in lane
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1145724Z         assert "if: always()" in lane
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1145928Z         for revision in re.findall(r"uses: actions/[^@]+@([^ ]+)", workflow):
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1146226Z >           assert re.fullmatch("[a-f0-9]{40}", revision), "Actions must retain reviewed immutable pins"
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1146650Z E           AssertionError: Actions must retain reviewed immutable pins
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1146938Z E           assert None
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1160358Z E            +  where None = <function fullmatch at 0x7f130a9d2ac0>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1160844Z E            +    where <function fullmatch at 0x7f130a9d2ac0> = re.fullmatch
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1160994Z 
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1161067Z tests/test_ci_gates.py:64: AssertionError
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1161298Z ____ test_all_maintained_scripts_are_checked_and_test_failures_are_retained ____
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1161472Z 
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1161610Z     def test_all_maintained_scripts_are_checked_and_test_failures_are_retained() -> None:
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1161870Z         root = Path(__file__).resolve().parents[1]
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1162054Z         for name in ("ci.yml", "release.yml"):
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1162700Z             workflow = (root / ".github/workflows" / name).read_text(encoding="utf-8")
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1163008Z             for command in ("ruff check", "mypy", "bandit -q -r"):
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1163270Z >               assert f"python -m {command} core research/vericodegen scripts " in workflow
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1164301Z E               AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1165023Z 
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1165092Z tests/test_ci_gates.py:85: AssertionError
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1165289Z =========================== short test summary info ============================
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1165729Z FAILED tests/test_ci_gates.py::test_real_browser_lane_is_required_and_retains_failure_evidence - AssertionError: Actions must retain reviewed immutable pins
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1166091Z assert None
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1166340Z  +  where None = <function fullmatch at 0x7f130a9d2ac0>('[a-f0-9]{40}', '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a\n')
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1166657Z  +    where <function fullmatch at 0x7f130a9d2ac0> = re.fullmatch
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1167500Z FAILED tests/test_ci_gates.py::test_all_maintained_scripts_are_checked_and_test_failures_are_retained - AssertionError: assert 'python -m bandit -q -r core research/vericodegen scripts ' in 'name: NeuroCAD CI\n\non:\n  push:\n    branches: [main]\n  pull_request:\n  workflow_dispatch:\n\npermissions:\n  con... workbench-${{ matrix.browser }}\n          path: ${{ runner.temp }}/browser-evidence/\n          retention-days: 14\n'
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.1168359Z 2 failed, 1630 passed, 9 skipped, 48 subtests passed in 75.16s (0:01:15)
+test-and-package (3.12.14)	Run maintained release tests	2026-10-14T12:10:39.3081627Z ##[error]Process completed with exit code 1.

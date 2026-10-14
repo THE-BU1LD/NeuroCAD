@@ -84,7 +84,8 @@ jobs:
           python -m mypy core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py
           python -m pip check
           python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
-          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
+          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -f json -o "$RUNNER_TEMP/bandit.json" -x '*/__pycache__/*' || test "$?" -eq 1
+          python scripts/review_security_findings.py "$RUNNER_TEMP/bandit.json" "$RUNNER_TEMP/bandit-reviewed.json"
           neurocad doctor
           release_dist="$RUNNER_TEMP/neurocad-dist"
           SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$GITHUB_SHA")
@@ -234,6 +235,17 @@ jobs:
               json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
           )
           PY
+
+      - name: Retain full security findings and source-bound review
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-security-findings
+          path: |
+            ${{ runner.temp }}/bandit.json
+            ${{ runner.temp }}/bandit-reviewed.json
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Retain full executable research evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
