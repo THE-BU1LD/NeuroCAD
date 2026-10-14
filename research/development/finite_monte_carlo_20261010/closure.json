@@ -1,0 +1,90 @@
+{
+  "artifact_hash_exclusions": [
+    "closure.json itself",
+    "canonical state (the Git publication tree binds its final bytes)"
+  ],
+  "artifact_sha256": {
+    "baseline.json": "0d14226953dcac34843944c3dbfeb928ae81f2b8dfe1180898a7519947bc39af",
+    "baseline.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "baseline.stdout.log": "85fb2ff639ae8362f5834cc1b170a30242c141871bccb6c7870162ccc74199a8",
+    "baseline_tests.py.txt": "4b65e29a812223d0bba423176630cf8227eb0203534739bade9545e5d142ecae",
+    "candidate.json": "c6a7e5cb652a4906dd264ab025e13ff146b4c212b681c8826e9de4fe575a1bc9",
+    "candidate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate.stdout.log": "2b7e8b2ae449b6a9ec7f847f7d8c164a310bea7adb339f428718282bfcfcca55",
+    "contract.json": "a8510321a0ad91296f8b5e670c828d7fb983a55d86aa6126a793b159a21136a0",
+    "demo/report.json": "2bff142ddab9c65c6aa8c5f5da614115bd54903a7fc238af48c0803e57e9882a",
+    "demo_command.json": "6176d37f17a8ebaeeefbefbe3805d79ab1a8fd3ec6951d3a04564e0758085534",
+    "demo_command.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "demo_command.stdout.log": "4e887f9b71da987e365cf8062a9796411741f21bd33cc1d9263f191cf902b9bb",
+    "lint.json": "fd5e81c5f943d7e4284b6ce7cd6d418e92e5307ece9c961d7b9afad2688d95ff",
+    "lint.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint.stdout.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "parent_state.json": "fb11372d4a5d322b8ccb81435a1b906a246459d6f81a1c0671adf502b19a81b2",
+    "static_verification.json": "2dd64a9fb2b64ea1d1c0fd42f4260218f487d3dfe05293de978a9788e85bd547"
+  },
+  "budget_use": {
+    "demo_commands": 1,
+    "demo_wall_seconds": 0.961078781998367,
+    "final_selected_passed": 63,
+    "independent_review_execution_commands": 0,
+    "lint_commands": 1,
+    "lint_wall_seconds": 0.10311767700477503,
+    "new_regression_cases": 21,
+    "paid_compute": 0,
+    "protected_outcome_accesses": 0,
+    "repair_cycles": 0,
+    "scientific_runs": 0,
+    "test_commands": 2,
+    "test_wall_seconds": 2.699215759013896
+  },
+  "closed_utc": "2026-10-10T10:15:05.015812+00:00",
+  "demo": {
+    "record": "demo_command.json",
+    "report": "demo/report.json",
+    "status": "COMPLETED"
+  },
+  "documentation": "research/FINITE_MONTE_CARLO_20261010.md",
+  "engineering_result": "NUMERICAL_CORRECTION_VERIFIED",
+  "historical_disposition_preserved": true,
+  "implementation_and_test_sha256": {
+    "core/scientific_kernel.py": "6384bb15fa73ea22f6d7aff9ed70872d0e81456308e069dd3802fbb649b3c1d6",
+    "research/FINITE_MONTE_CARLO_20261010.md": "a7a899dae87da9475bdea855a6d3fa82b0cff56f8b94cebdbccb5587c1c935f9",
+    "scripts/demo_finite_monte_carlo.py": "0a97260704565fe4133bb72eb5af7efd280499cbac122a7547021bf801371d68",
+    "tests/test_monte_carlo_finite_summary.py": "cc3b495649afebbe6266aeb1aea50456c534b12ff3f074ad149402b7400280f8"
+  },
+  "independent_review": {
+    "additional_execution": false,
+    "findings": [
+      "Exact-ratio mean and Bessel-corrected sample standard deviation preserve finite representable results.",
+      "Exact-rational linear quantiles avoid endpoint-difference overflow.",
+      "Seeded input draws, model call order and output schema remain unchanged; no empirical coverage or physical safety claim."
+    ],
+    "reviewer": "independent source review by finance_space",
+    "status": "PASS_SOURCE_REVIEW"
+  },
+  "parent_commit": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
+  "prior_budgets_reopened": false,
+  "protected_boundary_unchanged": true,
+  "publication_policy": {
+    "commit_skip_ci": true,
+    "draft": true,
+    "merge": false,
+    "reason": "No inherited broad engineering or scientific campaigns added to this bounded local execution budget. Wider release gates remain pending."
+  },
+  "remaining_scientific_work": "Read the preserved canonical scientific status and frozen protocols; this engineering closure is not research completion.",
+  "retained_test_attempts": {
+    "baseline": {
+      "record": "baseline.json",
+      "returncode": 1,
+      "wall_seconds": 1.199267536008847
+    },
+    "candidate": {
+      "record": "candidate.json",
+      "returncode": 0,
+      "wall_seconds": 1.499948223005049
+    }
+  },
+  "schema": "bounded-engineering-closure-v1",
+  "scientific_checkpoint_advanced": false,
+  "status": "CLOSED"
+}

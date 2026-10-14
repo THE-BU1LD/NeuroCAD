@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import math
 import re
+import statistics
 from collections.abc import Callable
 from dataclasses import dataclass
+from fractions import Fraction
 from typing import Any
 
 import numpy as np
@@ -168,7 +170,7 @@ class Quantity:
         parsed = parse_unit(unit)
         if parsed.dimension != self.dimension:
             raise ValueError(f"cannot convert {self.dimension.label()} to {parsed.dimension.label()}")
-        return self.si_value / parsed.scale_to_si
+        return _finite(self.si_value / parsed.scale_to_si, "converted quantity value")
 
     def _matching(self, other: Quantity) -> None:
         if not isinstance(other, Quantity) or other.dimension != self.dimension:
@@ -241,7 +243,9 @@ class Jet:
 
     @classmethod
     def variable(cls, value: float, index: int, size: int) -> Jet:
-        if not 1 <= size <= MAX_VARIABLES or not 0 <= index < size:
+        if isinstance(size, bool) or not isinstance(size, int) or not 1 <= size <= MAX_VARIABLES:
+            raise ValueError("invalid automatic-differentiation variable shape")
+        if isinstance(index, bool) or not isinstance(index, int) or not 0 <= index < size:
             raise ValueError("invalid automatic-differentiation variable shape")
         gradient = np.zeros(size)
         gradient[index] = 1.0
@@ -249,7 +253,7 @@ class Jet:
 
     @classmethod
     def constant(cls, value: float, size: int) -> Jet:
-        if not 1 <= size <= MAX_VARIABLES:
+        if isinstance(size, bool) or not isinstance(size, int) or not 1 <= size <= MAX_VARIABLES:
             raise ValueError("invalid automatic-differentiation size")
         return cls(_finite(value, "constant"), np.zeros(size), np.zeros((size, size)))
 
@@ -305,6 +309,12 @@ class Jet:
 
     def __pow__(self, exponent: float) -> Jet:
         power = _finite(exponent, "exponent")
+        # Polynomial constants and identity maps are differentiable at zero.
+        # Handle them before forming negative powers in the derivative formula.
+        if power == 0:
+            return Jet.constant(1.0, len(self.gradient))
+        if power == 1:
+            return self
         if self.value <= 0 and not power.is_integer():
             raise ValueError("fractional powers require a positive value")
         if self.value == 0 and power < 2:
@@ -355,6 +365,8 @@ def value_gradient_hessian(function: Callable[[tuple[Jet, ...]], Jet], values: t
     result = function(variables)
     if not isinstance(result, Jet) or not np.isfinite(result.gradient).all() or not np.isfinite(result.hessian).all():
         raise ValueError("automatic-differentiation function must return one finite Jet")
+    if result.gradient.shape != (len(values),):
+        raise ValueError("automatic-differentiation result dimension must match the input variables")
     return result.value, result.gradient.copy(), result.hessian.copy()
 
 
@@ -389,8 +401,9 @@ class Interval:
     def __truediv__(self, other: Interval) -> Interval:
         if other.lower <= 0 <= other.upper:
             raise ZeroDivisionError("interval divisor contains zero")
-        reciprocal = Interval(self._down(1.0 / other.upper), self._up(1.0 / other.lower))
-        return self * reciprocal
+        # A reciprocal can overflow even when every endpoint quotient is finite.
+        quotients = (self.lower / other.lower, self.lower / other.upper, self.upper / other.lower, self.upper / other.upper)
+        return Interval(self._down(min(quotients)), self._up(max(quotients)))
 
     def sqrt(self) -> Interval:
         if self.lower < 0:
@@ -666,6 +679,67 @@ def minimize_constrained(
     )
 
 
+def _round_sqrt_ratio(numerator: int, denominator: int) -> float:
+    """Round a nonnegative rational square root to binary64, ties to even.
+
+    Neither the variance nor its reciprocal needs a floating representation.
+    Integer comparisons choose the normal/subnormal grid and its exact midpoint.
+    ``ldexp`` raises when the correctly rounded result exceeds the finite range.
+    """
+
+    if numerator < 0 or denominator <= 0:
+        raise ValueError("square root requires a nonnegative numerator and positive denominator")
+    if numerator == 0:
+        return 0.0
+
+    exponent = numerator.bit_length() - denominator.bit_length()
+    if exponent >= 0:
+        if numerator < denominator << exponent:
+            exponent -= 1
+    elif numerator << -exponent < denominator:
+        exponent -= 1
+
+    # floor(log2(sqrt(numerator / denominator))) is exponent // 2.
+    # A normal float has 53 significant bits; subnormals use the fixed grid.
+    quantum_exponent = max(exponent // 2 - 52, -1074)
+    shift = -2 * quantum_exponent
+    if shift >= 0:
+        scaled_numerator = numerator << shift
+        scaled_denominator = denominator
+    else:
+        scaled_numerator = numerator
+        scaled_denominator = denominator << -shift
+    lower = math.isqrt(scaled_numerator // scaled_denominator)
+    midpoint_comparison = 4 * scaled_numerator - scaled_denominator * (2 * lower + 1) ** 2
+    if midpoint_comparison > 0 or (midpoint_comparison == 0 and lower % 2):
+        lower += 1
+    return math.ldexp(float(lower), quantum_exponent)
+
+
+def _sample_standard_deviation(values: list[float]) -> float:
+    """Bessel-corrected SD of already admitted finite binary64 outcomes.
+
+    Float denominators are powers of two. Their maximum is a common denominator,
+    so integer sums preserve cancellation exactly with constant auxiliary space.
+    Only the final square root is rounded; this also works on Python 3.10.
+    """
+
+    count = len(values)
+    if count < 2:
+        raise ValueError("sample standard deviation requires at least two values")
+    common_denominator = max(value.as_integer_ratio()[1] for value in values)
+    total = 0
+    square_total = 0
+    for value in values:
+        numerator, denominator = value.as_integer_ratio()
+        integer = numerator * (common_denominator // denominator)
+        total += integer
+        square_total += integer * integer
+    variance_numerator = count * square_total - total * total
+    variance_denominator = count * (count - 1) * common_denominator * common_denominator
+    return _round_sqrt_ratio(variance_numerator, variance_denominator)
+
+
 def monte_carlo_propagate(
     function: Callable[[np.ndarray], float],
     mean: tuple[float, ...],
@@ -674,7 +748,11 @@ def monte_carlo_propagate(
     samples: int = 10_000,
     seed: int = 0,
 ) -> dict[str, Any]:
-    """Reproducibly propagate a correlated normal input through a scalar model."""
+    """Reproducibly propagate a correlated normal input through a scalar model.
+
+    Symmetry and positive-semidefinite tolerances are relative to covariance
+    magnitude, so changing physical units cannot admit an invalid distribution.
+    """
 
     count = len(mean)
     if not 1 <= count <= MAX_VARIABLES:
@@ -688,28 +766,64 @@ def monte_carlo_propagate(
     if matrix.shape != (count, count) or matrix.dtype.kind not in "iuf" or not np.isfinite(matrix).all():
         raise ValueError(f"covariance must be a finite {count} x {count} numeric matrix")
     matrix = matrix.astype(float)
-    if not np.allclose(matrix, matrix.T, rtol=0, atol=1e-12):
+    if not np.isfinite(matrix).all():
+        raise ValueError("covariance exceeds the finite numerical range")
+    covariance_scale = float(np.max(np.abs(matrix)))
+    normalized = matrix / covariance_scale if covariance_scale else matrix
+    if not np.allclose(normalized, normalized.T, rtol=0, atol=1e-12):
         raise ValueError("covariance must be symmetric")
-    matrix = (matrix + matrix.T) / 2.0
-    if float(np.linalg.eigvalsh(matrix).min()) < -1e-12:
+    normalized = (normalized + normalized.T) / 2.0
+    if (np.diag(matrix) < 0).any() or float(np.linalg.eigvalsh(normalized).min()) < -1e-12:
         raise ValueError("covariance must be positive semidefinite")
+    # Retain identical draws for already-symmetric valid inputs. For tolerated
+    # roundoff asymmetry, symmetrize in normalized units to avoid overflow.
+    if not np.array_equal(matrix, matrix.T):
+        matrix = normalized * covariance_scale
     draws = np.random.default_rng(seed).multivariate_normal(center, matrix, size=samples, check_valid="raise")
-    outcomes = np.asarray([_finite(function(draw), "Monte Carlo outcome") for draw in draws])
-    standard_deviation = float(np.std(outcomes, ddof=1))
+    outcomes = [_finite(function(draw), "Monte Carlo outcome") for draw in draws]
+    # Accumulate the mean and sample variance as exact ratios. The private SD
+    # reduction avoids Python-version-dependent conversion of variance to float
+    # before sqrt. Finite summaries may have unrepresentable sums or squares.
+    # The distribution, draw order and Bessel correction are unchanged.
+    try:
+        outcome_mean = statistics.mean(outcomes)
+        standard_deviation = _sample_standard_deviation(outcomes)
+        standard_error = standard_deviation / math.sqrt(samples)
+        ordered = sorted(outcomes)
+        quantiles = {}
+        for level in (0.005, 0.025, 0.5, 0.975, 0.995):
+            # Linear interpolation is a convex combination. Computing b-a
+            # first can overflow for opposite finite endpoints. Exact ratios
+            # also retain subnormal endpoints and round only the final value.
+            index = (samples - 1) * Fraction.from_float(level)
+            lower = index.numerator // index.denominator
+            weight = index - lower
+            left = Fraction.from_float(ordered[lower])
+            right = Fraction.from_float(ordered[min(lower + 1, samples - 1)])
+            quantiles[str(level)] = float((1 - weight) * left + weight * right)
+    except (OverflowError, ValueError) as exc:
+        raise ValueError("sample statistics exceed the finite numerical range") from exc
+    if not all(math.isfinite(value) for value in (outcome_mean, standard_deviation, standard_error, *quantiles.values())):
+        raise ValueError("sample statistics exceed the finite numerical range")
     return {
         "schema_version": "neurocad-monte-carlo-v1",
         "samples": samples,
         "seed": seed,
-        "mean": float(np.mean(outcomes)),
+        "mean": outcome_mean,
         "standard_deviation": standard_deviation,
-        "standard_error": standard_deviation / math.sqrt(samples),
-        "quantiles": {str(level): float(np.quantile(outcomes, level)) for level in (0.005, 0.025, 0.5, 0.975, 0.995)},
+        "standard_error": standard_error,
+        "quantiles": quantiles,
         "claim_boundary": "sampling estimate under the declared distribution; not empirical validation or a safety guarantee",
     }
 
 
 def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[float, ...], solution: tuple[float, ...]) -> dict[str, Any]:
-    """Report rank, conditioning, and scaled residual for a linear solve."""
+    """Report rank, conditioning, and normwise backward error for a linear solve.
+
+    Power-of-two scaling keeps integer products and finite extreme-scale data
+    out of overflowing arithmetic. An unrepresentable residual norm is rejected;
+    the backward error is computed before restoring the residual's physical scale.
+    """
 
     coefficients = np.asarray(matrix)
     target = np.asarray(rhs)
@@ -723,15 +837,70 @@ def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[
         raise ValueError("rhs and solution dimensions must match the matrix")
     if not np.isfinite(target).all() or not np.isfinite(estimate).all():
         raise ValueError("rhs and solution must be finite")
-    residual = coefficients @ estimate - target
-    residual_norm = float(np.linalg.norm(residual))
-    denominator = float(np.linalg.norm(coefficients) * np.linalg.norm(estimate) + np.linalg.norm(target))
-    condition = float(np.linalg.cond(coefficients))
+    # Inspect original scalars as objects: a mixed float/integer tuple may
+    # already have rounded an integer in the numeric arrays above. Compare
+    # Python scalars so NumPy's promoted integer/float equality cannot hide it.
+    for name, original in (("matrix", matrix), ("rhs", rhs), ("solution", solution)):
+        for value in np.asarray(original, dtype=object).flat:
+            if isinstance(value, (int, np.integer)) and int(value) != float(value):
+                raise ValueError(f"{name} integers must be exactly representable in float64 (lossless conversion)")
+    # Cast before multiplication/subtraction: NumPy integer arithmetic wraps
+    # silently and can otherwise label a non-solution as an exact solution.
+    coefficients = coefficients.astype(float)
+    target = target.astype(float)
+    estimate = estimate.astype(float)
+    if not all(np.isfinite(value).all() for value in (coefficients, target, estimate)):
+        raise ValueError("linear system exceeds the finite numerical range")
+
+    coefficient_max = float(np.max(np.abs(coefficients)))
+    estimate_max = float(np.max(np.abs(estimate)))
+    target_max = float(np.max(np.abs(target)))
+    coefficient_exponent = math.frexp(coefficient_max)[1]
+    estimate_exponent = math.frexp(estimate_max)[1]
+    product_exponent = coefficient_exponent + estimate_exponent
+    has_product = coefficient_max > 0 and estimate_max > 0
+    exponents = ([product_exponent] if has_product else []) + (
+        [math.frexp(target_max)[1]] if target_max > 0 else []
+    )
+    residual_exponent = max(exponents, default=0)
+    scaled_coefficients = np.ldexp(coefficients, -coefficient_exponent)
+    scaled_estimate = np.ldexp(estimate, -estimate_exponent)
+    scaled_target = np.ldexp(target, -residual_exponent)
+    if has_product:
+        scaled_product = np.ldexp(
+            scaled_coefficients @ scaled_estimate, product_exponent - residual_exponent
+        )
+        product_norm_bound = math.ldexp(
+            float(np.linalg.norm(scaled_coefficients) * np.linalg.norm(scaled_estimate)),
+            product_exponent - residual_exponent,
+        )
+    else:
+        scaled_product = np.zeros(rows)
+        product_norm_bound = 0.0
+    scaled_residual_norm = math.hypot(*(scaled_product - scaled_target))
+    denominator = product_norm_bound + math.hypot(*scaled_target)
+    # Preserve a representable residual in mixed-scale systems, where global
+    # normalization can erase small coefficients multiplied by large variables.
+    # An overflowing direct product is not accepted as a cancellation certificate.
+    with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+        direct_residual = coefficients @ estimate - target
+    if not np.isfinite(direct_residual).all():
+        raise ValueError("residual norm exceeds the finite numerical range")
+    direct_norm = math.hypot(*direct_residual)
+    if direct_norm > 0.0:
+        scaled_residual_norm = math.ldexp(direct_norm, -residual_exponent)
+    try:
+        residual_norm = direct_norm or math.ldexp(scaled_residual_norm, residual_exponent)
+    except OverflowError as exc:
+        raise ValueError("residual norm exceeds the finite numerical range") from exc
+    if not math.isfinite(residual_norm):
+        raise ValueError("residual norm exceeds the finite numerical range")
+    condition = float(np.linalg.cond(scaled_coefficients))
     return {
         "shape": [rows, columns],
-        "rank": int(np.linalg.matrix_rank(coefficients)),
+        "rank": int(np.linalg.matrix_rank(scaled_coefficients)),
         "condition_number": condition if math.isfinite(condition) else None,
         "residual_norm": residual_norm,
-        "relative_backward_error": residual_norm / denominator if denominator else residual_norm,
+        "relative_backward_error": scaled_residual_norm / denominator if denominator else 0.0,
         "ill_conditioned": not math.isfinite(condition) or condition > 1.0 / math.sqrt(np.finfo(float).eps),
     }

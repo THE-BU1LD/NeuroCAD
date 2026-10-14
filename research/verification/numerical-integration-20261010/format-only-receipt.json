@@ -1,0 +1,16 @@
+{
+  "path": "tests/test_mesh_scale_invariance.py",
+  "before_sha256": "6ffe2f6fc24ca26a7740f2816d723b5eff8fff458652fcecdd5a721b428a0667",
+  "after_sha256": "b0c3afd0d29f22dda27fc18ab1072faca0298cddee9373347fbd3141b74f0712",
+  "ast_unchanged": true,
+  "change": "Remove one extra blank line to satisfy I001; after full-suite execution",
+  "additional_files": [
+    {
+      "path": "tests/test_scientific_kernel_polynomials.py",
+      "before_sha256": "4f1dd1e916d0dee28ca36e4d50503eb8b522a84ba1732351e8d89aec88080f3e",
+      "after_sha256": "7355d98d706ab3a6bb3eeafafe245544f6b8d8223fcf8ddbc868c40038d9ca9a",
+      "ast_unchanged": true,
+      "change": "Remove an extra blank line at EOF after full-suite execution"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+"""Finite sample summaries, independently checked with exact binary64 ratios."""
+
+import math
+from decimal import Decimal, localcontext
+from fractions import Fraction
+
+import numpy as np
+import pytest
+
+from core.scientific_kernel import monte_carlo_propagate
+
+LEVELS = (0.005, 0.025, 0.5, 0.975, 0.995)
+
+
+def report_for(outcomes):
+    iterator = iter(outcomes)
+    return monte_carlo_propagate(
+        lambda _: next(iterator), (0.0,), ((0.0,),), samples=len(outcomes), seed=41
+    )
+
+
+def exact_oracle(outcomes):
+    values = [Fraction.from_float(float(value)) for value in outcomes]
+    count = len(values)
+    mean = sum(values) / count
+    variance = sum((value - mean) ** 2 for value in values) / (count - 1)
+    with localcontext() as context:
+        context.prec = 160
+        sd = float((Decimal(variance.numerator) / Decimal(variance.denominator)).sqrt())
+    ordered = sorted(values)
+    quantiles = {}
+    for level in LEVELS:
+        index = (count - 1) * Fraction.from_float(level)
+        lower = index.numerator // index.denominator
+        weight = index - lower
+        upper = min(lower + 1, count - 1)
+        quantiles[str(level)] = float((1 - weight) * ordered[lower] + weight * ordered[upper])
+    return float(mean), sd, quantiles
+
+
+@pytest.mark.parametrize("value", [1e308, -1e308, np.finfo(float).max.item(), 1e-308, -1e-308, math.ulp(0.0), -math.ulp(0.0)])
+def test_constant_finite_outputs_have_zero_uncertainty(value):
+    report = report_for([value] * 8)
+    assert report["mean"] == value
+    assert report["standard_deviation"] == 0.0
+    assert report["standard_error"] == 0.0
+    assert all(result == value for result in report["quantiles"].values())
+
+
+@pytest.mark.parametrize("outcomes", [
+    [-1e308, 1e308],
+    [-1e308, -1e307, 2e307, 1e308],
+    [1e308, math.nextafter(1e308, math.inf), math.nextafter(1e308, 0.0)],
+    [1e-308, -1e-308, 0.0],
+    [0.0, math.ulp(0.0)],
+    [-math.ulp(0.0), 0.0, math.ulp(0.0)],
+    [2.0, 4.0, 6.0, 8.0],
+    [-10.0, 0.5, 0.5, 20.0, 31.0],
+])
+def test_representable_summaries_match_rational_and_decimal_oracles(outcomes):
+    report = report_for(outcomes)
+    mean, sd, quantiles = exact_oracle(outcomes)
+    assert report["mean"] == mean
+    assert abs(report["standard_deviation"] - sd) <= math.ulp(sd)
+    assert report["standard_error"] == report["standard_deviation"] / math.sqrt(len(outcomes))
+    assert report["quantiles"] == quantiles
+    assert all(math.isfinite(value) for value in [report["mean"], report["standard_deviation"], report["standard_error"], *report["quantiles"].values()])
+
+
+def test_unrepresentable_standard_deviation_is_rejected():
+    limit = float(np.finfo(float).max)
+    with pytest.raises(ValueError, match="sample statistics.*finite"):
+        report_for([-limit, limit])
+
+
+def test_output_order_does_not_change_sample_statistics():
+    values = [1e308, 3.0, -1e308, 1e-308, -2.0]
+    forward = report_for(values)
+    reverse = report_for(values[::-1])
+    assert forward == reverse
+
+
+def test_distribution_draws_and_seeded_call_order_are_preserved():
+    seen = []
+    mean = (2.0, -3.0)
+    covariance = ((1.0, 0.25), (0.25, 2.0))
+    expected = np.random.default_rng(79).multivariate_normal(mean, covariance, size=8, check_valid="raise")
+
+    def model(draw):
+        seen.append(draw.copy())
+        return float(draw[0] + 2 * draw[1])
+
+    result = monte_carlo_propagate(model, mean, covariance, samples=8, seed=79)
+    np.testing.assert_array_equal(seen, expected)
+    assert result["schema_version"] == "neurocad-monte-carlo-v1"
+    assert result["samples"] == 8 and result["seed"] == 79
+
+
+@pytest.mark.parametrize("value", [math.inf, -math.inf, math.nan])
+def test_nonfinite_callable_output_remains_rejected(value):
+    with pytest.raises(ValueError, match="Monte Carlo outcome"):
+        report_for([0.0, value])

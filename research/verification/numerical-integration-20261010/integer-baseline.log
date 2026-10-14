@@ -1,0 +1,259 @@
+FFFFFFFFFFFF....                                                         [100%]
+=================================== FAILURES ===================================
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[9007199254740993-matrix] _
+
+field = 'matrix', value = 9007199254740993
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[9007199254740993-rhs] _
+
+field = 'rhs', value = 9007199254740993
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[9007199254740993-solution] _
+
+field = 'solution', value = 9007199254740993
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[-9007199254740993-matrix] _
+
+field = 'matrix', value = -9007199254740993
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[-9007199254740993-rhs] _
+
+field = 'rhs', value = -9007199254740993
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[-9007199254740993-solution] _
+
+field = 'solution', value = -9007199254740993
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[value2-matrix] _
+
+field = 'matrix', value = np.uint64(9223372036854775809)
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[value2-rhs] _
+
+field = 'rhs', value = np.uint64(9223372036854775809)
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[value2-solution] _
+
+field = 'solution', value = np.uint64(9223372036854775809)
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    @pytest.mark.parametrize("value", [2**53 + 1, -(2**53 + 1), np.uint64(2**63 + 1)])
+    def test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution(field, value):
+        rounded = float(value)
+        arguments = {"matrix": ((1,),), "rhs": (rounded,), "solution": (rounded,)}
+        if field == "matrix":
+            arguments.update(matrix=((value,),), solution=(1,))
+        else:
+            arguments[field] = (value,)
+        # Each supplied equation has true residual magnitude one. Casting the
+        # distinct integer and rounded float to the same float64 gives false zero.
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:22: Failed
+_ test_original_mixed_float_integer_values_are_checked_before_numpy_coercion[matrix] _
+
+field = 'matrix'
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    def test_original_mixed_float_integer_values_are_checked_before_numpy_coercion(field):
+        value = 2**53 + 1
+        rounded = float(value)
+        if field == "matrix":
+            arguments = {"matrix": ((0.0, value),), "rhs": (rounded,), "solution": (0.0, 1.0)}
+        else:
+            arguments = {
+                "matrix": ((1.0, 0.0), (0.0, 1.0)),
+                "rhs": (0.0, rounded), "solution": (0.0, rounded),
+            }
+            arguments[field] = (0.0, value)
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:38: Failed
+_ test_original_mixed_float_integer_values_are_checked_before_numpy_coercion[rhs] _
+
+field = 'rhs'
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    def test_original_mixed_float_integer_values_are_checked_before_numpy_coercion(field):
+        value = 2**53 + 1
+        rounded = float(value)
+        if field == "matrix":
+            arguments = {"matrix": ((0.0, value),), "rhs": (rounded,), "solution": (0.0, 1.0)}
+        else:
+            arguments = {
+                "matrix": ((1.0, 0.0), (0.0, 1.0)),
+                "rhs": (0.0, rounded), "solution": (0.0, rounded),
+            }
+            arguments[field] = (0.0, value)
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:38: Failed
+_ test_original_mixed_float_integer_values_are_checked_before_numpy_coercion[solution] _
+
+field = 'solution'
+
+    @pytest.mark.parametrize("field", ["matrix", "rhs", "solution"])
+    def test_original_mixed_float_integer_values_are_checked_before_numpy_coercion(field):
+        value = 2**53 + 1
+        rounded = float(value)
+        if field == "matrix":
+            arguments = {"matrix": ((0.0, value),), "rhs": (rounded,), "solution": (0.0, 1.0)}
+        else:
+            arguments = {
+                "matrix": ((1.0, 0.0), (0.0, 1.0)),
+                "rhs": (0.0, rounded), "solution": (0.0, rounded),
+            }
+            arguments[field] = (0.0, value)
+>       with pytest.raises(ValueError, match="lossless|exactly representable"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_linear_integer_admission.py:38: Failed
+=========================== short test summary info ============================
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[9007199254740993-matrix]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[9007199254740993-rhs]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[9007199254740993-solution]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[-9007199254740993-matrix]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[-9007199254740993-rhs]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[-9007199254740993-solution]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[value2-matrix]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[value2-rhs]
+FAILED tests/test_linear_integer_admission.py::test_unrepresentable_integer_cannot_be_rounded_into_an_exact_solution[value2-solution]
+FAILED tests/test_linear_integer_admission.py::test_original_mixed_float_integer_values_are_checked_before_numpy_coercion[matrix]
+FAILED tests/test_linear_integer_admission.py::test_original_mixed_float_integer_values_are_checked_before_numpy_coercion[rhs]
+FAILED tests/test_linear_integer_admission.py::test_original_mixed_float_integer_values_are_checked_before_numpy_coercion[solution]
+12 failed, 4 passed in 3.59s

@@ -1,0 +1,220 @@
+FFF....FFFFF...FF....                                                    [100%]
+=================================== FAILURES ===================================
+__________ test_constant_finite_outputs_have_zero_uncertainty[1e+308] __________
+
+value = 1e+308
+
+    @pytest.mark.parametrize("value", [1e308, -1e308, np.finfo(float).max.item(), 1e-308, -1e-308, math.ulp(0.0), -math.ulp(0.0)])
+    def test_constant_finite_outputs_have_zero_uncertainty(value):
+        report = report_for([value] * 8)
+>       assert report["mean"] == value
+E       assert inf == 1e+308
+
+tests/test_monte_carlo_finite_summary.py:45: AssertionError
+_________ test_constant_finite_outputs_have_zero_uncertainty[-1e+308] __________
+
+value = -1e+308
+
+    @pytest.mark.parametrize("value", [1e308, -1e308, np.finfo(float).max.item(), 1e-308, -1e-308, math.ulp(0.0), -math.ulp(0.0)])
+    def test_constant_finite_outputs_have_zero_uncertainty(value):
+        report = report_for([value] * 8)
+>       assert report["mean"] == value
+E       assert -inf == -1e+308
+
+tests/test_monte_carlo_finite_summary.py:45: AssertionError
+_ test_constant_finite_outputs_have_zero_uncertainty[1.7976931348623157e+308] __
+
+value = 1.7976931348623157e+308
+
+    @pytest.mark.parametrize("value", [1e308, -1e308, np.finfo(float).max.item(), 1e-308, -1e-308, math.ulp(0.0), -math.ulp(0.0)])
+    def test_constant_finite_outputs_have_zero_uncertainty(value):
+        report = report_for([value] * 8)
+>       assert report["mean"] == value
+E       assert inf == 1.7976931348623157e+308
+
+tests/test_monte_carlo_finite_summary.py:45: AssertionError
+__ test_representable_summaries_match_rational_and_decimal_oracles[outcomes0] __
+
+outcomes = [-1e+308, 1e+308]
+
+    @pytest.mark.parametrize("outcomes", [
+        [-1e308, 1e308],
+        [-1e308, -1e307, 2e307, 1e308],
+        [1e308, math.nextafter(1e308, math.inf), math.nextafter(1e308, 0.0)],
+        [1e-308, -1e-308, 0.0],
+        [0.0, math.ulp(0.0)],
+        [-math.ulp(0.0), 0.0, math.ulp(0.0)],
+        [2.0, 4.0, 6.0, 8.0],
+        [-10.0, 0.5, 0.5, 20.0, 31.0],
+    ])
+    def test_representable_summaries_match_rational_and_decimal_oracles(outcomes):
+        report = report_for(outcomes)
+        mean, sd, quantiles = exact_oracle(outcomes)
+        assert report["mean"] == mean
+>       assert abs(report["standard_deviation"] - sd) <= math.ulp(sd)
+E       assert inf <= 1.99584030953472e+292
+E        +  where inf = abs((inf - 1.4142135623730951e+308))
+E        +  and   1.99584030953472e+292 = <built-in function ulp>(1.4142135623730951e+308)
+E        +    where <built-in function ulp> = math.ulp
+
+tests/test_monte_carlo_finite_summary.py:65: AssertionError
+__ test_representable_summaries_match_rational_and_decimal_oracles[outcomes1] __
+
+outcomes = [-1e+308, -1e+307, 2e+307, 1e+308]
+
+    @pytest.mark.parametrize("outcomes", [
+        [-1e308, 1e308],
+        [-1e308, -1e307, 2e307, 1e308],
+        [1e308, math.nextafter(1e308, math.inf), math.nextafter(1e308, 0.0)],
+        [1e-308, -1e-308, 0.0],
+        [0.0, math.ulp(0.0)],
+        [-math.ulp(0.0), 0.0, math.ulp(0.0)],
+        [2.0, 4.0, 6.0, 8.0],
+        [-10.0, 0.5, 0.5, 20.0, 31.0],
+    ])
+    def test_representable_summaries_match_rational_and_decimal_oracles(outcomes):
+        report = report_for(outcomes)
+        mean, sd, quantiles = exact_oracle(outcomes)
+>       assert report["mean"] == mean
+E       assert 2.499999999999999e+306 == 2.5e+306
+
+tests/test_monte_carlo_finite_summary.py:64: AssertionError
+__ test_representable_summaries_match_rational_and_decimal_oracles[outcomes2] __
+
+outcomes = [1e+308, 1.0000000000000002e+308, 9.999999999999998e+307]
+
+    @pytest.mark.parametrize("outcomes", [
+        [-1e308, 1e308],
+        [-1e308, -1e307, 2e307, 1e308],
+        [1e308, math.nextafter(1e308, math.inf), math.nextafter(1e308, 0.0)],
+        [1e-308, -1e-308, 0.0],
+        [0.0, math.ulp(0.0)],
+        [-math.ulp(0.0), 0.0, math.ulp(0.0)],
+        [2.0, 4.0, 6.0, 8.0],
+        [-10.0, 0.5, 0.5, 20.0, 31.0],
+    ])
+    def test_representable_summaries_match_rational_and_decimal_oracles(outcomes):
+        report = report_for(outcomes)
+        mean, sd, quantiles = exact_oracle(outcomes)
+>       assert report["mean"] == mean
+E       assert inf == 1e+308
+
+tests/test_monte_carlo_finite_summary.py:64: AssertionError
+__ test_representable_summaries_match_rational_and_decimal_oracles[outcomes3] __
+
+outcomes = [1e-308, -1e-308, 0.0]
+
+    @pytest.mark.parametrize("outcomes", [
+        [-1e308, 1e308],
+        [-1e308, -1e307, 2e307, 1e308],
+        [1e308, math.nextafter(1e308, math.inf), math.nextafter(1e308, 0.0)],
+        [1e-308, -1e-308, 0.0],
+        [0.0, math.ulp(0.0)],
+        [-math.ulp(0.0), 0.0, math.ulp(0.0)],
+        [2.0, 4.0, 6.0, 8.0],
+        [-10.0, 0.5, 0.5, 20.0, 31.0],
+    ])
+    def test_representable_summaries_match_rational_and_decimal_oracles(outcomes):
+        report = report_for(outcomes)
+        mean, sd, quantiles = exact_oracle(outcomes)
+        assert report["mean"] == mean
+>       assert abs(report["standard_deviation"] - sd) <= math.ulp(sd)
+E       assert 1e-308 <= 5e-324
+E        +  where 1e-308 = abs((0.0 - 1e-308))
+E        +  and   5e-324 = <built-in function ulp>(1e-308)
+E        +    where <built-in function ulp> = math.ulp
+
+tests/test_monte_carlo_finite_summary.py:65: AssertionError
+__ test_representable_summaries_match_rational_and_decimal_oracles[outcomes4] __
+
+outcomes = [0.0, 5e-324]
+
+    @pytest.mark.parametrize("outcomes", [
+        [-1e308, 1e308],
+        [-1e308, -1e307, 2e307, 1e308],
+        [1e308, math.nextafter(1e308, math.inf), math.nextafter(1e308, 0.0)],
+        [1e-308, -1e-308, 0.0],
+        [0.0, math.ulp(0.0)],
+        [-math.ulp(0.0), 0.0, math.ulp(0.0)],
+        [2.0, 4.0, 6.0, 8.0],
+        [-10.0, 0.5, 0.5, 20.0, 31.0],
+    ])
+    def test_representable_summaries_match_rational_and_decimal_oracles(outcomes):
+        report = report_for(outcomes)
+        mean, sd, quantiles = exact_oracle(outcomes)
+        assert report["mean"] == mean
+        assert abs(report["standard_deviation"] - sd) <= math.ulp(sd)
+        assert report["standard_error"] == report["standard_deviation"] / math.sqrt(len(outcomes))
+>       assert report["quantiles"] == quantiles
+E       AssertionError: assert {'0.005': 0.0...: 5e-324, ...} == {'0.005': 0.0...: 5e-324, ...}
+E         
+E         Omitting 4 identical items, use -vv to show
+E         Differing items:
+E         {'0.5': 5e-324} != {'0.5': 0.0}
+E         Use -v to get more diff
+
+tests/test_monte_carlo_finite_summary.py:67: AssertionError
+_____________ test_unrepresentable_standard_deviation_is_rejected ______________
+
+    def test_unrepresentable_standard_deviation_is_rejected():
+        limit = float(np.finfo(float).max)
+>       with pytest.raises(ValueError, match="sample statistics.*finite"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_monte_carlo_finite_summary.py:73: Failed
+_____________ test_output_order_does_not_change_sample_statistics ______________
+
+    def test_output_order_does_not_change_sample_statistics():
+        values = [1e308, 3.0, -1e308, 1e-308, -2.0]
+        forward = report_for(values)
+        reverse = report_for(values[::-1])
+>       assert forward == reverse
+E       AssertionError: assert {'schema_vers...n': -0.4, ...} == {'schema_vers...an': 0.0, ...}
+E         
+E         Omitting 7 identical items, use -vv to show
+E         Differing items:
+E         {'mean': -0.4} != {'mean': 0.0}
+E         Use -v to get more diff
+
+tests/test_monte_carlo_finite_summary.py:81: AssertionError
+=============================== warnings summary ===============================
+tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[1e+308]
+tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[-1e+308]
+tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[1.7976931348623157e+308]
+tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes2]
+  /workspace/scratch/2a0c1e6ddd92/cad-test-deps/numpy/_core/_methods.py:168: RuntimeWarning: overflow encountered in reduce
+    arrmean = umr_sum(arr, axis, dtype, keepdims=True, where=where)
+
+tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[1e+308]
+tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[-1e+308]
+tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[1.7976931348623157e+308]
+tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes2]
+  /workspace/scratch/2a0c1e6ddd92/cad-test-deps/numpy/_core/_methods.py:132: RuntimeWarning: overflow encountered in reduce
+    ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+
+tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes0]
+tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes1]
+tests/test_monte_carlo_finite_summary.py::test_unrepresentable_standard_deviation_is_rejected
+tests/test_monte_carlo_finite_summary.py::test_output_order_does_not_change_sample_statistics
+  /workspace/scratch/2a0c1e6ddd92/cad-test-deps/numpy/_core/_methods.py:190: RuntimeWarning: overflow encountered in square
+    x = um.square(x, out=x)
+
+tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes0]
+tests/test_monte_carlo_finite_summary.py::test_unrepresentable_standard_deviation_is_rejected
+  /workspace/scratch/2a0c1e6ddd92/cad-test-deps/numpy/lib/_function_base_impl.py:4608: RuntimeWarning: overflow encountered in scalar subtract
+    diff_b_a = b - a
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[1e+308]
+FAILED tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[-1e+308]
+FAILED tests/test_monte_carlo_finite_summary.py::test_constant_finite_outputs_have_zero_uncertainty[1.7976931348623157e+308]
+FAILED tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes0]
+FAILED tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes1]
+FAILED tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes2]
+FAILED tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes3]
+FAILED tests/test_monte_carlo_finite_summary.py::test_representable_summaries_match_rational_and_decimal_oracles[outcomes4]
+FAILED tests/test_monte_carlo_finite_summary.py::test_unrepresentable_standard_deviation_is_rejected
+FAILED tests/test_monte_carlo_finite_summary.py::test_output_order_does_not_change_sample_statistics
+10 failed, 11 passed, 14 warnings in 0.74s

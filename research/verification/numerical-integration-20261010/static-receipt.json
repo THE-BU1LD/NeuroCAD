@@ -1,0 +1,42 @@
+[
+  {
+    "argv": [
+      "/workspace/scratch/83febceb4d19/wave2/neurocad-venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "core/scientific_kernel.py",
+      "core/engineering_math.py",
+      "core/mesh_geometry.py",
+      "tests/test_linear_integer_admission.py",
+      "tests/test_linear_system_numerics.py",
+      "tests/test_monte_carlo_covariance.py",
+      "tests/test_scientific_kernel_polynomials.py",
+      "tests/test_quadratic_tolerance_numerics.py",
+      "tests/test_mesh_scale_invariance.py"
+    ],
+    "exit_code": 1,
+    "log": "research/verification/numerical-integration-20261010/static-1.log"
+  },
+  {
+    "argv": [
+      "/workspace/scratch/83febceb4d19/wave2/neurocad-venv/bin/python",
+      "-m",
+      "mypy",
+      "core/scientific_kernel.py",
+      "core/engineering_math.py",
+      "core/mesh_geometry.py"
+    ],
+    "exit_code": 0,
+    "log": "research/verification/numerical-integration-20261010/static-2.log"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "research/verification/numerical-integration-20261010/static-3.log"
+  }
+]

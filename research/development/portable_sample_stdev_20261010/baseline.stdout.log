@@ -1,0 +1,226 @@
+FFFF.                                                                    [100%]
+=================================== FAILURES ===================================
+___ test_legacy_variance_then_sqrt_path_cannot_change_public_report[values0] ___
+
+data = [-1e+308, 1e+308, 0.0, 0.0]
+
+    def legacy_stdev(data):
+>       return math.sqrt(statistics.variance(data))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_portable_sample_stdev.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/statistics.py:915: in variance
+    return _convert(ss / (n - 1), T)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/statistics.py:343: in _convert
+    return T(value)
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Fraction(2000000000000000043916254517761821910699368745696925349566048214864162224585528179608375557889919076086393449...0018405292332672790491159199658670287443590395823164277709127039658081547254674369685986001252267744061503718817792, 3)
+
+    def __float__(self):
+        """float(self) = self.numerator / self.denominator
+    
+        It's important that this conversion use the integer's "true"
+        division rather than casting one side to float before dividing
+        so that ratios of huge integers convert without overflowing.
+    
+        """
+>       return int(self.numerator) / int(self.denominator)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       OverflowError: integer division result too large for a float
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/numbers.py:316: OverflowError
+
+The above exception was the direct cause of the following exception:
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f49de237bc0>
+values = [-1e+308, 1e+308, 0.0, 0.0]
+
+    @pytest.mark.parametrize("values", [
+        [-1e308, 1e308, 0.0, 0.0],
+        [0.0, math.ulp(0.0), 2 * math.ulp(0.0)],
+        [0.0, 1e-200, 2e-200],
+        [0.0, 1e-161, 2e-161],
+        [1e308, 1e308, 1e308],
+    ])
+    def test_legacy_variance_then_sqrt_path_cannot_change_public_report(monkeypatch, values):
+        # CPython v3.10.21 Lib/statistics.py::stdev converts variance to the
+        # floating input type before sqrt. Replay that documented public operation
+        # sequence here; this is not execution by an actual Python 3.10 interpreter.
+        def legacy_stdev(data):
+            return math.sqrt(statistics.variance(data))
+    
+        monkeypatch.setattr(kernel.statistics, "stdev", legacy_stdev)
+        outputs = iter(values)
+>       report = kernel.monte_carlo_propagate(
+            lambda _draw: next(outputs), (0.0,), ((1.0,),), samples=len(values), seed=43,
+        )
+
+tests/test_portable_sample_stdev.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+function = <function test_legacy_variance_then_sqrt_path_cannot_change_public_report.<locals>.<lambda> at 0x7f49de256e80>
+mean = (0.0,), covariance = ((1.0,),), samples = 4, seed = 43
+
+    def monte_carlo_propagate(
+        function: Callable[[np.ndarray], float],
+        mean: tuple[float, ...],
+        covariance: tuple[tuple[float, ...], ...],
+        *,
+        samples: int = 10_000,
+        seed: int = 0,
+    ) -> dict[str, Any]:
+        """Reproducibly propagate a correlated normal input through a scalar model.
+    
+        Symmetry and positive-semidefinite tolerances are relative to covariance
+        magnitude, so changing physical units cannot admit an invalid distribution.
+        """
+    
+        count = len(mean)
+        if not 1 <= count <= MAX_VARIABLES:
+            raise ValueError(f"Monte Carlo requires 1 to {MAX_VARIABLES} variables")
+        if isinstance(samples, bool) or not isinstance(samples, int) or not 2 <= samples <= 1_000_000:
+            raise ValueError("samples must be an integer from 2 through 1,000,000")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise TypeError("seed must be an integer")
+        center = np.asarray([_finite(value, f"mean[{index}]") for index, value in enumerate(mean)])
+        matrix = np.asarray(covariance)
+        if matrix.shape != (count, count) or matrix.dtype.kind not in "iuf" or not np.isfinite(matrix).all():
+            raise ValueError(f"covariance must be a finite {count} x {count} numeric matrix")
+        matrix = matrix.astype(float)
+        if not np.isfinite(matrix).all():
+            raise ValueError("covariance exceeds the finite numerical range")
+        covariance_scale = float(np.max(np.abs(matrix)))
+        normalized = matrix / covariance_scale if covariance_scale else matrix
+        if not np.allclose(normalized, normalized.T, rtol=0, atol=1e-12):
+            raise ValueError("covariance must be symmetric")
+        normalized = (normalized + normalized.T) / 2.0
+        if (np.diag(matrix) < 0).any() or float(np.linalg.eigvalsh(normalized).min()) < -1e-12:
+            raise ValueError("covariance must be positive semidefinite")
+        # Retain identical draws for already-symmetric valid inputs. For tolerated
+        # roundoff asymmetry, symmetrize in normalized units to avoid overflow.
+        if not np.array_equal(matrix, matrix.T):
+            matrix = normalized * covariance_scale
+        draws = np.random.default_rng(seed).multivariate_normal(center, matrix, size=samples, check_valid="raise")
+        outcomes = [_finite(function(draw), "Monte Carlo outcome") for draw in draws]
+        # statistics uses exact ratios for the input floats when accumulating the
+        # mean and sample variance. Finite outputs can otherwise overflow an
+        # intermediate sum or square even when their reported statistics are finite.
+        # The distribution, draw order and Bessel correction are unchanged.
+        try:
+            outcome_mean = statistics.mean(outcomes)
+            standard_deviation = statistics.stdev(outcomes)
+            standard_error = standard_deviation / math.sqrt(samples)
+            ordered = sorted(outcomes)
+            quantiles = {}
+            for level in (0.005, 0.025, 0.5, 0.975, 0.995):
+                # Linear interpolation is a convex combination. Computing b-a
+                # first can overflow for opposite finite endpoints. Exact ratios
+                # also retain subnormal endpoints and round only the final value.
+                index = (samples - 1) * Fraction.from_float(level)
+                lower = index.numerator // index.denominator
+                weight = index - lower
+                left = Fraction.from_float(ordered[lower])
+                right = Fraction.from_float(ordered[min(lower + 1, samples - 1)])
+                quantiles[str(level)] = float((1 - weight) * left + weight * right)
+        except (OverflowError, ValueError) as exc:
+>           raise ValueError("sample statistics exceed the finite numerical range") from exc
+E           ValueError: sample statistics exceed the finite numerical range
+
+core/scientific_kernel.py:744: ValueError
+___ test_legacy_variance_then_sqrt_path_cannot_change_public_report[values1] ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f49de26e870>
+values = [0.0, 5e-324, 1e-323]
+
+    @pytest.mark.parametrize("values", [
+        [-1e308, 1e308, 0.0, 0.0],
+        [0.0, math.ulp(0.0), 2 * math.ulp(0.0)],
+        [0.0, 1e-200, 2e-200],
+        [0.0, 1e-161, 2e-161],
+        [1e308, 1e308, 1e308],
+    ])
+    def test_legacy_variance_then_sqrt_path_cannot_change_public_report(monkeypatch, values):
+        # CPython v3.10.21 Lib/statistics.py::stdev converts variance to the
+        # floating input type before sqrt. Replay that documented public operation
+        # sequence here; this is not execution by an actual Python 3.10 interpreter.
+        def legacy_stdev(data):
+            return math.sqrt(statistics.variance(data))
+    
+        monkeypatch.setattr(kernel.statistics, "stdev", legacy_stdev)
+        outputs = iter(values)
+        report = kernel.monte_carlo_propagate(
+            lambda _draw: next(outputs), (0.0,), ((1.0,),), samples=len(values), seed=43,
+        )
+        expected = decimal_sample_sd(values)
+>       assert report["standard_deviation"] == expected
+E       assert 0.0 == 5e-324
+
+tests/test_portable_sample_stdev.py:45: AssertionError
+___ test_legacy_variance_then_sqrt_path_cannot_change_public_report[values2] ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f49de2b8e90>
+values = [0.0, 1e-200, 2e-200]
+
+    @pytest.mark.parametrize("values", [
+        [-1e308, 1e308, 0.0, 0.0],
+        [0.0, math.ulp(0.0), 2 * math.ulp(0.0)],
+        [0.0, 1e-200, 2e-200],
+        [0.0, 1e-161, 2e-161],
+        [1e308, 1e308, 1e308],
+    ])
+    def test_legacy_variance_then_sqrt_path_cannot_change_public_report(monkeypatch, values):
+        # CPython v3.10.21 Lib/statistics.py::stdev converts variance to the
+        # floating input type before sqrt. Replay that documented public operation
+        # sequence here; this is not execution by an actual Python 3.10 interpreter.
+        def legacy_stdev(data):
+            return math.sqrt(statistics.variance(data))
+    
+        monkeypatch.setattr(kernel.statistics, "stdev", legacy_stdev)
+        outputs = iter(values)
+        report = kernel.monte_carlo_propagate(
+            lambda _draw: next(outputs), (0.0,), ((1.0,),), samples=len(values), seed=43,
+        )
+        expected = decimal_sample_sd(values)
+>       assert report["standard_deviation"] == expected
+E       assert 0.0 == 1e-200
+
+tests/test_portable_sample_stdev.py:45: AssertionError
+___ test_legacy_variance_then_sqrt_path_cannot_change_public_report[values3] ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f49de2b9b20>
+values = [0.0, 1e-161, 2e-161]
+
+    @pytest.mark.parametrize("values", [
+        [-1e308, 1e308, 0.0, 0.0],
+        [0.0, math.ulp(0.0), 2 * math.ulp(0.0)],
+        [0.0, 1e-200, 2e-200],
+        [0.0, 1e-161, 2e-161],
+        [1e308, 1e308, 1e308],
+    ])
+    def test_legacy_variance_then_sqrt_path_cannot_change_public_report(monkeypatch, values):
+        # CPython v3.10.21 Lib/statistics.py::stdev converts variance to the
+        # floating input type before sqrt. Replay that documented public operation
+        # sequence here; this is not execution by an actual Python 3.10 interpreter.
+        def legacy_stdev(data):
+            return math.sqrt(statistics.variance(data))
+    
+        monkeypatch.setattr(kernel.statistics, "stdev", legacy_stdev)
+        outputs = iter(values)
+        report = kernel.monte_carlo_propagate(
+            lambda _draw: next(outputs), (0.0,), ((1.0,),), samples=len(values), seed=43,
+        )
+        expected = decimal_sample_sd(values)
+>       assert report["standard_deviation"] == expected
+E       assert 9.940479322862118e-162 == 1e-161
+
+tests/test_portable_sample_stdev.py:45: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_portable_sample_stdev.py::test_legacy_variance_then_sqrt_path_cannot_change_public_report[values0]
+FAILED tests/test_portable_sample_stdev.py::test_legacy_variance_then_sqrt_path_cannot_change_public_report[values1]
+FAILED tests/test_portable_sample_stdev.py::test_legacy_variance_then_sqrt_path_cannot_change_public_report[values2]
+FAILED tests/test_portable_sample_stdev.py::test_legacy_variance_then_sqrt_path_cannot_change_public_report[values3]
+4 failed, 1 passed, 25 deselected in 1.25s

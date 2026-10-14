@@ -1,0 +1,29 @@
+{
+  "schema": "bounded-corrective-engineering-contract-v1",
+  "recorded_utc": "2026-10-10T10:29:29.193834+00:00",
+  "parent_commit": "a7d3c2e6176f61714bebf523033508a38a9323d5",
+  "status": "SPECIFIED_BEFORE_IMPLEMENTATION_OR_EXECUTION",
+  "closed_predecessor": "research/development/finite_monte_carlo_20261010/closure.json",
+  "reason": "Final source review found that project-supported CPython3.10 stdev converts sample variance to float before sqrt. The published63-case gate ran Python3.12 and cannot establish that path. Preserve every prior test/demo/source identity.",
+  "question": "Can a portable integer-ratio implementation correctly round the Bessel-corrected sample standard deviation without intermediate floating-point variance on every supported Python version?",
+  "mechanism": "Use the common power-of-two denominator of finite binary64 outcomes to compute integer variance numerator n*sum(x_i^2)-sum(x_i)^2 and denominator n*(n-1)*D^2. Find the square-root exponent by integer comparisons, quantize on the binary64 normal/subnormal grid with integer sqrt, compare to the exact squared half-grid midpoint, and round ties to even before math.ldexp. Preserve the mean, quantile, sample generator and report schema.",
+  "falsifier": "A finite representable sample SD disagrees with independent Decimal/Fraction or exact halfway oracles; an out-of-range SD is accepted; sample draws or original report schema change.",
+  "source": "core/scientific_kernel.py only for new private SD/sqrt helpers and the existing summary call",
+  "verification": "Replay the documented Python3.10 variance-then-sqrt path under the available Python3.12 interpreter, preserving baseline failures. Add midpoint/normal/subnormal/exponent oracles and rerun the previously selected63-case cohort with the new tests. This is not an actual Python3.10 interpreter execution.",
+  "budget": {
+    "maximum_test_commands": 3,
+    "maximum_total_test_wall_seconds": 90,
+    "maximum_new_cases": 32,
+    "maximum_samples_per_case": 32,
+    "maximum_review_repairs": 1,
+    "maximum_lint_commands": 1,
+    "maximum_retained_demo_commands": 0,
+    "numeric_threads": 1,
+    "training_runs": 0,
+    "protected_outcomes": 0,
+    "paid_compute": 0,
+    "scientific_runs": 0
+  },
+  "history_rule": "This is a new separately closed portability correction; do not reopen or relabel the prior63-pass gate/demo. Final publication may append a commit to the existing draft, retaining both source identities.",
+  "qualification": "Binary64 arithmetic proof/engineering fixtures, not empirical uncertainty coverage, physical safety or scientific completion. Hosted full-version/platform verification remains a release gate."
+}
