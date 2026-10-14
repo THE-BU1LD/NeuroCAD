@@ -1,0 +1,161 @@
+{
+  "features": [
+    {
+      "id": "wall_section",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              0.0,
+              0.0
+            ],
+            "height": 30.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 40.0
+          },
+          {
+            "center": [
+              0.0,
+              0.0
+            ],
+            "height": 26.0,
+            "kind": "rectangle",
+            "operation": "subtract",
+            "width": 36.0
+          }
+        ],
+        "plane": "XY"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "walls",
+      "inputs": [
+        "wall_section"
+      ],
+      "kind": "extrude",
+      "parameters": {
+        "distance": 10.0,
+        "operation": "new"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "floor",
+      "inputs": [],
+      "kind": "primitive_box",
+      "parameters": {
+        "size": [
+          40.0,
+          30.0,
+          4.0
+        ]
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "housing",
+      "inputs": [
+        "floor",
+        "walls"
+      ],
+      "kind": "boolean_union",
+      "parameters": {},
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "port_profile",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              0.0,
+              6.0
+            ],
+            "height": 4.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 8.0
+          }
+        ],
+        "plane": "XZ"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "port_tool",
+      "inputs": [
+        "port_profile"
+      ],
+      "kind": "extrude",
+      "parameters": {
+        "distance": 30.0,
+        "operation": "new"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "chamfered_port",
+      "inputs": [
+        "port_tool"
+      ],
+      "kind": "chamfer",
+      "parameters": {
+        "distance": 1.0
+      },
+      "role": "",
+      "selectors": [
+        {
+          "entity": "edge",
+          "generated_by": "port_tool",
+          "predicates": [
+            {
+              "axis": [
+                0.0,
+                1.0,
+                0.0
+              ],
+              "kind": "parallel_to"
+            }
+          ],
+          "role": "depth_edges",
+          "unique": false
+        }
+      ]
+    },
+    {
+      "id": "enclosure",
+      "inputs": [
+        "housing",
+        "chamfered_port"
+      ],
+      "kind": "boolean_cut",
+      "parameters": {},
+      "role": "",
+      "selectors": []
+    }
+  ],
+  "metadata": {
+    "engineering_control": "enclosure"
+  },
+  "outputs": [
+    "enclosure"
+  ],
+  "parameters": [],
+  "title": "enclosure",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}

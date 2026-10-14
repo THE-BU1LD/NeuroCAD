@@ -119,6 +119,10 @@ def verify(output: Path) -> dict:
         "claim_boundary": "Authored software controls only; no physical, independent-human or solver validation.",
     }
     try:
+        protected = json.loads((ROOT / "research/physics_v3/validation_v5/freeze.json").read_text(encoding="utf-8"))["protected"]
+        check(all(file_hash(ROOT / name) == digest for name, digest in protected.items()),
+              "protected historical evidence changed")
+        summary["protected_sha256"] = protected
         summary["environment"].update({name: version(name) for name in
                                        ("build123d", "cadquery-ocp-novtk", "gmsh", "numpy")})
         backend = Build123dBackend()
@@ -163,6 +167,8 @@ def verify(output: Path) -> dict:
             check(math.isclose(first["measurement"]["volume_mm3"], second["measurement"]["volume_mm3"], rel_tol=1e-12),
                   "repeat independent mesh volume changed")
         check(summary["source_sha256"] == {name: file_hash(ROOT / name) for name in sources}, "source changed during run")
+        check(all(file_hash(ROOT / name) == digest for name, digest in protected.items()),
+              "protected historical evidence changed during run")
         summary["status"] = "PASS"
     except BaseException as exc:
         summary["status"] = "FAIL"

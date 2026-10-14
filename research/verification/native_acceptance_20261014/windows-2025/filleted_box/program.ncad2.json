@@ -1,0 +1,57 @@
+{
+  "features": [
+    {
+      "id": "box",
+      "inputs": [],
+      "kind": "primitive_box",
+      "parameters": {
+        "size": [
+          20.0,
+          12.0,
+          6.0
+        ]
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "rounded",
+      "inputs": [
+        "box"
+      ],
+      "kind": "fillet",
+      "parameters": {
+        "radius": 1.0
+      },
+      "role": "",
+      "selectors": [
+        {
+          "entity": "edge",
+          "generated_by": "box",
+          "predicates": [
+            {
+              "axis": [
+                0.0,
+                0.0,
+                1.0
+              ],
+              "kind": "parallel_to"
+            }
+          ],
+          "role": "depth_edges",
+          "unique": false
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "engineering_control": "filleted_box"
+  },
+  "outputs": [
+    "rounded"
+  ],
+  "parameters": [],
+  "title": "filleted_box",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}
