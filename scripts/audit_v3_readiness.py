@@ -53,7 +53,7 @@ def audit(root, manifest):
             source_matches = False
             source_errors.append(f"{name}: {exc}")
     if source.get("production_globs"):
-        observed = {str(path.relative_to(root)) for pattern in source["production_globs"]
+        observed = {path.relative_to(root).as_posix() for pattern in source["production_globs"]
                     for path in root.glob(pattern) if path.is_file()}
         expected = set(source.get("files", {}))
         if observed != expected:

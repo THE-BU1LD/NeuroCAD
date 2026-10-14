@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "unit_tests": 13,
+  "stdout": "",
+  "stderr": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.253s\n\nOK\n",
+  "correction": "Canonical POSIX inventory keys on Windows; full initial failure retained; no threshold changes",
+  "source_files": {
+    "scripts/audit_v3_readiness.py": "4475b5a1e71a349328e883081a50ec3977b886c001be87b67e623f5286c4529a",
+    "tests/test_v3_readiness_audit.py": "0ccdacf378ff9dd79aa6d8016b1b0758807a8385b8d756e45e28f5136bbf4ebb"
+  }
+}

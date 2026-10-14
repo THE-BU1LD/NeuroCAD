@@ -55,7 +55,7 @@ Completed means the stated bounded acceptance criterion has retained evidence. B
 
 - [x] **V15 — Make checklist claims executable** (DONE)
   Acceptance: 13 fault-injection/CLI tests pass; evidence hashes and JSON values are checked; incomplete work and source drift cannot pass the completion gate.
-  Evidence: `docs/verification/readiness-20261014/implementation.json` (SHA-256 `7d88aecca4fb6c6abd5dfa5469e3574aed799f1dea0ba49e87ede5b6a0c6e540`).
+  Evidence: `docs/verification/readiness-20261014/implementation-v2.json` (SHA-256 `eaf5f3d1a1682a92eb1892d63fd45635636f7badee1fbec907aa270b3cf0ff51`).
 
 - [ ] **V13 — Complete expanded native platform acceptance** (IN_PROGRESS)
   Acceptance: Exact-CAD goldens and tagged beam/plate/enclosure meshes pass on Linux, macOS and Windows; final source and preservation checks merge.
