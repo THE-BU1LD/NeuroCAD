@@ -24,6 +24,7 @@ Merged PR: https://github.com/THE-BU1LD/NeuroCAD/pull/103
 - `main-ci.json`: run 38495962707, PASS at released SHA.
 - `release-ci.json`: run 38498546483, all five jobs PASS.
 - `anonymous-install.json`: PASS including default tagged-source path.
+- Post-lock anonymous recheck also passed: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38501125026.
 - `enclosure-acceptance.json`: installed compiled-mesh commands and results.
 - `published/RELEASE_PROVENANCE.json`, `published/SHA256SUMS`, `published/release.json` (initial publication).
 - `published/immutable-release.json`, `published/attestation-verification.txt` (final locked state).
