@@ -84,7 +84,16 @@ def cantilever_beam(request: CantileverBeamInput) -> dict[str, Any]:
     fixed_moment = force * length + distributed * length**2 / 2.0
     slope = force * length**2 / (2.0 * modulus * inertia) + distributed * length**3 / (6.0 * modulus * inertia)
     deflection = force * length**3 / (3.0 * modulus * inertia) + distributed * length**4 / (8.0 * modulus * inertia)
-    stress = None if section_modulus is None else abs(fixed_moment) / section_modulus
+    # With signed opposing loads, the root moment need not be the maximum.
+    # For distance z from the free end, M(z) = F*z + w*z**2/2.
+    # Check its endpoints and its only possible interior stationary point.
+    maximum_moment = abs(fixed_moment)
+    if distributed != 0.0:
+        stationary = -force / distributed
+        if 0.0 < stationary < length:
+            interior_moment = force * stationary / 2.0
+            maximum_moment = max(maximum_moment, abs(interior_moment))
+    stress = None if section_modulus is None else maximum_moment / section_modulus
     utilization = None
     passes = None
     if stress is not None and yield_strength is not None:

@@ -119,3 +119,12 @@ Installed workflow acceptance passed 15/15, four shapes compiled, and regression
 passed 1,230 tests with 9 skips. The overall gate remains FAIL. Protected v2,
 release and paper files are unchanged; physical, independent and user validation
 remain open. See [the retained report](docs/verification/physics-v3-20261014/REPORT.md).
+
+## Corrected Physics v3 conformance successor
+
+The separately frozen validation_v2 successor corrects opposing-load maximum
+beam stress by considering interior moment extrema. All 37 source scalar cases
+pass. Prior v1 outcomes are known and retained: this is regression conformance,
+not blinded confirmation. Hosted installed/mesh/regression verification is
+pending. External validation tooling is prepared; no physical, independent or
+human evidence has been collected.

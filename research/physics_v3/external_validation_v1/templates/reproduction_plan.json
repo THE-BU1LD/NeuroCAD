@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "study_id": null,
+  "kind": "reproduction",
+  "capability": null,
+  "applicability_envelope": null,
+  "exclusions": null,
+  "release_sha256": null,
+  "source_commit": null,
+  "operator_id": null,
+  "reference_provenance": null,
+  "stop_rule": "Retain every attempted case. No post-outcome changes to cases, inputs, references or tolerances.",
+  "outcomes_observed": false,
+  "frozen_artifacts": [],
+  "cases": [
+    {
+      "id": "replace-with-predeclared-case-id",
+      "procedure": null,
+      "required_artifacts": [
+        "environment",
+        "installation",
+        "commands",
+        "raw_results",
+        "discrepancies",
+        "independence"
+      ]
+    }
+  ],
+  "implementer_ids": []
+}

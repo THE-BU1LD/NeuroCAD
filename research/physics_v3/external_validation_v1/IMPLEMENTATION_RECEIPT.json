@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-14T10:10:18.645695+00:00",
+  "status": "PREPARATION_IMPLEMENTED_EXTERNAL_EVIDENCE_ABSENT",
+  "source_head": "48cccef2c4904821210c22d6aa06a5a21b779357",
+  "integrity_tests": {
+    "passed": 11,
+    "failed": 0,
+    "scope": "synthetic standard-library auditor tests, not external evidence"
+  },
+  "ruff": "PASS",
+  "format": "PASS",
+  "protected_inventory": {
+    "status": "UNCHANGED",
+    "files": 43
+  },
+  "physical_validation": "NOT_EXECUTED",
+  "independent_reproduction": "NOT_EXECUTED",
+  "usability": "NOT_EXECUTED",
+  "installed_workflow_validation": "OWNED_BY_CONCURRENT_VALIDATION_SESSION_RESOURCE_BLOCKED",
+  "observed_conformance_receipt": "docs/verification/physics-v3-20261014/source-scalar-01/receipt.json",
+  "observed_conformance_result": "31 PASS, 1 FAIL; opposing-load beam maximum stress; not executed by this session",
+  "ci": "WORKFLOW_PREPARED_NOT_RUN",
+  "next_actions": [
+    "Resolve opposing-load beam defect in separately frozen successor owned by calculation-validation session.",
+    "Execute installed workflow suite on admitted resources.",
+    "Supply real apparatus, calibration, independent executor and intended users; fill and freeze external plans before collection.",
+    "Collect and audit external evidence, then obtain named reviewer decision."
+  ]
+}

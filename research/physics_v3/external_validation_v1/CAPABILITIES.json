@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-14T10:08:35.241227+00:00",
+  "scope": "Routing inventory; no external gate is advanced by source presence.",
+  "capabilities": [
+    {
+      "capability": "cantilever_beam",
+      "implementation": "core/physics_advanced.py",
+      "calculation_evidence": "CONCURRENT_V3_CONFORMANCE_SUITE_SEE_VALIDATION_V1",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "circular_shaft_torsion",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "combined_stress",
+      "implementation": "core/physics_advanced.py",
+      "calculation_evidence": "CONCURRENT_V3_CONFORMANCE_SUITE_SEE_VALIDATION_V1",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "electro_thermal_wire",
+      "implementation": "core/physics_advanced.py",
+      "calculation_evidence": "CONCURRENT_V3_CONFORMANCE_SUITE_SEE_VALIDATION_V1",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "euler_buckling",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "forced_vibration",
+      "implementation": "core/physics_advanced.py",
+      "calculation_evidence": "CONCURRENT_V3_CONFORMANCE_SUITE_SEE_VALIDATION_V1",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "hydrostatic_buoyancy",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "ideal_brayton_cycle",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "internal_pipe_flow",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "lumped_thermal_transient",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "pipe_network",
+      "implementation": "core/physics_advanced.py",
+      "calculation_evidence": "CONCURRENT_V3_CONFORMANCE_SUITE_SEE_VALIDATION_V1",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "radiative_exchange",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "spring_mass_damper",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "steady_conduction",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "steady_convection",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "thermal_expansion",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "thermal_network",
+      "implementation": "core/physics_advanced.py",
+      "calculation_evidence": "CONCURRENT_V3_CONFORMANCE_SUITE_SEE_VALIDATION_V1",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "thin_wall_cylinder",
+      "implementation": "core/physics.py",
+      "calculation_evidence": "INHERITED_V2_CONTRACT_ONLY_NO_NEW_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "hollow_shaft",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "i_beam",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "l_bracket",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "perforated_plate",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "material_temperature_interpolation",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "load_combinations",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "geometry_binding",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "interval_corners",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "monte_carlo",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "local_sensitivity",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "scalar_overlay",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    },
+    {
+      "capability": "stale_result_detection",
+      "calculation_evidence": "ENGINEERING_TESTS_ONLY_PENDING_SEPARATE_VALIDATION",
+      "installed_workflow_evidence": "REQUIRES_CAPABILITY_SPECIFIC_RECEIPT",
+      "physical_validation": "NOT_EVALUATED",
+      "independent_reproduction": "NOT_EVALUATED",
+      "usability": "NOT_EVALUATED"
+    }
+  ]
+}
