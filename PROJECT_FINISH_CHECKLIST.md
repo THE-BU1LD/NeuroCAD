@@ -1,6 +1,10 @@
-Current evidence-backed status: [advanced engineering checklist](docs/V3_READINESS_CHECKLIST.md).
-The dated records below retain their original test counts; the current checklist distinguishes
-completed engineering, concurrent native work, release dependencies and external blockers.
+# Current engineering checklist
+
+See the [evidence-backed advanced engineering checklist](docs/V3_READINESS_CHECKLIST.md).
+The v5 corrections merged in PR109, and expanded native platform acceptance merged
+in PR110 at 0bef391. Their passing receipts remain separate from physical,
+independent and intended-user outcomes. Published v0.5.0a6 is unchanged.
+
 
 # NeuroCAD current completion checklist
 
@@ -18,7 +22,7 @@ The earlier mixed CAD/portal record is preserved verbatim in
 - [x] Enable verified main protection and reconcile six completed GitHub issues.
 - [x] Complete the 157-entry pinned historical source inventory.
 - [x] Add 42 analytical reference cases spanning all four composite families in declared sampled envelopes.
-- [ ] Complete separately scoped native shape/platform coverage.
+- [x] Complete declared native shape/platform coverage (PR110, three platform jobs and exact-main CI pass).
 - [x] Complete review/merge of the integrated candidate (PR109, exact-main 079902f); this is not a new public release.
 - [ ] Collect actual physical measurements with calibration and uncertainty records.
 - [ ] Obtain independent reproduction and discrepancy review.

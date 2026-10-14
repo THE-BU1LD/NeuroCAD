@@ -1,0 +1,64 @@
+{
+  "id": "result_timing_v2_20261014",
+  "at": "2026-10-14T13:32:48.149797+00:00",
+  "kind": "Observed metadata defect; source-only repair, no experiment rerun",
+  "origin_commit": "508ec404dd520ae16f2b4d3cf211d5b1fa46b800",
+  "origin_run": "NC-REPRO-508EC40",
+  "original_manifest_sha256": "fbb44932db9aeb9fa89003acaeef8ee0a26ad7c7a1184812ed002d0583bdea7b",
+  "original_deterministic_sha256": "e1730c06a6b3f818111eda4097f49c76c9b7aaad83f6a1e6ed7fe3dd63ea7dfa",
+  "retained_timing_fields": [
+    {
+      "path": "$.results.experiments.NC-EXP-005.mean_edit_validate_export_ms",
+      "value": 1.3141141399955814
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[0].validate_export_ms",
+      "value": 0.07787499998812564
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[1].validate_export_ms",
+      "value": 0.1572499995745602
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[2].validate_export_ms",
+      "value": 0.27604099977907026
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[3].validate_export_ms",
+      "value": 1.0869580000871792
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[4].validate_export_ms",
+      "value": 1.1660420004773187
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[5].validate_export_ms",
+      "value": 2.672792000339541
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[6].validate_export_ms",
+      "value": 7.018125000286091
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[7].validate_export_ms",
+      "value": 36.307458999544906
+    },
+    {
+      "path": "$.results.experiments.NC-EXP-007.rows[8].validate_export_ms",
+      "value": 3.6267079995013773
+    }
+  ],
+  "predetermined_repair": "Classify the two explicit elapsed-millisecond keys as runtime metadata; new deterministic result format v2, retain all outcome fields. Never rewrite historical runs.",
+  "verification": [
+    "Change timing only and prove v2 deterministic JSON identical; runtime receipt captures both fields.",
+    "Change correctness and prove v2 deterministic JSON changes.",
+    "Read-only historical manifest artifact-hash verification."
+  ],
+  "budget": {
+    "new_scientific_runs": 0,
+    "protected_outcomes": 0,
+    "local_pure_regression_commands": 3,
+    "hosted_checks": "Use remaining current maintenance integration budget; no extra native reruns beyond declared cap."
+  },
+  "claim_impact": "v1 digest is an artifact snapshot identity, not a timing-independent replay target; historical numerical outcomes and timing observations remain retained."
+}

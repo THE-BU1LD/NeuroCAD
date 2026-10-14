@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-14T13:25:08.288637+00:00",
+  "tests": {
+    "initial_scope": "112 passed in 6.19s",
+    "additional_role_admission": "21 passed in 0.13s (13 overlap initial scope); 120 distinct cases"
+  },
+  "failures_retained": [
+    "System Python lacks pytest/Ruff; historical .audit-venv path absent. Used existing .venv; no install.",
+    "First Ruff found non-executable script and later import ordering; corrected.",
+    "First MyPy found missing explicit heterogeneous roles mapping type; corrected."
+  ],
+  "native_execution": "NOT_RUN_LOCALLY_RESOURCE_BLOCKED",
+  "source_sha256": {
+    "core/mesh_roles.py": "263abfd72eab1de61e7eafb66999c11378060eb7bd76a3dffd7c8ec5e8947808",
+    "core/gmsh_backend.py": "a54e541c7567c3381e14b566b4d7bf9d83aa577014d9dd6044050c7e30d789a5",
+    "core/gmsh_process.py": "75994f50913e53aa041628e7b708378ec70f7324271cd9bf064729d7edf41f75",
+    "core/mesh_cli.py": "aa40b0ee3a7aef47e31b764315fa25491b6c302ed5b048d891f3a94da7acc01a",
+    "scripts/verify_native_acceptance.py": "e57e415afc49581051f05703133768624ac71eba8d030a46fa0e026a76e70221",
+    "tests/test_mesh_roles.py": "7f7ba50009e041afcf894325a61c22b17ad97f34f310830baa7c75ea06775983",
+    "tests/test_native_acceptance.py": "ec1f724ed87a6b4bc3800029f30f1f930140715955d6222fc6543a5e188554b4",
+    ".github/workflows/native-acceptance.yml": "a86e5c7f57c93a5c2e8e1a178441978682a61a9ab141687b03a60a3bffd6273c",
+    "docs/NATIVE_ACCEPTANCE.md": "2bf8fdfaeb233cd1db359765347d6dec0efd8e227859d7772f1c64021d425c96"
+  }
+}

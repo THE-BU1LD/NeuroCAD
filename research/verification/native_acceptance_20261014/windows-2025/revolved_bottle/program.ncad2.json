@@ -1,0 +1,65 @@
+{
+  "features": [
+    {
+      "id": "profile",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              7.5,
+              0.0
+            ],
+            "height": 20.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 15.0
+          },
+          {
+            "center": [
+              3.0,
+              14.0
+            ],
+            "height": 8.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 6.0
+          }
+        ],
+        "plane": "XY"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "bottle",
+      "inputs": [
+        "profile"
+      ],
+      "kind": "revolve",
+      "parameters": {
+        "angle_deg": 360.0,
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "operation": "new"
+      },
+      "role": "",
+      "selectors": []
+    }
+  ],
+  "metadata": {
+    "engineering_control": "revolved_bottle"
+  },
+  "outputs": [
+    "bottle"
+  ],
+  "parameters": [],
+  "title": "revolved_bottle",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}

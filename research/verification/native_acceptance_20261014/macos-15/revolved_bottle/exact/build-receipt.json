@@ -1,0 +1,40 @@
+{
+  "backend": "build123d",
+  "backend_version": "0.13.0",
+  "bindings_path": null,
+  "bindings_sha256": null,
+  "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+  "feature_ir_sha256": "b15578f6228a93db1ef86e27aaa2ac9228515539802ededbbca53adffbf683ed",
+  "inspection": {
+    "extents_mm": [
+      30.0,
+      28.0,
+      30.0
+    ],
+    "manifold": true,
+    "solid_count": 1,
+    "valid_brep": true,
+    "volume_mm3": 15041.94562538793
+  },
+  "kernel_version": "8.0.1.1.0",
+  "output_feature": "bottle",
+  "receipt_version": "neurocad-build123d-receipt-v1",
+  "requirements_path": null,
+  "requirements_satisfied": null,
+  "requirements_sha256": null,
+  "requirements_verification_path": null,
+  "requirements_verification_sha256": null,
+  "roundtrip_inspection": {
+    "extents_mm": [
+      30.0,
+      28.0,
+      30.0
+    ],
+    "manifold": true,
+    "solid_count": 1,
+    "valid_brep": true,
+    "volume_mm3": 15041.945625387772
+  },
+  "step_path": "design.step",
+  "step_sha256": "8348c579b4352c2c6ffec1184865109cbe9c40d1997b3a46ca151fff91bb954f"
+}

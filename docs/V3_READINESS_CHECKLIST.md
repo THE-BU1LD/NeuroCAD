@@ -1,7 +1,7 @@
 # Advanced engineering completion checklist
 
 Evidence audit: **PASS**. Overall completion: **False**.
-Verified source: `079902fa20d22c2cf102104b0f42b28bec8bc382`. Current source matches: **True**.
+Verified source: `0bef391d210b8df1c871f5f250cf011012728e64`. Current source matches: **True**.
 
 Completed means the stated bounded acceptance criterion has retained evidence. Blocked and concurrent work remain open; software results do not close external gates.
 
@@ -38,8 +38,8 @@ Completed means the stated bounded acceptance criterion has retained evidence. B
   Evidence: `docs/verification/composite-final-20261014/SUMMARY.json` (SHA-256 `5db41b0bdc67a92f5bfad4e43b776192df4a8481006a89fb7d0b1210da5c803a`).
 
 - [x] **V09 — Verify portable product and browser matrix** (DONE)
-  Acceptance: The ten required jobs succeeded on exact merged commit 079902fa20d22c2cf102104b0f42b28bec8bc382.
-  Evidence: `docs/verification/composite-final-20261014/main-run.json` (SHA-256 `53919897f401c5493c8010896766e872e6022e5d19bf525346f1692ad587570c`).
+  Acceptance: Required product and browser jobs succeeded on exact merged native commit 0bef391d210b8df1c871f5f250cf011012728e64.
+  Evidence: `docs/verification/readiness-20261014/native-main-ci.json` (SHA-256 `6e78fa435346fed5e5f17affb7298ba12d42e715b0fa086b8aa97186776db77c`).
 
 - [x] **V10 — Pass native integration baseline** (DONE)
   Acceptance: 106 exact CAD tests, 174 native checks; bounded authored fixtures only.
@@ -57,15 +57,14 @@ Completed means the stated bounded acceptance criterion has retained evidence. B
   Acceptance: 13 fault-injection/CLI tests pass; evidence hashes and JSON values are checked; incomplete work and source drift cannot pass the completion gate.
   Evidence: `docs/verification/readiness-20261014/implementation-v2.json` (SHA-256 `eaf5f3d1a1682a92eb1892d63fd45635636f7badee1fbec907aa270b3cf0ff51`).
 
-- [ ] **V13 — Complete expanded native platform acceptance** (IN_PROGRESS)
-  Acceptance: Exact-CAD goldens and tagged beam/plate/enclosure meshes pass on Linux, macOS and Windows; final source and preservation checks merge.
-  Blocker/current state: Active PR110 has a failing Windows native acceptance job at c2776fa; its product matrix passed. The owning worktree has a workflow repair in progress.
-  Next action: Finish the active native session and import its exact final receipts; do not edit its worktree concurrently.
+- [x] **V13 — Complete expanded native platform acceptance** (DONE)
+  Acceptance: PR110 merged; declared native goldens, repeated tagged meshes, interoperability and product jobs passed, including Linux, macOS and Windows.
+  Evidence: `docs/verification/readiness-20261014/native-final-checks.json` (SHA-256 `f0f90a3e90acfe70becfe7d4a6b3ec87ee49c5a26ab157c6bfde670cb54bd347`).
 
 - [ ] **V14 — Ship a corrected immutable release** (BLOCKED)
   Acceptance: New reviewed tag, wheel/sdist checksums, provenance and anonymous installation receipts include the fixes.
-  Blocker/current state: Final native source is still being finalized; the old immutable alpha cannot be replaced.
-  Next action: After final candidate checks and merge, version and publish a new alpha, then verify both public installation paths.
+  Blocker/current state: No new public release is authorized by this implementation-only checklist. The existing immutable alpha remains v0.5.0a6; the corrected source is verified on main.
+  Next action: Choose and authorize a separate new prerelease publication; then bump its version, pass the release workflow and retain anonymous-install receipts. Do not overwrite v0.5.0a6.
 
 - [ ] **E01 — Measure physical accuracy** (BLOCKED)
   Acceptance: Predeclared predicted-versus-measured limits pass with calibration and uncertainty records.

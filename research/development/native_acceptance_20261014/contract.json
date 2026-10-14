@@ -1,0 +1,58 @@
+{
+  "id": "native_acceptance_20261014",
+  "status": "PRE_EXECUTION",
+  "started_at": "2026-10-14T13:18:08.881397+00:00",
+  "base_commit": "052dc8cffb829ac7830b3a11173f867c6e6cd021",
+  "scope": "Issues 64 and 65: five explicit exact-CAD goldens and plate/enclosure/beam tagged repeatable native meshes on Linux/macOS/Windows. New bounded geometric semantic groups.",
+  "cases": [
+    "rectangular sketch/extrude beam",
+    "four holes constructed by two linear patterns",
+    "revolved stepped bottle-like solid",
+    "vertical-edge filleted box",
+    "open enclosure with chamfered front-wall cutout"
+  ],
+  "acceptance": {
+    "valid_brep": true,
+    "manifold": true,
+    "solid_count": 1,
+    "extents_absolute_tolerance_mm": 1e-06,
+    "analytic_volume_relative_tolerance": 1e-08,
+    "analytic_volume_absolute_tolerance_mm3": 1e-07,
+    "mesh_relative_volume_tolerance": {
+      "beam": 1e-08,
+      "patterned_plate": 0.025,
+      "enclosure": 1e-08
+    },
+    "repeat": "Identical source and deterministic pinned configuration: node/element/group counts and independent mesh volume equivalent; no cross-platform bitwise claim.",
+    "negative_cases": [
+      "empty/ambiguous semantic selector",
+      "missing optional dependency",
+      "raw indices",
+      "invalid STEP",
+      "surface-only STEP",
+      "wrong role source hash",
+      "missing requested role"
+    ]
+  },
+  "budget": {
+    "hosted_attempts_per_workflow": 5,
+    "local_native_runs": 0,
+    "scientific_runs": 0,
+    "paid_provider_calls": 0,
+    "protected_outcomes": 0,
+    "inherited_seeded_regression_samples": 40000
+  },
+  "preservation": "All prior frozen protocols, recorded outcomes and closed budgets retained. This is a separate engineering acceptance successor, not physical/independent validation.",
+  "local_resource_admission": {
+    "free_plus_speculative_mib": [
+      112.71875,
+      92.15625
+    ],
+    "pageouts": [
+      301707,
+      301956
+    ],
+    "floor_mib": 512,
+    "status": "BLOCKED_NATIVE_LOCAL"
+  }
+}

@@ -3,7 +3,7 @@
   "date": "2026-10-14",
   "scope": "Advanced engineering readiness; separately proposed product expansion is excluded",
   "verified_source": {
-    "commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+    "commit": "0bef391d210b8df1c871f5f250cf011012728e64",
     "production_globs": [
       "core/**/*.py",
       "core/schemas/*.json",
@@ -31,15 +31,15 @@
       "core/enclosure_verification.py": "40d0d5d07f8a8af4bc88c9ea147bfc79f1a5076618238f786379861b55e60ec7",
       "core/engineering_math.py": "c8c6755ee90fdc1a6bd72821ee11e27743d4c2b440c315a0c09123c0ed95a5a6",
       "core/exact_backend.py": "3be69a7621943c91728adbe191947c92f8e6e608e75f59d849051baa632389c1",
-      "core/exact_build123d.py": "4cd9d7fe75364d5fbd2858943eedbc4fbf9b24f27f6b40c2d887b006de9bde11",
+      "core/exact_build123d.py": "67a8ced4efe53ee967c58f433cd9903807687bf88eb0b6b1ea469968b1c1d49b",
       "core/external_evaluation.py": "b775a3a40ef3cb947e24998fe8af29574b41075d1607166038dd2fd594ad08c8",
       "core/feature_ir.py": "e5397f0249ef50d928ec3fc83f581f37ffd93470245ef47ebeeaf32dd3a62ef9",
       "core/fit_sample.py": "1f701eb3199fe2c783d8e5bea16eb3c819874f31fea026dd714549ac2fbf5819",
       "core/generation.py": "926955be2c3a94e06f18a40e0c741122a8d49015b52e1f8c08fb641cabe64a01",
       "core/geometry.py": "4ae4ad2285065a0e2918e4e82a405b751c4552f112b742305e748b29d4402402",
-      "core/gmsh_backend.py": "dcec28dd50bdcbf5228d3e6253259328d5bb94f272da2f520e4f5da368dbbd50",
+      "core/gmsh_backend.py": "a54e541c7567c3381e14b566b4d7bf9d83aa577014d9dd6044050c7e30d789a5",
       "core/gmsh_integrity.py": "d21c7fc3a1f0151ea5cdae7834fae7ef61c1bccc573b4d386fb176ca808dadb6",
-      "core/gmsh_process.py": "0ed79fa025ab0802040e371310ca70733ce3809d7d53d405424eabdc2cac5bf7",
+      "core/gmsh_process.py": "f807bf99b94825e0c18c6cf50e52d73f08b48367998b2991858327e798b36fe3",
       "core/integrations/__init__.py": "7d312269d18abbc6ae72d0c7abad96ba557c2fa4675ae1399c4beb45d1355135",
       "core/integrations/common.py": "071ace348292c3f82a18b78dafcc5f6e212c1ffbfef941d73d5e11ab337a9c90",
       "core/integrations/exchange.py": "1215c98e78f847c608200ac5d28337ae6d926019e02f203db4a055fc947d22d8",
@@ -56,9 +56,10 @@
       "core/language_evaluation.py": "6526cb1016711e0dfc4899f72c932901c6fd9204f5ad8b770f756200b16e9501",
       "core/language_provider.py": "ee67fa013568ed4b088fb7f5b383c047766aa1c679365dbaefb8ccd357f8524d",
       "core/manufacturing.py": "ca5a89e6e1944adc1e173f6f9796417236f19cd8f999298aa6d2e5de716d3a3c",
-      "core/mesh_cli.py": "ee19923bbb261d44bfc8cc4168a26c0301ddb7896313b0358474c5a0aa46b628",
+      "core/mesh_cli.py": "aa40b0ee3a7aef47e31b764315fa25491b6c302ed5b048d891f3a94da7acc01a",
       "core/mesh_geometry.py": "647a302aecf4cc0e08e6a2bfe25251a561be6ad06e44af51f6382e78c54e1e23",
       "core/mesh_preview.py": "b59936a8b3571fdc3634717813831df5985d9365bb8b33f764be99ebeee5a9d6",
+      "core/mesh_roles.py": "263abfd72eab1de61e7eafb66999c11378060eb7bd76a3dffd7c8ec5e8947808",
       "core/natural_language.py": "bb6a15869f7195a9793d7be8f13a5761fb993cd1b4d7b663b4cc334285516748",
       "core/performance.py": "8f2e5c8da6499bac6aaefc19cbc7114bba2fb378597051e14ae1d92104d4661b",
       "core/physics.py": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
@@ -74,7 +75,7 @@
       "core/prompt_frontend.py": "177f53ab4d924bc1840061941a8325134eceb142615e64a1f5de83e87a0a6b8f",
       "core/requirement_ir.py": "eba89b8d9ad0ead8f3a89ace2f7eb3ff827c76cf62a2c845ffd69e040bd972d8",
       "core/requirement_verification.py": "17b50f3d3097d087241e63265d6c9f3ef0940805095b8a214a17becbc04e6135",
-      "core/research_suite.py": "6d0d09f0908ff27d027542ea21e32077d50985baa1fa0dbcd8571f97361b9269",
+      "core/research_suite.py": "f92703d2d6025ab229a4e6e8490a44c13652c6ae3c9f36d63a482fb485d29b9a",
       "core/scad_export.py": "2a05049385d66111d063a300fdecaca04b19c2db4c673fd343ef94a9dfef4bff",
       "core/schemas/neurocad_ir_v1.schema.json": "6c36241e97f55adeefee2af8d3827e68bde932d9742312131db9c245cb9a3f7c",
       "core/scientific_kernel.py": "4f4896f7d93413c84174de4d8eeb03ecfef925d44c1f2cecb4af84322a0181d0",
@@ -251,11 +252,11 @@
       "id": "V09",
       "title": "Verify portable product and browser matrix",
       "state": "DONE",
-      "acceptance": "The ten required jobs succeeded on exact merged commit 079902fa20d22c2cf102104b0f42b28bec8bc382.",
+      "acceptance": "Required product and browser jobs succeeded on exact merged native commit 0bef391d210b8df1c871f5f250cf011012728e64.",
       "evidence": [
         {
-          "path": "docs/verification/composite-final-20261014/main-run.json",
-          "sha256": "53919897f401c5493c8010896766e872e6022e5d19bf525346f1692ad587570c",
+          "path": "docs/verification/readiness-20261014/native-main-ci.json",
+          "sha256": "6e78fa435346fed5e5f17affb7298ba12d42e715b0fa086b8aa97186776db77c",
           "assertions": [
             {
               "pointer": "/conclusion",
@@ -263,7 +264,7 @@
             },
             {
               "pointer": "/headSha",
-              "equals": "079902fa20d22c2cf102104b0f42b28bec8bc382"
+              "equals": "0bef391d210b8df1c871f5f250cf011012728e64"
             }
           ]
         }
@@ -360,19 +361,84 @@
     {
       "id": "V13",
       "title": "Complete expanded native platform acceptance",
-      "state": "IN_PROGRESS",
-      "acceptance": "Exact-CAD goldens and tagged beam/plate/enclosure meshes pass on Linux, macOS and Windows; final source and preservation checks merge.",
-      "reason": "Active PR110 has a failing Windows native acceptance job at c2776fa; its product matrix passed. The owning worktree has a workflow repair in progress.",
-      "next_action": "Finish the active native session and import its exact final receipts; do not edit its worktree concurrently.",
-      "evidence": []
+      "state": "DONE",
+      "acceptance": "PR110 merged; declared native goldens, repeated tagged meshes, interoperability and product jobs passed, including Linux, macOS and Windows.",
+      "evidence": [
+        {
+          "path": "docs/verification/readiness-20261014/native-final-checks.json",
+          "sha256": "f0f90a3e90acfe70becfe7d4a6b3ec87ee49c5a26ab157c6bfde670cb54bd347",
+          "assertions": [
+            {
+              "pointer": "/headRefOid",
+              "equals": "518208bb3f709d4686d663309dd19b7f8f39a5c2"
+            },
+            {
+              "pointer": "/statusCheckRollup/0/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/1/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/2/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/3/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/4/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/5/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/6/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/7/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/8/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/9/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/10/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/11/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/12/conclusion",
+              "equals": "SUCCESS"
+            },
+            {
+              "pointer": "/statusCheckRollup/13/conclusion",
+              "equals": "SUCCESS"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "V14",
       "title": "Ship a corrected immutable release",
       "state": "BLOCKED",
       "acceptance": "New reviewed tag, wheel/sdist checksums, provenance and anonymous installation receipts include the fixes.",
-      "reason": "Final native source is still being finalized; the old immutable alpha cannot be replaced.",
-      "next_action": "After final candidate checks and merge, version and publish a new alpha, then verify both public installation paths.",
+      "reason": "No new public release is authorized by this implementation-only checklist. The existing immutable alpha remains v0.5.0a6; the corrected source is verified on main.",
+      "next_action": "Choose and authorize a separate new prerelease publication; then bump its version, pass the release workflow and retain anonymous-install receipts. Do not overwrite v0.5.0a6.",
       "evidence": []
     },
     {

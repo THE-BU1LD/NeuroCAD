@@ -1,0 +1,1218 @@
+validate	Set up job	﻿2026-10-14T12:36:23.5759532Z Current runner version: '2.337.0'
+validate	Set up job	2026-10-14T12:36:23.5785445Z ##[group]Runner Image Provisioner
+validate	Set up job	2026-10-14T12:36:23.5786371Z Hosted Compute Agent
+validate	Set up job	2026-10-14T12:36:23.5787420Z Version: 20261002.596
+validate	Set up job	2026-10-14T12:36:23.5788064Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+validate	Set up job	2026-10-14T12:36:23.5788861Z Build Date: 2026-10-02T22:28:27Z
+validate	Set up job	2026-10-14T12:36:23.5789563Z Worker ID: {88d4ec1c-78b0-474c-91d1-154bfbdf04bc}
+validate	Set up job	2026-10-14T12:36:23.5790270Z Region: westus
+validate	Set up job	2026-10-14T12:36:23.5790862Z Cloud: Azure
+validate	Set up job	2026-10-14T12:36:23.5791618Z ##[endgroup]
+validate	Set up job	2026-10-14T12:36:23.5793254Z ##[group]Operating System
+validate	Set up job	2026-10-14T12:36:23.5794009Z Ubuntu
+validate	Set up job	2026-10-14T12:36:23.5794563Z 24.04.5
+validate	Set up job	2026-10-14T12:36:23.5795162Z LTS
+validate	Set up job	2026-10-14T12:36:23.5795672Z ##[endgroup]
+validate	Set up job	2026-10-14T12:36:23.5796245Z ##[group]Runner Image
+validate	Set up job	2026-10-14T12:36:23.5796914Z Image: ubuntu-24.04
+validate	Set up job	2026-10-14T12:36:23.5797484Z Version: 20261004.327.1
+validate	Set up job	2026-10-14T12:36:23.5798593Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+validate	Set up job	2026-10-14T12:36:23.5800355Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+validate	Set up job	2026-10-14T12:36:23.5801613Z ##[endgroup]
+validate	Set up job	2026-10-14T12:36:23.5802716Z ##[group]GITHUB_TOKEN Permissions
+validate	Set up job	2026-10-14T12:36:23.5804955Z Contents: read
+validate	Set up job	2026-10-14T12:36:23.5805615Z Metadata: read
+validate	Set up job	2026-10-14T12:36:23.5806235Z ##[endgroup]
+validate	Set up job	2026-10-14T12:36:23.5808285Z Secret source: Actions
+validate	Set up job	2026-10-14T12:36:23.5809315Z Cache mode: write
+validate	Set up job	2026-10-14T12:36:23.5810061Z Prepare workflow directory
+validate	Set up job	2026-10-14T12:36:23.6160572Z Prepare all required actions
+validate	Set up job	2026-10-14T12:36:23.6233451Z Getting action download info
+validate	Set up job	2026-10-14T12:36:24.0121559Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+validate	Set up job	2026-10-14T12:36:24.1269945Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+validate	Set up job	2026-10-14T12:36:24.2030105Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+validate	Set up job	2026-10-14T12:36:24.3835773Z Complete job name: validate
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-14T12:36:24.4644264Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4645373Z with:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4645821Z   repository: THE-BU1LD/NeuroCAD
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4649493Z   token: ***
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4649919Z   ssh-strict: true
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4650351Z   ssh-user: git
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4650834Z   persist-credentials: true
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4651564Z   clean: true
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4652007Z   sparse-checkout-cone-mode: true
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4652528Z   fetch-depth: 1
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4652953Z   fetch-tags: false
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4653396Z   show-progress: true
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4653840Z   lfs: false
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4654254Z   submodules: false
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4654698Z   set-safe-directory: true
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4655205Z   allow-unsafe-pr-checkout: false
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.4656036Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5697160Z Syncing repository: THE-BU1LD/NeuroCAD
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5699301Z ##[group]Getting Git version info
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5700056Z Working directory is '/home/runner/work/NeuroCAD/NeuroCAD'
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5701729Z [command]/usr/bin/git version
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5813875Z git version 2.55.0
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5842607Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5856431Z Temporarily overriding HOME='/home/runner/work/_temp/91011e77-9e05-4d52-93a3-b17f18e229e2' before making global git config changes
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5858413Z Adding repository directory to the temporary git global config as a safe directory
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5863935Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroCAD/NeuroCAD
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5916672Z Deleting the contents of '/home/runner/work/NeuroCAD/NeuroCAD'
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5920428Z ##[group]Determining repository object format
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5922189Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5923387Z ##[group]Initializing the repository
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.5927977Z [command]/usr/bin/git init /home/runner/work/NeuroCAD/NeuroCAD
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6039589Z hint: Using 'master' as the name for the initial branch. This default branch name
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6043784Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6045789Z hint: to use in all of your new repositories, which will suppress this warning,
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6046739Z hint: call:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6047323Z hint:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6048044Z hint: 	git config --global init.defaultBranch <name>
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6048801Z hint:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6049513Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6050668Z hint: 'development'. The just-created branch can be renamed via this command:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6052157Z hint:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6052845Z hint: 	git branch -m <name>
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6053353Z hint:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6054120Z hint: Disable this message with "git config set advice.defaultBranchName false"
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6055667Z Initialized empty Git repository in /home/runner/work/NeuroCAD/NeuroCAD/.git/
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6057429Z [command]/usr/bin/git remote add origin https://github.com/THE-BU1LD/NeuroCAD
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6116310Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6117182Z ##[group]Disabling automatic garbage collection
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6120596Z [command]/usr/bin/git config --local gc.auto 0
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6156422Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6157740Z ##[group]Setting up auth
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6158687Z Removing SSH command configuration
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6173367Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6206358Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6648720Z Removing HTTP extra header
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6656471Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6707652Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6955672Z Removing includeIf entries pointing to credentials config files
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.6964297Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7009210Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7267290Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7310737Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path /home/runner/work/_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7348150Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7386857Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7422876Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7454144Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7454953Z ##[group]Fetching the repository
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:24.7461681Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d7a80567c2c2727f8bd420a68e2517b217508b56:refs/remotes/origin/codex/neurocad-composite-final-20261014
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7835903Z From https://github.com/THE-BU1LD/NeuroCAD
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7839088Z  * [new ref]         d7a80567c2c2727f8bd420a68e2517b217508b56 -> origin/codex/neurocad-composite-final-20261014
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7844514Z [command]/usr/bin/git branch --list --remote origin/codex/neurocad-composite-final-20261014
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7873728Z   origin/codex/neurocad-composite-final-20261014
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7881904Z [command]/usr/bin/git rev-parse refs/remotes/origin/codex/neurocad-composite-final-20261014
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7908235Z d7a80567c2c2727f8bd420a68e2517b217508b56
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7913973Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7916023Z ##[group]Determining the checkout info
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7918140Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7919094Z [command]/usr/bin/git sparse-checkout disable
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.7971839Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.8006034Z ##[group]Checking out the ref
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:25.8010592Z [command]/usr/bin/git checkout --progress --force -B codex/neurocad-composite-final-20261014 refs/remotes/origin/codex/neurocad-composite-final-20261014
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:26.2440262Z Switched to a new branch 'codex/neurocad-composite-final-20261014'
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:26.2458291Z branch 'codex/neurocad-composite-final-20261014' set up to track 'origin/codex/neurocad-composite-final-20261014'.
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:26.2464422Z ##[endgroup]
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:26.2513563Z [command]/usr/bin/git log -1 --format=%H
+validate	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:36:26.2542948Z d7a80567c2c2727f8bd420a68e2517b217508b56
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	﻿2026-10-14T12:36:26.2887689Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2888245Z with:
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2888509Z   python-version: 3.12
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2888804Z   check-latest: false
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2891728Z   token: ***
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2892040Z   update-environment: true
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2892442Z   allow-prereleases: false
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2892763Z   freethreaded: false
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.2893035Z ##[endgroup]
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.4087095Z ##[group]Installed versions
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.4176105Z Successfully set up CPython (3.12.15)
+validate	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:36:26.4177234Z ##[endgroup]
+validate	Resource admission before installation	﻿2026-10-14T12:36:26.4343982Z ##[group]Run python - <<'PY'
+validate	Resource admission before installation	2026-10-14T12:36:26.4344637Z ^[[36;1mpython - <<'PY'^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4345146Z ^[[36;1mimport json, sys^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4345653Z ^[[36;1msys.path.insert(0, 'scripts')^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4346270Z ^[[36;1mfrom validate_physics_v3_v4 import admit^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4346873Z ^[[36;1mresult = admit()^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4347363Z ^[[36;1mprint(json.dumps(result))^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4347907Z ^[[36;1mif result['status'] != 'PASS':^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4348453Z ^[[36;1m    raise SystemExit(3)^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4348939Z ^[[36;1mPY^[[0m
+validate	Resource admission before installation	2026-10-14T12:36:26.4667920Z shell: /usr/bin/bash -e {0}
+validate	Resource admission before installation	2026-10-14T12:36:26.4668380Z env:
+validate	Resource admission before installation	2026-10-14T12:36:26.4668772Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Resource admission before installation	2026-10-14T12:36:26.4669464Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Resource admission before installation	2026-10-14T12:36:26.4670065Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Resource admission before installation	2026-10-14T12:36:26.4670615Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Resource admission before installation	2026-10-14T12:36:26.4671435Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Resource admission before installation	2026-10-14T12:36:26.4671980Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Resource admission before installation	2026-10-14T12:36:26.4672441Z ##[endgroup]
+validate	Resource admission before installation	2026-10-14T12:36:28.6149725Z {"status": "PASS", "samples": [{"available_bytes": 15684706304}, {"available_bytes": 15684784128}], "disk_free": 91245789184}
+validate	Install build and verification tools	﻿2026-10-14T12:36:28.6267629Z ##[group]Run python -m pip install '.[dev]'
+validate	Install build and verification tools	2026-10-14T12:36:28.6268025Z ^[[36;1mpython -m pip install '.[dev]'^[[0m
+validate	Install build and verification tools	2026-10-14T12:36:28.6268313Z ^[[36;1msudo apt-get update^[[0m
+validate	Install build and verification tools	2026-10-14T12:36:28.6268619Z ^[[36;1msudo apt-get install -y openscad xvfb xauth^[[0m
+validate	Install build and verification tools	2026-10-14T12:36:28.6334989Z shell: /usr/bin/bash -e {0}
+validate	Install build and verification tools	2026-10-14T12:36:28.6335283Z env:
+validate	Install build and verification tools	2026-10-14T12:36:28.6335583Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Install build and verification tools	2026-10-14T12:36:28.6336100Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Install build and verification tools	2026-10-14T12:36:28.6336614Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Install build and verification tools	2026-10-14T12:36:28.6337062Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Install build and verification tools	2026-10-14T12:36:28.6337507Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Install build and verification tools	2026-10-14T12:36:28.6337958Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Install build and verification tools	2026-10-14T12:36:28.6338332Z ##[endgroup]
+validate	Install build and verification tools	2026-10-14T12:36:29.3798780Z Processing ./.
+validate	Install build and verification tools	2026-10-14T12:36:29.3818246Z   Installing build dependencies: started
+validate	Install build and verification tools	2026-10-14T12:36:30.1886394Z   Installing build dependencies: finished with status 'done'
+validate	Install build and verification tools	2026-10-14T12:36:30.1892039Z   Getting requirements to build wheel: started
+validate	Install build and verification tools	2026-10-14T12:36:30.7886622Z   Getting requirements to build wheel: finished with status 'done'
+validate	Install build and verification tools	2026-10-14T12:36:30.7898646Z   Preparing metadata (pyproject.toml): started
+validate	Install build and verification tools	2026-10-14T12:36:31.0381882Z   Preparing metadata (pyproject.toml): finished with status 'done'
+validate	Install build and verification tools	2026-10-14T12:36:31.1128115Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.1587687Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.3851895Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.3890444Z   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.4500675Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.4537016Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.4730703Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.4774509Z   Downloading build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.5808544Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.5853476Z   Downloading mypy-1.18.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.2 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.6095512Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.6130623Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.9367196Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.9411937Z   Downloading ruff-0.16.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (26 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.9538348Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.9551169Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.9626785Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:31.9658966Z   Downloading pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+validate	Install build and verification tools	2026-10-14T12:36:31.9981750Z Collecting typing_extensions>=4.6.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0035569Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.0151672Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0182349Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.0304195Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0338917Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.0448352Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0480339Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.0600658Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0631019Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.0801992Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0834939Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.0963072Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.0994276Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.1107457Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.1139754Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.1352288Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.1384440Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.3923819Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Install build and verification tools	2026-10-14T12:36:32.3958149Z   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.4152383Z Downloading build-1.6.0-py3-none-any.whl (31 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.4219982Z Downloading mypy-1.18.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (13.3 MB)
+validate	Install build and verification tools	2026-10-14T12:36:32.4935344Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.3/13.3 MB 198.5 MB/s  0:00:00
+validate	Install build and verification tools	2026-10-14T12:36:32.4975207Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.5033226Z Downloading ruff-0.16.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.3 MB)
+validate	Install build and verification tools	2026-10-14T12:36:32.5491347Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.3/10.3 MB 240.8 MB/s  0:00:00
+validate	Install build and verification tools	2026-10-14T12:36:32.5528917Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.5584794Z Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6211464Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 275.3 MB/s  0:00:00
+validate	Install build and verification tools	2026-10-14T12:36:32.6267734Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6352642Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6407115Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 750.4/750.4 kB 154.0 MB/s  0:00:00
+validate	Install build and verification tools	2026-10-14T12:36:32.6445707Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6538798Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6599253Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6664785Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6712135Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6741675Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6792268Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6862277Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 215.1 MB/s  0:00:00
+validate	Install build and verification tools	2026-10-14T12:36:32.6895206Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.6948420Z Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.7004601Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.7053460Z Downloading pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+validate	Install build and verification tools	2026-10-14T12:36:32.7962179Z Building wheels for collected packages: neurocad-research
+validate	Install build and verification tools	2026-10-14T12:36:32.7971245Z   Building wheel for neurocad-research (pyproject.toml): started
+validate	Install build and verification tools	2026-10-14T12:36:33.1735533Z   Building wheel for neurocad-research (pyproject.toml): finished with status 'done'
+validate	Install build and verification tools	2026-10-14T12:36:33.1745353Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-py3-none-any.whl size=547697 sha256=62eb09920f343e6e3460685d525fb27f9a776951999c626af00caac9bf8f7371
+validate	Install build and verification tools	2026-10-14T12:36:33.1747236Z   Stored in directory: /tmp/pip-ephem-wheel-cache-05sifl0s/wheels/7e/90/5f/035c4b97e1b007323744af2239e3861a9f78391ef5e924c7ec
+validate	Install build and verification tools	2026-10-14T12:36:33.1777942Z Successfully built neurocad-research
+validate	Install build and verification tools	2026-10-14T12:36:33.2316576Z Installing collected packages: typing_extensions, ruff, rpds-py, pyproject_hooks, pygments, pluggy, pathspec, packaging, numpy, mypy_extensions, iniconfig, attrs, trimesh, referencing, pytest, mypy, build, jsonschema-specifications, jsonschema, neurocad-research
+validate	Install build and verification tools	2026-10-14T12:36:38.8023653Z 
+validate	Install build and verification tools	2026-10-14T12:36:38.8048926Z Successfully installed attrs-26.1.0 build-1.6.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mypy-1.18.2 mypy_extensions-1.1.0 neurocad-research-0.5.0a6 numpy-2.5.4 packaging-26.3 pathspec-1.1.1 pluggy-1.6.0 pygments-2.21.0 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.16.5 trimesh-5.1.1 typing_extensions-4.16.0
+validate	Install build and verification tools	2026-10-14T12:36:38.9834586Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+validate	Install build and verification tools	2026-10-14T12:36:39.0139027Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+validate	Install build and verification tools	2026-10-14T12:36:39.0140666Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+validate	Install build and verification tools	2026-10-14T12:36:39.0155511Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.0211932Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.0213263Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.1489629Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.1579569Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [518 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.1624321Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+validate	Install build and verification tools	2026-10-14T12:36:39.1646470Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [576 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.1969806Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2062463Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2065829Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2150130Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2169984Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2253243Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2279940Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2286429Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.0 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.2546940Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+validate	Install build and verification tools	2026-10-14T12:36:39.3053597Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1145 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3547656Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3562363Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1221 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3617696Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3633022Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3706504Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3726884Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+validate	Install build and verification tools	2026-10-14T12:36:39.3734005Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+validate	Install build and verification tools	2026-10-14T12:36:42.5258557Z Fetched 12.5 MB in 1s (9892 kB/s)
+validate	Install build and verification tools	2026-10-14T12:36:43.4509163Z Reading package lists...
+validate	Install build and verification tools	2026-10-14T12:36:43.4852682Z Reading package lists...
+validate	Install build and verification tools	2026-10-14T12:36:43.6969342Z Building dependency tree...
+validate	Install build and verification tools	2026-10-14T12:36:43.6977204Z Reading state information...
+validate	Install build and verification tools	2026-10-14T12:36:43.8719461Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+validate	Install build and verification tools	2026-10-14T12:36:43.8720796Z xauth is already the newest version (1:1.1.2-1build1).
+validate	Install build and verification tools	2026-10-14T12:36:43.8721830Z xauth set to manually installed.
+validate	Install build and verification tools	2026-10-14T12:36:43.8722495Z The following additional packages will be installed:
+validate	Install build and verification tools	2026-10-14T12:36:43.8723163Z   lib3mf1t64 libasyncns0 libboost-filesystem1.83.0
+validate	Install build and verification tools	2026-10-14T12:36:43.8724005Z   libboost-program-options1.83.0 libdecor-0-0 libdecor-0-plugin-1-gtk
+validate	Install build and verification tools	2026-10-14T12:36:43.8724914Z   libdouble-conversion3 libegl-mesa0 libegl1 libflac12t64 libglew2.2
+validate	Install build and verification tools	2026-10-14T12:36:43.8725820Z   libglu1-mesa libinput-bin libinput10 libmd4c0 libmp3lame0 libmpg123-0t64
+validate	Install build and verification tools	2026-10-14T12:36:43.8726860Z   libmtdev1t64 libopencsg1 libopengl0 libopus0 libpulse0 libqscintilla2-qt5-15
+validate	Install build and verification tools	2026-10-14T12:36:43.8727833Z   libqscintilla2-qt5-l10n libqt5core5t64 libqt5dbus5t64 libqt5gamepad5
+validate	Install build and verification tools	2026-10-14T12:36:43.8728805Z   libqt5gui5t64 libqt5multimedia5 libqt5network5t64 libqt5printsupport5t64
+validate	Install build and verification tools	2026-10-14T12:36:43.8729736Z   libqt5qml5 libqt5qmlmodels5 libqt5quick5 libqt5svg5 libqt5waylandclient5
+validate	Install build and verification tools	2026-10-14T12:36:43.8730697Z   libqt5waylandcompositor5 libqt5widgets5t64 libsamplerate0 libsdl2-2.0-0
+validate	Install build and verification tools	2026-10-14T12:36:43.8731800Z   libsndfile1 libspnav0 libvorbisenc2 libwacom-common libwacom9
+validate	Install build and verification tools	2026-10-14T12:36:43.8732679Z   libwayland-server0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1
+validate	Install build and verification tools	2026-10-14T12:36:43.8733566Z   libxcb-render-util0 libxcb-shape0 libxcb-util1 libxcb-xinerama0
+validate	Install build and verification tools	2026-10-14T12:36:43.8734350Z   libxcb-xinput0 libxcb-xkb1 libxkbcommon-x11-0 openscad-mcad
+validate	Install build and verification tools	2026-10-14T12:36:43.8735198Z   qt5-gtk-platformtheme qttranslations5-l10n qtwayland5
+validate	Install build and verification tools	2026-10-14T12:36:43.8738421Z Suggested packages:
+validate	Install build and verification tools	2026-10-14T12:36:43.8739029Z   glew-utils opus-tools pulseaudio libqscintilla2-doc qgnomeplatform-qt5
+validate	Install build and verification tools	2026-10-14T12:36:43.8739657Z   qt5-image-formats-plugins qt5-qmltooling-plugins spacenavd libwacom-bin
+validate	Install build and verification tools	2026-10-14T12:36:43.8740121Z   meshlab geomview librecad openscad-testing
+validate	Install build and verification tools	2026-10-14T12:36:43.9152753Z The following NEW packages will be installed:
+validate	Install build and verification tools	2026-10-14T12:36:43.9153609Z   lib3mf1t64 libasyncns0 libboost-filesystem1.83.0
+validate	Install build and verification tools	2026-10-14T12:36:43.9154474Z   libboost-program-options1.83.0 libdecor-0-0 libdecor-0-plugin-1-gtk
+validate	Install build and verification tools	2026-10-14T12:36:43.9155631Z   libdouble-conversion3 libegl-mesa0 libegl1 libflac12t64 libglew2.2
+validate	Install build and verification tools	2026-10-14T12:36:43.9156765Z   libglu1-mesa libinput-bin libinput10 libmd4c0 libmp3lame0 libmpg123-0t64
+validate	Install build and verification tools	2026-10-14T12:36:43.9157898Z   libmtdev1t64 libopencsg1 libopengl0 libopus0 libpulse0 libqscintilla2-qt5-15
+validate	Install build and verification tools	2026-10-14T12:36:43.9159045Z   libqscintilla2-qt5-l10n libqt5core5t64 libqt5dbus5t64 libqt5gamepad5
+validate	Install build and verification tools	2026-10-14T12:36:43.9160144Z   libqt5gui5t64 libqt5multimedia5 libqt5network5t64 libqt5printsupport5t64
+validate	Install build and verification tools	2026-10-14T12:36:43.9161495Z   libqt5qml5 libqt5qmlmodels5 libqt5quick5 libqt5svg5 libqt5waylandclient5
+validate	Install build and verification tools	2026-10-14T12:36:43.9162559Z   libqt5waylandcompositor5 libqt5widgets5t64 libsamplerate0 libsdl2-2.0-0
+validate	Install build and verification tools	2026-10-14T12:36:43.9163544Z   libsndfile1 libspnav0 libvorbisenc2 libwacom-common libwacom9
+validate	Install build and verification tools	2026-10-14T12:36:43.9164388Z   libwayland-server0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1
+validate	Install build and verification tools	2026-10-14T12:36:43.9165237Z   libxcb-render-util0 libxcb-shape0 libxcb-util1 libxcb-xinerama0
+validate	Install build and verification tools	2026-10-14T12:36:43.9166115Z   libxcb-xinput0 libxcb-xkb1 libxkbcommon-x11-0 openscad openscad-mcad
+validate	Install build and verification tools	2026-10-14T12:36:43.9166924Z   qt5-gtk-platformtheme qttranslations5-l10n qtwayland5
+validate	Install build and verification tools	2026-10-14T12:36:43.9375854Z 0 upgraded, 61 newly installed, 0 to remove and 35 not upgraded.
+validate	Install build and verification tools	2026-10-14T12:36:43.9376674Z Need to get 26.7 MB of archives.
+validate	Install build and verification tools	2026-10-14T12:36:43.9377326Z After this operation, 99.7 MB of additional disk space will be used.
+validate	Install build and verification tools	2026-10-14T12:36:43.9378101Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+validate	Install build and verification tools	2026-10-14T12:36:43.9856667Z Ign:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 lib3mf1t64 amd64 1.8.1+ds-4.1build2
+validate	Install build and verification tools	2026-10-14T12:36:44.1249865Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libasyncns0 amd64 0.8-6build4 [11.3 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.2017474Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libboost-filesystem1.83.0 amd64 1.83.0-2.1ubuntu3.2 [284 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.2825218Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libboost-program-options1.83.0 amd64 1.83.0-2.1ubuntu3.2 [321 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.3651353Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libdecor-0-0 amd64 0.2.2-1build2 [16.5 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.4407787Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libdecor-0-plugin-1-gtk amd64 0.2.2-1build2 [22.2 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.5166453Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libdouble-conversion3 amd64 3.3.0-1build1 [40.3 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.5924313Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libegl-mesa0 amd64 25.2.8-0ubuntu0.24.04.4 [117 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.6758131Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libflac12t64 amd64 1.4.3+ds-2.1ubuntu2 [197 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.7523668Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libglew2.2 amd64 2.2.0-4build1 [187 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.8316074Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libwacom-common all 2.10.0-2 [63.4 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.9080495Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libwacom9 amd64 2.10.0-2 [23.9 kB]
+validate	Install build and verification tools	2026-10-14T12:36:44.9836259Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libinput-bin amd64 1.25.0-1ubuntu3.7 [23.6 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.0592842Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libmtdev1t64 amd64 1.1.6-1.1build1 [14.4 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.1347446Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libinput10 amd64 1.25.0-1ubuntu3.7 [133 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.2127101Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libmd4c0 amd64 0.4.8-1build1 [42.3 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.2885997Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libmp3lame0 amd64 3.100-6build1 [142 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.3672182Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libmpg123-0t64 amd64 1.32.5-1ubuntu1.1 [169 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.4460424Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libopencsg1 amd64 1.5.0-1build2 [228 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.5268368Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libopus0 amd64 1.4-1build1 [208 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.6063013Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libvorbisenc2 amd64 1.3.7-1build3 [80.8 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.6833308Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libsndfile1 amd64 1.2.2-1ubuntu5.24.04.1 [209 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.7630267Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpulse0 amd64 1:16.1+dfsg1-2ubuntu10.1 [292 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.8443045Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqscintilla2-qt5-l10n all 2.14.1+dfsg-1build3 [56.4 kB]
+validate	Install build and verification tools	2026-10-14T12:36:45.9209353Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5core5t64 amd64 5.15.13+dfsg-1ubuntu1 [2011 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.0449015Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libegl1 amd64 1.7.0-1build1 [28.7 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.1228914Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5dbus5t64 amd64 5.15.13+dfsg-1ubuntu1 [220 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.2010391Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5network5t64 amd64 5.15.13+dfsg-1ubuntu1 [723 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.2946939Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-icccm4 amd64 0.4.1-1.1build3 [10.8 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.3705166Z Get:31 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-util1 amd64 0.4.0-1build3 [10.7 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.4462130Z Get:32 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-image0 amd64 0.4.0-2build1 [10.8 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.5222116Z Get:33 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-keysyms1 amd64 0.4.0-1build4 [7956 B]
+validate	Install build and verification tools	2026-10-14T12:36:46.5985756Z Get:34 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-render-util0 amd64 0.3.9-1build4 [9608 B]
+validate	Install build and verification tools	2026-10-14T12:36:46.6743291Z Get:35 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-shape0 amd64 1.15-1ubuntu2 [6100 B]
+validate	Install build and verification tools	2026-10-14T12:36:46.7447688Z Get:36 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-xinerama0 amd64 1.15-1ubuntu2 [5410 B]
+validate	Install build and verification tools	2026-10-14T12:36:46.8154173Z Get:37 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-xinput0 amd64 1.15-1ubuntu2 [33.2 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.8863695Z Get:38 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-xkb1 amd64 1.15-1ubuntu2 [32.3 kB]
+validate	Install build and verification tools	2026-10-14T12:36:46.9570587Z Get:39 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxkbcommon-x11-0 amd64 1.6.0-1build1 [14.5 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.0278163Z Get:40 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5gui5t64 amd64 5.15.13+dfsg-1ubuntu1 [3748 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.1728160Z Get:41 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5widgets5t64 amd64 5.15.13+dfsg-1ubuntu1 [2561 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.2636274Z Get:42 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5printsupport5t64 amd64 5.15.13+dfsg-1ubuntu1 [208 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.3358829Z Get:43 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqscintilla2-qt5-15 amd64 2.14.1+dfsg-1build3 [1154 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.5058450Z Get:44 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libsamplerate0 amd64 0.2.2-4build1 [1344 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.5860703Z Get:45 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libsdl2-2.0-0 amd64 2.30.0+dfsg-1ubuntu3.1 [686 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.6612625Z Get:46 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5gamepad5 amd64 5.15.13-1 [61.2 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.7319425Z Get:47 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5multimedia5 amd64 5.15.13-1 [310 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.8043556Z Get:48 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libqt5qml5 amd64 5.15.13+dfsg-1ubuntu0.1 [1482 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.8857444Z Get:49 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libqt5qmlmodels5 amd64 5.15.13+dfsg-1ubuntu0.1 [203 kB]
+validate	Install build and verification tools	2026-10-14T12:36:47.9573652Z Get:50 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libqt5quick5 amd64 5.15.13+dfsg-1ubuntu0.1 [1733 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.0407132Z Get:51 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5svg5 amd64 5.15.13-1 [146 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.1122769Z Get:52 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5waylandclient5 amd64 5.15.13-1 [405 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.1853226Z Get:53 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libwayland-server0 amd64 1.22.0-2.1build1 [33.9 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.2559022Z Get:54 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libqt5waylandcompositor5 amd64 5.15.13-1 [396 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.3295627Z Get:55 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libopengl0 amd64 1.7.0-1build1 [32.8 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.4003058Z Get:56 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libglu1-mesa amd64 9.0.2-1.1build1 [152 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.4721430Z Get:57 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libspnav0 amd64 1.1-2 [15.0 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.5425468Z Get:58 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 openscad amd64 2021.01-6build4 [3348 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.6845596Z Get:59 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 openscad-mcad all 2019.05-1 [44.0 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.7552801Z Get:60 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 qt5-gtk-platformtheme amd64 5.15.13+dfsg-1ubuntu1 [125 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.8277365Z Get:61 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 qttranslations5-l10n all 5.15.13-1 [1964 kB]
+validate	Install build and verification tools	2026-10-14T12:36:48.9412947Z Get:62 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 qtwayland5 amd64 5.15.13-1 [223 kB]
+validate	Install build and verification tools	2026-10-14T12:36:49.0190201Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 lib3mf1t64 amd64 1.8.1+ds-4.1build2 [369 kB]
+validate	Install build and verification tools	2026-10-14T12:36:49.3353870Z Fetched 26.7 MB in 5s (5245 kB/s)
+validate	Install build and verification tools	2026-10-14T12:36:49.3589943Z Selecting previously unselected package lib3mf1t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:49.3897395Z (Reading database ... 
+validate	Install build and verification tools	2026-10-14T12:36:49.3897936Z (Reading database ... 5%
+validate	Install build and verification tools	2026-10-14T12:36:49.3898373Z (Reading database ... 10%
+validate	Install build and verification tools	2026-10-14T12:36:49.3898885Z (Reading database ... 15%
+validate	Install build and verification tools	2026-10-14T12:36:49.3899279Z (Reading database ... 20%
+validate	Install build and verification tools	2026-10-14T12:36:49.3899662Z (Reading database ... 25%
+validate	Install build and verification tools	2026-10-14T12:36:49.3899994Z (Reading database ... 30%
+validate	Install build and verification tools	2026-10-14T12:36:49.3900327Z (Reading database ... 35%
+validate	Install build and verification tools	2026-10-14T12:36:49.3900658Z (Reading database ... 40%
+validate	Install build and verification tools	2026-10-14T12:36:49.3901237Z (Reading database ... 45%
+validate	Install build and verification tools	2026-10-14T12:36:49.3901628Z (Reading database ... 50%
+validate	Install build and verification tools	2026-10-14T12:36:49.3958147Z (Reading database ... 55%
+validate	Install build and verification tools	2026-10-14T12:36:49.4781203Z (Reading database ... 60%
+validate	Install build and verification tools	2026-10-14T12:36:49.7174585Z (Reading database ... 65%
+validate	Install build and verification tools	2026-10-14T12:36:49.8875059Z (Reading database ... 70%
+validate	Install build and verification tools	2026-10-14T12:36:50.0675961Z (Reading database ... 75%
+validate	Install build and verification tools	2026-10-14T12:36:50.1926345Z (Reading database ... 80%
+validate	Install build and verification tools	2026-10-14T12:36:50.3193101Z (Reading database ... 85%
+validate	Install build and verification tools	2026-10-14T12:36:50.4375800Z (Reading database ... 90%
+validate	Install build and verification tools	2026-10-14T12:36:50.5742178Z (Reading database ... 95%
+validate	Install build and verification tools	2026-10-14T12:36:50.5742618Z (Reading database ... 100%
+validate	Install build and verification tools	2026-10-14T12:36:50.5743120Z (Reading database ... 203191 files and directories currently installed.)
+validate	Install build and verification tools	2026-10-14T12:36:50.5786582Z Preparing to unpack .../00-lib3mf1t64_1.8.1+ds-4.1build2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.5820324Z Unpacking lib3mf1t64:amd64 (1.8.1+ds-4.1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.6088973Z Selecting previously unselected package libasyncns0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.6215153Z Preparing to unpack .../01-libasyncns0_0.8-6build4_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.6223167Z Unpacking libasyncns0:amd64 (0.8-6build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.6452124Z Selecting previously unselected package libboost-filesystem1.83.0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.6584194Z Preparing to unpack .../02-libboost-filesystem1.83.0_1.83.0-2.1ubuntu3.2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.6592151Z Unpacking libboost-filesystem1.83.0:amd64 (1.83.0-2.1ubuntu3.2) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.6858902Z Selecting previously unselected package libboost-program-options1.83.0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.6984937Z Preparing to unpack .../03-libboost-program-options1.83.0_1.83.0-2.1ubuntu3.2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.6993746Z Unpacking libboost-program-options1.83.0:amd64 (1.83.0-2.1ubuntu3.2) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.7273516Z Selecting previously unselected package libdecor-0-0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.7403167Z Preparing to unpack .../04-libdecor-0-0_0.2.2-1build2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.7410372Z Unpacking libdecor-0-0:amd64 (0.2.2-1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.7634044Z Selecting previously unselected package libdecor-0-plugin-1-gtk:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.7760192Z Preparing to unpack .../05-libdecor-0-plugin-1-gtk_0.2.2-1build2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.7767443Z Unpacking libdecor-0-plugin-1-gtk:amd64 (0.2.2-1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.7970324Z Selecting previously unselected package libdouble-conversion3:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.8097788Z Preparing to unpack .../06-libdouble-conversion3_3.3.0-1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.8105613Z Unpacking libdouble-conversion3:amd64 (3.3.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.8313767Z Selecting previously unselected package libegl-mesa0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.8441438Z Preparing to unpack .../07-libegl-mesa0_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.8448948Z Unpacking libegl-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.8677720Z Selecting previously unselected package libflac12t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.8805717Z Preparing to unpack .../08-libflac12t64_1.4.3+ds-2.1ubuntu2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.8813403Z Unpacking libflac12t64:amd64 (1.4.3+ds-2.1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.9044507Z Selecting previously unselected package libglew2.2:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:50.9172442Z Preparing to unpack .../09-libglew2.2_2.2.0-4build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.9179731Z Unpacking libglew2.2:amd64 (2.2.0-4build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:50.9399944Z Selecting previously unselected package libwacom-common.
+validate	Install build and verification tools	2026-10-14T12:36:50.9525985Z Preparing to unpack .../10-libwacom-common_2.10.0-2_all.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:50.9533095Z Unpacking libwacom-common (2.10.0-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.0434421Z Selecting previously unselected package libwacom9:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.0562258Z Preparing to unpack .../11-libwacom9_2.10.0-2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.0570416Z Unpacking libwacom9:amd64 (2.10.0-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.0765097Z Selecting previously unselected package libinput-bin.
+validate	Install build and verification tools	2026-10-14T12:36:51.0892362Z Preparing to unpack .../12-libinput-bin_1.25.0-1ubuntu3.7_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.0899369Z Unpacking libinput-bin (1.25.0-1ubuntu3.7) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.1159441Z Selecting previously unselected package libmtdev1t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.1286930Z Preparing to unpack .../13-libmtdev1t64_1.1.6-1.1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.1297836Z Unpacking libmtdev1t64:amd64 (1.1.6-1.1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.1514605Z Selecting previously unselected package libinput10:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.1639855Z Preparing to unpack .../14-libinput10_1.25.0-1ubuntu3.7_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.1646711Z Unpacking libinput10:amd64 (1.25.0-1ubuntu3.7) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.1854926Z Selecting previously unselected package libmd4c0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.1982871Z Preparing to unpack .../15-libmd4c0_0.4.8-1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.1989414Z Unpacking libmd4c0:amd64 (0.4.8-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.2187605Z Selecting previously unselected package libmp3lame0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.2313513Z Preparing to unpack .../16-libmp3lame0_3.100-6build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.2320317Z Unpacking libmp3lame0:amd64 (3.100-6build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.2532697Z Selecting previously unselected package libmpg123-0t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.2659835Z Preparing to unpack .../17-libmpg123-0t64_1.32.5-1ubuntu1.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.2666415Z Unpacking libmpg123-0t64:amd64 (1.32.5-1ubuntu1.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.2879911Z Selecting previously unselected package libopencsg1:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.3006079Z Preparing to unpack .../18-libopencsg1_1.5.0-1build2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.3033332Z Unpacking libopencsg1:amd64 (1.5.0-1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.3275808Z Selecting previously unselected package libopus0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.3403537Z Preparing to unpack .../19-libopus0_1.4-1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.3411554Z Unpacking libopus0:amd64 (1.4-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.3628785Z Selecting previously unselected package libvorbisenc2:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.3777170Z Preparing to unpack .../20-libvorbisenc2_1.3.7-1build3_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.3778048Z Unpacking libvorbisenc2:amd64 (1.3.7-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.3985004Z Selecting previously unselected package libsndfile1:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.4112904Z Preparing to unpack .../21-libsndfile1_1.2.2-1ubuntu5.24.04.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.4142588Z Unpacking libsndfile1:amd64 (1.2.2-1ubuntu5.24.04.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.4375536Z Selecting previously unselected package libpulse0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.4502642Z Preparing to unpack .../22-libpulse0_1%3a16.1+dfsg1-2ubuntu10.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.4568187Z Unpacking libpulse0:amd64 (1:16.1+dfsg1-2ubuntu10.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.4804538Z Selecting previously unselected package libqscintilla2-qt5-l10n.
+validate	Install build and verification tools	2026-10-14T12:36:51.4933011Z Preparing to unpack .../23-libqscintilla2-qt5-l10n_2.14.1+dfsg-1build3_all.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.4940923Z Unpacking libqscintilla2-qt5-l10n (2.14.1+dfsg-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.5170062Z Selecting previously unselected package libqt5core5t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.5299187Z Preparing to unpack .../24-libqt5core5t64_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.5307521Z Unpacking libqt5core5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.5737185Z Selecting previously unselected package libegl1:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.5863422Z Preparing to unpack .../25-libegl1_1.7.0-1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.5870744Z Unpacking libegl1:amd64 (1.7.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.6085245Z Selecting previously unselected package libqt5dbus5t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.6211018Z Preparing to unpack .../26-libqt5dbus5t64_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.6218403Z Unpacking libqt5dbus5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.6477589Z Selecting previously unselected package libqt5network5t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.6605537Z Preparing to unpack .../27-libqt5network5t64_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.6613959Z Unpacking libqt5network5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.6905790Z Selecting previously unselected package libxcb-icccm4:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.7032178Z Preparing to unpack .../28-libxcb-icccm4_0.4.1-1.1build3_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.7039394Z Unpacking libxcb-icccm4:amd64 (0.4.1-1.1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.7246681Z Selecting previously unselected package libxcb-util1:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.7372846Z Preparing to unpack .../29-libxcb-util1_0.4.0-1build3_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.7379652Z Unpacking libxcb-util1:amd64 (0.4.0-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.7600190Z Selecting previously unselected package libxcb-image0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.7727902Z Preparing to unpack .../30-libxcb-image0_0.4.0-2build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.7741031Z Unpacking libxcb-image0:amd64 (0.4.0-2build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.7938268Z Selecting previously unselected package libxcb-keysyms1:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.8066968Z Preparing to unpack .../31-libxcb-keysyms1_0.4.0-1build4_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.8075554Z Unpacking libxcb-keysyms1:amd64 (0.4.0-1build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.8286777Z Selecting previously unselected package libxcb-render-util0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.8416177Z Preparing to unpack .../32-libxcb-render-util0_0.3.9-1build4_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.8425487Z Unpacking libxcb-render-util0:amd64 (0.3.9-1build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.8657592Z Selecting previously unselected package libxcb-shape0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.8786613Z Preparing to unpack .../33-libxcb-shape0_1.15-1ubuntu2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.8793557Z Unpacking libxcb-shape0:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.8995636Z Selecting previously unselected package libxcb-xinerama0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.9123288Z Preparing to unpack .../34-libxcb-xinerama0_1.15-1ubuntu2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.9131432Z Unpacking libxcb-xinerama0:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.9366935Z Selecting previously unselected package libxcb-xinput0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.9495101Z Preparing to unpack .../35-libxcb-xinput0_1.15-1ubuntu2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.9502410Z Unpacking libxcb-xinput0:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:51.9734237Z Selecting previously unselected package libxcb-xkb1:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:51.9863001Z Preparing to unpack .../36-libxcb-xkb1_1.15-1ubuntu2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:51.9869688Z Unpacking libxcb-xkb1:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.0082226Z Selecting previously unselected package libxkbcommon-x11-0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.0230255Z Preparing to unpack .../37-libxkbcommon-x11-0_1.6.0-1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.0240216Z Unpacking libxkbcommon-x11-0:amd64 (1.6.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.0568845Z Selecting previously unselected package libqt5gui5t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.0697979Z Preparing to unpack .../38-libqt5gui5t64_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.0732162Z Unpacking libqt5gui5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.1445093Z Selecting previously unselected package libqt5widgets5t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.1574773Z Preparing to unpack .../39-libqt5widgets5t64_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.1581851Z Unpacking libqt5widgets5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.2055459Z Selecting previously unselected package libqt5printsupport5t64:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.2182544Z Preparing to unpack .../40-libqt5printsupport5t64_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.2190095Z Unpacking libqt5printsupport5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.2426536Z Selecting previously unselected package libqscintilla2-qt5-15:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.2554152Z Preparing to unpack .../41-libqscintilla2-qt5-15_2.14.1+dfsg-1build3_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.2562702Z Unpacking libqscintilla2-qt5-15:amd64 (2.14.1+dfsg-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.2905373Z Selecting previously unselected package libsamplerate0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.3033235Z Preparing to unpack .../42-libsamplerate0_0.2.2-4build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.3040581Z Unpacking libsamplerate0:amd64 (0.2.2-4build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.3299782Z Selecting previously unselected package libsdl2-2.0-0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.3427465Z Preparing to unpack .../43-libsdl2-2.0-0_2.30.0+dfsg-1ubuntu3.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.3434819Z Unpacking libsdl2-2.0-0:amd64 (2.30.0+dfsg-1ubuntu3.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.3728742Z Selecting previously unselected package libqt5gamepad5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.3857406Z Preparing to unpack .../44-libqt5gamepad5_5.15.13-1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.3865910Z Unpacking libqt5gamepad5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.4089364Z Selecting previously unselected package libqt5multimedia5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.4218951Z Preparing to unpack .../45-libqt5multimedia5_5.15.13-1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.4227397Z Unpacking libqt5multimedia5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.4479330Z Selecting previously unselected package libqt5qml5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.4607427Z Preparing to unpack .../46-libqt5qml5_5.15.13+dfsg-1ubuntu0.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.4614732Z Unpacking libqt5qml5:amd64 (5.15.13+dfsg-1ubuntu0.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.5013985Z Selecting previously unselected package libqt5qmlmodels5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.5146272Z Preparing to unpack .../47-libqt5qmlmodels5_5.15.13+dfsg-1ubuntu0.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.5154984Z Unpacking libqt5qmlmodels5:amd64 (5.15.13+dfsg-1ubuntu0.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.5404926Z Selecting previously unselected package libqt5quick5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.5533786Z Preparing to unpack .../48-libqt5quick5_5.15.13+dfsg-1ubuntu0.1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.5541737Z Unpacking libqt5quick5:amd64 (5.15.13+dfsg-1ubuntu0.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.5988562Z Selecting previously unselected package libqt5svg5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.6117904Z Preparing to unpack .../49-libqt5svg5_5.15.13-1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.6125460Z Unpacking libqt5svg5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.6364888Z Selecting previously unselected package libqt5waylandclient5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.6493575Z Preparing to unpack .../50-libqt5waylandclient5_5.15.13-1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.6500945Z Unpacking libqt5waylandclient5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.6767955Z Selecting previously unselected package libwayland-server0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.6902734Z Preparing to unpack .../51-libwayland-server0_1.22.0-2.1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.6911490Z Unpacking libwayland-server0:amd64 (1.22.0-2.1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.7158986Z Selecting previously unselected package libqt5waylandcompositor5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.7305519Z Preparing to unpack .../52-libqt5waylandcompositor5_5.15.13-1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.7338080Z Unpacking libqt5waylandcompositor5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.7621323Z Selecting previously unselected package libopengl0:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.7752813Z Preparing to unpack .../53-libopengl0_1.7.0-1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.7761863Z Unpacking libopengl0:amd64 (1.7.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.8042457Z Selecting previously unselected package libglu1-mesa:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:52.8176570Z Preparing to unpack .../54-libglu1-mesa_9.0.2-1.1build1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.8185976Z Unpacking libglu1-mesa:amd64 (9.0.2-1.1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.8482410Z Selecting previously unselected package libspnav0.
+validate	Install build and verification tools	2026-10-14T12:36:52.8613222Z Preparing to unpack .../55-libspnav0_1.1-2_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.8621625Z Unpacking libspnav0 (1.1-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.8825504Z Selecting previously unselected package openscad.
+validate	Install build and verification tools	2026-10-14T12:36:52.8955397Z Preparing to unpack .../56-openscad_2021.01-6build4_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:52.8962924Z Unpacking openscad (2021.01-6build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:52.9878748Z Selecting previously unselected package openscad-mcad.
+validate	Install build and verification tools	2026-10-14T12:36:53.0012279Z Preparing to unpack .../57-openscad-mcad_2019.05-1_all.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:53.0022081Z Unpacking openscad-mcad (2019.05-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.0307961Z Selecting previously unselected package qt5-gtk-platformtheme:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:53.0438285Z Preparing to unpack .../58-qt5-gtk-platformtheme_5.15.13+dfsg-1ubuntu1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:53.0448549Z Unpacking qt5-gtk-platformtheme:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.0668148Z Selecting previously unselected package qttranslations5-l10n.
+validate	Install build and verification tools	2026-10-14T12:36:53.0796564Z Preparing to unpack .../59-qttranslations5-l10n_5.15.13-1_all.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:53.0807066Z Unpacking qttranslations5-l10n (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.1944420Z Selecting previously unselected package qtwayland5:amd64.
+validate	Install build and verification tools	2026-10-14T12:36:53.2074924Z Preparing to unpack .../60-qtwayland5_5.15.13-1_amd64.deb ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2082524Z Unpacking qtwayland5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2714143Z Setting up libboost-program-options1.83.0:amd64 (1.83.0-2.1ubuntu3.2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2740041Z Setting up libwayland-server0:amd64 (1.22.0-2.1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2763745Z Setting up libdouble-conversion3:amd64 (3.3.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2787665Z Setting up libxcb-xinput0:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2836941Z Setting up libqscintilla2-qt5-l10n (2.14.1+dfsg-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2858983Z Setting up libxcb-keysyms1:amd64 (0.4.0-1build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2883375Z Setting up libxcb-shape0:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2906561Z Setting up libxcb-render-util0:amd64 (0.3.9-1build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2930004Z Setting up libxcb-icccm4:amd64 (0.4.1-1.1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2951802Z Setting up libmpg123-0t64:amd64 (1.32.5-1ubuntu1.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2974434Z Setting up libboost-filesystem1.83.0:amd64 (1.83.0-2.1ubuntu3.2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.2997061Z Setting up libopengl0:amd64 (1.7.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3022337Z Setting up libxcb-util1:amd64 (0.4.0-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3042296Z Setting up libxcb-xkb1:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3067002Z Setting up libxcb-image0:amd64 (0.4.0-2build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3091144Z Setting up libqt5core5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3127301Z Setting up libegl-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3152861Z Setting up libxcb-xinerama0:amd64 (1.15-1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3179574Z Setting up qttranslations5-l10n (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3203936Z Setting up libopus0:amd64 (1.4-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3224770Z Setting up openscad-mcad (2019.05-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3252057Z Setting up libxkbcommon-x11-0:amd64 (1.6.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3270511Z Setting up libglew2.2:amd64 (2.2.0-4build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3290741Z Setting up lib3mf1t64:amd64 (1.8.1+ds-4.1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3315524Z Setting up libmtdev1t64:amd64 (1.1.6-1.1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3341715Z Setting up libasyncns0:amd64 (0.8-6build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3363486Z Setting up libegl1:amd64 (1.7.0-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3389701Z Setting up libmd4c0:amd64 (0.4.8-1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3443036Z Setting up libdecor-0-0:amd64 (0.2.2-1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3461630Z Setting up libglu1-mesa:amd64 (9.0.2-1.1build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3479041Z Setting up libflac12t64:amd64 (1.4.3+ds-2.1ubuntu2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3495829Z Setting up libsamplerate0:amd64 (0.2.2-4build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3513520Z Setting up libdecor-0-plugin-1-gtk:amd64 (0.2.2-1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3529951Z Setting up libmp3lame0:amd64 (3.100-6build1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3549037Z Setting up libvorbisenc2:amd64 (1.3.7-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3582766Z Setting up libspnav0 (1.1-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3608340Z Setting up libwacom-common (2.10.0-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3629397Z Setting up libqt5dbus5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3653198Z Setting up libwacom9:amd64 (2.10.0-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3695005Z Setting up libqt5network5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3712735Z Setting up libinput-bin (1.25.0-1ubuntu3.7) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3729669Z Setting up libopencsg1:amd64 (1.5.0-1build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3751885Z Setting up libqt5qml5:amd64 (5.15.13+dfsg-1ubuntu0.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3771226Z Setting up libsndfile1:amd64 (1.2.2-1ubuntu5.24.04.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3797355Z Setting up libinput10:amd64 (1.25.0-1ubuntu3.7) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3818862Z Setting up libqt5qmlmodels5:amd64 (5.15.13+dfsg-1ubuntu0.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3843590Z Setting up libpulse0:amd64 (1:16.1+dfsg1-2ubuntu10.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3933454Z Setting up libqt5gui5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3953043Z Setting up libsdl2-2.0-0:amd64 (2.30.0+dfsg-1ubuntu3.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3972151Z Setting up libqt5quick5:amd64 (5.15.13+dfsg-1ubuntu0.1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.3993530Z Setting up libqt5gamepad5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4028986Z Setting up libqt5widgets5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4048379Z Setting up libqt5svg5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4068198Z Setting up qt5-gtk-platformtheme:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4086907Z Setting up libqt5waylandclient5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4142320Z Setting up libqt5multimedia5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4160948Z Setting up libqt5waylandcompositor5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4179143Z Setting up libqt5printsupport5t64:amd64 (5.15.13+dfsg-1ubuntu1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4198908Z Setting up qtwayland5:amd64 (5.15.13-1) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4220170Z Setting up libqscintilla2-qt5-15:amd64 (2.14.1+dfsg-1build3) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4239776Z Setting up openscad (2021.01-6build4) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4270375Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4613267Z Processing triggers for man-db (2.12.0-4build2) ...
+validate	Install build and verification tools	2026-10-14T12:36:53.4635787Z Not building database; man-db/auto-update is not 'true'.
+validate	Install build and verification tools	2026-10-14T12:36:53.4649893Z Processing triggers for shared-mime-info (2.4-4) ...
+validate	Install build and verification tools	2026-10-14T12:36:54.3299123Z Processing triggers for udev (255.4-1ubuntu8.17) ...
+validate	Install build and verification tools	2026-10-14T12:36:54.9361616Z Processing triggers for hicolor-icon-theme (0.17-2) ...
+validate	Install build and verification tools	2026-10-14T12:36:55.7470361Z 
+validate	Install build and verification tools	2026-10-14T12:36:55.7470978Z Running kernel seems to be up-to-date.
+validate	Install build and verification tools	2026-10-14T12:36:55.7471660Z 
+validate	Install build and verification tools	2026-10-14T12:36:55.7471806Z No services need to be restarted.
+validate	Install build and verification tools	2026-10-14T12:36:55.7472055Z 
+validate	Install build and verification tools	2026-10-14T12:36:55.7472191Z No containers need to be restarted.
+validate	Install build and verification tools	2026-10-14T12:36:55.7472606Z 
+validate	Install build and verification tools	2026-10-14T12:36:55.7472919Z No user sessions are running outdated binaries.
+validate	Install build and verification tools	2026-10-14T12:36:55.7473911Z 
+validate	Install build and verification tools	2026-10-14T12:36:55.7474342Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+validate	Freeze and verifier tests	﻿2026-10-14T12:36:56.7951696Z ##[group]Run python tests/test_v3_validation_v4_harness.py
+validate	Freeze and verifier tests	2026-10-14T12:36:56.7952380Z ^[[36;1mpython tests/test_v3_validation_v4_harness.py^[[0m
+validate	Freeze and verifier tests	2026-10-14T12:36:56.7953140Z ^[[36;1mpython -m ruff check scripts/validate_physics_v3_v5.py scripts/validate_physics_v3_v4.py scripts/freeze_physics_v3_v4.py tests/test_v3_validation_v4_harness.py^[[0m
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8017498Z shell: /usr/bin/bash -e {0}
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8017784Z env:
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8018077Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8018576Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8019065Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8019496Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8019931Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8020367Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Freeze and verifier tests	2026-10-14T12:36:56.8020733Z ##[endgroup]
+validate	Freeze and verifier tests	2026-10-14T12:36:56.9944917Z ...
+validate	Freeze and verifier tests	2026-10-14T12:36:56.9945738Z ----------------------------------------------------------------------
+validate	Freeze and verifier tests	2026-10-14T12:36:56.9946475Z Ran 3 tests in 0.000s
+validate	Freeze and verifier tests	2026-10-14T12:36:56.9946749Z 
+validate	Freeze and verifier tests	2026-10-14T12:36:56.9946892Z OK
+validate	Freeze and verifier tests	2026-10-14T12:36:57.0333802Z All checks passed!
+validate	Source conformance (retain negative results)	﻿2026-10-14T12:36:57.0370814Z ##[group]Run python scripts/validate_physics_v3_v5.py --output "$RUNNER_TEMP/v3-source"
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0371844Z ^[[36;1mpython scripts/validate_physics_v3_v5.py --output "$RUNNER_TEMP/v3-source"^[[0m
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0437218Z shell: /usr/bin/bash -e {0}
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0437531Z env:
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0437839Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0438378Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0438915Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0439402Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0439885Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0440377Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.0440789Z ##[endgroup]
+validate	Source conformance (retain negative results)	2026-10-14T12:36:57.4941261Z {"status": "PASS", "mode": "SOURCE_SCALAR", "passed": 37, "total": 37}
+validate	Build and identify wheel	﻿2026-10-14T12:36:57.5087695Z ##[group]Run python -m build --wheel --outdir "$RUNNER_TEMP/v3-dist"
+validate	Build and identify wheel	2026-10-14T12:36:57.5088273Z ^[[36;1mpython -m build --wheel --outdir "$RUNNER_TEMP/v3-dist"^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5088785Z ^[[36;1msha256sum "$RUNNER_TEMP"/v3-dist/*.whl > "$RUNNER_TEMP/v3-wheel-sha256.txt"^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5089283Z ^[[36;1mgit rev-parse HEAD > "$RUNNER_TEMP/v3-commit.txt"^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5089669Z ^[[36;1mpython -m venv "$RUNNER_TEMP/v3-clean"^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5090149Z ^[[36;1m"$RUNNER_TEMP/v3-clean/bin/python" -m pip install "$RUNNER_TEMP"/v3-dist/*.whl^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5090651Z ^[[36;1m"$RUNNER_TEMP/v3-clean/bin/python" -m pip check^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5091500Z ^[[36;1m"$RUNNER_TEMP/v3-clean/bin/python" -m pip freeze > "$RUNNER_TEMP/v3-installed.txt"^[[0m
+validate	Build and identify wheel	2026-10-14T12:36:57.5154925Z shell: /usr/bin/bash -e {0}
+validate	Build and identify wheel	2026-10-14T12:36:57.5155202Z env:
+validate	Build and identify wheel	2026-10-14T12:36:57.5155479Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Build and identify wheel	2026-10-14T12:36:57.5155954Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Build and identify wheel	2026-10-14T12:36:57.5156471Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Build and identify wheel	2026-10-14T12:36:57.5156916Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Build and identify wheel	2026-10-14T12:36:57.5157350Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Build and identify wheel	2026-10-14T12:36:57.5157765Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Build and identify wheel	2026-10-14T12:36:57.5158114Z ##[endgroup]
+validate	Build and identify wheel	2026-10-14T12:36:57.6781891Z * Creating isolated environment: venv+pip...
+validate	Build and identify wheel	2026-10-14T12:36:57.6904965Z * Installing packages in isolated environment:
+validate	Build and identify wheel	2026-10-14T12:36:57.6905670Z   - setuptools==83.0.0
+validate	Build and identify wheel	2026-10-14T12:36:57.6906077Z   - wheel==0.47.0
+validate	Build and identify wheel	2026-10-14T12:36:58.4940681Z * Getting build dependencies for wheel...
+validate	Build and identify wheel	2026-10-14T12:36:58.9652538Z running egg_info
+validate	Build and identify wheel	2026-10-14T12:36:58.9669531Z writing neurocad_research.egg-info/PKG-INFO
+validate	Build and identify wheel	2026-10-14T12:36:58.9687179Z writing dependency_links to neurocad_research.egg-info/dependency_links.txt
+validate	Build and identify wheel	2026-10-14T12:36:58.9691881Z writing entry points to neurocad_research.egg-info/entry_points.txt
+validate	Build and identify wheel	2026-10-14T12:36:58.9701791Z writing requirements to neurocad_research.egg-info/requires.txt
+validate	Build and identify wheel	2026-10-14T12:36:58.9704312Z writing top-level names to neurocad_research.egg-info/top_level.txt
+validate	Build and identify wheel	2026-10-14T12:36:58.9781977Z reading manifest file 'neurocad_research.egg-info/SOURCES.txt'
+validate	Build and identify wheel	2026-10-14T12:36:58.9833631Z reading manifest template 'MANIFEST.in'
+validate	Build and identify wheel	2026-10-14T12:36:58.9942241Z no previously-included directories found matching 'research/runs'
+validate	Build and identify wheel	2026-10-14T12:36:59.0019580Z warning: no previously-included files matching '__pycache__' found under directory '*'
+validate	Build and identify wheel	2026-10-14T12:36:59.0028463Z warning: no previously-included files matching '*.py[cod]' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0037330Z warning: no previously-included files matching '*.stl' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0045514Z warning: no previously-included files matching '*.obj' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0053698Z warning: no previously-included files matching '*.step' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0061699Z warning: no previously-included files matching '*.scad' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0069948Z warning: no previously-included files matching '*.cad' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0078088Z warning: no previously-included files matching '*.zip' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.0084000Z no previously-included directories found matching 'output_models'
+validate	Build and identify wheel	2026-10-14T12:36:59.0089795Z no previously-included directories found matching 'test_output'
+validate	Build and identify wheel	2026-10-14T12:36:59.0095454Z no previously-included directories found matching 'legacy'
+validate	Build and identify wheel	2026-10-14T12:36:59.0115912Z adding license file 'LICENSE'
+validate	Build and identify wheel	2026-10-14T12:36:59.0176136Z writing manifest file 'neurocad_research.egg-info/SOURCES.txt'
+validate	Build and identify wheel	2026-10-14T12:36:59.0477354Z * Installed build dependency versions:
+validate	Build and identify wheel	2026-10-14T12:36:59.0477949Z   - setuptools==83.0.0
+validate	Build and identify wheel	2026-10-14T12:36:59.0478201Z   - wheel==0.47.0
+validate	Build and identify wheel	2026-10-14T12:36:59.0478768Z * Building wheel...
+validate	Build and identify wheel	2026-10-14T12:36:59.2391874Z running bdist_wheel
+validate	Build and identify wheel	2026-10-14T12:36:59.2461301Z running build
+validate	Build and identify wheel	2026-10-14T12:36:59.2462247Z running build_py
+validate	Build and identify wheel	2026-10-14T12:36:59.2478846Z copying neurocad_cli.py -> build/lib
+validate	Build and identify wheel	2026-10-14T12:36:59.2483430Z copying text_to_cad.py -> build/lib
+validate	Build and identify wheel	2026-10-14T12:36:59.2485915Z copying text_to_openscad.py -> build/lib
+validate	Build and identify wheel	2026-10-14T12:36:59.2495193Z copying core/complex_shapes.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2497841Z copying core/feature_ir.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2500485Z copying core/language_provider.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2503136Z copying core/workbench.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2505684Z copying core/conversational_parser.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2507987Z copying core/enclosure.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2510615Z copying core/generation.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2513234Z copying core/scad_export.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2515384Z copying core/physics.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2517711Z copying core/ir.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2520183Z copying core/prompt_frontend.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2523030Z copying core/gmsh_process.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2525438Z copying core/physics_context.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2527882Z copying core/agentic.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2530575Z copying core/design_graph.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2533225Z copying core/manufacturing.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2535560Z copying core/enclosure_verification.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2537915Z copying core/external_evaluation.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2540182Z copying core/prompt_engine.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2543008Z copying core/research_suite.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2545710Z copying core/physics_uncertainty.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2548035Z copying core/daemon.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2550473Z copying core/benchmark.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2553410Z copying core/language_evaluation.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2555674Z copying core/ir_export.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2557798Z copying core/mesh_geometry.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2560020Z copying core/mesh_preview.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2562848Z copying core/requirement_verification.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2565348Z copying core/ir_parser.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2567576Z copying core/fit_sample.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2569777Z copying core/gmsh_integrity.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2572407Z copying core/physics_advanced.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2575327Z copying core/edit_language.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2578700Z copying core/agent_workbench.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2583042Z copying core/structural_verification.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2583756Z copying core/calibration.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2586288Z copying core/config.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2588480Z copying core/challenge.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2590676Z copying core/validation.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2593805Z copying core/exact_backend.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2595855Z copying core/topology.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2598139Z copying core/semantic_equivalence.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2600337Z copying core/program_evaluation.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2603075Z copying core/workflow.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2605518Z copying core/physics_v3_context.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2607949Z copying core/physics_registry.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2610291Z copying core/engineering_math.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2613329Z copying core/scientific_kernel.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2615890Z copying core/demo_server.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2618326Z copying core/physics_overlay.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2620521Z copying core/ir_adapter.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2623175Z copying core/performance.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2625476Z copying core/service.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2627740Z copying core/artifacts.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2630157Z copying core/__init__.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2632979Z copying core/project.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2635343Z copying core/json_io.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2637692Z copying core/natural_language.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2640931Z copying core/exact_build123d.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2644483Z copying core/geometry.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2646752Z copying core/requirement_ir.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2649100Z copying core/data.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2651381Z copying core/mesh_cli.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2653991Z copying core/gmsh_backend.py -> build/lib/core
+validate	Build and identify wheel	2026-10-14T12:36:59.2658590Z copying core/integrations/handoff.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2661072Z copying core/integrations/common.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2663980Z copying core/integrations/exchange.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2666312Z copying core/integrations/registry.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2668638Z copying core/integrations/model.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2670861Z copying core/integrations/kicad.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2674011Z copying core/integrations/__init__.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2676226Z copying core/integrations/kicad_file.py -> build/lib/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.2679389Z running egg_info
+validate	Build and identify wheel	2026-10-14T12:36:59.2696433Z writing neurocad_research.egg-info/PKG-INFO
+validate	Build and identify wheel	2026-10-14T12:36:59.2713740Z writing dependency_links to neurocad_research.egg-info/dependency_links.txt
+validate	Build and identify wheel	2026-10-14T12:36:59.2718506Z writing entry points to neurocad_research.egg-info/entry_points.txt
+validate	Build and identify wheel	2026-10-14T12:36:59.2728952Z writing requirements to neurocad_research.egg-info/requires.txt
+validate	Build and identify wheel	2026-10-14T12:36:59.2731472Z writing top-level names to neurocad_research.egg-info/top_level.txt
+validate	Build and identify wheel	2026-10-14T12:36:59.2781377Z reading manifest file 'neurocad_research.egg-info/SOURCES.txt'
+validate	Build and identify wheel	2026-10-14T12:36:59.2833347Z reading manifest template 'MANIFEST.in'
+validate	Build and identify wheel	2026-10-14T12:36:59.2941818Z no previously-included directories found matching 'research/runs'
+validate	Build and identify wheel	2026-10-14T12:36:59.3018529Z warning: no previously-included files matching '__pycache__' found under directory '*'
+validate	Build and identify wheel	2026-10-14T12:36:59.3026522Z warning: no previously-included files matching '*.py[cod]' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3034461Z warning: no previously-included files matching '*.stl' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3041494Z warning: no previously-included files matching '*.obj' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3049074Z warning: no previously-included files matching '*.step' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3056336Z warning: no previously-included files matching '*.scad' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3063458Z warning: no previously-included files matching '*.cad' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3070434Z warning: no previously-included files matching '*.zip' found anywhere in distribution
+validate	Build and identify wheel	2026-10-14T12:36:59.3075474Z no previously-included directories found matching 'output_models'
+validate	Build and identify wheel	2026-10-14T12:36:59.3080438Z no previously-included directories found matching 'test_output'
+validate	Build and identify wheel	2026-10-14T12:36:59.3085490Z no previously-included directories found matching 'legacy'
+validate	Build and identify wheel	2026-10-14T12:36:59.3105420Z adding license file 'LICENSE'
+validate	Build and identify wheel	2026-10-14T12:36:59.3164586Z writing manifest file 'neurocad_research.egg-info/SOURCES.txt'
+validate	Build and identify wheel	2026-10-14T12:36:59.3191922Z copying core/schemas/neurocad_ir_v1.schema.json -> build/lib/core/schemas
+validate	Build and identify wheel	2026-10-14T12:36:59.3196352Z copying core/static/three.module.min.js -> build/lib/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3201627Z copying core/static/three.core.min.js -> build/lib/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3207883Z copying core/static/LICENSE -> build/lib/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3211297Z copying core/static/LICENSE -> build/lib/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3214981Z copying core/static/three.core.min.js -> build/lib/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3220654Z copying core/static/three.module.min.js -> build/lib/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3226045Z copying core/schemas/neurocad_ir_v1.schema.json -> build/lib/core/schemas
+validate	Build and identify wheel	2026-10-14T12:36:59.3267233Z installing to build/bdist.linux-x86_64/wheel
+validate	Build and identify wheel	2026-10-14T12:36:59.3267899Z running install
+validate	Build and identify wheel	2026-10-14T12:36:59.3340640Z running install_lib
+validate	Build and identify wheel	2026-10-14T12:36:59.3357518Z creating build/bdist.linux-x86_64/wheel
+validate	Build and identify wheel	2026-10-14T12:36:59.3359765Z copying build/lib/neurocad_cli.py -> build/bdist.linux-x86_64/wheel/.
+validate	Build and identify wheel	2026-10-14T12:36:59.3363084Z copying build/lib/text_to_cad.py -> build/bdist.linux-x86_64/wheel/.
+validate	Build and identify wheel	2026-10-14T12:36:59.3364758Z copying build/lib/text_to_openscad.py -> build/bdist.linux-x86_64/wheel/.
+validate	Build and identify wheel	2026-10-14T12:36:59.3367492Z creating build/bdist.linux-x86_64/wheel/core
+validate	Build and identify wheel	2026-10-14T12:36:59.3369312Z copying build/lib/core/complex_shapes.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3371480Z copying build/lib/core/feature_ir.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3373760Z copying build/lib/core/language_provider.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3375214Z copying build/lib/core/workbench.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3377382Z copying build/lib/core/conversational_parser.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3379684Z creating build/bdist.linux-x86_64/wheel/core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3381682Z copying build/lib/core/integrations/handoff.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3383977Z copying build/lib/core/integrations/common.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3385633Z copying build/lib/core/integrations/exchange.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3387455Z copying build/lib/core/integrations/registry.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3389324Z copying build/lib/core/integrations/model.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3390954Z copying build/lib/core/integrations/kicad.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3393129Z copying build/lib/core/integrations/__init__.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3405599Z copying build/lib/core/integrations/kicad_file.py -> build/bdist.linux-x86_64/wheel/./core/integrations
+validate	Build and identify wheel	2026-10-14T12:36:59.3406807Z copying build/lib/core/enclosure.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3407694Z copying build/lib/core/generation.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3408379Z copying build/lib/core/scad_export.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3409453Z copying build/lib/core/physics.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3410055Z copying build/lib/core/ir.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3410952Z copying build/lib/core/prompt_frontend.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3411651Z creating build/bdist.linux-x86_64/wheel/core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3412121Z copying build/lib/core/static/LICENSE -> build/bdist.linux-x86_64/wheel/./core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3412763Z copying build/lib/core/static/three.module.min.js -> build/bdist.linux-x86_64/wheel/./core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3414805Z copying build/lib/core/static/three.core.min.js -> build/bdist.linux-x86_64/wheel/./core/static
+validate	Build and identify wheel	2026-10-14T12:36:59.3418750Z copying build/lib/core/gmsh_process.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3420471Z copying build/lib/core/physics_context.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3422753Z copying build/lib/core/agentic.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3424810Z copying build/lib/core/design_graph.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3426357Z copying build/lib/core/manufacturing.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3428129Z copying build/lib/core/enclosure_verification.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3429939Z copying build/lib/core/external_evaluation.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3431776Z copying build/lib/core/prompt_engine.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3433817Z copying build/lib/core/research_suite.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3435818Z copying build/lib/core/physics_uncertainty.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3437305Z copying build/lib/core/daemon.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3439253Z copying build/lib/core/benchmark.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3440944Z copying build/lib/core/language_evaluation.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3443032Z copying build/lib/core/ir_export.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3444579Z copying build/lib/core/mesh_geometry.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3446239Z copying build/lib/core/mesh_preview.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3447955Z copying build/lib/core/requirement_verification.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3449672Z copying build/lib/core/ir_parser.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3451416Z copying build/lib/core/fit_sample.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3453379Z copying build/lib/core/gmsh_integrity.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3454931Z copying build/lib/core/physics_advanced.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3456981Z copying build/lib/core/edit_language.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3458570Z copying build/lib/core/agent_workbench.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3460335Z copying build/lib/core/structural_verification.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3462528Z copying build/lib/core/calibration.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3464372Z copying build/lib/core/config.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3465988Z copying build/lib/core/challenge.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3467628Z copying build/lib/core/validation.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3469582Z copying build/lib/core/exact_backend.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3471231Z copying build/lib/core/topology.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3473425Z copying build/lib/core/semantic_equivalence.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3474939Z copying build/lib/core/program_evaluation.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3476517Z copying build/lib/core/workflow.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3478462Z copying build/lib/core/physics_v3_context.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3480034Z copying build/lib/core/physics_registry.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3482208Z copying build/lib/core/engineering_math.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3484324Z copying build/lib/core/scientific_kernel.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3486217Z copying build/lib/core/demo_server.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3488279Z copying build/lib/core/physics_overlay.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3489851Z copying build/lib/core/ir_adapter.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3491757Z copying build/lib/core/performance.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3493848Z copying build/lib/core/service.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3495483Z copying build/lib/core/artifacts.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3497600Z copying build/lib/core/__init__.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3499252Z copying build/lib/core/project.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3501302Z copying build/lib/core/json_io.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3503608Z copying build/lib/core/natural_language.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3505380Z copying build/lib/core/exact_build123d.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3507696Z copying build/lib/core/geometry.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3509282Z copying build/lib/core/requirement_ir.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3511205Z copying build/lib/core/data.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3513311Z copying build/lib/core/mesh_cli.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3515648Z creating build/bdist.linux-x86_64/wheel/core/schemas
+validate	Build and identify wheel	2026-10-14T12:36:59.3517755Z copying build/lib/core/schemas/neurocad_ir_v1.schema.json -> build/bdist.linux-x86_64/wheel/./core/schemas
+validate	Build and identify wheel	2026-10-14T12:36:59.3519266Z copying build/lib/core/gmsh_backend.py -> build/bdist.linux-x86_64/wheel/./core
+validate	Build and identify wheel	2026-10-14T12:36:59.3521070Z running install_egg_info
+validate	Build and identify wheel	2026-10-14T12:36:59.3537239Z Copying neurocad_research.egg-info to build/bdist.linux-x86_64/wheel/./neurocad_research-0.5.0a6-py3.12.egg-info
+validate	Build and identify wheel	2026-10-14T12:36:59.3546447Z running install_scripts
+validate	Build and identify wheel	2026-10-14T12:36:59.3558506Z creating build/bdist.linux-x86_64/wheel/neurocad_research-0.5.0a6.dist-info/WHEEL
+validate	Build and identify wheel	2026-10-14T12:36:59.3563161Z creating '/home/runner/work/_temp/v3-dist/.tmp-m43d0_fb/neurocad_research-0.5.0a6-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+validate	Build and identify wheel	2026-10-14T12:36:59.3609037Z adding 'neurocad_cli.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3615574Z adding 'text_to_cad.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3618554Z adding 'text_to_openscad.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3625687Z adding 'core/__init__.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3632237Z adding 'core/agent_workbench.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3650653Z adding 'core/agentic.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3658083Z adding 'core/artifacts.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3665947Z adding 'core/benchmark.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3676383Z adding 'core/calibration.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3680151Z adding 'core/challenge.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3689365Z adding 'core/complex_shapes.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3692955Z adding 'core/config.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3698293Z adding 'core/conversational_parser.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3706203Z adding 'core/daemon.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3708906Z adding 'core/data.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3715142Z adding 'core/demo_server.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3717495Z adding 'core/design_graph.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3720820Z adding 'core/edit_language.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3735294Z adding 'core/enclosure.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3740834Z adding 'core/enclosure_verification.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3748312Z adding 'core/engineering_math.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3751307Z adding 'core/exact_backend.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3770051Z adding 'core/exact_build123d.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3775207Z adding 'core/external_evaluation.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3783326Z adding 'core/feature_ir.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3785994Z adding 'core/fit_sample.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3790282Z adding 'core/generation.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3792855Z adding 'core/geometry.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3797195Z adding 'core/gmsh_backend.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3800486Z adding 'core/gmsh_integrity.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3805645Z adding 'core/gmsh_process.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3815188Z adding 'core/ir.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3818650Z adding 'core/ir_adapter.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3821101Z adding 'core/ir_export.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3824086Z adding 'core/ir_parser.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3826501Z adding 'core/json_io.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3831204Z adding 'core/language_evaluation.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3835319Z adding 'core/language_provider.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3839095Z adding 'core/manufacturing.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3841520Z adding 'core/mesh_cli.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3845853Z adding 'core/mesh_geometry.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3849057Z adding 'core/mesh_preview.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3857294Z adding 'core/natural_language.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3860692Z adding 'core/performance.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3868062Z adding 'core/physics.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3877397Z adding 'core/physics_advanced.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3884124Z adding 'core/physics_context.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3886801Z adding 'core/physics_overlay.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3889444Z adding 'core/physics_registry.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3893531Z adding 'core/physics_uncertainty.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3898277Z adding 'core/physics_v3_context.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3901045Z adding 'core/program_evaluation.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3907498Z adding 'core/project.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3917730Z adding 'core/prompt_engine.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3920756Z adding 'core/prompt_frontend.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3926423Z adding 'core/requirement_ir.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3934162Z adding 'core/requirement_verification.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3950822Z adding 'core/research_suite.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3955151Z adding 'core/scad_export.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3967566Z adding 'core/scientific_kernel.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3970557Z adding 'core/semantic_equivalence.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3973740Z adding 'core/service.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3976721Z adding 'core/structural_verification.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3980706Z adding 'core/topology.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3986142Z adding 'core/validation.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.3994457Z adding 'core/workbench.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4000125Z adding 'core/workflow.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4003524Z adding 'core/integrations/__init__.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4006036Z adding 'core/integrations/common.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4009779Z adding 'core/integrations/exchange.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4015179Z adding 'core/integrations/handoff.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4021392Z adding 'core/integrations/kicad.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4027334Z adding 'core/integrations/kicad_file.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4029740Z adding 'core/integrations/model.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4034952Z adding 'core/integrations/registry.py'
+validate	Build and identify wheel	2026-10-14T12:36:59.4038285Z adding 'core/schemas/neurocad_ir_v1.schema.json'
+validate	Build and identify wheel	2026-10-14T12:36:59.4040639Z adding 'core/static/LICENSE'
+validate	Build and identify wheel	2026-10-14T12:36:59.4157263Z adding 'core/static/three.core.min.js'
+validate	Build and identify wheel	2026-10-14T12:36:59.4253943Z adding 'core/static/three.module.min.js'
+validate	Build and identify wheel	2026-10-14T12:36:59.4260099Z adding 'neurocad_research-0.5.0a6.dist-info/licenses/LICENSE'
+validate	Build and identify wheel	2026-10-14T12:36:59.4269548Z adding 'neurocad_research-0.5.0a6.dist-info/METADATA'
+validate	Build and identify wheel	2026-10-14T12:36:59.4271233Z adding 'neurocad_research-0.5.0a6.dist-info/WHEEL'
+validate	Build and identify wheel	2026-10-14T12:36:59.4273124Z adding 'neurocad_research-0.5.0a6.dist-info/entry_points.txt'
+validate	Build and identify wheel	2026-10-14T12:36:59.4274475Z adding 'neurocad_research-0.5.0a6.dist-info/top_level.txt'
+validate	Build and identify wheel	2026-10-14T12:36:59.4279180Z adding 'neurocad_research-0.5.0a6.dist-info/RECORD'
+validate	Build and identify wheel	2026-10-14T12:36:59.4282509Z removing build/bdist.linux-x86_64/wheel
+validate	Build and identify wheel	2026-10-14T12:36:59.4776222Z Successfully built neurocad_research-0.5.0a6-py3-none-any.whl
+validate	Build and identify wheel	2026-10-14T12:37:02.3889378Z Processing /home/runner/work/_temp/v3-dist/neurocad_research-0.5.0a6-py3-none-any.whl
+validate	Build and identify wheel	2026-10-14T12:37:02.4478315Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:02.4493200Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+validate	Build and identify wheel	2026-10-14T12:37:02.6459702Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:02.6474280Z   Using cached numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+validate	Build and identify wheel	2026-10-14T12:37:02.7509728Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:02.7526678Z   Using cached trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+validate	Build and identify wheel	2026-10-14T12:37:02.7709317Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:02.7721444Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+validate	Build and identify wheel	2026-10-14T12:37:02.7836923Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:02.7849210Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+validate	Build and identify wheel	2026-10-14T12:37:02.8063949Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:02.8077105Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0366094Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:03.0379745Z   Using cached rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0765155Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+validate	Build and identify wheel	2026-10-14T12:37:03.0777533Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0818699Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0831548Z Using cached numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0908564Z Using cached trimesh-5.1.1-py3-none-any.whl (750 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0922262Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0934206Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0945861Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0957756Z Using cached rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.0970236Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+validate	Build and identify wheel	2026-10-14T12:37:03.1453097Z Installing collected packages: typing-extensions, rpds-py, numpy, attrs, trimesh, referencing, jsonschema-specifications, jsonschema, neurocad-research
+validate	Build and identify wheel	2026-10-14T12:37:06.0939092Z Successfully installed attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 neurocad-research-0.5.0a6 numpy-2.5.4 referencing-0.37.0 rpds-py-2026.9.1 trimesh-5.1.1 typing-extensions-4.16.0
+validate	Build and identify wheel	2026-10-14T12:37:06.1778863Z 
+validate	Build and identify wheel	2026-10-14T12:37:06.1779775Z [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+validate	Build and identify wheel	2026-10-14T12:37:06.1780784Z [notice] To update, run: python -m pip install --upgrade pip
+validate	Build and identify wheel	2026-10-14T12:37:06.5526484Z No broken requirements found.
+validate	Installed conformance and end-to-end acceptance	﻿2026-10-14T12:37:06.8890099Z ##[group]Run python scripts/validate_physics_v3_v5.py --installed-python "$RUNNER_TEMP/v3-clean/bin/python" --output "$RUNNER_TEMP/v3-installed"
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8892257Z ^[[36;1mpython scripts/validate_physics_v3_v5.py --installed-python "$RUNNER_TEMP/v3-clean/bin/python" --output "$RUNNER_TEMP/v3-installed"^[[0m
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8980425Z shell: /usr/bin/bash -e {0}
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8980806Z env:
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8981355Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8982177Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8982818Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8983398Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8983981Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8984556Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:06.8985034Z ##[endgroup]
+validate	Installed conformance and end-to-end acceptance	2026-10-14T12:37:29.9222138Z {"status": "PASS", "mode": "INSTALLED", "passed": 52, "total": 52}
+validate	Compiled complex-shape meshes	﻿2026-10-14T12:37:29.9338511Z ##[group]Run cd "$RUNNER_TEMP/v3-installed"
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9338900Z ^[[36;1mcd "$RUNNER_TEMP/v3-installed"^[[0m
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9339289Z ^[[36;1mfor shape in hollow-shaft i-beam l-bracket perforated-plate; do^[[0m
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9339998Z ^[[36;1m  xvfb-run -a "$RUNNER_TEMP/v3-clean/bin/python" -I -m neurocad_cli compile "$shape/shape.ncad.json" --format stl -o "$shape.stl"^[[0m
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9340600Z ^[[36;1mdone^[[0m
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9402733Z shell: /usr/bin/bash -e {0}
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9402993Z env:
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9403265Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9403726Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9404191Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9404590Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9405041Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9405438Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Compiled complex-shape meshes	2026-10-14T12:37:29.9405818Z ##[endgroup]
+validate	Compiled complex-shape meshes	2026-10-14T12:37:31.7621822Z {"mesh_verification": {"body_count": 1, "embedding": {"candidate_pairs_tested": 3026, "intersection_pairs": [], "limitations": ["Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.", "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."], "relative_tolerance": 1e-12, "reported_intersections_truncated": false, "scale_mm": 500.0, "schema_version": "neurocad-self-intersection-v1", "self_intersecting": false}, "extent_absolute_errors_mm": null, "extents_mm": [40.0, 40.0, 500.0], "faces": 768, "finite_vertices": true, "is_volume": true, "kernel_validity": true, "topology": {"betti_numbers": [1, 2, 1], "boundary_edges": 0, "boundary_ranks": [383, 767], "closed": true, "coefficient_field": "F2", "components": [{"boundary_loops": 0, "crosscap_number": null, "edges": 1152, "euler_characteristic": 0, "faces": 768, "genus": 1, "manifold": true, "orientable": true, "vertices": 384}], "edges": 1152, "euler_characteristic": 0, "faces": 768, "limitations": ["Connectivity of supplied vertex indices only; no self-intersection or embedding proof.", "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."], "manifold": true, "nonmanifold_edges": 0, "nonmanifold_vertex_examples": [], "nonmanifold_vertices": 0, "schema_version": "neurocad-topology-v1", "vertices": 384}, "verification_kind": "kernel_mesh", "vertices": 384, "volume_mm3": 401836.8948506, "watertight": true, "winding_consistent": true}}
+validate	Compiled complex-shape meshes	2026-10-14T12:37:31.7630845Z /home/runner/work/_temp/v3-installed/hollow-shaft.stl
+validate	Compiled complex-shape meshes	2026-10-14T12:37:32.2712345Z {"mesh_verification": {"body_count": 1, "embedding": {"candidate_pairs_tested": 62, "intersection_pairs": [], "limitations": ["Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.", "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."], "relative_tolerance": 1e-12, "reported_intersections_truncated": false, "scale_mm": 1000.0, "schema_version": "neurocad-self-intersection-v1", "self_intersecting": false}, "extent_absolute_errors_mm": [0.0, 0.0, 0.0], "extents_mm": [100.0, 200.0, 1000.0], "faces": 44, "finite_vertices": true, "is_volume": true, "kernel_validity": true, "topology": {"betti_numbers": [1, 0, 1], "boundary_edges": 0, "boundary_ranks": [23, 43], "closed": true, "coefficient_field": "F2", "components": [{"boundary_loops": 0, "crosscap_number": null, "edges": 66, "euler_characteristic": 2, "faces": 44, "genus": 0, "manifold": true, "orientable": true, "vertices": 24}], "edges": 66, "euler_characteristic": 2, "faces": 44, "limitations": ["Connectivity of supplied vertex indices only; no self-intersection or embedding proof.", "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."], "manifold": true, "nonmanifold_edges": 0, "nonmanifold_vertex_examples": [], "nonmanifold_vertices": 0, "schema_version": "neurocad-topology-v1", "vertices": 24}, "verification_kind": "kernel_mesh", "vertices": 24, "volume_mm3": 3440000.0, "watertight": true, "winding_consistent": true}}
+validate	Compiled complex-shape meshes	2026-10-14T12:37:32.2731946Z /home/runner/work/_temp/v3-installed/i-beam.stl
+validate	Compiled complex-shape meshes	2026-10-14T12:37:32.7614844Z {"mesh_verification": {"body_count": 1, "embedding": {"candidate_pairs_tested": 12, "intersection_pairs": [], "limitations": ["Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.", "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."], "relative_tolerance": 1e-12, "reported_intersections_truncated": false, "scale_mm": 300.0, "schema_version": "neurocad-self-intersection-v1", "self_intersecting": false}, "extent_absolute_errors_mm": [0.0, 0.0, 0.0], "extents_mm": [50.0, 80.0, 300.0], "faces": 20, "finite_vertices": true, "is_volume": true, "kernel_validity": true, "topology": {"betti_numbers": [1, 0, 1], "boundary_edges": 0, "boundary_ranks": [11, 19], "closed": true, "coefficient_field": "F2", "components": [{"boundary_loops": 0, "crosscap_number": null, "edges": 30, "euler_characteristic": 2, "faces": 20, "genus": 0, "manifold": true, "orientable": true, "vertices": 12}], "edges": 30, "euler_characteristic": 2, "faces": 20, "limitations": ["Connectivity of supplied vertex indices only; no self-intersection or embedding proof.", "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."], "manifold": true, "nonmanifold_edges": 0, "nonmanifold_vertex_examples": [], "nonmanifold_vertices": 0, "schema_version": "neurocad-topology-v1", "vertices": 12}, "verification_kind": "kernel_mesh", "vertices": 12, "volume_mm3": 187500.0, "watertight": true, "winding_consistent": true}}
+validate	Compiled complex-shape meshes	2026-10-14T12:37:32.7624750Z /home/runner/work/_temp/v3-installed/l-bracket.stl
+validate	Compiled complex-shape meshes	2026-10-14T12:37:42.1933761Z {"mesh_verification": {"body_count": 1, "embedding": {"candidate_pairs_tested": 13784, "intersection_pairs": [], "limitations": ["Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.", "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."], "relative_tolerance": 1e-12, "reported_intersections_truncated": false, "scale_mm": 120.0, "schema_version": "neurocad-self-intersection-v1", "self_intersecting": false}, "extent_absolute_errors_mm": null, "extents_mm": [120.0, 80.0, 4.0], "faces": 4668, "finite_vertices": true, "is_volume": true, "kernel_validity": true, "topology": {"betti_numbers": [1, 24, 1], "boundary_edges": 0, "boundary_ranks": [2311, 4667], "closed": true, "coefficient_field": "F2", "components": [{"boundary_loops": 0, "crosscap_number": null, "edges": 7002, "euler_characteristic": -22, "faces": 4668, "genus": 12, "manifold": true, "orientable": true, "vertices": 2312}], "edges": 7002, "euler_characteristic": -22, "faces": 4668, "limitations": ["Connectivity of supplied vertex indices only; no self-intersection or embedding proof.", "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."], "manifold": true, "nonmanifold_edges": 0, "nonmanifold_vertex_examples": [], "nonmanifold_vertices": 0, "schema_version": "neurocad-topology-v1", "vertices": 2312}, "verification_kind": "kernel_mesh", "vertices": 2312, "volume_mm3": 34632.793196704, "watertight": true, "winding_consistent": true}}
+validate	Compiled complex-shape meshes	2026-10-14T12:37:42.1942652Z /home/runner/work/_temp/v3-installed/perforated-plate.stl
+validate	Compatibility regression	﻿2026-10-14T12:37:42.2404224Z ##[group]Run python -m pytest -q tests --junitxml="$RUNNER_TEMP/v3-tests.xml"
+validate	Compatibility regression	2026-10-14T12:37:42.2404813Z ^[[36;1mpython -m pytest -q tests --junitxml="$RUNNER_TEMP/v3-tests.xml"^[[0m
+validate	Compatibility regression	2026-10-14T12:37:42.2468176Z shell: /usr/bin/bash -e {0}
+validate	Compatibility regression	2026-10-14T12:37:42.2468454Z env:
+validate	Compatibility regression	2026-10-14T12:37:42.2468731Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compatibility regression	2026-10-14T12:37:42.2469190Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Compatibility regression	2026-10-14T12:37:42.2469654Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compatibility regression	2026-10-14T12:37:42.2470063Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compatibility regression	2026-10-14T12:37:42.2470473Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Compatibility regression	2026-10-14T12:37:42.2470878Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Compatibility regression	2026-10-14T12:37:42.2471559Z ##[endgroup]
+validate	Compatibility regression	2026-10-14T12:37:46.6874462Z ....................................... [  2%]
+validate	Compatibility regression	2026-10-14T12:37:50.9826796Z ........................................................................ [  6%]
+validate	Compatibility regression	2026-10-14T12:37:52.5431603Z ........................................................................ [ 10%]
+validate	Compatibility regression	2026-10-14T12:37:52.6778950Z ........................................................................ [ 15%]
+validate	Compatibility regression	2026-10-14T12:37:52.8531137Z ........................................................................ [ 19%]
+validate	Compatibility regression	2026-10-14T12:37:54.0389249Z ........................................................................ [ 23%]
+validate	Compatibility regression	2026-10-14T12:38:27.6780429Z ........................................................................ [ 27%]
+validate	Compatibility regression	2026-10-14T12:38:27.8037468Z ........................................................................ [ 32%]
+validate	Compatibility regression	2026-10-14T12:38:29.5769766Z .....sssss.............................................................. [ 36%]
+validate	Compatibility regression	2026-10-14T12:38:30.8464476Z ........................................................................ [ 40%]
+validate	Compatibility regression	2026-10-14T12:38:36.0304198Z ........................................................................ [ 45%]
+validate	Compatibility regression	2026-10-14T12:38:36.9896874Z ........................................................................ [ 49%]
+validate	Compatibility regression	2026-10-14T12:38:43.9515145Z ........................................................................ [ 53%]
+validate	Compatibility regression	2026-10-14T12:38:45.2533502Z ........................................................................ [ 57%]
+validate	Compatibility regression	2026-10-14T12:38:48.4468220Z ........................................................................ [ 62%]
+validate	Compatibility regression	2026-10-14T12:38:52.9648378Z ........................................................................ [ 66%]
+validate	Compatibility regression	2026-10-14T12:38:53.3966963Z ........................................................................ [ 70%]
+validate	Compatibility regression	2026-10-14T12:38:53.5508279Z ........................................................................ [ 75%]
+validate	Compatibility regression	2026-10-14T12:39:12.4199855Z .............................................s.......................... [ 79%]
+validate	Compatibility regression	2026-10-14T12:39:12.5399822Z ........................................................................ [ 83%]
+validate	Compatibility regression	2026-10-14T12:39:15.5196776Z ........................................................................ [ 87%]
+validate	Compatibility regression	2026-10-14T12:39:15.7511942Z .................................................... [ 90%]
+validate	Compatibility regression	2026-10-14T12:39:15.8319909Z ........................................................................ [ 95%]
+validate	Compatibility regression	2026-10-14T12:39:35.9670670Z ........................................................................ [ 99%]
+validate	Compatibility regression	2026-10-14T12:39:36.2354910Z ........                                                                 [100%]
+validate	Compatibility regression	2026-10-14T12:39:36.2357367Z 1677 passed, 9 skipped, 53 subtests passed in 113.61s (0:01:53)
+validate	Require all gates	﻿2026-10-14T12:39:36.3390258Z ##[group]Run test "$SCALAR" = success
+validate	Require all gates	2026-10-14T12:39:36.3390610Z ^[[36;1mtest "$SCALAR" = success^[[0m
+validate	Require all gates	2026-10-14T12:39:36.3390880Z ^[[36;1mtest "$INSTALLED" = success^[[0m
+validate	Require all gates	2026-10-14T12:39:36.3391443Z ^[[36;1mtest "$MESHES" = success^[[0m
+validate	Require all gates	2026-10-14T12:39:36.3391713Z ^[[36;1mtest "$REGRESSION" = success^[[0m
+validate	Require all gates	2026-10-14T12:39:36.3392115Z ^[[36;1mgit diff --exit-code -- research/physics_v2 release/physics_v2 paper^[[0m
+validate	Require all gates	2026-10-14T12:39:36.3454115Z shell: /usr/bin/bash -e {0}
+validate	Require all gates	2026-10-14T12:39:36.3454375Z env:
+validate	Require all gates	2026-10-14T12:39:36.3454641Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Require all gates	2026-10-14T12:39:36.3455122Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Require all gates	2026-10-14T12:39:36.3455587Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Require all gates	2026-10-14T12:39:36.3455998Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Require all gates	2026-10-14T12:39:36.3456440Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Require all gates	2026-10-14T12:39:36.3456850Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Require all gates	2026-10-14T12:39:36.3457226Z   SCALAR: success
+validate	Require all gates	2026-10-14T12:39:36.3457452Z   INSTALLED: success
+validate	Require all gates	2026-10-14T12:39:36.3457659Z   MESHES: success
+validate	Require all gates	2026-10-14T12:39:36.3457858Z   REGRESSION: success
+validate	Require all gates	2026-10-14T12:39:36.3458070Z ##[endgroup]
+validate	Retain all outcomes	﻿2026-10-14T12:39:36.3658785Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+validate	Retain all outcomes	2026-10-14T12:39:36.3659211Z with:
+validate	Retain all outcomes	2026-10-14T12:39:36.3659477Z   name: physics-v3-d7a80567c2c2727f8bd420a68e2517b217508b56
+validate	Retain all outcomes	2026-10-14T12:39:36.3659829Z   path: /home/runner/work/_temp/v3-*
+validate	Retain all outcomes	2026-10-14T12:39:36.3660106Z   retention-days: 30
+validate	Retain all outcomes	2026-10-14T12:39:36.3660325Z   if-no-files-found: warn
+validate	Retain all outcomes	2026-10-14T12:39:36.3660546Z   compression-level: 6
+validate	Retain all outcomes	2026-10-14T12:39:36.3660755Z   overwrite: false
+validate	Retain all outcomes	2026-10-14T12:39:36.3660965Z   include-hidden-files: false
+validate	Retain all outcomes	2026-10-14T12:39:36.3661398Z   archive: true
+validate	Retain all outcomes	2026-10-14T12:39:36.3661583Z env:
+validate	Retain all outcomes	2026-10-14T12:39:36.3661824Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Retain all outcomes	2026-10-14T12:39:36.3662249Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+validate	Retain all outcomes	2026-10-14T12:39:36.3662674Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Retain all outcomes	2026-10-14T12:39:36.3663051Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Retain all outcomes	2026-10-14T12:39:36.3663430Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+validate	Retain all outcomes	2026-10-14T12:39:36.3663883Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+validate	Retain all outcomes	2026-10-14T12:39:36.3664206Z ##[endgroup]
+validate	Retain all outcomes	2026-10-14T12:39:37.4495380Z With the provided path, there will be 5766 files uploaded
+validate	Retain all outcomes	2026-10-14T12:39:37.4501264Z Artifact name is valid!
+validate	Retain all outcomes	2026-10-14T12:39:37.4501949Z Root directory input is valid!
+validate	Retain all outcomes	2026-10-14T12:39:37.9162090Z Uploading artifact: physics-v3-d7a80567c2c2727f8bd420a68e2517b217508b56.zip
+validate	Retain all outcomes	2026-10-14T12:39:37.9192221Z Beginning upload of artifact content to blob storage
+validate	Retain all outcomes	2026-10-14T12:39:40.0270388Z Uploaded bytes 8388608
+validate	Retain all outcomes	2026-10-14T12:39:40.4763533Z Uploaded bytes 16777216
+validate	Retain all outcomes	2026-10-14T12:39:41.4476471Z Uploaded bytes 25165824
+validate	Retain all outcomes	2026-10-14T12:39:42.6140597Z Uploaded bytes 33554432
+validate	Retain all outcomes	2026-10-14T12:39:43.7217962Z Uploaded bytes 41943040
+validate	Retain all outcomes	2026-10-14T12:39:44.4980309Z Uploaded bytes 50331648
+validate	Retain all outcomes	2026-10-14T12:39:45.7393207Z Uploaded bytes 58720256
+validate	Retain all outcomes	2026-10-14T12:39:45.8609986Z Uploaded bytes 59875996
+validate	Retain all outcomes	2026-10-14T12:39:45.9374918Z Finished uploading artifact content to blob storage!
+validate	Retain all outcomes	2026-10-14T12:39:45.9378639Z SHA256 digest of uploaded artifact is 85ad046fc62a6119abbf42fd6f04ca3c1490239baf1d9a7ba8eb18836fff4c75
+validate	Retain all outcomes	2026-10-14T12:39:45.9381191Z Finalizing artifact upload
+validate	Retain all outcomes	2026-10-14T12:39:46.3519348Z Artifact physics-v3-d7a80567c2c2727f8bd420a68e2517b217508b56 successfully finalized. Artifact ID 11895110860
+validate	Retain all outcomes	2026-10-14T12:39:46.3521369Z Artifact physics-v3-d7a80567c2c2727f8bd420a68e2517b217508b56 has been successfully uploaded! Final size is 59875996 bytes. Artifact ID is 11895110860
+validate	Retain all outcomes	2026-10-14T12:39:46.3526563Z Artifact download URL: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565079273/artifacts/11895110860
+validate	Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	﻿2026-10-14T12:39:46.3944197Z Post job cleanup.
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-14T12:39:46.5388456Z Post job cleanup.
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6387400Z [command]/usr/bin/git version
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6435447Z git version 2.55.0
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6509175Z Temporarily overriding HOME='/home/runner/work/_temp/bd9e8a0d-17cd-4a59-af93-bd61e06e90b5' before making global git config changes
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6522658Z Adding repository directory to the temporary git global config as a safe directory
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6523953Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroCAD/NeuroCAD
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6583907Z Removing SSH command configuration
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6584857Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.6723674Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7042092Z Removing HTTP extra header
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7043013Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7103052Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7453064Z Removing includeIf entries pointing to credentials config files
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7454233Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7505599Z includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7506826Z includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7508095Z includeif.gitdir:/github/workspace/.git.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7509126Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7523478Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7570892Z /home/runner/work/_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7594443Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-af712a22\-36f6\-4d43\-91e1\-346b7a3f4e79\.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7667919Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7695320Z /home/runner/work/_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7722782Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-af712a22\-36f6\-4d43\-91e1\-346b7a3f4e79\.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7769088Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7808107Z /github/runner_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7819453Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-af712a22\-36f6\-4d43\-91e1\-346b7a3f4e79\.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7862934Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7890627Z /github/runner_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7913882Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-af712a22\-36f6\-4d43\-91e1\-346b7a3f4e79\.config
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.7964855Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:39:46.8203113Z Removing credentials config '/home/runner/work/_temp/git-credentials-af712a22-36f6-4d43-91e1-346b7a3f4e79.config'
+validate	Complete job	﻿2026-10-14T12:39:46.8382239Z Cleaning up orphan processes

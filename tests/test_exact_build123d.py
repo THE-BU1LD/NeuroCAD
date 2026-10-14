@@ -291,6 +291,8 @@ def test_build123d_verified_export_publishes_requirement_evidence(tmp_path) -> N
     assert (destination / "requirements.json").is_file()
     assert (destination / "requirement-bindings.json").is_file()
     assert (destination / "requirements-verification.json").is_file()
+    assert (destination / "requirements.json").read_bytes() == serialize_requirement_ir_json(requirements).encode("utf-8")
+    assert (destination / "requirement-bindings.json").read_bytes() == serialize_binding_set_json(bindings).encode("utf-8")
 
 
 def test_build123d_valid_brep_with_wrong_must_dimension_publishes_nothing(tmp_path) -> None:
@@ -824,6 +826,8 @@ def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
     [
         ("receipt_version", "future-receipt-v999", "unsupported receipt version"),
         ("backend", "other-kernel", "not produced by the build123d backend"),
+        ("kernel_version", "0.0-forged", "kernel version differs from the current evaluator"),
+        ("kernel_version", None, "kernel version differs from the current evaluator"),
         (
             "backend_version",
             "0.0-forged",

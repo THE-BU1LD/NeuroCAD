@@ -181,6 +181,7 @@ class Build123dReceipt:
     feature_ir_sha256: str
     output_feature: str
     inspection: GeometryInspection
+    kernel_version: str = "unknown"
     step_path: str | None = None
     step_sha256: str | None = None
     roundtrip_inspection: GeometryInspection | None = None
@@ -252,6 +253,10 @@ class Build123dBackend:
             self.version = metadata.version("build123d")
         except metadata.PackageNotFoundError:
             self.version = "unknown"
+        try:
+            self.kernel_version = metadata.version("cadquery-ocp-novtk")
+        except metadata.PackageNotFoundError:
+            self.kernel_version = "unknown"
 
     def _plane(self, name: str) -> Any:
         planes = {"XY": self.bd.Plane.XY, "XZ": self.bd.Plane.XZ, "YZ": self.bd.Plane.YZ}
@@ -1241,6 +1246,10 @@ class Build123dBackend:
             raise Build123dCompileError(
                 "baseline build receipt backend version differs from the current evaluator"
             )
+        if baseline_receipt_payload.get("kernel_version") != self.kernel_version:
+            raise Build123dCompileError(
+                "baseline build receipt kernel version differs from the current evaluator"
+            )
         expected_baseline_hash = _program_sha256(baseline_program)
         if baseline_receipt_payload.get("feature_ir_sha256") != expected_baseline_hash:
             raise Build123dCompileError(
@@ -1563,7 +1572,7 @@ class Build123dBackend:
                     allow_nan=False,
                 )
                 + "\n",
-                encoding="utf-8",
+                encoding="utf-8", newline="\n",
             )
             os.replace(private_bundle, destination)
             shutil.rmtree(private_root, ignore_errors=True)
@@ -1580,6 +1589,7 @@ class Build123dBackend:
         return Build123dReceipt(
             backend="build123d",
             backend_version=self.version,
+            kernel_version=self.kernel_version,
             feature_ir_sha256=_program_sha256(program),
             output_feature=output_feature,
             inspection=self.inspect(shape),
@@ -1686,11 +1696,11 @@ class Build123dBackend:
                 verification_path = staging / "requirements-verification.json"
                 requirements_path.write_text(
                     serialize_requirement_ir_json(requirements),
-                    encoding="utf-8",
+                    encoding="utf-8", newline="\n",
                 )
                 bindings_path.write_text(
                     serialize_binding_set_json(binding_set),
-                    encoding="utf-8",
+                    encoding="utf-8", newline="\n",
                 )
                 verification_path.write_text(
                     json.dumps(
@@ -1700,12 +1710,13 @@ class Build123dBackend:
                         allow_nan=False,
                     )
                     + "\n",
-                    encoding="utf-8",
+                    encoding="utf-8", newline="\n",
                 )
 
             receipt = Build123dReceipt(
                 backend="build123d",
                 backend_version=self.version,
+                kernel_version=self.kernel_version,
                 feature_ir_sha256=_program_sha256(program),
                 output_feature=output_feature,
                 inspection=inspection,
@@ -1727,7 +1738,7 @@ class Build123dBackend:
             receipt_path = staging / "build-receipt.json"
             receipt_path.write_text(
                 json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n",
-                encoding="utf-8",
+                encoding="utf-8", newline="\n",
             )
             os.replace(staging, output_dir)
             return receipt

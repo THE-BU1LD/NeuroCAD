@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from .gmsh_backend import (
+    DETERMINISTIC_OPTIONS,
     GMSH_RECEIPT_VERSION,
     MAX_STEP_BYTES,
     GmshBackend,
@@ -32,6 +33,7 @@ from .gmsh_integrity import (
     publish_directory_noreplace,
 )
 from .json_io import read_bounded_utf8, strict_json_loads
+from .mesh_roles import ROLE_RECEIPT_VERSION, ROLE_TOLERANCE_MM, validate_roles
 
 DEFAULT_TIMEOUT_SECONDS = 120.0
 MAX_TIMEOUT_SECONDS = 3600.0
@@ -97,10 +99,14 @@ def _worker_error(workspace: Path, returncode: int) -> str:
 
 def _verified_receipt(
     bundle: Path, source_hash: str, source_bytes: int, minimum: float, maximum: float,
+    roles: dict[str, Any] | None = None,
 ) -> GmshMeshReceipt:
     if bundle.is_symlink() or not bundle.is_dir():
         raise GmshMeshingError("successful Gmsh worker did not produce a regular bundle directory")
-    if {path.name for path in bundle.iterdir()} != {"design.msh", "meshing-receipt.json"}:
+    files = {"design.msh", "meshing-receipt.json"}
+    if roles is not None:
+        files.add("semantic-groups.json")
+    if {path.name for path in bundle.iterdir()} != files:
         raise GmshMeshingError("Gmsh worker bundle has missing or unexpected files")
     mesh_path, receipt_path = bundle / "design.msh", bundle / "meshing-receipt.json"
     for path in (mesh_path, receipt_path):
@@ -146,6 +152,30 @@ def _verified_receipt(
             raise GmshMeshingError("Gmsh worker receipt is missing valid physical groups")
     if payload["physical_groups"] != payload["roundtrip_physical_groups"]:
         raise GmshMeshingError("Gmsh worker receipt roundtrip groups disagree")
+    if roles is not None:
+        role_path = bundle / "semantic-groups.json"
+        if role_path.is_symlink() or not role_path.is_file():
+            raise GmshMeshingError("semantic group receipt must be a regular file")
+        recorded = strict_json_loads(read_bounded_utf8(role_path, max_bytes=MAX_WORKER_JSON_BYTES,
+                                                    label="semantic groups"))
+        expected_roles = {"receipt_version": ROLE_RECEIPT_VERSION, **roles,
+                          "mesh_sha256": payload["mesh_sha256"],
+                          "selector_tolerance_mm": ROLE_TOLERANCE_MM,
+                          "meshing_options": DETERMINISTIC_OPTIONS}
+        if (not isinstance(recorded, dict) or set(recorded) != set(expected_roles) | {"surface_tags"}
+                or any(json.dumps(recorded[key], sort_keys=True, allow_nan=False)
+                       != json.dumps(value, sort_keys=True, allow_nan=False)
+                       for key, value in expected_roles.items())):
+            raise GmshMeshingError("semantic group receipt does not match source, roles or mesh")
+        bindings = recorded["surface_tags"]
+        if not isinstance(bindings, dict) or set(bindings) != set(roles["roles"]):
+            raise GmshMeshingError("semantic group receipt is missing requested roles")
+        for name, selector in roles["roles"].items():
+            tags = bindings[name]
+            if (not isinstance(tags, list) or len(tags) != selector["expected_surfaces"]
+                    or any(type(tag) is not int or tag <= 0 for tag in tags)
+                    or len(set(tags)) != len(tags) or name not in payload["physical_groups"]):
+                raise GmshMeshingError("semantic group receipt has invalid surface bindings")
     for key in ("backend_version", "claim_boundary"):
         if not isinstance(payload[key], str) or not payload[key]:
             raise GmshMeshingError("Gmsh worker receipt metadata must be non-empty strings")
@@ -175,7 +205,9 @@ class GmshProcessBackend:
     def mesh_step(
         self, source_step: Path, output_dir: Path, *,
         max_size_mm: float, min_size_mm: float | None = None, minimum_sicn: float | None = None,
+        boundary_roles: dict[str, Any] | None = None,
     ) -> GmshMeshReceipt:
+        roles = None if boundary_roles is None else validate_roles(boundary_roles)
         timeout = _validate_timeout(self.timeout_seconds)
         if minimum_sicn is not None:
             if isinstance(minimum_sicn, bool) or not isinstance(minimum_sicn, (int, float)):
@@ -206,9 +238,14 @@ class GmshProcessBackend:
             workspace = Path(temporary)
             snapshot, bundle = workspace / "source.step", workspace / "bundle"
             source_bytes, source_hash = _snapshot_step(source, snapshot)
+            if roles is not None and roles["source_step_sha256"] != source_hash:
+                raise GmshMeshingError("boundary roles source SHA-256 does not match STEP")
             started = time.monotonic()
             try:
-                returncode = _run_worker(_worker_command(snapshot, bundle, minimum, maximum), timeout)
+                command = _worker_command(snapshot, bundle, minimum, maximum)
+                if roles is not None:
+                    command += ["--boundary-roles-json", json.dumps(roles, sort_keys=True, allow_nan=False)]
+                returncode = _run_worker(command, timeout)
             except subprocess.TimeoutExpired as exc:
                 raise GmshMeshingError(
                     f"Gmsh worker exceeded {timeout:g} seconds and was terminated; no mesh bundle was published"
@@ -216,7 +253,7 @@ class GmshProcessBackend:
             elapsed = time.monotonic() - started
             if returncode != 0:
                 raise GmshMeshingError(_worker_error(workspace, returncode))
-            receipt = _verified_receipt(bundle, source_hash, source_bytes, minimum, maximum)
+            receipt = _verified_receipt(bundle, source_hash, source_bytes, minimum, maximum, roles)
             if minimum_sicn is not None and (receipt.min_sicn is None or receipt.min_sicn < minimum_sicn):
                 raise GmshMeshingError(
                     f"mesh quality policy failed: minimum SICN {receipt.min_sicn!r} "
@@ -236,6 +273,8 @@ class GmshProcessBackend:
                     "observed": receipt.min_sicn, "passed": True,
                     "claim_boundary": "caller-selected element quality floor; not solver convergence or physical certification",
                 }
+            if roles is not None:
+                execution["semantic_groups_sha256"] = _sha256(bundle / "semantic-groups.json")
             (bundle / "execution-receipt.json").write_text(
                 json.dumps(execution, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8",
             )
@@ -244,7 +283,10 @@ class GmshProcessBackend:
             # The no-replace primitive requires sibling directories. Promote the
             # validated files inside our private directory before publishing it.
             snapshot.unlink()
-            for name in ("design.msh", "meshing-receipt.json", "execution-receipt.json"):
+            names = ["design.msh", "meshing-receipt.json", "execution-receipt.json"]
+            if roles is not None:
+                names.append("semantic-groups.json")
+            for name in names:
                 (bundle / name).rename(workspace / name)
             bundle.rmdir()
             publish_directory_noreplace(workspace, destination)
@@ -257,9 +299,14 @@ def _worker_main(argv: list[str] | None = None) -> int:
     parser.add_argument("bundle", type=Path)
     parser.add_argument("minimum", type=float)
     parser.add_argument("maximum", type=float)
+    parser.add_argument("--boundary-roles-json")
     args = parser.parse_args(argv)
     try:
-        GmshBackend().mesh_step(args.source, args.bundle, min_size_mm=args.minimum, max_size_mm=args.maximum)
+        options = {} if args.boundary_roles_json is None else {
+            "boundary_roles": validate_roles(strict_json_loads(args.boundary_roles_json)),
+        }
+        GmshBackend().mesh_step(args.source, args.bundle, min_size_mm=args.minimum,
+                              max_size_mm=args.maximum, **options)
     except (OSError, RuntimeError, TypeError, ValueError) as exc:
         # This path is inside the supervisor-owned workspace, not the destination.
         error = {"error_type": type(exc).__name__, "message": str(exc)[:2048]}

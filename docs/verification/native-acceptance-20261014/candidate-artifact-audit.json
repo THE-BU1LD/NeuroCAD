@@ -1,0 +1,29 @@
+[
+  {
+    "os": "macos-15",
+    "status": "PASS",
+    "source": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
+    "goldens": 5,
+    "mesh_runs": 6,
+    "retained": "research/verification/native_acceptance_20261014/macos-15",
+    "file_count": 43
+  },
+  {
+    "os": "ubuntu-24.04",
+    "status": "PASS",
+    "source": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
+    "goldens": 5,
+    "mesh_runs": 6,
+    "retained": "research/verification/native_acceptance_20261014/ubuntu-24.04",
+    "file_count": 43
+  },
+  {
+    "os": "windows-2025",
+    "status": "PASS",
+    "source": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
+    "goldens": 5,
+    "mesh_runs": 6,
+    "retained": "research/verification/native_acceptance_20261014/windows-2025",
+    "file_count": 43
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "at": "2026-10-14T13:56:09.211716+00:00",
+  "local_tests": "15 passed (13 artifact-integrity and 2 timing cases)",
+  "audits": [
+    {
+      "manifest": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/research/runs/NC-REPRO-508EC40/manifest.json",
+      "exit_code": 1,
+      "report": {
+        "failures": [
+          {
+            "error": "missing or not a regular file",
+            "path": "logs/run.log"
+          }
+        ],
+        "listed": 1212,
+        "manifest_format": "research",
+        "manifest_sha256": "fbb44932db9aeb9fa89003acaeef8ee0a26ad7c7a1184812ed002d0583bdea7b",
+        "matched": 1211,
+        "mode": "READ_ONLY_HASH_AUDIT_NO_REEXECUTION",
+        "schema": "neurocad-retained-artifact-audit-v1",
+        "scope": "Only listed artifacts. Hash agreement does not establish authenticity, independence, original collection, or scientific validity. Extra files are not audited.",
+        "status": "FAIL"
+      }
+    },
+    {
+      "manifest": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix/research/verification/native_acceptance_20261014/ubuntu-24.04/SHA256SUMS.json",
+      "exit_code": 0,
+      "report": {
+        "failures": [],
+        "listed": 43,
+        "manifest_format": "hashes",
+        "manifest_sha256": "f86eb244090f27bca8403579c8c60f0ad488e77786e5a1af114771b38e813aca",
+        "matched": 43,
+        "mode": "READ_ONLY_HASH_AUDIT_NO_REEXECUTION",
+        "schema": "neurocad-retained-artifact-audit-v1",
+        "scope": "Only listed artifacts. Hash agreement does not establish authenticity, independence, original collection, or scientific validity. Extra files are not audited.",
+        "status": "PASS"
+      }
+    },
+    {
+      "manifest": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix/research/verification/native_acceptance_20261014/macos-15/SHA256SUMS.json",
+      "exit_code": 0,
+      "report": {
+        "failures": [],
+        "listed": 43,
+        "manifest_format": "hashes",
+        "manifest_sha256": "80cfb2c657506f4b7d3fdaa63d2c876f293cc33deac797916cbd0928389f4b59",
+        "matched": 43,
+        "mode": "READ_ONLY_HASH_AUDIT_NO_REEXECUTION",
+        "schema": "neurocad-retained-artifact-audit-v1",
+        "scope": "Only listed artifacts. Hash agreement does not establish authenticity, independence, original collection, or scientific validity. Extra files are not audited.",
+        "status": "PASS"
+      }
+    },
+    {
+      "manifest": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix/research/verification/native_acceptance_20261014/windows-2025/SHA256SUMS.json",
+      "exit_code": 0,
+      "report": {
+        "failures": [],
+        "listed": 43,
+        "manifest_format": "hashes",
+        "manifest_sha256": "9b591c8381a0a895e0c7da2dc83b26c61c00fa6b1faa5b65d200008182e125b8",
+        "matched": 43,
+        "mode": "READ_ONLY_HASH_AUDIT_NO_REEXECUTION",
+        "schema": "neurocad-retained-artifact-audit-v1",
+        "scope": "Only listed artifacts. Hash agreement does not establish authenticity, independence, original collection, or scientific validity. Extra files are not audited.",
+        "status": "PASS"
+      }
+    }
+  ]
+}

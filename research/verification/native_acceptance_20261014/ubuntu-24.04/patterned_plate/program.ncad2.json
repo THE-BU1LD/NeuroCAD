@@ -1,0 +1,132 @@
+{
+  "features": [
+    {
+      "id": "outline",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              0.0,
+              0.0
+            ],
+            "height": 24.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 40.0
+          }
+        ],
+        "plane": "XY"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "blank",
+      "inputs": [
+        "outline"
+      ],
+      "kind": "extrude",
+      "parameters": {
+        "distance": 4.0,
+        "operation": "new"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "hole_profile",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              -10.0,
+              -6.0
+            ],
+            "kind": "circle",
+            "operation": "add",
+            "radius": 1.5
+          }
+        ],
+        "plane": "XY"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "hole",
+      "inputs": [
+        "hole_profile"
+      ],
+      "kind": "extrude",
+      "parameters": {
+        "distance": 4.0,
+        "operation": "new"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "row",
+      "inputs": [
+        "hole"
+      ],
+      "kind": "linear_pattern",
+      "parameters": {
+        "count": 2,
+        "direction": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "spacing": 20.0
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "grid",
+      "inputs": [
+        "row"
+      ],
+      "kind": "linear_pattern",
+      "parameters": {
+        "count": 2,
+        "direction": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "spacing": 12.0
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "plate",
+      "inputs": [
+        "blank",
+        "grid"
+      ],
+      "kind": "boolean_cut",
+      "parameters": {},
+      "role": "",
+      "selectors": []
+    }
+  ],
+  "metadata": {
+    "engineering_control": "patterned_plate"
+  },
+  "outputs": [
+    "plate"
+  ],
+  "parameters": [],
+  "title": "patterned_plate",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}
