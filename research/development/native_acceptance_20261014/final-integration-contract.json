@@ -1,0 +1,21 @@
+{
+  "id": "native_final_integration_20261014",
+  "declared_at": "2026-10-14T13:56:09.211716+00:00",
+  "status": "PRE_EXECUTION",
+  "authorization": "User: make a checklist and implement all unblocked points with heavy improvements; continues existing protected merge authorization.",
+  "scope": "One post-merge full CI confirmation of a main tree identical to the fifth development candidate. No source adaptation, new cases, scientific run or native rerun in this phase.",
+  "preconditions": [
+    "All fifth-candidate required checks pass",
+    "13 required checks enabled without weakening prior protection",
+    "Normal PR merge",
+    "Candidate and merge Git trees identical"
+  ],
+  "budget": {
+    "post_merge_full_ci_runs": 1,
+    "repair_cycles": 0,
+    "scientific_runs": 0,
+    "paid_provider_calls": 0,
+    "native_local_runs": 0
+  },
+  "accounting": "Five development attempts per workflow stay capped and preserved, including cancelled runs. This separately declared final integration adds one main CI confirmation, for at most six total full-CI runs across both phases. No retroactive cap amendment."
+}

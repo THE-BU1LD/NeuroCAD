@@ -22,11 +22,18 @@ from core.gmsh_integrity import (
     publish_directory_noreplace,
     verify_mesh_roundtrip,
 )
+from core.mesh_roles import ROLE_RECEIPT_VERSION, ROLE_TOLERANCE_MM, bind_roles, validate_roles
 
 GMSH_RECEIPT_VERSION = "neurocad-gmsh-mesh-receipt-v1"
 MAX_STEP_BYTES = 256 * 1024 * 1024
 MAX_MESH_ELEMENTS = 2_000_000
 QUALITY_BATCH_ELEMENTS = 200_000
+DETERMINISTIC_OPTIONS = {
+    "General.NumThreads": 1, "Mesh.MaxNumThreads1D": 1,
+    "Mesh.MaxNumThreads2D": 1, "Mesh.MaxNumThreads3D": 1,
+    "Mesh.Algorithm": 6, "Mesh.Algorithm3D": 1, "Mesh.RandomSeed": 1,
+    "Mesh.ElementOrder": 1,
+}
 _GMSH_LOCK = threading.Lock()
 
 
@@ -174,7 +181,9 @@ class GmshBackend:
         *,
         max_size_mm: float,
         min_size_mm: float | None = None,
+        boundary_roles: dict[str, Any] | None = None,
     ) -> GmshMeshReceipt:
+        roles = None if boundary_roles is None else validate_roles(boundary_roles)
         source_input = source_step.expanduser()
         if source_input.is_symlink():
             raise FileNotFoundError(f"STEP source is missing or not a regular file: {source_input}")
@@ -207,6 +216,8 @@ class GmshBackend:
             receipt_path = staging / "meshing-receipt.json"
             source_snapshot = staging / "source.step"
             source_bytes, source_hash = _snapshot_step(source, source_snapshot)
+            if roles is not None and roles["source_step_sha256"] != source_hash:
+                raise GmshMeshingError("boundary roles source SHA-256 does not match STEP")
             gmsh = self.gmsh
 
             with _GMSH_LOCK:
@@ -221,6 +232,8 @@ class GmshBackend:
                     gmsh.option.setNumber("Mesh.MeshSizeMax", maximum)
                     gmsh.option.setNumber("Mesh.MshFileVersion", 4.1)
                     gmsh.option.setNumber("Mesh.Binary", 0)
+                    for option, value in DETERMINISTIC_OPTIONS.items():
+                        gmsh.option.setNumber(option, value)
                     gmsh.open(str(source_snapshot))
                     source_snapshot.unlink()
 
@@ -235,6 +248,7 @@ class GmshBackend:
                     gmsh.model.setPhysicalName(3, domain_tag, "domain")
                     boundary_tag = gmsh.model.addPhysicalGroup(2, [tag for _, tag in surfaces])
                     gmsh.model.setPhysicalName(2, boundary_tag, "boundary")
+                    role_bindings = {} if roles is None else bind_roles(gmsh, surfaces, roles)
 
                     gmsh.model.mesh.generate(3)
                     node_count, element_count, element_tags = _mesh_counts(gmsh)
@@ -296,6 +310,13 @@ class GmshBackend:
                         json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n",
                         encoding="utf-8",
                     )
+                    if roles is not None:
+                        (staging / "semantic-groups.json").write_text(json.dumps({
+                            "receipt_version": ROLE_RECEIPT_VERSION, **roles,
+                            "surface_tags": role_bindings, "mesh_sha256": receipt.mesh_sha256,
+                            "selector_tolerance_mm": ROLE_TOLERANCE_MM,
+                            "meshing_options": DETERMINISTIC_OPTIONS,
+                        }, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
                 finally:
                     if initialized:
                         gmsh.finalize()

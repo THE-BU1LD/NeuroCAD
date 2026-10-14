@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-14T13:56:09.211716+00:00",
+  "source": "c2776faa1531a518df9fc3dd5c07dae11662101c",
+  "status": "FAIL_NATIVE_WINDOWS_PRESERVATION",
+  "cause": "Windows checkout core.autocrlf converted protected historical bytes. All 182 selected tests passed there; the new pre-execution historical hash guard refused goldens. Linux/macOS goldens and all product/interoperability jobs passed.",
+  "repair": "Set core.autocrlf=false before checkout. Keep exact original protected hashes and every reference/tolerance unchanged.",
+  "hosted_attempt": 4,
+  "remaining_development_attempts_per_workflow": 1
+}

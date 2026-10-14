@@ -29,7 +29,7 @@ from .program_evaluation import evaluate_program
 
 RESEARCH_SUITE_VERSION = "neurocad-controlled-research-v1"
 PROVENANCE_VERSION = "neurocad-research-provenance-v1"
-DETERMINISTIC_RESULTS_VERSION = "neurocad-deterministic-results-v1"
+DETERMINISTIC_RESULTS_VERSION = "neurocad-deterministic-results-v2"
 RUN_ID = "NC-RUN-2026-09-03-FULL"
 EXPERIMENT_IDS = {
     "compiler": "NC-EXP-001",
@@ -330,7 +330,8 @@ def _research_provenance(project_root: Path, source_snapshot: dict[str, Any]) ->
 
 def _is_timing_key(key: str) -> bool:
     lowered = key.lower()
-    return any(token in lowered for token in ("latency", "runtime", "tracemalloc", "elapsed"))
+    return (lowered in {"mean_edit_validate_export_ms", "validate_export_ms"}
+            or any(token in lowered for token in ("latency", "runtime", "tracemalloc", "elapsed")))
 
 
 def _is_snapshot_only_result_key(key: str) -> bool:
@@ -1188,7 +1189,8 @@ def run_research_suite(
         "deterministic_results_version": DETERMINISTIC_RESULTS_VERSION,
         "timing_fields_excluded": True,
         "comparison_scope": (
-            "Compare only runs with matching maintained-source, configuration, dependency-lock, Python, and OpenSCAD provenance."
+            "Compare only runs with matching maintained-source, configuration, dependency-lock, Python, and OpenSCAD provenance. "
+            "Format v2 also excludes edit/export timings retained accidentally by v1; v1 digests remain historical snapshot identities."
         ),
         "results": _deterministic_copy(results),
     }

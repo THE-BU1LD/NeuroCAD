@@ -1,3 +1,7 @@
+# Current verified closure
+
+The integrated final v5 candidate is merged at 079902f; exact-main CI and all required gates passed. This supersedes the earlier pending review/merge entries below. [Final evidence and remaining gates](docs/verification/composite-final-20261014/REPORT.md). Physical, independent and intended-user validation remain unexecuted, and separately scoped native shape/platform acceptance remains open. Published v0.5.0a6 is unchanged.
+
 # NeuroCAD current completion checklist
 
 The earlier mixed CAD/portal record is preserved verbatim in

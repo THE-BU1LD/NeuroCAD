@@ -2,7 +2,7 @@
   "schema_version": "neurocad-research-state-v1",
   "project_id": "NC-PHYSICS-V3-WORKFLOW",
   "title": "NeuroCAD Physics v3 bounded analytical workflow expansion",
-  "status_date": "2026-10-11",
+  "status_date": "2026-10-14",
   "predecessor": {
     "project_id": "NC-PHYSICS-V2-PROVENANCE",
     "release_tag": "physics-v2-v1.0.0",
@@ -95,6 +95,10 @@
     {
       "date": "2026-10-14T11:37:54.418561+00:00",
       "event": "Corrected Physics v3 successor verified at 5676436719415302ce94076c4d49c37e302308f7: 37/37 scalar, 52/52 installed cases/workflows, four mesh compilations, 1236 regression tests (9 skipped; 43 subtests), and 11 external-integrity tests passed in hosted CI. Original v1 failure and protected v2 evidence preserved. No physical, independent or human outcomes; no new public release."
+    },
+    {
+      "date": "2026-10-14T12:50:09.899036+00:00",
+      "event": "Integrated the 17 original repair PR histories through PR109 at 079902fa20d22c2cf102104b0f42b28bec8bc382; exact-main CI38565917174 passed 1677 maintained tests, all required OS/browsers and package/security gates. Final source-bound conformance passed 37/37 scalar, 52/52 installed cases/workflows, four meshes and 42 new composite references. Retained and repaired additional shaft false-yield and single-hole ligament errors. Seven issues closed, zero open PRs; 157-entry provenance inventory complete. Physical, independent and intended-user evidence remains absent; native shape/platform acceptance and other tracked external gates remain. No new release tag."
     }
   ],
   "validation_v2": {
@@ -108,6 +112,21 @@
     "source_total": 37,
     "installed_passed": 52,
     "installed_total": 52,
+    "physical_validation": "NOT_EXECUTED",
+    "independent_reproduction": "NOT_EXECUTED",
+    "human_usability": "NOT_EXECUTED"
+  },
+  "validation_v5": {
+    "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+    "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+    "candidate_commit": "d7a80567c2c2727f8bd420a68e2517b217508b56",
+    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174",
+    "receipt": "docs/verification/composite-final-20261014/REPORT.md",
+    "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix",
+    "new_public_release": false,
+    "scalar": "37/37",
+    "installed": "52/52",
+    "new_composite_cases": 42,
     "physical_validation": "NOT_EXECUTED",
     "independent_reproduction": "NOT_EXECUTED",
     "human_usability": "NOT_EXECUTED"

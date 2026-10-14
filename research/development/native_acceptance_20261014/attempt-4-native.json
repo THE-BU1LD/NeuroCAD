@@ -1,0 +1,23 @@
+{
+  "conclusion": "failure",
+  "headSha": "c2776faa1531a518df9fc3dd5c07dae11662101c",
+  "jobs": [
+    {
+      "name": "Native goldens / windows-2025",
+      "conclusion": "failure",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38574329655/job/115887337172"
+    },
+    {
+      "name": "Native goldens / ubuntu-24.04",
+      "conclusion": "success",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38574329655/job/115887337401"
+    },
+    {
+      "name": "Native goldens / macos-15",
+      "conclusion": "success",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38574329655/job/115887337589"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38574329655"
+}

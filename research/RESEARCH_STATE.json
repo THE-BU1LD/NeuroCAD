@@ -121,9 +121,10 @@
   },
   "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization. Linear diagnostics reject integer values not exactly representable in float64; they cannot recover precision already lost upstream or supply arbitrary-precision residual arithmetic.",
   "next_required_work": [
-    "Execute the final source-bound composite reference candidate and inspect complete retained results.",
-    "Merge only after all required exact-revision gates pass.",
-    "Complete separately scoped native shape/platform matrix and external physical, independent-reproduction and intended-user gates."
+    "Exact-CAD spike full declared golden shape/platform coverage (issue 64)",
+    "Complete native plate/enclosure/beam meshing reference acceptance (issue 65)",
+    "Collect calibrated physical data, independent reproduction and intended-user observations.",
+    "Resolve benchmark authorship/provider/data and publication dependencies without reopening terminal science."
   ],
   "integration_parents": [
     "982eafb1665a9c31868cfcfda7c75571885c2cd8",
@@ -265,7 +266,7 @@
     },
     {
       "id": "shaft_biaxial_20261014",
-      "status": "HOSTED_V4_PASS_V5_CANDIDATE",
+      "status": "CLOSED_MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
       "contract": "research/development/shaft_biaxial_20261014/contract.json",
       "baseline": "research/development/shaft_biaxial_20261014/baseline.json",
       "budget": {
@@ -283,10 +284,36 @@
       "supplementary_contract": "research/development/composite_polygon_reference_20261014/contract.json",
       "ligament_failure": "research/development/single_hole_ligament_20261014/baseline_and_contract.json",
       "remaining_hosted_attempts_per_workflow": 2,
-      "current_status_authority": "GitHub checks for codex/neurocad-composite-final-20261014 and retained final receipts; do not infer outcomes from this pre-execution commit."
+      "current_status_authority": "GitHub checks for codex/neurocad-composite-final-20261014 and retained final receipts; do not infer outcomes from this pre-execution commit.",
+      "closed_at": "2026-10-14T12:50:09.899036+00:00",
+      "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+      "receipt": "docs/verification/composite-final-20261014/REPORT.md",
+      "hosted_matrix_attempts_used": 3,
+      "conformance_attempts_used_including_duplicate_push": 3
+    },
+    {
+      "id": "native_acceptance_20261014",
+      "status": "FINAL_CANDIDATE_PENDING",
+      "contract": "research/development/native_acceptance_20261014/contract.json",
+      "started_at": "2026-10-14T13:18:08.881397+00:00",
+      "prior_budgets_reopened": false,
+      "discovered_followup": "research/development/result_timing_v2_20261014/contract_and_baseline.json",
+      "hosted_attempts_used": 4,
+      "retained_failures": [
+        "attempt-1: platform Python setup and wrong OCP distribution metadata name",
+        "attempt-2: Windows canonical JSON newline/hash mismatch",
+        "attempt-4: Windows checkout line-end conversion refused by exact historical preservation guard"
+      ],
+      "new_provenance_discrepancy": "NC-REPRO-508EC40: 1211 matching present artifacts; logs/run.log missing; v1 digest contains ten timing values.",
+      "tested_candidate": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
+      "native_run": 38573309209,
+      "full_matrix": 38573309121,
+      "interop": 38573308981,
+      "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+      "final_integration_contract": "research/development/native_acceptance_20261014/final-integration-contract.json"
     }
   ],
-  "latest_engineering_session": "shaft_biaxial_20261014",
+  "latest_engineering_session": "native_acceptance_20261014",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",

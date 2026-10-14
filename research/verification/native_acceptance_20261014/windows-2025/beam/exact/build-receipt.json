@@ -1,0 +1,40 @@
+{
+  "backend": "build123d",
+  "backend_version": "0.13.0",
+  "bindings_path": null,
+  "bindings_sha256": null,
+  "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+  "feature_ir_sha256": "10e845a0d1090debcb7a6495bce82037c31afc46eedb960a768611117d1177bd",
+  "inspection": {
+    "extents_mm": [
+      40.0,
+      6.0,
+      4.0
+    ],
+    "manifold": true,
+    "solid_count": 1,
+    "valid_brep": true,
+    "volume_mm3": 959.9999999999999
+  },
+  "kernel_version": "8.0.1.1.0",
+  "output_feature": "beam",
+  "receipt_version": "neurocad-build123d-receipt-v1",
+  "requirements_path": null,
+  "requirements_satisfied": null,
+  "requirements_sha256": null,
+  "requirements_verification_path": null,
+  "requirements_verification_sha256": null,
+  "roundtrip_inspection": {
+    "extents_mm": [
+      40.0,
+      6.0,
+      4.0
+    ],
+    "manifold": true,
+    "solid_count": 1,
+    "valid_brep": true,
+    "volume_mm3": 959.9999999999999
+  },
+  "step_path": "design.step",
+  "step_sha256": "5bca0092c636c87c84f9e80ee63835d14c8e3800bcdddebab1dcd7f6cf58b54b"
+}
