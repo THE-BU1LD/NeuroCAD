@@ -11,25 +11,24 @@ dated scope and must not be read as an inventory of all later implementations.
 
 Target: `v0.5.0a6` public alpha. Execution date: 2026-10-14.
 
-**Status: release candidate undergoing full hosted verification.**
-[PR #103](https://github.com/THE-BU1LD/NeuroCAD/pull/103) carries the candidate.
-A release is ready only when its exact source commit passes the required matrix,
-the tag workflow publishes checksum-bound artifacts as a prerelease, and the
-anonymous installation job passes. Check the
-[release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6) and
-[release workflow](https://github.com/THE-BU1LD/NeuroCAD/actions/workflows/release.yml)
-for publication receipts; this source document is not a publication receipt.
+**Status: PUBLISHED PRERELEASE / PUBLIC INSTALLATION VERIFIED.**
 
-Enclosure-only CI passed on `6151d93` (run `38426643691`). The first full matrix
-(run `38494422164`) found a test lint defect and an unsupported Windows import of
-the POSIX research harness; all three browsers and build123d passed. These failures
-are retained under `docs/verification/alpha-20261014/`. Replacement CI is required.
-Repository-only frozen study tests need Unix resource accounting and Git/study
-sources; they do not ship in the sdist. Product physics tests remain portable.
+- Tag: `v0.5.0a6`; source: `5ce2092db7203cf2bd532a742ea0697e1cf8479c`.
+- [Release](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6): wheel, sdist, checksums and generated provenance.
+- [Exact-main CI](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38495962707): all ten jobs passed.
+- [Release and anonymous acceptance](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38498546483): all five jobs passed.
+- Both public wheel and default tagged-source installation passed without download credentials.
+- Doctor, valid/invalid edits, revision protection, compiled body/lid meshes and tampering rejection passed.
+- Source tests: 1,227 passed, 9 skipped; extracted-sdist tests: 1,220 passed, 9 skipped.
+- [Completion report and retained failures](docs/verification/alpha-20261014/REPORT.md).
 
-See [quick start](docs/QUICKSTART.md) for source installation and the public
-release procedure. Historical September verification is retained in
-[the handoff](docs/GITHUB_HANDOFF_20260909.md), scoped to its original commit.
+Persistent OS service setup and physical fit are outside the anonymous-install
+receipt. Repository-only frozen study tests require Unix resource accounting
+and Git/study sources; product physics tests remain portable. Scientific
+conclusions, independent-reproduction status and physical/human evidence are unchanged.
+
+See [quick start](docs/QUICKSTART.md). Historical September receipts remain
+in [the handoff](docs/GITHUB_HANDOFF_20260909.md), scoped to their original commit.
 
 ## Implemented release surface
 
@@ -55,7 +54,9 @@ release procedure. Historical September verification is retained in
 - Source-reverified bounded KiCad parsing for rectangular outlines, board thickness, and explicitly named round mounting-hole footprints, with mandatory reviewed connector/height facts.
 - Byte-reproducible wheel and normalized source-distribution builds, enforced by double-build comparisons in CI and release.
 
-## Required before announcing the public alpha
+## Completed public-alpha gates
+
+The gates below passed for `v0.5.0a6`; retain them for future releases.
 
 1. Review the final changes and pass CI on the exact candidate: Python
    3.10/3.11/3.12 Linux kernel checks, portable checks, and all three browsers.

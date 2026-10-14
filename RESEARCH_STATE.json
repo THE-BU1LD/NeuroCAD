@@ -17,9 +17,9 @@
     "source": "research/physics_v3/RESEARCH_STATE.json"
   },
   "product": {
-    "status": "HOSTED_FRESH_INSTALL_AND_COMPILED_ENCLOSURE_PASS",
+    "status": "PUBLIC_ALPHA_RELEASED_AND_ANONYMOUS_INSTALL_VERIFIED",
     "receipt": "docs/verification/enclosure-20261013/ci-38425980085/SUMMARY.json",
-    "public_release": "IN_PROGRESS_FULL_MATRIX_REQUIRED",
+    "public_release": "PASS",
     "verification": {
       "focused_tests": "11 passed",
       "ruff": "PASS hosted",
@@ -31,7 +31,18 @@
       "bandit": "PASS hosted",
       "tests": "1227 passed, 9 skipped"
     },
-    "verified_source_commit": "53519038250e8aa3f6b76aeead63cc4a23be2ada"
+    "verified_source_commit": "53519038250e8aa3f6b76aeead63cc4a23be2ada",
+    "release": {
+      "tag": "v0.5.0a6",
+      "commit": "5ce2092db7203cf2bd532a742ea0697e1cf8479c",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6",
+      "workflow": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38498546483",
+      "receipt": "docs/verification/alpha-20261014/REPORT.md",
+      "anonymous_wheel_install": "PASS",
+      "anonymous_default_tag_install": "PASS",
+      "physical_validation": "NOT_EXECUTED",
+      "independent_scientific_reproduction": "NOT_EXECUTED"
+    }
   },
   "resource_admission": {
     "status": "FAIL",
@@ -72,6 +83,10 @@
     {
       "date": "2026-10-14",
       "event": "User authorized public alpha completion. Final enclosure commit 6151d93 passed hosted run 38426643691. Full matrix 38494422164 found a test lint error and Windows POSIX research-harness import failure; repairs and credential-free published-artifact acceptance added. Frozen research unchanged; local heavy work remains below resource floor."
+    },
+    {
+      "date": "2026-10-14",
+      "event": "PR103 merged; exact-main CI 38495962707 passed; v0.5.0a6 published from 5ce2092. Release workflow 38498546483 passed reproducible builds, public provenance/checksums and both credential-free installation paths plus compiled enclosure edits/verification. Artifact hashes rechecked locally. Failed runs preserved; frozen scientific evidence unchanged."
     }
   ],
   "resource_rechecks": [
@@ -88,7 +103,7 @@
   ],
   "continuation": {
     "automation_id": "finish-neurocad-enclosure-verification",
-    "status": "COMPLETION_PENDING_FINAL_COMMIT_CI",
+    "status": "PAUSED_COMPLETED",
     "cadence": "hourly"
   }
 }

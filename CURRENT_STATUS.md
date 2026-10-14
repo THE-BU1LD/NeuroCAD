@@ -1,5 +1,21 @@
 # NeuroCAD current status
 
+## Public alpha complete — 2026-10-14
+
+**`v0.5.0a6` is published and verified** at commit
+`5ce2092db7203cf2bd532a742ea0697e1cf8479c`.
+[Release](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6) · [passing release/anonymous-install workflow](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38498546483).
+Full main CI `38495962707` passed all ten matrix jobs; the preceding PR also
+passed enclosure and CAD/Gmsh integration checks. Bugbot completed with no issues.
+Published wheel and sdist hashes were independently rechecked against provenance.
+Both credential-free wheel installation through the public installer and the
+default tagged-source installer passed; edited body/lid mesh acceptance passed.
+Persistent OS service setup, physical fit and independent science are outside
+this receipt. [Completion report](docs/verification/alpha-20261014/REPORT.md).
+
+All dated candidate/pending entries below are retained history, superseded for
+public-release status by this receipt. Scientific conclusions remain unchanged.
+
 Reconciled 2026-10-13 against clean starting commit
 `a7eb80c54e3133e018b37e595413622dc0687a4a`. Product changes are committed on `codex/enclosure-verification`.
 
@@ -9,7 +25,7 @@ Reconciled 2026-10-13 against clean starting commit
 | Physics v2 | Supported within controlled contract; locally packaged | [v2 state](research/physics_v2/RESEARCH_STATE.md), local `physics-v2-v1.0.0` tag | 216 synthetic conformance cases; no independent reproduction, physical validation, or submission |
 | Physics v3 | Engineering implemented; scientific validation not started | [v3 state](research/physics_v3/RESEARCH_STATE.md) | Retained 1,225-pass/9-skip receipt is historical, not a check of current edits |
 | Enclosure product | Hosted fresh-install and compiled-enclosure acceptance passed | [acceptance procedure](docs/ENCLOSURE_ACCEPTANCE.md) | Internal Linux/Python 3.12 engineering verification; physical and independent validation remain open |
-| Public alpha | Release candidate; publication not verified | `RELEASE_STATUS.md` historical release gates | No local `v0.5.0a6` tag; remote release state not checked this session |
+| Public alpha | Published prerelease; anonymous installation PASS | `docs/verification/alpha-20261014/REPORT.md` | Bounded alpha; physical and independent validation remain open |
 
 ## Engineering changes
 
@@ -33,8 +49,8 @@ historical records; the version index takes precedence for current routing.
 - Independently authored/adjudicated compiler challenge and strong comparator.
 - Separately frozen Physics v3 validation; no scientific study has started.
 - Physical enclosure fit/calibration and human usability measurements.
-- Immutable public product release provenance and
-  credential-free tagged-release installation.
+- Public product release provenance and credential-free tagged-release installation
+  completed on 2026-10-14; see the completion receipt above.
 
 ## Earlier local checks (historical)
 

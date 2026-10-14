@@ -5,14 +5,14 @@ STL and rendered mesh workflows. NeuroCAD is a bounded alpha, not arbitrary CAD.
 
 ## Obtain the alpha
 
-The `v0.5.0a6` release is being verified. Its
+The `v0.5.0a6` public alpha passed its release and anonymous-install checks. Its
 [release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6)
 provides the wheel, source archive, `SHA256SUMS`, and `RELEASE_PROVENANCE.json`
-once published. Confirm that the corresponding
+with published checksums and provenance. The corresponding
 [release workflow](https://github.com/THE-BU1LD/NeuroCAD/actions/workflows/release.yml)
-passed, including anonymous installation. A tag alone is insufficient.
+passed, including anonymous installation. Keep the receipts when reporting results.
 
-After publication, download those assets into a new directory. On macOS/Linux,
+Download those assets into a new directory. On macOS/Linux,
 verify them and install the published wheel:
 
 ```bash
@@ -36,7 +36,7 @@ cd NeuroCAD
 git rev-parse HEAD
 ```
 
-Record that commit ID; `main` can change. Once published, use
+Record that commit ID; `main` can change. Use
 `git switch --detach v0.5.0a6` for the tagged source. The commands below install
 from a source checkout. No GitHub credentials are needed for public downloads.
 

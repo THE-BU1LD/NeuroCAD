@@ -1,10 +1,10 @@
 # Changelog
 
-## 0.5.0a6 - unreleased candidate
+## 0.5.0a6 - 2026-10-14
 
-This candidate remains pending until the exact source revision passes the
-integrated CI, distribution, clean-install, and release-provenance gates in
-`RELEASE_STATUS.md`.
+Published as a prerelease from `5ce2092`. Exact-main CI, reproducible
+distributions, fresh installations, release provenance and both anonymous
+installation paths passed. See `RELEASE_STATUS.md`.
 
 - Added exact-revision enclosure verification, collision-safe publication, fresh
   installed-mesh acceptance, and post-publication credential-free verification
