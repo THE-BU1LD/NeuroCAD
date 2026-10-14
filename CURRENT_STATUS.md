@@ -110,3 +110,12 @@ it requires unshipped study artifacts and Git provenance; product tests remain.
 A post-publication workflow now verifies public checksums, exact source provenance,
 prerelease status, the tagged installer, and installed compiled-enclosure behavior
 without download credentials. Release remains pending until all gates pass.
+
+## Physics v3 frozen conformance — 2026-10-14
+
+The new frozen matrix passed 31/32 cases locally and in CI; an opposing-load
+beam case exposes underestimated maximum bending stress (0 versus 2.1 MPa).
+Installed workflow acceptance passed 15/15, four shapes compiled, and regression
+passed 1,230 tests with 9 skips. The overall gate remains FAIL. Protected v2,
+release and paper files are unchanged; physical, independent and user validation
+remain open. See [the retained report](docs/verification/physics-v3-20261014/REPORT.md).

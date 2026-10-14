@@ -13,8 +13,22 @@
     "independent_reproduction": "NOT_EXECUTED"
   },
   "physics_v3": {
-    "status": "ENGINEERING_IMPLEMENTED_SCIENTIFIC_VALIDATION_NOT_STARTED",
-    "source": "research/physics_v3/RESEARCH_STATE.json"
+    "status": "FROZEN_CONFORMANCE_FAIL_EXTERNAL_VALIDATION_NOT_STARTED",
+    "source": "research/physics_v3/RESEARCH_STATE.json",
+    "validation_v1": {
+      "status": "FROZEN_CONFORMANCE_FAIL_EXTERNAL_VALIDATION_NOT_STARTED",
+      "protocol": "research/physics_v3/validation_v1/PROTOCOL.md",
+      "freeze": "research/physics_v3/validation_v1/freeze.json",
+      "receipt": "docs/verification/physics-v3-20261014/REPORT.md",
+      "ci_run": 38547582177,
+      "source_scalar_passed": 31,
+      "source_scalar_total": 32,
+      "installed_acceptance_passed": 15,
+      "installed_acceptance_total": 15,
+      "physical_validation": "NOT_STARTED",
+      "independent_reproduction": "NOT_STARTED",
+      "human_usability": "NOT_STARTED"
+    }
   },
   "product": {
     "status": "PUBLIC_ALPHA_RELEASED_AND_ANONYMOUS_INSTALL_VERIFIED",
@@ -112,6 +126,11 @@
     {
       "date": "2026-10-14",
       "event": "Enabled GitHub release immutability and republished the same alpha without moving the tag or changing asset IDs/bytes. API immutable=true; signed release, wheel and sdist attestation verification passed."
+    },
+    {
+      "date": "2026-10-14",
+      "event": "Frozen Physics v3 conformance v1 executed without changing production source: 31/32 scalar cases passed locally and in hosted CI; opposing-load maximum beam stress is 0 versus reference 2.1 MPa. Installed acceptance 15/15 passed, four complex shapes compiled, 1230 regression tests passed and 9 skipped. Run 38547582177 on 7c53a0c remains FAIL. All 40 protected v2/release/paper files unchanged. Physical, independent and user validation remain open.",
+      "receipt": "docs/verification/physics-v3-20261014/REPORT.md"
     }
   ],
   "resource_rechecks": [

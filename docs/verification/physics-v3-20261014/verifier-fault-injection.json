@@ -1,0 +1,61 @@
+{
+  "prior_attempt": "Test setup failed before exercising verifier: globally mocked subprocess.check_output interfered with platform.platform (str has no decode). Production and frozen inputs unchanged; mock scope corrected.",
+  "checks": [
+    {
+      "id": "frozen-input-tamper",
+      "passed": true,
+      "observed": {
+        "status": "INVALID",
+        "mode": "SOURCE_SCALAR",
+        "started_at_unix": 1791972677.77366,
+        "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+        "platform": "test fixture",
+        "cases": [],
+        "commands": [],
+        "physical_validation": "NOT_STARTED",
+        "independent_reproduction": "NOT_STARTED",
+        "freeze_sha256": "790fc1309e8977bf9bf0cab2d9c5468c641096cc2f9c5954230047c5121a0d2c",
+        "git_head": "fixture",
+        "git_status": "fixture",
+        "error": "Frozen content changed: subject.txt",
+        "protected_unchanged": true
+      }
+    },
+    {
+      "id": "protected-addition",
+      "passed": true,
+      "observed": {
+        "status": "INVALID",
+        "mode": "SOURCE_SCALAR",
+        "started_at_unix": 1791972677.777801,
+        "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+        "platform": "test fixture",
+        "cases": [],
+        "commands": [],
+        "physical_validation": "NOT_STARTED",
+        "independent_reproduction": "NOT_STARTED",
+        "freeze_sha256": "790fc1309e8977bf9bf0cab2d9c5468c641096cc2f9c5954230047c5121a0d2c",
+        "git_head": "fixture",
+        "git_status": "fixture",
+        "error": "Protected inventory changed before run",
+        "protected_unchanged": false
+      }
+    },
+    {
+      "id": "existing-lock",
+      "passed": true,
+      "observed": {
+        "status": "INVALID",
+        "mode": "SOURCE_SCALAR",
+        "started_at_unix": 1791972677.780879,
+        "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+        "platform": "test fixture",
+        "cases": [],
+        "commands": [],
+        "physical_validation": "NOT_STARTED",
+        "independent_reproduction": "NOT_STARTED",
+        "error": "[Errno 17] File exists: '/var/folders/ct/lk8xnz1s6pvd55g05hqjv7k00000gn/T/neurocad-v3-verifier-c2or66iw/research/physics_v3/.validation.lock'"
+      }
+    }
+  ]
+}
