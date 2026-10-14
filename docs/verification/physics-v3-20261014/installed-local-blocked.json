@@ -1,0 +1,33 @@
+{
+  "status": "BLOCKED",
+  "mode": "INSTALLED",
+  "started_at_unix": 1791972433.9675882,
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "cases": [],
+  "commands": [],
+  "physical_validation": "NOT_STARTED",
+  "independent_reproduction": "NOT_STARTED",
+  "freeze_sha256": "6a49e4f94cbb7b6e143a071eb3b10373defd2117a5e5ecfb1e8d6fd8ca64dff0",
+  "git_head": "48cccef2c4904821210c22d6aa06a5a21b779357",
+  "git_status": "?? .github/workflows/physics-v3-validation.yml\n?? docs/verification/physics-v3-20261014/\n?? research/physics_v3/.validation.lock\n?? research/physics_v3/external_validation_v1/\n?? research/physics_v3/validation_v1/\n?? scripts/freeze_physics_v3.py\n?? scripts/validate_physics_v3.py\n?? tests/test_v3_validation_harness.py\n",
+  "admission": {
+    "status": "BLOCKED",
+    "samples": [
+      {
+        "available_bytes": 104316928,
+        "pageouts": 241701,
+        "swapouts": 719793,
+        "raw": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     3860.\nPages active:                                 272389.\nPages inactive:                               268916.\nPages speculative:                              2507.\nPages throttled:                                   0.\nPages wired down:                             161120.\nPages purgeable:                                5703.\n\"Translation faults\":                      500253978.\nPages copy-on-write:                        20854679.\nPages zero filled:                         244061762.\nPages reactivated:                          79762214.\nPages purged:                                8864324.\nFile-backed pages:                            118809.\nAnonymous pages:                              425003.\nPages stored in compressor:                  1051325.\nPages occupied by compressor:                 299996.\nDecompressions:                             67967479.\nCompressions:                               78481578.\nPageins:                                    23512806.\nPageouts:                                     241701.\nSwapins:                                      259316.\nSwapouts:                                     719793.\n"
+      },
+      {
+        "available_bytes": 158334976,
+        "pageouts": 241705,
+        "swapouts": 719793,
+        "raw": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     6532.\nPages active:                                 268070.\nPages inactive:                               263991.\nPages speculative:                              3132.\nPages throttled:                                   0.\nPages wired down:                             167746.\nPages purgeable:                                4678.\n\"Translation faults\":                      500283305.\nPages copy-on-write:                        20855914.\nPages zero filled:                         244073633.\nPages reactivated:                          79769820.\nPages purged:                                8864341.\nFile-backed pages:                            117008.\nAnonymous pages:                              418185.\nPages stored in compressor:                  1050022.\nPages occupied by compressor:                 299683.\nDecompressions:                             67969685.\nCompressions:                               78483658.\nPageins:                                    23516205.\nPageouts:                                     241705.\nSwapins:                                      259334.\nSwapouts:                                     719793.\n"
+      }
+    ],
+    "disk_free": 237888999424
+  },
+  "protected_unchanged": true
+}

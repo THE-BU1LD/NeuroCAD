@@ -1,0 +1,773 @@
+[
+  {
+    "id": "beam-tip",
+    "model": "cantilever_beam",
+    "inputs": {
+      "length_mm": 120,
+      "elastic_modulus_mpa": 70000,
+      "second_moment_mm4": 6000,
+      "section_modulus_mm3": 600,
+      "tip_force_n": 23,
+      "uniform_load_n_per_mm": 0
+    },
+    "expected": {
+      "tip_deflection_mm": 0.03154285714285714,
+      "fixed_end_shear_n": 23,
+      "maximum_bending_stress_mpa": 4.6
+    },
+    "error": null,
+    "reference": "Integrate M(x)*(L-x)/(E*I); extrema of M at endpoints and dM/dx=0.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "beam-distributed",
+    "model": "cantilever_beam",
+    "inputs": {
+      "length_mm": 120,
+      "elastic_modulus_mpa": 70000,
+      "second_moment_mm4": 6000,
+      "section_modulus_mm3": 600,
+      "tip_force_n": 0,
+      "uniform_load_n_per_mm": 0.7
+    },
+    "expected": {
+      "tip_deflection_mm": 0.0432,
+      "fixed_end_shear_n": 84.0,
+      "maximum_bending_stress_mpa": 8.4
+    },
+    "error": null,
+    "reference": "Integrate M(x)*(L-x)/(E*I); extrema of M at endpoints and dM/dx=0.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "beam-combined",
+    "model": "cantilever_beam",
+    "inputs": {
+      "length_mm": 120,
+      "elastic_modulus_mpa": 70000,
+      "second_moment_mm4": 6000,
+      "section_modulus_mm3": 600,
+      "tip_force_n": 23,
+      "uniform_load_n_per_mm": 0.7
+    },
+    "expected": {
+      "tip_deflection_mm": 0.07474285714285714,
+      "fixed_end_shear_n": 107.0,
+      "maximum_bending_stress_mpa": 13.0
+    },
+    "error": null,
+    "reference": "Integrate M(x)*(L-x)/(E*I); extrema of M at endpoints and dM/dx=0.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "beam-zero",
+    "model": "cantilever_beam",
+    "inputs": {
+      "length_mm": 120,
+      "elastic_modulus_mpa": 70000,
+      "second_moment_mm4": 6000,
+      "section_modulus_mm3": 600,
+      "tip_force_n": 0,
+      "uniform_load_n_per_mm": 0
+    },
+    "expected": {
+      "tip_deflection_mm": 0.0,
+      "fixed_end_shear_n": 0,
+      "maximum_bending_stress_mpa": 0.0
+    },
+    "error": null,
+    "reference": "Integrate M(x)*(L-x)/(E*I); extrema of M at endpoints and dM/dx=0.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "beam-opposed",
+    "model": "cantilever_beam",
+    "inputs": {
+      "length_mm": 120,
+      "elastic_modulus_mpa": 70000,
+      "second_moment_mm4": 6000,
+      "section_modulus_mm3": 600,
+      "tip_force_n": -42,
+      "uniform_load_n_per_mm": 0.7
+    },
+    "expected": {
+      "tip_deflection_mm": -0.0144,
+      "fixed_end_shear_n": 42.0,
+      "maximum_bending_stress_mpa": 2.1
+    },
+    "error": null,
+    "reference": "Integrate M(x)*(L-x)/(E*I); extrema of M at endpoints and dM/dx=0.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "beam-invalid",
+    "model": "cantilever_beam",
+    "inputs": {
+      "length_mm": 0,
+      "elastic_modulus_mpa": 70000,
+      "second_moment_mm4": 6000,
+      "section_modulus_mm3": 600
+    },
+    "expected": {},
+    "error": "length_mm must be positive",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "stress-zero",
+    "model": "combined_stress",
+    "inputs": {
+      "normal_x_mpa": 0,
+      "normal_y_mpa": 0,
+      "normal_z_mpa": 0,
+      "shear_xy_mpa": 0
+    },
+    "expected": {
+      "principal_stresses_mpa": [
+        0,
+        0,
+        0
+      ],
+      "von_mises_stress_mpa": 0.0
+    },
+    "error": null,
+    "reference": "Exact eigenvalues of diagonal or 2x2 symmetric block; pairwise principal-stress invariant.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "stress-hydrostatic",
+    "model": "combined_stress",
+    "inputs": {
+      "normal_x_mpa": -37,
+      "normal_y_mpa": -37,
+      "normal_z_mpa": -37,
+      "shear_xy_mpa": 0
+    },
+    "expected": {
+      "principal_stresses_mpa": [
+        -37,
+        -37,
+        -37
+      ],
+      "von_mises_stress_mpa": 0.0
+    },
+    "error": null,
+    "reference": "Exact eigenvalues of diagonal or 2x2 symmetric block; pairwise principal-stress invariant.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "stress-shear",
+    "model": "combined_stress",
+    "inputs": {
+      "normal_x_mpa": 0,
+      "normal_y_mpa": 0,
+      "normal_z_mpa": 0,
+      "shear_xy_mpa": 24
+    },
+    "expected": {
+      "principal_stresses_mpa": [
+        24,
+        0,
+        -24
+      ],
+      "von_mises_stress_mpa": 41.569219381653056
+    },
+    "error": null,
+    "reference": "Exact eigenvalues of diagonal or 2x2 symmetric block; pairwise principal-stress invariant.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "stress-rotated",
+    "model": "combined_stress",
+    "inputs": {
+      "normal_x_mpa": 50,
+      "normal_y_mpa": 50,
+      "normal_z_mpa": 10,
+      "shear_xy_mpa": 30
+    },
+    "expected": {
+      "principal_stresses_mpa": [
+        80,
+        20,
+        10
+      ],
+      "von_mises_stress_mpa": 65.57438524302
+    },
+    "error": null,
+    "reference": "Exact eigenvalues of diagonal or 2x2 symmetric block; pairwise principal-stress invariant.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "stress-invalid",
+    "model": "combined_stress",
+    "inputs": {
+      "normal_x_mpa": true,
+      "normal_y_mpa": 0,
+      "normal_z_mpa": 0
+    },
+    "expected": {},
+    "error": "finite number",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "thermal-series",
+    "model": "thermal_network",
+    "inputs": {
+      "conductance_w_per_k": [
+        [
+          0,
+          2,
+          0
+        ],
+        [
+          2,
+          0,
+          4
+        ],
+        [
+          0,
+          4,
+          0
+        ]
+      ],
+      "heat_input_w": [
+        0,
+        0,
+        0
+      ],
+      "fixed_temperature_k": {
+        "0": 300,
+        "2": 330
+      },
+      "node_labels": [
+        "cold",
+        "middle",
+        "hot"
+      ]
+    },
+    "expected": {
+      "node_temperatures_k.middle": 320,
+      "network_energy_balance_residual_w": 0
+    },
+    "error": null,
+    "reference": "Two resistances 1/2 and 1/4 K/W in series; middle=(2*300+4*330)/6.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "thermal-equilibrium",
+    "model": "thermal_network",
+    "inputs": {
+      "conductance_w_per_k": [
+        [
+          0,
+          2,
+          0
+        ],
+        [
+          2,
+          0,
+          4
+        ],
+        [
+          0,
+          4,
+          0
+        ]
+      ],
+      "heat_input_w": [
+        0,
+        0,
+        0
+      ],
+      "fixed_temperature_k": {
+        "0": 300,
+        "2": 300
+      },
+      "node_labels": [
+        "cold",
+        "middle",
+        "hot"
+      ]
+    },
+    "expected": {
+      "node_temperatures_k.middle": 300
+    },
+    "error": null,
+    "reference": "Equal boundaries with no source imply constant temperature.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "thermal-source",
+    "model": "thermal_network",
+    "inputs": {
+      "conductance_w_per_k": [
+        [
+          0,
+          2,
+          0
+        ],
+        [
+          2,
+          0,
+          4
+        ],
+        [
+          0,
+          4,
+          0
+        ]
+      ],
+      "heat_input_w": [
+        0,
+        12,
+        0
+      ],
+      "fixed_temperature_k": {
+        "0": 300,
+        "2": 330
+      },
+      "node_labels": [
+        "cold",
+        "middle",
+        "hot"
+      ]
+    },
+    "expected": {
+      "node_temperatures_k.middle": 322,
+      "network_energy_balance_residual_w": 0
+    },
+    "error": null,
+    "reference": "Middle node heat balance: 6*T=2*300+4*330+12.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "thermal-singular",
+    "model": "thermal_network",
+    "inputs": {
+      "conductance_w_per_k": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "heat_input_w": [
+        0,
+        0,
+        0
+      ],
+      "fixed_temperature_k": {
+        "0": 300,
+        "2": 330
+      },
+      "node_labels": [
+        "cold",
+        "middle",
+        "hot"
+      ]
+    },
+    "expected": {},
+    "error": "singular",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "thermal-asymmetric",
+    "model": "thermal_network",
+    "inputs": {
+      "conductance_w_per_k": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          2,
+          0,
+          4
+        ],
+        [
+          0,
+          4,
+          0
+        ]
+      ],
+      "heat_input_w": [
+        0,
+        0,
+        0
+      ],
+      "fixed_temperature_k": {
+        "0": 300,
+        "2": 330
+      },
+      "node_labels": [
+        "cold",
+        "middle",
+        "hot"
+      ]
+    },
+    "expected": {},
+    "error": "symmetric",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "vibration-force",
+    "model": "forced_vibration",
+    "inputs": {
+      "mass_kg": 2,
+      "stiffness_n_m": 800,
+      "damping_n_s_m": 8,
+      "excitation_frequency_hz": 2,
+      "force_amplitude_n": 12
+    },
+    "expected": {
+      "displacement_amplitude_mm": 24.26696662729416
+    },
+    "error": null,
+    "reference": "Complex impedance Z=k-m*w^2+i*c*w; X=F/Z, absolute X/Y=(k+i*c*w)/Z.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "vibration-near-static",
+    "model": "forced_vibration",
+    "inputs": {
+      "mass_kg": 2,
+      "stiffness_n_m": 800,
+      "damping_n_s_m": 8,
+      "excitation_frequency_hz": 0.0001,
+      "force_amplitude_n": 12
+    },
+    "expected": {
+      "displacement_amplitude_mm": 15.000000014508318
+    },
+    "error": null,
+    "reference": "Complex impedance Z=k-m*w^2+i*c*w; X=F/Z, absolute X/Y=(k+i*c*w)/Z.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "vibration-base",
+    "model": "forced_vibration",
+    "inputs": {
+      "mass_kg": 2,
+      "stiffness_n_m": 800,
+      "damping_n_s_m": 8,
+      "excitation_frequency_hz": 2,
+      "base_displacement_amplitude_mm": 3
+    },
+    "expected": {
+      "absolute_displacement_amplitude_mm": 4.891564081312204,
+      "relative_displacement_amplitude_mm": 1.9160428850066475
+    },
+    "error": null,
+    "reference": "Complex impedance Z=k-m*w^2+i*c*w; X=F/Z, absolute X/Y=(k+i*c*w)/Z.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "vibration-resonance",
+    "model": "forced_vibration",
+    "inputs": {
+      "mass_kg": 2,
+      "stiffness_n_m": 800,
+      "damping_n_s_m": 0,
+      "excitation_frequency_hz": 3.183098861837907,
+      "force_amplitude_n": 12
+    },
+    "expected": {},
+    "error": "no finite steady-state",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "vibration-invalid",
+    "model": "forced_vibration",
+    "inputs": {
+      "mass_kg": 2,
+      "stiffness_n_m": 800,
+      "damping_n_s_m": 8,
+      "excitation_frequency_hz": 2,
+      "force_amplitude_n": 12,
+      "base_displacement_amplitude_mm": 3
+    },
+    "expected": {},
+    "error": "exactly one",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "pipe-laminar",
+    "model": "pipe_network",
+    "inputs": {
+      "density_kg_m3": 1000,
+      "dynamic_viscosity_pa_s": 0.001,
+      "total_flow_m3_s": 1e-06,
+      "series_segments": [
+        {
+          "length_mm": 800,
+          "diameter_mm": 10
+        }
+      ]
+    },
+    "expected": {
+      "total_pressure_loss_pa": 3.259493234522017
+    },
+    "error": null,
+    "reference": "Hagen-Poiseuille: deltaP=128*mu*L*Q/(pi*D^4), SI units.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "pipe-small-flow",
+    "model": "pipe_network",
+    "inputs": {
+      "density_kg_m3": 1000,
+      "dynamic_viscosity_pa_s": 0.001,
+      "total_flow_m3_s": 9.999999999999999e-10,
+      "series_segments": [
+        {
+          "length_mm": 800,
+          "diameter_mm": 10
+        }
+      ]
+    },
+    "expected": {
+      "total_pressure_loss_pa": 0.0032594932345220164
+    },
+    "error": null,
+    "reference": "Hagen-Poiseuille: deltaP=128*mu*L*Q/(pi*D^4), SI units.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "pipe-parallel",
+    "model": "pipe_network",
+    "inputs": {
+      "density_kg_m3": 1000,
+      "dynamic_viscosity_pa_s": 0.001,
+      "total_flow_m3_s": 1e-06,
+      "series_segments": [],
+      "parallel_branches": [
+        [
+          {
+            "length_mm": 800,
+            "diameter_mm": 10,
+            "darcy_friction_factor": 0.03
+          }
+        ],
+        [
+          {
+            "length_mm": 800,
+            "diameter_mm": 10,
+            "darcy_friction_factor": 0.03
+          }
+        ]
+      ]
+    },
+    "expected": {
+      "total_pressure_loss_pa": 0.04863416814832213,
+      "parallel_flow_balance_residual_m3_s": 0,
+      "parallel_pressure_spread_pa": 0
+    },
+    "error": null,
+    "reference": "Identical constant-factor branches divide flow equally; Darcy pressure from each half-flow.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "pipe-transition",
+    "model": "pipe_network",
+    "inputs": {
+      "density_kg_m3": 1000,
+      "dynamic_viscosity_pa_s": 0.001,
+      "total_flow_m3_s": 2.356194490192345e-05,
+      "series_segments": [
+        {
+          "length_mm": 800,
+          "diameter_mm": 10
+        }
+      ]
+    },
+    "expected": {},
+    "error": "transitional",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "pipe-invalid",
+    "model": "pipe_network",
+    "inputs": {
+      "density_kg_m3": 1000,
+      "dynamic_viscosity_pa_s": 0.001,
+      "total_flow_m3_s": 1e-06,
+      "series_segments": [
+        {
+          "length_mm": 800,
+          "diameter_mm": -1
+        }
+      ]
+    },
+    "expected": {},
+    "error": "positive",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "wire-feedback",
+    "model": "electro_thermal_wire",
+    "inputs": {
+      "length_mm": 200,
+      "area_mm2": 2,
+      "resistivity_ohm_m": 2e-08,
+      "current_a": 20,
+      "thermal_resistance_k_per_w": 5,
+      "ambient_temperature_k": 290,
+      "resistance_temperature_coefficient_per_k": 0.01
+    },
+    "expected": {
+      "temperature_rise_k": 4.166666666666667,
+      "joule_heat_w": 0.8333333333333334,
+      "cold_resistance_ohm": 0.002
+    },
+    "error": null,
+    "reference": "Heat balance deltaT/Rth=I^2*R0*(1+alpha*deltaT); R0=rho*L/A in SI.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "wire-zero",
+    "model": "electro_thermal_wire",
+    "inputs": {
+      "length_mm": 200,
+      "area_mm2": 2,
+      "resistivity_ohm_m": 2e-08,
+      "current_a": 0,
+      "thermal_resistance_k_per_w": 5,
+      "ambient_temperature_k": 290,
+      "resistance_temperature_coefficient_per_k": 0.01
+    },
+    "expected": {
+      "temperature_rise_k": 0.0,
+      "joule_heat_w": 0.0,
+      "cold_resistance_ohm": 0.002
+    },
+    "error": null,
+    "reference": "Heat balance deltaT/Rth=I^2*R0*(1+alpha*deltaT); R0=rho*L/A in SI.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "wire-no-feedback",
+    "model": "electro_thermal_wire",
+    "inputs": {
+      "length_mm": 200,
+      "area_mm2": 2,
+      "resistivity_ohm_m": 2e-08,
+      "current_a": 20,
+      "thermal_resistance_k_per_w": 5,
+      "ambient_temperature_k": 290,
+      "resistance_temperature_coefficient_per_k": 0
+    },
+    "expected": {
+      "temperature_rise_k": 4.0,
+      "joule_heat_w": 0.8,
+      "cold_resistance_ohm": 0.002
+    },
+    "error": null,
+    "reference": "Heat balance deltaT/Rth=I^2*R0*(1+alpha*deltaT); R0=rho*L/A in SI.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "wire-near-instability",
+    "model": "electro_thermal_wire",
+    "inputs": {
+      "length_mm": 200,
+      "area_mm2": 2,
+      "resistivity_ohm_m": 2e-08,
+      "current_a": 20,
+      "thermal_resistance_k_per_w": 5,
+      "ambient_temperature_k": 290,
+      "resistance_temperature_coefficient_per_k": 0.249
+    },
+    "expected": {
+      "temperature_rise_k": 1000.0000000000061,
+      "joule_heat_w": 200.00000000000122,
+      "cold_resistance_ohm": 0.002
+    },
+    "error": null,
+    "reference": "Heat balance deltaT/Rth=I^2*R0*(1+alpha*deltaT); R0=rho*L/A in SI.",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "wire-unstable",
+    "model": "electro_thermal_wire",
+    "inputs": {
+      "length_mm": 200,
+      "area_mm2": 2,
+      "resistivity_ohm_m": 2e-08,
+      "current_a": 20,
+      "thermal_resistance_k_per_w": 5,
+      "ambient_temperature_k": 290,
+      "resistance_temperature_coefficient_per_k": 0.25
+    },
+    "expected": {},
+    "error": "loop gain",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  },
+  {
+    "id": "wire-invalid",
+    "model": "electro_thermal_wire",
+    "inputs": {
+      "length_mm": 200,
+      "area_mm2": 0,
+      "resistivity_ohm_m": 2e-08,
+      "current_a": 20,
+      "thermal_resistance_k_per_w": 5,
+      "ambient_temperature_k": 290,
+      "resistance_temperature_coefficient_per_k": 0.01
+    },
+    "expected": {},
+    "error": "positive",
+    "reference": "",
+    "rtol": 1e-09,
+    "atol": 1e-09
+  }
+]
