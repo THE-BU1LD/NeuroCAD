@@ -173,11 +173,12 @@ class RequirementIRParseError(ValueError):
 
 
 def _finite(value: Any) -> bool:
-    return (
-        not isinstance(value, bool)
-        and isinstance(value, (int, float))
-        and math.isfinite(float(value))
-    )
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return False
+    try:
+        return math.isfinite(float(value))
+    except (OverflowError, ValueError):
+        return False
 
 
 def _strict_json_error(value: Any, path: str) -> str | None:
@@ -213,37 +214,49 @@ def validate_requirement_ir(document: RequirementIR) -> RequirementValidationRep
         errors.append(
             RequirementIssue("invalid_source", "$.source", f"source must be a string of at most {MAX_SOURCE_CHARS} characters")
         )
-    if len(document.requirements) > MAX_REQUIREMENTS:
+    requirements = document.requirements
+    if not isinstance(requirements, (list, tuple)):
+        errors.append(RequirementIssue("invalid_requirements", "$.requirements", "must be an array of requirements"))
+        requirements = ()
+    if len(requirements) > MAX_REQUIREMENTS:
         errors.append(
             RequirementIssue("resource_limit", "$.requirements", f"at most {MAX_REQUIREMENTS} requirements are supported")
         )
     if not isinstance(document.metadata, dict):
         errors.append(RequirementIssue("invalid_metadata", "$.metadata", "metadata must be an object"))
     else:
-        metadata_error = _strict_json_error(document.metadata, "$.metadata")
+        try:
+            metadata_error = _strict_json_error(document.metadata, "$.metadata")
+        except RecursionError:
+            metadata_error = "metadata is cyclic or too deeply nested"
         if metadata_error:
             errors.append(RequirementIssue("invalid_metadata", "$.metadata", metadata_error))
 
     ids: set[str] = set()
-    for index, requirement in enumerate(document.requirements):
+    for index, requirement in enumerate(requirements):
         path = f"$.requirements[{index}]"
+        if not isinstance(requirement, Requirement):
+            errors.append(RequirementIssue("invalid_requirement", path, "must be a Requirement"))
+            continue
         if not isinstance(requirement.id, str) or ID_RE.fullmatch(requirement.id) is None:
             errors.append(RequirementIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
         elif requirement.id in ids:
             errors.append(RequirementIssue("duplicate_id", f"{path}.id", requirement.id))
-        ids.add(requirement.id)
-        if requirement.kind not in REQUIREMENT_KINDS:
+        if isinstance(requirement.id, str):
+            ids.add(requirement.id)
+        if not isinstance(requirement.kind, str) or requirement.kind not in REQUIREMENT_KINDS:
             errors.append(RequirementIssue("invalid_kind", f"{path}.kind", str(requirement.kind)))
-        if requirement.strength not in STRENGTHS:
+        if not isinstance(requirement.strength, str) or requirement.strength not in STRENGTHS:
             errors.append(RequirementIssue("invalid_strength", f"{path}.strength", str(requirement.strength)))
-        if requirement.provenance not in PROVENANCE:
+        if not isinstance(requirement.provenance, str) or requirement.provenance not in PROVENANCE:
             errors.append(RequirementIssue("invalid_provenance", f"{path}.provenance", str(requirement.provenance)))
-        if requirement.verification not in VERIFICATION_METHODS:
+        if not isinstance(requirement.verification, str) or requirement.verification not in VERIFICATION_METHODS:
             errors.append(RequirementIssue("invalid_verification", f"{path}.verification", str(requirement.verification)))
         if not isinstance(requirement.target, str) or not requirement.target.strip() or len(requirement.target) > 256:
             errors.append(RequirementIssue("invalid_target", f"{path}.target", "target must contain 1 to 256 characters"))
         if (
-            isinstance(requirement.source_start, bool)
+            not isinstance(document.source, str)
+            or isinstance(requirement.source_start, bool)
             or not isinstance(requirement.source_start, int)
             or isinstance(requirement.source_end, bool)
             or not isinstance(requirement.source_end, int)
@@ -253,7 +266,11 @@ def validate_requirement_ir(document: RequirementIR) -> RequirementValidationRep
         elif document.source[requirement.source_start:requirement.source_end] != requirement.source_text:
             errors.append(RequirementIssue("source_span_mismatch", f"{path}.source_text", "does not match the recorded source span"))
 
-        if requirement.value is not None:
+        if not isinstance(requirement.notes, (list, tuple)) or any(not isinstance(note, str) for note in requirement.notes):
+            errors.append(RequirementIssue("invalid_notes", f"{path}.notes", "must be an array of strings"))
+        if requirement.value is not None and not isinstance(requirement.value, RequirementValue):
+            errors.append(RequirementIssue("invalid_value", f"{path}.value", "must be a RequirementValue or null"))
+        elif requirement.value is not None:
             value = requirement.value
             if not _finite(value.value):
                 errors.append(RequirementIssue("invalid_value", f"{path}.value.value", "must be finite"))
@@ -292,17 +309,40 @@ def requirement_coverage(
     document: RequirementIR,
     bindings: tuple[RequirementBinding, ...],
     *,
-    known_feature_ids: tuple[str, ...] = (),
+    known_feature_ids: tuple[str, ...] | None = None,
 ) -> RequirementCoverageReport:
+    """Check binding coverage, not geometric truth.
+
+    None omits the feature-universe check for legacy callers. An explicit empty
+    sequence means no features exist and therefore rejects every feature binding.
+    """
     validation = validate_requirement_ir(document)
     invalid: list[RequirementIssue] = list(validation.errors)
+    if not validation.structurally_valid:
+        return RequirementCoverageReport(False, (), (), (), tuple(invalid))
     requirement_map = {item.id: item for item in document.requirements}
-    known_features = set(known_feature_ids)
+    if known_feature_ids is not None and (
+        not isinstance(known_feature_ids, (tuple, list))
+        or any(not isinstance(item, str) or ID_RE.fullmatch(item) is None for item in known_feature_ids)
+    ):
+        invalid.append(RequirementIssue("invalid_feature_ids", "$.known_feature_ids", "must be an array of feature ids"))
+        return RequirementCoverageReport(False, (), (), (), tuple(invalid))
+    known_features = set(known_feature_ids or ())
+    if not isinstance(bindings, (tuple, list)):
+        invalid.append(RequirementIssue("invalid_bindings", "$.bindings", "must be an array of bindings"))
+        return RequirementCoverageReport(False, (), (), (), tuple(invalid))
     bound: set[str] = set()
 
     seen_requirements: set[str] = set()
     for index, binding in enumerate(bindings):
         path = f"$.bindings[{index}]"
+        if (not isinstance(binding, RequirementBinding)
+                or not isinstance(binding.requirement_id, str)
+                or not isinstance(binding.verification, str)
+                or not isinstance(binding.feature_ids, (tuple, list))
+                or any(not isinstance(item, str) or ID_RE.fullmatch(item) is None for item in binding.feature_ids)):
+            invalid.append(RequirementIssue("invalid_binding", path, "binding fields must contain valid ids and a verification method"))
+            continue
         requirement = requirement_map.get(binding.requirement_id)
         if requirement is None:
             invalid.append(
@@ -335,7 +375,7 @@ def requirement_coverage(
                 RequirementIssue("missing_feature_binding", f"{path}.feature_ids", "geometric verification requires feature ids")
             )
             continue
-        missing_features = sorted(set(binding.feature_ids) - known_features) if known_features else []
+        missing_features = sorted(set(binding.feature_ids) - known_features) if known_feature_ids is not None else []
         if missing_features:
             invalid.append(
                 RequirementIssue(
@@ -385,6 +425,8 @@ def serialize_requirement_ir_json(document: RequirementIR, *, pretty: bool = Tru
 
 
 def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:
+    if any(not isinstance(key, str) for key in value):
+        raise RequirementIRParseError([f"{path}: keys must be strings"])
     unexpected = sorted(set(value) - allowed)
     missing = sorted(required - set(value))
     if unexpected:
@@ -394,6 +436,8 @@ def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], pat
 
 
 def requirement_ir_from_dict(raw: dict[str, Any]) -> RequirementIR:
+    if not isinstance(raw, dict):
+        raise RequirementIRParseError(["$: root must be an object"])
     _only_keys(
         raw,
         {"version", "source", "requirements", "metadata"},

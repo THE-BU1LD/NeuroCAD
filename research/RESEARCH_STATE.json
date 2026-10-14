@@ -311,9 +311,32 @@
       "interop": 38573308981,
       "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
       "final_integration_contract": "research/development/native_acceptance_20261014/final-integration-contract.json"
+    },
+    {
+      "id": "verified_intent_20261014",
+      "status": "LOCAL_BOUNDED_PASS_HOSTED_PENDING",
+      "contract": "research/development/verified_intent_20261014/contract.json",
+      "baseline": "research/development/verified_intent_20261014/baseline.json",
+      "verification": "research/development/verified_intent_20261014/local-verification.json",
+      "source_base": "0a4ce929c71b767e59822faf2a04546e324fe411",
+      "prior_budgets_reopened": false,
+      "scientific_checkpoint_advanced": false,
+      "implemented": [
+        "Requirement IR malformed types and explicit empty feature universe",
+        "Project finite-number overflow boundary",
+        "Frozen-context language scoring and versioned portable sealed reports",
+        "Matched paired report comparison with score recomputation"
+      ],
+      "remaining": [
+        "Exact candidate full hosted checks and protected merge",
+        "Separate final-geometry predicate successor",
+        "External benchmark/data/provider budget",
+        "Physical, independent reproduction and intended-user evidence"
+      ],
+      "plan": "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md"
     }
   ],
-  "latest_engineering_session": "native_acceptance_20261014",
+  "latest_engineering_session": "verified_intent_20261014",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",
