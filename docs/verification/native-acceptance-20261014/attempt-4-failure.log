@@ -1,0 +1,659 @@
+Native goldens / windows-2025	UNKNOWN STEP	﻿2026-10-14T13:44:32.7411271Z Current runner version: '2.337.0'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7444116Z ##[group]Runner Image Provisioner
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7445114Z Hosted Compute Agent
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7445744Z Version: 20260901.588
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7446376Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7447138Z Build Date: 2026-09-01T19:56:44Z
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7447831Z Worker ID: {3931de12-8721-4059-b626-dca471f331f5}
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7448556Z Azure Region: eastus
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7449125Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7450561Z ##[group]Operating System
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7451298Z Microsoft Windows Server 2025
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7451925Z 10.0.26100
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7452457Z Datacenter
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7453042Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7453563Z ##[group]Runner Image
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7454186Z Image: windows-2025-vs2026
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7454826Z Version: 20260925.250.1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7456421Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7458108Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7459661Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7460803Z ##[group]GITHUB_TOKEN Permissions
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7462904Z Contents: read
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7463529Z Metadata: read
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7464140Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7466542Z Secret source: Actions
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7467590Z Cache mode: write
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.7468372Z Prepare workflow directory
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.8019108Z Prepare all required actions
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:32.8082214Z Getting action download info
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:33.0077680Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:34.5256171Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:34.9585597Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.1783813Z Complete job name: Native goldens / windows-2025
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3440848Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3441856Z with:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3442231Z   ref: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3442671Z   persist-credentials: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3443058Z   repository: THE-BU1LD/NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3445836Z   token: ***
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3446162Z   ssh-strict: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3446479Z   ssh-user: git
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3446777Z   clean: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3447100Z   sparse-checkout-cone-mode: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3447484Z   fetch-depth: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3447814Z   fetch-tags: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3448151Z   show-progress: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3448503Z   lfs: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3448803Z   submodules: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3449125Z   set-safe-directory: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3449491Z   allow-unsafe-pr-checkout: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3450082Z env:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3450559Z   NEUROCAD_SOURCE_COMMIT: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3451044Z   OMP_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3451372Z   OPENBLAS_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.3451696Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.5080503Z Syncing repository: THE-BU1LD/NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.5082156Z ##[group]Getting Git version info
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.5082639Z Working directory is 'D:\a\NeuroCAD\NeuroCAD'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:35.6067402Z [command]"C:\Program Files\Git\bin\git.exe" version
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2133051Z git version 2.55.0.windows.5
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2206503Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2223975Z Temporarily overriding HOME='D:\a\_temp\95f9d040-06ce-4e47-b440-3709cbc512e2' before making global git config changes
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2227643Z Adding repository directory to the temporary git global config as a safe directory
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2235160Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NeuroCAD\NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2954500Z Deleting the contents of 'D:\a\NeuroCAD\NeuroCAD'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2960199Z ##[group]Determining repository object format
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2962716Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2963271Z ##[group]Initializing the repository
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.2971623Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\NeuroCAD\NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.3921954Z Initialized empty Git repository in D:/a/NeuroCAD/NeuroCAD/.git/
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.3977695Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/THE-BU1LD/NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.4710003Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.4710867Z ##[group]Disabling automatic garbage collection
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.4722151Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.5081676Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.5082338Z ##[group]Setting up auth
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.5082887Z Removing SSH command configuration
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.5094659Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:36.5439776Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:38.1864885Z Removing HTTP extra header
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:38.1875650Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:38.2195517Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:38.8093830Z Removing includeIf entries pointing to credentials config files
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:38.8105419Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:38.8424865Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.4075473Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.4401583Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path D:\a\_temp\git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.4732727Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path D:\a\_temp\git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.5080388Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.5381430Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.5686870Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.5687290Z ##[group]Fetching the repository
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:39.5709827Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2164828Z From https://github.com/THE-BU1LD/NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2165807Z  * branch            c2776faa1531a518df9fc3dd5c07dae11662101c -> FETCH_HEAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2222448Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse --verify --quiet c2776faa1531a518df9fc3dd5c07dae11662101c^{object}
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2516446Z c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2554066Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2554555Z ##[group]Determining the checkout info
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2555029Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.2563235Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.3015855Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.3316634Z ##[group]Checking out the ref
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:41.3325746Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4031690Z Updating files:  53% (2528/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4187639Z Updating files:  54% (2575/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4350869Z Updating files:  55% (2623/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4489589Z Updating files:  56% (2671/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4644305Z Updating files:  57% (2718/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4811889Z Updating files:  58% (2766/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.4960910Z Updating files:  59% (2814/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.5095929Z Updating files:  60% (2861/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.5240936Z Updating files:  61% (2909/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.5393486Z Updating files:  62% (2957/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.5531311Z Updating files:  63% (3004/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.5690636Z Updating files:  64% (3052/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.5836649Z Updating files:  65% (3100/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.6161247Z Updating files:  66% (3147/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.6355042Z Updating files:  67% (3195/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.6516875Z Updating files:  68% (3243/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.6682888Z Updating files:  69% (3290/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.6850453Z Updating files:  70% (3338/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7006572Z Updating files:  71% (3386/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7180634Z Updating files:  72% (3433/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7349043Z Updating files:  73% (3481/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7482749Z Updating files:  74% (3529/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7630143Z Updating files:  75% (3576/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7788478Z Updating files:  76% (3624/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.7936467Z Updating files:  77% (3672/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.8090402Z Updating files:  78% (3720/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.8245153Z Updating files:  79% (3767/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.8401579Z Updating files:  80% (3815/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.8538320Z Updating files:  81% (3863/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.8705937Z Updating files:  82% (3910/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.8880468Z Updating files:  83% (3958/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9013496Z Updating files:  84% (4006/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9168661Z Updating files:  85% (4053/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9320016Z Updating files:  86% (4101/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9448713Z Updating files:  87% (4149/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9603880Z Updating files:  88% (4196/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9751745Z Updating files:  89% (4244/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:42.9914030Z Updating files:  90% (4292/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.0047384Z Updating files:  91% (4339/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.0242163Z Updating files:  92% (4387/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.0367291Z Updating files:  93% (4435/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.0654672Z Updating files:  94% (4482/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.0807552Z Updating files:  95% (4530/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.0959072Z Updating files:  96% (4578/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1079545Z Updating files:  97% (4625/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1202175Z Updating files:  98% (4673/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1329466Z Updating files:  99% (4721/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1330093Z Updating files: 100% (4768/4768)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1330591Z Updating files: 100% (4768/4768), done.
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1491516Z Note: switching to 'c2776faa1531a518df9fc3dd5c07dae11662101c'.
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1492041Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1492293Z You are in 'detached HEAD' state. You can look around, make experimental
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1493799Z changes and commit them, and you can discard any commits you make in this
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1494621Z state without impacting any branches by switching back to a branch.
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1495080Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1495404Z If you want to create a new branch to retain commits you create, you may
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1496151Z do so (now or later) by using -c with the switch command. Example:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1496581Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1496781Z   git switch -c <new-branch-name>
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1497063Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1497208Z Or undo this operation with:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1497462Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1497595Z   git switch -
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1497752Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1497979Z Turn off this advice by setting config variable advice.detachedHead to false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1498313Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1498619Z HEAD is now at c2776fa Retain three-platform native evidence and enforce frozen-file preservation
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.1708636Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.2128503Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.2395992Z c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.2437667Z ##[group]Removing auth
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.2438019Z Removing SSH command configuration
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.2449987Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.2753329Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.8840803Z Removing HTTP extra header
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.8851364Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:43.9171732Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.4848137Z Removing includeIf entries pointing to credentials config files
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.4856215Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5129123Z includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5129851Z includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5130501Z includeif.gitdir:/github/workspace/.git.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5131005Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5183647Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5445488Z D:\a\_temp\git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5491134Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path D\:\\a\\_temp\\git\-credentials\-edf2d2c2\-1c3f\-450a\-a0f1\-1be53120de8e\.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.5806371Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.6073900Z D:\a\_temp\git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.6117563Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-edf2d2c2\-1c3f\-450a\-a0f1\-1be53120de8e\.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.6425979Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.6687229Z /github/runner_temp/git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.6728375Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-edf2d2c2\-1c3f\-450a\-a0f1\-1be53120de8e\.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.7046445Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.7327237Z /github/runner_temp/git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.7373696Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-edf2d2c2\-1c3f\-450a\-a0f1\-1be53120de8e\.config
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:44.7696080Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.2970085Z Removing credentials config 'D:\a\_temp\git-credentials-edf2d2c2-1c3f-450a-a0f1-1be53120de8e.config'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.2982609Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3408629Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3409141Z with:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3409360Z   python-version: 3.13.15
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3409599Z   cache: pip
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3409804Z   check-latest: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3412213Z   token: ***
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3412439Z   update-environment: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3412694Z   allow-prereleases: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3412928Z   freethreaded: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3413147Z env:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3413423Z   NEUROCAD_SOURCE_COMMIT: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3413787Z   OMP_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3414003Z   OPENBLAS_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.3414223Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.4924281Z ##[group]Installed versions
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.5023288Z Successfully set up CPython (3.13.15)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:45.5024149Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:49.9384147Z Cache hit for: setup-python-Windows-x64-python-3.13.15-pip-8c57096f17f4ef44162279b09635f6b02814b55ab54a02321351abf60e7e1474
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:50.4938643Z Received 39186763 of 39186763 (100.0%), 75.5 MBs/sec
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:50.4940568Z Cache Size: ~37 MB (39186763 B)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:50.5019026Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/76db5237-bdce-4e54-a0dd-bb906e8efafc/cache.tzst -P -C D:/a/NeuroCAD/NeuroCAD --force-local --use-compress-program "zstd -d"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:50.9937767Z Cache restored successfully
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:50.9972044Z Cache restored from key: setup-python-Windows-x64-python-3.13.15-pip-8c57096f17f4ef44162279b09635f6b02814b55ab54a02321351abf60e7e1474
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0370354Z ##[group]Run python -m pip install -e '.[dev,exact-build123d,mesh-gmsh]'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0371325Z ^[[36;1mpython -m pip install -e '.[dev,exact-build123d,mesh-gmsh]'^[[0m
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0372001Z ^[[36;1mpython -m pip check^[[0m
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0372542Z ^[[36;1mpython -m pip freeze --all > native-environment.txt^[[0m
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0955536Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0956017Z env:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0956367Z   NEUROCAD_SOURCE_COMMIT: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0956822Z   OMP_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0957078Z   OPENBLAS_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0957459Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0958046Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0959045Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0959626Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0960155Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:51.0960572Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:54.3289813Z Obtaining file:///D:/a/NeuroCAD/NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:54.3327041Z   Installing build dependencies: started
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:56.7125535Z   Installing build dependencies: finished with status 'done'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:56.7146061Z   Checking if build backend supports build_editable: started
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:57.2615284Z   Checking if build backend supports build_editable: finished with status 'done'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:57.2640335Z   Getting requirements to build editable: started
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:57.9012926Z   Getting requirements to build editable: finished with status 'done'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:57.9042968Z   Preparing editable metadata (pyproject.toml): started
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:58.3317400Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:58.5756659Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:58.5779870Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:58.9343700Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.1427702Z   Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.2464492Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.2514153Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.2969935Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.2992803Z   Using cached build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.4114661Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.4142067Z   Using cached mypy-1.18.2-cp313-cp313-win_amd64.whl.metadata (2.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.4466663Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.4488274Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.8151872Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.8175567Z   Using cached ruff-0.16.5-py3-none-win_amd64.whl.metadata (26 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.8514560Z Collecting build123d==0.13.0 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.8594208Z   Downloading build123d-0.13.0-py3-none-any.whl.metadata (14 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9111937Z Collecting gmsh==4.15.2 (from neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9191332Z   Downloading gmsh-4.15.2-py2.py3-none-win_amd64.whl.metadata (1.7 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9453200Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9475685Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9660588Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9684645Z   Using cached pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9958326Z Collecting colorama (from build==1.6.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:44:59.9978921Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.0404181Z Collecting cadquery-ocp-novtk<8.1,>=8.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.0473288Z   Downloading cadquery_ocp_novtk-8.0.1.1.0-cp313-cp313-win_amd64.whl.metadata (910 bytes)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.1166581Z Collecting typing_extensions<5,>=4.16.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.1188855Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.2474409Z Collecting svgpathtools<2,>=1.5.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.2549894Z   Downloading svgpathtools-1.8.0-py2.py3-none-any.whl.metadata (22 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.4664116Z Collecting anytree<3,>=2.8.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.4763600Z   Downloading anytree-2.13.0-py3-none-any.whl.metadata (8.0 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.6891367Z Collecting ezdxf<2,>=1.1.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.6968053Z   Downloading ezdxf-1.4.4-cp313-cp313-win_amd64.whl.metadata (10 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.9127728Z Collecting fonttools<5,>=4.39.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:00.9190018Z   Downloading fonttools-4.67.0-cp313-cp313-win_amd64.whl.metadata (139 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.0351880Z Collecting ipython<10,>=8.0.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.0408353Z   Downloading ipython-9.17.1-py3-none-any.whl.metadata (4.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.0906379Z Collecting ocpsvg<0.8,>=0.7 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.0961985Z   Downloading ocpsvg-0.7.0-py3-none-any.whl.metadata (918 bytes)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.1427049Z Collecting ocp_gordon<0.4,>=0.3.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.1504938Z   Downloading ocp_gordon-0.3.1-py3-none-any.whl.metadata (5.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.2182489Z Collecting trianglesolver (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.2251549Z   Downloading trianglesolver-1.2-py3-none-any.whl.metadata (1.7 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.2733258Z Collecting sympy (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.2782578Z   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.4480019Z Collecting scipy (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.4534854Z   Downloading scipy-1.18.1-cp313-cp313-win_amd64.whl.metadata (61 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.6089867Z Collecting scikit-learn<2,>=1.5 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.6153969Z   Downloading scikit_learn-1.9.1-cp313-cp313-win_amd64.whl.metadata (9.3 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.6840611Z Collecting webcolors~=24.8.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.6894428Z   Downloading webcolors-24.8.0-py3-none-any.whl.metadata (2.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.7466112Z Collecting requests<3,>=2.32 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.7546755Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.8043370Z Collecting lib3mf>=2.4.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.8116472Z   Downloading lib3mf-2.5.0-py3-none-win_amd64.whl.metadata (6.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.8656351Z Collecting bd_materials<0.3.0,>=0.2.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.8719709Z   Downloading bd_materials-0.2.4-py3-none-any.whl.metadata (32 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.9438222Z Collecting threejs-materials<1.3.0,>=1.2.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:01.9541500Z   Downloading threejs_materials-1.2.4-py3-none-any.whl.metadata (56 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.0022521Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.0045169Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.0507555Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.0529628Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.0822889Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.0880787Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.1335902Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.1360087Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.1624203Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.1649658Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.2000372Z Collecting cadquery-ocp-proxy==8.0.1.1.0 (from cadquery-ocp-novtk<8.1,>=8.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.2084309Z   Downloading cadquery_ocp_proxy-8.0.1.1.0-py3-none-any.whl.metadata (4.7 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.2623858Z Collecting pyparsing>=3.0.0 (from ezdxf<2,>=1.1.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.2762091Z   Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.3264040Z Collecting ipython-pygments-lexers>=1.0.0 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.3319025Z   Downloading ipython_pygments_lexers-1.1.1-py3-none-any.whl.metadata (1.1 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.3781965Z Collecting jedi>=0.18.2 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.3842061Z   Downloading jedi-0.20.1-py2.py3-none-any.whl.metadata (23 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.4381624Z Collecting matplotlib-inline>=0.1.6 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.4439884Z   Downloading matplotlib_inline-0.2.2-py3-none-any.whl.metadata (2.4 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.5199437Z Collecting prompt_toolkit<3.1.0,>=3.0.41 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.5257995Z   Downloading prompt_toolkit-3.0.53-py3-none-any.whl.metadata (6.4 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.6212965Z Collecting psutil>=7 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.6271517Z   Downloading psutil-7.2.2-cp37-abi3-win_amd64.whl.metadata (22 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.6831602Z Collecting stack_data>=0.6.0 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.6885971Z   Downloading stack_data-0.6.3-py3-none-any.whl.metadata (18 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.7385357Z Collecting traitlets>=5.13.0 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.7449473Z   Downloading traitlets-5.16.1-py3-none-any.whl.metadata (10 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.7890784Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.7916071Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.8225076Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.8265121Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.8540114Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:02.8564693Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.1499567Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.1576572Z   Downloading rpds_py-2026.9.1-cp313-cp313-win_amd64.whl.metadata (4.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.2099983Z Collecting svgelements<2,>=1.9.1 (from ocpsvg<0.8,>=0.7->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.2178311Z   Downloading svgelements-1.9.6-py2.py3-none-any.whl.metadata (44 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.2715862Z Collecting wcwidth>=0.1.4 (from prompt_toolkit<3.1.0,>=3.0.41->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.2771051Z   Downloading wcwidth-0.9.2-cp310-abi3-win_amd64.whl.metadata (24 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.4598393Z Collecting charset_normalizer<4,>=2 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.4668161Z   Downloading charset_normalizer-3.5.2-cp313-cp313-win_amd64.whl.metadata (47 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.5196629Z Collecting idna<4,>=2.5 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.5248187Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.5866466Z Collecting urllib3<3,>=1.26 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.5922725Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.6509650Z Collecting certifi>=2023.5.7 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.6563276Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.7083666Z Collecting joblib>=1.4.0 (from scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.7280543Z   Downloading joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.7939881Z Collecting narwhals>=2.0.1 (from scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.7995098Z   Downloading narwhals-2.27.1-py3-none-any.whl.metadata (15 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.8437972Z Collecting threadpoolctl>=3.5.0 (from scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.8491693Z   Downloading threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.9049516Z Collecting svgwrite (from svgpathtools<2,>=1.5.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:03.9101296Z   Downloading svgwrite-1.4.3-py3-none-any.whl.metadata (8.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.1141131Z Collecting pillow<12.3.0,>=12.2.0 (from threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.1209979Z   Downloading pillow-12.2.0-cp313-cp313-win_amd64.whl.metadata (9.0 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.1724000Z Collecting pygltflib<2.0,>=1.16 (from threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.1904891Z   Downloading pygltflib-1.16.5-py3-none-any.whl.metadata (33 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.2448061Z Collecting platformdirs<5.0.0,>=4.9.6 (from threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.2501384Z   Downloading platformdirs-4.13.0-py3-none-any.whl.metadata (5.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.3048721Z Collecting dataclasses-json>=0.0.25 (from pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.3099720Z   Downloading dataclasses_json-0.6.7-py3-none-any.whl.metadata (25 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.3667161Z Collecting deprecated (from pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.3976508Z   Downloading deprecated-3.0.0-py3-none-any.whl.metadata (6.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.4723187Z Collecting marshmallow<4.0.0,>=3.18.0 (from dataclasses-json>=0.0.25->pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.4790635Z   Downloading marshmallow-3.26.2-py3-none-any.whl.metadata (7.3 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.5263330Z Collecting typing-inspect<1,>=0.4.0 (from dataclasses-json>=0.0.25->pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.5315210Z   Downloading typing_inspect-0.9.0-py3-none-any.whl.metadata (1.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.5829536Z Collecting parso<0.9.0,>=0.8.7 (from jedi>=0.18.2->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.5916910Z   Downloading parso-0.8.7-py2.py3-none-any.whl.metadata (8.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.6441081Z Collecting cloudpickle>=3.0 (from joblib>=1.4.0->scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.6497760Z   Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.7093440Z Collecting executing>=1.2.0 (from stack_data>=0.6.0->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.7141687Z   Downloading executing-2.3.0-py3-none-any.whl.metadata (9.1 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.7654568Z Collecting asttokens>=2.1.0 (from stack_data>=0.6.0->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.7706003Z   Downloading asttokens-3.0.2-py3-none-any.whl.metadata (5.7 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.8182184Z Collecting pure-eval (from stack_data>=0.6.0->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:04.8235291Z   Downloading pure_eval-0.2.4-py3-none-any.whl.metadata (6.4 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.2649420Z Collecting wrapt<3,>=1.16 (from deprecated->pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.2708477Z   Downloading wrapt-2.5.1-cp313-cp313-win_amd64.whl.metadata (7.7 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.3220984Z Collecting mpmath<1.4,>=1.1.0 (from sympy->build123d==0.13.0->neurocad-research==0.5.0a6)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.3268552Z   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.3528599Z Using cached build-1.6.0-py3-none-any.whl (31 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.3625050Z Downloading build123d-0.13.0-py3-none-any.whl (387 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:05.4016597Z Downloading gmsh-4.15.2-py2.py3-none-win_amd64.whl (42.2 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.7438610Z    ---------------------------------------- 42.2/42.2 MB 31.4 MB/s  0:00:01
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.7458939Z Using cached mypy-1.18.2-cp313-cp313-win_amd64.whl (9.8 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.7526209Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.7551715Z Using cached ruff-0.16.5-py3-none-win_amd64.whl (10.5 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.7661673Z Downloading anytree-2.13.0-py3-none-any.whl (45 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.7895716Z Downloading bd_materials-0.2.4-py3-none-any.whl (74 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:06.8261257Z Downloading cadquery_ocp_novtk-8.0.1.1.0-cp313-cp313-win_amd64.whl (47.8 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.2930076Z    ---------------------------------------- 47.8/47.8 MB 32.5 MB/s  0:00:01
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.2994831Z Downloading cadquery_ocp_proxy-8.0.1.1.0-py3-none-any.whl (3.2 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.3284815Z Downloading ezdxf-1.4.4-cp313-cp313-win_amd64.whl (3.0 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.6368912Z    ---------------------------------------- 3.0/3.0 MB 8.9 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.6486862Z Downloading fonttools-4.67.0-cp313-cp313-win_amd64.whl (2.5 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.7063328Z    ---------------------------------------- 2.5/2.5 MB 40.8 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.7123151Z Downloading ipython-9.17.1-py3-none-any.whl (639 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.7366934Z    ---------------------------------------- 639.0/639.0 kB 17.5 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.7385730Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.7522670Z Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.8816407Z    ---------------------------------------- 12.6/12.6 MB 97.3 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.8885737Z Downloading ocp_gordon-0.3.1-py3-none-any.whl (52 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.9099024Z Downloading ocpsvg-0.7.0-py3-none-any.whl (20 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.9265114Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.9368104Z Downloading prompt_toolkit-3.0.53-py3-none-any.whl (392 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.9615767Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:08.9804081Z Downloading charset_normalizer-3.5.2-cp313-cp313-win_amd64.whl (206 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:09.0019011Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:09.0284969Z Downloading scikit_learn-1.9.1-cp313-cp313-win_amd64.whl (8.2 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:09.1110295Z    ---------------------------------------- 8.2/8.2 MB 100.3 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:09.1185178Z Downloading svgelements-1.9.6-py2.py3-none-any.whl (137 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:09.1446341Z Downloading svgpathtools-1.8.0-py2.py3-none-any.whl (70 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:09.1821589Z Downloading threejs_materials-1.2.4-py3-none-any.whl (89.8 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.6899713Z    ---------------------------------------- 89.8/89.8 MB 59.5 MB/s  0:00:01
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.6978521Z Downloading pillow-12.2.0-cp313-cp313-win_amd64.whl (7.1 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.7900470Z    ---------------------------------------- 7.1/7.1 MB 76.6 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.7955820Z Downloading platformdirs-4.13.0-py3-none-any.whl (32 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.8146920Z Downloading pygltflib-1.16.5-py3-none-any.whl (27 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.8359389Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.8653764Z    ---------------------------------------- 750.4/750.4 kB 21.4 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.8672200Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.8761089Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.9020552Z Downloading webcolors-24.8.0-py3-none-any.whl (15 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.9248307Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.9308515Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.9503666Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.9567344Z Downloading dataclasses_json-0.6.7-py3-none-any.whl (28 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:10.9764673Z Downloading marshmallow-3.26.2-py3-none-any.whl (50 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.0059388Z Downloading typing_inspect-0.9.0-py3-none-any.whl (8.8 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.0242300Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.0457034Z Downloading ipython_pygments_lexers-1.1.1-py3-none-any.whl (8.1 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.0717418Z Downloading jedi-0.20.1-py2.py3-none-any.whl (4.9 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.1240473Z    ---------------------------------------- 4.9/4.9 MB 97.4 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.1289023Z Downloading parso-0.8.7-py2.py3-none-any.whl (107 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.1504021Z Downloading joblib-1.6.0-py3-none-any.whl (306 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.1799371Z Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.1997404Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.2065727Z Downloading lib3mf-2.5.0-py3-none-win_amd64.whl (857 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.2364012Z    ---------------------------------------- 857.6/857.6 kB 22.8 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.2434068Z Downloading matplotlib_inline-0.2.2-py3-none-any.whl (9.5 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.2637684Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.2695440Z Downloading narwhals-2.27.1-py3-none-any.whl (483 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.2990187Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.3012732Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.3067989Z Downloading psutil-7.2.2-cp37-abi3-win_amd64.whl (137 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.3842017Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.3909012Z Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.4163365Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:11.4287570Z Downloading rpds_py-2026.9.1-cp313-cp313-win_amd64.whl (222 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:12.4938293Z Downloading scipy-1.18.1-cp313-cp313-win_amd64.whl (36.6 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.0902796Z    ---------------------------------------- 36.6/36.6 MB 61.3 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.0951957Z Downloading stack_data-0.6.3-py3-none-any.whl (24 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.1164976Z Downloading asttokens-3.0.2-py3-none-any.whl (28 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.1366220Z Downloading executing-2.3.0-py3-none-any.whl (29 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.1544630Z Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.1736040Z Downloading traitlets-5.16.1-py3-none-any.whl (86 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.1939365Z Downloading wcwidth-0.9.2-cp310-abi3-win_amd64.whl (597 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.2363657Z    ---------------------------------------- 597.8/597.8 kB 8.5 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.2423487Z Downloading deprecated-3.0.0-py3-none-any.whl (21 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.2622018Z Downloading wrapt-2.5.1-cp313-cp313-win_amd64.whl (105 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.2896064Z Downloading pure_eval-0.2.4-py3-none-any.whl (11 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.3092777Z Using cached pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.3152989Z Downloading svgwrite-1.4.3-py3-none-any.whl (67 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.3456026Z Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.4076857Z    ---------------------------------------- 6.3/6.3 MB 103.5 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.4130735Z Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.4479368Z    ---------------------------------------- 536.2/536.2 kB 8.6 MB/s  0:00:00
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:13.4530411Z Downloading trianglesolver-1.2-py3-none-any.whl (5.4 kB)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.0986506Z Building wheels for collected packages: neurocad-research
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.1022189Z   Building editable for neurocad-research (pyproject.toml): started
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.6618651Z   Building editable for neurocad-research (pyproject.toml): finished with status 'done'
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.6659765Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-0.editable-py3-none-any.whl size=13742 sha256=f31e0184957d43d9b26da66c9ced0dd2379f4294ca3e11e98dae281e22a45879
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.6661612Z   Stored in directory: C:\Users\runneradmin\AppData\Local\Temp\pip-ephem-wheel-cache-ut7vqkbz\wheels\7d\f4\c3\898eb91130b4e1fd3440db9ef3dbcf0c44dbc3c62ec881814a
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.6700966Z Successfully built neurocad-research
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:45:14.8926951Z Installing collected packages: trianglesolver, svgelements, pure-eval, mpmath, lib3mf, gmsh, wrapt, webcolors, wcwidth, urllib3, typing_extensions, traitlets, threadpoolctl, sympy, svgwrite, ruff, rpds-py, pyproject_hooks, pyparsing, pygments, psutil, pluggy, platformdirs, pillow, pathspec, parso, packaging, numpy, narwhals, mypy_extensions, iniconfig, idna, fonttools, executing, colorama, cloudpickle, charset_normalizer, certifi, cadquery-ocp-proxy, attrs, asttokens, anytree, typing-inspect, trimesh, stack_data, scipy, requests, referencing, pytest, prompt_toolkit, ocpsvg, mypy, matplotlib-inline, marshmallow, joblib, jedi, ipython-pygments-lexers, ezdxf, deprecated, cadquery-ocp-novtk, build, svgpathtools, scikit-learn, ocp_gordon, jsonschema-specifications, ipython, dataclasses-json, pygltflib, jsonschema, threejs-materials, neurocad-research, bd_materials, build123d
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:13.2144859Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:13.2242658Z Successfully installed anytree-2.13.0 asttokens-3.0.2 attrs-26.1.0 bd_materials-0.2.4 build-1.6.0 build123d-0.13.0 cadquery-ocp-novtk-8.0.1.1.0 cadquery-ocp-proxy-8.0.1.1.0 certifi-2026.7.22 charset_normalizer-3.5.2 cloudpickle-3.1.2 colorama-0.4.6 dataclasses-json-0.6.7 deprecated-3.0.0 executing-2.3.0 ezdxf-1.4.4 fonttools-4.67.0 gmsh-4.15.2 idna-3.20 iniconfig-2.3.1 ipython-9.17.1 ipython-pygments-lexers-1.1.1 jedi-0.20.1 joblib-1.6.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 lib3mf-2.5.0 marshmallow-3.26.2 matplotlib-inline-0.2.2 mpmath-1.3.0 mypy-1.18.2 mypy_extensions-1.1.0 narwhals-2.27.1 neurocad-research-0.5.0a6 numpy-2.5.4 ocp_gordon-0.3.1 ocpsvg-0.7.0 packaging-26.3 parso-0.8.7 pathspec-1.1.1 pillow-12.2.0 platformdirs-4.13.0 pluggy-1.6.0 prompt_toolkit-3.0.53 psutil-7.2.2 pure-eval-0.2.4 pygltflib-1.16.5 pygments-2.21.0 pyparsing-3.3.3 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 requests-2.34.2 rpds-py-2026.9.1 ruff-0.16.5 scikit-learn-1.9.1 scipy-1.18.1 stack_data-0.6.3 svgelements-1.9.6 svgpathtools-1.8.0 svgwrite-1.4.3 sympy-1.14.0 threadpoolctl-3.7.0 threejs-materials-1.2.4 traitlets-5.16.1 trianglesolver-1.2 trimesh-5.1.1 typing-inspect-0.9.0 typing_extensions-4.16.0 urllib3-2.8.0 wcwidth-0.9.2 webcolors-24.8.0 wrapt-2.5.1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.1970875Z No broken requirements found.
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8714671Z ##[group]Run python -m pytest -q tests/test_native_acceptance.py tests/test_mesh_roles.py tests/test_exact_build123d.py tests/test_cad_mesh_native.py tests/test_gmsh_backend.py tests/test_gmsh_process.py tests/test_exact_backend.py tests/test_feature_ir.py --basetemp="D:\a\_temp/native-tests" --junitxml="D:\a\_temp/native-tests.xml"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8717097Z ^[[36;1mpython -m pytest -q tests/test_native_acceptance.py tests/test_mesh_roles.py tests/test_exact_build123d.py tests/test_cad_mesh_native.py tests/test_gmsh_backend.py tests/test_gmsh_process.py tests/test_exact_backend.py tests/test_feature_ir.py --basetemp="D:\a\_temp/native-tests" --junitxml="D:\a\_temp/native-tests.xml"^[[0m
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8792678Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8793064Z env:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8793374Z   NEUROCAD_SOURCE_COMMIT: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8793957Z   OMP_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8794313Z   OPENBLAS_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8794749Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8795259Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8795751Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8796199Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8796660Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:14.8797018Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2607892Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2608991Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2609701Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2610147Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2610332Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2610905Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2611622Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2618285Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:30.2626043Z  Step File Name : D:\a\_temp\native-tests\test_non_volume_step_is_reject1\source.step(94 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4621161Z ........................................................................ [ 39%]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4653710Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4654050Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4654750Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4655247Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4655469Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4656116Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4656906Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4666451Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.4677534Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_meshes_step_with_nam0\box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5205318Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5205839Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5206590Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5207120Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5207360Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5207929Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5208729Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5217229Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5228083Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_rejects_invalid_mesh0\box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5276332Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5276653Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5280226Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5280664Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5280829Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5281297Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5281824Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5287028Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5297816Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_rejects_invalid_mesh1\box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5341353Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5341667Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5342410Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5342955Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5343104Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5343870Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5344385Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5349894Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5360741Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_rejects_invalid_mesh2\box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5406773Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5407140Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5407803Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5408254Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5408436Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5409009Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5410153Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5417159Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5427566Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_refuses_existing_out0\box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5467685Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5468193Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5468866Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5469302Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5469498Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5470083Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5470782Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5477919Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5488087Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_rejects_symlinked_st0\box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5529147Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5529437Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5530040Z ******        Statistics on Transfer (Write)                 ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5530342Z 
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5530473Z *******************************************************************
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5530864Z ******        Transfer Mode = 0  I.E.  As Is       ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5531328Z ******        Transferring Shape, ShapeType = 0                      ******
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5538308Z ** WorkSession : Sending all data
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:35.5549211Z  Step File Name : D:\a\_temp\native-tests\test_gmsh_cli_generates_verifi0\cli-box.step(350 ents)  Write  Done
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:40.7651666Z ........................................................................ [ 79%]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:41.8882484Z ......................................                                   [100%]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:41.8883110Z 182 passed in 25.07s
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6497829Z ##[group]Run python scripts/verify_native_acceptance.py "D:\a\_temp/native-acceptance"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6499316Z ^[[36;1mpython scripts/verify_native_acceptance.py "D:\a\_temp/native-acceptance"^[[0m
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6599601Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6599990Z env:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6600299Z   NEUROCAD_SOURCE_COMMIT: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6600687Z   OMP_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6600932Z   OPENBLAS_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6601265Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6601772Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6602283Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6602722Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6603219Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:42.6603575Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3389416Z Traceback (most recent call last):
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3399581Z   File "D:\a\NeuroCAD\NeuroCAD\scripts\verify_native_acceptance.py", line 187, in <module>
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3400247Z     result = verify(parser.parse_args().output)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3401343Z   File "D:\a\NeuroCAD\NeuroCAD\scripts\verify_native_acceptance.py", line 123, in verify
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3402052Z     check(all(file_hash(ROOT / name) == digest for name, digest in protected.items()),
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3402616Z     ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3403043Z           "protected historical evidence changed")
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3403421Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3403970Z   File "D:\a\NeuroCAD\NeuroCAD\scripts\verify_native_acceptance.py", line 97, in check
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3404536Z     raise ValueError(message)
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.3404888Z ValueError: protected historical evidence changed
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.4959540Z ##[error]Process completed with exit code 1.
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5172684Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5173206Z with:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5173448Z   name: native-acceptance-windows-2025
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5174054Z   path: native-environment.txt
+Native goldens / windows-2025	UNKNOWN STEP	D:\a\_temp/native-tests.xml
+Native goldens / windows-2025	UNKNOWN STEP	D:\a\_temp/native-tests
+Native goldens / windows-2025	UNKNOWN STEP	D:\a\_temp/native-acceptance
+Native goldens / windows-2025	UNKNOWN STEP	
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5174620Z   retention-days: 30
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5174875Z   if-no-files-found: warn
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5175126Z   compression-level: 6
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5175356Z   overwrite: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5175595Z   include-hidden-files: false
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5175862Z   archive: true
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5176066Z env:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5176353Z   NEUROCAD_SOURCE_COMMIT: c2776faa1531a518df9fc3dd5c07dae11662101c
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5176725Z   OMP_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5176965Z   OPENBLAS_NUM_THREADS: 1
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5177289Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5177827Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5178320Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5178756Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5179218Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:43.5179569Z ##[endgroup]
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.0052690Z Multiple search paths detected. Calculating the least common ancestor of all paths
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.0056389Z The least common ancestor is D:\a. This will be the root directory of the artifact
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.0057276Z With the provided path, there will be 451 files uploaded
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.0062800Z Artifact name is valid!
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.0063998Z Root directory input is valid!
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.2755798Z Uploading artifact: native-acceptance-windows-2025.zip
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.2803248Z Beginning upload of artifact content to blob storage
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.7780168Z Uploaded bytes 757202
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.7919342Z Finished uploading artifact content to blob storage!
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.7920446Z SHA256 digest of uploaded artifact is 4fb930eda64452697227ed44321ec6afef250735da752315c58d5b7e2dad297a
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:44.7921716Z Finalizing artifact upload
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.0627788Z Artifact native-acceptance-windows-2025 successfully finalized. Artifact ID 11899586600
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.0629209Z Artifact native-acceptance-windows-2025 has been successfully uploaded! Final size is 757202 bytes. Artifact ID is 11899586600
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.0638801Z Artifact download URL: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38574329655/artifacts/11899586600
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.1019748Z Post job cleanup.
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3012293Z [command]"C:\Program Files\Git\bin\git.exe" version
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3362072Z git version 2.55.0.windows.5
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3442365Z Temporarily overriding HOME='D:\a\_temp\3569c4f4-9045-4f68-bbd5-cb578d0f9499' before making global git config changes
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3444765Z Adding repository directory to the temporary git global config as a safe directory
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3455400Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NeuroCAD\NeuroCAD
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3762049Z Removing SSH command configuration
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.3772633Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.4069983Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.9647004Z Removing HTTP extra header
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.9661018Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:45.9961077Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:46.5630755Z Removing includeIf entries pointing to credentials config files
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:46.5646011Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:46.5997651Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+Native goldens / windows-2025	UNKNOWN STEP	2026-10-14T13:46:47.1584028Z Cleaning up orphan processes

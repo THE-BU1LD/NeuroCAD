@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-14T12:50:09.899036+00:00",
+  "updated_at": "2026-10-14T14:11:04.509623+00:00",
   "source_head": "5ce2092db7203cf2bd532a742ea0697e1cf8479c",
   "scope": "Product engineering and version routing; no scientific execution",
   "predecessor": {
@@ -144,6 +144,11 @@
       "date": "2026-10-14T12:50:09.899036+00:00",
       "event": "Integrated the 17 original repair PR histories through PR109 at 079902fa20d22c2cf102104b0f42b28bec8bc382; exact-main CI38565917174 passed 1677 maintained tests, all required OS/browsers and package/security gates. Final source-bound conformance passed 37/37 scalar, 52/52 installed cases/workflows, four meshes and 42 new composite references. Retained and repaired additional shaft false-yield and single-hole ligament errors. Seven issues closed, zero open PRs; 157-entry provenance inventory complete. Physical, independent and intended-user evidence remains absent; native shape/platform acceptance and other tracked external gates remain. No new release tag.",
       "receipt": "docs/verification/composite-final-20261014/REPORT.md"
+    },
+    {
+      "date": "2026-10-14T14:11:04.509623+00:00",
+      "event": "PR110 merged native CAD/mesh acceptance and receipt-provenance repairs at 0bef391d210b8df1c871f5f250cf011012728e64; identical candidate/main tree verified. Candidate CI38576123086, native38576123082, interoperability38576123091 and exact-main CI38577282155 passed. 1714 maintained tests; each native platform passes182 tests,5 goldens,6 mesh runs.13 strict checks required; issues64/65 closed. All40 protected files unchanged. Four original historical logs remain missing. Physical, independent and intended-user evidence absent; no new release. Concurrent PR111 preserved for source reconciliation.",
+      "receipt": "docs/verification/native-acceptance-20261014/REPORT.md"
     }
   ],
   "resource_rechecks": [
@@ -185,6 +190,15 @@
     "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174",
     "receipt": "docs/verification/composite-final-20261014/REPORT.md",
     "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix",
+    "new_public_release": false
+  },
+  "native_acceptance": {
+    "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+    "main_commit": "0bef391d210b8df1c871f5f250cf011012728e64",
+    "candidate_commit": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+    "main_ci": 38577282155,
+    "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+    "checklist": "docs/WORK_REGISTER_20261014.md",
     "new_public_release": false
   }
 }

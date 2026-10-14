@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-14T14:11:04.509623+00:00",
+  "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+  "candidate_commit": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+  "main_commit": "0bef391d210b8df1c871f5f250cf011012728e64",
+  "tree": "0a3b767105c6374bf39c07d8813ec42562bc6ef6",
+  "candidate_main_trees_identical": true,
+  "pull_request": 110,
+  "candidate_full_ci": 38576123086,
+  "native_acceptance": 38576123082,
+  "native_interoperability": 38576123091,
+  "main_ci": 38577282155,
+  "maintained_tests": {
+    "passed": 1714,
+    "skipped": 10,
+    "subtests_passed": 53
+  },
+  "sdist_tests": {
+    "passed": 1695,
+    "skipped": 10,
+    "subtests_passed": 33
+  },
+  "native_per_platform": {
+    "passed": 182,
+    "goldens": 5,
+    "mesh_runs": 6,
+    "platforms": [
+      "ubuntu-24.04",
+      "macos-15",
+      "windows-2025"
+    ]
+  },
+  "protected_files_unchanged": 40,
+  "required_checks": 13,
+  "closed_issues": [
+    64,
+    65
+  ],
+  "remaining_issue_count": 11,
+  "concurrent_open_prs": [
+    111
+  ],
+  "physical_validation": "NOT_EXECUTED",
+  "independent_reproduction": "NOT_EXECUTED",
+  "intended_user_study": "NOT_EXECUTED",
+  "new_public_release": false,
+  "development_attempts_per_workflow": 5,
+  "post_merge_full_ci_runs": 1,
+  "total_full_ci_runs": 6,
+  "research_run_archive_audit": "FAIL_FOUR_MISSING_ORIGINAL_LOGS_ALL_PRESENT_ARTIFACTS_MATCH",
+  "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+  "checklist": "docs/WORK_REGISTER_20261014.md"
+}

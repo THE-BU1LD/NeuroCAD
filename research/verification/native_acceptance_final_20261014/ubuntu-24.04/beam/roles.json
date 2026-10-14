@@ -1,0 +1,15 @@
+{
+  "source_step_sha256": "f2ad24f1a29f6402ded7b7ac59a9da6b9f60e3e9064d9e923c3c6429f047455b",
+  "roles": {
+    "fixed_end": {
+      "axis": "x",
+      "side": "min",
+      "expected_surfaces": 1
+    },
+    "loaded_end": {
+      "axis": "x",
+      "side": "max",
+      "expected_surfaces": 1
+    }
+  }
+}

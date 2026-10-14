@@ -3,7 +3,7 @@
 Updated 14 October 2026 for the request to implement every unblocked item.
 This is the current checklist; the dated audit stages below retain earlier
 observations. Checked means the stated, bounded action has evidence, not that
-the whole scientific gate is complete. The current successor is [PR110](https://github.com/THE-BU1LD/NeuroCAD/pull/110).
+the whole scientific gate is complete. The implemented successor is merged in [PR110](https://github.com/THE-BU1LD/NeuroCAD/pull/110).
 
 ## 1. Freeze the validation contract — completed for the declared software envelope
 
@@ -37,14 +37,14 @@ the whole scientific gate is complete. The current successor is [PR110](https://
 - [x] Add a reusable read-only artifact auditor that reports missing, altered,
   unsafe and duplicate manifest entries; it cannot repair or synthesize evidence.
 - [ ] **Blocked:** complete historical archival provenance for issue #6:
-  recover the authentic `NC-REPRO-508EC40/logs/run.log` and any missing original
-  hardware/execution records. 1,211 present artifacts match; the absent log is
-  not reconstructed. See [provenance audit](RESEARCH_PROVENANCE_AUDIT_20261014.md).
+  recover authentic `logs/run.log` files for all four retained compiler runs and
+  any missing original hardware/execution records. All present listed artifacts
+  match; no absent log is reconstructed. See [provenance audit](RESEARCH_PROVENANCE_AUDIT_20261014.md).
 - [ ] **Blocked:** strong external comparator/independently authored benchmark
   for issue #7. Closed generated-grammar outcomes do not establish superiority
   to current learned CAD systems.
 
-## 3. Validate CAD-to-analysis workflows — software implemented; final integration pending
+## 3. Validate CAD-to-analysis workflows — completed for the declared installed-build envelope
 
 - [x] Exercise fresh installed packages through 52 cases/workflows: four complex
   composite shapes, dimensions, materials, loads, units, geometry binding,
@@ -57,12 +57,14 @@ the whole scientific gate is complete. The current successor is [PR110](https://
   provenance; correct Windows canonical JSON newline hashing.
 - [x] Execute five native goldens plus six meshing runs on each of Linux/macOS/
   Windows; candidate bf4cdca passed 182 native/rejection tests per platform.
-- [ ] Verify the final candidate after the Windows checkout preservation fix;
-  retain every failed/cancelled attempt and exact source identity.
-- [ ] Add all three native platform jobs to the existing ten required checks;
-  merge PR110 through normal protection and verify the resulting main tree.
-- [ ] Reconcile the final receipt, issue dispositions and project/portfolio
-  state. The published immutable v0.5.0a6 is a separate, older source identity.
+- [x] Verify final candidate `518208b` after the Windows preservation fix: all
+  ten product jobs, three native jobs and interoperability pass. Failed and
+  cancelled attempts remain retained; 40 protected files match on every OS.
+- [x] Add all three native platform jobs to the existing ten required checks;
+  merge PR110 normally as `0bef391`. Its tree exactly matches tested `518208b`.
+- [x] Confirm merged-main CI38577282155, retain the final receipt, reconcile
+  issue dispositions and update project/portfolio state. Immutable v0.5.0a6
+  remains a separate, older published source identity.
 - [ ] **Blocked locally:** native builds/meshes require two stable memory
   admission samples; observed 112.72/92.16 MiB versus the 512 MiB floor with
   rising pageouts. Hosted verification covers this engineering work.
@@ -107,8 +109,11 @@ provider/budget decisions; #27 requires authentic historical session records;
 #41 requires actual design partners/users; #42 requires a defined fabrication
 process and physical evidence; #76 requires external reference confirmation;
 #78 requires genuine licensed geometry and Cubit access; #82 requires measured
-evidence, authorship and publication decisions. Issue #64/#65 software work is
-implemented in PR110 and awaits the final protected merge above.
+evidence, authorship and publication decisions. Issues #64/#65 are closed after the verified PR110 merge. Eleven issues remain
+open for the documented evidence/data/authority dependencies. Concurrent PR111
+adds a separate executable readiness checklist pinned to earlier source `079902f`;
+it currently has merge conflicts with new main. Its source reconciliation and
+CI belong to that active work, which is preserved and not claimed complete.
 
 The 109 separately inventoried expansion proposals remain proposed future
 scope, not automatically added current-release requirements. No paid provider

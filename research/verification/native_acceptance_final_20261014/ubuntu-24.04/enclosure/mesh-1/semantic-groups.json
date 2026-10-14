@@ -1,0 +1,36 @@
+{
+  "mesh_sha256": "db400cbc6cdc45013cf086e42d24c46b077a85f71737292e26bf6df3aa39519f",
+  "meshing_options": {
+    "General.NumThreads": 1,
+    "Mesh.Algorithm": 6,
+    "Mesh.Algorithm3D": 1,
+    "Mesh.ElementOrder": 1,
+    "Mesh.MaxNumThreads1D": 1,
+    "Mesh.MaxNumThreads2D": 1,
+    "Mesh.MaxNumThreads3D": 1,
+    "Mesh.RandomSeed": 1
+  },
+  "receipt_version": "neurocad-mesh-roles-v1",
+  "roles": {
+    "base": {
+      "axis": "z",
+      "expected_surfaces": 1,
+      "side": "min"
+    },
+    "top": {
+      "axis": "z",
+      "expected_surfaces": 1,
+      "side": "max"
+    }
+  },
+  "selector_tolerance_mm": 1e-06,
+  "source_step_sha256": "ebc9efdc85345c3e11a3f3effa368481472fcef3eba3ce83f7d0a5ca5be13040",
+  "surface_tags": {
+    "base": [
+      3
+    ],
+    "top": [
+      5
+    ]
+  }
+}

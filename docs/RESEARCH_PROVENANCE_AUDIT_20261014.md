@@ -11,6 +11,23 @@ local retained copy. The original manifest, numerical results and files remain
 unchanged. No replacement log has been invented. Full archival completeness is
 therefore not established by this audit.
 
+The reusable auditor was then applied read-only to all four retained compiler
+run manifests. Every present listed file matches; every run lacks its original
+`logs/run.log`:
+
+| Run | Matching present artifacts | Listed artifacts | Verdict |
+|---|---:|---:|---|
+| NC-REPRO-508EC40 | 1,211 | 1,212 | FAIL: original log missing |
+| NC-REPRO-CB1D4A9 | 1,211 | 1,212 | FAIL: original log missing |
+| NC-RUN-2026-09-03-FULL | 1,209 | 1,210 | FAIL: original log missing |
+| NC-RUN-2026-09-02-A | 69 | 70 | FAIL: original log missing |
+
+The three supplementary machine reports are retained in
+`docs/verification/native-acceptance-20261014/other-retained-run-audits.json`.
+No original log is present in the current tracked files or any locally fetched
+Git history for these paths. This search does not prove that no authentic backup
+exists elsewhere. A backup must match the original manifest digest to fill the gap.
+
 The manifest identifies clean source
 `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`, capture time
 `2026-09-13T14:21:56.198647Z`, dataset hash
@@ -59,3 +76,12 @@ controlled baselines do not establish superiority to modern learned CAD
 systems. VeriCodeGen/S3 protected authoring, authorization and provider gates
 remain unchanged. Physics v2 retains its separate frozen evidence; native mesh
 and Physics v3 software checks do not supply physical or independent evidence.
+
+The existing C-01–C-14 claim ledger remains bounded: C-02–C-09 point to retained
+controlled artifacts, not today's source or an independent study; C-10 remains
+the negative historical causal finding; C-11–C-14 remain unsupported/prohibited.
+The frozen paper is unchanged. Older documents that say “current source” refer
+to their dated commit, not the newly merged implementation. Dated statements
+that no STEP/BREP or public release exists are superseded only by the explicit
+native and immutable-alpha receipts, not by new scientific evidence. Exact
+command/hardware metadata absent from the original records is still unknown.

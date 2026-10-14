@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "source": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+  "platforms": [
+    {
+      "platform": "ubuntu-24.04",
+      "files_verified": 43,
+      "manifest_sha256": "7ce343daf55085ffc781c04dc47c58373b422cd6760fc523a650118f4cff793d",
+      "tests": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "182",
+          "time": "11.424",
+          "timestamp": "2026-10-14T14:00:20.774561+00:00",
+          "hostname": "runnervmmprz5"
+        }
+      ],
+      "source": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+      "receipt_path": "research/verification/native_acceptance_final_20261014/ubuntu-24.04"
+    },
+    {
+      "platform": "macos-15",
+      "files_verified": 43,
+      "manifest_sha256": "f9cd913a0b960126a4b72388a64faeca36d2488604159b93a40ee36e20431c13",
+      "tests": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "182",
+          "time": "26.562",
+          "timestamp": "2026-10-14T14:00:10.432890+00:00",
+          "hostname": "iad20-gt1017-ba795018-b2d8-4e24-9b33-c245bc628f8e-A66F7842F666.local"
+        }
+      ],
+      "source": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+      "receipt_path": "research/verification/native_acceptance_final_20261014/macos-15"
+    },
+    {
+      "platform": "windows-2025",
+      "files_verified": 43,
+      "manifest_sha256": "b2b83f70c0d97fdaec4deb6e81731d40955d84f1a47d3338e36c5a97707d0e53",
+      "tests": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "182",
+          "time": "20.818",
+          "timestamp": "2026-10-14T14:01:35.392658+00:00",
+          "hostname": "runnervmfi6oq"
+        }
+      ],
+      "source": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+      "receipt_path": "research/verification/native_acceptance_final_20261014/windows-2025"
+    }
+  ]
+}

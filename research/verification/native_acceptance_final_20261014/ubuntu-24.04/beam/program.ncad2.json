@@ -1,0 +1,50 @@
+{
+  "features": [
+    {
+      "id": "section",
+      "inputs": [],
+      "kind": "sketch",
+      "parameters": {
+        "constraints": [],
+        "entities": [
+          {
+            "center": [
+              0.0,
+              0.0
+            ],
+            "height": 6.0,
+            "kind": "rectangle",
+            "operation": "add",
+            "width": 40.0
+          }
+        ],
+        "plane": "XY"
+      },
+      "role": "",
+      "selectors": []
+    },
+    {
+      "id": "beam",
+      "inputs": [
+        "section"
+      ],
+      "kind": "extrude",
+      "parameters": {
+        "distance": 4.0,
+        "operation": "new"
+      },
+      "role": "",
+      "selectors": []
+    }
+  ],
+  "metadata": {
+    "engineering_control": "beam"
+  },
+  "outputs": [
+    "beam"
+  ],
+  "parameters": [],
+  "title": "beam",
+  "units": "mm",
+  "version": "neurocad-feature-ir-v0alpha1"
+}

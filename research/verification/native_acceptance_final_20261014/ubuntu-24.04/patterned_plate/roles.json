@@ -1,0 +1,15 @@
+{
+  "source_step_sha256": "70f2e36ab2f340cdbeedaf1de99f9f3ab03544e8b9470fad4a3ea4f45b75d28d",
+  "roles": {
+    "base": {
+      "axis": "z",
+      "side": "min",
+      "expected_surfaces": 1
+    },
+    "top": {
+      "axis": "z",
+      "side": "max",
+      "expected_surfaces": 1
+    }
+  }
+}

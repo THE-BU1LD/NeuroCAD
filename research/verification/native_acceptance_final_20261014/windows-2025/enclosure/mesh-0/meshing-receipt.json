@@ -1,0 +1,36 @@
+{
+  "backend": "gmsh",
+  "backend_version": "4.15.2",
+  "boundary_surface_count": 19,
+  "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+  "mean_sicn": 0.8196612655852636,
+  "mesh_bytes": 293042,
+  "mesh_path": "design.msh",
+  "mesh_sha256": "fdd858f68948d6575f392c28d82f73802181a2255cece8fbc1484c3ebc7b55b1",
+  "mesh_size_max_mm": 2.0,
+  "mesh_size_min_mm": 0.4,
+  "min_sicn": 0.30326596221331614,
+  "node_count": 1823,
+  "physical_groups": [
+    "base",
+    "boundary",
+    "domain",
+    "top"
+  ],
+  "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+  "roundtrip_coordinate_abs_tol_mm": 1e-12,
+  "roundtrip_coordinate_rel_tol": 1e-13,
+  "roundtrip_node_count": 1823,
+  "roundtrip_physical_groups": [
+    "base",
+    "boundary",
+    "domain",
+    "top"
+  ],
+  "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+  "roundtrip_volume_element_count": 5883,
+  "source_step_bytes": 60338,
+  "source_step_sha256": "22c3cabe0145f9358acd0fae905f3d2ac9305d97efe86cb8d301acf99ae8a12e",
+  "volume_element_count": 5883,
+  "volume_entity_count": 1
+}

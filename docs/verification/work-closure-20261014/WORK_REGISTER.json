@@ -22,8 +22,8 @@
       "kind": "issue",
       "id": 6,
       "title": "Capture exact experiment provenance for NeuroCAD research claims",
-      "status": "HISTORICAL_CLAIM_AUDIT_REVIEW_REQUIRED",
-      "evidence_or_blocker": "RESEARCH_TRUTH.md; EVIDENCE_LEDGER.md",
+      "status": "BLOCKED_MISSING_ORIGINAL_ARCHIVE_RECORDS",
+      "evidence_or_blocker": "Four original run logs missing; all present artifacts match. Timing extraction repaired; no historical rewrite.",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/6"
     },
     {
@@ -103,7 +103,7 @@
       "id": 58,
       "title": "ops: protect main with stable CI and review gates",
       "status": "CLOSED_MAIN_PROTECTION_ENABLED",
-      "evidence_or_blocker": "Ten strict required checks, mandatory PR, admin enforcement; zero approving reviews because only one write collaborator.",
+      "evidence_or_blocker": "Thirteen strict required checks; PR and admin enforcement retained; no independent human-review claim.",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/58"
     },
     {
@@ -118,16 +118,16 @@
       "kind": "issue",
       "id": 64,
       "title": "P0: Add build123d/OCP exact-CAD backend spike",
-      "status": "BOUNDED_NATIVE_SUITE_PASS",
-      "evidence_or_blocker": "106 exact CAD tests passed on Linux. Full spike golden-shape/platform acceptance remains separately scoped.",
+      "status": "CLOSED_MERGED_NATIVE_ACCEPTANCE_VERIFIED",
+      "evidence_or_blocker": "docs/verification/native-acceptance-20261014/REPORT.md",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/64"
     },
     {
       "kind": "issue",
       "id": 65,
       "title": "P1: Add Gmsh tagged meshing adapter",
-      "status": "BOUNDED_NATIVE_SUITE_PASS",
-      "evidence_or_blocker": "174 interoperability tests and retained references passed; do not claim every requested shape or platform.",
+      "status": "CLOSED_MERGED_NATIVE_ACCEPTANCE_VERIFIED",
+      "evidence_or_blocker": "docs/verification/native-acceptance-20261014/REPORT.md",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/65"
     },
     {
@@ -985,21 +985,19 @@
     "independent_reproduction": "NOT_EXECUTED",
     "usability": "NOT_EXECUTED"
   },
-  "updated_at": "2026-10-14T12:36:11.869523+00:00",
-  "remaining_software_coverage": [
-    "Complete separately scoped exact-CAD golden shape and supported-platform acceptance.",
-    "Complete requested plate/enclosure/beam native mesh reference matrix."
-  ],
-  "current_candidate": {
-    "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
-    "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
-    "candidate_commit": "d7a80567c2c2727f8bd420a68e2517b217508b56",
-    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174",
-    "receipt": "docs/verification/composite-final-20261014/REPORT.md",
-    "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix",
-    "new_public_release": false
-  },
-  "final_open_issue_count": 13,
-  "final_open_pr_count": 0,
-  "final_receipt": "docs/verification/composite-final-20261014/REPORT.md"
+  "updated_at": "2026-10-14T14:11:04.509623+00:00",
+  "remaining_software_coverage": [],
+  "current_candidate": "0bef391d210b8df1c871f5f250cf011012728e64",
+  "final_open_issue_count": 11,
+  "final_open_pr_count": 1,
+  "final_receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+  "current_checklist": "docs/WORK_REGISTER_20261014.md",
+  "concurrent_work": [
+    {
+      "pull_request": 111,
+      "status": "OPEN_CONFLICTS_OWNER_RECONCILIATION_REQUIRED",
+      "source": "3f57f9bd96c9cf73a085e248b47f0f29f179777a",
+      "base": "079902fa20d22c2cf102104b0f42b28bec8bc382"
+    }
+  ]
 }

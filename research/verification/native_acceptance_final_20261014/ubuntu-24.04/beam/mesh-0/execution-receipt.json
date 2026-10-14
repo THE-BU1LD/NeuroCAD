@@ -1,0 +1,20 @@
+{
+  "claim_boundary": "worker-wait timeout only; not RAM/CPU quotas, process-tree isolation or a whole-command deadline",
+  "mesh_sha256": "1af5deacc784244440928bd5381a26c4aaefc6e587c3d882468835ac5395e36f",
+  "meshing_receipt_sha256": "5a316ed5901594f821ad1c34d3736260f8f68d69443b41a16462332f7a95f69e",
+  "quality_policy": {
+    "claim_boundary": "caller-selected element quality floor; not solver convergence or physical certification",
+    "metric": "minimum_sicn",
+    "minimum_required": 1e-06,
+    "observed": 0.3220370301056258,
+    "passed": true
+  },
+  "receipt_version": "neurocad-gmsh-worker-execution-v1",
+  "semantic_groups_sha256": "cf571b136309c1d6a16787dbb6dc981ec8ce4d0372b11d56b7e7283bd81f5e2e",
+  "source_step_sha256": "f2ad24f1a29f6402ded7b7ac59a9da6b9f60e3e9064d9e923c3c6429f047455b",
+  "status": "success",
+  "supervisor": "single-worker-subprocess",
+  "timeout_seconds": 120.0,
+  "worker_elapsed_seconds": 0.3145235230000196,
+  "worker_returncode": 0
+}

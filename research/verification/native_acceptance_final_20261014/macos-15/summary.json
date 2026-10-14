@@ -1,0 +1,617 @@
+{
+  "cases": [
+    {
+      "analytic_volume_mm3": 960.0,
+      "exact": {
+        "backend": "build123d",
+        "backend_version": "0.13.0",
+        "bindings_path": null,
+        "bindings_sha256": null,
+        "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+        "feature_ir_sha256": "10e845a0d1090debcb7a6495bce82037c31afc46eedb960a768611117d1177bd",
+        "inspection": {
+          "extents_mm": [
+            40.0,
+            6.0,
+            4.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 959.9999999999999
+        },
+        "kernel_version": "8.0.1.1.0",
+        "output_feature": "beam",
+        "receipt_version": "neurocad-build123d-receipt-v1",
+        "requirements_path": null,
+        "requirements_satisfied": null,
+        "requirements_sha256": null,
+        "requirements_verification_path": null,
+        "requirements_verification_sha256": null,
+        "roundtrip_inspection": {
+          "extents_mm": [
+            40.0,
+            6.0,
+            4.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 959.9999999999999
+        },
+        "step_path": "design.step",
+        "step_sha256": "26575bb5886bf3359b2fa594892e6b8f9fc8a62430c5e959ad3e89b69862207c"
+      },
+      "extents_mm": [
+        40.0,
+        6.0,
+        4.0
+      ],
+      "mesh_runs": [
+        {
+          "measurement": {
+            "extents_mm": [
+              40.0,
+              6.0,
+              4.0
+            ],
+            "smallest_signed_tetrahedron_mm3": 0.34069694898588976,
+            "tetrahedra": 766,
+            "volume_mm3": 960.0
+          },
+          "receipt": {
+            "backend": "gmsh",
+            "backend_version": "4.15.2",
+            "boundary_surface_count": 6,
+            "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+            "mean_sicn": 0.8195129417475223,
+            "mesh_bytes": 34712,
+            "mesh_path": "design.msh",
+            "mesh_sha256": "abd3d5846fc647cee787e32e0f93f060e1b1c92ba73c5889d9787fcdfa7236f3",
+            "mesh_size_max_mm": 2.0,
+            "mesh_size_min_mm": 0.4,
+            "min_sicn": 0.4793264697412301,
+            "node_count": 287,
+            "physical_groups": [
+              "boundary",
+              "domain",
+              "fixed_end",
+              "loaded_end"
+            ],
+            "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+            "roundtrip_coordinate_abs_tol_mm": 1e-12,
+            "roundtrip_coordinate_rel_tol": 1e-13,
+            "roundtrip_node_count": 287,
+            "roundtrip_physical_groups": [
+              "boundary",
+              "domain",
+              "fixed_end",
+              "loaded_end"
+            ],
+            "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+            "roundtrip_volume_element_count": 766,
+            "source_step_bytes": 15383,
+            "source_step_sha256": "26575bb5886bf3359b2fa594892e6b8f9fc8a62430c5e959ad3e89b69862207c",
+            "volume_element_count": 766,
+            "volume_entity_count": 1
+          },
+          "relative_volume_tolerance": 1e-08
+        },
+        {
+          "measurement": {
+            "extents_mm": [
+              40.0,
+              6.0,
+              4.0
+            ],
+            "smallest_signed_tetrahedron_mm3": 0.34069694898588976,
+            "tetrahedra": 766,
+            "volume_mm3": 960.0
+          },
+          "receipt": {
+            "backend": "gmsh",
+            "backend_version": "4.15.2",
+            "boundary_surface_count": 6,
+            "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+            "mean_sicn": 0.8195129417475223,
+            "mesh_bytes": 34712,
+            "mesh_path": "design.msh",
+            "mesh_sha256": "abd3d5846fc647cee787e32e0f93f060e1b1c92ba73c5889d9787fcdfa7236f3",
+            "mesh_size_max_mm": 2.0,
+            "mesh_size_min_mm": 0.4,
+            "min_sicn": 0.4793264697412301,
+            "node_count": 287,
+            "physical_groups": [
+              "boundary",
+              "domain",
+              "fixed_end",
+              "loaded_end"
+            ],
+            "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+            "roundtrip_coordinate_abs_tol_mm": 1e-12,
+            "roundtrip_coordinate_rel_tol": 1e-13,
+            "roundtrip_node_count": 287,
+            "roundtrip_physical_groups": [
+              "boundary",
+              "domain",
+              "fixed_end",
+              "loaded_end"
+            ],
+            "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+            "roundtrip_volume_element_count": 766,
+            "source_step_bytes": 15383,
+            "source_step_sha256": "26575bb5886bf3359b2fa594892e6b8f9fc8a62430c5e959ad3e89b69862207c",
+            "volume_element_count": 766,
+            "volume_entity_count": 1
+          },
+          "relative_volume_tolerance": 1e-08
+        }
+      ],
+      "name": "beam"
+    },
+    {
+      "analytic_volume_mm3": 3726.9026644707674,
+      "exact": {
+        "backend": "build123d",
+        "backend_version": "0.13.0",
+        "bindings_path": null,
+        "bindings_sha256": null,
+        "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+        "feature_ir_sha256": "46ca91195ffba2c3b20d0a086b74ddffe3d0b738e23e49e234b00ae9ee3c6792",
+        "inspection": {
+          "extents_mm": [
+            40.0,
+            24.0,
+            4.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 3726.9026644707665
+        },
+        "kernel_version": "8.0.1.1.0",
+        "output_feature": "plate",
+        "receipt_version": "neurocad-build123d-receipt-v1",
+        "requirements_path": null,
+        "requirements_satisfied": null,
+        "requirements_sha256": null,
+        "requirements_verification_path": null,
+        "requirements_verification_sha256": null,
+        "roundtrip_inspection": {
+          "extents_mm": [
+            40.0,
+            24.0,
+            4.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 3726.9026644707646
+        },
+        "step_path": "design.step",
+        "step_sha256": "9f66920ec002db181b8670b38eb31c29167a7199fdffa5a1ed8648527354b861"
+      },
+      "extents_mm": [
+        40.0,
+        24.0,
+        4.0
+      ],
+      "mesh_runs": [
+        {
+          "measurement": {
+            "extents_mm": [
+              40.0,
+              24.0,
+              4.0
+            ],
+            "smallest_signed_tetrahedron_mm3": 0.12515942164785682,
+            "tetrahedra": 4803,
+            "volume_mm3": 3737.2951835542594
+          },
+          "receipt": {
+            "backend": "gmsh",
+            "backend_version": "4.15.2",
+            "boundary_surface_count": 10,
+            "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+            "mean_sicn": 0.7931701318095769,
+            "mesh_bytes": 218485,
+            "mesh_path": "design.msh",
+            "mesh_sha256": "c92773e374a777a03dc706313c9a642226a326ddfcdf7919345509b06e573e1a",
+            "mesh_size_max_mm": 2.0,
+            "mesh_size_min_mm": 0.4,
+            "min_sicn": 0.24419647490897775,
+            "node_count": 1399,
+            "physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+            "roundtrip_coordinate_abs_tol_mm": 1e-12,
+            "roundtrip_coordinate_rel_tol": 1e-13,
+            "roundtrip_node_count": 1399,
+            "roundtrip_physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+            "roundtrip_volume_element_count": 4803,
+            "source_step_bytes": 29926,
+            "source_step_sha256": "9f66920ec002db181b8670b38eb31c29167a7199fdffa5a1ed8648527354b861",
+            "volume_element_count": 4803,
+            "volume_entity_count": 1
+          },
+          "relative_volume_tolerance": 0.025
+        },
+        {
+          "measurement": {
+            "extents_mm": [
+              40.0,
+              24.0,
+              4.0
+            ],
+            "smallest_signed_tetrahedron_mm3": 0.12515942164785682,
+            "tetrahedra": 4803,
+            "volume_mm3": 3737.2951835542594
+          },
+          "receipt": {
+            "backend": "gmsh",
+            "backend_version": "4.15.2",
+            "boundary_surface_count": 10,
+            "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+            "mean_sicn": 0.7931701318095769,
+            "mesh_bytes": 218485,
+            "mesh_path": "design.msh",
+            "mesh_sha256": "c92773e374a777a03dc706313c9a642226a326ddfcdf7919345509b06e573e1a",
+            "mesh_size_max_mm": 2.0,
+            "mesh_size_min_mm": 0.4,
+            "min_sicn": 0.24419647490897775,
+            "node_count": 1399,
+            "physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+            "roundtrip_coordinate_abs_tol_mm": 1e-12,
+            "roundtrip_coordinate_rel_tol": 1e-13,
+            "roundtrip_node_count": 1399,
+            "roundtrip_physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+            "roundtrip_volume_element_count": 4803,
+            "source_step_bytes": 29926,
+            "source_step_sha256": "9f66920ec002db181b8670b38eb31c29167a7199fdffa5a1ed8648527354b861",
+            "volume_element_count": 4803,
+            "volume_entity_count": 1
+          },
+          "relative_volume_tolerance": 0.025
+        }
+      ],
+      "name": "patterned_plate"
+    },
+    {
+      "analytic_volume_mm3": 15041.945625387929,
+      "exact": {
+        "backend": "build123d",
+        "backend_version": "0.13.0",
+        "bindings_path": null,
+        "bindings_sha256": null,
+        "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+        "feature_ir_sha256": "b15578f6228a93db1ef86e27aaa2ac9228515539802ededbbca53adffbf683ed",
+        "inspection": {
+          "extents_mm": [
+            30.0,
+            28.0,
+            30.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 15041.94562538793
+        },
+        "kernel_version": "8.0.1.1.0",
+        "output_feature": "bottle",
+        "receipt_version": "neurocad-build123d-receipt-v1",
+        "requirements_path": null,
+        "requirements_satisfied": null,
+        "requirements_sha256": null,
+        "requirements_verification_path": null,
+        "requirements_verification_sha256": null,
+        "roundtrip_inspection": {
+          "extents_mm": [
+            30.0,
+            28.0,
+            30.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 15041.945625387772
+        },
+        "step_path": "design.step",
+        "step_sha256": "f757bce90b50d46762066ad8e6ba0d78e91166ef709125987994450baf352ee3"
+      },
+      "extents_mm": [
+        30.0,
+        28.0,
+        30.0
+      ],
+      "mesh_runs": [],
+      "name": "revolved_bottle"
+    },
+    {
+      "analytic_volume_mm3": 1434.8495559215387,
+      "exact": {
+        "backend": "build123d",
+        "backend_version": "0.13.0",
+        "bindings_path": null,
+        "bindings_sha256": null,
+        "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+        "feature_ir_sha256": "faf39aa4a977a887f2d6ac59af4feb827436b4e7ff1b39dbf66080d480d07591",
+        "inspection": {
+          "extents_mm": [
+            20.0,
+            12.0,
+            6.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 1434.849555921539
+        },
+        "kernel_version": "8.0.1.1.0",
+        "output_feature": "rounded",
+        "receipt_version": "neurocad-build123d-receipt-v1",
+        "requirements_path": null,
+        "requirements_satisfied": null,
+        "requirements_sha256": null,
+        "requirements_verification_path": null,
+        "requirements_verification_sha256": null,
+        "roundtrip_inspection": {
+          "extents_mm": [
+            20.0,
+            12.0,
+            6.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 1434.8495559215435
+        },
+        "step_path": "design.step",
+        "step_sha256": "2e3a894cd0315d9db0129426880409a5aaee4a381c3f0caed6ed32e26995d85a"
+      },
+      "extents_mm": [
+        20.0,
+        12.0,
+        6.0
+      ],
+      "mesh_runs": [],
+      "name": "filleted_box"
+    },
+    {
+      "analytic_volume_mm3": 6852.0,
+      "exact": {
+        "backend": "build123d",
+        "backend_version": "0.13.0",
+        "bindings_path": null,
+        "bindings_sha256": null,
+        "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+        "feature_ir_sha256": "5321cfb94849b8850dd9eea30f2c6efab22f0f191434dd6d180f1252d4a3abd9",
+        "inspection": {
+          "extents_mm": [
+            40.0,
+            30.0,
+            12.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 6852.0
+        },
+        "kernel_version": "8.0.1.1.0",
+        "output_feature": "enclosure",
+        "receipt_version": "neurocad-build123d-receipt-v1",
+        "requirements_path": null,
+        "requirements_satisfied": null,
+        "requirements_sha256": null,
+        "requirements_verification_path": null,
+        "requirements_verification_sha256": null,
+        "roundtrip_inspection": {
+          "extents_mm": [
+            40.0,
+            30.0,
+            12.0
+          ],
+          "manifold": true,
+          "solid_count": 1,
+          "valid_brep": true,
+          "volume_mm3": 6852.0
+        },
+        "step_path": "design.step",
+        "step_sha256": "78493580c771e3b370a126d49f48adb06c818cd628b12a3e0188125c05e004d0"
+      },
+      "extents_mm": [
+        40.0,
+        30.0,
+        12.0
+      ],
+      "mesh_runs": [
+        {
+          "measurement": {
+            "extents_mm": [
+              40.0,
+              30.0,
+              12.0
+            ],
+            "smallest_signed_tetrahedron_mm3": 0.20237654647290912,
+            "tetrahedra": 5897,
+            "volume_mm3": 6852.0
+          },
+          "receipt": {
+            "backend": "gmsh",
+            "backend_version": "4.15.2",
+            "boundary_surface_count": 19,
+            "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+            "mean_sicn": 0.8214144382058527,
+            "mesh_bytes": 279303,
+            "mesh_path": "design.msh",
+            "mesh_sha256": "8cbd00a49a61916625626c1ac38398f8cf802daade120d212728ba9578f905fb",
+            "mesh_size_max_mm": 2.0,
+            "mesh_size_min_mm": 0.4,
+            "min_sicn": 0.2970481084109879,
+            "node_count": 1820,
+            "physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+            "roundtrip_coordinate_abs_tol_mm": 1e-12,
+            "roundtrip_coordinate_rel_tol": 1e-13,
+            "roundtrip_node_count": 1820,
+            "roundtrip_physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+            "roundtrip_volume_element_count": 5897,
+            "source_step_bytes": 60606,
+            "source_step_sha256": "78493580c771e3b370a126d49f48adb06c818cd628b12a3e0188125c05e004d0",
+            "volume_element_count": 5897,
+            "volume_entity_count": 1
+          },
+          "relative_volume_tolerance": 1e-08
+        },
+        {
+          "measurement": {
+            "extents_mm": [
+              40.0,
+              30.0,
+              12.0
+            ],
+            "smallest_signed_tetrahedron_mm3": 0.20237654647290912,
+            "tetrahedra": 5897,
+            "volume_mm3": 6852.0
+          },
+          "receipt": {
+            "backend": "gmsh",
+            "backend_version": "4.15.2",
+            "boundary_surface_count": 19,
+            "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+            "mean_sicn": 0.8214144382058527,
+            "mesh_bytes": 279303,
+            "mesh_path": "design.msh",
+            "mesh_sha256": "8cbd00a49a61916625626c1ac38398f8cf802daade120d212728ba9578f905fb",
+            "mesh_size_max_mm": 2.0,
+            "mesh_size_min_mm": 0.4,
+            "min_sicn": 0.2970481084109879,
+            "node_count": 1820,
+            "physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+            "roundtrip_coordinate_abs_tol_mm": 1e-12,
+            "roundtrip_coordinate_rel_tol": 1e-13,
+            "roundtrip_node_count": 1820,
+            "roundtrip_physical_groups": [
+              "base",
+              "boundary",
+              "domain",
+              "top"
+            ],
+            "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+            "roundtrip_volume_element_count": 5897,
+            "source_step_bytes": 60606,
+            "source_step_sha256": "78493580c771e3b370a126d49f48adb06c818cd628b12a3e0188125c05e004d0",
+            "volume_element_count": 5897,
+            "volume_entity_count": 1
+          },
+          "relative_volume_tolerance": 1e-08
+        }
+      ],
+      "name": "enclosure"
+    }
+  ],
+  "claim_boundary": "Authored software controls only; no physical, independent-human or solver validation.",
+  "commit": "518208bb3f709d4686d663309dd19b7f8f39a5c2",
+  "environment": {
+    "architecture": "arm64",
+    "build123d": "0.13.0",
+    "cadquery-ocp-novtk": "8.0.1.1.0",
+    "gmsh": "4.15.2",
+    "numpy": "2.5.4",
+    "platform": "macOS-15.7.9-arm64-arm-64bit-Mach-O",
+    "python": "3.13.15"
+  },
+  "protected_sha256": {
+    "paper/NEURIPS_2026_CONFERENCE_BRIEF.md": "245ff9d1ebf97b1a972e78da9b456db57680d89602229387afae0db9ab982a48",
+    "paper/NEUROCAD_CONTROLLED_COMPILER_PAPER.md": "c9b0c09639e4e0bb47d93969350d529df28c45ad89f0811dcd5d50b5db60578b",
+    "paper/PHYSWORLDAI_2026_CLAIMS.md": "113b1208a24856ae7ddeb0039bf3839d9fa859e8ec89b4cf83de0a3b64b05fc3",
+    "paper/PHYSWORLDAI_2026_SUBMISSION.md": "1f383a10bebf45cb83e3180e5085fec8bbb673a32eda89708b57940a9198391d",
+    "paper/physics_v2/ARXIV_METADATA.md": "60a739c62c9cddbdef7932d6071f4eab9fe5ceb0d48352cfb8b5cfdc8aee22b7",
+    "paper/physics_v2/README.md": "39b8da9063bab322dcb6e7e3e0ecc5674d031b4a894202a47fbe0bf4f6ec7c2a",
+    "paper/physics_v2/generate_results.py": "7786c000a0a73172b91f210f6e5f4089cc96fc429eb9002ce2455a06b22df194",
+    "paper/physics_v2/generated_results.tex": "f7fe2030c7173bf17705409841fad99aaa0b67747487512fe4d597ad8c806145",
+    "paper/physics_v2/main.tex": "0388a01a2ef5027b6f3a8c97898eaffb60f8026579e7e0ccee191e4e64107839",
+    "release/physics_v2/README.md": "d55003affa0809284e298011031ae1949aea0778a1375b1af256979996bffc03",
+    "release/physics_v2/RELEASE_MANIFEST.json": "f74f2cdc560447c012b00f11b608b55be30b834e5faecdb41706409ba2d1b3fb",
+    "research/physics_v2/ADVERSARIAL_REVIEW.md": "112f007fdd88525d52b3c3a5b7fc51f2466ed95e4ac7e6e797540b9fe9527f71",
+    "research/physics_v2/CHECKPOINT_AUDIT.md": "0ed8a6c67370aaffd7a34413d6aaa8efc134319fc7538d93b70ec64bc7eae4fb",
+    "research/physics_v2/CITATION_AND_EQUATION_AUDIT.md": "e35325e16fd889f580a34458b23e68836d3c47eb3876380950b62db8ef541c5b",
+    "research/physics_v2/CLAIM_LEDGER.md": "b21ed01fda9069b8e1bf9d160b3e7ab4f87f8d82eb08b7818b50dee59c2e78ca",
+    "research/physics_v2/CLEAN_CHECKOUT_VERIFICATION.json": "0606d0bb16be606b04878cc6f518f2bde39a21f5edbdbaa19a8f5646afadeeb1",
+    "research/physics_v2/CONFIRMATORY_EXECUTION.json": "f0ab53f078745f2138c1b76048bc00cc14dc09a8075a5656e0ebfe2573790230",
+    "research/physics_v2/EVIDENCE_MATRIX.md": "1d34ec2ef41b672047c991ea842fc839e8e22b99abf44305b1d985183e8ee44a",
+    "research/physics_v2/EXTERNAL_REPRODUCTION.md": "f5556bb02816509c8f40b8243da333a1b97c64f64e7767affc3bbeb9d5dd9d22",
+    "research/physics_v2/LITERATURE_REVIEW.md": "a0568b95f634aa26f5122c6aaf75cd4ab2feb6b70610f164f51e3102f77d1abe",
+    "research/physics_v2/MODEL_SPEC.md": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e",
+    "research/physics_v2/PROTOCOL.md": "83d9cbe6a5211349ecb91a4b8390e70003ff02cd257980c3dd3b907dacdcc31d",
+    "research/physics_v2/RESEARCH_STATE.json": "7a9ed7664d37a4a219d0c565bc86d352b4e781538a655e59b68828011c410987",
+    "research/physics_v2/RESEARCH_STATE.md": "bd932c1e305c5eebbd0bbda78ac2fea2f5d758151eeda5be4fad709718049d21",
+    "research/physics_v2/RESULTS.md": "a46fa06bd915e175b320412be705fd21bbeac3dd3138d14914871e04270013ba",
+    "research/physics_v2/audit_results.py": "4bdf7554b2e8675430f839dddc5c9314b90986936f27d8aad733e11536832d27",
+    "research/physics_v2/build_release.py": "eee52be98eb76c693123d34725901a6e3b205a105950ba61d4a175ae70cf67b0",
+    "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "research/physics_v2/frozen/README.md": "da74437cbb659b349f85bfe3c78a698fa059446b8a9e54d08741e95345b2743f",
+    "research/physics_v2/frozen/freeze.json": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/audit.json": "054117e0dfadbaec5423fc4e5aa672b1bdf52b285e84c515dada8f905440eb5b",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "research/physics_v2/runs/NC-PHYS-V2-DEV-001/FAILURE.json": "1879285f259a75116351c12a0e49cdf3ad087b7691b20f20ee51955e2467f5c7",
+    "research/physics_v2/runs/NC-PHYS-V2-DEV-001/work/development-000.project.json": "2902c37ce263142138af61d933de49f5e01c7f1ebe9985cb8c0c958b9d443a15",
+    "research/physics_v2/runs/NC-PHYS-V2-DEV-002/manifest.json": "8bbb18d3cdefdcd3fe9af56d2bc8637bb2e6de8d7d2850e58450f4080a76a74d",
+    "research/physics_v2/runs/NC-PHYS-V2-DEV-002/metrics.json": "52cc3eb1599fb6612be3980c053c7aa69aa3b97fa5724f885b6d2ea86daee5ce",
+    "research/physics_v2/runs/NC-PHYS-V2-DEV-002/raw_results.jsonl": "a3b1d06a2d25ad2d98a8d76d5a8067b2360f2f2effd5c1074ed791e2b92d9d11",
+    "research/physics_v2/study.py": "6f84ee5684370e3ed0c4c474449df42878510fa1e02c88c778286729838b8097"
+  },
+  "protocol": "NEUROCAD_NATIVE_ACCEPTANCE_V1",
+  "source_sha256": {
+    "core/exact_build123d.py": "67a8ced4efe53ee967c58f433cd9903807687bf88eb0b6b1ea469968b1c1d49b",
+    "core/feature_ir.py": "e5397f0249ef50d928ec3fc83f581f37ffd93470245ef47ebeeaf32dd3a62ef9",
+    "core/gmsh_backend.py": "a54e541c7567c3381e14b566b4d7bf9d83aa577014d9dd6044050c7e30d789a5",
+    "core/gmsh_integrity.py": "d21c7fc3a1f0151ea5cdae7834fae7ef61c1bccc573b4d386fb176ca808dadb6",
+    "core/gmsh_process.py": "f807bf99b94825e0c18c6cf50e52d73f08b48367998b2991858327e798b36fe3",
+    "core/mesh_roles.py": "263abfd72eab1de61e7eafb66999c11378060eb7bd76a3dffd7c8ec5e8947808",
+    "research/development/native_acceptance_20261014/contract.json": "942b6b0da0a140a6f4fb23456334794660a2330a9a5b07d825e4ae714378f4b9",
+    "scripts/reproduce_mesh_quality.py": "847d07f80d873b72aa103e708ba70bc2f970d88fa9dc16037c422f9bb9d6a3c4",
+    "scripts/verify_native_acceptance.py": "da31d0dc5e9d44aa289397117aabe84e86969e27844d8f591443f13aa44294f4"
+  },
+  "status": "PASS"
+}

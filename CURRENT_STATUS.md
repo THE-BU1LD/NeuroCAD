@@ -1,3 +1,7 @@
+# Current native implementation — 14 October 2026
+
+PR110 is merged and exact-main CI passed. See [the final receipt](docs/verification/native-acceptance-20261014/REPORT.md) and [six-gate checklist](docs/WORK_REGISTER_20261014.md). Native cross-platform acceptance, named mesh roles, Windows canonical hashing, kernel provenance and deterministic-result extraction are implemented. Four missing original research logs and the external physical/independent/user gates remain open. Concurrent PR111 is separate active readiness work. Public v0.5.0a6 is unchanged.
+
 ## Native acceptance and provenance follow-up — 2026-10-14
 
 All three native platforms passed five exact-CAD goldens, six repeated tagged
