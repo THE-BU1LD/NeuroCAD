@@ -1,0 +1,31 @@
+name: V3 readiness evidence integrity
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/audit_v3_readiness.py'
+      - 'tests/test_v3_readiness_audit.py'
+      - 'docs/V3_READINESS_CHECKLIST*'
+      - '.github/workflows/v3-readiness-audit.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Challenge evidence and source drift guards
+        run: python tests/test_v3_readiness_audit.py
+      - name: Audit checklist integrity (not overall completion)
+        run: python scripts/audit_v3_readiness.py --output "$RUNNER_TEMP/readiness.json"
+      - name: Retain explicit open gates
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: v3-readiness-${{ github.sha }}
+          path: ${{ runner.temp }}/readiness.json
+          retention-days: 30

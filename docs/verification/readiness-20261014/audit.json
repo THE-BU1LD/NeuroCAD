@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "audit_status": "PASS",
+  "verified_source_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+  "current_source_matches_verified_inventory": true,
+  "source_drift": [],
+  "complete": false,
+  "counts": {
+    "DONE": 13,
+    "BLOCKED": 9,
+    "IN_PROGRESS": 1,
+    "TODO": 0
+  },
+  "items": [
+    {
+      "id": "V01",
+      "title": "Preserve v2 and failed successors",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V02",
+      "title": "Correct opposing-load beam stress",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V03",
+      "title": "Correct circular-shaft biaxial extrema",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V04",
+      "title": "Correct hole-boundary ligaments",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V05",
+      "title": "Expand composite reference checks",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V06",
+      "title": "Run isolated installed conformance",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V07",
+      "title": "Compile composite meshes",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V08",
+      "title": "Run maintained regression and source-distribution tests",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V09",
+      "title": "Verify portable product and browser matrix",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V10",
+      "title": "Pass native integration baseline",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V11",
+      "title": "Reconcile repair history and review/merge",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V12",
+      "title": "Preserve published alpha identity",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V15",
+      "title": "Make checklist claims executable",
+      "state": "DONE",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V13",
+      "title": "Complete expanded native platform acceptance",
+      "state": "IN_PROGRESS",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "V14",
+      "title": "Ship a corrected immutable release",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E01",
+      "title": "Measure physical accuracy",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E02",
+      "title": "Obtain independent reproduction",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E03",
+      "title": "Run intended-user and accessibility tasks",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E04",
+      "title": "Author and review the held-out benchmark",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E05",
+      "title": "Execute matched baseline research",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E06",
+      "title": "Run external CAD/dirty-CAD cases",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E07",
+      "title": "Close industrial pilot claims",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    },
+    {
+      "id": "E08",
+      "title": "Close paper and provenance gaps",
+      "state": "BLOCKED",
+      "evidence_valid": true,
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "boundary": "Evidence consistency only; not physical validation, independence, authenticity or certification"
+}

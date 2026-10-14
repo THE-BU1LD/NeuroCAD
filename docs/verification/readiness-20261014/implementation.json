@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "unit_tests": 13,
+  "stdout": "",
+  "stderr": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.197s\n\nOK\n",
+  "source_files": {
+    "scripts/audit_v3_readiness.py": "a96337b25cc3f742878e53dff8b9b29fceac0757eaf37bb37fab8241015a73c0",
+    "tests/test_v3_readiness_audit.py": "0ccdacf378ff9dd79aa6d8016b1b0758807a8385b8d756e45e28f5136bbf4ebb"
+  },
+  "scope": "New evidence-consistency tooling only; no new physical or independent outcomes",
+  "prior_lint_failure": "Four implicit string concatenations needed parentheses; corrected before final lint pass."
+}

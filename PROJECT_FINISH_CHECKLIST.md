@@ -1,3 +1,7 @@
+Current evidence-backed status: [advanced engineering checklist](docs/V3_READINESS_CHECKLIST.md).
+The dated records below retain their original test counts; the current checklist distinguishes
+completed engineering, concurrent native work, release dependencies and external blockers.
+
 # NeuroCAD current completion checklist
 
 The earlier mixed CAD/portal record is preserved verbatim in
@@ -15,7 +19,7 @@ The earlier mixed CAD/portal record is preserved verbatim in
 - [x] Complete the 157-entry pinned historical source inventory.
 - [x] Add 42 analytical reference cases spanning all four composite families in declared sampled envelopes.
 - [ ] Complete separately scoped native shape/platform coverage.
-- [ ] Complete review/merge of the integrated candidate; do not call it a new public release.
+- [x] Complete review/merge of the integrated candidate (PR109, exact-main 079902f); this is not a new public release.
 - [ ] Collect actual physical measurements with calibration and uncertainty records.
 - [ ] Obtain independent reproduction and discrepancy review.
 - [ ] Run intended-user tasks and verify fixes for observed defects.
@@ -27,4 +31,4 @@ scientific completion from analytical calculations or software tests.
 
 - [x] Retain the later circular-shaft biaxial stress failure and correct the full-boundary extremum in a separate successor.
 - [x] Verify the shaft successor in the full hosted matrix (9231aab).
-- [ ] Verify and merge the final v5 source candidate; use its live hosted checks as the outcome authority.
+- [x] Verify and merge final v5 at 079902f; retained exact-main run 38565917174 passed.

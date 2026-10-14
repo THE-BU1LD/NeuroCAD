@@ -292,5 +292,14 @@
     "research/development/portable_sample_stdev_20261010/closure.json",
     "research/FINITE_MONTE_CARLO_20261010.md",
     "research/development/finite_monte_carlo_20261010/closure.json"
-  ]
+  ],
+  "readiness_checklist": {
+    "date": "2026-10-14",
+    "manifest": "docs/V3_READINESS_CHECKLIST.json",
+    "audit": "scripts/audit_v3_readiness.py",
+    "status": "EVIDENCE_CONSISTENCY_IMPLEMENTED_EXTERNAL_AND_CONCURRENT_GATES_OPEN",
+    "tests": 13,
+    "production_changes": false,
+    "prior_failures_preserved": true
+  }
 }
