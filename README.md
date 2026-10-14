@@ -11,7 +11,7 @@ Current status: see [CURRENT_STATUS.md](CURRENT_STATUS.md) and the machine-reada
 [RESEARCH_STATE.json](RESEARCH_STATE.json). The original compiler study remains
 terminal mixed; Physics v2 has a separate controlled result and local research
 release; Physics v3 is engineering-implemented with scientific validation not
-started. The public alpha and independent validation remain separate open gates.
+started. The public alpha is released; independent validation remains open.
 
 NeuroCAD is an alpha design aid. Agent projects are concept drafts, and generated parts must still be reviewed by a
 qualified person before fabrication. Its analytical physics tools use explicit idealized models and do not certify
@@ -57,7 +57,7 @@ It refuses unrelated existing executables.
 Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
 [Quick start](docs/QUICKSTART.md).
 
-The public alpha release is being verified in [PR #103](https://github.com/THE-BU1LD/NeuroCAD/pull/103).
+Public alpha `v0.5.0a6` is published; its release checks and anonymous-install gate passed.
 See [release status](RELEASE_STATUS.md) for the current gates and
 [quick start](docs/QUICKSTART.md) for checksum-verified release installation.
 The [release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6)
@@ -81,7 +81,7 @@ neurocad doctor
 
 `install.sh` defaults to the immutable `v0.5.0a6` tag. Release verification can
 exercise it without GitHub by setting `NEUROCAD_PACKAGE` to an exact local wheel;
-this override is not a substitute for the pending anonymous-install gate.
+the release workflow separately verifies public downloads and the default tagged-source path.
 
 OpenSCAD is optional for SCAD and JSON output. It is required for compiled
 validation and STL export.
