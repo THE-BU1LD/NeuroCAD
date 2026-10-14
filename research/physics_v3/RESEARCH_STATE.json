@@ -91,18 +91,25 @@
     {
       "date": "2026-10-14T11:32:18.442414+00:00",
       "event": "Separately frozen successor corrects the interior beam maximum-stress defect. 37/37 source scalar cases pass; 3 beam regressions and 3 verifier tests pass. Version 1 and its failure preserved. Hosted installed/mesh/regression verification pending. External evidence remains absent."
+    },
+    {
+      "date": "2026-10-14T11:37:54.418561+00:00",
+      "event": "Corrected Physics v3 successor verified at 5676436719415302ce94076c4d49c37e302308f7: 37/37 scalar, 52/52 installed cases/workflows, four mesh compilations, 1236 regression tests (9 skipped; 43 subtests), and 11 external-integrity tests passed in hosted CI. Original v1 failure and protected v2 evidence preserved. No physical, independent or human outcomes; no new public release."
     }
   ],
   "validation_v2": {
-    "status": "CORRECTED_SOURCE_CONFORMANCE_PASS_HOSTED_PENDING",
+    "status": "PASS_BOUNDED_SOFTWARE_CONFORMANCE",
+    "source_commit": "5676436719415302ce94076c4d49c37e302308f7",
     "protocol": "research/physics_v3/validation_v2/PROTOCOL.md",
     "freeze": "research/physics_v3/validation_v2/freeze.json",
-    "source_receipt": "docs/verification/physics-v3-corrected-20261014/source-01/receipt.json",
+    "receipt": "docs/verification/physics-v3-corrected-20261014/SUMMARY.json",
+    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38557278466",
     "source_passed": 37,
     "source_total": 37,
-    "prior_outcomes_known": true,
-    "physical_validation": "NOT_STARTED",
-    "independent_reproduction": "NOT_STARTED",
-    "human_usability": "NOT_STARTED"
+    "installed_passed": 52,
+    "installed_total": 52,
+    "physical_validation": "NOT_EXECUTED",
+    "independent_reproduction": "NOT_EXECUTED",
+    "human_usability": "NOT_EXECUTED"
   }
 }

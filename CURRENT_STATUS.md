@@ -125,6 +125,7 @@ remain open. See [the retained report](docs/verification/physics-v3-20261014/REP
 The separately frozen validation_v2 successor corrects opposing-load maximum
 beam stress by considering interior moment extrema. All 37 source scalar cases
 pass. Prior v1 outcomes are known and retained: this is regression conformance,
-not blinded confirmation. Hosted installed/mesh/regression verification is
-pending. External validation tooling is prepared; no physical, independent or
-human evidence has been collected.
+not blinded confirmation. Hosted run 38557278466 passed on 5676436: 52/52 installed cases/workflows,
+four mesh compilations and 1,236 regression tests passed (9 skipped). External
+validation tooling passed 11 integrity tests; no physical, independent or human
+evidence has been collected. See docs/verification/physics-v3-corrected-20261014/REPORT.md.
