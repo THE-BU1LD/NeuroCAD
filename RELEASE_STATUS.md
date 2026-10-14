@@ -17,6 +17,7 @@ Target: `v0.5.0a6` public alpha. Execution date: 2026-10-14.
 - [Release](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6): wheel, sdist, checksums and generated provenance.
 - [Exact-main CI](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38495962707): all ten jobs passed.
 - [Release and anonymous acceptance](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38498546483): all five jobs passed.
+- GitHub reports `immutable: true`; signed release and downloaded wheel/sdist attestations verified.
 - Both public wheel and default tagged-source installation passed without download credentials.
 - Doctor, valid/invalid edits, revision protection, compiled body/lid meshes and tampering rejection passed.
 - Source tests: 1,227 passed, 9 skipped; extracted-sdist tests: 1,220 passed, 9 skipped.

@@ -11,6 +11,7 @@ Merged PR: https://github.com/THE-BU1LD/NeuroCAD/pull/103
 - [x] Exact candidate reviewed; 12 engineering checks passed; Bugbot later completed with no findings.
 - [x] Full matrix on merged main passed: Python 3.10/3.11/3.12 packaging, Python 3.13 portable Linux/macOS/Windows, three browsers, optional build123d.
 - [x] Published tag and prerelease with wheel, sdist, SHA256SUMS and generated RELEASE_PROVENANCE.json.
+- [x] Enabled GitHub server-side immutable releases and republished the same release without changing its tag or assets. API reports `immutable: true`; signed release attestation and both downloaded package assets verified with `gh release verify` / `verify-asset`.
 - [x] Reproducible double builds, archive inspection, locked dependency/security checks, fresh wheel/sdist installs and extracted-source tests passed.
 - [x] Public downloads without credentials verified exact tag/SHA, prerelease state, installer bytes and artifact hashes.
 - [x] Public installer installed the published wheel into a clean environment; doctor, edits, invalid inputs, collision protection, stale revisions, compiled body/lid meshes and tamper rejection passed.
@@ -24,7 +25,8 @@ Merged PR: https://github.com/THE-BU1LD/NeuroCAD/pull/103
 - `release-ci.json`: run 38498546483, all five jobs PASS.
 - `anonymous-install.json`: PASS including default tagged-source path.
 - `enclosure-acceptance.json`: installed compiled-mesh commands and results.
-- `published/RELEASE_PROVENANCE.json`, `published/SHA256SUMS`, `published/release.json`.
+- `published/RELEASE_PROVENANCE.json`, `published/SHA256SUMS`, `published/release.json` (initial publication).
+- `published/immutable-release.json`, `published/attestation-verification.txt` (final locked state).
 - Source tests: 1,227 passed / 9 skipped; extracted-sdist tests: 1,220 passed / 9 skipped (separate suites, not additive).
 - 14 focused workflow tests passed locally. Local full installs/builds were not run below the 512 MiB resource floor.
 

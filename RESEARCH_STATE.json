@@ -41,7 +41,9 @@
       "anonymous_wheel_install": "PASS",
       "anonymous_default_tag_install": "PASS",
       "physical_validation": "NOT_EXECUTED",
-      "independent_scientific_reproduction": "NOT_EXECUTED"
+      "independent_scientific_reproduction": "NOT_EXECUTED",
+      "github_immutable": true,
+      "signed_attestation_verification": "PASS_RELEASE_WHEEL_AND_SDIST"
     }
   },
   "resource_admission": {
@@ -87,6 +89,10 @@
     {
       "date": "2026-10-14",
       "event": "PR103 merged; exact-main CI 38495962707 passed; v0.5.0a6 published from 5ce2092. Release workflow 38498546483 passed reproducible builds, public provenance/checksums and both credential-free installation paths plus compiled enclosure edits/verification. Artifact hashes rechecked locally. Failed runs preserved; frozen scientific evidence unchanged."
+    },
+    {
+      "date": "2026-10-14",
+      "event": "Enabled GitHub release immutability and republished the same alpha without moving the tag or changing asset IDs/bytes. API immutable=true; signed release, wheel and sdist attestation verification passed."
     }
   ],
   "resource_rechecks": [
