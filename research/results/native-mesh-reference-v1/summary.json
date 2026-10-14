@@ -1,0 +1,146 @@
+{
+  "cases": [
+    {
+      "analytic_volume_mm3": 1000.0,
+      "bundle": "box/size-4mm",
+      "cad_volume_mm3": 999.9999999999998,
+      "extents_mm": [
+        20.0,
+        10.0,
+        5.0
+      ],
+      "max_size_mm": 4.0,
+      "mean_sicn": 0.8229268407775405,
+      "minimum_sicn": 0.3425220903841598,
+      "part": "box",
+      "relative_volume_error": 0.0,
+      "relative_volume_tolerance": 1e-09,
+      "smallest_signed_tetrahedron_mm3": 0.39708484569643404,
+      "status": "PASS",
+      "tetrahedra": 643,
+      "volume_mm3": 1000.0
+    },
+    {
+      "analytic_volume_mm3": 1000.0,
+      "bundle": "box/size-2mm",
+      "cad_volume_mm3": 999.9999999999998,
+      "extents_mm": [
+        20.0,
+        10.0,
+        5.0
+      ],
+      "max_size_mm": 2.0,
+      "mean_sicn": 0.8127206063778859,
+      "minimum_sicn": 0.2550328119184437,
+      "part": "box",
+      "relative_volume_error": 0.0,
+      "relative_volume_tolerance": 1e-09,
+      "smallest_signed_tetrahedron_mm3": 0.37228934212217824,
+      "status": "PASS",
+      "tetrahedra": 731,
+      "volume_mm3": 1000.0
+    },
+    {
+      "analytic_volume_mm3": 1000.0,
+      "bundle": "box/size-1mm",
+      "cad_volume_mm3": 999.9999999999998,
+      "extents_mm": [
+        20.0,
+        10.0,
+        5.0
+      ],
+      "max_size_mm": 1.0,
+      "mean_sicn": 0.8116326783154739,
+      "minimum_sicn": 0.30593593730387914,
+      "part": "box",
+      "relative_volume_error": 0.0,
+      "relative_volume_tolerance": 1e-09,
+      "smallest_signed_tetrahedron_mm3": 0.059237581034138564,
+      "status": "PASS",
+      "tetrahedra": 5033,
+      "volume_mm3": 1000.0
+    },
+    {
+      "analytic_volume_mm3": 909.7345175425633,
+      "bundle": "holed_plate/size-4mm",
+      "cad_volume_mm3": 909.7345175425634,
+      "extents_mm": [
+        20.0,
+        12.0,
+        4.0
+      ],
+      "max_size_mm": 4.0,
+      "mean_sicn": 0.8180957290971101,
+      "minimum_sicn": 0.3103996355933172,
+      "part": "holed_plate",
+      "relative_volume_error": 0.00526629072182052,
+      "relative_volume_tolerance": 0.025,
+      "smallest_signed_tetrahedron_mm3": 0.30296321584284835,
+      "status": "PASS",
+      "tetrahedra": 736,
+      "volume_mm3": 914.5254439916175
+    },
+    {
+      "analytic_volume_mm3": 909.7345175425633,
+      "bundle": "holed_plate/size-2mm",
+      "cad_volume_mm3": 909.7345175425634,
+      "extents_mm": [
+        20.0,
+        12.0,
+        4.0
+      ],
+      "max_size_mm": 2.0,
+      "mean_sicn": 0.8379427584547464,
+      "minimum_sicn": 0.31486973246777084,
+      "part": "holed_plate",
+      "relative_volume_error": 0.005242343931037506,
+      "relative_volume_tolerance": 0.025,
+      "smallest_signed_tetrahedron_mm3": 0.27928121104699605,
+      "status": "PASS",
+      "tetrahedra": 816,
+      "volume_mm3": 914.5036587694578
+    },
+    {
+      "analytic_volume_mm3": 909.7345175425633,
+      "bundle": "holed_plate/size-1mm",
+      "cad_volume_mm3": 909.7345175425634,
+      "extents_mm": [
+        20.0,
+        12.0,
+        4.0
+      ],
+      "max_size_mm": 1.0,
+      "mean_sicn": 0.8131579961878281,
+      "minimum_sicn": 0.3060930514005767,
+      "part": "holed_plate",
+      "relative_volume_error": 0.0015448290940235695,
+      "relative_volume_tolerance": 0.025,
+      "smallest_signed_tetrahedron_mm3": 0.05257325453098107,
+      "status": "PASS",
+      "tetrahedra": 4838,
+      "volume_mm3": 911.1399018931005
+    }
+  ],
+  "claim_boundary": [
+    "Two synthetic reference CAD parts across three fixed mesh sizes; no empirical manufacturing or physics study.",
+    "Positive native minSICN, serialization integrity and an independent tetrahedron-volume sum are checked.",
+    "Volume agreement is not a solver-convergence, structural-safety, topology-completeness or general CAD benchmark claim.",
+    "No learned parser, protected VCG stage, dataset split or closed research result was changed or rerun.",
+    "STEP headers and native mesher details may differ on replay; retained hashes bind this run only."
+  ],
+  "environment": {
+    "gmsh": "4.15.2",
+    "numpy": "2.3.5",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "python": "3.12.14"
+  },
+  "evidence_kind": "executed native geometry engineering controls",
+  "protocol": "NEUROCAD_NATIVE_MESH_REFERENCE_V1",
+  "source_base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "source_sha256": {
+    "core/gmsh_backend.py": "dcec28dd50bdcbf5228d3e6253259328d5bb94f272da2f520e4f5da368dbbd50",
+    "core/gmsh_integrity.py": "d21c7fc3a1f0151ea5cdae7834fae7ef61c1bccc573b4d386fb176ca808dadb6",
+    "scripts/reproduce_mesh_quality.py": "5c541439fac5f00c8935dfd2b2d5ca5a609bacd0416f2fd47beae2894ed7e5d0"
+  },
+  "status": "PASS"
+}
