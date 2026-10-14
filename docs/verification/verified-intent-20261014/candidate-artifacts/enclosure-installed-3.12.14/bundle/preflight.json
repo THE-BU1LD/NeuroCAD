@@ -1,0 +1,47 @@
+{
+  "disclaimer": "Analytical and heuristic findings are fabrication aids, not safety certification.",
+  "estimate": {
+    "approximate_mass_g": null,
+    "approximate_material_cost": null,
+    "approximate_material_volume_mm3": 41222.196,
+    "bounding_volume_mm3": 144000.0
+  },
+  "findings": [
+    {
+      "basis": "heuristic",
+      "code": "lid_fit_not_evaluated",
+      "evidence": {
+        "profile_minimum_clearance_mm": 0.1,
+        "specified_clearance_mm": 0.3
+      },
+      "message": "fit probability was not evaluated because no measured tolerance contributions were supplied",
+      "severity": "info"
+    }
+  ],
+  "measurements": {
+    "calibration_profile_id": null,
+    "cutout_count": 1,
+    "floor_mm": 2.4,
+    "internal_size_mm": [
+      75.2,
+      55.2,
+      27.6
+    ],
+    "lid_part_count": 1,
+    "minimum_wall_mm": 2.4,
+    "outer_size_mm": [
+      80.0,
+      60.0,
+      30.0
+    ],
+    "profile_assumptions": {
+      "friction_fit_clearance_mm": 0.1,
+      "hole_compensation_applied_mm": 0.2,
+      "minimum_ligament_mm": 1.0,
+      "minimum_wall_mm": 1.2
+    },
+    "standoff_count": 0,
+    "vent_hole_count": 0
+  },
+  "valid": true
+}

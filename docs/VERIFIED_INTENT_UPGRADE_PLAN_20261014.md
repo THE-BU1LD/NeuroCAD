@@ -1,6 +1,6 @@
 # NeuroCAD verified-intent upgrade plan
 
-Status: engineering implementation in progress on top of `0a4ce929c71b767e59822faf2a04546e324fe411`.
+Status: implementation merged in [PR112](https://github.com/THE-BU1LD/NeuroCAD/pull/112) as `e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1`; see [the execution receipt](verification/verified-intent-20261014/REPORT.md) for final verification status.
 This extends [the existing architecture](NEUROCAD_EXPANSION_2026Q4.md), rather than replacing its IRs or reopening its frozen studies.
 The execution contract and retained baseline are in `research/development/verified_intent_20261014/`.
 
@@ -19,10 +19,23 @@ The practical target is reliable, editable, requirement-verified engineering CAD
 - [x] Preserve input and report bytes across operating systems; version run receipts as v2 and bind the complete core/schema source inventory. Seal completed files and expose source/dataset drift.
 - [x] Add a matched report comparator: validate file hashes, complete case order, exact labels, policy, scorer identity and recomputed per-case scores. Report semantic, rejection, overall and unsafe-acceptance discordances separately. Refuse incomplete or mismatched runs.
 - [x] Add adversarial regression fixtures for these cases, corrupted/resealed reports and byte preservation. These fixtures are developer-authored, not independent data.
-- [ ] Complete required hosted product/native/browser checks on the exact candidate and retain failures. Local native execution is resource-blocked.
-- [ ] Merge through existing protection, verify the merged source, and retain a closure receipt. The immutable alpha is not automatically updated.
+- [x] Complete required hosted product/native/browser checks on exact candidate `8a3ed572fd204674fa2f9c5315f7fc610d6fa730`: 1,789 maintained tests, 1,770 sdist tests, all three browser jobs and 182 native tests per platform passed. Local native execution remained resource-blocked.
+- [x] Merge through existing protection, verify the identical merged tree and post-merge CI, and retain a closure receipt. The immutable alpha remains unchanged.
 
 The original six-gate checklist remains [here](WORK_REGISTER_20261014.md), with the source-bound [readiness manifest](V3_READINESS_CHECKLIST.json). Its old source inventory must report drift on this candidate; it must not be rewritten to make new code appear historically validated.
+
+## Observed language coverage
+
+The unchanged 32-case authored development challenge produced 11/20 semantic-exact
+valid intents, 12/12 safe non-proposal responses, 21/32 exact overall outcomes,
+zero unsafe acceptances, zero provider errors and valid report integrity. Two
+non-proposal responses had a different refusal status from the annotation.
+Misses include number words, relative edits, fragmented instructions, informal
+context, negation, history references and radius/diameter wording. The local
+parser does not consume history. These are diagnostic observations, not a
+comparison with another model or independent generalization evidence. This pass
+changed admission/scoring/report integrity; it did not improve the parser's
+language coverage. Retained case records are linked in the execution receipt.
 
 ## Diagnosis and upgrade order
 
@@ -30,7 +43,7 @@ The coverage, data and planning explanations below are hypotheses to test, not p
 
 | Priority / upgrade | What is happening and why it matters | Incorporation | Acceptance and failure control | State / dependency |
 |---|---|---|---|---|
-| P0: trustworthy input and scoring | Malformed types and incorrect acceptance accounting can make failures opaque or overstate success. | Existing Requirement IR admission and language runner; v2 receipts and paired comparator. | Adversarial cases must reject, unchanged supported cases must pass, corrupted/partial reports must not compare. | Implemented this pass; hosted validation pending. |
+| P0: trustworthy input and scoring | Malformed types and incorrect acceptance accounting can make failures opaque or overstate success. | Existing Requirement IR admission and language runner; v2 receipts and paired comparator. | Adversarial cases must reject, unchanged supported cases must pass, corrupted/partial reports must not compare. | Implemented, merged and hosted-verified for this bounded pass. |
 | P0: output geometry predicates | `feature_presence` and `feature_count` currently inspect construction history. A cutter can exist in history while missing the final body. | Add separately named probes over the final B-Rep for hole axes/radii/depth, connectivity, cavities, solid count, volume and clearance. Keep history and measured geometry as different evidence types. | Counterexamples: unused cutter, filled hole, blind instead of through hole, intersecting bores and coincident bodies. Unknown/ambiguous topology fails; exact tolerances and test oracle fixed first. | Next bounded native feature; not implemented by this pass. |
 | P0: requirement preservation | A geometrically valid edit can violate an unrelated user constraint. | Extend existing transactional revision verifier and semantic selectors; hash requirements, probes, baseline and candidate together. | Multi-edit sequences preserve every unchanged must requirement. Missing or multiply resolved selectors reject the transaction. Test stale receipts and rollback. | Existing foundation; broader geometric predicates required. |
 | P1: broader language coverage | Literal parser coverage cannot establish reliable paraphrase, unit, negation or ambiguity understanding. | Provider proposes Requirement IR with exact source spans and explicit unresolved decisions; deterministic validation owns acceptance. | Human-authored prompts, adversarial units/negation/conflicts, calibrated abstention. Track all-request completion and unsafe acceptance so abstaining on everything cannot win. | External authors/data and explicit provider budget needed for comparative evidence. |

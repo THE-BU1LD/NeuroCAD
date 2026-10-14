@@ -1,0 +1,104 @@
+[
+  {
+    "platform": "windows",
+    "archive_sha256": "88fc386ea59ddab8729fa051faa6557133ffa065c07ea855b686a862e9e6a98e",
+    "archive_digest_verified": true,
+    "summary_path": "native-windows-summary.json",
+    "manifest_inventory": [
+      {
+        "path": "_temp/native-acceptance/SHA256SUMS.json",
+        "keys": [
+          "beam/exact/build-receipt.json",
+          "beam/exact/design.step",
+          "beam/mesh-0/design.msh",
+          "beam/mesh-0/execution-receipt.json",
+          "beam/mesh-0/meshing-receipt.json"
+        ]
+      }
+    ],
+    "archive_members": 493,
+    "manifest_entries_verified": 43,
+    "source_commit": "8a3ed572fd204674fa2f9c5315f7fc610d6fa730",
+    "case_count": 5,
+    "test_suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "182",
+        "time": "22.166",
+        "timestamp": "2026-10-14T16:20:52.986679+00:00",
+        "hostname": "runnervmfi6oq"
+      }
+    ]
+  },
+  {
+    "platform": "linux",
+    "archive_sha256": "2171f9dae0b9b55f0c1efff442ca460b4494560f10fe12f9f0e2195dba307aa4",
+    "archive_digest_verified": true,
+    "summary_path": "native-linux-summary.json",
+    "manifest_inventory": [
+      {
+        "path": "_temp/native-acceptance/SHA256SUMS.json",
+        "keys": [
+          "beam/exact/build-receipt.json",
+          "beam/exact/design.step",
+          "beam/mesh-0/design.msh",
+          "beam/mesh-0/execution-receipt.json",
+          "beam/mesh-0/meshing-receipt.json"
+        ]
+      }
+    ],
+    "archive_members": 493,
+    "manifest_entries_verified": 43,
+    "source_commit": "8a3ed572fd204674fa2f9c5315f7fc610d6fa730",
+    "case_count": 5,
+    "test_suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "182",
+        "time": "14.395",
+        "timestamp": "2026-10-14T16:19:21.621976+00:00",
+        "hostname": "runnervmmprz5"
+      }
+    ]
+  },
+  {
+    "platform": "macos",
+    "archive_sha256": "7fd11ebaa54fd83ce8e836856310e8d478d0c61d05e61205fb253045f736e28e",
+    "archive_digest_verified": true,
+    "summary_path": "native-macos-summary.json",
+    "manifest_inventory": [
+      {
+        "path": "_temp/native-acceptance/SHA256SUMS.json",
+        "keys": [
+          "beam/exact/build-receipt.json",
+          "beam/exact/design.step",
+          "beam/mesh-0/design.msh",
+          "beam/mesh-0/execution-receipt.json",
+          "beam/mesh-0/meshing-receipt.json"
+        ]
+      }
+    ],
+    "archive_members": 493,
+    "manifest_entries_verified": 43,
+    "source_commit": "8a3ed572fd204674fa2f9c5315f7fc610d6fa730",
+    "case_count": 5,
+    "test_suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "182",
+        "time": "13.872",
+        "timestamp": "2026-10-14T16:18:55.986517+00:00",
+        "hostname": "iad20-gt1024-36aa1db8-8b04-4931-a8fa-4e0eba9b8662-721DB2EECD4F.local"
+      }
+    ]
+  }
+]

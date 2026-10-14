@@ -314,7 +314,7 @@
     },
     {
       "id": "verified_intent_20261014",
-      "status": "LOCAL_BOUNDED_PASS_HOSTED_PENDING",
+      "status": "MERGED_MAIN_VERIFIED_BOUNDED_ENGINEERING",
       "contract": "research/development/verified_intent_20261014/contract.json",
       "baseline": "research/development/verified_intent_20261014/baseline.json",
       "verification": "research/development/verified_intent_20261014/local-verification.json",
@@ -328,12 +328,18 @@
         "Matched paired report comparison with score recomputation"
       ],
       "remaining": [
-        "Exact candidate full hosted checks and protected merge",
         "Separate final-geometry predicate successor",
+        "Broader language coverage: 11/20 authored valid intents matched",
         "External benchmark/data/provider budget",
         "Physical, independent reproduction and intended-user evidence"
       ],
-      "plan": "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md"
+      "plan": "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md",
+      "closed_utc": "2026-10-14T16:32:17.610956+00:00",
+      "candidate_commit": "8a3ed572fd204674fa2f9c5315f7fc610d6fa730",
+      "main_commit": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+      "receipt": "docs/verification/verified-intent-20261014/SUMMARY.json",
+      "hosted_attempts_per_workflow_used": 1,
+      "post_merge_ci_used": 1
     }
   ],
   "latest_engineering_session": "verified_intent_20261014",

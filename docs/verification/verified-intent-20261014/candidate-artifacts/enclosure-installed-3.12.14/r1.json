@@ -1,0 +1,82 @@
+{
+  "changes": [],
+  "phrase_mappings": [
+    {
+      "end": 37,
+      "field": "outer_size_mm",
+      "start": 0,
+      "text": "80 x 60 x 30 mm electronics enclosure"
+    },
+    {
+      "end": 49,
+      "field": "wall_mm",
+      "start": 39,
+      "text": "walls 2 mm"
+    },
+    {
+      "end": 71,
+      "field": "profile",
+      "start": 51,
+      "text": "profile fdm standard"
+    },
+    {
+      "end": 124,
+      "field": "lid",
+      "start": 73,
+      "text": "friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm"
+    },
+    {
+      "end": 185,
+      "field": "cutout.rectangular",
+      "start": 126,
+      "text": "rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C"
+    }
+  ],
+  "project_id": "install-check",
+  "revision": 1,
+  "source_text": "80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C",
+  "spec": {
+    "corner_radius_mm": 0.0,
+    "cutouts": [
+      {
+        "center_uv_mm": [
+          0.0,
+          8.0
+        ],
+        "corner_radius_mm": 0.0,
+        "diameter_mm": null,
+        "face": "front",
+        "id": "cutout_1",
+        "kind": "rectangular",
+        "purpose": "USB-C",
+        "size_mm": [
+          12.0,
+          7.0
+        ]
+      }
+    ],
+    "floor_mm": null,
+    "lid": {
+      "clearance_mm": 0.3,
+      "fastener_positions_xy_mm": [],
+      "hardware": null,
+      "kind": "friction",
+      "lip_height_mm": 2.0,
+      "thickness_mm": 2.5
+    },
+    "outer_size_mm": [
+      80.0,
+      60.0,
+      30.0
+    ],
+    "pcb": null,
+    "profile": "fdm_standard",
+    "standoffs": [],
+    "title": "electronics enclosure",
+    "units": "mm",
+    "vents": [],
+    "version": "neurocad-enclosure-v1",
+    "wall_mm": 2.0
+  },
+  "version": "neurocad-project-v1"
+}

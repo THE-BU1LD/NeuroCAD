@@ -1,0 +1,107 @@
+{
+  "conclusion": "success",
+  "headSha": "8a3ed572fd204674fa2f9c5315f7fc610d6fa730",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T16:19:13Z",
+      "conclusion": "success",
+      "databaseId": 115965935903,
+      "name": "stage1-development-smoke",
+      "startedAt": "2026-10-14T16:18:21Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T16:18:23Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T16:18:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:18:25Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T16:18:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:18:34Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T16:18:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:07Z",
+          "conclusion": "success",
+          "name": "Install OpenSCAD and Python package",
+          "number": 4,
+          "startedAt": "2026-10-14T16:18:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:07Z",
+          "conclusion": "success",
+          "name": "Stage 0 verifier regression gate",
+          "number": 5,
+          "startedAt": "2026-10-14T16:19:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:08Z",
+          "conclusion": "success",
+          "name": "Execute Stage 1 development-only two-arm smoke",
+          "number": 6,
+          "startedAt": "2026-10-14T16:19:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:08Z",
+          "conclusion": "success",
+          "name": "Verify Stage 1 receipt",
+          "number": 7,
+          "startedAt": "2026-10-14T16:19:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:09Z",
+          "conclusion": "success",
+          "name": "Retain Stage 1 plumbing evidence",
+          "number": 8,
+          "startedAt": "2026-10-14T16:19:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 15,
+          "startedAt": "2026-10-14T16:19:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 16,
+          "startedAt": "2026-10-14T16:19:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T16:19:11Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-14T16:19:11Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38596927366/job/115965935903"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38596927366"
+}

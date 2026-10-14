@@ -1,0 +1,108 @@
+{
+  "constraints": [],
+  "metadata": {
+    "closure_mechanism": "insertion_plug",
+    "hole_compensation_applied_mm": 0.2,
+    "lid_kind": "friction",
+    "part": "lid",
+    "profile": "fdm_standard",
+    "source": "typed_enclosure_spec",
+    "spec_version": "neurocad-enclosure-v1"
+  },
+  "nodes": [
+    {
+      "id": "lid_plate",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            79.4,
+            59.4,
+            2.5
+          ]
+        }
+      },
+      "role": "lid",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "lid_lip",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            74.6,
+            54.6,
+            2.0
+          ]
+        }
+      },
+      "role": "friction_plug",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          -2.25
+        ]
+      }
+    },
+    {
+      "children": [
+        "lid_plate",
+        "lid_lip"
+      ],
+      "composition": "union",
+      "id": "lid_positive",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "lid_positive"
+  ],
+  "title": "electronics enclosure — lid",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}
