@@ -1,0 +1,44 @@
+{
+  "run_id": 38425980085,
+  "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38425980085",
+  "source_commit": "53519038250e8aa3f6b76aeead63cc4a23be2ada",
+  "status": "PASS",
+  "platform": "GitHub ubuntu-24.04, Python 3.12",
+  "tests": {
+    "passed": 1227,
+    "skipped": 9,
+    "failed": 0
+  },
+  "checks": [
+    "Ruff",
+    "MyPy",
+    "Bandit",
+    "pip check",
+    "wheel archive inspection",
+    "isolated fresh install",
+    "compiled enclosure acceptance outside checkout",
+    "frozen research git diff"
+  ],
+  "prior_failures": [
+    {
+      "run_id": 38424324609,
+      "cause": "Missing explicit UTF-8 in new regression test",
+      "fix": "c0da50d"
+    },
+    {
+      "run_id": 38424965777,
+      "cause": "Five existing Physics v3 lint findings",
+      "fix": "fa777d2"
+    },
+    {
+      "run_id": 38425418497,
+      "cause": "Two assert guards and two security scanner false positives",
+      "fix": "5351903"
+    }
+  ],
+  "boundaries": [
+    "Internal engineering verification, not independent scientific reproduction",
+    "No public product release tag or deployment",
+    "No frozen research modifications"
+  ]
+}

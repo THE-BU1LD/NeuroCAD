@@ -1,0 +1,14 @@
+{
+  "model": "lumped_thermal_transient",
+  "inputs": {
+    "density_kg_m3": 2700,
+    "specific_heat_j_kgk": 900,
+    "volume_mm3": 100000,
+    "surface_area_mm2": 12000,
+    "heat_transfer_coefficient_w_m2k": 20,
+    "conductivity_w_mk": 205,
+    "initial_temperature_k": 400,
+    "ambient_temperature_k": 295,
+    "time_s": 300
+  }
+}

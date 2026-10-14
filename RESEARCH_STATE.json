@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-14",
+  "source_head": "a7eb80c54e3133e018b37e595413622dc0687a4a",
+  "scope": "Product engineering and version routing; no scientific execution",
+  "predecessor": {
+    "status": "TERMINAL_MIXED",
+    "source": "TERMINAL_STATUS_2026-10-11.md"
+  },
+  "physics_v2": {
+    "status": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT_RELEASE_PACKAGED",
+    "source": "research/physics_v2/RESEARCH_STATE.json",
+    "independent_reproduction": "NOT_EXECUTED"
+  },
+  "physics_v3": {
+    "status": "ENGINEERING_IMPLEMENTED_SCIENTIFIC_VALIDATION_NOT_STARTED",
+    "source": "research/physics_v3/RESEARCH_STATE.json"
+  },
+  "product": {
+    "status": "HOSTED_FRESH_INSTALL_AND_COMPILED_ENCLOSURE_PASS",
+    "receipt": "docs/verification/enclosure-20261013/ci-38425980085/SUMMARY.json",
+    "public_release": "IN_PROGRESS_FULL_MATRIX_REQUIRED",
+    "verification": {
+      "focused_tests": "11 passed",
+      "ruff": "PASS hosted",
+      "development_environment_acceptance": "PASS; source-only, existing environment, not clean install",
+      "fresh_install": "PASS; isolated GitHub runner virtual environment",
+      "compiled_mesh_acceptance": "PASS; body/lid, exact revision, invalid edits, collision and tamper rejection",
+      "hosted_ci": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38425980085",
+      "mypy": "PASS hosted",
+      "bandit": "PASS hosted",
+      "tests": "1227 passed, 9 skipped"
+    },
+    "verified_source_commit": "53519038250e8aa3f6b76aeead63cc4a23be2ada"
+  },
+  "resource_admission": {
+    "status": "FAIL",
+    "floor_mib": 512,
+    "samples_mib": [
+      362.171875,
+      376.859375
+    ],
+    "pageouts": [
+      31604,
+      31877
+    ],
+    "process_and_swap_inspection": "sandbox denied",
+    "latest_sample_mib": 163.859375,
+    "latest_pageouts": 90587
+  },
+  "history": [
+    {
+      "date": "2026-10-13",
+      "event": "Reconciled predecessor and successors; added collision-safe revision publication, expected-project bundle verification and installed-wheel acceptance. Frozen scientific evidence unchanged."
+    },
+    {
+      "date": "2026-10-13",
+      "event": "Recheck failed at 163.5/114.625 MiB with rising pageouts. Historical hosted CI passed on another SHA, not this candidate. No install, mesh run or commit. Hourly resource-gated continuation scheduled."
+    },
+    {
+      "date": "2026-10-13",
+      "event": "Hourly heartbeat 15:34Z: 166.0625/150.890625 MiB with rising pageouts; heavy verification and commit remain pending. Frozen research unchanged."
+    },
+    {
+      "date": "2026-10-13",
+      "event": "User authorized branch push and remote CI. Run 38424324609 on 951f8b8 found missing explicit UTF-8 in new regression test; fixed without relaxing the check. Frozen research preserved."
+    },
+    {
+      "date": "2026-10-13",
+      "event": "Hosted run 38425980085 passed on 5351903 after three retained failures and fixes. Wheel, isolated install, compiled enclosure and 1227 tests passed; frozen research unchanged."
+    },
+    {
+      "date": "2026-10-14",
+      "event": "User authorized public alpha completion. Final enclosure commit 6151d93 passed hosted run 38426643691. Full matrix 38494422164 found a test lint error and Windows POSIX research-harness import failure; repairs and credential-free published-artifact acceptance added. Frozen research unchanged; local heavy work remains below resource floor."
+    }
+  ],
+  "resource_rechecks": [
+    {
+      "at": "2026-10-13T14:40:36.390690+00:00",
+      "receipt": "docs/verification/enclosure-20261013/RESOURCE_RECHECK.json",
+      "gate": "FAIL"
+    },
+    {
+      "at": "2026-10-13T15:34:46.705Z",
+      "receipt": "docs/verification/enclosure-20261013/RESOURCE_RECHECK_153446Z.json",
+      "gate": "FAIL"
+    }
+  ],
+  "continuation": {
+    "automation_id": "finish-neurocad-enclosure-verification",
+    "status": "COMPLETION_PENDING_FINAL_COMMIT_CI",
+    "cadence": "hourly"
+  }
+}

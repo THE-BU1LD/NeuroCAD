@@ -476,6 +476,294 @@ def _wheel_plan(prompt: str = "", previous: AgentPlan | None = None) -> AgentPla
     )
 
 
+def _prompt_dimension(prompt: str, label: str, default: float) -> tuple[float, bool]:
+    match = re.search(
+        rf"\b{label}\s*(?:=|of|is)?\s*(\d+(?:\.\d+)?)\s*(mm|millimeters?|millimetres?|cm|centimeters?|centimetres?|inches?|inch|in)\b",
+        prompt,
+        re.IGNORECASE,
+    )
+    if match is None:
+        return default, False
+    value = float(match.group(1))
+    unit = match.group(2).lower()
+    if unit.startswith(("cm", "centim")):
+        value *= 10.0
+    elif unit in {"in", "inch", "inches"}:
+        value *= 25.4
+    return value, True
+
+
+def _prompt_count(prompt: str, label: str, default: int) -> tuple[int, bool]:
+    match = re.search(rf"\b{label}\s*(?:=|of|is)?\s*(\d+)\b", prompt, re.IGNORECASE)
+    return (default, False) if match is None else (int(match.group(1)), True)
+
+
+def _complex_profile_plan(prompt: str) -> AgentPlan | None:
+    lowered = prompt.lower()
+    if re.search(r"\b(?:hollow\s+shaft|hollow\s+tube|round\s+tube)\b", lowered):
+        outer, outer_set = _prompt_dimension(prompt, r"outer\s+diameter", 40.0)
+        inner, inner_set = _prompt_dimension(prompt, r"inner\s+diameter", 24.0)
+        length, length_set = _prompt_dimension(prompt, r"length", 500.0)
+        if not 0 <= inner < outer:
+            raise ValueError("hollow-shaft inner diameter must be non-negative and smaller than outer diameter")
+        component_items = [
+            AgentComponent("outer", "Shaft outer solid", "hollow_shaft", "add", "cylinder", {"radius": outer / 2.0, "height": length})
+        ]
+        if inner > 0:
+            component_items.append(
+                AgentComponent("bore", "Coaxial shaft bore", "hollow_shaft", "subtract", "cylinder", {"radius": inner / 2.0, "height": length + 2.0})
+            )
+        components = tuple(component_items)
+        dimensions = f"outer diameter {outer:g} mm, inner diameter {inner:g} mm, length {length:g} mm"
+        explicit = outer_set or inner_set or length_set
+        title = "Hollow shaft concept"
+        summary = "An editable cylindrical shaft with a coaxial through bore."
+    elif re.search(r"\bi[- ]?beam\b", lowered):
+        width, width_set = _prompt_dimension(prompt, r"width", 100.0)
+        height, height_set = _prompt_dimension(prompt, r"height", 200.0)
+        flange, flange_set = _prompt_dimension(prompt, r"flange\s+thickness", 10.0)
+        web, web_set = _prompt_dimension(prompt, r"web\s+thickness", 8.0)
+        length, length_set = _prompt_dimension(prompt, r"length", 1_000.0)
+        if 2.0 * flange >= height or web >= width:
+            raise ValueError("I-beam requires twice the flange thickness below its height and web thickness below its width")
+        flange_y = (height - flange) / 2.0
+        components = (
+            AgentComponent("top_flange", "Top flange", "i_beam", "add", "box", {"size": [width, flange, length]}, (0.0, flange_y, 0.0)),
+            AgentComponent("bottom_flange", "Bottom flange", "i_beam", "add", "box", {"size": [width, flange, length]}, (0.0, -flange_y, 0.0)),
+            AgentComponent("web", "Central web", "i_beam", "add", "box", {"size": [web, height - 2.0 * flange, length]}),
+        )
+        dimensions = f"{width:g} x {height:g} mm section, {flange:g} mm flanges, {web:g} mm web, {length:g} mm length"
+        explicit = width_set or height_set or flange_set or web_set or length_set
+        title = "I-beam concept"
+        summary = "An editable face-connected symmetric I-section extrusion."
+    elif re.search(r"\b(?:l[- ]?bracket|angle\s+bracket|angle\s+section)\b", lowered):
+        width, width_set = _prompt_dimension(prompt, r"width", 50.0)
+        height, height_set = _prompt_dimension(prompt, r"height", 80.0)
+        thickness, thickness_set = _prompt_dimension(prompt, r"thickness", 5.0)
+        length, length_set = _prompt_dimension(prompt, r"length", 300.0)
+        if thickness >= min(width, height):
+            raise ValueError("L-bracket thickness must be smaller than its width and height")
+        components = (
+            AgentComponent(
+                "horizontal_leg",
+                "Horizontal angle leg",
+                "l_bracket",
+                "add",
+                "box",
+                {"size": [width, thickness, length]},
+                (0.0, -height / 2.0 + thickness / 2.0, 0.0),
+            ),
+            AgentComponent(
+                "vertical_leg",
+                "Vertical angle leg",
+                "l_bracket",
+                "add",
+                "box",
+                {"size": [thickness, height - thickness, length]},
+                (-width / 2.0 + thickness / 2.0, thickness / 2.0, 0.0),
+            ),
+        )
+        dimensions = f"{width:g} x {height:g} mm legs, {thickness:g} mm thickness, {length:g} mm length"
+        explicit = width_set or height_set or thickness_set or length_set
+        title = "L-bracket concept"
+        summary = "An editable face-connected unsymmetric angle-section extrusion."
+    elif re.search(r"\bperforated\s+plate\b", lowered):
+        width, width_set = _prompt_dimension(prompt, r"width", 120.0)
+        height, height_set = _prompt_dimension(prompt, r"height", 80.0)
+        thickness, thickness_set = _prompt_dimension(prompt, r"thickness", 4.0)
+        diameter, diameter_set = _prompt_dimension(prompt, r"hole\s+diameter", 10.0)
+        margin, margin_set = _prompt_dimension(prompt, r"edge\s+margin", 15.0)
+        columns, columns_set = _prompt_count(prompt, r"columns", 4)
+        rows, rows_set = _prompt_count(prompt, r"rows", 3)
+        if not 1 <= rows <= 20 or not 1 <= columns <= 20:
+            raise ValueError("perforated-plate rows and columns must each be from 1 to 20")
+        if margin < diameter / 2.0 or 2.0 * margin >= min(width, height):
+            raise ValueError("perforated-plate edge margin must contain each hole and leave an interior grid span")
+        x_positions = [0.0] if columns == 1 else [-width / 2.0 + margin + index * (width - 2.0 * margin) / (columns - 1) for index in range(columns)]
+        y_positions = [0.0] if rows == 1 else [-height / 2.0 + margin + index * (height - 2.0 * margin) / (rows - 1) for index in range(rows)]
+        if (columns > 1 and x_positions[1] - x_positions[0] <= diameter) or (rows > 1 and y_positions[1] - y_positions[0] <= diameter):
+            raise ValueError("perforated-plate hole grid overlaps")
+        component_items = [AgentComponent("plate", "Plate blank", "perforated_plate", "add", "box", {"size": [width, height, thickness]})]
+        for row, y in enumerate(y_positions):
+            for column, x in enumerate(x_positions):
+                component_items.append(
+                    AgentComponent(
+                        f"hole_{row + 1}_{column + 1}",
+                        f"Through hole {row + 1}-{column + 1}",
+                        "perforated_plate",
+                        "subtract",
+                        "cylinder",
+                        {"radius": diameter / 2.0, "height": thickness + 2.0},
+                        (x, y, 0.0),
+                    )
+                )
+        components = tuple(component_items)
+        dimensions = f"{width:g} x {height:g} x {thickness:g} mm, {rows} x {columns} holes of diameter {diameter:g} mm"
+        explicit = width_set or height_set or thickness_set or diameter_set or margin_set or columns_set or rows_set
+        title = "Perforated plate concept"
+        summary = "An editable plate with a bounded rectangular grid of circular through holes."
+    else:
+        return None
+    return AgentPlan(
+        title,
+        summary,
+        (
+            AgentAssumption(
+                "geometry dimensions",
+                dimensions,
+                "Used explicitly labeled dimensions where supplied; remaining dimensions use the documented family defaults",
+                "user" if explicit else "inferred",
+            ),
+            AgentAssumption(
+                "analysis boundary",
+                "geometry only in the conversational agent",
+                "Use neurocad complex-shape with explicit material/load provenance for section, mass, and structural analysis",
+                "calculated",
+            ),
+        ),
+        components,
+    )
+
+
+def _jet_engine_cutaway_plan() -> AgentPlan:
+    """Return an intentionally non-operational educational cutaway.
+
+    The concept communicates axial component ordering and an annular gas path.
+    It deliberately contains no blade geometry, fuel system, combustor detail,
+    bearing design, shaft-speed inputs, or performance sizing.
+    """
+
+    axial = (0.0, 90.0, 0.0)
+    components = (
+        AgentComponent(
+            "casing_outer", "Sectioned outer casing", "casing", "add", "cylinder",
+            {"radius": 70.0, "height": 300.0}, (0.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "casing_duct", "Annular gas-path clearance", "casing", "subtract", "cylinder",
+            {"radius": 62.0, "height": 306.0}, (0.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "casing_cutaway", "Display cutaway window", "casing", "subtract", "box",
+            {"size": [270.0, 84.0, 92.0]}, (0.0, -48.0, 38.0),
+        ),
+        AgentComponent(
+            "inlet_outer", "Inlet shell", "inlet", "add", "cone",
+            {"r1": 72.0, "r2": 64.0, "height": 60.0}, (-165.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "inlet_bore", "Inlet flow opening", "inlet", "subtract", "cone",
+            {"r1": 64.0, "r2": 57.0, "height": 62.0}, (-165.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "centerbody", "Inlet centerbody", "centerbody", "add", "cone",
+            {"r1": 11.0, "r2": 25.0, "height": 72.0}, (-111.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "shaft", "Schematic center shaft", "shaft", "add", "cylinder",
+            {"radius": 5.0, "height": 248.0}, (4.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "fan_display_bridge", "Non-engine fan display bridge", "display_supports", "add", "cylinder",
+            {"radius": 4.5, "height": 142.0}, (-100.0, 0.0, 0.0), (90.0, 0.0, 0.0),
+        ),
+        AgentComponent(
+            "chamber_display_bridge", "Non-engine chamber display bridge", "display_supports", "add", "cylinder",
+            {"radius": 4.5, "height": 142.0}, (28.0, 0.0, 1.5), (90.0, 0.0, 0.0),
+        ),
+        AgentComponent(
+            "turbine_display_bridge", "Non-engine turbine display bridge", "display_supports", "add", "cylinder",
+            {"radius": 4.5, "height": 142.0}, (70.0, 0.0, -1.5), (90.0, 0.0, 0.0),
+        ),
+        AgentComponent(
+            "fan_disk", "Schematic fan disk without blades", "fan", "add", "cylinder",
+            {"radius": 52.0, "height": 6.0}, (-100.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "fan_hub", "Fan hub volume", "fan", "add", "cylinder",
+            {"radius": 16.0, "height": 14.0}, (-100.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "compressor_stage_1", "Schematic compressor station 1", "compressor_1", "add", "cylinder",
+            {"radius": 44.0, "height": 4.0}, (-64.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "compressor_stage_2", "Schematic compressor station 2", "compressor_2", "add", "cylinder",
+            {"radius": 40.0, "height": 4.0}, (-36.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "compressor_stage_3", "Schematic compressor station 3", "compressor_3", "add", "cylinder",
+            {"radius": 36.0, "height": 4.0}, (-8.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "chamber_outer", "Non-combusting chamber envelope", "chamber", "add", "cylinder",
+            {"radius": 35.0, "height": 50.0}, (28.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "chamber_void", "Chamber display cavity", "chamber", "subtract", "cylinder",
+            {"radius": 28.0, "height": 52.0}, (28.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "turbine_stage_1", "Schematic turbine station 1", "turbine_1", "add", "cylinder",
+            {"radius": 34.0, "height": 4.0}, (70.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "turbine_stage_2", "Schematic turbine station 2", "turbine_2", "add", "cylinder",
+            {"radius": 29.0, "height": 4.0}, (94.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_coupler_outer", "Display-only nozzle coupling ring", "nozzle_coupler", "add", "cylinder",
+            {"radius": 66.0, "height": 16.0}, (120.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_coupler_bore", "Nozzle coupling opening", "nozzle_coupler", "subtract", "cylinder",
+            {"radius": 54.0, "height": 18.0}, (120.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_outer", "Exhaust display shell", "nozzle", "add", "cone",
+            {"r1": 58.0, "r2": 36.0, "height": 72.0}, (150.0, 0.0, 0.0), axial,
+        ),
+        AgentComponent(
+            "nozzle_bore", "Exhaust display opening", "nozzle", "subtract", "cone",
+            {"r1": 51.0, "r2": 29.0, "height": 74.0}, (150.0, 0.0, 0.0), axial,
+        ),
+    )
+    return AgentPlan(
+        "Non-operational jet-engine cutaway concept",
+        "An educational axial cutaway showing inlet, fan, compressor stations, chamber envelope, turbine stations, and exhaust nozzle.",
+        (
+            AgentAssumption(
+                "intended use", "educational cutaway and display only",
+                "The geometry is intentionally unsuitable for propulsion, pressure, combustion, or high-speed rotation", "inferred",
+            ),
+            AgentAssumption(
+                "physics binding", "explicit analytical-model inputs required",
+                "Use ideal_brayton_cycle, lumped_thermal_transient, radiative_exchange, circular_shaft_torsion, "
+                "and spring_mass_damper separately; NeuroCAD does not infer temperatures, loads, material properties, "
+                "pressure ratio, efficiencies, mass flow, thrust, or shaft speed, and these models are not coupled",
+                "calculated",
+            ),
+            AgentAssumption(
+                "gas-path representation", "schematic axial ordering and annular clearances",
+                "Station disks communicate architecture only; they are not aerodynamic blades or component maps", "inferred",
+            ),
+            AgentAssumption(
+                "omitted systems", "blades, fuel, injectors, combustion, cooling, bearings, seals, controls, and fasteners",
+                "Those systems require specialist analysis, controlled testing, materials evidence, and qualified review", "inferred",
+            ),
+            AgentAssumption(
+                "fabrication boundary", "not fabrication-ready",
+                "No load, fatigue, creep, thermal-gradient, containment, vibration, or failure analysis is supplied", "inferred",
+            ),
+            AgentAssumption(
+                "display supports", "three non-engine bridges",
+                "The bridges create one connected educational mesh and do not represent aerodynamic or structural engine hardware", "inferred",
+            ),
+        ),
+        components,
+    )
+
+
 def _primitive_concept_plan(prompt: str) -> AgentPlan | None:
     lowered = prompt.lower()
     if re.search(r"\bcylinder\b", lowered):
@@ -571,6 +859,8 @@ class BuiltinPlanningProvider:
         source = _text(prompt, "agent prompt", maximum=8_192)
         if WEAPON_TERMS.search(source):
             raise ValueError("weapon design requests are outside the NeuroCAD agent boundary")
+        if re.search(r"\b(?:jet\s+engine|turbojet|turbofan)\b", source, re.IGNORECASE):
+            return _jet_engine_cutaway_plan()
         if re.search(r"\b(?:iron\s+man|mark\s*(?:iii|3)|cosplay\s+(?:armor|suit))\b", source, re.IGNORECASE):
             return _mark_three_cosplay_plan(source)
         if re.search(r"\bwheel\b", source, re.IGNORECASE):
@@ -579,6 +869,9 @@ class BuiltinPlanningProvider:
         if re.search(r"\b(?:water\s+)?bottle\b", source, re.IGNORECASE):
             prior = previous if previous is not None and "bottle" in previous.title.lower() else None
             return _water_bottle_plan(source, prior)
+        complex_profile = _complex_profile_plan(source)
+        if complex_profile is not None:
+            return complex_profile
         primitive = _primitive_concept_plan(source)
         if primitive is not None:
             return primitive
@@ -597,7 +890,7 @@ class BuiltinPlanningProvider:
         if context_is_wheel and wheel_revision:
             return _wheel_plan(source, previous)
         raise ValueError(
-            "the offline planner currently knows bottles, wheels, basic primitives, and cosplay shells; configure an OpenAI-compatible provider "
+            "the offline planner currently knows bottles, wheels, hollow shafts, I-beams, L-brackets, perforated plates, non-operational jet-engine cutaways, basic primitives, and cosplay shells; configure an OpenAI-compatible provider "
             "with NEUROCAD_LLM_ENDPOINT and NEUROCAD_LLM_MODEL for open-ended benign objects"
         )
 
@@ -606,7 +899,9 @@ _SYSTEM_PROMPT = """You are NeuroCAD's concept planner. Convert the user's benig
 Use only the supplied schema and millimetres. Make reasonable concept-stage assumptions instead of asking questions.
 Build useful assemblies from box, rounded_box, sphere, cylinder, cone, and torus primitives. Each part must begin with
 an additive component; subtractive components form cavities. Do not design weapons, life-critical equipment, or claim
-manufacturing safety. Keep components under 64 unless the request truly requires more. Output JSON only.
+manufacturing safety. For turbine or jet-engine requests, produce non-operational educational cutaways only and omit
+blades, fuel, combustion details, bearings, shaft-speed inputs, and performance sizing. Keep components under 64 unless
+the request truly requires more. Output JSON only.
 
 Schema:
 {"version":"neurocad-agent-plan-v1","title":"...","summary":"...","assumptions":[{"name":"...","value":"...","reason":"...","source":"user|inferred|provider|calculated"}],"components":[{"id":"portable_id","label":"...","part":"part_name","operation":"add|subtract","shape":"box|rounded_box|sphere|cylinder|cone|torus","parameters":{},"translate":[0,0,0],"rotate":[0,0,0]}]}

@@ -261,3 +261,12 @@ jobs:
             release_flags+=(--prerelease --latest=false)
           fi
           gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/neurocad-dist/* --generate-notes --title "NeuroCAD $GITHUB_REF_NAME" "${release_flags[@]}"
+
+  anonymous-install:
+    needs: release
+    uses: ./.github/workflows/anonymous-release.yml
+    with:
+      tag: ${{ github.ref_name }}
+      source_sha: ${{ github.sha }}
+    permissions:
+      contents: read

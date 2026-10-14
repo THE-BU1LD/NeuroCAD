@@ -3,11 +3,32 @@
 Requires Python 3.10+. CI covers 3.10–3.13; OpenSCAD is needed only for compiled
 STL and rendered mesh workflows. NeuroCAD is a bounded alpha, not arbitrary CAD.
 
-## Obtain the public main candidate
+## Obtain the alpha
 
-As checked on 2026-09-09, the repository is public and PR #49 has merged after
-all twelve exact-head checks passed. There is no published `v0.5.0a6` tag. No GitHub credentials are
-needed to clone it. Use a **new directory**:
+The `v0.5.0a6` release is being verified. Its
+[release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6)
+provides the wheel, source archive, `SHA256SUMS`, and `RELEASE_PROVENANCE.json`
+once published. Confirm that the corresponding
+[release workflow](https://github.com/THE-BU1LD/NeuroCAD/actions/workflows/release.yml)
+passed, including anonymous installation. A tag alone is insufficient.
+
+After publication, download those assets into a new directory. On macOS/Linux,
+verify them and install the published wheel:
+
+```bash
+shasum -a 256 -c SHA256SUMS
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install ./neurocad_research-0.5.0a6-py3-none-any.whl
+neurocad doctor
+```
+
+The provenance receipt identifies the source commit and repeats both artifact
+hashes. Keep it when reporting results. Windows users can compare each file's
+`Get-FileHash -Algorithm SHA256` output with `SHA256SUMS`, then use the environment
+commands below with the wheel path in place of `.`.
+
+For source development, use a **new directory**:
 
 ```bash
 git clone https://github.com/THE-BU1LD/NeuroCAD.git
@@ -15,13 +36,9 @@ cd NeuroCAD
 git rev-parse HEAD
 ```
 
-Do not run checkout commands over unrelated uncommitted work. Main is a public
-source candidate; checking it out does not establish a tagged release.
-Record the printed commit ID when sharing results so later branch updates are
-not confused with the version you tested.
-For the verified implementation snapshot, use `git switch --detach cc8c534412701439da0d346b5445b37dc8f74122`
-in that fresh checkout. The [handoff receipt](GITHUB_HANDOFF_20260909.md) documents
-its credential-free download, clean install and real enclosure verification.
+Record that commit ID; `main` can change. Once published, use
+`git switch --detach v0.5.0a6` for the tagged source. The commands below install
+from a source checkout. No GitHub credentials are needed for public downloads.
 
 ## macOS / Linux
 

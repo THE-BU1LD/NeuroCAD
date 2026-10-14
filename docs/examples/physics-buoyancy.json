@@ -1,0 +1,10 @@
+{
+  "model": "hydrostatic_buoyancy",
+  "inputs": {
+    "fluid_density_kg_m3": 1000,
+    "depth_mm": 1500,
+    "displaced_volume_mm3": 2500000,
+    "gravity_m_s2": 9.80665,
+    "object_mass_kg": 2.0
+  }
+}

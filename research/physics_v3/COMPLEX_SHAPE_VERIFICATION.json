@@ -1,0 +1,110 @@
+{
+  "schema_version": "neurocad-complex-shape-verification-v1",
+  "generated_at": "2026-10-11",
+  "compiler": {
+    "name": "OpenSCAD",
+    "version": "2021.01"
+  },
+  "verification_scope": "Four canonical complex-shape examples were generated through the public CLI, compiled to STL, and inspected with the repository mesh-verification path.",
+  "cases": [
+    {
+      "shape": "hollow_shaft",
+      "request_sha256": "edee3f340a756f456ca7dfae65955dc8c043b9813b182c74be3616789862e78b",
+      "program_sha256": "2e9d79179f06500b819adb91021d94dc181908bcdc8030d75037233d592ba936",
+      "analysis_sha256": "49bd1bb575c6c2aaecae7b4a97217e6fa6573b460bb22c1d3927b22fba5bb6a5",
+      "stl_sha256": "7d7177defb04bc23043ced89f867227bd2807ac5c058edadc904328b29e36799",
+      "mesh": {
+        "body_count": 1,
+        "is_volume": true,
+        "watertight": true,
+        "winding_consistent": true,
+        "finite_vertices": true,
+        "non_adjacent_triangle_intersections_detected": false,
+        "face_count": 768,
+        "extents_mm": [40.0, 40.0, 500.0],
+        "volume_mm3": 401836.89485060005,
+        "surface_genus": 1,
+        "surface_betti_numbers_f2": [1, 2, 1]
+      },
+      "analytical_volume_mm3": 402123.8596594935
+    },
+    {
+      "shape": "i_beam",
+      "request_sha256": "03c3870e3829b0487b1712825bc40b71706dabb9503a8c0fa4e5cb89b105d898",
+      "program_sha256": "fa0d07389e0c693de66cc8717461acb12d64800dd4cf8c5e44a71e16c8e451f5",
+      "analysis_sha256": "e7c4a191c7091fd646dca4c8544f726690f1e4ab4f07d275375b3a99ec9ebc7c",
+      "stl_sha256": "3812b2487383e4491f7e75930747e0b95bc62001cbdc844a54c1bb42ac920ac9",
+      "mesh": {
+        "body_count": 1,
+        "is_volume": true,
+        "watertight": true,
+        "winding_consistent": true,
+        "finite_vertices": true,
+        "non_adjacent_triangle_intersections_detected": false,
+        "face_count": 44,
+        "extents_mm": [100.0, 200.0, 1000.0],
+        "volume_mm3": 3440000.0,
+        "surface_genus": 0,
+        "surface_betti_numbers_f2": [1, 0, 1]
+      },
+      "analytical_volume_mm3": 3440000.0
+    },
+    {
+      "shape": "l_bracket",
+      "request_sha256": "29a16bf0ba42047305d106239425ef95ee40f5028cde364c9228d1ad2b072200",
+      "program_sha256": "96dbb198c25d10d7389f9f8d2eb31d2fec913bcc7926dc10b73cf43412b05c39",
+      "analysis_sha256": "3636e3dcebbe281e6dfad1dd056a47282ca7940ff53a0631f89b69daccda2be2",
+      "stl_sha256": "9bff274977c2fa6a68a19ea7cdd878ae1de5c3701ac74bb7c9f4ebe1934de834",
+      "mesh": {
+        "body_count": 1,
+        "is_volume": true,
+        "watertight": true,
+        "winding_consistent": true,
+        "finite_vertices": true,
+        "non_adjacent_triangle_intersections_detected": false,
+        "face_count": 20,
+        "extents_mm": [50.0, 80.0, 300.0],
+        "volume_mm3": 187500.0,
+        "surface_genus": 0,
+        "surface_betti_numbers_f2": [1, 0, 1]
+      },
+      "analytical_volume_mm3": 187500.0
+    },
+    {
+      "shape": "perforated_plate",
+      "request_sha256": "9fdae7b6d4aaac42d4a1447b038f7eeffb5f4437b2141260caebae8082de0076",
+      "program_sha256": "c50fdca5fe2ba7b0c7e69cddb0450a6690d0d7d3f6c9a073b5b4316c982852d1",
+      "analysis_sha256": "afc6c82e6aaf271fd61e8e4ee23639d4fdc54309121b14c35cf74dfc8f3ecaa9",
+      "stl_sha256": "0400ee963373e4c7cf4438a851d85d8d4e7b8fcdeafce0c6965bdd94b1fde202",
+      "mesh": {
+        "body_count": 1,
+        "is_volume": true,
+        "watertight": true,
+        "winding_consistent": true,
+        "finite_vertices": true,
+        "non_adjacent_triangle_intersections_detected": false,
+        "face_count": 4668,
+        "extents_mm": [120.0, 80.0, 4.0],
+        "volume_mm3": 34632.793196704,
+        "surface_genus": 12,
+        "surface_betti_numbers_f2": [1, 24, 1]
+      },
+      "analytical_volume_mm3": 34630.088815692245
+    }
+  ],
+  "aggregate": {
+    "examples_generated": 4,
+    "examples_compiled": 4,
+    "single_body_volumes": 4,
+    "watertight_meshes": 4,
+    "kernel_valid_meshes": 4
+  },
+  "software_verification": {
+    "focused_complex_shape_tests": "12 passed",
+    "full_repository_tests": "1225 passed, 9 skipped in 407.99 seconds",
+    "ruff": "PASS",
+    "mypy": "PASS, 75 source files",
+    "git_diff_check": "PASS"
+  },
+  "claim_boundary": "These are deterministic analytical screens and tessellated-kernel engineering checks. They are not B-rep certification, FEA, experimental validation, fatigue qualification, code compliance, or evidence of real-world safety. Circular mesh volumes differ slightly from exact analytical volumes because OpenSCAD emits tessellated approximations."
+}

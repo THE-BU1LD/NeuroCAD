@@ -105,6 +105,7 @@ def test_release_command_labels_alpha_and_rc_without_marking_them_latest(tag: st
         pytest.skip("workflow shell is unavailable")
     text = (Path(__file__).resolve().parents[1] / ".github/workflows/release.yml").read_text(encoding="utf-8")
     block = text.split("      - name: Create GitHub release\n", 1)[1].split("        run: |\n", 1)[1]
+    block = re.split(r"\n(?=\S| {1,9}\S)", block, maxsplit=1)[0]
     command = "\n".join(line.removeprefix("          ") for line in block.splitlines())
     # Execute the workflow's shell with a recording gh function; no release exists
     # and no network action occurs. Version parsing uses this test environment.

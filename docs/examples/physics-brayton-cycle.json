@@ -1,0 +1,12 @@
+{
+  "model": "ideal_brayton_cycle",
+  "inputs": {
+    "inlet_temperature_k": 300,
+    "compressor_pressure_ratio": 4,
+    "turbine_inlet_temperature_k": 1200,
+    "heat_capacity_ratio": 1.4,
+    "specific_heat_j_kgk": 1005,
+    "compressor_efficiency": 0.82,
+    "turbine_efficiency": 0.88
+  }
+}

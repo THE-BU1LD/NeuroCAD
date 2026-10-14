@@ -188,7 +188,9 @@ def _strict_object(raw: bytes, *, label: str) -> dict[str, Any]:
     return decoded
 
 
-def verify_project_bundle(directory: Path) -> dict[str, Any]:
+def verify_project_bundle(
+    directory: Path, *, expected_project: EnclosureProject | None = None, require_stl: bool = False,
+) -> dict[str, Any]:
     """Rebuild and verify every source and artifact in an enclosure bundle."""
 
     root = directory.expanduser().resolve()
@@ -221,6 +223,8 @@ def verify_project_bundle(directory: Path) -> dict[str, Any]:
     compiled_stl = manifest.get("compiled_stl")
     if not isinstance(compiled_stl, bool):
         raise TypeError("bundle compiled_stl flag must be boolean")
+    if require_stl and not compiled_stl:
+        raise ValueError("verification requires a compiled STL bundle")
 
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, list) or not 1 <= len(artifacts) <= MAX_BUNDLE_ARTIFACTS:
@@ -257,6 +261,8 @@ def verify_project_bundle(directory: Path) -> dict[str, Any]:
         project = parse_project(project_path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, ValueError) as exc:
         raise ValueError(f"bundled project is invalid: {exc}") from exc
+    if expected_project is not None and project != parse_project(serialize_project(expected_project)):
+        raise ValueError("bundle does not match the exact expected project and revision")
     build = build_enclosure(project.spec)
     part_ids = sorted(build.parts)
     if (
@@ -343,6 +349,7 @@ def verify_project_bundle(directory: Path) -> dict[str, Any]:
         "artifact_count": len(records),
         "checks": {
             "manifest_schema": True,
+            "expected_project_matches": True if expected_project is not None else None,
             "source_hashes_and_sizes": True,
             "project_schema_and_metadata": True,
             "preflight_matches_source": True,

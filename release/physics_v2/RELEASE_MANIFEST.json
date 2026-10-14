@@ -1,0 +1,281 @@
+{
+  "arxiv_status": "TECHNICALLY_PREPARED_NOT_SUBMITTED",
+  "author_metadata": "AUTHOR_CONFIRMATION_REQUIRED_AT_SUBMISSION",
+  "claim_boundary": "frozen 216-case synthetic software-contract conformance matrix; not physical validation, safety certification, enterprise generalization, independent reproduction, arXiv submission, or publication",
+  "code_license": "MIT; see LICENSE",
+  "ethics": "synthetic cases; no human or animal participants; no personal data",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "9b6c95b52cbb86dc5bc9be2ec3346607ca836b651d0075da5a8f5f6764ee8309",
+      "size_bytes": 1066
+    },
+    {
+      "path": "README.md",
+      "sha256": "a6136466ca9a3a3e52a67cb0f5cb9d24146b2bcb5155412c899746c34c62ec5e",
+      "size_bytes": 22040
+    },
+    {
+      "path": "core/agentic.py",
+      "sha256": "9a5cac2a14f16f92e41739dec760099830484031794f54830d7f9f491796a455",
+      "size_bytes": 52536
+    },
+    {
+      "path": "core/artifacts.py",
+      "sha256": "8b546dfe828d5297da233bbaf6076bc6fc5e50144a56ea97e15a8b1f1ce85af9",
+      "size_bytes": 20495
+    },
+    {
+      "path": "core/json_io.py",
+      "sha256": "7fde1813dcee043700e81bb5d424f4a1767b586f2f2cb1be2d704f7b09b3685d",
+      "size_bytes": 2893
+    },
+    {
+      "path": "core/physics.py",
+      "sha256": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+      "size_bytes": 27061
+    },
+    {
+      "path": "core/physics_context.py",
+      "sha256": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+      "size_bytes": 22169
+    },
+    {
+      "path": "neurocad_cli.py",
+      "sha256": "d62ef395fa1ae7219d86ff12fbde0e20bd642940441a8330ee6b5be14cc7abfa",
+      "size_bytes": 128750
+    },
+    {
+      "path": "output/arxiv/neurocad-physics-v2-arxiv-source.tar.gz",
+      "sha256": "2b2c34c6c66e98067ca716e35a1c06709c7b036d8ec0014185f96840d8fc7c78",
+      "size_bytes": 7627
+    },
+    {
+      "path": "output/pdf/neurocad-physics-v2-paper.pdf",
+      "sha256": "8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5",
+      "size_bytes": 90962
+    },
+    {
+      "path": "paper/physics_v2/ARXIV_METADATA.md",
+      "sha256": "60a739c62c9cddbdef7932d6071f4eab9fe5ceb0d48352cfb8b5cfdc8aee22b7",
+      "size_bytes": 2424
+    },
+    {
+      "path": "paper/physics_v2/README.md",
+      "sha256": "39b8da9063bab322dcb6e7e3e0ecc5674d031b4a894202a47fbe0bf4f6ec7c2a",
+      "size_bytes": 870
+    },
+    {
+      "path": "paper/physics_v2/generate_results.py",
+      "sha256": "7786c000a0a73172b91f210f6e5f4089cc96fc429eb9002ce2455a06b22df194",
+      "size_bytes": 6845
+    },
+    {
+      "path": "paper/physics_v2/generated_results.tex",
+      "sha256": "f7fe2030c7173bf17705409841fad99aaa0b67747487512fe4d597ad8c806145",
+      "size_bytes": 2622
+    },
+    {
+      "path": "paper/physics_v2/main.tex",
+      "sha256": "0388a01a2ef5027b6f3a8c97898eaffb60f8026579e7e0ccee191e4e64107839",
+      "size_bytes": 16105
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "011d8a7b1aa31fc679dfe7afb77693322b1bb5ea965623ef8906b27bbe1b2d2b",
+      "size_bytes": 2011
+    },
+    {
+      "path": "release/physics_v2/README.md",
+      "sha256": "d55003affa0809284e298011031ae1949aea0778a1375b1af256979996bffc03",
+      "size_bytes": 1555
+    },
+    {
+      "path": "requirements-research.in",
+      "sha256": "9de6359613c6e380c8ed24173fa5e313d0a7c0020a6de3af2a40602bade8a186",
+      "size_bytes": 397
+    },
+    {
+      "path": "requirements-research.lock",
+      "sha256": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792",
+      "size_bytes": 62692
+    },
+    {
+      "path": "research/physics_v2/ADVERSARIAL_REVIEW.md",
+      "sha256": "112f007fdd88525d52b3c3a5b7fc51f2466ed95e4ac7e6e797540b9fe9527f71",
+      "size_bytes": 3587
+    },
+    {
+      "path": "research/physics_v2/CHECKPOINT_AUDIT.md",
+      "sha256": "0ed8a6c67370aaffd7a34413d6aaa8efc134319fc7538d93b70ec64bc7eae4fb",
+      "size_bytes": 3669
+    },
+    {
+      "path": "research/physics_v2/CITATION_AND_EQUATION_AUDIT.md",
+      "sha256": "e35325e16fd889f580a34458b23e68836d3c47eb3876380950b62db8ef541c5b",
+      "size_bytes": 4053
+    },
+    {
+      "path": "research/physics_v2/CLAIM_LEDGER.md",
+      "sha256": "b21ed01fda9069b8e1bf9d160b3e7ab4f87f8d82eb08b7818b50dee59c2e78ca",
+      "size_bytes": 1646
+    },
+    {
+      "path": "research/physics_v2/CLEAN_CHECKOUT_VERIFICATION.json",
+      "sha256": "0606d0bb16be606b04878cc6f518f2bde39a21f5edbdbaa19a8f5646afadeeb1",
+      "size_bytes": 1942
+    },
+    {
+      "path": "research/physics_v2/CONFIRMATORY_EXECUTION.json",
+      "sha256": "f0ab53f078745f2138c1b76048bc00cc14dc09a8075a5656e0ebfe2573790230",
+      "size_bytes": 520
+    },
+    {
+      "path": "research/physics_v2/EVIDENCE_MATRIX.md",
+      "sha256": "1d34ec2ef41b672047c991ea842fc839e8e22b99abf44305b1d985183e8ee44a",
+      "size_bytes": 3801
+    },
+    {
+      "path": "research/physics_v2/EXTERNAL_REPRODUCTION.md",
+      "sha256": "f5556bb02816509c8f40b8243da333a1b97c64f64e7767affc3bbeb9d5dd9d22",
+      "size_bytes": 3441
+    },
+    {
+      "path": "research/physics_v2/LITERATURE_REVIEW.md",
+      "sha256": "a0568b95f634aa26f5122c6aaf75cd4ab2feb6b70610f164f51e3102f77d1abe",
+      "size_bytes": 3767
+    },
+    {
+      "path": "research/physics_v2/MODEL_SPEC.md",
+      "sha256": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e",
+      "size_bytes": 4534
+    },
+    {
+      "path": "research/physics_v2/PROTOCOL.md",
+      "sha256": "83d9cbe6a5211349ecb91a4b8390e70003ff02cd257980c3dd3b907dacdcc31d",
+      "size_bytes": 5848
+    },
+    {
+      "path": "research/physics_v2/RESEARCH_STATE.json",
+      "sha256": "53d60eb0185f396d0cf0980df7b2d2c4b84f83853ff32709bca8c39d48585ac0",
+      "size_bytes": 15136
+    },
+    {
+      "path": "research/physics_v2/RESEARCH_STATE.md",
+      "sha256": "499484ce4f8f0da63e5ef11ad0ae40f3877b9d4ab474996b9540553cfcb82064",
+      "size_bytes": 5045
+    },
+    {
+      "path": "research/physics_v2/RESULTS.md",
+      "sha256": "15fb6ff00dc5d967a9efb1ce9ee59265fb4a2913ed5c7b6bc69cb656c52c2bb6",
+      "size_bytes": 3634
+    },
+    {
+      "path": "research/physics_v2/audit_results.py",
+      "sha256": "4bdf7554b2e8675430f839dddc5c9314b90986936f27d8aad733e11536832d27",
+      "size_bytes": 7077
+    },
+    {
+      "path": "research/physics_v2/build_release.py",
+      "sha256": "eee52be98eb76c693123d34725901a6e3b205a105950ba61d4a175ae70cf67b0",
+      "size_bytes": 7096
+    },
+    {
+      "path": "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl",
+      "sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+      "size_bytes": 233441
+    },
+    {
+      "path": "research/physics_v2/frozen/README.md",
+      "sha256": "da74437cbb659b349f85bfe3c78a698fa059446b8a9e54d08741e95345b2743f",
+      "size_bytes": 235
+    },
+    {
+      "path": "research/physics_v2/frozen/freeze.json",
+      "sha256": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+      "size_bytes": 1672
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/audit.json",
+      "sha256": "054117e0dfadbaec5423fc4e5aa672b1bdf52b285e84c515dada8f905440eb5b",
+      "size_bytes": 948
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json",
+      "sha256": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+      "size_bytes": 1884
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json",
+      "sha256": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+      "size_bytes": 3603
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl",
+      "sha256": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+      "size_bytes": 125251
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-001/FAILURE.json",
+      "sha256": "1879285f259a75116351c12a0e49cdf3ad087b7691b20f20ee51955e2467f5c7",
+      "size_bytes": 486
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-001/work/development-000.project.json",
+      "sha256": "2902c37ce263142138af61d933de49f5e01c7f1ebe9985cb8c0c958b9d443a15",
+      "size_bytes": 790
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/manifest.json",
+      "sha256": "8bbb18d3cdefdcd3fe9af56d2bc8637bb2e6de8d7d2850e58450f4080a76a74d",
+      "size_bytes": 2452
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/metrics.json",
+      "sha256": "52cc3eb1599fb6612be3980c053c7aa69aa3b97fa5724f885b6d2ea86daee5ce",
+      "size_bytes": 3053
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/raw_results.jsonl",
+      "sha256": "a3b1d06a2d25ad2d98a8d76d5a8067b2360f2f2effd5c1074ed791e2b92d9d11",
+      "size_bytes": 6661
+    },
+    {
+      "path": "research/physics_v2/study.py",
+      "sha256": "6f84ee5684370e3ed0c4c474449df42878510fa1e02c88c778286729838b8097",
+      "size_bytes": 36487
+    },
+    {
+      "path": "tests/test_agentic.py",
+      "sha256": "ae7de8fb2112fd5bb9c625e1161145c159dbe0e15bcbe2a9a47fe6499385d251",
+      "size_bytes": 13372
+    },
+    {
+      "path": "tests/test_cli_verification.py",
+      "sha256": "3e3dfd955cbd414ecc4c6ac86a0b8ba6288085a024bd28267f965fe1f277c303",
+      "size_bytes": 5107
+    },
+    {
+      "path": "tests/test_feature_cli.py",
+      "sha256": "59308ecb9d7812fab913a2dc05ab35c6402f0ad23aea5a31671263fc6b8041a3",
+      "size_bytes": 1457
+    },
+    {
+      "path": "tests/test_physics.py",
+      "sha256": "424f013123820f0a634afb4679bb36ad990e2ac79917bc9f44cee97fb3f7fae7",
+      "size_bytes": 22083
+    },
+    {
+      "path": "tests/test_physics_research.py",
+      "sha256": "4ae716492e228bdb577e23e0b7b4822ca970062886a47694b26ab49a0de7927a",
+      "size_bytes": 4076
+    }
+  ],
+  "paper_distribution_license": "AUTHOR_SELECTION_REQUIRED_AT_SUBMISSION",
+  "protected_execution": "EXECUTED_ONCE_NO_RERUN",
+  "release_version": "NC-PHYSICS-V2-PROVENANCE-v1.0.0",
+  "schema_version": "nc-physics-v2-release-manifest-v1",
+  "scientific_disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+  "source_commit": "9d3733ca15816f23c63f5382dedef548d0034ea7",
+  "verification": "INTERNAL_CLEAN_CHECKOUT_PASS_EXTERNAL_INDEPENDENT_NOT_YET"
+}

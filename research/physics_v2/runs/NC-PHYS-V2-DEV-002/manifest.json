@@ -1,0 +1,31 @@
+{
+  "case_count": 12,
+  "cases_sha256": "4a193307352341a42b2b8dcca345c09c78cee3ce8ca2976b1d7c635cf17d04e9",
+  "claim_boundary": "fixed synthetic conformance matrix; not physical validation, safety certification, enterprise CAD/CAE generalization, or algorithmic novelty",
+  "git_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "git_status": "M README.md\n M core/__init__.py\n M core/agentic.py\n M core/physics.py\n M docs/PHYSICS.md\n M neurocad_cli.py\n M tests/test_agentic.py\n M tests/test_physics.py\n?? TERMINAL_STATUS_2026-10-11.md\n?? core/physics_context.py\n?? docs/examples/agent-shaft-project.json\n?? docs/examples/physics-bound-shaft.json\n?? docs/examples/physics-brayton-cycle.json\n?? docs/examples/physics-buoyancy.json\n?? docs/examples/physics-convection.json\n?? docs/examples/physics-lumped-cooling.json\n?? docs/examples/physics-radiation.json\n?? docs/examples/physics-shaft-torsion.json\n?? docs/examples/physics-vibration.json\n?? research/physics_v2/\n?? tests/test_physics_research.py",
+  "maximum_rss_native_units": 50626560,
+  "metrics_sha256": "52cc3eb1599fb6612be3980c053c7aa69aa3b97fa5724f885b6d2ea86daee5ce",
+  "phase": "development",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.0 (main, Nov 19 2025, 23:04:28) [Clang 21.1.4 ]",
+  "raw_results_sha256": "a3b1d06a2d25ad2d98a8d76d5a8067b2360f2f2effd5c1074ed791e2b92d9d11",
+  "resource_receipt": {
+    "admitted": false,
+    "disk_floor_mib": 2048.0,
+    "disk_free_mib": 266238.09765625,
+    "free_plus_speculative_mib": 104.453125,
+    "memory_floor_mib": 512.0
+  },
+  "schema_version": "nc-physics-v2-study-v1",
+  "source_hashes": {
+    "core/agentic.py": "9a5cac2a14f16f92e41739dec760099830484031794f54830d7f9f491796a455",
+    "core/physics.py": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+    "core/physics_context.py": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+    "neurocad_cli.py": "d62ef395fa1ae7219d86ff12fbde0e20bd642940441a8330ee6b5be14cc7abfa",
+    "requirements-research.lock": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792",
+    "research/physics_v2/MODEL_SPEC.md": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e",
+    "research/physics_v2/PROTOCOL.md": "0b59c42a220f2fbf52628cb071819ab01681bb16ba856f0681a53ae3ac33e23f",
+    "research/physics_v2/study.py": "d9a3cc64ca1677e0cba846db3ab23fd2efea2dea1420027be6978f67296d2e07"
+  }
+}

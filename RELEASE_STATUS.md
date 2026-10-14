@@ -1,24 +1,35 @@
 # NeuroCAD Release Status
 
-Target: `v0.5.0a6` public alpha.
+## Current version routing — 2026-10-13
 
-Current state: **public main candidate, not a tagged release** (checked 2026-09-09).
-PR #49 merged as `cc8c534412701439da0d346b5445b37dc8f74122` after all twelve checks
-passed on implementation head `8fed84a362d673cd302e97fa2c711115c54066d4`.
-The [GitHub handoff](docs/GITHUB_HANDOFF_20260909.md) records exact CI, anonymous
-installation and end-to-end acceptance. The [final checklist](docs/FINAL_9_OF_10_CHECKLIST.md)
-retains earlier local verification and its limitations. Future changes still
-require fresh CI; older successful checks do not cover a new commit.
-Earlier GitHub jobs did not start because of an owner billing/spending restriction.
-Fresh public-repository jobs now run. The first integration run found a Windows
-test-harness encoding error; the correction uses explicit UTF-8 and is protected
-by a maintained-source encoding regression. Required checks are not waived.
-See [quick start](docs/QUICKSTART.md)
-for local installation. The application remains an explicitly bounded alpha.
-No `v0.5.0a6` tag, published release provenance receipt, or anonymous tagged-release
-installation receipt exists. Anonymous source download, clean installation, rounded-enclosure STL
-compilation and independent bundle verification passed for the merged implementation.
-Immutable release bootstrap still awaits a verified tag and release.
+See [CURRENT_STATUS.md](CURRENT_STATUS.md) for the current version index.
+The original compiler study remains terminal mixed. Physics v2 has a separate
+controlled 216-case result and local tagged research package; Physics v3 has
+engineering receipts only. Neither upgrades the predecessor or establishes
+independent or physical validation. The historical assessment below retains its
+dated scope and must not be read as an inventory of all later implementations.
+
+Target: `v0.5.0a6` public alpha. Execution date: 2026-10-14.
+
+**Status: release candidate undergoing full hosted verification.**
+[PR #103](https://github.com/THE-BU1LD/NeuroCAD/pull/103) carries the candidate.
+A release is ready only when its exact source commit passes the required matrix,
+the tag workflow publishes checksum-bound artifacts as a prerelease, and the
+anonymous installation job passes. Check the
+[release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6) and
+[release workflow](https://github.com/THE-BU1LD/NeuroCAD/actions/workflows/release.yml)
+for publication receipts; this source document is not a publication receipt.
+
+Enclosure-only CI passed on `6151d93` (run `38426643691`). The first full matrix
+(run `38494422164`) found a test lint defect and an unsupported Windows import of
+the POSIX research harness; all three browsers and build123d passed. These failures
+are retained under `docs/verification/alpha-20261014/`. Replacement CI is required.
+Repository-only frozen study tests need Unix resource accounting and Git/study
+sources; they do not ship in the sdist. Product physics tests remain portable.
+
+See [quick start](docs/QUICKSTART.md) for source installation and the public
+release procedure. Historical September verification is retained in
+[the handoff](docs/GITHUB_HANDOFF_20260909.md), scoped to its original commit.
 
 ## Implemented release surface
 
@@ -58,9 +69,12 @@ Immutable release bootstrap still awaits a verified tag and release.
    `RELEASE_PROVENANCE.json`, retain the workflow URL, and confirm the GitHub
    release is marked **prerelease**. Do not copy local candidate hashes into a
    published release receipt.
-5. From a clean credential-free environment, fetch the public installer and
-   release, verify checksums, install, run doctor, and generate/compile/verify
-   an enclosure. Announce the alpha only after this anonymous-install gate passes.
+5. The post-publication anonymous job fetches the public installer, verifies
+   tag/source identity and published artifact checksums, installs the wheel, runs
+   doctor and edited compiled-enclosure acceptance, then tests the default
+   tagged-source installer path. Both use fresh environments without download
+   credentials. Announce only after this job passes. Persistent OS service setup
+   and physical fit are outside this installation receipt.
 
 ## Explicit non-goals
 

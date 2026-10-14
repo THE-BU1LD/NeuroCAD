@@ -1,0 +1,376 @@
+{
+  "schema_version": "neurocad-research-state-v1",
+  "project_id": "NC-PHYSICS-V2-PROVENANCE",
+  "title": "Contract-Carrying Analytical Physics Receipts for CAD",
+  "predecessor": {
+    "project_id": "NEUROCAD-CONTROLLED-COMPILER",
+    "disposition": "MIXED_TERMINAL",
+    "relationship": "versioned successor; predecessor evidence and claims remain unchanged"
+  },
+  "research_question": "For bounded analytical-physics requests over NeuroCAD agent primitives, do geometry-, material-, and load-bound receipts detect predeclared stale or contradictory analyses that an unbound request file cannot detect, while retaining deterministic valid-case behavior?",
+  "scientific_objective": "Evaluate a narrow executable provenance and invalidation contract for analytical CAD screening, not the physical validity of FEA, CFD, fabrication, or safety claims.",
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "Valid bound requests are accepted deterministically with exact input, geometry, material, load, and request hashes.",
+      "falsifier": "Any predeclared valid case is rejected or produces nondeterministic scientific fields."
+    },
+    {
+      "id": "H2",
+      "statement": "The full binding rejects every predeclared geometry/input, material/input, load/input, and expected-hash contradiction; hash-only and unbound controls do not detect semantic contradictions they do not evaluate.",
+      "falsifier": "The full binding accepts any in-scope contradiction or a control is credited with a detection it does not actually perform."
+    },
+    {
+      "id": "H3",
+      "statement": "Full and hash-only receipts detect every predeclared post-result geometry mutation, whereas unbound requests expose no machine-verifiable geometry freshness check.",
+      "falsifier": "A bound receipt remains current after an in-scope geometry mutation."
+    },
+    {
+      "id": "H4",
+      "statement": "Non-geometric label changes and revision-only changes do not invalidate a geometry receipt.",
+      "falsifier": "A predeclared non-geometric mutation changes the canonical geometry hash."
+    }
+  ],
+  "intended_contribution": "An open, strict, machine-readable reference implementation and controlled conformance study for hash-bound analytical-physics receipts. No algorithmic-novelty, physical-validation, safety, or general CAD/CAE claim is intended.",
+  "scope": {
+    "included": [
+      "NeuroCAD agent-project primitive bindings",
+      "canonical geometry hashes",
+      "versioned material cards",
+      "named load cases",
+      "exact model-input contradiction checks where mappings are unambiguous",
+      "post-result geometry freshness verification",
+      "controlled synthetic conformance evaluation",
+      "determinism and bounded overhead diagnostics"
+    ],
+    "excluded": [
+      "finite-element analysis",
+      "computational fluid dynamics",
+      "full CSG mass or surface evaluation",
+      "material database authority",
+      "temperature interpolation",
+      "physical experiments",
+      "manufacturing or safety certification",
+      "general natural-language or CAD intelligence",
+      "comparison with commercial PLM or CAE systems"
+    ]
+  },
+  "phase": "RELEASE_COMPLETE_WITHIN_CONTROLLED_CONTRACT_EXTERNAL_VALIDATION_OPEN",
+  "checkpoints": {
+    "idea_ready": "PASS_BOUNDED",
+    "model_specification_ready": "PASS",
+    "methodology_ready": "PASS",
+    "model_implemented": "PASS_ENGINEERING",
+    "experiment_system_implemented": "PASS_ENGINEERING",
+    "run_ready": "EXECUTED_ONCE",
+    "confirmatory_protocol_frozen": "PASS",
+    "evidence_locked": "PASS",
+    "verified": "PASS_INTERNAL_CLEAN_CHECKOUT_EXTERNAL_INDEPENDENT_NOT_YET",
+    "research_complete": "TERMINAL_SUPPORTED_WITHIN_CONTROLLED_CONTRACT_RELEASE_PACKAGED_EXTERNAL_VALIDATION_OPEN"
+  },
+  "budgets": {
+    "development_rounds": 2,
+    "development_revisions_used": 2,
+    "confirmatory_runs": 1,
+    "cpu_processes": 1,
+    "memory_ceiling_mib": 512,
+    "resource_admission_floor_free_plus_speculative_mib": 512,
+    "wall_time_minutes": 15
+  },
+  "engineering_verification": {
+    "pytest": "1203 passed, 9 skipped in 191.07 seconds",
+    "ruff": "PASS",
+    "mypy": "PASS, 100 source files",
+    "paper_compile": "PASS",
+    "paper_visual_inspection": "PASS, 6 pages inspected after release edits",
+    "clean_checkout_tests": "1203 passed, 9 skipped in 186.93 seconds",
+    "clean_checkout_analysis_regeneration": "PASS, generated results and post-outcome audit byte-identical; no case execution",
+    "clean_checkout_paper_regeneration": "PASS, repository and two-file arXiv sources compile to text identical to committed PDF",
+    "clean_checkout_ruff": "PASS for core, CLI, tests, Physics v2 study, and paper generator; legacy directory is outside this release gate",
+    "clean_checkout_mypy": "PASS, 71 in-scope source files",
+    "release_package_integrity": "PASS, 53 manifest entries rehashed after archive extraction",
+    "boundary": "engineering and artifact checks only; not scientific independence or physical validation"
+  },
+  "protected_evaluation": {
+    "status": "EXECUTED_ONCE",
+    "outcomes_observed": true,
+    "seed": 20261011,
+    "case_count": 216,
+    "cases_file_sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "cases_semantic_sha256": "2e6bb79b5a649b191fb7b9a0635b9e0ae4053aae8d23b72af104fc5937ac0696",
+    "freeze_source_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
+    "execution_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+    "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "execution_errors": 0,
+    "raw_results_sha256": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "metrics_sha256": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "manifest_sha256": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+    "policy": "Freeze source revision, generator, case manifest hash, endpoints, thresholds, exclusions, and analysis before the single confirmatory execution. Development cases may not be copied into confirmatory evidence."
+  },
+  "repositories": [
+    {
+      "path": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD",
+      "branch": "codex/physics-v2-provenance-study",
+      "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+      "implementation_commit": "faeede8",
+      "freeze_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
+      "result_artifact_commit": "64ec85fa0b98f170ee4b6b205111ed27ae0bbd36",
+      "release_candidate_commit": "0896fba43336c03af8bd5ff7008506691832d7f5",
+      "release_source_commit": "9d3733ca15816f23c63f5382dedef548d0034ea7",
+      "release_tag": "physics-v2-v1.0.0",
+      "git_state": "CLEAN_RESULT_LOCKED"
+    }
+  ],
+  "datasets": [
+    {
+      "id": "NC-PHYS-V2-DEV",
+      "status": "EXECUTED_TWO_ROUNDS",
+      "purpose": "development and dry-run cases",
+      "results": [
+        "NC-PHYS-V2-DEV-001:NO_RESULT_HARNESS_ERROR",
+        "NC-PHYS-V2-DEV-002:SUPPORTED_WITHIN_CONTROLLED_CONTRACT"
+      ]
+    },
+    {
+      "id": "NC-PHYS-V2-CONFIRM",
+      "status": "EXECUTED_ONCE",
+      "purpose": "single frozen controlled confirmatory conformance matrix",
+      "result": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-001/FAILURE.json",
+      "status": "RETAINED_NEGATIVE_ENGINEERING_EVIDENCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/manifest.json",
+      "status": "DEVELOPMENT_ONLY"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-DEV-002/metrics.json",
+      "status": "DEVELOPMENT_ONLY"
+    },
+    {
+      "path": "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl",
+      "status": "FROZEN_PREOUTCOME"
+    },
+    {
+      "path": "research/physics_v2/frozen/freeze.json",
+      "status": "FROZEN_PREOUTCOME"
+    },
+    {
+      "path": "research/physics_v2/CONFIRMATORY_EXECUTION.json",
+      "status": "EXECUTED_ONCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json",
+      "status": "LOCKED_CONFIRMATORY_EVIDENCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json",
+      "status": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl",
+      "status": "LOCKED_CONFIRMATORY_EVIDENCE"
+    },
+    {
+      "path": "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/audit.json",
+      "status": "INTERNAL_POST_OUTCOME_AUDIT_PASS"
+    },
+    {
+      "path": "paper/physics_v2/generated_results.tex",
+      "status": "GENERATED_FROM_LOCKED_METRICS"
+    },
+    {
+      "path": "output/pdf/neurocad-physics-v2-paper.pdf",
+      "status": "COMPILED_AND_VISUALLY_INSPECTED",
+      "sha256": "8443a359789854d4aec8da99844d995044ccbd246cf0028e3f400cc716cba733"
+    },
+    {
+      "path": "output/arxiv/neurocad-physics-v2-arxiv-source.tar.gz",
+      "status": "ARXIV_SOURCE_BUNDLE",
+      "sha256": "b9ec3c45f7280a38cb58a77283f92e65159b300b6adf0c439a1fb4575f8afa60"
+    },
+    {
+      "path": "research/physics_v2/EXTERNAL_REPRODUCTION.md",
+      "status": "READY_NOT_EXECUTED_BY_INDEPENDENT_PARTY"
+    },
+    {
+      "path": "research/physics_v2/CLEAN_CHECKOUT_VERIFICATION.json",
+      "status": "PASS_INTERNAL_CLEAN_CHECKOUT_EXTERNAL_INDEPENDENT_NOT_YET"
+    },
+    {
+      "path": "research/physics_v2/EVIDENCE_MATRIX.md",
+      "status": "CLAIM_TO_ARTIFACT_AUDIT_PASS"
+    },
+    {
+      "path": "research/physics_v2/CITATION_AND_EQUATION_AUDIT.md",
+      "status": "PASS_WITH_DECLARED_SCOPE"
+    },
+    {
+      "path": "research/physics_v2/CHECKPOINT_AUDIT.md",
+      "status": "CHECKPOINTS_1_TO_10_RECONCILED"
+    },
+    {
+      "path": "output/pdf/neurocad-physics-v2-paper.pdf",
+      "status": "FINAL_RELEASE_PDF_SIX_PAGES_VISUALLY_INSPECTED",
+      "sha256": "8747cdb42ad497a0a24217bac9af7762461e8f9bb9c4070d15b27fe99cc5cfb5"
+    },
+    {
+      "path": "output/arxiv/neurocad-physics-v2-arxiv-source.tar.gz",
+      "status": "MINIMAL_TWO_FILE_SOURCE_COMPILED_NOT_SUBMITTED",
+      "sha256": "2b2c34c6c66e98067ca716e35a1c06709c7b036d8ec0014185f96840d8fc7c78"
+    },
+    {
+      "path": "release/physics_v2/RELEASE_MANIFEST.json",
+      "status": "HASH_MANIFEST_53_FILES",
+      "sha256": "f74f2cdc560447c012b00f11b608b55be30b834e5faecdb41706409ba2d1b3fb"
+    },
+    {
+      "path": "output/release/neurocad-physics-v2-research-release.tar.gz",
+      "status": "COMPLETE_LOCAL_RESEARCH_RELEASE",
+      "sha256": "386079a3cec9b5f417a8ec7ae88858540be3eacdc4f7dc5fbf3f534aff452372"
+    },
+    {
+      "path": "output/release/RELEASE_RECEIPT.json",
+      "status": "LOCAL_PACKAGING_RECEIPT_NOT_EXTERNAL_SUBMISSION_RECEIPT"
+    }
+  ],
+  "claims": [
+    {
+      "id": "P2-C1",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "48/48 valid full-binding acceptances and 48/48 deterministic repeats"
+    },
+    {
+      "id": "P2-C2",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "96/96 full-binding detections across four contradiction families"
+    },
+    {
+      "id": "P2-C3",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "48/48 full and 48/48 hash-only post-mutation detections; unbound exposes no freshness mechanism"
+    },
+    {
+      "id": "P2-C4",
+      "status": "SUPPORTED_WITHIN_FROZEN_MATRIX",
+      "evidence": "24/24 full and 24/24 hash-only non-geometric changes remained current"
+    },
+    {
+      "id": "P2-C5",
+      "status": "DESCRIPTIVE_ONE_HOST_ONLY",
+      "evidence": "conditional successful-evaluation timing and receipt-size diagnostics"
+    },
+    {
+      "id": "P2-C6",
+      "status": "REJECTED",
+      "evidence": "substantial provenance, digital-thread, and associativity prior art"
+    },
+    {
+      "id": "P2-C7",
+      "status": "NOT_SUPPORTED_PROHIBITED",
+      "evidence": "no physical, solver, safety, or certification study"
+    },
+    {
+      "id": "P2-C8",
+      "status": "NOT_SUPPORTED_PROHIBITED",
+      "evidence": "no enterprise CAD/CAE or PLM evaluation"
+    }
+  ],
+  "decisions": [
+    {
+      "date": "2026-10-11",
+      "decision": "Treat Physics v2 as a successor study rather than reopening the terminal controlled-compiler study.",
+      "reason": "The new mechanism and research question are materially different."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Reject algorithmic novelty and physical-validation claims.",
+      "reason": "Digital-thread traceability, model associativity, and simulation provenance have substantial prior art; the contribution is an executable bounded reference contract."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Exhaust the two-revision development budget before protocol freeze.",
+      "reason": "Revision 1 repaired the retained path-resolution failure; revision 2 completed control-arm scoring and protected-run fail-closed gates. Further version-1 changes are prohibited."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Verify the release from a fresh local clone without rerunning protected cases.",
+      "reason": "Locked raw artifacts can regenerate the analysis and paper, while the single-attempt confirmatory ledger must remain closed. This internal pass is not labeled independent reproduction."
+    },
+    {
+      "date": "2026-10-11",
+      "decision": "Close version 1 as a locally packaged release while leaving external validation and arXiv submission open.",
+      "reason": "The controlled question has a terminal supported result and complete internal artifact chain, but independence, author metadata, license choice, category selection, endorsement, and submission require external action."
+    }
+  ],
+  "failures": [
+    {
+      "date": "2026-10-11",
+      "kind": "RESOURCE_ADMISSION",
+      "detail": "Free plus speculative memory was approximately 104 MiB, below the 512 MiB floor; no protected or expensive scientific run is authorized in this state."
+    },
+    {
+      "date": "2026-10-11",
+      "kind": "DEVELOPMENT_HARNESS",
+      "detail": "NC-PHYS-V2-DEV-001 terminated before endpoint evaluation because a relative project path was resolved twice; classified NO_RESULT and retained."
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-10-11",
+      "event": "Initialized canonical successor state after reading the predecessor truth, terminal disposition, and frozen external-evaluation protocol."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "NC-PHYS-V2-DEV-001 retained as NO_RESULT after a harness path-resolution failure."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "NC-PHYS-V2-DEV-002 completed 12 cases without execution errors; result remains development-only."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Final version-1 development revision closed control-arm endpoints and fail-before-execute protected gates; development budget exhausted."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Locked the version-1 implementation, protocol, development evidence, and pre-results manuscript at Git commit faeede8."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Materialized and committed the 216-case protected manifest without executing outcomes."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Froze protocol version 1 at source commit 2627c106ede6c2ac4e3570700f2bd545a763943c with 868.71875 MiB free plus speculative memory and outcomes_observed=false."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Executed the protected version-1 matrix once at Git commit 786ba9ba5c2249a710529c3b07bf82d4e29c7f36 after a passing 1004.328125 MiB resource receipt; disposition SUPPORTED_WITHIN_CONTROLLED_CONTRACT."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Completed an internal post-outcome artifact audit without re-executing cases; all locked hashes, family counts, raw arm outcomes, and 13 endpoints passed."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Generated the Results section only from ledger-authenticated metrics and compiled and visually inspected the five-page paper PDF."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Completed repository-wide engineering verification: 1203 tests passed, 9 skipped; Ruff passed; mypy passed across 100 source files."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Committed the locked confirmatory evidence, internal audit, generated Results source, inspected PDF, and arXiv bundle at 64ec85fa0b98f170ee4b6b205111ed27ae0bbd36."
+    },
+    {
+      "date": "2026-10-11",
+      "event": "Prepared an exact external reproduction handoff; independent execution and adjudication remain open and are not claimed."
+    }
+  ]
+}

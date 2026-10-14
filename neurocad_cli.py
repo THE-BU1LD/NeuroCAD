@@ -1356,22 +1356,83 @@ def cmd_math_beam(args: argparse.Namespace) -> int:
 
 
 def cmd_physics(args: argparse.Namespace) -> int:
-    from collections.abc import Callable
     from dataclasses import MISSING, fields
 
     from core.json_io import strict_json_loads
-    from core.physics import (
-        EulerBucklingInput,
-        InternalPipeFlowInput,
-        SteadyConductionInput,
-        ThermalExpansionInput,
-        ThinWallCylinderInput,
-        euler_buckling,
-        internal_pipe_flow,
-        steady_conduction,
-        thermal_expansion,
-        thin_wall_cylinder,
-    )
+    from core.physics_context import canonical_sha256, verify_physics_report
+    from core.physics_overlay import build_component_overlay
+    from core.physics_registry import ADVANCED_MODEL_NAMES, physics_descriptions, physics_models
+    from core.physics_uncertainty import propagate_uncertainty
+    from core.physics_v3_context import PHYSICS_CONTEXT_V2_VERSION, resolve_physics_context_v3
+
+    models = physics_models()
+    descriptions = physics_descriptions()
+    if args.verify is not None:
+        if args.input is not None or args.list:
+            raise ValueError("--verify cannot be combined with an input request or --list")
+        source = _resolved_path(args.verify)
+        output = _resolved_path(args.output) if args.output else None
+        _require_distinct_paths(report=source, output=output)
+        _require_new_paths(force=args.force, output=output)
+        with source.open("rb") as handle:
+            payload = handle.read(MAX_IR_INPUT_BYTES + 1)
+        if len(payload) > MAX_IR_INPUT_BYTES:
+            raise ValueError("physics report exceeds 1 MiB")
+        verification = verify_physics_report(strict_json_loads(payload.decode("utf-8")))
+        text = json.dumps(verification, indent=2, sort_keys=True, allow_nan=False) + "\n"
+        if output:
+            write_text_atomic(output, text)
+        print(text, end="")
+        return 0 if verification["current"] else 2
+    if args.list:
+        if args.input is not None:
+            raise ValueError("--list cannot be combined with an input request")
+        output = _resolved_path(args.output) if args.output else None
+        _require_new_paths(force=args.force, output=output)
+        catalog_models = []
+        for name, (input_type, _) in sorted(models.items()):
+            parameters = []
+            for field in fields(input_type):
+                field_required = field.default is MISSING and field.default_factory is MISSING
+                parameter: dict[str, Any] = {"name": field.name, "required": field_required}
+                if not field_required:
+                    parameter["default"] = (
+                        field.default if field.default is not MISSING else field.default_factory()  # type: ignore[misc]
+                    )
+                parameters.append(parameter)
+            catalog_models.append(
+                {
+                    "name": name,
+                    "description": descriptions[name],
+                    "parameters": parameters,
+                }
+            )
+        text = (
+            json.dumps(
+                {
+                    "schema_version": "neurocad-physics-catalog-v2",
+                    "models": catalog_models,
+                    "capabilities": {
+                        "context_versions": ["neurocad-physics-context-v1", PHYSICS_CONTEXT_V2_VERSION],
+                        "uncertainty_methods": ["interval", "local_sensitivity", "monte_carlo"],
+                        "component_overlay": "uniform bound-component annotation; never a spatial field",
+                    },
+                    "claim_boundary": (
+                        "bounded analytical estimates and small networks; not FEA, CFD, certification, or physical validation"
+                    ),
+                },
+                indent=2,
+                sort_keys=True,
+                allow_nan=False,
+            )
+            + "\n"
+        )
+        if output:
+            write_text_atomic(output, text)
+        print(text, end="")
+        return 0
+    if args.input is None:
+        raise ValueError("physics requires an input request or --list")
 
     source = _resolved_path(args.input)
     output = _resolved_path(args.output) if args.output else None
@@ -1382,17 +1443,15 @@ def cmd_physics(args: argparse.Namespace) -> int:
     if len(payload) > MAX_IR_INPUT_BYTES:
         raise ValueError("physics input exceeds 1 MiB")
     request = strict_json_loads(payload.decode("utf-8"))
-    if not isinstance(request, dict) or set(request) != {"model", "inputs"}:
-        raise ValueError("physics input requires exactly model and inputs")
+    if not isinstance(request, dict) or not {"model", "inputs"} <= set(request) or not set(request) <= {
+        "model",
+        "inputs",
+        "context",
+        "uncertainty",
+    }:
+        raise ValueError("physics input requires model and inputs, with optional context and uncertainty")
     if not isinstance(request["model"], str) or not isinstance(request["inputs"], dict):
         raise TypeError("physics model must be a string and inputs must be an object")
-    models: dict[str, tuple[type[Any], Callable[[Any], dict[str, Any]]]] = {
-        "euler_buckling": (EulerBucklingInput, euler_buckling),
-        "thermal_expansion": (ThermalExpansionInput, thermal_expansion),
-        "steady_conduction": (SteadyConductionInput, steady_conduction),
-        "internal_pipe_flow": (InternalPipeFlowInput, internal_pipe_flow),
-        "thin_wall_cylinder": (ThinWallCylinderInput, thin_wall_cylinder),
-    }
     if request["model"] not in models:
         raise ValueError("unsupported physics model; use " + ", ".join(sorted(models)))
     input_type, evaluate = models[request["model"]]
@@ -1402,15 +1461,100 @@ def cmd_physics(args: argparse.Namespace) -> int:
     if not required <= supplied or supplied - allowed:
         raise ValueError(f"{request['model']} inputs require {sorted(required)} and allow {sorted(allowed - required)}")
     result = evaluate(input_type(**request["inputs"]))
+    context_version = request.get("context", {}).get("schema_version") if isinstance(request.get("context"), dict) else None
+    schema_version = (
+        "neurocad-physics-v3"
+        if request["model"] in ADVANCED_MODEL_NAMES or "uncertainty" in request or context_version == PHYSICS_CONTEXT_V2_VERSION
+        else ("neurocad-physics-v2" if "context" in request else "neurocad-physics-v1")
+    )
     report = {
-        "schema_version": "neurocad-physics-v1",
+        "schema_version": schema_version,
         "requested_model": request["model"],
+        "inputs": request["inputs"],
+        "input_sha256": canonical_sha256(request["inputs"]),
+        "request_sha256": canonical_sha256(request),
         **result,
     }
+    if "context" in request:
+        report["bindings"] = resolve_physics_context_v3(
+            request["context"], model=request["model"], inputs=request["inputs"], base_dir=source.parent
+        )
+    if "uncertainty" in request:
+        report["uncertainty"] = propagate_uncertainty(input_type, evaluate, request["inputs"], request["uncertainty"])
+    overlay = build_component_overlay(report)
+    if overlay is not None:
+        report["overlay"] = overlay
     text = json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if output:
         write_text_atomic(output, text)
     print(text, end="")
+    return 0
+
+
+def cmd_complex_shape(args: argparse.Namespace) -> int:
+    import hashlib
+
+    from core.complex_shapes import build_complex_shape, complex_shape_catalog
+    from core.ir_export import program_to_scad
+    from core.ir_parser import serialize_ir_json
+    from core.json_io import strict_json_loads
+    from core.physics_context import canonical_sha256
+
+    if args.list:
+        if args.input is not None or args.output_dir is not None:
+            raise ValueError("--list cannot be combined with an input or --output-dir")
+        print(json.dumps(complex_shape_catalog(), indent=2, sort_keys=True, allow_nan=False))
+        return 0
+    if args.input is None or args.output_dir is None:
+        raise ValueError("complex-shape requires an input request and --output-dir")
+    source = _resolved_path(args.input)
+    destination = _resolved_path(args.output_dir)
+    _require_new_path(destination, label="complex-shape output directory")
+    with source.open("rb") as handle:
+        payload = handle.read(MAX_IR_INPUT_BYTES + 1)
+    if len(payload) > MAX_IR_INPUT_BYTES:
+        raise ValueError("complex-shape request exceeds 1 MiB")
+    raw_request = strict_json_loads(payload.decode("utf-8"))
+    bundle = build_complex_shape(raw_request)
+    request_text = json.dumps(bundle.request, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    ir_text = serialize_ir_json(bundle.program)
+    scad_text = program_to_scad(bundle.program, fn=args.fn)
+    analysis_text = json.dumps(bundle.analysis, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    artifacts = {
+        "request.json": request_text,
+        "shape.ncad.json": ir_text,
+        "shape.scad": scad_text,
+        "analysis.json": analysis_text,
+    }
+    manifest = {
+        "schema_version": "neurocad-complex-shape-bundle-v1",
+        "shape": bundle.analysis["shape"],
+        "request_sha256": bundle.analysis["request_sha256"],
+        "program_sha256": bundle.analysis["program_sha256"],
+        "analysis_sha256": bundle.analysis["analysis_sha256"],
+        "artifacts": {
+            name: {"sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(), "bytes": len(text.encode("utf-8"))}
+            for name, text in artifacts.items()
+        },
+        "claim_boundary": bundle.analysis["claim_boundary"],
+    }
+    manifest["manifest_sha256"] = canonical_sha256(manifest)
+    artifacts["manifest.json"] = json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    staging = Path(tempfile.mkdtemp(prefix=f".{destination.name}.", dir=destination.parent))
+    try:
+        for name, text_value in artifacts.items():
+            write_text_atomic(staging / name, text_value)
+        os.replace(staging, destination)
+    except Exception:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
+    receipt = {
+        **manifest,
+        "output_dir": str(destination),
+        "artifact_paths": {name: str(destination / name) for name in artifacts},
+    }
+    print(json.dumps(receipt, indent=2, sort_keys=True, allow_nan=False))
     return 0
 
 
@@ -1529,9 +1673,13 @@ def cmd_enclosure_build(args: argparse.Namespace) -> int:
 
 
 def cmd_enclosure_verify(args: argparse.Namespace) -> int:
+    from core.project import read_project
     from core.workflow import verify_project_bundle
 
-    report = verify_project_bundle(_resolved_path(args.bundle))
+    project = read_project(_resolved_path(args.project)) if args.project else None
+    report = verify_project_bundle(
+        _resolved_path(args.bundle), expected_project=project, require_stl=args.require_stl,
+    )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 
@@ -2170,10 +2318,22 @@ def build_parser() -> argparse.ArgumentParser:
     math_beam.set_defaults(func=cmd_math_beam)
 
     physics = sub.add_parser("physics", help="Evaluate a bounded analytical physics constraint model")
-    physics.add_argument("input", help="Physics JSON request; see docs/PHYSICS.md")
-    physics.add_argument("-o", "--output", help="Optional new JSON report path")
+    physics.add_argument("input", nargs="?", help="Physics JSON request; see docs/PHYSICS.md")
+    physics.add_argument("--list", action="store_true", help="Print the model and input catalog as JSON")
+    physics.add_argument("--verify", metavar="REPORT", help="Check whether a bound result still matches its CAD component")
+    physics.add_argument("-o", "--output", help="Optional new JSON report or catalog path")
     physics.add_argument("--force", action="store_true", help="Explicitly replace the report file")
     physics.set_defaults(func=cmd_physics)
+
+    complex_shape = sub.add_parser(
+        "complex-shape",
+        help="Generate a validated composite CAD shape with exact section, mass, and bounded structural analysis",
+    )
+    complex_shape.add_argument("input", nargs="?", help="Strict complex-shape JSON request")
+    complex_shape.add_argument("--list", action="store_true", help="Print the supported shape and analysis catalog")
+    complex_shape.add_argument("--output-dir", help="New atomic bundle directory containing request, IR, SCAD, analysis, and manifest")
+    complex_shape.add_argument("--fn", type=_fn, default=96, help="OpenSCAD facet count")
+    complex_shape.set_defaults(func=cmd_complex_shape)
 
     create = sub.add_parser("create", help="Generate OpenSCAD from an engineering prompt")
     create.add_argument("prompt", nargs="+", help="Engineering prompt")
@@ -2356,6 +2516,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     enclosure_verify = enclosure_actions.add_parser("verify", help="Rebuild and verify every source and artifact in an enclosure bundle")
     enclosure_verify.add_argument("bundle", help="Existing enclosure bundle directory")
+    enclosure_verify.add_argument("--project", help="Require the bundle to match this exact project revision")
+    enclosure_verify.add_argument("--require-stl", action="store_true", help="Reject source-only bundles")
     enclosure_verify.set_defaults(func=cmd_enclosure_verify)
 
     enclosure_preflight = enclosure_actions.add_parser("preflight", help="Run exact and disclosed heuristic fabrication checks")
@@ -2469,6 +2631,7 @@ KNOWN_COMMANDS = frozenset(
         "benchmark",
         "calibration",
         "compile",
+        "complex-shape",
         "config",
         "create",
         "daemon",

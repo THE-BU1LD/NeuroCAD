@@ -1,0 +1,13 @@
+{
+  "model": "thermal_network",
+  "inputs": {
+    "conductance_w_per_k": [
+      [0, 4, 0],
+      [4, 0, 2],
+      [0, 2, 0]
+    ],
+    "heat_input_w": [0, 60, 0],
+    "fixed_temperature_k": {"0": 295, "2": 305},
+    "node_labels": ["ambient", "device", "sink"]
+  }
+}

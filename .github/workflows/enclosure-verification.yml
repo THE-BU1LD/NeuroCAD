@@ -1,0 +1,63 @@
+name: Enclosure release verification
+
+on:
+  push:
+    branches: [codex/enclosure-verification]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Install kernel and verification tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xvfb xauth
+          python -m pip install '.[dev,security]'
+      - name: Product regression and static checks
+        run: |
+          python -m pytest -q tests --junitxml="$RUNNER_TEMP/tests.xml"
+          python -m ruff check core neurocad_cli.py scripts/verify_enclosure_install.py tests/test_atomic_revision_publication.py tests/test_enclosure_cli.py
+          python -m mypy core neurocad_cli.py scripts/verify_enclosure_install.py
+          python -m bandit -q -r core neurocad_cli.py scripts/verify_enclosure_install.py
+          python -m pip check
+      - name: Build and inspect fresh wheel
+        run: |
+          python -m build --wheel --outdir "$RUNNER_TEMP/dist"
+          python scripts/verify_distribution.py "$RUNNER_TEMP"/dist/*.whl
+          sha256sum "$RUNNER_TEMP"/dist/*.whl > "$RUNNER_TEMP/wheel-sha256.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/source-commit.txt"
+      - name: Install into isolated environment
+        run: |
+          python -m venv "$RUNNER_TEMP/clean"
+          "$RUNNER_TEMP/clean/bin/python" -m pip install "$RUNNER_TEMP"/dist/*.whl
+          "$RUNNER_TEMP/clean/bin/python" -m pip check
+          "$RUNNER_TEMP/clean/bin/python" -m pip freeze > "$RUNNER_TEMP/installed.txt"
+      - name: Compiled enclosure acceptance outside checkout
+        run: >-
+          xvfb-run -a python scripts/verify_enclosure_install.py
+          --executable "${{ runner.temp }}/clean/bin/neurocad"
+          --output "${{ runner.temp }}/enclosure-acceptance"
+          --require-stl
+      - name: Frozen research remains unchanged
+        run: git diff --exit-code -- research paper release/physics_v2
+      - name: Retain verification and failure evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: enclosure-verification-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/tests.xml
+            ${{ runner.temp }}/source-commit.txt
+            ${{ runner.temp }}/wheel-sha256.txt
+            ${{ runner.temp }}/installed.txt
+            ${{ runner.temp }}/enclosure-acceptance/
+          retention-days: 30

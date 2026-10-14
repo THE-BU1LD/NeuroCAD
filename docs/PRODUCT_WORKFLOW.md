@@ -116,6 +116,18 @@ Verify a published source or compiled bundle independently before handoff:
 neurocad enclosure verify controller-r3
 ```
 
+For handoff, bind verification to the intended revision and require actual meshes:
+
+```bash
+neurocad enclosure verify controller-r3 --project controller-r3.ncad.json --require-stl
+```
+
+Without `--project`, verification establishes internal bundle consistency only;
+an older, intact bundle can still pass. With `--project`, a different project,
+revision, history, or specification fails. `--require-stl` rejects source-only
+bundles. Project files are published without replacement, including when another
+writer creates the destination after the CLI's initial collision check.
+
 Verification fails closed on unknown manifest fields, path traversal, symbolic
 links, missing or extra entries, hash or size changes, non-canonical IR or
 OpenSCAD, stale preflight results, and invalid or stale mesh verification.

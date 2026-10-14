@@ -1,0 +1,191 @@
+{
+  "status": "PASS",
+  "executable": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/.venv/bin/neurocad",
+  "require_stl": false,
+  "commands": [
+    {
+      "arguments": [
+        "--version"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "NeuroCAD 0.5.0a6\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "doctor"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "NeuroCAD doctor\n  \u2713 Python          3.14.0\n  \u2713 jsonschema      4.26.0\n  \u2713 numpy           2.5.3\n  \u2713 trimesh         5.1.0\n  \u2713 Generation      533 character OpenSCAD program\n  \u2713 Validation      semantic checks passed\n  \u2713 OpenSCAD mesh   mesh compilation passed\n  \u2713 OpenSCAD preview verified STL fallback passed; native image rendering is unavailable\n  \u2713 Configuration   /Users/ryan/.config/neurocad/config.json\n  \u2713 Output storage  16.2 GiB free at /Users/ryan/.local/share/neurocad/outputs\n  ! Daemon          stopped; starts automatically\n  healthy\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "interpret",
+        "80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C",
+        "--project-id",
+        "install-check",
+        "--project-output",
+        "r1.json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "{\n  \"assumptions\": [],\n  \"interpreter\": \"deterministic-clause-v2\",\n  \"issues\": [],\n  \"mappings\": [\n    {\n      \"end\": 37,\n      \"field\": \"outer_size_mm\",\n      \"start\": 0,\n      \"text\": \"80 x 60 x 30 mm electronics enclosure\"\n    },\n    {\n      \"end\": 49,\n      \"field\": \"wall_mm\",\n      \"start\": 39,\n      \"text\": \"walls 2 mm\"\n    },\n    {\n      \"end\": 71,\n      \"field\": \"profile\",\n      \"start\": 51,\n      \"text\": \"profile fdm standard\"\n    },\n    {\n      \"end\": 124,\n      \"field\": \"lid\",\n      \"start\": 73,\n      \"text\": \"friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm\"\n    },\n    {\n      \"end\": 185,\n      \"field\": \"cutout.rectangular\",\n      \"start\": 126,\n      \"text\": \"rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C\"\n    }\n  ],\n  \"ready\": true,\n  \"source\": \"80 x 60 x 30 mm electronics enclosure; walls 2 mm; profile fdm standard; friction lid 2.5 mm thick clearance 0.3 mm lip 2 mm; rectangular cutout 12 x 7 mm on front at 0 x 8 mm for USB-C\",\n  \"spec\": {\n    \"corner_radius_mm\": 0.0,\n    \"cutouts\": [\n      {\n        \"center_uv_mm\": [\n          0.0,\n          8.0\n        ],\n        \"corner_radius_mm\": 0.0,\n        \"diameter_mm\": null,\n        \"face\": \"front\",\n        \"id\": \"cutout_1\",\n        \"kind\": \"rectangular\",\n        \"purpose\": \"USB-C\",\n        \"size_mm\": [\n          12.0,\n          7.0\n        ]\n      }\n    ],\n    \"floor_mm\": null,\n    \"lid\": {\n      \"clearance_mm\": 0.3,\n      \"fastener_positions_xy_mm\": [],\n      \"hardware\": null,\n      \"kind\": \"friction\",\n      \"lip_height_mm\": 2.0,\n      \"thickness_mm\": 2.5\n    },\n    \"outer_size_mm\": [\n      80.0,\n      60.0,\n      30.0\n    ],\n    \"pcb\": null,\n    \"profile\": \"fdm_standard\",\n    \"standoffs\": [],\n    \"title\": \"electronics enclosure\",\n    \"units\": \"mm\",\n    \"vents\": [],\n    \"version\": \"neurocad-enclosure-v1\",\n    \"wall_mm\": 2.0\n  }\n}\n/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/.tmp-release-work/enclosure-source-20261013/r1.json\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "edit",
+        "r1.json",
+        "--instruction",
+        "set wall thickness to 2.4 mm",
+        "--output",
+        "r2.json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "{\n  \"output\": \"/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/.tmp-release-work/enclosure-source-20261013/r2.json\",\n  \"revision\": 2,\n  \"changes\": [\n    {\n      \"field\": \"wall_mm\",\n      \"before\": 2.0,\n      \"after\": 2.4\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "edit",
+        "r2.json",
+        "--instruction",
+        "set wall thickness to 100 mm",
+        "--output",
+        "invalid.json"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: edit would make project invalid: invalid enclosure specification: $: wall/floor dimensions leave no interior cavity; $.lid.lip_height_mm: insertion plug height 2 mm must be below the -70 mm cavity depth; $.lid: wall and clearance leave no insertion plug\n"
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "edit",
+        "r2.json",
+        "--instruction",
+        "set wall thickness to 2.6 mm",
+        "--output",
+        "r1.json"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: project revision already exists; choose a new path: /Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/.tmp-release-work/enclosure-source-20261013/r1.json\n"
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "preflight",
+        "r2.json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "{\n  \"disclaimer\": \"Analytical and heuristic findings are fabrication aids, not safety certification.\",\n  \"estimate\": {\n    \"approximate_mass_g\": null,\n    \"approximate_material_cost\": null,\n    \"approximate_material_volume_mm3\": 41222.196,\n    \"bounding_volume_mm3\": 144000.0\n  },\n  \"findings\": [\n    {\n      \"basis\": \"heuristic\",\n      \"code\": \"lid_fit_not_evaluated\",\n      \"evidence\": {\n        \"profile_minimum_clearance_mm\": 0.1,\n        \"specified_clearance_mm\": 0.3\n      },\n      \"message\": \"fit probability was not evaluated because no measured tolerance contributions were supplied\",\n      \"severity\": \"info\"\n    }\n  ],\n  \"measurements\": {\n    \"calibration_profile_id\": null,\n    \"cutout_count\": 1,\n    \"floor_mm\": 2.4,\n    \"internal_size_mm\": [\n      75.2,\n      55.2,\n      27.6\n    ],\n    \"lid_part_count\": 1,\n    \"minimum_wall_mm\": 2.4,\n    \"outer_size_mm\": [\n      80.0,\n      60.0,\n      30.0\n    ],\n    \"profile_assumptions\": {\n      \"friction_fit_clearance_mm\": 0.1,\n      \"hole_compensation_applied_mm\": 0.2,\n      \"minimum_ligament_mm\": 1.0,\n      \"minimum_wall_mm\": 1.2\n    },\n    \"standoff_count\": 0,\n    \"vent_hole_count\": 0\n  },\n  \"valid\": true\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "build",
+        "r2.json",
+        "--output-dir",
+        "bundle"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "{\n  \"artifacts\": [\n    {\n      \"bytes\": 2772,\n      \"media_type\": \"application/json\",\n      \"path\": \"body.ncad.json\",\n      \"sha256\": \"44f645b40829665a6a153fd4f6d2ec804d0f4009176a584769c9d27c28e9b3ae\"\n    },\n    {\n      \"bytes\": 397,\n      \"media_type\": \"application/x-openscad\",\n      \"path\": \"body.scad\",\n      \"sha256\": \"8613c6daf874cbf9904ceee8779310e057482a3dd029bdca6a322d86a5d24c77\"\n    },\n    {\n      \"bytes\": 1838,\n      \"media_type\": \"application/json\",\n      \"path\": \"lid.ncad.json\",\n      \"sha256\": \"46090907e5957622206d2394345c3abf191ddcbdca6a3d812928c543bac69b81\"\n    },\n    {\n      \"bytes\": 320,\n      \"media_type\": \"application/x-openscad\",\n      \"path\": \"lid.scad\",\n      \"sha256\": \"a33e547bafdc2f05ef07f303cae19d0b4324b0a389ce1408ca25895d1440ec86\"\n    },\n    {\n      \"bytes\": 1171,\n      \"media_type\": \"application/json\",\n      \"path\": \"preflight.json\",\n      \"sha256\": \"35dcb8f81f3ce18477808f895d41fe5b12f31ff8d51c47d51760aecb579d1526\"\n    },\n    {\n      \"bytes\": 2004,\n      \"media_type\": \"application/json\",\n      \"path\": \"project.ncad.json\",\n      \"sha256\": \"b544b371cba139bc78a09316f9435f72394b787e4558134df46edd1c1464ceda\"\n    }\n  ],\n  \"compiled_stl\": false,\n  \"generator\": {\n    \"fn\": 64\n  },\n  \"parts\": [\n    \"body\",\n    \"lid\"\n  ],\n  \"project_id\": \"install-check\",\n  \"revision\": 2,\n  \"schema_version\": \"neurocad-bundle-v1\",\n  \"spec_version\": \"neurocad-enclosure-v1\",\n  \"verification\": {}\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "verify",
+        "bundle",
+        "--project",
+        "r2.json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "{\n  \"artifact_count\": 6,\n  \"checks\": {\n    \"canonical_ir_matches_source\": true,\n    \"expected_project_matches\": true,\n    \"manifest_schema\": true,\n    \"mesh_verification\": null,\n    \"openscad_matches_source\": true,\n    \"preflight_matches_source\": true,\n    \"project_schema_and_metadata\": true,\n    \"source_hashes_and_sizes\": true\n  },\n  \"compiled_stl\": false,\n  \"current_mesh_verification\": {},\n  \"parts\": [\n    \"body\",\n    \"lid\"\n  ],\n  \"project_id\": \"install-check\",\n  \"revision\": 2,\n  \"schema_version\": \"neurocad-bundle-verification-v1\",\n  \"valid\": true\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "verify",
+        "bundle",
+        "--project",
+        "r1.json"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: bundle does not match the exact expected project and revision\n"
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "verify",
+        "bundle",
+        "--project",
+        "r2.json",
+        "--require-stl"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: verification requires a compiled STL bundle\n"
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "build",
+        "r2.json",
+        "--output-dir",
+        "bundle"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: output bundle already exists: /Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/.tmp-release-work/enclosure-source-20261013/bundle\n"
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "verify",
+        "bundle",
+        "--project",
+        "r2.json"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: bundle directory inventory mismatch; missing=[], unexpected=['untracked.txt']\n"
+    },
+    {
+      "arguments": [
+        "enclosure",
+        "verify",
+        "bundle",
+        "--project",
+        "r2.json"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "stdout": "{\n  \"artifact_count\": 6,\n  \"checks\": {\n    \"canonical_ir_matches_source\": true,\n    \"expected_project_matches\": true,\n    \"manifest_schema\": true,\n    \"mesh_verification\": null,\n    \"openscad_matches_source\": true,\n    \"preflight_matches_source\": true,\n    \"project_schema_and_metadata\": true,\n    \"source_hashes_and_sizes\": true\n  },\n  \"compiled_stl\": false,\n  \"current_mesh_verification\": {},\n  \"parts\": [\n    \"body\",\n    \"lid\"\n  ],\n  \"project_id\": \"install-check\",\n  \"revision\": 2,\n  \"schema_version\": \"neurocad-bundle-verification-v1\",\n  \"valid\": true\n}\n",
+      "stderr": ""
+    }
+  ],
+  "independent_validation": false,
+  "project_sha256": "b544b371cba139bc78a09316f9435f72394b787e4558134df46edd1c1464ceda",
+  "environment_scope": "existing development virtual environment; source-only; NOT a fresh installation"
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-13T15:34:46.705Z",
+  "gate": "FAIL",
+  "samples_mib": [
+    166.0625,
+    150.890625
+  ],
+  "pageouts": [
+    196366,
+    197151
+  ],
+  "swapouts": [
+    211884,
+    211884
+  ],
+  "floor_mib": 512,
+  "disk_available_gib": 232,
+  "head": "a7eb80c54e3133e018b37e595413622dc0687a4a",
+  "action": "No installation, mesh execution, tests, CI dispatch or commit; resource gate failed. Frozen research diff empty.",
+  "other_admission_checks": "Not repeated after definitive memory/pageout failure; no admission claimed."
+}

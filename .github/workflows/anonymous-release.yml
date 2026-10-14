@@ -1,0 +1,158 @@
+name: Anonymous public alpha acceptance
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published alpha tag
+        required: true
+        type: string
+      source_sha:
+        description: Expected full release commit SHA
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      source_sha:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  anonymous-install:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.source_sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12.14'
+      - name: Install mesh tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad xvfb xauth
+      - name: Download and verify public release without credentials
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          RELEASE_SHA: ${{ inputs.source_sha }}
+          GH_TOKEN: ''
+          GITHUB_TOKEN: ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+a[0-9]+$ ]]
+          [[ "$RELEASE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          evidence="$RUNNER_TEMP/anonymous-release"
+          mkdir "$evidence"
+          cd "$evidence"
+          base="https://github.com/THE-BU1LD/NeuroCAD/releases/download/$RELEASE_TAG"
+          version="${RELEASE_TAG#v}"
+          for asset in SHA256SUMS RELEASE_PROVENANCE.json "neurocad_research-$version-py3-none-any.whl" "neurocad_research-$version.tar.gz"; do
+            curl -q --fail --location --retry 3 --proto '=https' --proto-redir '=https' "$base/$asset" --output "$asset"
+          done
+          curl -q --fail --location --retry 3 "https://api.github.com/repos/THE-BU1LD/NeuroCAD/releases/tags/$RELEASE_TAG" --output release.json
+          curl -q --fail --location --retry 3 "https://raw.githubusercontent.com/THE-BU1LD/NeuroCAD/$RELEASE_TAG/install.sh" --output install.sh
+          curl -q --fail --location --retry 3 "https://api.github.com/repos/THE-BU1LD/NeuroCAD/commits/$RELEASE_TAG" --output tag-commit.json
+          cmp install.sh "$GITHUB_WORKSPACE/install.sh"
+          python - <<'VERIFY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          tag = os.environ["RELEASE_TAG"]
+          sha = os.environ["RELEASE_SHA"]
+          version = tag[1:]
+          names = {f"neurocad_research-{version}-py3-none-any.whl", f"neurocad_research-{version}.tar.gz"}
+          provenance = json.loads(Path("RELEASE_PROVENANCE.json").read_text())
+          release = json.loads(Path("release.json").read_text())
+          assert json.loads(Path("tag-commit.json").read_text())["sha"] == sha
+          assert provenance["commit_sha"] == sha
+          assert provenance["tag"] == tag
+          assert provenance["repository"] == "THE-BU1LD/NeuroCAD"
+          assert provenance["package"]["declared_version"] == version
+          assert provenance["package"]["installed_version"] == version
+          assert release["tag_name"] == tag and release["prerelease"] and not release["draft"]
+          sums = {}
+          for line in Path("SHA256SUMS").read_text().splitlines():
+              digest, name = line.split()
+              assert name in names and name not in sums
+              sums[name] = digest
+          assert set(sums) == names == set(provenance["artifacts"])
+          for name in names:
+              digest = hashlib.sha256(Path(name).read_bytes()).hexdigest()
+              assert digest == sums[name] == provenance["artifacts"][name]
+          receipt = {"status": "ARTIFACTS_VERIFIED_INSTALL_PENDING", "tag": tag, "source_sha": sha,
+                     "release_url": release["html_url"], "artifacts": sums,
+                     "installer_sha256": hashlib.sha256(Path("install.sh").read_bytes()).hexdigest(),
+                     "credential_free_download": True, "independent_scientific_validation": False}
+          Path("receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+          VERIFY
+      - name: Install published wheel through public installer and verify meshes
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          GH_TOKEN: ''
+          GITHUB_TOKEN: ''
+          PYTHONPATH: ''
+          PYTHONNOUSERSITE: '1'
+          NEUROCAD_SKIP_SETUP: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/anonymous-release"
+          NEUROCAD_REF="$RELEASE_TAG" NEUROCAD_HOME="$RUNNER_TEMP/public-install" \
+          NEUROCAD_BIN_DIR="$RUNNER_TEMP/public-bin" \
+          NEUROCAD_PACKAGE="$PWD/neurocad_research-${RELEASE_TAG#v}-py3-none-any.whl" sh install.sh
+          xvfb-run -a python "$GITHUB_WORKSPACE/scripts/verify_enclosure_install.py" \
+            --executable "$RUNNER_TEMP/public-bin/neurocad" --output "$PWD/enclosure" --require-stl
+          python - <<'RECEIPT'
+          import json
+          from pathlib import Path
+          path = Path("receipt.json")
+          receipt = json.loads(path.read_text())
+          assert json.loads(Path("enclosure/acceptance.json").read_text())["status"] == "PASS"
+          receipt["status"] = "WHEEL_PASS_TAGGED_SOURCE_PENDING"
+          receipt["scope"] = "Public installer, checksum-verified published wheel, doctor, edits and compiled enclosure; service setup excluded"
+          path.write_text(json.dumps(receipt, indent=2) + "\n")
+          RECEIPT
+      - name: Verify default tagged-source installer path
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          GH_TOKEN: ''
+          GITHUB_TOKEN: ''
+          NEUROCAD_SKIP_SETUP: '1'
+          PYTHONPATH: ''
+          PYTHONNOUSERSITE: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/anonymous-release"
+          unset NEUROCAD_PACKAGE
+          NEUROCAD_REF="$RELEASE_TAG" NEUROCAD_HOME="$RUNNER_TEMP/tag-install" \
+          NEUROCAD_BIN_DIR="$RUNNER_TEMP/tag-bin" sh install.sh
+          "$RUNNER_TEMP/tag-bin/neurocad" doctor
+          "$RUNNER_TEMP/tag-bin/neurocad" validate "a 40 x 30 x 3 mm plate"
+          python - <<'RECEIPT'
+          import json
+          from pathlib import Path
+          path = Path("receipt.json")
+          receipt = json.loads(path.read_text())
+          receipt["default_tagged_source_install"] = "PASS"
+          receipt["status"] = "PASS"
+          path.write_text(json.dumps(receipt, indent=2) + "\n")
+          RECEIPT
+      - name: Retain public download and installation evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: anonymous-release-${{ inputs.tag }}
+          path: ${{ runner.temp }}/anonymous-release/
+          retention-days: 90

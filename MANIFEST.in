@@ -24,6 +24,7 @@ include FINAL_RESEARCH_REPORT.md
 include install.sh
 include .github/workflows/ci.yml
 include .github/workflows/release.yml
+include .github/workflows/anonymous-release.yml
 include neurocad_cli.py
 include text_to_cad.py
 include text_to_openscad.py
@@ -56,6 +57,8 @@ include research/s3/benchmark_candidate_pool_v0.csv
 recursive-include tests *.py *.cjs
 recursive-include tests/fixtures *.json
 exclude tests/test_repository_archive.py
+# Repository-only frozen-study harness requires Git provenance and unshipped study files.
+exclude tests/test_physics_research.py
 include research/benchmarks/neurocad_benchmark_v1.jsonl
 include research/results/neurocad_benchmark_v1.json
 include research/benchmarks/neurocad_prompt_challenge_v1.jsonl

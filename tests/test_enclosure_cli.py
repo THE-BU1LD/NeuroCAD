@@ -126,6 +126,16 @@ def test_cli_interpret_edit_preflight_and_build_project_bundle(tmp_path: Path) -
     assert verification["checks"]["openscad_matches_source"] is True
     assert verification["checks"]["mesh_verification"] is None
 
+    matched = _run("enclosure", "verify", str(bundle), "--project", str(revised))
+    assert matched.returncode == 0, matched.stderr
+    assert json.loads(matched.stdout)["checks"]["expected_project_matches"] is True
+    stale = _run("enclosure", "verify", str(bundle), "--project", str(project))
+    assert stale.returncode == 2
+    assert "exact expected project and revision" in stale.stderr
+    missing_mesh = _run("enclosure", "verify", str(bundle), "--require-stl")
+    assert missing_mesh.returncode == 2
+    assert "requires a compiled STL bundle" in missing_mesh.stderr
+
     extra = bundle / "untracked.txt"
     extra.write_text("not in manifest\n", encoding="utf-8")
     rejected_extra = _run("enclosure", "verify", str(bundle))

@@ -6,6 +6,9 @@ This candidate remains pending until the exact source revision passes the
 integrated CI, distribution, clean-install, and release-provenance gates in
 `RELEASE_STATUS.md`.
 
+- Added exact-revision enclosure verification, collision-safe publication, fresh
+  installed-mesh acceptance, and post-publication credential-free verification
+  of checksums, provenance, the wheel and default tagged-source installer.
 - Matched lid and insertion-plug corner radii to rounded enclosures, cleared screw
   boss rings beneath lid plates, and reserved insertion depth in floor, standoff
   and PCB-envelope validation. Added independent negative mesh-clearance probes.

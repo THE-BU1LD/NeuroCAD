@@ -81,6 +81,39 @@ def test_builtin_underspecified_primitive_uses_visible_defaults() -> None:
     assert any(item.name == "overall dimensions" and item.source == "inferred" for item in plan.assumptions)
 
 
+@pytest.mark.parametrize(
+    ("prompt", "title", "component_count"),
+    [
+        (
+            "make a hollow shaft with outer diameter 40 mm inner diameter 24 mm and length 500 mm",
+            "Hollow shaft concept",
+            2,
+        ),
+        (
+            "make an I-beam width 100 mm height 200 mm flange thickness 10 mm web thickness 8 mm length 1000 mm",
+            "I-beam concept",
+            3,
+        ),
+        (
+            "make an L-bracket width 50 mm height 80 mm thickness 5 mm length 300 mm",
+            "L-bracket concept",
+            2,
+        ),
+        (
+            "make a perforated plate width 120 mm height 80 mm thickness 4 mm hole diameter 10 mm columns 4 rows 3 edge margin 15 mm",
+            "Perforated plate concept",
+            13,
+        ),
+    ],
+)
+def test_builtin_generates_dimensioned_complex_profiles(prompt: str, title: str, component_count: int) -> None:
+    plan = BuiltinPlanningProvider().plan(prompt)
+    assert plan.title == title
+    assert len(plan.components) == component_count
+    assert plan.assumptions[0].source == "user"
+    assert validate_program(plan_to_program(plan)).valid
+
+
 def test_workspace_revises_bottle_and_keeps_checkpoints(tmp_path: Path) -> None:
     workspace = AgentWorkspace(tmp_path / "bottle")
     provider = BuiltinPlanningProvider()
@@ -152,6 +185,36 @@ def test_mark_three_is_a_non_protective_cosplay_shell() -> None:
     boundary = next(item for item in plan.assumptions if item.name == "intended use")
     assert boundary.value == "cosplay and display only"
     assert "weapon" in boundary.reason
+    assert validate_program(plan_to_program(plan)).valid
+
+
+def test_builtin_jet_engine_is_non_operational_physics_aware_cutaway() -> None:
+    plan = BuiltinPlanningProvider().plan("Generate a physics-aware jet engine")
+    assert plan.title == "Non-operational jet-engine cutaway concept"
+    assert _component(plan, "casing_duct").operation == "subtract"
+    assert _component(plan, "fan_disk").label == "Schematic fan disk without blades"
+    assert _component(plan, "chamber_outer").label == "Non-combusting chamber envelope"
+    bridges = [_component(plan, identifier) for identifier in (
+        "fan_display_bridge", "chamber_display_bridge", "turbine_display_bridge"
+    )]
+    assert all(component.shape == "cylinder" for component in bridges)
+    assert len({component.translate[2] for component in bridges}) == 3
+    assert _component(plan, "nozzle_coupler_outer").shape == "cylinder"
+    assert {component.part for component in plan.components} >= {
+        "inlet",
+        "fan",
+        "compressor_1",
+        "chamber",
+        "turbine_1",
+        "nozzle",
+    }
+    boundary = next(item for item in plan.assumptions if item.name == "intended use")
+    physics = next(item for item in plan.assumptions if item.name == "physics binding")
+    assert boundary.value == "educational cutaway and display only"
+    assert "unsuitable for propulsion" in boundary.reason
+    assert physics.value == "explicit analytical-model inputs required"
+    assert "lumped_thermal_transient" in physics.reason
+    assert "models are not coupled" in physics.reason
     assert validate_program(plan_to_program(plan)).valid
 
 

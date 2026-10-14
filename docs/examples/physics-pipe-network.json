@@ -1,0 +1,37 @@
+{
+  "model": "pipe_network",
+  "inputs": {
+    "density_kg_m3": 1000,
+    "dynamic_viscosity_pa_s": 0.001,
+    "total_flow_m3_s": 0.002,
+    "series_segments": [
+      {
+        "label": "supply",
+        "length_mm": 2000,
+        "diameter_mm": 30,
+        "roughness_mm": 0.0015,
+        "minor_loss_coefficient": 1.5
+      }
+    ],
+    "parallel_branches": [
+      [
+        {
+          "label": "branch-a",
+          "length_mm": 1000,
+          "diameter_mm": 20,
+          "darcy_friction_factor": 0.02,
+          "minor_loss_coefficient": 1
+        }
+      ],
+      [
+        {
+          "label": "branch-b",
+          "length_mm": 1500,
+          "diameter_mm": 25,
+          "darcy_friction_factor": 0.02,
+          "minor_loss_coefficient": 1
+        }
+      ]
+    ]
+  }
+}

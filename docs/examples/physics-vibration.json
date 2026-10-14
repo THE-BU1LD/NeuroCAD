@@ -1,0 +1,9 @@
+{
+  "model": "spring_mass_damper",
+  "inputs": {
+    "mass_kg": 2.0,
+    "stiffness_n_m": 8000,
+    "damping_n_s_m": 40,
+    "applied_force_n": 100
+  }
+}

@@ -7,16 +7,15 @@ accepted plan still compiles through a versioned, schema-validated internal
 representation to deterministic OpenSCAD. Every exported length is expressed in
 millimetres.
 
-Research status: the maintained compiler is engineering-verified, while the
-conference evidence is **partial**. The current full benchmark is source-bound,
-non-resumed, and reproducible locally, but remains synthetic and must not be read
-as independent external validation. Start
-with `RESEARCH_TRUTH.md`, `audit/REPOSITORY_MAP.md`, and
-`audit/CONFERENCE_READINESS_CHECKLIST.md` for the current evidence boundary.
+Current status: see [CURRENT_STATUS.md](CURRENT_STATUS.md) and the machine-readable
+[RESEARCH_STATE.json](RESEARCH_STATE.json). The original compiler study remains
+terminal mixed; Physics v2 has a separate controlled result and local research
+release; Physics v3 is engineering-implemented with scientific validation not
+started. The public alpha and independent validation remain separate open gates.
 
 NeuroCAD is an alpha design aid. Agent projects are concept drafts, and generated parts must still be reviewed by a
-qualified person before fabrication. It does not calculate load capacity,
-material behaviour, regulatory compliance, or safety. Its disclosed tolerance
+qualified person before fabrication. Its analytical physics tools use explicit idealized models and do not certify
+load capacity, material behaviour, regulatory compliance, or safety. Its disclosed tolerance
 and coupon-calibration estimates are design aids, not manufacturing guarantees.
 
 The primary product interface is now terminal-first. A prompt submitted as
@@ -58,10 +57,11 @@ It refuses unrelated existing executables.
 Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
 [Quick start](docs/QUICKSTART.md).
 
-The repository is public as of 2026-09-09; `v0.5.0a6` is still an unreleased
-candidate. Use the [quick start](docs/QUICKSTART.md) to obtain audited `main`
-without credentials. Public source access is not a passing release receipt:
-the immutable-tag installer and release-artifact gates remain open.
+The public alpha release is being verified in [PR #103](https://github.com/THE-BU1LD/NeuroCAD/pull/103).
+See [release status](RELEASE_STATUS.md) for the current gates and
+[quick start](docs/QUICKSTART.md) for checksum-verified release installation.
+The [release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6)
+and passing release workflow provide the publication and anonymous-install receipts.
 
 For the current implementation and its measured limitations, see the
 [publication checklist](docs/FINAL_9_OF_10_CHECKLIST.md). Research controls and
@@ -180,7 +180,14 @@ neurocad topology plate.stl --require-closed-manifold -o topology.json
 neurocad tolerance docs/examples/tolerance.json -o tolerance-report.json
 neurocad math tolerance docs/examples/tolerance-quadratic.json
 neurocad math beam --force 10 --length 50 --width 10 --thickness 4 --modulus 2200
+neurocad physics --list
 neurocad physics docs/examples/physics-buckling.json -o buckling-report.json
+neurocad physics docs/examples/physics-brayton-cycle.json -o brayton-report.json
+neurocad physics docs/examples/physics-bound-shaft.json -o shaft-report.json
+neurocad physics docs/examples/physics-v3-electrothermal-bound.json -o coupled-report.json
+neurocad physics --verify shaft-report.json
+neurocad complex-shape docs/examples/complex-i-beam.json --output-dir output/complex-shapes/i-beam
+neurocad agent run "generate a physics-aware jet engine cutaway" --project jet-engine-concept
 ```
 
 `neurocad nlp` prints recognized source spans, precise unresolved locations,
@@ -196,7 +203,9 @@ singular vertex links and detected non-adjacent triangle self-intersections.
 The geometric predicates are bounded floating-point evidence, not an exact BREP,
 surface-equivalence, or physical-fit proof. See [Mathematics](docs/MATHEMATICS.md)
 and [Physics](docs/PHYSICS.md) for equations, assumptions, numerical/resource
-limits, and reference tests. The [Scientific kernel](docs/SCIENTIFIC_KERNEL.md)
+limits, and reference tests. [Complex shapes](docs/COMPLEX_SHAPES.md) documents
+composite IR generation plus exact section, mass, and bounded structural
+screening. The [Scientific kernel](docs/SCIENTIFIC_KERNEL.md)
 documents dimensional quantities, automatic differentiation, local nonlinear
 constraints/optimization, intervals, Monte Carlo, and numerical diagnostics.
 
