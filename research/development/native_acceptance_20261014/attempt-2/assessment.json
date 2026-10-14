@@ -1,0 +1,16 @@
+{
+  "source": "57aea95960dcb1221a6c2ba6f9640058fb7107a5",
+  "native_run": 38572370470,
+  "result": "LINUX_MACOS_PASS_WINDOWS_FAIL",
+  "passing_platforms": [
+    "ubuntu-24.04",
+    "macos-15"
+  ],
+  "passing_cases_per_platform": {
+    "goldens": 5,
+    "tagged_mesh_runs": 6
+  },
+  "windows": "172 passed, 10 failed; canonical requirement JSON written as CRLF no longer matched expected LF serialization digest.",
+  "repair": "Write canonical exact bundle JSON explicitly with LF newlines on all platforms. Preserve all acceptance assertions and tolerances.",
+  "native_artifacts": "GitHub run artifacts retained; original failure logs retained locally."
+}

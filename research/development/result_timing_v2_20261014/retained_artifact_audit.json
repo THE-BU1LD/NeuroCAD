@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-14T13:34:31.096570+00:00",
+  "run": "NC-REPRO-508EC40",
+  "status": "FAIL",
+  "artifact_count": 1211,
+  "mismatches": [
+    {
+      "path": "logs/run.log",
+      "error": "missing"
+    }
+  ],
+  "mode": "READ_ONLY_HASH_AUDIT_NO_REEXECUTION",
+  "provenance": {
+    "captured_at_utc": "2026-09-13T14:21:56.198647Z",
+    "git": {
+      "commit": "508ec404dd520ae16f2b4d3cf211d5b1fa46b800",
+      "dirty": false,
+      "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "openscad": {
+      "executable": "/usr/local/bin/openscad",
+      "executable_sha256": "2990c7deb7059eaea1440a309c9d9ba7fea8bd2833a84e50d4203d73424b2701",
+      "version_output": "OpenSCAD version 2021.01"
+    },
+    "package": {
+      "declared_version": "0.5.0a6",
+      "installed_distribution_version": "0.5.0a6",
+      "name": "neurocad-research",
+      "versions_match": true
+    },
+    "provenance_version": "neurocad-research-provenance-v1",
+    "python": {
+      "executable": "/private/var/folders/ct/lk8xnz1s6pvd55g05hqjv7k00000gn/T/neurocad-repro.HS5dkj/venv/bin/python",
+      "implementation": "CPython",
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "version": "3.12.14"
+    },
+    "requirements_lock": {
+      "path": "requirements-research.lock",
+      "sha256": "15215e0a1bbe0990d2b834c1e344a3975f109cc97944f161cd9b7bc69b24bcd1"
+    }
+  },
+  "scientific_sha256": {
+    "compiler_dataset": "4460b8e88b36127149c006ce1aad3d74a06b2d8f7b34c58b70e51d31a08c9314",
+    "config": "2f11b380d13a56a888eb0a3c74f7b5e903961322e4800f044192bca3505a0e1f",
+    "deterministic_results": "e1730c06a6b3f818111eda4097f49c76c9b7aaad83f6a1e6ed7fe3dd63ea7dfa",
+    "ir_programs": "bd15025299068cd58711e09cdf3e0a54426fb1f3f5281b4fd58440fa1305b2df",
+    "maintained_source": "cbfef99766772b8bb6c345aaecfc6305ed1993ebcc05ba4d6a6541189ad7f929",
+    "requirements_lock": "15215e0a1bbe0990d2b834c1e344a3975f109cc97944f161cd9b7bc69b24bcd1"
+  },
+  "timing_regressions": "3 passed in 0.42s; Ruff passed",
+  "limits": "This audits retained bytes, not second-executor reproduction or a new controlled run. Detailed physical CPU/RAM metadata and independently witnessed command identity are not inferred."
+}

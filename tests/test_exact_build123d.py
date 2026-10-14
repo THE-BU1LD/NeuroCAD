@@ -291,6 +291,8 @@ def test_build123d_verified_export_publishes_requirement_evidence(tmp_path) -> N
     assert (destination / "requirements.json").is_file()
     assert (destination / "requirement-bindings.json").is_file()
     assert (destination / "requirements-verification.json").is_file()
+    assert (destination / "requirements.json").read_bytes() == serialize_requirement_ir_json(requirements).encode("utf-8")
+    assert (destination / "requirement-bindings.json").read_bytes() == serialize_binding_set_json(bindings).encode("utf-8")
 
 
 def test_build123d_valid_brep_with_wrong_must_dimension_publishes_nothing(tmp_path) -> None:

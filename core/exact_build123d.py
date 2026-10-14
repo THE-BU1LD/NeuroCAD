@@ -1572,7 +1572,7 @@ class Build123dBackend:
                     allow_nan=False,
                 )
                 + "\n",
-                encoding="utf-8",
+                encoding="utf-8", newline="\n",
             )
             os.replace(private_bundle, destination)
             shutil.rmtree(private_root, ignore_errors=True)
@@ -1696,11 +1696,11 @@ class Build123dBackend:
                 verification_path = staging / "requirements-verification.json"
                 requirements_path.write_text(
                     serialize_requirement_ir_json(requirements),
-                    encoding="utf-8",
+                    encoding="utf-8", newline="\n",
                 )
                 bindings_path.write_text(
                     serialize_binding_set_json(binding_set),
-                    encoding="utf-8",
+                    encoding="utf-8", newline="\n",
                 )
                 verification_path.write_text(
                     json.dumps(
@@ -1710,7 +1710,7 @@ class Build123dBackend:
                         allow_nan=False,
                     )
                     + "\n",
-                    encoding="utf-8",
+                    encoding="utf-8", newline="\n",
                 )
 
             receipt = Build123dReceipt(
@@ -1738,7 +1738,7 @@ class Build123dBackend:
             receipt_path = staging / "build-receipt.json"
             receipt_path.write_text(
                 json.dumps(receipt.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n",
-                encoding="utf-8",
+                encoding="utf-8", newline="\n",
             )
             os.replace(staging, output_dir)
             return receipt

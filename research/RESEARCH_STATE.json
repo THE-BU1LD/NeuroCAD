@@ -296,7 +296,14 @@
       "status": "ACTIVE",
       "contract": "research/development/native_acceptance_20261014/contract.json",
       "started_at": "2026-10-14T13:18:08.881397+00:00",
-      "prior_budgets_reopened": false
+      "prior_budgets_reopened": false,
+      "discovered_followup": "research/development/result_timing_v2_20261014/contract_and_baseline.json",
+      "hosted_attempts_used": 2,
+      "retained_failures": [
+        "attempt-1: platform Python setup and wrong OCP distribution metadata name",
+        "attempt-2: Windows canonical JSON newline/hash mismatch"
+      ],
+      "new_provenance_discrepancy": "NC-REPRO-508EC40: 1211 matching present artifacts; logs/run.log missing; v1 digest contains ten timing values."
     }
   ],
   "latest_engineering_session": "native_acceptance_20261014",

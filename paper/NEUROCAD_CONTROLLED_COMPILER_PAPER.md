@@ -1,5 +1,11 @@
 # NeuroCAD: An Executable, Fail-Closed Evaluation of a Controlled Text-to-CAD Compiler
 
+Evidence correction, 14 October 2026: the original v1 deterministic digest
+retains ten edit/export timing values under two field names. Treat that digest
+as the identity of the retained artifact, not a timing-independent replay
+target. The original outcomes, measurements and files are unchanged. New runs
+use result format v2; see `docs/RESEARCH_PROVENANCE_AUDIT_20261014.md`.
+
 ## Abstract
 
 Text-to-CAD systems are easy to overstate when syntactically plausible output or a small render gallery substitutes for executable validation. We examine a source-bound NeuroCAD controlled run of a deliberately bounded deterministic compiler, not a learned general-purpose CAD model. The studied system maps fully dimensioned English requests for plates, rectangular boxes and open-top enclosures, cylinders, spheres, circular holes, and rectangular slots into a typed JSON program, validates structure/references/parameters/constraints, emits deterministic OpenSCAD, and optionally executes the result to STL. On a frozen 240-task synthetic contract test, run `NC-REPRO-508EC40` recorded 240/240 exact semantic matches, versus 144/240 for train-set nearest-neighbor retrieval, 130/240 for unit-normalized dimensions only, 110/240 for raw-number extraction without unit normalization, and 0/240 for a fixed output. Across 1,000 generated typed programs, 1,000/1,000 passed static validity, declared constraints, exact serialization round trip, and deterministic export (Wilson 95% interval 99.62–100%). The run also records rejection of 240/240 unique generated malformed-input fixtures across eight categories, 200/200 injected parameter drifts detected with declared constraints versus 0/200 after constraint removal, 200/200 automated parameter edits surviving validation and export, and 240/240 benchmark programs compiling freshly with OpenSCAD to STL under the retained topology/extents checks. The manifest binds these outcomes to clean commit `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`, a 152-file maintained-source digest, the locked Python environment, and OpenSCAD 2021.01; artifact reuse was disabled. These results do not establish natural-language generalization, design-intent inference, BREP reconstruction, manufacturability, or algorithmic novelty. A historical typed-parser mechanism claim remains explicitly falsified.
@@ -114,7 +120,7 @@ NC-EXP-005 changed a named box-width parameter, then validated, serialized, repa
 
 ## 16. Reproducibility
 
-`scripts/reproduce_research.sh` requires CPython 3.12.14, creates a fresh isolated environment and a new output directory, installs the exact package lock, runs maintained quality gates, executes every required kernel sample with reuse disabled, regenerates JSONL/programs/STL/renders/metrics/figures, builds fresh distributions, and smoke-tests the exact wheel. New manifests record maintained-source and lock digests, package version, Git state when available, Python/dependency identity, and OpenSCAD version. Deterministic outcome hashes are separated from timing/runtime receipts. OpenSCAD remains an external requirement.
+`scripts/reproduce_research.sh` requires CPython 3.12.14, creates a fresh isolated environment and a new output directory, installs the exact package lock, runs maintained quality gates, executes every required kernel sample with reuse disabled, regenerates JSONL/programs/STL/renders/metrics/figures, builds fresh distributions, and smoke-tests the exact wheel. New manifests record maintained-source and lock digests, package version, Git state when available, Python/dependency identity, and OpenSCAD version. New v2 deterministic outcome hashes are separated from timing/runtime receipts. The original v1 artifact has the timing exception recorded above. OpenSCAD remains an external requirement.
 
 The current run manifest records clean commit
 `508ec404dd520ae16f2b4d3cf211d5b1fa46b800`, maintained-source SHA-256
