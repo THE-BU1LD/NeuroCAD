@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-14T13:30:16.103182+00:00",
+  "source": "555d3ebb77266faf6f29a53124b82f753320c70f",
+  "native_run": 38571709895,
+  "result": "FAIL_RETAINED",
+  "native_tests_linux": "179 passed",
+  "failures": [
+    "Python 3.12.14 setup artifact unavailable on macOS ARM64 and Windows x64; use already-maintained portable Python 3.13.15.",
+    "Runner requested cadquery-ocp metadata; installed dependency is cadquery-ocp-novtk 8.0.1.1.0. Golden sequence not executed."
+  ],
+  "additional_review": [
+    "Record OCP version in every build receipt and reject baseline kernel mismatch.",
+    "Distinguish booleans from numeric meshing settings in role receipt validation."
+  ],
+  "thresholds_or_reference_geometry_changed": false
+}

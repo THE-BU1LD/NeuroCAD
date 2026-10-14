@@ -163,7 +163,9 @@ def _verified_receipt(
                           "selector_tolerance_mm": ROLE_TOLERANCE_MM,
                           "meshing_options": DETERMINISTIC_OPTIONS}
         if (not isinstance(recorded, dict) or set(recorded) != set(expected_roles) | {"surface_tags"}
-                or any(recorded[key] != value for key, value in expected_roles.items())):
+                or any(json.dumps(recorded[key], sort_keys=True, allow_nan=False)
+                       != json.dumps(value, sort_keys=True, allow_nan=False)
+                       for key, value in expected_roles.items())):
             raise GmshMeshingError("semantic group receipt does not match source, roles or mesh")
         bindings = recorded["surface_tags"]
         if not isinstance(bindings, dict) or set(bindings) != set(roles["roles"]):

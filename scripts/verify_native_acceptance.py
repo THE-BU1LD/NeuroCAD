@@ -115,10 +115,12 @@ def verify(output: Path) -> dict:
         "source_sha256": {name: file_hash(ROOT / name) for name in sources},
         "commit": os.environ.get("NEUROCAD_SOURCE_COMMIT", "UNKNOWN"),
         "environment": {"python": platform.python_version(), "platform": platform.platform(),
-                        "architecture": platform.machine(), **{name: version(name) for name in ("build123d", "cadquery-ocp", "gmsh", "numpy")}},
+                        "architecture": platform.machine()},
         "claim_boundary": "Authored software controls only; no physical, independent-human or solver validation.",
     }
     try:
+        summary["environment"].update({name: version(name) for name in
+                                       ("build123d", "cadquery-ocp-novtk", "gmsh", "numpy")})
         backend = Build123dBackend()
         for name, (program, extents, volume) in golden_programs().items():
             case = output / name

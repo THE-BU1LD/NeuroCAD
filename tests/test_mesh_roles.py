@@ -71,7 +71,7 @@ def test_missing_or_wrong_count_selector_fails_closed(curved, expected):
     assert not added
 
 
-@pytest.mark.parametrize("fault", [None, "source", "mesh", "roles", "tags", "group", "options", "missing"])
+@pytest.mark.parametrize("fault", [None, "source", "mesh", "roles", "tags", "group", "options", "boolean_option", "missing"])
 def test_supervisor_admits_only_matching_role_receipts(tmp_path, fault):
     # Synthetic transport bytes check admission only, never native geometry.
     bundle = tmp_path / "bundle"
@@ -102,6 +102,8 @@ def test_supervisor_admits_only_matching_role_receipts(tmp_path, fault):
         receipt["physical_groups"] = receipt["roundtrip_physical_groups"] = ["boundary", "domain"]
     elif fault == "options":
         roles["meshing_options"]["Mesh.RandomSeed"] = 2
+    elif fault == "boolean_option":
+        roles["meshing_options"]["Mesh.RandomSeed"] = True
     (bundle / "meshing-receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
     if fault != "missing":
         (bundle / "semantic-groups.json").write_text(json.dumps(roles), encoding="utf-8")

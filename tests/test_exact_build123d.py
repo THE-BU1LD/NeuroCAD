@@ -824,6 +824,8 @@ def test_revision_comparison_rejects_unintended_cutout_motion() -> None:
     [
         ("receipt_version", "future-receipt-v999", "unsupported receipt version"),
         ("backend", "other-kernel", "not produced by the build123d backend"),
+        ("kernel_version", "0.0-forged", "kernel version differs from the current evaluator"),
+        ("kernel_version", None, "kernel version differs from the current evaluator"),
         (
             "backend_version",
             "0.0-forged",

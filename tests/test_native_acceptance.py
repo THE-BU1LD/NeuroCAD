@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from importlib.metadata import version
 
 import pytest
 
@@ -17,6 +18,7 @@ from scripts.verify_native_acceptance import golden_programs
 def test_tagged_beam_membership_survives_native_serialization(tmp_path):
     program, _, _ = golden_programs()["beam"]
     exact = Build123dBackend().export_verified_step(program, tmp_path / "exact")
+    assert exact.kernel_version == version("cadquery-ocp-novtk")
     request = {"source_step_sha256": exact.step_sha256,
                "roles": {"fixed_end": {"axis": "x", "side": "min", "expected_surfaces": 1}}}
     destination = tmp_path / "mesh"

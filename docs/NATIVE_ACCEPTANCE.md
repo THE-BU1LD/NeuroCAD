@@ -11,6 +11,9 @@ hole patterns, a revolved stepped bottle-like solid, a box with vertical edge
 fillets, and an open enclosure with a chamfered front-wall port. The contract is
 `research/development/native_acceptance_20261014/contract.json`. Linux, macOS and
 Windows execution receipts are required before calling the matrix complete.
+Build receipts now also record the OCP distribution version. Revision evaluation
+rejects a missing or mismatched kernel version; older baseline bundles must be
+rebuilt and retained separately before continuing a revision.
 
 For named planar boundary roles, supply `--boundary-roles roles.json` to
 `neurocad-mesh step`. The file has this structure; replace the source digest with
