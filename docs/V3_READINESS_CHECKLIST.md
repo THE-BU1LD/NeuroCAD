@@ -103,8 +103,8 @@ Completed means the stated bounded acceptance criterion has retained evidence. B
 
 - [ ] **E08 — Close paper and provenance gaps** (BLOCKED)
   Acceptance: Every paper-facing claim maps to preserved evidence; missing historical artifacts remain marked missing (issues 6/82).
-  Blocker/current state: External outcomes and one historical run log remain unavailable; native provenance follow-up is concurrent.
-  Next action: Retain the missing-log limitation; finish source-bound provenance review, then draft new results only from supplied evidence.
+  Blocker/current state: External outcomes and four original historical run logs remain unavailable. Native provenance repair is merged; present artifacts were verified without reconstructing missing logs.
+  Next action: Recover original logs from their actual custodians if available; otherwise retain the missing-log limitation. Add paper results only from supplied, reviewed evidence.
 
 Run `python3 scripts/audit_v3_readiness.py` to check the machine-readable inventory. Use `--require-complete` for a gate that refuses open work or source drift.
 
