@@ -1,6 +1,6 @@
 # Historical VertexED → NeuroCAD provenance
 
-This document records the bounded repository handoff tracked by NeuroCAD issue #44 without copying or rewriting historical evidence. It does not by itself close the remaining outside-subtree completeness review. The machine-readable source of truth is the provenance-manifest set plus bounded completeness inventories:
+This document records the bounded repository handoff tracked by NeuroCAD issue #44 without copying or rewriting historical evidence. The 14 October repository-wide inventory below completes the remaining outside-subtree search for this pinned revision. The machine-readable source of truth is the provenance-manifest set plus bounded completeness inventories:
 
 - [`vertexed_neurocad_provenance_v1.json`](vertexed_neurocad_provenance_v1.json) — core product, release, claim, Project 2424, and pilot surfaces;
 - [`vertexed_neurocad_research_provenance_extension_v1.json`](vertexed_neurocad_research_provenance_extension_v1.json) — benchmark/evaluator/OOD, frozen diagnostic, successor-S3, and additional Project 2424 surfaces referenced by the historical evidence ledger;
@@ -87,3 +87,9 @@ No missing pilot, benchmark, deployment, authorization receipt, or scientific ev
 8. Do not use repository migration, CI health, packaging success, a complete bounded source inventory, or a demo as evidence that a historical scientific claim improved.
 
 If a later reviewer discovers another material historical NeuroCAD surface outside the currently bounded inventories, add it as a new commit-pinned row to the appropriate manifest extension and, where applicable, extend the relevant bounded inventory with an explicit reviewable scope change. Do not modify the identity or interpretation of an existing frozen row. If any frozen inventory disagrees with its pinned source tree, treat that as a provenance-control failure rather than silently editing the historical identity.
+
+## Repository-wide closure — 14 October 2026
+
+[`vertexed_neurocad_repository_inventory_v2.json`](vertexed_neurocad_repository_inventory_v2.json) extends the earlier bounded inventories without editing them. It records the union of every earlier provenance row, all NeuroCAD-named files, the complete embedded project subtree, and every case-insensitive NeuroCAD reference across all Git-recognized text blobs in the pinned repository. Each row has its original object identity, immutable source link, canonical owner or explicit historical-only disposition, and selection reason. Earlier owner/relationship/cross-link fields are preserved exactly.
+
+The search recovered five previously unmapped explicitly named test files, plus general portfolio, outreach, deployment and research-index references. These remain historical-only; a mention in a ledger does not create a completed study, pilot or deployment. Binary content is not searched, and this inventory makes no claim about unnamed/unreferenced concepts or a different revision. The source tree and all selected object identities were checked directly against the local historical Git object database. No source outcomes were executed or reinterpreted.

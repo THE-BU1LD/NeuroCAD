@@ -1,0 +1,57 @@
+{
+  "source_commit": "e71b63c829f02ed2950dea12912dd4149056904a",
+  "source_sha256": "444ee7a27d138c14705a48cbd060e7d329c1be5b9148139f706ccf1a1c5f98d9",
+  "scope": "Actual unmodified pure calculation functions compiled from the production AST; no package, CAD, mesh or installed workflow executed.",
+  "passed": 2,
+  "total": 6,
+  "results": [
+    {
+      "case": "axis-x",
+      "actual_maximum_mpa": 6.7906109052542005,
+      "expected_maximum_mpa": 6.790610905254201,
+      "absolute_error": 8.881784197001252e-16,
+      "passed": true,
+      "actual_constraint_satisfied": true
+    },
+    {
+      "case": "axis-y",
+      "actual_maximum_mpa": 6.7906109052542005,
+      "expected_maximum_mpa": 6.790610905254201,
+      "absolute_error": 8.881784197001252e-16,
+      "passed": true,
+      "actual_constraint_satisfied": true
+    },
+    {
+      "case": "biaxial-3-4",
+      "actual_maximum_mpa": 5.432488724203361,
+      "expected_maximum_mpa": 6.790610905254201,
+      "absolute_error": 1.3581221810508408,
+      "passed": false,
+      "actual_constraint_satisfied": true
+    },
+    {
+      "case": "sign-reversed",
+      "actual_maximum_mpa": 5.432488724203361,
+      "expected_maximum_mpa": 6.790610905254201,
+      "absolute_error": 1.3581221810508408,
+      "passed": false,
+      "actual_constraint_satisfied": true
+    },
+    {
+      "case": "axial-shift",
+      "actual_maximum_mpa": 9.676620539987237,
+      "expected_maximum_mpa": 11.034742721038077,
+      "absolute_error": 1.35812218105084,
+      "passed": false,
+      "actual_constraint_satisfied": true
+    },
+    {
+      "case": "torsion-and-compression",
+      "actual_maximum_mpa": 1.1883569084194852,
+      "expected_maximum_mpa": 2.546479089470326,
+      "absolute_error": 1.3581221810508408,
+      "passed": false,
+      "actual_constraint_satisfied": true
+    }
+  ]
+}

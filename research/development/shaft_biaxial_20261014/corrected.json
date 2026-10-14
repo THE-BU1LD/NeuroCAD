@@ -1,0 +1,50 @@
+{
+  "scope": "Actual corrected production AST pure-function evaluation only",
+  "source_sha256": "25605c4e7f94adbde546c637d63b270815ff552db3885c39cb71b8a79496747d",
+  "passed": 6,
+  "total": 6,
+  "results": [
+    {
+      "case": "axis-x",
+      "actual": 6.790610905254201,
+      "expected": 6.790610905254201,
+      "passed": true,
+      "constraint_satisfied": true
+    },
+    {
+      "case": "axis-y",
+      "actual": 6.790610905254201,
+      "expected": 6.790610905254201,
+      "passed": true,
+      "constraint_satisfied": true
+    },
+    {
+      "case": "biaxial-3-4",
+      "actual": 6.790610905254201,
+      "expected": 6.790610905254201,
+      "passed": true,
+      "constraint_satisfied": true
+    },
+    {
+      "case": "sign-reversed",
+      "actual": 6.790610905254201,
+      "expected": 6.790610905254201,
+      "passed": true,
+      "constraint_satisfied": true
+    },
+    {
+      "case": "axial-shift",
+      "actual": 11.034742721038077,
+      "expected": 11.034742721038077,
+      "passed": true,
+      "constraint_satisfied": false
+    },
+    {
+      "case": "torsion-and-compression",
+      "actual": 2.546479089470326,
+      "expected": 2.546479089470326,
+      "passed": true,
+      "constraint_satisfied": false
+    }
+  ]
+}

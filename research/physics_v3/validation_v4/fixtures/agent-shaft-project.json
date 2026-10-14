@@ -1,0 +1,34 @@
+{
+  "plan": {
+    "assumptions": [],
+    "components": [
+      {
+        "id": "shaft",
+        "label": "Example shaft",
+        "operation": "add",
+        "parameters": {
+          "height": 100.0,
+          "radius": 10.0
+        },
+        "part": "shaft",
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shape": "cylinder",
+        "translate": [
+          0.0,
+          0.0,
+          50.0
+        ]
+      }
+    ],
+    "summary": "A bounded example primitive for demonstrating traceable analytical-physics bindings.",
+    "title": "Physics binding example",
+    "version": "neurocad-agent-plan-v1"
+  },
+  "project_id": "physics-binding-example",
+  "revision": 1,
+  "schema_version": "neurocad-agent-project-v1"
+}

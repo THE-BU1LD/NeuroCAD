@@ -1,0 +1,22 @@
+{
+  "schema_version": "neurocad-complex-shape-request-v1",
+  "shape": "hollow_shaft",
+  "parameters": {
+    "outer_diameter_mm": 40,
+    "inner_diameter_mm": 24,
+    "length_mm": 500
+  },
+  "analysis": {
+    "source": "Illustrative declared values only; replace with the exact material record and design load source.",
+    "density_kg_m3": 7850,
+    "elastic_modulus_mpa": 200000,
+    "shear_modulus_mpa": 79000,
+    "yield_strength_mpa": 250,
+    "safety_factor": 2,
+    "axial_force_n": -5000,
+    "tip_force_x_n": 300,
+    "tip_force_y_n": 500,
+    "torque_n_mm": 120000,
+    "effective_length_factor": 1
+  }
+}

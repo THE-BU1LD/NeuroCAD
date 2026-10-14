@@ -198,6 +198,12 @@ def _structural_analysis(
         stresses.append(axial_stress + bending)
     maximum_normal = max(stresses)
     minimum_normal = min(stresses)
+    if shape == "hollow_shaft" and torsion_radius_mm is not None:
+        # On the entire circular boundary, a*x+b*y has extrema +/-r*hypot(a,b).
+        # Four cardinal samples miss the extrema under simultaneous biaxial bending.
+        bending_amplitude = torsion_radius_mm * math.hypot(moment_x / ix_mm4, moment_y / iy_mm4)
+        maximum_normal = axial_stress + bending_amplitude
+        minimum_normal = axial_stress - bending_amplitude
     maximum_absolute_normal = max(abs(maximum_normal), abs(minimum_normal))
     torsional_shear = 0.0 if polar_mm4 is None or torsion_radius_mm is None else abs(torque) * torsion_radius_mm / polar_mm4
     von_mises = math.sqrt(maximum_absolute_normal**2 + 3.0 * torsional_shear**2)

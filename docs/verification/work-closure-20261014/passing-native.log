@@ -1,0 +1,780 @@
+interoperability	Set up job	﻿2026-10-14T12:14:03.3195785Z Current runner version: '2.337.0'
+interoperability	Set up job	2026-10-14T12:14:03.3217395Z ##[group]Runner Image Provisioner
+interoperability	Set up job	2026-10-14T12:14:03.3218135Z Hosted Compute Agent
+interoperability	Set up job	2026-10-14T12:14:03.3218629Z Version: 20261002.596
+interoperability	Set up job	2026-10-14T12:14:03.3219226Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+interoperability	Set up job	2026-10-14T12:14:03.3219818Z Build Date: 2026-10-02T22:28:27Z
+interoperability	Set up job	2026-10-14T12:14:03.3220353Z Worker ID: {7b826413-0d09-4ba6-bc72-f1e12124bf5a}
+interoperability	Set up job	2026-10-14T12:14:03.3220978Z Region: westus3
+interoperability	Set up job	2026-10-14T12:14:03.3221494Z Cloud: Azure
+interoperability	Set up job	2026-10-14T12:14:03.3222197Z ##[endgroup]
+interoperability	Set up job	2026-10-14T12:14:03.3223330Z ##[group]Operating System
+interoperability	Set up job	2026-10-14T12:14:03.3223823Z Ubuntu
+interoperability	Set up job	2026-10-14T12:14:03.3224332Z 24.04.5
+interoperability	Set up job	2026-10-14T12:14:03.3224752Z LTS
+interoperability	Set up job	2026-10-14T12:14:03.3225232Z ##[endgroup]
+interoperability	Set up job	2026-10-14T12:14:03.3225697Z ##[group]Runner Image
+interoperability	Set up job	2026-10-14T12:14:03.3226194Z Image: ubuntu-24.04
+interoperability	Set up job	2026-10-14T12:14:03.3226699Z Version: 20261004.327.1
+interoperability	Set up job	2026-10-14T12:14:03.3227622Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+interoperability	Set up job	2026-10-14T12:14:03.3229045Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+interoperability	Set up job	2026-10-14T12:14:03.3229849Z ##[endgroup]
+interoperability	Set up job	2026-10-14T12:14:03.3230806Z ##[group]GITHUB_TOKEN Permissions
+interoperability	Set up job	2026-10-14T12:14:03.3232604Z Contents: read
+interoperability	Set up job	2026-10-14T12:14:03.3233216Z Metadata: read
+interoperability	Set up job	2026-10-14T12:14:03.3233683Z ##[endgroup]
+interoperability	Set up job	2026-10-14T12:14:03.3235447Z Secret source: Actions
+interoperability	Set up job	2026-10-14T12:14:03.3236251Z Cache mode: write
+interoperability	Set up job	2026-10-14T12:14:03.3236878Z Prepare workflow directory
+interoperability	Set up job	2026-10-14T12:14:03.3517361Z Prepare all required actions
+interoperability	Set up job	2026-10-14T12:14:03.3557316Z Getting action download info
+interoperability	Set up job	2026-10-14T12:14:03.7295380Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+interoperability	Set up job	2026-10-14T12:14:03.8415138Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+interoperability	Set up job	2026-10-14T12:14:04.0038789Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+interoperability	Set up job	2026-10-14T12:14:04.2584193Z Complete job name: interoperability
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-14T12:14:04.3268700Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3269603Z with:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3270007Z   ref: e71b63c829f02ed2950dea12912dd4149056904a
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3270526Z   persist-credentials: false
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3270970Z   repository: THE-BU1LD/NeuroCAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3274604Z   token: ***
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3274990Z   ssh-strict: true
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3275366Z   ssh-user: git
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3275735Z   clean: true
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3276131Z   sparse-checkout-cone-mode: true
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3276594Z   fetch-depth: 1
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3276968Z   fetch-tags: false
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3277351Z   show-progress: true
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3277741Z   lfs: false
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3278119Z   submodules: false
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3278544Z   set-safe-directory: true
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3278976Z   allow-unsafe-pr-checkout: false
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.3279593Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.4170014Z Syncing repository: THE-BU1LD/NeuroCAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.4173285Z ##[group]Getting Git version info
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.4174737Z Working directory is '/home/runner/work/NeuroCAD/NeuroCAD'
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.4176900Z [command]/usr/bin/git version
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5365828Z git version 2.55.0
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5382395Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5391634Z Temporarily overriding HOME='/home/runner/work/_temp/59b64177-c41a-494b-8517-dbc0712e91b8' before making global git config changes
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5393054Z Adding repository directory to the temporary git global config as a safe directory
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5396754Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroCAD/NeuroCAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5438815Z Deleting the contents of '/home/runner/work/NeuroCAD/NeuroCAD'
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5442108Z ##[group]Determining repository object format
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5443226Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5444018Z ##[group]Initializing the repository
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5446588Z [command]/usr/bin/git init /home/runner/work/NeuroCAD/NeuroCAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5528434Z hint: Using 'master' as the name for the initial branch. This default branch name
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5529684Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5530481Z hint: to use in all of your new repositories, which will suppress this warning,
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5531108Z hint: call:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5531472Z hint:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5532044Z hint: 	git config --global init.defaultBranch <name>
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5532584Z hint:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5533087Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5533880Z hint: 'development'. The just-created branch can be renamed via this command:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5534513Z hint:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5534907Z hint: 	git branch -m <name>
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5535328Z hint:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5535862Z hint: Disable this message with "git config set advice.defaultBranchName false"
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5540160Z Initialized empty Git repository in /home/runner/work/NeuroCAD/NeuroCAD/.git/
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5546854Z [command]/usr/bin/git remote add origin https://github.com/THE-BU1LD/NeuroCAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5588900Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5589603Z ##[group]Disabling automatic garbage collection
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5591431Z [command]/usr/bin/git config --local gc.auto 0
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5620834Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5621738Z ##[group]Setting up auth
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5622441Z Removing SSH command configuration
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5625238Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5654822Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5935717Z Removing HTTP extra header
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5940276Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.5969482Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6156700Z Removing includeIf entries pointing to credentials config files
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6160501Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6197577Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6389739Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6423117Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path /home/runner/work/_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6453754Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6558380Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6560773Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6563267Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6564390Z ##[group]Fetching the repository
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:04.6566138Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin e71b63c829f02ed2950dea12912dd4149056904a
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3618961Z From https://github.com/THE-BU1LD/NeuroCAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3620832Z  * branch            e71b63c829f02ed2950dea12912dd4149056904a -> FETCH_HEAD
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3626534Z [command]/usr/bin/git rev-parse --verify --quiet e71b63c829f02ed2950dea12912dd4149056904a^{object}
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3654604Z e71b63c829f02ed2950dea12912dd4149056904a
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3659152Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3660473Z ##[group]Determining the checkout info
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3662298Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3663359Z [command]/usr/bin/git sparse-checkout disable
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3744482Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3776696Z ##[group]Checking out the ref
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.3779702Z [command]/usr/bin/git checkout --progress --force e71b63c829f02ed2950dea12912dd4149056904a
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7232149Z Note: switching to 'e71b63c829f02ed2950dea12912dd4149056904a'.
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7232667Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7232894Z You are in 'detached HEAD' state. You can look around, make experimental
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7233531Z changes and commit them, and you can discard any commits you make in this
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7234120Z state without impacting any branches by switching back to a branch.
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7234452Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7234672Z If you want to create a new branch to retain commits you create, you may
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7235237Z do so (now or later) by using -c with the switch command. Example:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7235541Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7235681Z   git switch -c <new-branch-name>
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7235947Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7236109Z Or undo this operation with:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7236318Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7236428Z   git switch -
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7236605Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7236874Z Turn off this advice by setting config variable advice.detachedHead to false
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7237291Z 
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7237625Z HEAD is now at e71b63c Fix security workflow contracts and retain branch protection evidence
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.7250130Z ##[endgroup]
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8345872Z [command]/usr/bin/git log -1 --format=%H
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8377252Z e71b63c829f02ed2950dea12912dd4149056904a
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8392440Z ##[group]Removing auth
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8392844Z Removing SSH command configuration
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8393431Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8424586Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8635724Z Removing HTTP extra header
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8638826Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8676579Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8880331Z Removing includeIf entries pointing to credentials config files
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8883850Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8912106Z includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8912761Z includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8913308Z includeif.gitdir:/github/workspace/.git.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8913763Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8920247Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8943515Z /home/runner/work/_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8951089Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-575d4176\-1afc\-441f\-a44c\-9d6b678b7053\.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.8984518Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9006104Z /home/runner/work/_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9012426Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/NeuroCAD/NeuroCAD/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-575d4176\-1afc\-441f\-a44c\-9d6b678b7053\.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9632048Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9660792Z /github/runner_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9666331Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-575d4176\-1afc\-441f\-a44c\-9d6b678b7053\.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9735923Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9770176Z /github/runner_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9775961Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-575d4176\-1afc\-441f\-a44c\-9d6b678b7053\.config
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9808146Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:07.9999263Z Removing credentials config '/home/runner/work/_temp/git-credentials-575d4176-1afc-441f-a44c-9d6b678b7053.config'
+interoperability	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:14:08.0008245Z ##[endgroup]
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	﻿2026-10-14T12:14:08.0218886Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0219224Z with:
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0219394Z   python-version: 3.12.14
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0219580Z   cache: pip
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0219743Z   check-latest: false
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0222003Z   token: ***
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0222214Z   update-environment: true
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0222420Z   allow-prereleases: false
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0222597Z   freethreaded: false
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.0222769Z ##[endgroup]
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.1171696Z ##[group]Installed versions
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:08.1184112Z Version 3.12.14 was not found in the local cache
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:09.3368616Z Version 3.12.14 is available for downloading
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:09.3370049Z Download from "https://github.com/actions/python-versions/releases/download/3.12.14-31661455385/python-3.12.14-linux-24.04-x64.tar.gz"
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:09.9600182Z Extract downloaded archive
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:09.9711315Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/b13eb418-6887-46cb-bb50-0f118481b65b -f /home/runner/work/_temp/54f0c002-9216-4329-8f6f-42ff46314b75
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:11.6117995Z Execute installation script
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:11.6200442Z Check if Python hostedtoolcache folder exist...
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:11.6201052Z Create Python 3.12.14 folder
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:11.6213797Z Copy Python binaries to hostedtoolcache folder
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:12.0020874Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:12.0058157Z Upgrading pip...
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:13.8630075Z Collecting pip
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:13.8891278Z Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:13.8959493Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0179186Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 14.7 MB/s eta 0:00:00
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0179619Z 
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0333567Z Installing collected packages: pip
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0334016Z Attempting uninstall: pip
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0351250Z Found existing installation: pip 25.0.1
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0615759Z Uninstalling pip-25.0.1:
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.0659449Z Successfully uninstalled pip-25.0.1
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.8017303Z Successfully installed pip-26.2.1
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.8469657Z Create complete file
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.8499784Z Successfully set up CPython (3.12.14)
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:14.8500911Z ##[endgroup]
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:15.4415668Z [command]/opt/hostedtoolcache/Python/3.12.14/x64/bin/pip cache dir
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:15.5694939Z /home/runner/.cache/pip
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:15.9427332Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.14-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:17.1695992Z Received 33554432 of 406357573 (8.3%), 32.0 MBs/sec
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:18.1701552Z Received 205520896 of 406357573 (50.6%), 98.0 MBs/sec
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:19.1733516Z Received 385875968 of 406357573 (95.0%), 122.6 MBs/sec
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:19.3966518Z Received 406357573 of 406357573 (100.0%), 120.1 MBs/sec
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:19.3967286Z Cache Size: ~388 MB (406357573 B)
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:19.3992441Z [command]/usr/bin/tar -xf /home/runner/work/_temp/e294f529-f855-4b17-9727-01f60b374ff1/cache.tzst -P -C /home/runner/work/NeuroCAD/NeuroCAD --use-compress-program unzstd
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:19.8527580Z Cache restored successfully
+interoperability	Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:14:19.8692892Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.14-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c
+interoperability	Install both pinned optional backends	﻿2026-10-14T12:14:19.9054639Z ##[group]Run sudo apt-get update
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9054961Z ^[[36;1msudo apt-get update^[[0m
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9055255Z ^[[36;1msudo apt-get install -y libglu1-mesa libxft2^[[0m
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9055606Z ^[[36;1mpython -m pip install -e '.[dev,exact-build123d,mesh-gmsh]'^[[0m
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9055905Z ^[[36;1mpython -m pip check^[[0m
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9056376Z ^[[36;1mpython -c 'import build123d, gmsh; from importlib.metadata import version; print({k: version(k) for k in ("build123d", "gmsh", "numpy")})'^[[0m
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9358567Z shell: /usr/bin/bash -e {0}
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9358849Z env:
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9359094Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9359490Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9359849Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9360165Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9360471Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9360844Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Install both pinned optional backends	2026-10-14T12:14:19.9361104Z ##[endgroup]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.0756927Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.0936620Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.1752275Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.1828897Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.1893159Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.1933240Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.2693375Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.2873185Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.2905650Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [576 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.2995661Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [518 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.3794405Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.3873034Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.3887612Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.3977770Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.4012967Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.4068165Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.4094319Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.4107547Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.0 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.4304540Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.4761267Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1145 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5264577Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5283063Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1221 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5328663Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5346675Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5419218Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5442310Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:20.5455022Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:33.9402904Z Fetched 12.5 MB in 1s (10.3 MB/s)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:34.6805556Z Reading package lists...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:34.7075739Z Reading package lists...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:34.8814159Z Building dependency tree...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:34.8820672Z Reading state information...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0585199Z libxft2 is already the newest version (2.3.6-1build1).
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0585574Z libxft2 set to manually installed.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0585839Z The following NEW packages will be installed:
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0590934Z   libglu1-mesa libopengl0
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0750629Z 0 upgraded, 2 newly installed, 0 to remove and 35 not upgraded.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0751194Z Need to get 185 kB of archives.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0751658Z After this operation, 603 kB of additional disk space will be used.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.0752304Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.2231316Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libopengl0 amd64 1.7.0-1build1 [32.8 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:35.3757027Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libglu1-mesa amd64 9.0.2-1.1build1 [152 kB]
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.0110104Z Fetched 185 kB in 0s (399 kB/s)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.0705244Z Selecting previously unselected package libopengl0:amd64.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1185602Z (Reading database ... 
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1185969Z (Reading database ... 5%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1186263Z (Reading database ... 10%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1186461Z (Reading database ... 15%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1186653Z (Reading database ... 20%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1186848Z (Reading database ... 25%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1187118Z (Reading database ... 30%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1187390Z (Reading database ... 35%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1188360Z (Reading database ... 40%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1188669Z (Reading database ... 45%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.1188955Z (Reading database ... 50%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.2214300Z (Reading database ... 55%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.6005196Z (Reading database ... 60%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:36.8754584Z (Reading database ... 65%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:37.7143592Z (Reading database ... 70%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:38.3958898Z (Reading database ... 75%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:39.1961435Z (Reading database ... 80%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:40.0798199Z (Reading database ... 85%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:40.7922272Z (Reading database ... 90%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7037866Z (Reading database ... 95%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7038272Z (Reading database ... 100%
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7038682Z (Reading database ... 203191 files and directories currently installed.)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7083125Z Preparing to unpack .../libopengl0_1.7.0-1build1_amd64.deb ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7148403Z Unpacking libopengl0:amd64 (1.7.0-1build1) ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7364871Z Selecting previously unselected package libglu1-mesa:amd64.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7475812Z Preparing to unpack .../libglu1-mesa_9.0.2-1.1build1_amd64.deb ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7481973Z Unpacking libglu1-mesa:amd64 (9.0.2-1.1build1) ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7895692Z Setting up libopengl0:amd64 (1.7.0-1build1) ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7912699Z Setting up libglu1-mesa:amd64 (9.0.2-1.1build1) ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:41.7929117Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9791488Z 
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9792722Z Running kernel seems to be up-to-date.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9793022Z 
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9793141Z No services need to be restarted.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9793325Z 
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9793443Z No containers need to be restarted.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9793642Z 
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9793780Z No user sessions are running outdated binaries.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9794015Z 
+interoperability	Install both pinned optional backends	2026-10-14T12:14:45.9794215Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+interoperability	Install both pinned optional backends	2026-10-14T12:14:47.6822320Z Obtaining file:///home/runner/work/NeuroCAD/NeuroCAD
+interoperability	Install both pinned optional backends	2026-10-14T12:14:47.6837156Z   Installing build dependencies: started
+interoperability	Install both pinned optional backends	2026-10-14T12:14:48.8019240Z   Installing build dependencies: finished with status 'done'
+interoperability	Install both pinned optional backends	2026-10-14T12:14:48.8024445Z   Checking if build backend supports build_editable: started
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.0675443Z   Checking if build backend supports build_editable: finished with status 'done'
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.0682195Z   Getting requirements to build editable: started
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.3828783Z   Getting requirements to build editable: finished with status 'done'
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.3835974Z   Preparing editable metadata (pyproject.toml): started
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.6376766Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.7104273Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.7115119Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:49.9726082Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.0207974Z   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.1512175Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.1545635Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.3466123Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.3475316Z   Using cached build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.4220382Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.4231510Z   Using cached mypy-1.18.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.2 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.4480912Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:50.4490331Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.0424288Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.0435883Z   Using cached ruff-0.16.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (26 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.0810414Z Collecting build123d==0.13.0 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.0821541Z   Using cached build123d-0.13.0-py3-none-any.whl.metadata (14 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.2680816Z Collecting gmsh==4.15.2 (from neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.2718720Z   Downloading gmsh-4.15.2-py2.py3-none-manylinux_2_24_x86_64.whl.metadata (1.7 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.5379721Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.5388513Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.7716471Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.7729771Z   Using cached pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.9630949Z Collecting cadquery-ocp-novtk<8.1,>=8.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.9663910Z   Downloading cadquery_ocp_novtk-8.0.1.1.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (886 bytes)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.9837210Z Collecting typing_extensions<5,>=4.16.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:51.9846162Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.0009490Z Collecting svgpathtools<2,>=1.5.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.0018365Z   Using cached svgpathtools-1.8.0-py2.py3-none-any.whl.metadata (22 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.0175392Z Collecting anytree<3,>=2.8.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.0184294Z   Using cached anytree-2.13.0-py3-none-any.whl.metadata (8.0 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.2246649Z Collecting ezdxf<2,>=1.1.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.2257861Z   Using cached ezdxf-1.4.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.9 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.3543233Z Collecting fonttools<5,>=4.39.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.3556957Z   Using cached fonttools-4.66.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (130 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.3936033Z Collecting ipython<10,>=8.0.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.3946366Z   Using cached ipython-9.17.1-py3-none-any.whl.metadata (4.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4110536Z Collecting ocpsvg<0.8,>=0.7 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4119726Z   Using cached ocpsvg-0.7.0-py3-none-any.whl.metadata (918 bytes)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4269380Z Collecting ocp_gordon<0.4,>=0.3.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4278851Z   Using cached ocp_gordon-0.3.1-py3-none-any.whl.metadata (5.2 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4413973Z Collecting trianglesolver (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4423249Z   Using cached trianglesolver-1.2-py3-none-any.whl.metadata (1.7 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4589601Z Collecting sympy (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.4599598Z   Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.5551216Z Collecting scipy (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.5562652Z   Using cached scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6243399Z Collecting scikit-learn<2,>=1.5 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6253685Z   Using cached scikit_learn-1.9.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.3 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6396515Z Collecting webcolors~=24.8.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6405718Z   Using cached webcolors-24.8.0-py3-none-any.whl.metadata (2.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6604992Z Collecting requests<3,>=2.32 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6614522Z   Using cached requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6766241Z Collecting lib3mf>=2.4.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6775670Z   Using cached lib3mf-2.5.0-py3-none-manylinux2014_x86_64.whl.metadata (6.2 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6911466Z Collecting bd_materials<0.3.0,>=0.2.0 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.6920787Z   Using cached bd_materials-0.2.4-py3-none-any.whl.metadata (32 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7072206Z Collecting threejs-materials<1.3.0,>=1.2.1 (from build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7082943Z   Using cached threejs_materials-1.2.4-py3-none-any.whl.metadata (56 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7291105Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7300644Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7446899Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7456570Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7609303Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7640392Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7808833Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.7818436Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8002312Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8012313Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8176543Z Collecting cadquery-ocp-proxy==8.0.1.1.0 (from cadquery-ocp-novtk<8.1,>=8.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8207533Z   Downloading cadquery_ocp_proxy-8.0.1.1.0-py3-none-any.whl.metadata (4.7 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8457307Z Collecting pyparsing>=3.0.0 (from ezdxf<2,>=1.1.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8467121Z   Using cached pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8869431Z Collecting ipython-pygments-lexers>=1.0.0 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.8878774Z   Using cached ipython_pygments_lexers-1.1.1-py3-none-any.whl.metadata (1.1 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9033414Z Collecting jedi>=0.18.2 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9065248Z   Downloading jedi-0.20.1-py2.py3-none-any.whl.metadata (23 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9256181Z Collecting matplotlib-inline>=0.1.6 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9265405Z   Using cached matplotlib_inline-0.2.2-py3-none-any.whl.metadata (2.4 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9402672Z Collecting pexpect>4.6 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9412985Z   Using cached pexpect-4.9.0-py2.py3-none-any.whl.metadata (2.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9629008Z Collecting prompt_toolkit<3.1.0,>=3.0.41 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:52.9638633Z   Using cached prompt_toolkit-3.0.53-py3-none-any.whl.metadata (6.4 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0140739Z Collecting psutil>=7 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0151422Z   Using cached psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0338641Z Collecting stack_data>=0.6.0 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0347746Z   Using cached stack_data-0.6.3-py3-none-any.whl.metadata (18 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0526658Z Collecting traitlets>=5.13.0 (from ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0536500Z   Using cached traitlets-5.16.1-py3-none-any.whl.metadata (10 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0705536Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0714580Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0865724Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.0874793Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.1066162Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.1075307Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.3183616Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.3218412Z   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.3426634Z Collecting svgelements<2,>=1.9.1 (from ocpsvg<0.8,>=0.7->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.3436305Z   Using cached svgelements-1.9.6-py2.py3-none-any.whl.metadata (44 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.3652076Z Collecting wcwidth>=0.1.4 (from prompt_toolkit<3.1.0,>=3.0.41->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.3685633Z   Downloading wcwidth-0.9.2-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (23 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.4611287Z Collecting charset_normalizer<4,>=2 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.4622891Z   Using cached charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.4803103Z Collecting idna<4,>=2.5 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.4812431Z   Using cached idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5014870Z Collecting urllib3<3,>=1.26 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5024143Z   Using cached urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5201166Z Collecting certifi>=2023.5.7 (from requests<3,>=2.32->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5210444Z   Using cached certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5440644Z Collecting joblib>=1.4.0 (from scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5450123Z   Using cached joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5770939Z Collecting narwhals>=2.0.1 (from scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5802101Z   Downloading narwhals-2.27.1-py3-none-any.whl.metadata (15 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5974000Z Collecting threadpoolctl>=3.5.0 (from scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.5983109Z   Using cached threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.6156595Z Collecting svgwrite (from svgpathtools<2,>=1.5.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.6165578Z   Using cached svgwrite-1.4.3-py3-none-any.whl.metadata (8.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.7875324Z Collecting pillow<12.3.0,>=12.2.0 (from threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.7887572Z   Using cached pillow-12.2.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8055194Z Collecting pygltflib<2.0,>=1.16 (from threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8064766Z   Using cached pygltflib-1.16.5-py3-none-any.whl.metadata (33 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8288092Z Collecting platformdirs<5.0.0,>=4.9.6 (from threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8319443Z   Downloading platformdirs-4.13.0-py3-none-any.whl.metadata (5.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8538385Z Collecting dataclasses-json>=0.0.25 (from pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8547838Z   Using cached dataclasses_json-0.6.7-py3-none-any.whl.metadata (25 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8712459Z Collecting deprecated (from pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.8721665Z   Using cached deprecated-3.0.0-py3-none-any.whl.metadata (6.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9035431Z Collecting marshmallow<4.0.0,>=3.18.0 (from dataclasses-json>=0.0.25->pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9045146Z   Using cached marshmallow-3.26.2-py3-none-any.whl.metadata (7.3 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9344866Z Collecting typing-inspect<1,>=0.4.0 (from dataclasses-json>=0.0.25->pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9354160Z   Using cached typing_inspect-0.9.0-py3-none-any.whl.metadata (1.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9540151Z Collecting parso<0.9.0,>=0.8.7 (from jedi>=0.18.2->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9549476Z   Using cached parso-0.8.7-py2.py3-none-any.whl.metadata (8.2 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9720071Z Collecting cloudpickle>=3.0 (from joblib>=1.4.0->scikit-learn<2,>=1.5->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9728956Z   Using cached cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9915931Z Collecting ptyprocess>=0.5 (from pexpect>4.6->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:53.9924849Z   Using cached ptyprocess-0.7.0-py2.py3-none-any.whl.metadata (1.3 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.0148435Z Collecting executing>=1.2.0 (from stack_data>=0.6.0->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.0178658Z   Downloading executing-2.3.0-py3-none-any.whl.metadata (9.1 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.0356081Z Collecting asttokens>=2.1.0 (from stack_data>=0.6.0->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.0365158Z   Using cached asttokens-3.0.2-py3-none-any.whl.metadata (5.7 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.0500261Z Collecting pure-eval (from stack_data>=0.6.0->ipython<10,>=8.0.0->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.0509220Z   Using cached pure_eval-0.2.4-py3-none-any.whl.metadata (6.4 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3152576Z Collecting wrapt<3,>=1.16 (from deprecated->pygltflib<2.0,>=1.16->threejs-materials<1.3.0,>=1.2.1->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3186987Z   Downloading wrapt-2.5.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (7.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3377805Z Collecting mpmath<1.4,>=1.1.0 (from sympy->build123d==0.13.0->neurocad-research==0.5.0a6)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3387030Z   Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3432685Z Using cached build-1.6.0-py3-none-any.whl (31 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3441101Z Using cached build123d-0.13.0-py3-none-any.whl (387 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.3471964Z Downloading gmsh-4.15.2-py2.py3-none-manylinux_2_24_x86_64.whl (40.0 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.6948373Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.0/40.0 MB 116.8 MB/s  0:00:00
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.6960364Z Using cached mypy-1.18.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (13.3 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.7008124Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.7018669Z Using cached ruff-0.16.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.3 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.7057068Z Using cached anytree-2.13.0-py3-none-any.whl (45 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.7066146Z Using cached bd_materials-0.2.4-py3-none-any.whl (74 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:54.7112231Z Downloading cadquery_ocp_novtk-8.0.1.1.0-cp312-cp312-manylinux_2_28_x86_64.whl (66.8 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.2959161Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.8/66.8 MB 114.3 MB/s  0:00:00
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.2993289Z Downloading cadquery_ocp_proxy-8.0.1.1.0-py3-none-any.whl (3.2 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.3018591Z Using cached ezdxf-1.4.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.8 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.3044440Z Using cached fonttools-4.66.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.4 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.3068898Z Using cached ipython-9.17.1-py3-none-any.whl (639 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.3079622Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.3112164Z Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4246791Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 147.8 MB/s  0:00:00
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4258133Z Using cached ocp_gordon-0.3.1-py3-none-any.whl (52 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4266887Z Using cached ocpsvg-0.7.0-py3-none-any.whl (20 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4275793Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4284708Z Using cached prompt_toolkit-3.0.53-py3-none-any.whl (392 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4294679Z Using cached requests-2.34.2-py3-none-any.whl (73 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4304139Z Using cached charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4313333Z Using cached idna-3.20-py3-none-any.whl (69 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4322523Z Using cached scikit_learn-1.9.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.2 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4357553Z Using cached svgelements-1.9.6-py2.py3-none-any.whl (137 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4366512Z Using cached svgpathtools-1.8.0-py2.py3-none-any.whl (70 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4375392Z Using cached threejs_materials-1.2.4-py3-none-any.whl (89.8 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4632565Z Using cached pillow-12.2.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4685744Z Downloading platformdirs-4.13.0-py3-none-any.whl (32 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4712211Z Using cached pygltflib-1.16.5-py3-none-any.whl (27 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4753826Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4814524Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 750.4/750.4 kB 116.0 MB/s  0:00:00
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4824609Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4833986Z Using cached urllib3-2.8.0-py3-none-any.whl (135 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4844066Z Using cached webcolors-24.8.0-py3-none-any.whl (15 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4853598Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4862381Z Using cached certifi-2026.7.22-py3-none-any.whl (136 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4871110Z Using cached dataclasses_json-0.6.7-py3-none-any.whl (28 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4879706Z Using cached marshmallow-3.26.2-py3-none-any.whl (50 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4888331Z Using cached typing_inspect-0.9.0-py3-none-any.whl (8.8 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4921125Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4944554Z Using cached ipython_pygments_lexers-1.1.1-py3-none-any.whl (8.1 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.4975821Z Downloading jedi-0.20.1-py2.py3-none-any.whl (4.9 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5301093Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 151.3 MB/s  0:00:00
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5311055Z Using cached parso-0.8.7-py2.py3-none-any.whl (107 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5320641Z Using cached joblib-1.6.0-py3-none-any.whl (306 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5330338Z Using cached cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5339168Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5347842Z Using cached lib3mf-2.5.0-py3-none-manylinux2014_x86_64.whl (1.6 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5361434Z Using cached matplotlib_inline-0.2.2-py3-none-any.whl (9.5 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5369990Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5400858Z Downloading narwhals-2.27.1-py3-none-any.whl (483 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5473356Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5482256Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5490705Z Using cached pexpect-4.9.0-py2.py3-none-any.whl (63 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5499913Z Using cached psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (155 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5508453Z Using cached ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5517140Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5529399Z Using cached pyparsing-3.3.3-py3-none-any.whl (126 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5538125Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5573460Z Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5626025Z Using cached scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5729369Z Using cached stack_data-0.6.3-py3-none-any.whl (24 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5738061Z Using cached asttokens-3.0.2-py3-none-any.whl (28 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5768812Z Downloading executing-2.3.0-py3-none-any.whl (29 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5795479Z Using cached threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5804362Z Using cached traitlets-5.16.1-py3-none-any.whl (86 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5835985Z Downloading wcwidth-0.9.2-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (769 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5915219Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 769.8/769.8 kB 90.9 MB/s  0:00:00
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5924002Z Using cached deprecated-3.0.0-py3-none-any.whl (21 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.5956407Z Downloading wrapt-2.5.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (250 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.6003039Z Using cached pure_eval-0.2.4-py3-none-any.whl (11 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.6011593Z Using cached pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.6020315Z Using cached svgwrite-1.4.3-py3-none-any.whl (67 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.6029290Z Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.6054998Z Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:55.6065220Z Using cached trianglesolver-1.2-py3-none-any.whl (5.4 kB)
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.0380985Z Building wheels for collected packages: neurocad-research
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.0387660Z   Building editable for neurocad-research (pyproject.toml): started
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.3203703Z   Building editable for neurocad-research (pyproject.toml): finished with status 'done'
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.3208355Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-0.editable-py3-none-any.whl size=13635 sha256=a02832fc5ca181ceacb20e61237d2b4445c69e210268f890a7a61e0368d34a47
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.3209644Z   Stored in directory: /tmp/pip-ephem-wheel-cache-dzcohhdr/wheels/7e/90/5f/035c4b97e1b007323744af2239e3861a9f78391ef5e924c7ec
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.3230909Z Successfully built neurocad-research
+interoperability	Install both pinned optional backends	2026-10-14T12:14:56.4752655Z Installing collected packages: trianglesolver, svgelements, pure-eval, ptyprocess, mpmath, lib3mf, gmsh, wrapt, webcolors, wcwidth, urllib3, typing_extensions, traitlets, threadpoolctl, sympy, svgwrite, ruff, rpds-py, pyproject_hooks, pyparsing, pygments, psutil, pluggy, platformdirs, pillow, pexpect, pathspec, parso, packaging, numpy, narwhals, mypy_extensions, iniconfig, idna, fonttools, executing, cloudpickle, charset_normalizer, certifi, cadquery-ocp-proxy, attrs, asttokens, anytree, typing-inspect, trimesh, stack_data, scipy, requests, referencing, pytest, prompt_toolkit, ocpsvg, mypy, matplotlib-inline, marshmallow, joblib, jedi, ipython-pygments-lexers, ezdxf, deprecated, cadquery-ocp-novtk, build, svgpathtools, scikit-learn, ocp_gordon, jsonschema-specifications, ipython, dataclasses-json, pygltflib, jsonschema, threejs-materials, neurocad-research, bd_materials, build123d
+interoperability	Install both pinned optional backends	2026-10-14T12:15:20.7202679Z 
+interoperability	Install both pinned optional backends	2026-10-14T12:15:20.7249762Z Successfully installed anytree-2.13.0 asttokens-3.0.2 attrs-26.1.0 bd_materials-0.2.4 build-1.6.0 build123d-0.13.0 cadquery-ocp-novtk-8.0.1.1.0 cadquery-ocp-proxy-8.0.1.1.0 certifi-2026.7.22 charset_normalizer-3.5.2 cloudpickle-3.1.2 dataclasses-json-0.6.7 deprecated-3.0.0 executing-2.3.0 ezdxf-1.4.4 fonttools-4.66.1 gmsh-4.15.2 idna-3.20 iniconfig-2.3.1 ipython-9.17.1 ipython-pygments-lexers-1.1.1 jedi-0.20.1 joblib-1.6.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 lib3mf-2.5.0 marshmallow-3.26.2 matplotlib-inline-0.2.2 mpmath-1.3.0 mypy-1.18.2 mypy_extensions-1.1.0 narwhals-2.27.1 neurocad-research-0.5.0a6 numpy-2.5.4 ocp_gordon-0.3.1 ocpsvg-0.7.0 packaging-26.3 parso-0.8.7 pathspec-1.1.1 pexpect-4.9.0 pillow-12.2.0 platformdirs-4.13.0 pluggy-1.6.0 prompt_toolkit-3.0.53 psutil-7.2.2 ptyprocess-0.7.0 pure-eval-0.2.4 pygltflib-1.16.5 pygments-2.21.0 pyparsing-3.3.3 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 requests-2.34.2 rpds-py-2026.9.1 ruff-0.16.5 scikit-learn-1.9.1 scipy-1.18.1 stack_data-0.6.3 svgelements-1.9.6 svgpathtools-1.8.0 svgwrite-1.4.3 sympy-1.14.0 threadpoolctl-3.7.0 threejs-materials-1.2.4 traitlets-5.16.1 trianglesolver-1.2 trimesh-5.1.1 typing-inspect-0.9.0 typing_extensions-4.16.0 urllib3-2.8.0 wcwidth-0.9.2 webcolors-24.8.0 wrapt-2.5.1
+interoperability	Install both pinned optional backends	2026-10-14T12:15:21.3640529Z No broken requirements found.
+interoperability	Install both pinned optional backends	2026-10-14T12:15:24.8083292Z {'build123d': '0.13.0', 'gmsh': '4.15.2', 'numpy': '2.5.4'}
+interoperability	Run real interoperability and original backend tests	﻿2026-10-14T12:15:25.3626543Z ##[group]Run python -m pytest -q tests/test_cad_mesh_native.py tests/test_mesh_cli.py tests/test_exact_build123d.py tests/test_feature_revision_cli.py tests/test_revision_evaluation.py tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py tests/test_reference_tetrahedron.py --basetemp="/home/runner/work/_temp/cad-mesh-cases" --junitxml="/home/runner/work/_temp/cad-mesh.xml"
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3628609Z ^[[36;1mpython -m pytest -q tests/test_cad_mesh_native.py tests/test_mesh_cli.py tests/test_exact_build123d.py tests/test_feature_revision_cli.py tests/test_revision_evaluation.py tests/test_gmsh_backend.py tests/test_gmsh_contract.py tests/test_gmsh_integrity.py tests/test_reference_tetrahedron.py --basetemp="/home/runner/work/_temp/cad-mesh-cases" --junitxml="/home/runner/work/_temp/cad-mesh.xml"^[[0m
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3629791Z ^[[36;1mpython -m ruff check tests/test_cad_mesh_native.py tests/test_mesh_cli.py^[[0m
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3687043Z shell: /usr/bin/bash -e {0}
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3687289Z env:
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3687514Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3687869Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3688223Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3688525Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3688819Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3689118Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:25.3689371Z ##[endgroup]
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:15:53.3225757Z ........................................................................ [ 41%]
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:16:41.2980074Z ........................................................................ [ 82%]
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:16:43.2586576Z ..............................                                           [100%]
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:16:43.2587154Z 174 passed in 77.49s (0:01:17)
+interoperability	Run real interoperability and original backend tests	2026-10-14T12:16:43.7959147Z All checks passed!
+interoperability	Retain constructed revision evaluation and separate mesh result	﻿2026-10-14T12:16:43.7997755Z ##[group]Run python scripts/evaluate_c3d_revision.py "/home/runner/work/_temp/revision-evaluation" --mesh
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.7998350Z ^[[36;1mpython scripts/evaluate_c3d_revision.py "/home/runner/work/_temp/revision-evaluation" --mesh^[[0m
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8056072Z shell: /usr/bin/bash -e {0}
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8056289Z env:
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8056509Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8056855Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8057195Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8057496Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8057791Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8058086Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:16:43.8058552Z ##[endgroup]
+interoperability	Retain constructed revision evaluation and separate mesh result	2026-10-14T12:17:35.5865666Z {"passed": true, "cases": 17, "passed_count": 17, "meshing": "passed"}
+interoperability	Reproduce native reference geometry and independent volume audit	﻿2026-10-14T12:17:36.1258419Z ##[group]Run python scripts/reproduce_mesh_quality.py "/home/runner/work/_temp/native-mesh-reference"
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1259312Z ^[[36;1mpython scripts/reproduce_mesh_quality.py "/home/runner/work/_temp/native-mesh-reference"^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1318830Z shell: /usr/bin/bash -e {0}
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1319052Z env:
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1319280Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1319666Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1320009Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1320308Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1320604Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1320909Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.1321182Z ##[endgroup]
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3735639Z ^[[32;1m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3762496Z *******************************************************************
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3792586Z ******        Statistics on Transfer (Write)                 ******^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3816730Z ^[[32;1m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3842399Z *******************************************************************
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3872528Z ******        Transfer Mode = 0  I.E.  As Is       ******^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3902547Z ^[[32;1m******        Transferring Shape, ShapeType = 0                      ******^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3932425Z ^[[32;1m** WorkSession : Sending all data^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.3962736Z ^[[32;1m Step File Name : /home/runner/work/_temp/native-mesh-reference/box/source.step(350 ents)  Write  Done^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6219434Z ^[[32;1m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6219801Z *******************************************************************
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6220388Z ******        Statistics on Transfer (Write)                 ******^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6220829Z ^[[32;1m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6221085Z *******************************************************************
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6221588Z ******        Transfer Mode = 0  I.E.  As Is       ******^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6222420Z ^[[32;1m******        Transferring Shape, ShapeType = 0                      ******^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6227182Z ^[[32;1m** WorkSession : Sending all data^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.6232776Z ^[[32;1m Step File Name : /home/runner/work/_temp/native-mesh-reference/holed_plate/source.step(434 ents)  Write  Done^[[0m
+interoperability	Reproduce native reference geometry and independent volume audit	2026-10-14T12:17:36.8630732Z {"status": "PASS", "cases": 6}
+interoperability	Upload revision evaluation including failures	﻿2026-10-14T12:17:36.9020671Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9021007Z with:
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9021184Z   name: c3d-revision-evaluation
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9021426Z   path: /home/runner/work/_temp/revision-evaluation
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9021676Z   if-no-files-found: warn
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9022112Z   retention-days: 14
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9022292Z   compression-level: 6
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9022478Z   overwrite: false
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9022653Z   include-hidden-files: false
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9022846Z   archive: true
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9023004Z env:
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9023215Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9023549Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9023882Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9024178Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9024475Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9024796Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:36.9025049Z ##[endgroup]
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:37.0412869Z With the provided path, there will be 169 files uploaded
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:37.0416283Z Artifact name is valid!
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:37.0416989Z Root directory input is valid!
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:37.3973827Z Uploading artifact: c3d-revision-evaluation.zip
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:37.4006164Z Beginning upload of artifact content to blob storage
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:37.9913761Z Uploaded bytes 241763
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:38.0529617Z Finished uploading artifact content to blob storage!
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:38.0530478Z SHA256 digest of uploaded artifact is b3ef865a0f21a68603d53f0052d1b05b30a12bba2243905c8e067f828dfb02c6
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:38.0531015Z Finalizing artifact upload
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:38.4224347Z Artifact c3d-revision-evaluation successfully finalized. Artifact ID 11892162942
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:38.4225422Z Artifact c3d-revision-evaluation has been successfully uploaded! Final size is 241763 bytes. Artifact ID is 11892162942
+interoperability	Upload revision evaluation including failures	2026-10-14T12:17:38.4228169Z Artifact download URL: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38562266781/artifacts/11892162942
+interoperability	Exercise installed console commands on the shipped example	﻿2026-10-14T12:17:38.4357775Z ##[group]Run neurocad feature build docs/examples/cad_mesh_box.ncad2.json --output-dir "/home/runner/work/_temp/cad-mesh-console/exact"
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4358523Z ^[[36;1mneurocad feature build docs/examples/cad_mesh_box.ncad2.json --output-dir "/home/runner/work/_temp/cad-mesh-console/exact"^[[0m
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4359275Z ^[[36;1mneurocad-mesh step "/home/runner/work/_temp/cad-mesh-console/exact/design.step" --output-dir "/home/runner/work/_temp/cad-mesh-console/mesh" --max-size 3^[[0m
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4416700Z shell: /usr/bin/bash -e {0}
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4416926Z env:
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4417152Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4417501Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4417838Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4418146Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4418448Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4418810Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:38.4419082Z ##[endgroup]
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3639704Z {
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3640000Z   "backend": "build123d",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3640251Z   "backend_version": "0.13.0",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3640469Z   "bindings_path": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3640693Z   "bindings_sha256": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3641166Z   "claim_boundary": "exact-kernel build and geometric checks only; not structural, manufacturing, regulatory, or physical-fit certification",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3641967Z   "feature_ir_sha256": "2ae160535868441f71d2ae54074d3a618450514367aaf1431a113ac152b9f90b",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3642455Z   "inspection": {
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3642704Z     "extents_mm": [
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3642944Z       20.0,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3643179Z       12.0,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3643395Z       6.0
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3643577Z     ],
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3643742Z     "manifold": true,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3643959Z     "solid_count": 1,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3644138Z     "valid_brep": true,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3644330Z     "volume_mm3": 1439.9999999999998
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3644533Z   },
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3644693Z   "output_feature": "body",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3644932Z   "receipt_version": "neurocad-build123d-receipt-v1",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3645186Z   "requirements_path": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3645394Z   "requirements_satisfied": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3645610Z   "requirements_sha256": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3645824Z   "requirements_verification_path": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3646061Z   "requirements_verification_sha256": null,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3646291Z   "roundtrip_inspection": {
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3646473Z     "extents_mm": [
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3646642Z       20.0,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3646788Z       12.0,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3646937Z       6.0
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3647082Z     ],
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3647236Z     "manifold": true,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3647410Z     "solid_count": 1,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3647591Z     "valid_brep": true,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3648025Z     "volume_mm3": 1439.9999999999998
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3648222Z   },
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3648380Z   "step_path": "design.step",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3648690Z   "step_sha256": "eb48a0c5da7f09a6c9100c4015842d96b62ea29145b49ea371f0110e8b2a6681"
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:40.3649003Z }
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5331663Z {
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5332168Z   "backend": "gmsh",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5332478Z   "backend_version": "4.15.2",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5332791Z   "boundary_surface_count": 6,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5333594Z   "claim_boundary": "verified mesh generation and serialization only; not solver convergence, structural safety, manufacturability, or experimental validation",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5334397Z   "mean_sicn": 0.8014040699505531,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5334685Z   "mesh_bytes": 33540,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5334938Z   "mesh_path": "design.msh",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5335390Z   "mesh_sha256": "cbf38b209494b7a853f47c644d6086ffee6643c14aa816d76f08480790e0834f",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5336243Z   "mesh_size_max_mm": 3.0,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5336526Z   "mesh_size_min_mm": 0.6,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5336776Z   "min_sicn": 0.30281094352415744,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5337056Z   "node_count": 247,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5337340Z   "physical_groups": [
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5337587Z     "boundary",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5337807Z     "domain"
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5338010Z   ],
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5338272Z   "receipt_version": "neurocad-gmsh-mesh-receipt-v1",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5338656Z   "roundtrip_coordinate_abs_tol_mm": 1e-12,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5339005Z   "roundtrip_coordinate_rel_tol": 1e-13,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5339312Z   "roundtrip_node_count": 247,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5339606Z   "roundtrip_physical_groups": [
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5339887Z     "boundary",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5340099Z     "domain"
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5340296Z   ],
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5340650Z   "roundtrip_verification": "nodes-connectivity-physical-membership-v1",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5341142Z   "roundtrip_volume_element_count": 723,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5341485Z   "source_step_bytes": 15400,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5342132Z   "source_step_sha256": "eb48a0c5da7f09a6c9100c4015842d96b62ea29145b49ea371f0110e8b2a6681",
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5342669Z   "volume_element_count": 723,
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5342946Z   "volume_entity_count": 1
+interoperability	Exercise installed console commands on the shipped example	2026-10-14T12:17:41.5343201Z }
+interoperability	Retain actual source and mesh fixtures including failures	﻿2026-10-14T12:17:41.5636455Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5636800Z with:
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5636981Z   name: cad-mesh-interoperability
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5637533Z   path: /home/runner/work/_temp/cad-mesh.xml
+interoperability	Retain actual source and mesh fixtures including failures	/home/runner/work/_temp/cad-mesh-cases
+interoperability	Retain actual source and mesh fixtures including failures	/home/runner/work/_temp/cad-mesh-console
+interoperability	Retain actual source and mesh fixtures including failures	/home/runner/work/_temp/native-mesh-reference
+interoperability	Retain actual source and mesh fixtures including failures	
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5638073Z   retention-days: 14
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5638266Z   if-no-files-found: warn
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5638458Z   compression-level: 6
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5638642Z   overwrite: false
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5638819Z   include-hidden-files: false
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5639016Z   archive: true
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5639202Z env:
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5639412Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5639758Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5640101Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5640430Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5640727Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5641032Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.5641290Z ##[endgroup]
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.8414253Z Multiple search paths detected. Calculating the least common ancestor of all paths
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.8416109Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.8416581Z With the provided path, there will be 837 files uploaded
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.8420679Z Artifact name is valid!
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:41.8421029Z Root directory input is valid!
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:42.1946806Z Uploading artifact: cad-mesh-interoperability.zip
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:42.1977659Z Beginning upload of artifact content to blob storage
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.1528111Z Uploaded bytes 1365766
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.2130422Z Finished uploading artifact content to blob storage!
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.2131287Z SHA256 digest of uploaded artifact is f3e02d1352eb3b3f9d1d194bc937b66f694b5df74f4d2b4fe3690a103d867e31
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.2131731Z Finalizing artifact upload
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.7616140Z Artifact cad-mesh-interoperability successfully finalized. Artifact ID 11892352752
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.7616982Z Artifact cad-mesh-interoperability has been successfully uploaded! Final size is 1365766 bytes. Artifact ID is 11892352752
+interoperability	Retain actual source and mesh fixtures including failures	2026-10-14T12:17:43.7619613Z Artifact download URL: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38562266781/artifacts/11892352752
+interoperability	Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	﻿2026-10-14T12:17:43.7821728Z Post job cleanup.
+interoperability	Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97	2026-10-14T12:17:43.8775534Z Cache hit occurred on the primary key setup-python-Linux-x64-24.04-Ubuntu-python-3.12.14-pip-400b6e3882c8c60d02d9c043ffe93698d0d0537973884ceae09bc96c94eeba3c, not saving cache.
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-10-14T12:17:43.8959599Z Post job cleanup.
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9742896Z [command]/usr/bin/git version
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9796511Z git version 2.55.0
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9830062Z Temporarily overriding HOME='/home/runner/work/_temp/3516abe7-a712-40cf-83af-673c2c551c3b' before making global git config changes
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9831290Z Adding repository directory to the temporary git global config as a safe directory
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9836159Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NeuroCAD/NeuroCAD
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9875676Z Removing SSH command configuration
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9882801Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:43.9917653Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:44.0208778Z Removing HTTP extra header
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:44.0216017Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:44.0255979Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:44.0516871Z Removing includeIf entries pointing to credentials config files
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:44.0524954Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+interoperability	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-10-14T12:17:44.0563363Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+interoperability	Complete job	﻿2026-10-14T12:17:44.0948639Z Cleaning up orphan processes

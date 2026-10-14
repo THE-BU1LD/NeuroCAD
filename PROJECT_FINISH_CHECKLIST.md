@@ -10,7 +10,10 @@ The earlier mixed CAD/portal record is preserved verbatim in
 - [x] Inventory all 20 open issues, 17 open PRs and 109 unchecked expansion proposals.
 - [x] Integrate compatible output, daemon, numerical and Gmsh repair histories in an isolated branch.
 - [x] Freeze the integration conformance successor; 37/37 source cases pass.
-- [ ] Pass combined exact-revision CI, portability, security, distribution and native backends.
+- [x] Pass combined exact-revision CI, portability, security, distribution and native backends (e71b63c; 1,632 tests).
+- [x] Enable verified main protection and reconcile six completed GitHub issues.
+- [x] Complete the 157-entry pinned historical source inventory.
+- [ ] Extend independent composite-reference and complete native shape/platform coverage.
 - [ ] Complete review/merge of the integrated candidate; do not call it a new public release.
 - [ ] Collect actual physical measurements with calibration and uncertainty records.
 - [ ] Obtain independent reproduction and discrepancy review.
@@ -20,3 +23,6 @@ The earlier mixed CAD/portal record is preserved verbatim in
 Future expansion proposals remain separately scoped. This checklist does not
 claim FEA/CFD, manufacturing readiness, external endorsement, physical fit or
 scientific completion from analytical calculations or software tests.
+
+- [x] Retain the later circular-shaft biaxial stress failure and correct the full-boundary extremum in a separate successor.
+- [ ] Verify the shaft successor in the full hosted matrix before review/merge.

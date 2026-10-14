@@ -1,0 +1,151 @@
+{
+  "conclusion": "success",
+  "createdAt": "2026-10-14T12:13:53Z",
+  "databaseId": 38562257572,
+  "headSha": "e71b63c829f02ed2950dea12912dd4149056904a",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T12:16:24Z",
+      "conclusion": "success",
+      "databaseId": 115845989595,
+      "name": "validate",
+      "startedAt": "2026-10-14T12:13:56Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:13:58Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:13:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:13:59Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:13:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:00Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:13:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:02Z",
+          "conclusion": "success",
+          "name": "Resource admission before installation",
+          "number": 4,
+          "startedAt": "2026-10-14T12:14:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:31Z",
+          "conclusion": "success",
+          "name": "Install build and verification tools",
+          "number": 5,
+          "startedAt": "2026-10-14T12:14:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:31Z",
+          "conclusion": "success",
+          "name": "Freeze and verifier tests",
+          "number": 6,
+          "startedAt": "2026-10-14T12:14:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:31Z",
+          "conclusion": "success",
+          "name": "Source conformance (retain negative results)",
+          "number": 7,
+          "startedAt": "2026-10-14T12:14:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:37Z",
+          "conclusion": "success",
+          "name": "Build and identify wheel",
+          "number": 8,
+          "startedAt": "2026-10-14T12:14:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:53Z",
+          "conclusion": "success",
+          "name": "Installed conformance and end-to-end acceptance",
+          "number": 9,
+          "startedAt": "2026-10-14T12:14:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:15:00Z",
+          "conclusion": "success",
+          "name": "Compiled complex-shape meshes",
+          "number": 10,
+          "startedAt": "2026-10-14T12:14:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:16:15Z",
+          "conclusion": "success",
+          "name": "Compatibility regression",
+          "number": 11,
+          "startedAt": "2026-10-14T12:15:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:16:16Z",
+          "conclusion": "success",
+          "name": "Require all gates",
+          "number": 12,
+          "startedAt": "2026-10-14T12:16:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:16:22Z",
+          "conclusion": "success",
+          "name": "Retain all outcomes",
+          "number": 13,
+          "startedAt": "2026-10-14T12:16:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:16:22Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 25,
+          "startedAt": "2026-10-14T12:16:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:16:22Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 26,
+          "startedAt": "2026-10-14T12:16:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:16:22Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 27,
+          "startedAt": "2026-10-14T12:16:22Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38562257572/job/115845989595"
+    }
+  ],
+  "status": "completed",
+  "updatedAt": "2026-10-14T12:16:25Z",
+  "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38562257572",
+  "workflowName": "Integrated Physics v3 conformance"
+}

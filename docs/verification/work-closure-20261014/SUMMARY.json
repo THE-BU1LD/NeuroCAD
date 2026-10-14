@@ -1,0 +1,109 @@
+{
+  "recorded_at": "2026-10-14T12:22:20.097812+00:00",
+  "status": "PASS_BOUNDED_INTEGRATED_SOFTWARE_CANDIDATE",
+  "tested_commit": "e71b63c829f02ed2950dea12912dd4149056904a",
+  "pull_request": "https://github.com/THE-BU1LD/NeuroCAD/pull/107",
+  "runs": {
+    "matrix": 38562266257,
+    "conformance": 38562257572,
+    "native": 38562266781,
+    "external_integrity": 38562266234,
+    "retained_note": 38562266377
+  },
+  "maintained_tests": {
+    "passed": 1632,
+    "skipped": 9,
+    "subtests_passed": 48
+  },
+  "extracted_sdist_tests": {
+    "passed": 1616,
+    "skipped": 9,
+    "subtests_passed": 33
+  },
+  "scalar": {
+    "passed": 37,
+    "total": 37
+  },
+  "installed": {
+    "passed": 52,
+    "total": 52
+  },
+  "compiled_meshes": 4,
+  "exact_cad_tests": 106,
+  "native_interoperability_tests": 174,
+  "constructed_revision_cases": 17,
+  "security": {
+    "dependency_audit": "PASS",
+    "full_bandit_scan": "PASS_WITH_39_EXACT_SOURCE_BOUND_LOW_FINDING_REVIEWS",
+    "independent_security_certification": false
+  },
+  "branch_protection": {
+    "verified": true,
+    "required_checks": 10,
+    "required_pull_request": true,
+    "required_approvals": 0,
+    "reason": "Only one write-capable repository collaborator; no independent write reviewer available."
+  },
+  "closed_issues": [
+    2,
+    5,
+    11,
+    58,
+    60,
+    68
+  ],
+  "integrated_pull_requests": [
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    105,
+    106
+  ],
+  "historical_inventory": {
+    "entries": 157,
+    "text_reference_paths_outside_subtree": 107,
+    "newly_mapped_relative_to_prior_manifests": 110,
+    "provenance_tests_passed": 17
+  },
+  "failures_retained": [
+    {
+      "commit": "eb228538ccc6b4acae6524649305f41e2c039545",
+      "matrix": 38560824820,
+      "reason": "39 low-severity findings in immutable reference harnesses require exact review."
+    },
+    {
+      "commit": "b1bc3ec433f130357e071b734b72f6951389fc73",
+      "matrix": 38561600246,
+      "conformance": 38561595123,
+      "reason": "Workflow guard rejected upload action line formatting and Bandit argument order; assertions preserved and workflow repaired."
+    }
+  ],
+  "external_gates": {
+    "physical_validation": "NOT_EXECUTED",
+    "independent_reproduction": "NOT_EXECUTED",
+    "human_usability": "NOT_EXECUTED"
+  },
+  "limitations": [
+    "Known, project-authored conformance cases; independent derivations do not make this independent reproduction.",
+    "V3 scalar references cover six new models; inherited v2 evidence is preserved; composite section properties and every structural output do not yet have exhaustive independent reference coverage.",
+    "Exact CAD and native Gmsh validation are bounded Linux-hosted fixtures; no untested platform, manufacturing or arbitrary geometry claim.",
+    "Candidate is not a new public release; v0.5.0a6 remains immutable and unchanged."
+  ],
+  "receipt_files": {
+    "passing-ci.log": "15b962169b05512ef89a98fc91d7c32b8a2200a6b1b24cd192ba686577e78875",
+    "passing-conformance.log": "4ead73e4cfb68060d69156aae0ad5a1971afc0d538a57fe39f883d06230407a0",
+    "passing-native.log": "5a410f651526f47b2057a0ba3a88e0129c21285054cdf597a0706228d5fd3786"
+  }
+}

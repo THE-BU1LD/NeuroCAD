@@ -1,0 +1,79 @@
+{
+  "conclusion": "success",
+  "createdAt": "2026-10-14T12:13:57Z",
+  "databaseId": 38562266234,
+  "headSha": "e71b63c829f02ed2950dea12912dd4149056904a",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T12:14:06Z",
+      "conclusion": "success",
+      "databaseId": 115846017396,
+      "name": "integrity",
+      "startedAt": "2026-10-14T12:14:01Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:14:02Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:14:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:03Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:14:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:04Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:14:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:04Z",
+          "conclusion": "success",
+          "name": "Synthetic integrity regressions only",
+          "number": 4,
+          "startedAt": "2026-10-14T12:14:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:04Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 7,
+          "startedAt": "2026-10-14T12:14:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:04Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 8,
+          "startedAt": "2026-10-14T12:14:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:14:04Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "startedAt": "2026-10-14T12:14:04Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38562266234/job/115846017396"
+    }
+  ],
+  "status": "completed",
+  "updatedAt": "2026-10-14T12:14:06Z",
+  "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38562266234",
+  "workflowName": "External evidence integrity"
+}

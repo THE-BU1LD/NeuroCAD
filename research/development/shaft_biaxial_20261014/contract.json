@@ -1,0 +1,66 @@
+{
+  "id": "SHAFT-BIAXIAL-REGRESSION-1",
+  "recorded_at": "2026-10-14T12:25:01.358489+00:00",
+  "source": "e71b63c829f02ed2950dea12912dd4149056904a",
+  "source_inspected": true,
+  "scientific_confirmation": false,
+  "protected_outcomes": 0,
+  "rationale": "A linear stress field ax+by on a circle has extrema +/-r*hypot(a,b), not extrema only at four axis points. Independent analytical regression; not physical validation.",
+  "cases": [
+    {
+      "id": "axis-x",
+      "mx": 5000,
+      "my": 0,
+      "axial": 0,
+      "torque": 0
+    },
+    {
+      "id": "axis-y",
+      "mx": 0,
+      "my": 5000,
+      "axial": 0,
+      "torque": 0
+    },
+    {
+      "id": "biaxial-3-4",
+      "mx": 3000,
+      "my": 4000,
+      "axial": 0,
+      "torque": 0
+    },
+    {
+      "id": "sign-reversed",
+      "mx": -3000,
+      "my": -4000,
+      "axial": 0,
+      "torque": 0
+    },
+    {
+      "id": "axial-shift",
+      "mx": 3000,
+      "my": 4000,
+      "axial": 1000,
+      "torque": 0
+    },
+    {
+      "id": "torsion-and-compression",
+      "mx": 3000,
+      "my": -4000,
+      "axial": -1000,
+      "torque": 2000
+    }
+  ],
+  "outer_radius_mm": 10,
+  "inner_radius_mm": 5,
+  "length_mm": 100,
+  "yield_strength_mpa": 10.5,
+  "rtol": 1e-10,
+  "atol": 1e-10,
+  "budget": {
+    "hosted_attempts_per_workflow": 3,
+    "local_pure_function_baseline": 1,
+    "local_pure_function_corrected": 1,
+    "new_training_or_provider_runs": 0
+  },
+  "stop_rule": "Retain all cases regardless of failures; do not retune references or tolerances. Changes require a new successor."
+}

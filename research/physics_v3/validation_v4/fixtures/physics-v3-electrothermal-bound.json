@@ -1,0 +1,74 @@
+{
+  "model": "electro_thermal_wire",
+  "inputs": {
+    "length_mm": 100,
+    "area_mm2": 314.1592653589793,
+    "resistivity_ohm_m": 1.85e-8,
+    "current_a": 5,
+    "thermal_resistance_k_per_w": 2,
+    "ambient_temperature_k": 300,
+    "resistance_temperature_coefficient_per_k": 0.004,
+    "expansion_coefficient_per_k": 0.000012,
+    "elastic_modulus_mpa": 200000,
+    "yield_strength_mpa": 250,
+    "safety_factor": 2
+  },
+  "context": {
+    "schema_version": "neurocad-physics-context-v2",
+    "geometry": {
+      "agent_project": "agent-shaft-project.json",
+      "component_id": "shaft"
+    },
+    "material": {
+      "schema_version": "neurocad-material-card-v2",
+      "material_id": "documented-conductor-example",
+      "revision": 1,
+      "source": "Illustrative declared values only; replace with the exact authoritative datasheet or measured dataset.",
+      "properties": {
+        "density_kg_m3": 8000,
+        "elastic_modulus_mpa": 200000,
+        "yield_strength_mpa": 250,
+        "expansion_coefficient_per_k": 0.000012
+      },
+      "temperature_tables": {
+        "resistivity_ohm_m": [
+          {"temperature_k": 300, "value": 1.7e-8},
+          {"temperature_k": 400, "value": 2e-8}
+        ]
+      },
+      "evaluation_temperature_k": 350
+    },
+    "load_cases": [
+      {
+        "schema_version": "neurocad-load-case-v1",
+        "case_id": "service",
+        "coordinate_system": "component-local",
+        "source": "Illustrative declared service current.",
+        "values": {"current_a": 4}
+      },
+      {
+        "schema_version": "neurocad-load-case-v1",
+        "case_id": "increment",
+        "coordinate_system": "component-local",
+        "source": "Illustrative declared current increment.",
+        "values": {"current_a": 2}
+      }
+    ],
+    "load_combination": {
+      "schema_version": "neurocad-load-combination-v1",
+      "combination_id": "service-plus-half-increment",
+      "source": "Illustrative algebraic combination.",
+      "coefficients": {"service": 1, "increment": 0.5}
+    }
+  },
+  "uncertainty": {
+    "method": "monte_carlo",
+    "inputs": {
+      "current_a": {"lower": 4.5, "upper": 5.5},
+      "thermal_resistance_k_per_w": {"lower": 1.8, "upper": 2.2}
+    },
+    "outputs": ["temperature_rise_k", "fully_restrained_stress_mpa"],
+    "samples": 1000,
+    "seed": 20261011
+  }
+}

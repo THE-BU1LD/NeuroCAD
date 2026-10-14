@@ -23,3 +23,5 @@ failure paths. No global rule or severity threshold was disabled.
 
 This is an implementation security review, not an independent penetration test
 or security certification. Future edits require a new explicit review.
+
+The circular-shaft successor adds two frozen v4 harnesses with the same 13 reviewed statements/argument vectors as v3. Their statement identity and changed line offsets were checked directly, and complete new file hashes were recorded. The full expected scan now contains 52 low-severity findings; CI remains responsible for rejecting any unexpected finding or scanner error. The first integration's 39-finding report remains unchanged.

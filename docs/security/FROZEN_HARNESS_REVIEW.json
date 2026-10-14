@@ -315,6 +315,111 @@
       "source_sha256": "a98b714037fc1a5243ec7a003037cdf54990bf884454b615fa60459ba241f69c",
       "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
       "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
+    },
+    {
+      "path": "scripts/freeze_physics_v3_v4.py",
+      "test_id": "B404",
+      "line": 6,
+      "source_sha256": "c967af4ce596e499e483ab98a3604972df8a32250a03cdaaa8cbc187981cb690",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Import is required for local verification subprocesses; no shell execution."
+    },
+    {
+      "path": "scripts/freeze_physics_v3_v4.py",
+      "test_id": "B607",
+      "line": 29,
+      "source_sha256": "c967af4ce596e499e483ab98a3604972df8a32250a03cdaaa8cbc187981cb690",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed git/vm_stat tool names resolve from the controlled operator/CI environment PATH. This is a developer harness, not a service handling untrusted requests."
+    },
+    {
+      "path": "scripts/freeze_physics_v3_v4.py",
+      "test_id": "B603",
+      "line": 29,
+      "source_sha256": "c967af4ce596e499e483ab98a3604972df8a32250a03cdaaa8cbc187981cb690",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B404",
+      "line": 15,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Import is required for local verification subprocesses; no shell execution."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B607",
+      "line": 64,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed git/vm_stat tool names resolve from the controlled operator/CI environment PATH. This is a developer harness, not a service handling untrusted requests."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B603",
+      "line": 64,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B603",
+      "line": 90,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B311",
+      "line": 180,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Seeded pseudorandomness is required for a reproducible numerical reference. No credential, key, nonce or security decision uses these draws."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B607",
+      "line": 251,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed git/vm_stat tool names resolve from the controlled operator/CI environment PATH. This is a developer harness, not a service handling untrusted requests."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B603",
+      "line": 251,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B607",
+      "line": 252,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed git/vm_stat tool names resolve from the controlled operator/CI environment PATH. This is a developer harness, not a service handling untrusted requests."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B603",
+      "line": 252,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
+    },
+    {
+      "path": "scripts/validate_physics_v3_v4.py",
+      "test_id": "B603",
+      "line": 270,
+      "source_sha256": "7cfcc2722e42b8defe694762f873552529deb66e527dc12238777985547e67e9",
+      "disposition": "REVIEWED_INTENTIONAL_NONSECURITY_USE",
+      "reason": "Fixed argument vector; local tool or explicitly supplied isolated Python interpreter. Inputs are paths/numeric fixtures, never shell text."
     }
-  ]
+  ],
+  "successor_review": "The 13 v4 findings preserve the exact reviewed statements and argument vectors from frozen v3. Line offsets and complete source hashes are rebound explicitly. CI must still scan the complete source and reject any other finding."
 }
