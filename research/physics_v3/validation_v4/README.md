@@ -1,16 +1,10 @@
-# Corrected conformance successor
+# Corrected composite conformance successor
 
-Version 1 and its 31/32 failure are preserved. This version corrects maximum
-beam stress under opposing loads and replays known cases with five extra beam
-checks. This is project-authored regression/conformance, not independent or
-physical validation.
+This is source-bound engineering regression. The original failed beam study, earlier passing conformance scopes, and later failed biaxial-shaft reference are preserved. The protocol and source inventory are in PROTOCOL.md and freeze.json.
 
-Run `python3 scripts/validate_physics_v3_v3.py --output /new/output/path`.
-For installed execution add `--installed-python /clean/venv/bin/python`; the
-resource and exact installed-source guards remain required.
+- Source-only scalar: `python3 scripts/validate_physics_v3_v4.py --output /new/empty/output`
+- Verifier checks: `python3 tests/test_v3_validation_v4_harness.py`
+- Installed acceptance: use the isolated-wheel sequence in `.github/workflows/physics-v3-validation-v4.yml`; a fresh output directory is required.
+- Composite references: `tests/test_composite_reference.py` and supplementary `tests/test_section_integral_reference.py` have separately retained source/contract identities.
 
-The separate Physics v3 corrected conformance CI builds a fresh wheel, executes
-scalar/installed cases and workflows, compiles meshes, and runs regression.
-
-Integrated successor: PRs 88-102 plus the corrected beam. Every prior failed
-receipt is retained. See docs/WORK_REGISTER_20261014.md for task routing.
+Do not rewrite the freeze to accommodate different code. Use the exact source revision recorded in the receipt. No physical, external-reproduction or intended-user evidence is created by these commands.

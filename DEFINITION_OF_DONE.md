@@ -21,3 +21,5 @@ software evidence only. No unmeasured physical or scientific claim may pass
 through a documentation update.
 
 A later review found an uncovered circular-shaft biaxial stress defect in the integrated candidate. A separately frozen validation_v4 successor and 14 public-builder regressions correct the complete circular-boundary extremum; hosted verification is pending. See research/development/shaft_biaxial_20261014 for the retained 2/6 baseline and 6/6 corrected pure-function results.
+
+The v4 shaft candidate subsequently passed the full matrix at 9231aab. The final v5 candidate adds the single-grid ligament correction and 20 independent polygon/signed-area cases: 42 new composite references across all four families. Its source contract is research/physics_v3/validation_v5/freeze.json; consult the exact branch checks and final receipt before treating it as merged or released. This committed record is written before that execution.

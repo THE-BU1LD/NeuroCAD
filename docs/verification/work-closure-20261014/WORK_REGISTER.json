@@ -985,10 +985,17 @@
     "independent_reproduction": "NOT_EXECUTED",
     "usability": "NOT_EXECUTED"
   },
-  "updated_at": "2026-10-14T12:22:20.097812+00:00",
+  "updated_at": "2026-10-14T12:36:11.869523+00:00",
   "remaining_software_coverage": [
-    "Independent composite section-property and structural-output references.",
-    "Complete exact-CAD golden shape and supported-platform matrix.",
+    "Complete separately scoped exact-CAD golden shape and supported-platform acceptance.",
     "Complete requested plate/enclosure/beam native mesh reference matrix."
-  ]
+  ],
+  "current_candidate": {
+    "branch": "codex/neurocad-composite-final-20261014",
+    "contract": "research/physics_v3/validation_v5/freeze.json",
+    "v4_bounded_pass_commit": "9231aab6402d1ea95ff867d038652fb5694bd2f7",
+    "v4_ci": 38564024326,
+    "new_composite_cases": 42,
+    "status": "PRE_EXECUTION_FINAL_CANDIDATE_USE_EXACT_BRANCH_CHECKS"
+  }
 }

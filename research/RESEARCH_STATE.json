@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-10-10",
+  "updated_on": "2026-10-14",
   "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
   "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
   "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
@@ -121,11 +121,9 @@
   },
   "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization. Linear diagnostics reject integer values not exactly representable in float64; they cannot recover precision already lost upstream or supply arbitrary-precision residual arithmetic.",
   "next_required_work": [
-    "Review the interval-division follow-up and its exact-revision checks on the integrated numerical/geometry candidate.",
-    "Review the integrated candidate alongside the separately scoped output-preservation and native-backend work.",
-    "Read exact-revision hosted checks; this state records the source candidate rather than a release authorization.",
-    "Obtain independent challenge data and adjudication under the frozen external protocol.",
-    "Complete strong-comparator execution, external replication, physical validation where claimed, release evidence and final artifact gates before stronger scientific or release claims."
+    "Execute the final source-bound composite reference candidate and inspect complete retained results.",
+    "Merge only after all required exact-revision gates pass.",
+    "Complete separately scoped native shape/platform matrix and external physical, independent-reproduction and intended-user gates."
   ],
   "integration_parents": [
     "982eafb1665a9c31868cfcfda7c75571885c2cd8",
@@ -267,7 +265,7 @@
     },
     {
       "id": "shaft_biaxial_20261014",
-      "status": "IN_PROGRESS",
+      "status": "HOSTED_V4_PASS_V5_CANDIDATE",
       "contract": "research/development/shaft_biaxial_20261014/contract.json",
       "baseline": "research/development/shaft_biaxial_20261014/baseline.json",
       "budget": {
@@ -276,7 +274,16 @@
         "local_pure_function_corrected": 1,
         "new_training_or_provider_runs": 0
       },
-      "scientific_checkpoint_advanced": false
+      "scientific_checkpoint_advanced": false,
+      "v4_tested_commit": "9231aab6402d1ea95ff867d038652fb5694bd2f7",
+      "v4_matrix": 38564024326,
+      "v4_conformance": 38564015307,
+      "v4_native": 38564024276,
+      "current_contract": "research/physics_v3/validation_v5/freeze.json",
+      "supplementary_contract": "research/development/composite_polygon_reference_20261014/contract.json",
+      "ligament_failure": "research/development/single_hole_ligament_20261014/baseline_and_contract.json",
+      "remaining_hosted_attempts_per_workflow": 2,
+      "current_status_authority": "GitHub checks for codex/neurocad-composite-final-20261014 and retained final receipts; do not infer outcomes from this pre-execution commit."
     }
   ],
   "latest_engineering_session": "shaft_biaxial_20261014",

@@ -68,3 +68,9 @@ The software pass is bounded. Add independently derived references for all compo
 ## Later circular-shaft coverage finding
 
 The e71b63c software receipts remain valid for their declared cases, but a broader review then found a missing biaxial-shaft maximum. The original pure-function baseline passed 2/6 and failed 4/6 declared analytical cases, including a false yield pass. A separate correction, 14 public-builder references and source-bound validation_v4 are now pending hosted verification on codex/neurocad-shaft-reference-20261014. This supersedes review-readiness of PR107; the original candidate must not be released with that known defect.
+
+## Final composite reference candidate
+
+The shaft successor at 9231aab passed the full hosted matrix (38564024326), conformance (38564015307) and native backend checks (38564024276). Its source remains preserved. A final v5 source contract additionally corrects single-row/column hole ligaments, with eight exact distance checks, and adds 20 independent polygon/signed-area reference cases. Together with the 14 shaft cases these cover all four declared composite families over the selected inputs. Tests remain project-authored calculations, not physical or independent-executor evidence. The final candidate is codex/neurocad-composite-final-20261014; its hosted checks are the outcome authority. PR107 and PR108 are superseded and must not be released as final candidates.
+
+The broader composite-reference action above is now implemented for the declared sampled envelope. Unsupported arbitrary geometry, new shape/platform acceptance, physical trials and external studies remain open.

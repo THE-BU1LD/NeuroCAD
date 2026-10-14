@@ -13,7 +13,8 @@ The earlier mixed CAD/portal record is preserved verbatim in
 - [x] Pass combined exact-revision CI, portability, security, distribution and native backends (e71b63c; 1,632 tests).
 - [x] Enable verified main protection and reconcile six completed GitHub issues.
 - [x] Complete the 157-entry pinned historical source inventory.
-- [ ] Extend independent composite-reference and complete native shape/platform coverage.
+- [x] Add 42 analytical reference cases spanning all four composite families in declared sampled envelopes.
+- [ ] Complete separately scoped native shape/platform coverage.
 - [ ] Complete review/merge of the integrated candidate; do not call it a new public release.
 - [ ] Collect actual physical measurements with calibration and uncertainty records.
 - [ ] Obtain independent reproduction and discrepancy review.
@@ -25,4 +26,5 @@ claim FEA/CFD, manufacturing readiness, external endorsement, physical fit or
 scientific completion from analytical calculations or software tests.
 
 - [x] Retain the later circular-shaft biaxial stress failure and correct the full-boundary extremum in a separate successor.
-- [ ] Verify the shaft successor in the full hosted matrix before review/merge.
+- [x] Verify the shaft successor in the full hosted matrix (9231aab).
+- [ ] Verify and merge the final v5 source candidate; use its live hosted checks as the outcome authority.

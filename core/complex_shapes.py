@@ -608,8 +608,8 @@ def _perforated_plate(parameters: dict[str, Any], analysis: dict[str, Any]) -> t
         raise ValueError("perforation layout leaves a non-positive section moment")
     volume = area * thickness
     surface = 2.0 * area + 2.0 * (width + height) * thickness + count * math.pi * diameter * thickness
-    x_ligament = min(margin - radius, x_pitch - diameter if math.isfinite(x_pitch) else width - diameter)
-    y_ligament = min(margin - radius, y_pitch - diameter if math.isfinite(y_pitch) else height - diameter)
+    x_ligament = width / 2.0 - radius if columns == 1 else min(margin - radius, x_pitch - diameter)
+    y_ligament = height / 2.0 - radius if rows == 1 else min(margin - radius, y_pitch - diameter)
     if any(float(analysis.get(name, 0.0)) != 0 for name in _ANALYSIS_KEYS - {"source", "density_kg_m3", "safety_factor", "effective_length_factor"}):
         raise ValueError("perforated_plate supports geometric and mass analysis only; its load path requires a declared plate model and boundary conditions")
     mass = None
