@@ -2,6 +2,12 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
+# The frozen study harness requires POSIX resource accounting; product physics
+# tests remain portable and run on every supported platform.
+pytest.importorskip("resource", reason="Frozen study harness requires POSIX resource accounting")
+
 from research.physics_v2.study import (
     EXPECTED_CONFIRMATORY_CASES,
     analyze,

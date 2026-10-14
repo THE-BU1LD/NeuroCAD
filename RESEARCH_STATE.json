@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-13",
+  "updated_at": "2026-10-14",
   "source_head": "a7eb80c54e3133e018b37e595413622dc0687a4a",
   "scope": "Product engineering and version routing; no scientific execution",
   "predecessor": {
@@ -19,7 +19,7 @@
   "product": {
     "status": "HOSTED_FRESH_INSTALL_AND_COMPILED_ENCLOSURE_PASS",
     "receipt": "docs/verification/enclosure-20261013/ci-38425980085/SUMMARY.json",
-    "public_release": "NOT_VERIFIED",
+    "public_release": "IN_PROGRESS_FULL_MATRIX_REQUIRED",
     "verification": {
       "focused_tests": "11 passed",
       "ruff": "PASS hosted",
@@ -68,6 +68,10 @@
     {
       "date": "2026-10-13",
       "event": "Hosted run 38425980085 passed on 5351903 after three retained failures and fixes. Wheel, isolated install, compiled enclosure and 1227 tests passed; frozen research unchanged."
+    },
+    {
+      "date": "2026-10-14",
+      "event": "User authorized public alpha completion. Final enclosure commit 6151d93 passed hosted run 38426643691. Full matrix 38494422164 found a test lint error and Windows POSIX research-harness import failure; repairs and credential-free published-artifact acceptance added. Frozen research unchanged; local heavy work remains below resource floor."
     }
   ],
   "resource_rechecks": [

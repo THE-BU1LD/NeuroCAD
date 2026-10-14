@@ -217,7 +217,7 @@ def test_complex_shape_cli_publishes_atomic_reparseable_bundle(tmp_path, capsys)
     assert args.func(args) == 0
     receipt = json.loads(capsys.readouterr().out)
     assert receipt["shape"] == "i_beam"
-    assert set(path.name for path in output.iterdir()) == {
+    assert {path.name for path in output.iterdir()} == {
         "analysis.json",
         "manifest.json",
         "request.json",

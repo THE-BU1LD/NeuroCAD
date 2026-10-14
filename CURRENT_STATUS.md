@@ -82,3 +82,15 @@ No frozen research, original scientific outcome, or research tag changed.
 Independent reproduction, physical fit, human usefulness and public tagged
 product release remain unverified. A final documentation commit is separately
 checked by the same hosted workflow before completion is reported.
+
+## Public alpha execution — 2026-10-14
+
+Final documentation commit `6151d93` passed enclosure run `38426643691`.
+Full release matrix `38494422164` passed all three browsers and exact CAD, but
+failed a test lint rule and Windows collection of the POSIX-only frozen research
+harness. Repairs preserve portable product physics coverage and frozen research.
+The repository-only study harness is excluded from the source distribution, as
+it requires unshipped study artifacts and Git provenance; product tests remain.
+A post-publication workflow now verifies public checksums, exact source provenance,
+prerelease status, the tagged installer, and installed compiled-enclosure behavior
+without download credentials. Release remains pending until all gates pass.
