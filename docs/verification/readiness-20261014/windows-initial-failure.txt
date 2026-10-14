@@ -1,0 +1,366 @@
+﻿2026-10-14T13:56:46.9436741Z Current runner version: '2.337.0'
+2026-10-14T13:56:46.9463592Z ##[group]Runner Image Provisioner
+2026-10-14T13:56:46.9464399Z Hosted Compute Agent
+2026-10-14T13:56:46.9464949Z Version: 20260901.588
+2026-10-14T13:56:46.9465575Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-14T13:56:46.9466322Z Build Date: 2026-09-01T19:56:44Z
+2026-10-14T13:56:46.9466971Z Worker ID: {2a7fab42-0dd8-4336-b2cf-20647662c17c}
+2026-10-14T13:56:46.9467665Z Azure Region: eastus
+2026-10-14T13:56:46.9468182Z ##[endgroup]
+2026-10-14T13:56:46.9469463Z ##[group]Operating System
+2026-10-14T13:56:46.9470168Z Microsoft Windows Server 2025
+2026-10-14T13:56:46.9470750Z 10.0.26100
+2026-10-14T13:56:46.9471235Z Datacenter
+2026-10-14T13:56:46.9471726Z ##[endgroup]
+2026-10-14T13:56:46.9472201Z ##[group]Runner Image
+2026-10-14T13:56:46.9472759Z Image: windows-2025-vs2026
+2026-10-14T13:56:46.9473306Z Version: 20260925.250.1
+2026-10-14T13:56:46.9474787Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+2026-10-14T13:56:46.9476464Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+2026-10-14T13:56:46.9477766Z ##[endgroup]
+2026-10-14T13:56:46.9479021Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T13:56:46.9480830Z Contents: read
+2026-10-14T13:56:46.9481389Z Metadata: read
+2026-10-14T13:56:46.9481933Z ##[endgroup]
+2026-10-14T13:56:46.9484080Z Secret source: Actions
+2026-10-14T13:56:46.9484964Z Cache mode: write
+2026-10-14T13:56:46.9485611Z Prepare workflow directory
+2026-10-14T13:56:46.9842163Z Prepare all required actions
+2026-10-14T13:56:46.9914555Z Getting action download info
+2026-10-14T13:56:47.1639590Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T13:56:47.3159485Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-14T13:56:47.6056344Z Complete job name: Portable Python / windows-2025
+2026-10-14T13:56:47.7544477Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T13:56:47.7545941Z with:
+2026-10-14T13:56:47.7546458Z   repository: THE-BU1LD/NeuroCAD
+2026-10-14T13:56:47.7551312Z   token: ***
+2026-10-14T13:56:47.7551708Z   ssh-strict: true
+2026-10-14T13:56:47.7552104Z   ssh-user: git
+2026-10-14T13:56:47.7552513Z   persist-credentials: true
+2026-10-14T13:56:47.7552959Z   clean: true
+2026-10-14T13:56:47.7553363Z   sparse-checkout-cone-mode: true
+2026-10-14T13:56:47.7553841Z   fetch-depth: 1
+2026-10-14T13:56:47.7554234Z   fetch-tags: false
+2026-10-14T13:56:47.7554641Z   show-progress: true
+2026-10-14T13:56:47.7555047Z   lfs: false
+2026-10-14T13:56:47.7555420Z   submodules: false
+2026-10-14T13:56:47.7555826Z   set-safe-directory: true
+2026-10-14T13:56:47.7556299Z   allow-unsafe-pr-checkout: false
+2026-10-14T13:56:47.7556977Z ##[endgroup]
+2026-10-14T13:56:47.9048877Z Syncing repository: THE-BU1LD/NeuroCAD
+2026-10-14T13:56:47.9050917Z ##[group]Getting Git version info
+2026-10-14T13:56:47.9051614Z Working directory is 'D:\a\NeuroCAD\NeuroCAD'
+2026-10-14T13:56:48.0196430Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-14T13:56:48.3957512Z git version 2.55.0.windows.5
+2026-10-14T13:56:48.4011741Z ##[endgroup]
+2026-10-14T13:56:48.4031000Z Temporarily overriding HOME='D:\a\_temp\a9d34cc0-75cc-4352-9cf1-54994d55a050' before making global git config changes
+2026-10-14T13:56:48.4032993Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T13:56:48.4045120Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NeuroCAD\NeuroCAD
+2026-10-14T13:56:48.4760824Z Deleting the contents of 'D:\a\NeuroCAD\NeuroCAD'
+2026-10-14T13:56:48.4766640Z ##[group]Determining repository object format
+2026-10-14T13:56:48.4769497Z ##[endgroup]
+2026-10-14T13:56:48.4771319Z ##[group]Initializing the repository
+2026-10-14T13:56:48.4782017Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\NeuroCAD\NeuroCAD
+2026-10-14T13:56:48.6230658Z Initialized empty Git repository in D:/a/NeuroCAD/NeuroCAD/.git/
+2026-10-14T13:56:48.6298420Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/THE-BU1LD/NeuroCAD
+2026-10-14T13:56:48.7134685Z ##[endgroup]
+2026-10-14T13:56:48.7137359Z ##[group]Disabling automatic garbage collection
+2026-10-14T13:56:48.7146023Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-14T13:56:48.7478044Z ##[endgroup]
+2026-10-14T13:56:48.7479838Z ##[group]Setting up auth
+2026-10-14T13:56:48.7481214Z Removing SSH command configuration
+2026-10-14T13:56:48.7491780Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T13:56:48.7810780Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-14T13:56:50.3304915Z Removing HTTP extra header
+2026-10-14T13:56:50.3315418Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T13:56:50.3666994Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-14T13:56:51.0015302Z Removing includeIf entries pointing to credentials config files
+2026-10-14T13:56:51.0031910Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T13:56:51.0428840Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-14T13:56:51.6505898Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-14T13:56:51.6821184Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path D:\a\_temp\git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:56:51.7121574Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path D:\a\_temp\git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:56:51.7475722Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:56:51.7792380Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:56:51.8102502Z ##[endgroup]
+2026-10-14T13:56:51.8103229Z ##[group]Fetching the repository
+2026-10-14T13:56:51.8114828Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +3ee9e4c4a4f1db25df69c9b1f919f3e5b86c20d0:refs/remotes/pull/111/merge
+2026-10-14T13:56:53.3362482Z From https://github.com/THE-BU1LD/NeuroCAD
+2026-10-14T13:56:53.3363545Z  * [new ref]         3ee9e4c4a4f1db25df69c9b1f919f3e5b86c20d0 -> pull/111/merge
+2026-10-14T13:56:53.3408279Z ##[endgroup]
+2026-10-14T13:56:53.3409067Z ##[group]Determining the checkout info
+2026-10-14T13:56:53.3410271Z ##[endgroup]
+2026-10-14T13:56:53.3419403Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-14T13:56:53.4043396Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-14T13:56:53.4352985Z ##[group]Checking out the ref
+2026-10-14T13:56:53.4362415Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/111/merge
+2026-10-14T13:56:54.5020603Z Updating files:  60% (2775/4605)
+2026-10-14T13:56:54.5152300Z Updating files:  61% (2810/4605)
+2026-10-14T13:56:54.5297980Z Updating files:  62% (2856/4605)
+2026-10-14T13:56:54.5453418Z Updating files:  63% (2902/4605)
+2026-10-14T13:56:54.5590620Z Updating files:  64% (2948/4605)
+2026-10-14T13:56:54.5736578Z Updating files:  65% (2994/4605)
+2026-10-14T13:56:54.5884657Z Updating files:  66% (3040/4605)
+2026-10-14T13:56:54.6184302Z Updating files:  67% (3086/4605)
+2026-10-14T13:56:54.6359288Z Updating files:  68% (3132/4605)
+2026-10-14T13:56:54.6565590Z Updating files:  69% (3178/4605)
+2026-10-14T13:56:54.6751223Z Updating files:  70% (3224/4605)
+2026-10-14T13:56:54.6920527Z Updating files:  71% (3270/4605)
+2026-10-14T13:56:54.7085625Z Updating files:  72% (3316/4605)
+2026-10-14T13:56:54.7255683Z Updating files:  73% (3362/4605)
+2026-10-14T13:56:54.7420762Z Updating files:  74% (3408/4605)
+2026-10-14T13:56:54.7579106Z Updating files:  75% (3454/4605)
+2026-10-14T13:56:54.7720392Z Updating files:  76% (3500/4605)
+2026-10-14T13:56:54.7867667Z Updating files:  77% (3546/4605)
+2026-10-14T13:56:54.8019199Z Updating files:  78% (3592/4605)
+2026-10-14T13:56:54.8150286Z Updating files:  79% (3638/4605)
+2026-10-14T13:56:54.8297728Z Updating files:  80% (3684/4605)
+2026-10-14T13:56:54.8454646Z Updating files:  81% (3731/4605)
+2026-10-14T13:56:54.8586105Z Updating files:  82% (3777/4605)
+2026-10-14T13:56:54.8736991Z Updating files:  83% (3823/4605)
+2026-10-14T13:56:54.8877911Z Updating files:  84% (3869/4605)
+2026-10-14T13:56:54.9031546Z Updating files:  85% (3915/4605)
+2026-10-14T13:56:54.9178859Z Updating files:  86% (3961/4605)
+2026-10-14T13:56:54.9309859Z Updating files:  87% (4007/4605)
+2026-10-14T13:56:54.9454427Z Updating files:  88% (4053/4605)
+2026-10-14T13:56:54.9604875Z Updating files:  89% (4099/4605)
+2026-10-14T13:56:54.9738780Z Updating files:  90% (4145/4605)
+2026-10-14T13:56:54.9886287Z Updating files:  91% (4191/4605)
+2026-10-14T13:56:55.0033657Z Updating files:  92% (4237/4605)
+2026-10-14T13:56:55.0167733Z Updating files:  93% (4283/4605)
+2026-10-14T13:56:55.0316745Z Updating files:  94% (4329/4605)
+2026-10-14T13:56:55.0510487Z Updating files:  95% (4375/4605)
+2026-10-14T13:56:55.0622681Z Updating files:  96% (4421/4605)
+2026-10-14T13:56:55.0736630Z Updating files:  97% (4467/4605)
+2026-10-14T13:56:55.0856754Z Updating files:  98% (4513/4605)
+2026-10-14T13:56:55.0974388Z Updating files:  99% (4559/4605)
+2026-10-14T13:56:55.0974878Z Updating files: 100% (4605/4605)
+2026-10-14T13:56:55.0975404Z Updating files: 100% (4605/4605), done.
+2026-10-14T13:56:55.1133651Z Note: switching to 'refs/remotes/pull/111/merge'.
+2026-10-14T13:56:55.1134092Z 
+2026-10-14T13:56:55.1134295Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-14T13:56:55.1135110Z changes and commit them, and you can discard any commits you make in this
+2026-10-14T13:56:55.1135925Z state without impacting any branches by switching back to a branch.
+2026-10-14T13:56:55.1136450Z 
+2026-10-14T13:56:55.1136970Z If you want to create a new branch to retain commits you create, you may
+2026-10-14T13:56:55.1137585Z do so (now or later) by using -c with the switch command. Example:
+2026-10-14T13:56:55.1137874Z 
+2026-10-14T13:56:55.1138034Z   git switch -c <new-branch-name>
+2026-10-14T13:56:55.1138221Z 
+2026-10-14T13:56:55.1138311Z Or undo this operation with:
+2026-10-14T13:56:55.1138470Z 
+2026-10-14T13:56:55.1138553Z   git switch -
+2026-10-14T13:56:55.1138676Z 
+2026-10-14T13:56:55.1138888Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-14T13:56:55.1139218Z 
+2026-10-14T13:56:55.1139593Z HEAD is now at 3ee9e4c Merge ad18cd0a298826cf4fada700accf51757ac3864d into 079902fa20d22c2cf102104b0f42b28bec8bc382
+2026-10-14T13:56:55.1277258Z ##[endgroup]
+2026-10-14T13:56:55.1732453Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-14T13:56:55.2025527Z 3ee9e4c4a4f1db25df69c9b1f919f3e5b86c20d0
+2026-10-14T13:56:55.2593072Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-14T13:56:55.2593510Z with:
+2026-10-14T13:56:55.2593693Z   python-version: 3.13.15
+2026-10-14T13:56:55.2593907Z   cache: pip
+2026-10-14T13:56:55.2594081Z   check-latest: false
+2026-10-14T13:56:55.2596606Z   token: ***
+2026-10-14T13:56:55.2596795Z   update-environment: true
+2026-10-14T13:56:55.2597016Z   allow-prereleases: false
+2026-10-14T13:56:55.2597223Z   freethreaded: false
+2026-10-14T13:56:55.2597412Z ##[endgroup]
+2026-10-14T13:56:55.4049277Z ##[group]Installed versions
+2026-10-14T13:56:55.4150523Z Successfully set up CPython (3.13.15)
+2026-10-14T13:56:55.4151324Z ##[endgroup]
+2026-10-14T13:57:01.0623507Z Cache hit for: setup-python-Windows-x64-python-3.13.15-pip-8c57096f17f4ef44162279b09635f6b02814b55ab54a02321351abf60e7e1474
+2026-10-14T13:57:01.4421539Z Received 39186763 of 39186763 (100.0%), 112.2 MBs/sec
+2026-10-14T13:57:01.4423255Z Cache Size: ~37 MB (39186763 B)
+2026-10-14T13:57:01.5135736Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/bc97f31b-83d4-45c3-a568-cc2fd2af0fb0/cache.tzst -P -C D:/a/NeuroCAD/NeuroCAD --force-local --use-compress-program "zstd -d"
+2026-10-14T13:57:03.5886070Z Cache restored successfully
+2026-10-14T13:57:03.5925913Z Cache restored from key: setup-python-Windows-x64-python-3.13.15-pip-8c57096f17f4ef44162279b09635f6b02814b55ab54a02321351abf60e7e1474
+2026-10-14T13:57:03.6307751Z ##[group]Run python -m pip install --upgrade "pip==26.2.1"
+2026-10-14T13:57:03.6308295Z [36;1mpython -m pip install --upgrade "pip==26.2.1"[0m
+2026-10-14T13:57:03.6308635Z [36;1mpython -m pip install -e '.[dev]'[0m
+2026-10-14T13:57:04.3667482Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-14T13:57:04.3667979Z env:
+2026-10-14T13:57:04.3668380Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:04.3669086Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+2026-10-14T13:57:04.3670053Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:04.3670646Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:04.3671234Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:04.3671904Z ##[endgroup]
+2026-10-14T13:57:09.0899544Z Requirement already satisfied: pip==26.2.1 in C:\hostedtoolcache\windows\Python\3.13.15\x64\Lib\site-packages (26.2.1)
+2026-10-14T13:57:10.8342104Z Obtaining file:///D:/a/NeuroCAD/NeuroCAD
+2026-10-14T13:57:10.8378486Z   Installing build dependencies: started
+2026-10-14T13:57:13.2201431Z   Installing build dependencies: finished with status 'done'
+2026-10-14T13:57:13.2217538Z   Checking if build backend supports build_editable: started
+2026-10-14T13:57:13.7581110Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-10-14T13:57:13.7606829Z   Getting requirements to build editable: started
+2026-10-14T13:57:14.4542912Z   Getting requirements to build editable: finished with status 'done'
+2026-10-14T13:57:14.4572724Z   Preparing editable metadata (pyproject.toml): started
+2026-10-14T13:57:14.8866226Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-10-14T13:57:15.1679424Z Collecting jsonschema<5,>=4.23 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:15.1701437Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-10-14T13:57:15.5560377Z Collecting numpy<3,>=1.26 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:15.7690466Z   Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl.metadata (6.6 kB)
+2026-10-14T13:57:15.8644225Z Collecting trimesh<6,>=4 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:15.8700094Z   Downloading trimesh-5.1.1-py3-none-any.whl.metadata (13 kB)
+2026-10-14T13:57:15.9199875Z Collecting build==1.6.0 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:15.9220546Z   Using cached build-1.6.0-py3-none-any.whl.metadata (5.6 kB)
+2026-10-14T13:57:16.0360184Z Collecting mypy==1.18.2 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.0385256Z   Using cached mypy-1.18.2-cp313-cp313-win_amd64.whl.metadata (2.2 kB)
+2026-10-14T13:57:16.0965108Z Collecting pytest==9.1.1 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.0987895Z   Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-14T13:57:16.4606641Z Collecting ruff==0.16.5 (from neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.4629843Z   Using cached ruff-0.16.5-py3-none-win_amd64.whl.metadata (26 kB)
+2026-10-14T13:57:16.4757314Z Collecting packaging>=24.0 (from build==1.6.0->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.4777138Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-14T13:57:16.4977250Z Collecting pyproject_hooks (from build==1.6.0->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.4997989Z   Using cached pyproject_hooks-1.3.3-py3-none-any.whl.metadata (1.3 kB)
+2026-10-14T13:57:16.5246827Z Collecting colorama (from build==1.6.0->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.5267276Z   Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+2026-10-14T13:57:16.5529467Z Collecting typing_extensions>=4.6.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.5550907Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-14T13:57:16.5815843Z Collecting mypy_extensions>=1.0.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.5833896Z   Using cached mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-10-14T13:57:16.6067021Z Collecting pathspec>=0.9.0 (from mypy==1.18.2->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.6087934Z   Using cached pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-10-14T13:57:16.6430029Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.6480007Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-10-14T13:57:16.6889435Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.6910519Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-10-14T13:57:16.7333828Z Collecting pygments>=2.7.2 (from pytest==9.1.1->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.7373413Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-14T13:57:16.7624990Z Collecting attrs>=22.2.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.7646276Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-10-14T13:57:16.7888505Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.7909349Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-10-14T13:57:16.8214912Z Collecting referencing>=0.28.4 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+2026-10-14T13:57:16.8236340Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-10-14T13:57:17.1155201Z Collecting rpds-py>=0.25.0 (from jsonschema<5,>=4.23->neurocad-research==0.5.0a6)
+2026-10-14T13:57:17.1222823Z   Downloading rpds_py-2026.9.1-cp313-cp313-win_amd64.whl.metadata (4.2 kB)
+2026-10-14T13:57:17.1561974Z Using cached build-1.6.0-py3-none-any.whl (31 kB)
+2026-10-14T13:57:17.1584433Z Using cached mypy-1.18.2-cp313-cp313-win_amd64.whl (9.8 MB)
+2026-10-14T13:57:17.1672502Z Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-14T13:57:17.1694937Z Using cached ruff-0.16.5-py3-none-win_amd64.whl (10.5 MB)
+2026-10-14T13:57:17.1767556Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-10-14T13:57:17.1816895Z Downloading numpy-2.5.4-cp313-cp313-win_amd64.whl (12.6 MB)
+2026-10-14T13:57:17.4164836Z    ---------------------------------------- 12.6/12.6 MB 91.2 MB/s  0:00:00
+2026-10-14T13:57:17.4184159Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-14T13:57:17.4229171Z Downloading trimesh-5.1.1-py3-none-any.whl (750 kB)
+2026-10-14T13:57:17.4529980Z    ---------------------------------------- 750.4/750.4 kB 18.7 MB/s  0:00:00
+2026-10-14T13:57:17.4548092Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-10-14T13:57:17.4567133Z Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+2026-10-14T13:57:17.4612853Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-10-14T13:57:17.4827001Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-10-14T13:57:17.4850440Z Using cached mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-10-14T13:57:17.4870028Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-14T13:57:17.4890075Z Using cached pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-10-14T13:57:17.4927817Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-14T13:57:17.4958706Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-10-14T13:57:17.5004057Z Downloading rpds_py-2026.9.1-cp313-cp313-win_amd64.whl (222 kB)
+2026-10-14T13:57:17.5277399Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-14T13:57:17.5301007Z Using cached pyproject_hooks-1.3.3-py3-none-any.whl (10 kB)
+2026-10-14T13:57:17.6574144Z Building wheels for collected packages: neurocad-research
+2026-10-14T13:57:17.6610020Z   Building editable for neurocad-research (pyproject.toml): started
+2026-10-14T13:57:18.2008769Z   Building editable for neurocad-research (pyproject.toml): finished with status 'done'
+2026-10-14T13:57:18.2050172Z   Created wheel for neurocad-research: filename=neurocad_research-0.5.0a6-0.editable-py3-none-any.whl size=13742 sha256=d3200402aca0accdd2fade62a955212d756adbe9896a97481d66c8736564aac3
+2026-10-14T13:57:18.2052261Z   Stored in directory: C:\Users\runneradmin\AppData\Local\Temp\pip-ephem-wheel-cache-ariy7nqk\wheels\7d\f4\c3\898eb91130b4e1fd3440db9ef3dbcf0c44dbc3c62ec881814a
+2026-10-14T13:57:18.2090736Z Successfully built neurocad-research
+2026-10-14T13:57:18.2844823Z Installing collected packages: typing_extensions, ruff, rpds-py, pyproject_hooks, pygments, pluggy, pathspec, packaging, numpy, mypy_extensions, iniconfig, colorama, attrs, trimesh, referencing, pytest, mypy, build, jsonschema-specifications, jsonschema, neurocad-research
+2026-10-14T13:57:33.6415042Z 
+2026-10-14T13:57:33.6447100Z Successfully installed attrs-26.1.0 build-1.6.0 colorama-0.4.6 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mypy-1.18.2 mypy_extensions-1.1.0 neurocad-research-0.5.0a6 numpy-2.5.4 packaging-26.3 pathspec-1.1.1 pluggy-1.6.0 pygments-2.21.0 pyproject_hooks-1.3.3 pytest-9.1.1 referencing-0.37.0 rpds-py-2026.9.1 ruff-0.16.5 trimesh-5.1.1 typing_extensions-4.16.0
+2026-10-14T13:57:34.0559775Z ##[group]Run set -euo pipefail
+2026-10-14T13:57:34.0560157Z [36;1mset -euo pipefail[0m
+2026-10-14T13:57:34.0560428Z [36;1mtest -s tests/test_workbench_ui.py[0m
+2026-10-14T13:57:34.0560730Z [36;1mtest -s tests/workbench_contract.cjs[0m
+2026-10-14T13:57:34.0561007Z [36;1mnode --version[0m
+2026-10-14T13:57:34.0581939Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-14T13:57:34.0582337Z env:
+2026-10-14T13:57:34.0582605Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:34.0583077Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+2026-10-14T13:57:34.0583521Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:34.0583917Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:34.0584315Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:34.0584626Z ##[endgroup]
+2026-10-14T13:57:35.1112621Z v22.23.3
+2026-10-14T13:57:35.1356161Z ##[group]Run python -m pytest -q tests
+2026-10-14T13:57:35.1356533Z [36;1mpython -m pytest -q tests[0m
+2026-10-14T13:57:35.1426593Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-14T13:57:35.1426949Z env:
+2026-10-14T13:57:35.1427243Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:35.1427905Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.13.15\x64/lib/pkgconfig
+2026-10-14T13:57:35.1428411Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:35.1428846Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:35.1429289Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.13.15\x64
+2026-10-14T13:57:35.1429625Z ##[endgroup]
+2026-10-14T13:57:40.8118818Z ....................................... [  2%]
+2026-10-14T13:57:47.3797892Z ........................................................................ [  6%]
+2026-10-14T13:57:49.2265400Z ........................................................................ [ 10%]
+2026-10-14T13:57:49.3807922Z ........................................................................ [ 15%]
+2026-10-14T13:57:49.9490576Z ........................................................................ [ 19%]
+2026-10-14T13:57:50.1923583Z .....................................................................sss [ 23%]
+2026-10-14T13:58:12.5584133Z sssss................................................ssssss............. [ 27%]
+2026-10-14T13:58:12.7550218Z ........................................................................ [ 32%]
+2026-10-14T13:58:14.3180844Z .....sssss...................ss......................................... [ 36%]
+2026-10-14T13:58:16.2120054Z ........................................................................ [ 40%]
+2026-10-14T13:58:21.5190188Z .............................................................sssss...... [ 44%]
+2026-10-14T13:58:22.5436873Z ...ss................................................................... [ 49%]
+2026-10-14T13:58:22.8469992Z ...............................................ss....ssss............... [ 53%]
+2026-10-14T13:58:22.9926179Z ............................................ss.......................... [ 57%]
+2026-10-14T13:58:23.1000257Z ss...................................................................... [ 61%]
+2026-10-14T13:58:28.0360473Z ......................................s................................. [ 66%]
+2026-10-14T13:58:28.3224877Z ........................................................................ [ 70%]
+2026-10-14T13:58:28.5730810Z ........................................................................ [ 74%]
+2026-10-14T13:58:49.6364122Z .........................................s.............................. [ 78%]
+2026-10-14T13:58:49.8003470Z ........................................................................ [ 83%]
+2026-10-14T13:58:54.8401702Z .......................................ss............................... [ 87%]
+2026-10-14T13:58:55.3934457Z ..............................................F.......... [ 90%]
+2026-10-14T13:58:55.5543863Z ................................................................... [ 94%]
+2026-10-14T13:59:01.4017891Z ........................................................................ [ 98%]
+2026-10-14T13:59:02.2154849Z .sssss.........s.                                                        [100%]
+2026-10-14T13:59:02.2155861Z ================================== FAILURES ===================================
+2026-10-14T13:59:02.2156856Z ____________________ ReadinessTests.test_valid_completion _____________________
+2026-10-14T13:59:02.2157884Z 
+2026-10-14T13:59:02.2158464Z self = <test_v3_readiness_audit.ReadinessTests testMethod=test_valid_completion>
+2026-10-14T13:59:02.2159293Z 
+2026-10-14T13:59:02.2159519Z     def test_valid_completion(self):
+2026-10-14T13:59:02.2160211Z >       self.assertTrue(self.run_audit()["complete"])
+2026-10-14T13:59:02.2163059Z E       AssertionError: False is not true
+2026-10-14T13:59:02.2163433Z 
+2026-10-14T13:59:02.2163649Z tests\test_v3_readiness_audit.py:41: AssertionError
+2026-10-14T13:59:02.2164233Z =========================== short test summary info ===========================
+2026-10-14T13:59:02.2165250Z FAILED tests/test_v3_readiness_audit.py::ReadinessTests::test_valid_completion - AssertionError: False is not true
+2026-10-14T13:59:02.2166476Z 1 failed, 1643 passed, 52 skipped, 53 subtests passed in 86.29s (0:01:26)
+2026-10-14T13:59:02.4581030Z ##[error]Process completed with exit code 1.
+2026-10-14T13:59:02.4887916Z Post job cleanup.
+2026-10-14T13:59:02.6900140Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-14T13:59:02.7171262Z git version 2.55.0.windows.5
+2026-10-14T13:59:02.7237982Z Temporarily overriding HOME='D:\a\_temp\139d1417-8c8a-4da7-93bc-bc30cd933cac' before making global git config changes
+2026-10-14T13:59:02.7239086Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T13:59:02.7249074Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NeuroCAD\NeuroCAD
+2026-10-14T13:59:02.7561841Z Removing SSH command configuration
+2026-10-14T13:59:02.7572483Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T13:59:02.7893140Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-14T13:59:03.3435338Z Removing HTTP extra header
+2026-10-14T13:59:03.3449366Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T13:59:03.3773041Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-14T13:59:03.9483116Z Removing includeIf entries pointing to credentials config files
+2026-10-14T13:59:03.9500858Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-14T13:59:03.9785090Z includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path
+2026-10-14T13:59:03.9786207Z includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+2026-10-14T13:59:03.9786869Z includeif.gitdir:/github/workspace/.git.path
+2026-10-14T13:59:03.9787437Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-14T13:59:03.9840203Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path
+2026-10-14T13:59:04.0114786Z D:\a\_temp\git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:59:04.0161528Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git.path D\:\\a\\_temp\\git\-credentials\-55dd80f1\-c0b2\-4abd\-9a0e\-4069f93f4fd9\.config
+2026-10-14T13:59:04.0527198Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path
+2026-10-14T13:59:04.0795627Z D:\a\_temp\git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:59:04.0842780Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NeuroCAD/NeuroCAD/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-55dd80f1\-c0b2\-4abd\-9a0e\-4069f93f4fd9\.config
+2026-10-14T13:59:04.1174146Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-14T13:59:04.1455370Z /github/runner_temp/git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:59:04.1504113Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-55dd80f1\-c0b2\-4abd\-9a0e\-4069f93f4fd9\.config
+2026-10-14T13:59:04.1811099Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-14T13:59:04.2066006Z /github/runner_temp/git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config
+2026-10-14T13:59:04.2110886Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-55dd80f1\-c0b2\-4abd\-9a0e\-4069f93f4fd9\.config
+2026-10-14T13:59:04.2421449Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-14T13:59:04.7920283Z Removing credentials config 'D:\a\_temp\git-credentials-55dd80f1-c0b2-4abd-9a0e-4069f93f4fd9.config'
+2026-10-14T13:59:04.8123500Z Cleaning up orphan processes

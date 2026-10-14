@@ -1,6 +1,10 @@
-# Current verified closure
+# Current engineering checklist
 
-The integrated final v5 candidate is merged at 079902f; exact-main CI and all required gates passed. This supersedes the earlier pending review/merge entries below. [Final evidence and remaining gates](docs/verification/composite-final-20261014/REPORT.md). Physical, independent and intended-user validation remain unexecuted, and separately scoped native shape/platform acceptance remains open. Published v0.5.0a6 is unchanged.
+See the [evidence-backed advanced engineering checklist](docs/V3_READINESS_CHECKLIST.md).
+The v5 corrections merged in PR109, and expanded native platform acceptance merged
+in PR110 at 0bef391. Their passing receipts remain separate from physical,
+independent and intended-user outcomes. Published v0.5.0a6 is unchanged.
+
 
 # NeuroCAD current completion checklist
 
@@ -18,8 +22,8 @@ The earlier mixed CAD/portal record is preserved verbatim in
 - [x] Enable verified main protection and reconcile six completed GitHub issues.
 - [x] Complete the 157-entry pinned historical source inventory.
 - [x] Add 42 analytical reference cases spanning all four composite families in declared sampled envelopes.
-- [ ] Complete separately scoped native shape/platform coverage.
-- [ ] Complete review/merge of the integrated candidate; do not call it a new public release.
+- [x] Complete declared native shape/platform coverage (PR110, three platform jobs and exact-main CI pass).
+- [x] Complete review/merge of the integrated candidate (PR109, exact-main 079902f); this is not a new public release.
 - [ ] Collect actual physical measurements with calibration and uncertainty records.
 - [ ] Obtain independent reproduction and discrepancy review.
 - [ ] Run intended-user tasks and verify fixes for observed defects.
@@ -31,4 +35,4 @@ scientific completion from analytical calculations or software tests.
 
 - [x] Retain the later circular-shaft biaxial stress failure and correct the full-boundary extremum in a separate successor.
 - [x] Verify the shaft successor in the full hosted matrix (9231aab).
-- [ ] Verify and merge the final v5 source candidate; use its live hosted checks as the outcome authority.
+- [x] Verify and merge final v5 at 079902f; retained exact-main run 38565917174 passed.
