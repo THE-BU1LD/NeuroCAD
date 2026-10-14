@@ -1,3 +1,13 @@
+> Current engineering update (14 October 2026): PR110 merged as
+> `0bef391d210b8df1c871f5f250cf011012728e64` and PR111 added the evidence-backed
+> readiness auditor on `0a4ce929c71b767e59822faf2a04546e324fe411`.
+> The older pending-native-merge rows below are retained history.
+> [Main CI](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38577282155)
+> verifies the native integration source. The new
+> [verified-intent work](VERIFIED_INTENT_UPGRADE_PLAN_20261014.md) has a separate
+> contract and requires fresh candidate checks. Physical, independent and user
+> gates remain open. The old readiness source inventory does not cover new code.
+
 # Current six-gate implementation checklist
 
 Updated 14 October 2026 for the request to implement every unblocked item.

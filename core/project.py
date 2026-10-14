@@ -117,9 +117,15 @@ def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], pat
 
 
 def _number(value: Any, path: str) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ProjectFormatError(f"{path} must be a finite number")
-    return float(value)
+    try:
+        number = float(value)
+    except (OverflowError, ValueError) as exc:
+        raise ProjectFormatError(f"{path} must be a finite number") from exc
+    if not math.isfinite(number):
+        raise ProjectFormatError(f"{path} must be a finite number")
+    return number
 
 
 def _text(value: Any, path: str, *, maximum: int = 256, allow_empty: bool = False) -> str:

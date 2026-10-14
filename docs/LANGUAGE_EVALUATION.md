@@ -3,7 +3,7 @@
 The runner measures whether interpreted edits match annotated intent. A valid
 candidate can still have the wrong dimensions or omit a preservation requirement.
 It supports the local parser and an explicitly configured Chat Completions model.
-It never applies proposals or changes the supplied projects.
+It never applies proposals. Provider input mutation is recorded as a failed case and cannot earn semantic or rejection credit.
 
 ## Development challenge
 
@@ -70,14 +70,14 @@ cutout, and `lid` covers a lid field. Unrelated changes fail semantic scoring.
 
 All annotations are validated before any inference or output-directory creation.
 The new output directory contains the exact challenge and a preoutcome receipt
-with dataset, scorer, parser and provider-adapter hashes. Each completed outcome
+with dataset, scorer, parser, provider-adapter and complete core/schema source hashes. Version 2 uses portable UTF-8/LF report bytes and preserves the original challenge bytes, including CRLF. Each completed outcome
 is flushed to `results.jsonl`, retaining failures if interrupted. `summary.json`
-is written only when every case finishes. Existing destinations are refused.
+is written only when every case finishes. A final manifest seals the four artifacts; source or dataset drift makes `integrity_valid` false. Existing destinations are refused.
 
 - Semantic exact rate divides correctly resolved full intents by all valid-intent
   cases. Blocking a valid request is a miss. Wrong fields, missing protection and
   stale context fail.
-- Fail-closed rate divides non-proposal intents with no candidate by all
+- Fail-closed rate divides supported non-proposal statuses with no candidate by all
   non-proposal cases. Transport errors are failures, not successful rejection.
   Exact clarification/rejection status is scored separately.
 
@@ -89,3 +89,29 @@ explicit. Controlled provider tests are not live model accuracy evidence.
 authorship/adjudication, frozen splits, model configuration, source commit,
 dependency identities and the existing external evaluation protocol. This runner
 does not authorize that study or close its gate.
+
+## Matched development comparison
+
+```bash
+neurocad-language-compare language-local language-model --output comparison.json
+# Checkout equivalent:
+python -m core.language_comparison language-local language-model --output comparison.json
+```
+
+Both runs must be complete v2 reports with identical challenge bytes and the
+same scoring implementation and runner policy. The comparison checks every
+artifact hash, ordered case identity, labels and summary counts, and re-scores
+retained proposals against the frozen project. Mutated input cannot earn credit.
+Corruption, incomplete results, different labels, stale scorer code and output
+collisions refuse comparison. Older v1 reports remain historical evidence and
+are not silently upgraded or compared with v2.
+
+Each endpoint reports both-success, left-only, right-only and both-failure
+counts, the right-minus-left rate and every discordant case. Unsafe acceptance
+is an adverse endpoint; a positive delta is worse. This is descriptive matched
+evidence, not a significance test. Correlated prompts need a prospectively
+specified clustered analysis. Provider labels and file hashes do not prove
+independent authorship, authenticity, equal cost or model execution, and local
+provider objects are not sandboxed. No benchmark dominance follows from this
+command. See the [upgrade plan](VERIFIED_INTENT_UPGRADE_PLAN_20261014.md) for the
+additional benchmark and scientific gates.

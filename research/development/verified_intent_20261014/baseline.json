@@ -1,0 +1,79 @@
+{
+  "source": "0a4ce929c71b767e59822faf2a04546e324fe411",
+  "observations": [
+    {
+      "case": "source",
+      "expected": "RequirementIRParseError",
+      "observed": "TypeError"
+    },
+    {
+      "case": "id",
+      "expected": "RequirementIRParseError",
+      "observed": "TypeError"
+    },
+    {
+      "case": "kind",
+      "expected": "RequirementIRParseError",
+      "observed": "TypeError"
+    },
+    {
+      "case": "strength",
+      "expected": "RequirementIRParseError",
+      "observed": "TypeError"
+    },
+    {
+      "case": "provenance",
+      "expected": "RequirementIRParseError",
+      "observed": "TypeError"
+    },
+    {
+      "case": "verification",
+      "expected": "RequirementIRParseError",
+      "observed": "TypeError"
+    },
+    {
+      "case": "value",
+      "expected": "RequirementIRParseError",
+      "observed": "OverflowError"
+    },
+    {
+      "case": "tolerance",
+      "expected": "RequirementIRParseError",
+      "observed": "OverflowError"
+    },
+    {
+      "case": "metadata",
+      "expected": "RequirementIRParseError",
+      "observed": "OverflowError"
+    },
+    {
+      "case": "empty_feature_universe",
+      "expected_complete": false,
+      "observed": {
+        "complete_for_must": true,
+        "covered": [
+          "width"
+        ],
+        "missing_must": [],
+        "missing_should": [],
+        "invalid_bindings": []
+      }
+    },
+    {
+      "case": "baseline_mutation",
+      "expected_success_counts": 0,
+      "observed": {
+        "semantic_exact_count": 0,
+        "fail_closed_count": 0,
+        "passed_count": 0,
+        "baseline_unchanged": false
+      }
+    },
+    {
+      "case": "unknown_status_rejection_credit",
+      "expected": false,
+      "observed": true
+    }
+  ],
+  "scientific_outcomes": false
+}

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -17,6 +18,21 @@ from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, se
 VERSION = "neurocad-language-challenge-v1"
 STATUSES = {"proposal", "clarification", "unsupported", "rejected", "unchanged"}
 MAX_DATASET_BYTES = 4_194_304
+RUN_VERSION = "neurocad-language-run-v2"
+EXECUTION_POLICY = {"calls_per_case": 1, "runner_retries": 0, "labels_in_context": False,
+                    "scoring_context": "frozen-project", "partial_runs_comparable": False}
+
+
+def _write_json(path: Path, value: Any) -> None:
+    # Exact UTF-8/LF bytes on every OS, including Windows.
+    path.write_bytes((json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8"))
+
+
+def _source_identity() -> dict[str, str]:
+    root = Path(__file__).parent
+    paths = sorted(root.glob("*.py")) + sorted((root / "schemas").glob("*.json"))
+    return {str(path.relative_to(root)).replace("\\", "/"): hashlib.sha256(path.read_bytes()).hexdigest() for path in paths}
+
 
 
 class Interpreter(Protocol):
@@ -28,6 +44,8 @@ def validate_challenge(raw: Any) -> dict[str, Any]:
     keys = {"version", "provenance", "projects", "cases"}
     if not isinstance(raw, dict) or set(raw) != keys or raw["version"] != VERSION:
         raise ValueError("Challenge requires version, provenance, projects and cases")
+    # Normalization must not rewrite labels or retain aliases owned by a caller.
+    raw = copy.deepcopy(raw)
     provenance = raw["provenance"]
     if (not isinstance(provenance, dict) or set(provenance) != {"kind", "description"}
             or not isinstance(provenance["kind"], str)
@@ -87,7 +105,12 @@ def validate_challenge(raw: Any) -> dict[str, Any]:
 
 
 def score_proposal(proposal: EditProposal, expected: dict[str, Any], project: EnclosureProject) -> dict[str, bool]:
-    candidate = enclosure_spec_to_dict(proposal.candidate.spec) if proposal.candidate else None
+    if (not isinstance(proposal, EditProposal) or not isinstance(proposal.status, str)
+            or not isinstance(proposal.preserve, (tuple, list))
+            or any(not isinstance(item, dict) or not isinstance(item.get("field"), str) for item in proposal.preserve)):
+        raise ValueError("Invalid edit proposal fields")
+    candidate = (enclosure_spec_to_dict(parse_project(serialize_project(proposal.candidate)).spec)
+                 if proposal.candidate else None)
     resolved = proposal.status == "proposal" and candidate is not None
     valid_intent = expected["status"] == "proposal"
     actual_protections = {item["field"] for item in proposal.preserve}
@@ -98,7 +121,7 @@ def score_proposal(proposal: EditProposal, expected: dict[str, Any], project: En
     context_match = proposal.baseline_sha256 == context_hash(project)
     semantic_exact = valid_intent and resolved and candidate == expected["spec"] and protection_match and context_match
     # A transport error is scored separately, never counted as successful rejection.
-    fail_closed = not valid_intent and proposal.candidate is None and proposal.status != "proposal" and context_match
+    fail_closed = not valid_intent and proposal.candidate is None and proposal.status in STATUSES - {"proposal"} and context_match
     status_exact = proposal.status == expected["status"]
     return {"semantic_exact": semantic_exact, "fail_closed": fail_closed,
             "unsafe_acceptance": not valid_intent and (proposal.candidate is not None or proposal.status == "proposal"),
@@ -118,44 +141,65 @@ def evaluate(challenge_path: Path, output_dir: Path, *, provider: Interpreter | 
     frozen_hash = hashlib.sha256(source.encode()).hexdigest()
     output_dir.mkdir(parents=True, exist_ok=False)
     # Preserve the exact frozen input, including labels, before observing outcomes.
-    (output_dir / "challenge.json").write_text(source, encoding="utf-8")
-    receipt = {"version": "neurocad-language-run-v1", "dataset_sha256": frozen_hash,
+    (output_dir / "challenge.json").write_bytes(source.encode("utf-8"))
+    source_identity = _source_identity()
+    receipt = {"version": RUN_VERSION, "execution_policy": dict(EXECUTION_POLICY),
+               "source_identity": source_identity, "dataset_sha256": frozen_hash,
                "provenance": challenge["provenance"], "provider": provider_label,
                "live_provider_evaluated": live_provider,
                "scorer_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                "parser_sha256": hashlib.sha256(Path(__file__).with_name("conversational_parser.py").read_bytes()).hexdigest(),
                "provider_adapter_sha256": hashlib.sha256(Path(__file__).with_name("language_provider.py").read_bytes()).hexdigest(),
                "outcomes_observed": False, "case_count": len(challenge["cases"])}
-    (output_dir / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    _write_json(output_dir / "receipt.json", receipt)
     results = []
     for index, case in enumerate(challenge["cases"]):
         project = parse_project(json.dumps(challenge["projects"][case["project"]], allow_nan=False))
         before = serialize_project(project)
+        scoring_project = parse_project(before)
+        history = list(case["history"])
         started = time.monotonic()
         result: dict[str, Any] = {"id": case["id"], "category": case["category"], "expected": case["expected"],
                                   "history_used": provider is not None, "provider_error": False}
         try:
             # Labels never enter the provider context. No retries or prompt rewriting.
-            proposal = (provider.interpret(case["source"], project, recent_messages=case["history"])
+            proposal = (provider.interpret(case["source"], project, recent_messages=history)
                         if provider is not None else parse_conversation(case["source"], project))
-            result.update(observed=proposal.to_dict(), **score_proposal(proposal, case["expected"], project))
-        except (ValueError, OSError) as exc:
+            scored = score_proposal(proposal, case["expected"], scoring_project)
+            observed = proposal.to_dict()
+            # Validate serializability before marking a provider response scored.
+            json.dumps(observed, allow_nan=False)
+            result.update(observed=observed, **scored)
+        except (ValueError, OSError, TypeError, AttributeError, OverflowError) as exc:
             # Exception type only: endpoint errors can contain credentials or response bodies.
             result.update(observed=None, error_type=type(exc).__name__, provider_error=True,
                           passed=False, semantic_exact=False, fail_closed=False, unsafe_acceptance=False,
                           wrong_candidate=False, status_exact=False, protection_match=False)
-        result["baseline_unchanged"] = serialize_project(project) == before
-        result["passed"] = result["passed"] and result["baseline_unchanged"]
+        try:
+            result["baseline_unchanged"] = serialize_project(project) == before
+        except (ValueError, TypeError, AttributeError, OverflowError):
+            result["baseline_unchanged"] = False
+        result["history_unchanged"] = history == case["history"]
+        result["input_unchanged"] = result["baseline_unchanged"] and result["history_unchanged"]
+        # Mutation can never earn headline semantic or rejection credit, even if
+        # the returned candidate happens to match the label.
+        for key in ("passed", "semantic_exact", "fail_closed"):
+            result[key] = result[key] and result["input_unchanged"]
         result["elapsed_seconds"] = time.monotonic() - started
         results.append(result)
         # Flush each outcome so an interrupted run retains completed failures and receipts.
-        with (output_dir / "results.jsonl").open("a", encoding="utf-8") as handle:
+        with (output_dir / "results.jsonl").open("a", encoding="utf-8", newline="\n") as handle:
             handle.write(json.dumps(result, sort_keys=True, allow_nan=False) + "\n")
     valid = sum(case["expected"]["status"] == "proposal" for case in challenge["cases"])
     rejection = len(results) - valid
     exact = sum(result["semantic_exact"] for result in results)
     closed = sum(result["fail_closed"] for result in results)
-    summary = {**receipt, "outcomes_observed": True, "completed_cases": len(results),
+    source_unchanged = _source_identity() == source_identity
+    dataset_unchanged = hashlib.sha256((output_dir / "challenge.json").read_bytes()).hexdigest() == frozen_hash
+    summary = {**receipt, "outcomes_observed": True,
+               "integrity_valid": source_unchanged and dataset_unchanged,
+               "source_unchanged": source_unchanged, "dataset_unchanged": dataset_unchanged,
+               "input_mutation_count": sum(not result["input_unchanged"] for result in results), "completed_cases": len(results),
                "passed_count": sum(result["passed"] for result in results),
                "valid_intent_cases": valid, "semantic_exact_count": exact,
                "semantic_exact_rate": exact / valid if valid else None,
@@ -175,7 +219,13 @@ def evaluate(challenge_path: Path, output_dir: Path, *, provider: Interpreter | 
                    "unsafe_acceptances": sum(result["category"] == category and result["unsafe_acceptance"] for result in results)}
         for category in sorted({case["category"] for case in challenge["cases"]})
     }
-    (output_dir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_json(output_dir / "summary.json", summary)
+    _write_json(output_dir / "manifest.json", {
+        "version": "neurocad-language-manifest-v1",
+        "files": {name: hashlib.sha256((output_dir / name).read_bytes()).hexdigest()
+                  for name in ("challenge.json", "receipt.json", "results.jsonl", "summary.json")},
+        "claim_boundary": "Integrity checks detect drift; they do not authenticate an author or sandbox provider code.",
+    })
     return summary
 
 
@@ -198,7 +248,7 @@ def main(argv: list[str] | None = None) -> int:
     except (ValueError, OSError) as exc:
         parser.exit(2, f"Language evaluation failed ({type(exc).__name__}); no successful result claimed\n")
     print(json.dumps(summary, sort_keys=True))
-    return 0 if summary["passed_count"] == summary["completed_cases"] else 2
+    return 0 if summary["integrity_valid"] and summary["passed_count"] == summary["completed_cases"] else 2
 
 
 if __name__ == "__main__":

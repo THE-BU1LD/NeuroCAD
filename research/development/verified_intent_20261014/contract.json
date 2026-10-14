@@ -1,0 +1,67 @@
+{
+  "id": "verified_intent_20261014",
+  "version": 1,
+  "created_utc": "2026-10-14T16:01:23.404645+00:00",
+  "source_base": "0a4ce929c71b767e59822faf2a04546e324fe411",
+  "authorization": "User: find all the work u can do and do it",
+  "scope": [
+    "Harden Requirement IR malformed inputs and explicit empty feature-universe checks",
+    "Make language evaluation immutable-input scoring and portable receipts trustworthy",
+    "Add matched paired development-report comparison with integrity and task-identity checks",
+    "Reconcile current capabilities and evidence-bound upgrade roadmap"
+  ],
+  "hypothesis": "Malformed types, overflow, empty feature universes and provider-side baseline mutation currently bypass structured rejection or inflate diagnostics. Repairs must reject these cases without changing valid established intent behavior.",
+  "falsifier": "Any malformed fixture crashes outside the documented ValueError boundary, any mutated baseline earns semantic or rejection credit, or any mismatched/incomplete report is compared.",
+  "budget": {
+    "local_lightweight_baseline_batches": 1,
+    "local_focused_test_batches": 4,
+    "local_lint_type_batches": 3,
+    "hosted_attempts_per_workflow": 3,
+    "post_merge_main_ci": 1,
+    "inherited_seeded_engineering_regression_samples_per_full_suite": 40000,
+    "new_provider_calls": 0,
+    "training_runs": 0,
+    "protected_outcomes": 0,
+    "physical_experiments": 0
+  },
+  "stopping_rule": "Stop at budget exhaustion or all focused checks and required hosted checks passing; preserve failures. Prior budgets remain closed.",
+  "local_execution": "Pure Python only; no native CAD, meshing, tensors, installs or full suite while resource admission fails. Hosted existing regression suites are bounded engineering evidence.",
+  "protected_boundary": "No changes to frozen v2/v3 protocols, protected cases, paper outcomes, immutable alpha or historical receipts. New tests are authored development fixtures, not independent evidence.",
+  "baseline_cases": [
+    "non-string source",
+    "unhashable id/kind/strength/provenance/verification",
+    "overflowing value/tolerance/metadata",
+    "explicit empty feature universe",
+    "provider mutates baseline after making proposal",
+    "provider mutation before proposal must not redefine scoring context",
+    "unknown response status must not earn rejection credit"
+  ],
+  "entry": {
+    "status": {
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "memory": {
+      "code": 0,
+      "stdout": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     3755.\nPages active:                                 198492.\nPages inactive:                               196368.\nPages speculative:                               818.\nPages throttled:                                   0.\nPages wired down:                             165520.\nPages purgeable:                                   0.\n\"Translation faults\":                     1064930827.\nPages copy-on-write:                        32104719.\nPages zero filled:                         387727733.\nPages reactivated:                         254494125.\nPages purged:                               21296121.\nFile-backed pages:                            110328.\nAnonymous pages:                              285350.\nPages stored in compressor:                  1565137.\nPages occupied by compressor:                 442638.\nDecompressions:                            265193379.\nCompressions:                              288657545.\nPageins:                                    41154600.\nPageouts:                                     405107.\nSwapins:                                     3067741.\nSwapouts:                                    4176674.\n",
+      "stderr": ""
+    },
+    "swap": {
+      "code": 0,
+      "stdout": "vm.swapusage: total = 8192.00M  used = 6971.81M  free = 1220.19M  (encrypted)\n",
+      "stderr": ""
+    },
+    "disk": {
+      "code": 0,
+      "stdout": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk5s1   931Gi   711Gi   220Gi    77%    8.4M  2.3G    0%   /Volumes/PRO-BLADE\n",
+      "stderr": ""
+    },
+    "processes": {
+      "code": 0,
+      "stdout": " 1192     1 /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python -m core.daemon serve --config /Users/ryan/.config/neurocad/config.json",
+      "stderr": ""
+    }
+  },
+  "status": "OPEN_ENGINEERING_ONLY"
+}

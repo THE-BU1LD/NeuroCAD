@@ -1,0 +1,49 @@
+{
+  "status": "LOCAL_BOUNDED_PASS_HOSTED_PENDING",
+  "at": "2026-10-14T16:17:41.597198+00:00",
+  "local_baseline_batches_used": 1,
+  "focused_batches_used": 4,
+  "focused_batches": [
+    {
+      "batch": 1,
+      "passed": 154,
+      "failed": 0
+    },
+    {
+      "batch": 2,
+      "passed": 158,
+      "failed": 1,
+      "finding": "Embedded project numeric overflow escapes ValueError admission; fixed in core/project.py."
+    },
+    {
+      "batch": 3,
+      "executed_tests": 0,
+      "exit_code": 4,
+      "failure": "Incorrect tests/test_project.py path; no tests ran."
+    },
+    {
+      "batch": 4,
+      "passed": 159,
+      "failed": 0
+    }
+  ],
+  "lint_type_batches_used": 2,
+  "lint_history": [
+    "First Ruff found TRY004 artifact exception style and import ordering; corrected with documented ValueError boundary and sorted imports.",
+    "Second Ruff passed all five changed code/test files."
+  ],
+  "mypy": "Passed all four changed production modules",
+  "native_local_runs": 0,
+  "provider_calls": 0,
+  "scientific_checkpoint_advanced": false,
+  "protected_files_unchanged": 40,
+  "source_files": {
+    "core/requirement_ir.py": "cd677083df33db01081dc6f087259ee8ec129d283a950867eafb449ee9f38d2b",
+    "core/project.py": "901b0c83f8b0524712bcc28e9fc7a280098a9c770c3e48c5ecc58c49d26401a3",
+    "core/language_evaluation.py": "3c2c686fd8c563b467fbd45636bef2de4cb3432aa3b6b9af62a0d26697d2eca1",
+    "core/language_comparison.py": "37ccf1de60fa5502f1d91ab432035f1e3f78bb091199f1ed2a6578ffd9ec3c2b",
+    "tests/test_verified_intent.py": "ee1552e235959289ba801ff9a9658c837d938968b3322d67c8d6b5b829dad547"
+  },
+  "remaining_hosted_attempts_per_workflow": 3,
+  "new_followup": "The existing readiness inventory is intentionally historical; run its auditor to expose source drift. No evidence hash was rebound."
+}

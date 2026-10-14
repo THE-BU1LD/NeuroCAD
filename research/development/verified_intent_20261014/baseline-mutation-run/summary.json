@@ -1,0 +1,43 @@
+{
+  "baseline_unchanged": false,
+  "case_count": 2,
+  "categories": {
+    "missing-dimension": {
+      "cases": 1,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    },
+    "units-and-typos": {
+      "cases": 1,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    }
+  },
+  "claim_boundary": "Development diagnostics; external provenance declarations alone do not establish independent or confirmatory evaluation",
+  "completed_cases": 2,
+  "dataset_sha256": "7a515df59cc3712029267ae84d688be19e44430286aba383be80253f44157964",
+  "distinct_sources": 2,
+  "fail_closed_count": 0,
+  "fail_closed_rate": 0.0,
+  "independent_authorship_verified": false,
+  "live_provider_evaluated": false,
+  "outcomes_observed": true,
+  "parser_sha256": "ea8194796a5b2be903257eea7077b8db0a57a582d955e6e50a6e6c2a3da5afd5",
+  "passed_count": 0,
+  "provenance": {
+    "description": "32 manually annotated assistant-authored development cases across two enclosure contexts. Labels authored by the implementation agent; not independent, held-out, human-adjudicated or confirmatory. No parser tuning to these outcomes within this sprint.",
+    "kind": "constructed-development"
+  },
+  "provider": "adversarial-local-fixture",
+  "provider_adapter_sha256": "ee67fa013568ed4b088fb7f5b383c047766aa1c679365dbaefb8ccd357f8524d",
+  "provider_error_count": 2,
+  "rejection_intent_cases": 1,
+  "scorer_sha256": "6526cb1016711e0dfc4899f72c932901c6fd9204f5ad8b770f756200b16e9501",
+  "semantic_exact_count": 0,
+  "semantic_exact_rate": 0.0,
+  "status_exact_count": 0,
+  "unsafe_acceptance_count": 0,
+  "valid_intent_cases": 1,
+  "version": "neurocad-language-run-v1",
+  "wrong_candidate_count": 0
+}

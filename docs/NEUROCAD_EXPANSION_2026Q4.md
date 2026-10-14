@@ -489,3 +489,7 @@ human request
 
 That is the point where NeuroCAD becomes materially more than prompt-to-mesh or
 prompt-to-script generation.
+
+## Implementation and comparison update — 14 October 2026
+
+The evidence-bound [verified-intent upgrade plan](VERIFIED_INTENT_UPGRADE_PLAN_20261014.md) records current implemented foundations, reproducible defects, recent prior art, separate engineering/competitiveness tracks, upgrade dependencies and falsifiers. It supersedes any interpretation of this roadmap as proof that its future capabilities or SOTA claims are complete.

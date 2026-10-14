@@ -32,10 +32,30 @@ projected local optimization, elementary interval arithmetic, seeded correlated
 Monte Carlo propagation, and linear-system diagnostics. These methods disclose
 local convergence and numerical limits and do not replace domain solvers.
 
+## Optional exact CAD and meshing
+
+The optional build123d/OpenCascade backend builds the declared Feature IR
+subset and exports STEP with re-imported geometry checks. Internal native
+acceptance covers five authored reference solids on Linux, macOS and Windows.
+The supervised Gmsh adapter creates bounded tetrahedral meshes and verifies
+serialized memberships and source-bound planar boundary roles. These are
+engineering checks for the tested cases and pinned tools, not arbitrary-CAD,
+solver, manufacturing or physical-accuracy claims. See [native acceptance](NATIVE_ACCEPTANCE.md)
+and [PR110](https://github.com/THE-BU1LD/NeuroCAD/pull/110).
+
+Requirement binding coverage is accounting. `feature_presence` and
+`feature_count` check construction history; they do not by themselves establish
+holes or topology in the final solid. Exact extents, planar wall-thickness and
+B-Rep probes have their own narrower geometric meaning. New final-geometry
+predicates require explicit contracts and negative tests.
+
+The immutable public alpha v0.5.0a6 retains its original source identity.
+Post-release main-branch changes need their own installed-release validation.
+
 ## Explicitly not provided
 
 - guaranteed interpretation of arbitrary natural language or production-ready general-purpose CAD;
-- STEP/BREP or native Onshape, Fusion, FreeCAD, Blender, or slicer documents;
+- native Onshape, Fusion, FreeCAD, Blender, or slicer project documents;
 - arbitrary PCB-outline extraction or inferred connector placement;
 - finite-element, computational-fluid-dynamics, electromagnetic, fatigue, or
   general multiphysics simulation;
@@ -45,10 +65,11 @@ local convergence and numerical limits and do not replace domain solvers.
 - load ratings, regulatory compliance, safety certification, or physical-fit
   claims;
 - a bundled trained CAD model;
-- production BREP/NURBS, adaptive meshing, FEA, CFD, electromagnetics, acoustics,
+- general-purpose production BREP/NURBS modeling, adaptive meshing, FEA, CFD, electromagnetics, acoustics,
   optics, topology optimization, or coupled multiphysics solver execution;
-- verified OpenCASCADE/CadQuery, Gmsh, CalculiX, FEniCS, OpenFOAM, Blender, or
-  FreeCAD orchestration.
+- verified general-purpose CalculiX, FEniCS, OpenFOAM, Blender, or FreeCAD
+  solver/application orchestration; the bounded optional kernel/mesher path above
+  does not establish these integrations.
 
 SCAD/STL handoff readiness means files passed NeuroCAD's declared verification.
 It does not mean another application imported them or a machine produced them.
