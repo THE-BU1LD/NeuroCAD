@@ -290,9 +290,16 @@
       "receipt": "docs/verification/composite-final-20261014/REPORT.md",
       "hosted_matrix_attempts_used": 3,
       "conformance_attempts_used_including_duplicate_push": 3
+    },
+    {
+      "id": "native_acceptance_20261014",
+      "status": "ACTIVE",
+      "contract": "research/development/native_acceptance_20261014/contract.json",
+      "started_at": "2026-10-14T13:18:08.881397+00:00",
+      "prior_budgets_reopened": false
     }
   ],
-  "latest_engineering_session": "shaft_biaxial_20261014",
+  "latest_engineering_session": "native_acceptance_20261014",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",
