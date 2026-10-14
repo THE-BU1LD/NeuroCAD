@@ -1,0 +1,49 @@
+{
+  "id": "output_geometry_20261014",
+  "version": 1,
+  "scope": "Bounded engineering successor: explicit final-output solid-count and volume requirements. Not a novel learned model or a confirmatory scientific study.",
+  "authorization": "User attached start-to-finish research audit and improvement request, with an explicit honest-terminal-result rule.",
+  "base_commit": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+  "base_verification_module_matches_local": true,
+  "question": "Can explicitly declared aggregate final-solid requirements be evaluated from the backend inspection while retaining distinct construction-history semantics and failing closed on invalid evidence?",
+  "hypothesis": "Separate geometric_relation probes can correctly enforce positive integral solid count and positive volume with an explicit absolute tolerance, when bound to exactly all declared outputs and a valid final inspection.",
+  "falsifier": "Any wrong aggregate accepted, invalid inspection accepted, probe ambiguity ignored, historical probe changed, or claim of hole identity based only on aggregate values.",
+  "nonclaims": ["novel CAD mechanism", "hole location/radius/depth verification", "complete topology equivalence", "physical validity", "independent reproduction", "language improvement", "trained model efficacy"],
+  "specification": {
+    "verification": "geometric_relation",
+    "binding_scope": "feature_ids must equal FeatureProgram.outputs in order, with no duplicates or missing ids; all outputs must exist in the program",
+    "probe_keys": ["kind"],
+    "output_solid_count": "value unitless, strictly positive integer; tolerance omitted or zero; actual positive integer, bool rejected; equality is exact",
+    "output_volume": "value mm3, strictly positive finite; tolerance must be explicit finite and nonnegative; |actual - expected| <= tolerance, no relative tolerance",
+    "inspection": "valid_brep must be exactly True; solid_count positive integral non-bool; volume_mm3 positive finite non-bool; extents three positive finite non-bool values",
+    "source_of_measurement": "Existing verified export path measures the reimported STEP. Direct pure API callers supply inspection evidence and are responsible for its authenticity.",
+    "unknown_probe": "structured rejection",
+    "historical_probes": "feature_presence and feature_count retain feature_history basis unchanged"
+  },
+  "development_matrix": [
+    "matching and mismatching aggregate requirements",
+    "wrong unit, fractional/zero count, missing/negative tolerance",
+    "invalid B-Rep, invalid count, nonfinite/overflow/negative/boolean measurements",
+    "missing/duplicate/local/changed output scope and unknown probe keys",
+    "analytic box minus cylindrical through-hole",
+    "unused cutter and later-filled hole",
+    "two disconnected solids",
+    "equal-volume shifted hole remains indistinguishable by aggregates",
+    "unchanged-must requirement preservation and hash mismatch"
+  ],
+  "budget": {
+    "baseline_batches": 1,
+    "focused_test_batches": 4,
+    "lint_type_batches": 3,
+    "hosted_attempts_per_workflow": 2,
+    "paid_calls": 0,
+    "training_runs": 0,
+    "protected_outcomes": 0,
+    "physical_experiments": 0
+  },
+  "stopping_rule": "Stop at the fixed budget or a complete bounded receipt. Preserve every failure. Unsupported broader hypotheses remain unproved; do not iterate until positive.",
+  "execution": "Local standard-library/scoped pure-Python checks only below the 512 MiB admission floor. No native CAD, installations, full suite, tensors or meshing locally unless the unchanged two-sample resource gate passes. Hosted execution may test a separate exact commit.",
+  "protected_boundary": "No changes or reruns of terminal compiler studies, v2/v3 frozen protocols, protected tasks, paper results or immutable alpha. All new examples are authored engineering development cases.",
+  "checkpoint_1_research": "NO_GO_NOVELTY_NOT_ESTABLISHED; verification and preservation already exist in primary literature",
+  "status": "OPEN_ENGINEERING_ONLY"
+}

@@ -44,7 +44,7 @@ jobs:
           python -m pip check
           python -m pip freeze --all > native-environment.txt
       - name: Verify native and rejection cases
-        run: python -m pytest -q tests/test_native_acceptance.py tests/test_mesh_roles.py tests/test_exact_build123d.py tests/test_cad_mesh_native.py tests/test_gmsh_backend.py tests/test_gmsh_process.py tests/test_exact_backend.py tests/test_feature_ir.py --basetemp="${{ runner.temp }}/native-tests" --junitxml="${{ runner.temp }}/native-tests.xml"
+        run: python -m pytest -q tests/test_native_acceptance.py tests/test_mesh_roles.py tests/test_exact_build123d.py tests/test_cad_mesh_native.py tests/test_gmsh_backend.py tests/test_gmsh_process.py tests/test_exact_backend.py tests/test_feature_ir.py tests/test_final_geometry_requirements.py tests/test_final_geometry_native.py --basetemp="${{ runner.temp }}/native-tests" --junitxml="${{ runner.temp }}/native-tests.xml"
       - name: Execute five goldens and six source-bound meshing runs
         run: python scripts/verify_native_acceptance.py "${{ runner.temp }}/native-acceptance"
       - name: Retain cases and failures
