@@ -14,8 +14,8 @@ release; Physics v3 is engineering-implemented with scientific validation not
 started. The public alpha and independent validation remain separate open gates.
 
 NeuroCAD is an alpha design aid. Agent projects are concept drafts, and generated parts must still be reviewed by a
-qualified person before fabrication. It does not calculate load capacity,
-material behaviour, regulatory compliance, or safety. Its disclosed tolerance
+qualified person before fabrication. Its analytical physics tools use explicit idealized models and do not certify
+load capacity, material behaviour, regulatory compliance, or safety. Its disclosed tolerance
 and coupon-calibration estimates are design aids, not manufacturing guarantees.
 
 The primary product interface is now terminal-first. A prompt submitted as
@@ -57,10 +57,11 @@ It refuses unrelated existing executables.
 Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
 [Quick start](docs/QUICKSTART.md).
 
-The repository is public as of 2026-09-09; `v0.5.0a6` is still an unreleased
-candidate. Use the [quick start](docs/QUICKSTART.md) to obtain audited `main`
-without credentials. Public source access is not a passing release receipt:
-the immutable-tag installer and release-artifact gates remain open.
+The public alpha release is being verified in [PR #103](https://github.com/THE-BU1LD/NeuroCAD/pull/103).
+See [release status](RELEASE_STATUS.md) for the current gates and
+[quick start](docs/QUICKSTART.md) for checksum-verified release installation.
+The [release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6)
+and passing release workflow provide the publication and anonymous-install receipts.
 
 For the current implementation and its measured limitations, see the
 [publication checklist](docs/FINAL_9_OF_10_CHECKLIST.md). Research controls and

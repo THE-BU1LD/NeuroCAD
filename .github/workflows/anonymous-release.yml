@@ -60,6 +60,7 @@ jobs:
           done
           curl -q --fail --location --retry 3 "https://api.github.com/repos/THE-BU1LD/NeuroCAD/releases/tags/$RELEASE_TAG" --output release.json
           curl -q --fail --location --retry 3 "https://raw.githubusercontent.com/THE-BU1LD/NeuroCAD/$RELEASE_TAG/install.sh" --output install.sh
+          curl -q --fail --location --retry 3 "https://api.github.com/repos/THE-BU1LD/NeuroCAD/commits/$RELEASE_TAG" --output tag-commit.json
           cmp install.sh "$GITHUB_WORKSPACE/install.sh"
           python - <<'VERIFY'
           import hashlib
@@ -73,6 +74,7 @@ jobs:
           names = {f"neurocad_research-{version}-py3-none-any.whl", f"neurocad_research-{version}.tar.gz"}
           provenance = json.loads(Path("RELEASE_PROVENANCE.json").read_text())
           release = json.loads(Path("release.json").read_text())
+          assert json.loads(Path("tag-commit.json").read_text())["sha"] == sha
           assert provenance["commit_sha"] == sha
           assert provenance["tag"] == tag
           assert provenance["repository"] == "THE-BU1LD/NeuroCAD"
@@ -117,8 +119,34 @@ jobs:
           path = Path("receipt.json")
           receipt = json.loads(path.read_text())
           assert json.loads(Path("enclosure/acceptance.json").read_text())["status"] == "PASS"
-          receipt["status"] = "PASS"
+          receipt["status"] = "WHEEL_PASS_TAGGED_SOURCE_PENDING"
           receipt["scope"] = "Public installer, checksum-verified published wheel, doctor, edits and compiled enclosure; service setup excluded"
+          path.write_text(json.dumps(receipt, indent=2) + "\n")
+          RECEIPT
+      - name: Verify default tagged-source installer path
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+          GH_TOKEN: ''
+          GITHUB_TOKEN: ''
+          NEUROCAD_SKIP_SETUP: '1'
+          PYTHONPATH: ''
+          PYTHONNOUSERSITE: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/anonymous-release"
+          unset NEUROCAD_PACKAGE
+          NEUROCAD_REF="$RELEASE_TAG" NEUROCAD_HOME="$RUNNER_TEMP/tag-install" \
+          NEUROCAD_BIN_DIR="$RUNNER_TEMP/tag-bin" sh install.sh
+          "$RUNNER_TEMP/tag-bin/neurocad" doctor
+          "$RUNNER_TEMP/tag-bin/neurocad" validate "a 40 x 30 x 3 mm plate"
+          python - <<'RECEIPT'
+          import json
+          from pathlib import Path
+          path = Path("receipt.json")
+          receipt = json.loads(path.read_text())
+          receipt["default_tagged_source_install"] = "PASS"
+          receipt["status"] = "PASS"
           path.write_text(json.dumps(receipt, indent=2) + "\n")
           RECEIPT
       - name: Retain public download and installation evidence
