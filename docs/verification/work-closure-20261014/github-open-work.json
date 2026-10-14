@@ -1,0 +1,1086 @@
+{
+  "issues": {
+    "nodes": [
+      {
+        "number": 2,
+        "title": "Public alpha release gate: v0.5.0a6 tag + anonymous install verification",
+        "body": "## Objective\nClose the remaining `v0.5.0a6` public-alpha release gap without changing scientific claims.\n\n## Current state \u2014 11 Sep 2026\n- [x] Repository is public.\n- [x] Audited public-main candidate has landed.\n- [x] Anonymous source download / source installation has been exercised and recorded in the public-main handoff.\n- [x] Release workflow and reproducible-build gates exist.\n- [ ] Fresh CI must pass on the exact final release candidate after all post-9-Sep changes.\n- [ ] Tag the exact passing main commit `v0.5.0a6`.\n- [ ] Confirm the tag-triggered release workflow passes, including browser acceptance, fresh installs, reproducible wheel/sdist builds, extracted-sdist tests, and the controlled research execution required by the release workflow.\n- [ ] Verify published `SHA256SUMS` and `RELEASE_PROVENANCE.json` against the actual attached artifacts.\n- [ ] Confirm the GitHub release is marked prerelease and maps exactly to the tagged commit.\n- [ ] From a clean credential-free environment, install the tagged release through the documented public path, run `neurocad doctor`, generate an enclosure, compile/verify its STL, and retain the resulting release receipt.\n- [ ] Record the tested command, environment, exact tag/commit, workflow URL, artifact hashes, and verification timestamp in the release evidence ledger.\n\n## Scientific integrity\nThis is packaging/reproducibility work only. Public availability, green CI, a successful install, or a release tag does not validate any scientific NeuroCAD claim. The historical typed-parser causal claim remains falsified.\n\n## Definition of done\nA new user can install and invoke the exact tagged `v0.5.0a6` release from a clean credential-free environment, the published artifacts verify against their checksums/provenance receipt, and the release is traceable to the exact passing main commit.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/2"
+      },
+      {
+        "number": 5,
+        "title": "Run clean-room verification for v0.5.0a6 public alpha",
+        "body": "## Goal\nExecute and retain a reproducible clean-room verification receipt for the current `v0.5.0a6` public-alpha target.\n\n## Repository-side harness status\nPR #33 added and verified the maintained `scripts/verify_public_alpha.sh` path with:\n- [x] fresh temporary HOME / isolated install prefix;\n- [x] ambient GitHub token, askpass and SSH-agent channels unset before network/install work;\n- [x] anonymous `git ls-remote` resolution before installation;\n- [x] exact expected-commit check and post-install branch-stability check;\n- [x] installation through the documented bootstrap path;\n- [x] installed CLI `--version`, `doctor`, and generation smoke;\n- [x] machine-readable evidence receipt with source identity, environment, smoke digest and exit status;\n- [x] fail-closed behavior and maintained regression coverage.\n\n## Updated external state \u2014 11 Sep 2026\nThe repository is now public, so the old visibility blocker is gone. The remaining blocker is narrower: there is still no immutable tagged `v0.5.0a6` release receipt. Public-source installation evidence does not substitute for the tagged-release verification required by #2.\n\n## Remaining gate\n- [ ] Wait for the exact final release candidate on main to pass fresh CI.\n- [ ] Tag that exact commit `v0.5.0a6` and let the release workflow finish successfully.\n- [ ] Run the clean-room verifier from a credential-free environment against the exact immutable public release target, not a moving branch.\n- [ ] Verify the resolved revision remains stable through installation.\n- [ ] Run `neurocad doctor` plus bounded generation/compile/verification smoke from the installed release.\n- [ ] Retain the successful machine-readable receipt in the release evidence ledger with exact tag, commit, artifact/checksum identity, environment and timestamp.\n\n## Integrity boundary\nA passing clean-room release receipt establishes installation/reproducibility evidence only. It does not establish scientific validation, manufacturability, safety, or revive the historical typed-parser claim.\n\n## Definition of done\nClose only after the credential-free immutable `v0.5.0a6` installation succeeds and its exact receipt is retained.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/5"
+      },
+      {
+        "number": 6,
+        "title": "Capture exact experiment provenance for NeuroCAD research claims",
+        "body": "## Objective\nMake every NeuroCAD research claim traceable to executable evidence rather than prose.\n\n## Minimum provenance fields\nFor each maintained experiment/result, record:\n- git commit SHA\n- timestamp\n- hypothesis / null hypothesis\n- dataset and version\n- seed(s)\n- config / hyperparameters\n- hardware where relevant\n- exact command\n- output artifact path\n- primary metric\n- falsification condition\n- observed verdict: supported / inconclusive / contradicted / falsified\n\n## Definition of done\nEvery scientific claim retained in the paper/README has a provenance record pointing to actual result artifacts, and unsupported claims are explicitly marked pending or removed.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/6"
+      },
+      {
+        "number": 7,
+        "title": "Define decisive baseline matrix for the central NeuroCAD claim",
+        "body": "## Objective\nReplace broad experimentation with the smallest defensible comparison set capable of supporting or falsifying the central maintained NeuroCAD claim.\n\n## Required matrix\nDocument and, where feasible, implement:\n- naive baseline;\n- strongest relevant classical baseline;\n- relevant neural baseline;\n- strongest easy competitive baseline;\n- ablation removing the claimed NeuroCAD mechanism;\n- at least one negative/control condition.\n\nFor every row specify dataset, seed policy, primary metric, secondary metric, statistical comparison, expected runtime, and failure/falsification criterion.\n\n## Definition of done\nThe experiment matrix can be executed from documented commands and would allow a skeptical reviewer to determine whether the maintained claim survives reasonable baselines.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/7"
+      },
+      {
+        "number": 11,
+        "title": "Record v0.5.0a6 release checksums and provenance",
+        "body": "When `v0.5.0a6` is cut, retain provenance from the actual tag-triggered release artifacts rather than copying local candidate values.\n\nRequired evidence:\n- [ ] exact tag \u2192 commit mapping;\n- [ ] GitHub Actions release workflow URL / run ID;\n- [ ] Python / platform matrix and browser acceptance state used by the release workflow;\n- [ ] published wheel and normalized sdist names + SHA-256 values;\n- [ ] generated `SHA256SUMS`;\n- [ ] generated `RELEASE_PROVENANCE.json` and its binding to the tagged commit;\n- [ ] installer command used in the clean credential-free verification;\n- [ ] verification environment and timestamp;\n- [ ] installed `neurocad --version` / `doctor` identity;\n- [ ] bounded generation + compiled/verified artifact receipt from the installed release;\n- [ ] confirmation that the GitHub release is marked prerelease.\n\nDo not mark complete before the tagged release exists and these values are observed from the real published artifacts. Release provenance is engineering/reproducibility evidence and does not change scientific claim status.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/11"
+      },
+      {
+        "number": 21,
+        "title": "Freeze the 120-task VeriCodeGen held-out benchmark before Stage 2 execution",
+        "body": "## Gate\nStage 2 external execution must remain blocked until the evidence in this issue exists. Do **not** set `authorized=true` in a Stage 2 manifest merely because the engineering smokes pass.\n\n## Final held-out benchmark\nAuthor and human-review exactly 120 tasks, with contiguous IDs `VCG-001` through `VCG-120`:\n\n- 40 `in_distribution`\n- 40 `compositional`\n- 40 `ood_constraint_stress`\n\nEvery task must have at least one machine-checkable hard constraint supported by the shared verifier and at least one semantic rubric criterion.\n\n## Authoring integrity checklist\n- [ ] evaluated provider/model/version selected and recorded before execution\n- [ ] evaluated model did not author, rewrite, filter, rank, repair, or select held-out tasks after selection\n- [ ] no Stage 1 development fixture copied into the final set\n- [ ] no repository tutorial/test example copied or trivially paraphrased into the final set\n- [ ] units, dimensions, counts, relations, and tolerances manually reviewed\n- [ ] impossible or internally contradictory constraints removed before freeze\n- [ ] every machine constraint is actually supported by `research/vericodegen/verifier.py`\n- [ ] semantic rubrics do not reveal implementation templates or arm-specific hints\n- [ ] no external assets/imports/files required\n- [ ] exact normalized duplicate audit passes\n- [ ] frozen token-Jaccard near-duplicate audit passes at threshold 0.88\n- [ ] family counts are exactly 40/40/40\n- [ ] IDs are exactly contiguous `VCG-001..VCG-120`\n\n## Freeze evidence to attach/record\n- [ ] canonical frozen benchmark JSONL\n- [ ] benchmark manifest generated by `benchmark_freeze.py`\n- [ ] benchmark JSONL SHA-256\n- [ ] benchmark manifest SHA-256\n- [ ] benchmark schema SHA-256\n- [ ] per-task SHA-256 map\n- [ ] reviewer sign-off that no outcomes were observed before freeze\n\n## Deterministic Stage 2 pilot selection\nAfter the 120-task benchmark is frozen:\n\n- [ ] select exactly 4 tasks per family (12 total) using `benchmark_freeze.py select-pilot`\n- [ ] freeze the public selection salt before any pilot call\n- [ ] record pilot-selection file SHA-256\n- [ ] verify selected IDs exactly match the future Stage 2 manifest\n- [ ] do not swap failed pilot tasks after outcomes are seen\n\n## Prompt + methodology evidence\n- [ ] render/freeze direct and structured prompt templates\n- [ ] record direct template SHA-256\n- [ ] record structured template SHA-256\n- [ ] record prompt receipt SHA-256\n- [ ] record structured-output schema SHA-256\n- [ ] record shared verifier SHA-256\n- [ ] record analysis-plan SHA-256\n- [ ] record exact NeuroCAD git commit\n- [ ] record exact OpenSCAD version, common `$fn`, and compile timeout\n\n## Stage 2 run manifest\nBefore authorization:\n\n- [ ] exact provider identifier\n- [ ] exact model/version identifier\n- [ ] temperature/top-p/max-output-token settings\n- [ ] frozen seed list\n- [ ] symmetric max attempts and feedback policy\n- [ ] human correction disabled\n- [ ] raw outputs, failed trials, and compile logs retained\n- [ ] exact maximum call ceiling recomputed\n- [ ] cost cap reviewed\n- [ ] all hashes above copied from frozen artifacts, not typed from memory\n- [ ] separate human review of the completed v2 manifest\n- [ ] only then set `authorized=true`\n\n## Scientific boundary\nStage 1's scripted 6/6 smoke and the offline ledger smoke are engineering/plumbing evidence only. Stage 2 is an exploratory frozen pilot. The primary successor claim must wait for Stage 3 on the full frozen benchmark. The historical typed-parser mechanism claim remains falsified and must not be revived by a positive successor result.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/21"
+      },
+      {
+        "number": 22,
+        "title": "Authorize and execute first frozen VeriCodeGen Stage-2 pilot",
+        "body": "## Objective\nRun the first scientifically admissible matched direct-vs-structured pilot without altering the frozen methodology after outcome access.\n\n## Before any provider call\nFreeze and review:\n- exact benchmark/pilot selection + hashes;\n- provider/model/revision;\n- decoding parameters;\n- prompt bundle receipt/hash;\n- seed set;\n- identical retry budget and feedback policy for both arms;\n- exact call and cost ceilings;\n- OpenSCAD/verifier/environment identity;\n- paired primary endpoint and McNemar/bootstrap analysis plan;\n- `authorized=true` only after the above are reviewed.\n\n## Execution requirements\n- Retain every raw response and failed attempt.\n- Preserve hash-chain ledger and artifact hashes.\n- No post-outcome prompt/schema/baseline/seed/metric edits.\n- Distinguish infrastructure failures from scientific failures.\n- Report direct HVR, structured HVR, paired delta, exact McNemar result, bootstrap CI, failure taxonomy, retries, latency/tokens/cost.\n\n## Claim boundary\nThe historical typed-parser mechanism remains falsified. Stage 1 scripted fixtures remain engineering evidence only. A Stage-2 pilot is exploratory until the frozen primary protocol and stated inference boundary justify otherwise.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/22"
+      },
+      {
+        "number": 27,
+        "title": "COPES external pressure-test evidence record \u2014 2026-09-01",
+        "body": "## Purpose\nCapture one reconstructable external NeuroCAD engineering pressure-test from the 2026-09-01 COPES session. This is an **evidence record**, not a validation claim.\n\n## Integrity boundary\n- Historical typed-parser mechanism claim remains **falsified**.\n- Stage-1 scripted/offline smokes are engineering evidence only.\n- Stage-2 provider execution remains blocked by #21/#22.\n- COPES attendance, interest, criticism, or a successful demo is **not** scientific validation, adoption, endorsement, or independent reproduction.\n- Do not fill unknown fields from memory after the session; mark them `UNKNOWN`.\n\n## Pre-session execution freeze\nUse the public-alpha engineering path only. Do **not** make a Stage-2 provider call during this pressure-test.\n\nKnown repository reference before the session:\n- observed `main` at preparation time: `c0c46e531d722f64d668c9e2ff57c3923cc47d63`\n- public CLI source version: `0.4.0a1`\n- supported public output format: OpenSCAD (`.scad`)\n\nThe machine used in the meeting must record its **actual** revision/environment rather than assuming it matches those references.\n\n### A. Environment receipt \u2014 run before COPES supplies the case\nUnix-like shell commands:\n\n```bash\ngit rev-parse HEAD\npython --version\npython neurocad_cli.py --version\npython neurocad_cli.py doctor\nopenscad --version\n```\n\nIf `doctor` or OpenSCAD availability fails, preserve the failure in this issue. Do not silently switch to a different unrecorded environment and present the result as the planned test.\n\n### B. Freeze the external request before generation\nOnce COPES supplies a case, copy it as close to verbatim as practical into `copes_case.txt` **before** inspecting any generated geometry. Record any inferred constraints separately below.\n\n```bash\npython -c \"import hashlib,pathlib; p=pathlib.Path('copes_case.txt'); print(hashlib.sha256(p.read_bytes()).hexdigest())\"\n```\n\nAlso write the mechanical/semantic success and failure criteria in Section 3 before generation.\n\n### C. Public-alpha execution path\nPreserve stdout/stderr rather than relying on memory:\n\n```bash\npython neurocad_cli.py validate \"$(cat copes_case.txt)\" 2>&1 | tee copes_validate.log\npython neurocad_cli.py create \"$(cat copes_case.txt)\" -o copes_case.scad 2>&1 | tee copes_create.log\npython -c \"import hashlib,pathlib; p=pathlib.Path('copes_case.scad'); print(hashlib.sha256(p.read_bytes()).hexdigest())\"\n```\n\nIf OpenSCAD is available, compile the generated artifact without hand-editing it first:\n\n```bash\nopenscad -o copes_case.stl copes_case.scad 2>&1 | tee copes_openscad.log\npython -c \"import hashlib,pathlib; p=pathlib.Path('copes_case.stl'); print(hashlib.sha256(p.read_bytes()).hexdigest())\"\n```\n\n### D. Retry/edit rule\n- Preserve the first output and first failure exactly.\n- Record every retry and why it occurred.\n- Do not hand-edit before COPES has assessed the first generated artifact.\n- If a correction is attempted afterward, retain both before/after artifacts and hashes.\n- A compile success is not automatically semantic success.\n- A verifier/CLI success is not automatically engineering usability.\n\n## Exact external test record\nFill during or immediately after the session.\n\n### 1. Test identity\n- Timestamp (IST):\n- External reviewer(s) / role(s):\n- NeuroCAD git commit shown/tested:\n- Local/environment identity:\n- OpenSCAD version:\n- Entry point / command used:\n\n### 2. Input supplied by COPES\nRecord the request as close to verbatim as practical.\n\n```text\n<external product-design / CAD request>\n```\n\nConstraints explicitly requested:\n- \n\nConstraints inferred by NeuroCAD/user rather than supplied by COPES:\n- \n\n### 3. Frozen pre-run expectation\nBefore executing or inspecting the result, record:\n- What counts as a mechanical/compile success:\n- What counts as a semantic success:\n- What counts as a failure:\n- Any tolerance / dimensional acceptance rule:\n\n### 4. Execution evidence\n- Exact input artifact / prompt hash (SHA-256 if available):\n- Exact generated artifact path/name:\n- Generated artifact SHA-256:\n- Raw stdout/stderr retained at:\n- Compile status:\n- Verifier status:\n- Retry count:\n- Human edits after generation: `NONE` / describe exactly\n\n### 5. External reviewer result\nCOPES assessment:\n- Mechanically valid? `YES / NO / UNCERTAIN`\n- Semantically satisfies request? `YES / NO / PARTIAL / UNCERTAIN`\n- Would this be usable in a real engineering workflow without correction? `YES / NO / PARTIAL / UNCERTAIN`\n\nReviewer criticism / failure mode, as close to verbatim as practical:\n\n```text\n<criticism>\n```\n\n### 6. Failure reconstruction\nIf anything failed, record the earliest observable failure:\n- generation / syntax / compile / geometry / constraint / semantic / edit-stability / workflow-fit / other\n- exact error or discrepancy:\n- minimal reproduction steps:\n- whether current automated verifier detected it: `YES / NO / N/A`\n\nIf the verifier **missed** a reviewer-identified failure, link the new verifier-gap issue here:\n- \n\n### 7. Methodological consequence\nClassify the finding **before Stage-2 execution**:\n- [ ] blocking protocol change\n- [ ] major protocol change\n- [ ] minor engineering fix\n- [ ] useful but non-blocking observation\n- [ ] rejected as a methodology change, with reason below\n\nAffected frozen surface:\n- [ ] benchmark\n- [ ] verifier\n- [ ] baseline\n- [ ] prompt/treatment\n- [ ] analysis\n- [ ] reproduction package\n- [ ] product workflow only\n\nRequired action + owner + due date:\n- \n\n### 8. Claim-safe conclusion\nUse only evidence-supported language. Examples:\n- `COPES identified a verifier gap on <case>; no scientific claim is upgraded.`\n- `One externally supplied engineering case compiled and was judged <assessment>; this is a single pressure-test case, not model-performance evidence.`\n- `The case failed at <stage>; this failure is retained and will inform the pre-outcome protocol.`\n\nDo **not** write `validated by COPES`, `industry validated`, `adopted`, `proven`, or equivalent unless separate evidence actually establishes that claim.\n\n## Exit condition\nClose only after one reconstructable case is recorded and every blocking/major criticism is linked into #21/#22 or a dedicated pre-outcome issue.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/27"
+      },
+      {
+        "number": 36,
+        "title": "P0 S3 successor: freeze benchmark taxonomy + 100-prompt candidate pool",
+        "body": "## Objective\nMake NeuroCAD the flagship September research lane by preparing the S3 successor **inside the canonical NeuroCAD repository**, without altering or overstating the historical typed-parser result.\n\n## Scientific boundary\n- Preserve the historical `VALIDATION_DOMINANT` / typed-parser-mechanism falsification.\n- No Stage-2/S3 outcome claim exists yet.\n- Do not evaluate the held-out split, tune against outcomes, move thresholds, or rescue the prior mechanism.\n- Product QA and CAD-generation demos are not external scientific validation.\n\n## Tonight / next execution gate\n- [x] Freeze a benchmark taxonomy covering at minimum: primitive solids, dimensional edits, bores/cutouts, patterns, fillets/chamfers, assemblies/compositions, ambiguous constraints, invalid/underspecified requests, and multi-step edits. **Verified merged in PR #38.**\n- [x] Build a **>=100 prompt candidate pool** before selecting/finalizing evaluation records. **Verified: 110 candidate-only records merged in PR #38.**\n- [x] Record provenance/authoring source for every candidate prompt. **Verified by the merged candidate-pool contract in PR #38.**\n- [x] Define inclusion/exclusion and deduplication rules before scoring systems. **Verified in the merged pre-freeze selection rules in PR #38; no outcomes were used.**\n- [x] Materialize at least two external benchmark adapters or explicitly record the exact external dependency blocking them. **Closed pre-outcome in draft PR #45: CADTestBench materializes 400 prompt-only records and CADGenBench 81 public-input prompt records from exact pinned dataset revisions. The remaining taxonomy/dedup ledger is explicitly NON_MODEL_REVIEW_REQUIRED.**\n- [x] Freeze exact model/provider identities and version strings. **Draft PR #45 now freezes OpenAI API / `gpt-5.4` / dated snapshot `gpt-5.4-2026-03-05` / Responses API v1 in `S3_MODEL_BASELINE_FREEZE_V0.json`; no provider outcome call was made.**\n- [x] Freeze four matched baseline families and the validation policy applied to every arm. **The four protocol-predeclared mechanism/feedback controls are bound to the identical provider/model/revision/runtime; `COMMON_VALIDATION_POLICY_V0.json` freezes the common final-verifier, retention, retry, and no-human-correction policy.**\n- [x] Freeze H1/H2/H3 plus four mechanism ablations. **Frozen in draft PR #45 under `S3_SCIENTIFIC_PROTOCOL_V0.json`; protocol SHA-256 `49c93a2df61a3adcc98eab89f3dcd610e7f6d2f730d1c960b3989c5866f0b320`.**\n- [x] Freeze metrics, seeds, error taxonomy, uncertainty/reporting rules, and falsifiers. **Frozen and fail-closed validator-enforced in draft PR #45; the aligned `S3_ANALYSIS_PLAN_V0.json` additionally binds unit `prompt_x_trial_id`, exact McNemar primary test, prompt-clustered 10k bootstrap, seed 2026090506, and no secondary-result rescue.**\n- [ ] Produce an execution-authorization manifest/hash **before** any held-out evaluation access. **A machine-bound `S3_PREAUTHORIZATION_V0.json` now exists with `execution_authorized=false` and `outcome_access_allowed=false`; the true authorization SHA remains correctly blocked by the required non-model 591-row review, final selection hash, exact final artifact/environment SHA-256 bindings, and independent human manifest-review attestation.**\n\n## Current exact verification\nPR #45 exact head `1f52d43a9bd871ad579a2ddee7f2bf6f1fe37fc8`:\n- NeuroCAD CI run `34263510799`: **SUCCESS** across the maintained Python matrix;\n- S3 external prompt materialization run `34263510751`: **SUCCESS**;\n- `tests/test_s3_freeze_receipts.py` regression-binds the model/control/policy/analysis/preauthorization receipts and proves preauthorization cannot open outcome access.\n\n## Routing rule\nAll new NeuroCAD source, benchmark, protocol, product, paper, and CI work belongs in `THE-BU1LD/NeuroCAD`. `vertex-studyAI/vertexED.ai` may retain historical evidence/links during migration but must not receive new NeuroCAD implementation work.\n\n## Green gate\n`READY_TO_RUN_FROZEN_S3_PROTOCOL` with >=100 candidate prompts, frozen identities/baselines/ablations/metrics, adapters or explicit external blockers, and a true authorization hash after the required non-model/human gates. This gate implies no positive result.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/36"
+      },
+      {
+        "number": 41,
+        "title": "P1 external product pilots + commercial-readiness gate",
+        "body": "## Objective\nConsolidate the active NeuroCAD product-pilot/commercial-readiness work that historically lived in `vertex-studyAI/vertexED.ai` into the canonical NeuroCAD repository.\n\n## Historical source trackers\n- vertex-studyAI/vertexED.ai#458 \u2014 external engineering pilot tracker\n- vertex-studyAI/vertexED.ai#486 \u2014 pilot evidence schema\n- vertex-studyAI/vertexED.ai#488 \u2014 commercial GREEN definition\n- vertex-studyAI/vertexED.ai#470 \u2014 convert outreach into verified design partners\n\nThose issues remain historical evidence; this issue is the active owner going forward.\n\n## Pilot evidence contract\nFor every external test retain, where permission allows:\n- organization/reviewer role;\n- date;\n- exact bounded workflow/input;\n- expected behavior;\n- observed behavior;\n- pass/fail/ambiguous;\n- artifact or screenshot reference;\n- failure mode and severity;\n- reproducibility;\n- requested edit/regeneration;\n- retest outcome;\n- permission boundary for public attribution.\n\n## Progression gates\n- [ ] first external engineer completes one bounded workflow;\n- [ ] first externally discovered reproducible failure is retained;\n- [ ] first external failure is fixed and retested;\n- [ ] 3 independent engineering teams complete evidence-backed tests;\n- [ ] at least 2 repeat workflow tests are completed;\n- [ ] one bounded organization pilot is completed;\n- [ ] findings are summarized without promoting outreach/replies into validation.\n\n## Commercial-readiness boundary\n`COMMERCIAL_GREEN` requires a canonical release identity, clean current CI/release evidence, reproducible bounded CAD generation/edit/regeneration, a maintained pilot kit, >=3 evidence-backed design partners, >=2 repeat tests, and one bounded organization pilot. Until those gates exist, use a narrower state such as `DESIGN_PARTNER_READY` or `BLOCKED_EXTERNAL`.\n\nDo not claim arbitrary natural-language-to-CAD, manufacturing validity, STEP/B-rep support, CFD/FEA/propulsion performance, airworthiness/certification, or broad external validation from limited pilot evidence.\n\n## Routing\nAll new NeuroCAD product/pilot/commercial work belongs in `THE-BU1LD/NeuroCAD`. VertexED may retain historical links only.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/41"
+      },
+      {
+        "number": 42,
+        "title": "P2 fabrication-aware successor benchmark after current S3 freeze",
+        "body": "## Objective\nPreserve and route the fabrication-aware NeuroCAD successor concept out of VertexED without mutating the already-started current S3 protocol.\n\nHistorical source: `vertex-studyAI/vertexED.ai#621`.\n\n## Ordering rule\nThe current S3 freeze/execution lane remains owned by `THE-BU1LD/NeuroCAD#36`. Do not silently retrofit fabrication/FEA/physical-test criteria into an already-frozen or partially frozen S3 after outcome access. Treat this issue as a separately versioned successor unless #36 is explicitly still pre-outcome and a documented protocol-version decision is made before evaluation access.\n\n## Candidate axes\nReport separately rather than collapsing into one score:\n1. representation/CAD validity;\n2. functional-geometry preservation;\n3. structural viability under a predeclared material/load case where applicable;\n4. fabrication-process validity under frozen printer/process assumptions;\n5. sim-to-real/physical agreement on a small preregistered subset.\n\n## Baselines\n- reference/original CAD where available;\n- current NeuroCAD generator without fabrication-aware selection;\n- simple rule/repair baseline where applicable;\n- any simulation-guided successor only after its protocol is separately frozen.\n\n## Pilot gate\n- [ ] freeze 10\u201320 tasks spanning >=3 failure modes;\n- [ ] freeze prompts/models/seeds and process/material/load assumptions before outcomes;\n- [ ] retain every generated artifact and failure;\n- [ ] freeze object-level analysis and advancement criterion;\n- [ ] no cherry-picking successful prints or load cases.\n\n## Claim boundary\nAny positive result applies only to the tested tasks, process/material assumptions and load cases. It does not establish general manufacturability, universal structural validity, or revive the historical typed-parser mechanism.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/42"
+      },
+      {
+        "number": 44,
+        "title": "P1 complete historical VertexED \u2192 NeuroCAD provenance map",
+        "body": "## Objective\nFinish the migration/provenance handoff from the historical embedded NeuroCAD surfaces in `vertex-studyAI/vertexED.ai` into this canonical repository without rewriting evidence.\n\nHistorical source tracker: `vertex-studyAI/vertexED.ai#491`.\n\n## Required map\nEnumerate and cross-link the historical NeuroCAD surfaces that remain relevant to provenance:\n- runtime/product implementation paths;\n- e2e/browser tests;\n- scripts and workflows;\n- public-alpha/release documentation;\n- research protocols/results/claim ledgers;\n- Project 2424 NeuroCAD evidence/aliases;\n- external pilot kit and evidence templates.\n\nFor each migrated or retained historical surface record:\n- original repository path;\n- source commit/blob identity where recoverable;\n- canonical destination or explicit `HISTORICAL_ONLY` status;\n- whether content is identical, migrated with non-scientific edits, or intentionally not migrated;\n- cross-link needed for future reviewers.\n\n## Integrity boundary\nDo not recreate missing evidence, rewrite frozen results, or treat migration completeness as scientific validation. Preserve the typed-parser falsification and current Stage-2/S3 claim boundaries.\n\n## Green gate\nA reviewer can trace every material NeuroCAD product/research evidence surface from the historical VertexED location to its current canonical owner or an explicit historical-only record.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/44"
+      },
+      {
+        "number": 58,
+        "title": "ops: protect main with stable CI and review gates",
+        "body": "## Objective\nProtect canonical `main` without weakening NeuroCAD's maintained engineering CI or conflating merge authorization with scientific authorization.\n\n## Current verified state \u2014 15 September 2026\n- canonical `main` is `a910f949694787da012fe10818cf5367b51ac0f4`;\n- direct branch readback reports `protected=false` with required status-check enforcement off;\n- current-main restack PR #57 is being used to verify the stale #52 reproducibility/control-plane delta against the actual current parent;\n- scientific outcome access, external challenge execution, and VeriCodeGen/S3 outcome access remain separate human/protocol gates and must never be made implicit consequences of a merge.\n\n## Acceptance gate\n1. require pull requests before merge;\n2. require stable maintained NeuroCAD CI contexts that run on every merge candidate;\n3. require at least one independent approval where repository staffing supports it;\n4. block force pushes and branch deletion;\n5. preserve fail-closed security/type/test/package/browser checks rather than weakening them to satisfy protection;\n6. keep research/outcome authorization separate from branch protection;\n7. preserve an explicit audited emergency/admin bypass only if genuinely required;\n8. re-read the branch/ruleset after configuration and record the exact enforced contexts.\n\n## Boundary\nNo source, dependency, database, production, secret, scientific protocol, threshold, held-out outcome, research claim, or execution-authorization change is authorized by this issue. The connected GitHub engineering surface can verify the missing protection but does not expose repository-administration writes needed to enable it, so the final enforcement step remains an owner/admin action.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/58"
+      },
+      {
+        "number": 60,
+        "title": "P0: close exact-revision CI, security, and distribution receipts",
+        "body": "Objective: close the remaining NeuroCAD release/publication gates without crossing the frozen S3 scientific boundary.\n\nDeliverables:\n- obtain exact Git SHA and bind every receipt to that revision\n- run full CI matrix (Python 3.10\u20133.12; Linux/macOS/Windows; Linux OpenSCAD integration)\n- capture Bandit + dependency audit results\n- build wheel/sdist from clean revision, install in clean environment, record artifact checksums and provenance\n- record external CI URLs / artifact receipts where available\n- update DEFINITION_OF_DONE.md / evidence ledger only with verified receipts\n\nDo NOT:\n- invent external release receipts\n- unfreeze or execute S3 learned-outcome work before its candidate-pool/provider/budget gates are legitimately satisfied\n- alter supported claims to make the project look more complete\n\nDone = every applicable non-S3 gate either verified on one exact revision or reduced to one explicit external blocker.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/60"
+      },
+      {
+        "number": 64,
+        "title": "P0: Add build123d/OCP exact-CAD backend spike",
+        "body": "Goal: prove NeuroCAD can compile a narrow editable Feature IR subset into exact B-Rep geometry and STEP without changing the verified OpenSCAD path.\n\nScope:\n- optional build123d 0.13 / OCP 8.0.1 capability probe\n- adapter boundary only; no build123d objects in persisted IR\n- five golden programs: sketch/extrude, patterned holes, revolve, fillet, chamfer/cutout\n- B-Rep validity, extents, body count, volume and STEP export/re-import receipts\n- stable semantic selectors; reject raw face/edge indices\n- dependency/version recorded in every build receipt\n\nAcceptance:\n- all golden programs build on supported platforms\n- STEP re-import preserves declared invariants\n- failed selectors fail closed\n- existing v1/OpenSCAD tests are unchanged and passing\n- optional dependency missing -> explicit capability unavailable, not product failure\n\nArchitecture: docs/NEUROCAD_EXPANSION_2026Q4.md\nCatalog: docs/SOFTWARE_INTEGRATION_CATALOG_20260925.md",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/64"
+      },
+      {
+        "number": 65,
+        "title": "P1: Add Gmsh tagged meshing adapter",
+        "body": "Goal: create the geometry-to-simulation bridge.\n\nScope:\n- external-process or optional Python adapter\n- STEP/B-Rep input\n- deterministic mesh configuration\n- named physical/boundary groups mapped from NeuroCAD semantic roles\n- tetrahedral volume mesh first\n- mesh quality summary and bounded resource/time limits\n- artifacts + hashes + exact Gmsh version in receipt\n\nAcceptance:\n- reference plate/enclosure/beam geometries mesh successfully\n- declared boundary groups survive\n- invalid/non-watertight inputs fail clearly\n- repeat run with same pinned configuration produces equivalent mesh invariants\n- no solver or safety claim is inferred from mesh success",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/65"
+      },
+      {
+        "number": 68,
+        "title": "P0: Bind Requirement IR to exact-CAD verification receipts",
+        "body": "Goal: make NeuroCAD prove that accepted exact geometry satisfies every must-level user requirement, not merely that the kernel built a valid solid.\n\nCurrent branch groundwork:\n- Requirement IR with source spans, strength, provenance and verification method\n- strict durable JSON\n- RequirementBinding coverage checks\n- Feature IR with stable ids and exact build receipts\n\nWork:\n1. Define a versioned requirement-binding artifact.\n2. Bind each geometric must requirement to Feature IR ids and one explicit verification method.\n3. During exact build, evaluate exact dimensions, feature presence/count and supported geometric relations from kernel evidence.\n4. Refuse a fabrication-bound verified bundle when any must-level requirement is unresolved, unsupported, unbound or failed.\n5. Preserve should/preference misses as explicit non-success findings without silently rewriting geometry.\n6. Include requirement source spans and binding hashes in the final receipt.\n7. Add adversarial tests where geometry is valid but one requested requirement is intentionally violated.\n\nAcceptance:\n- valid B-Rep alone cannot produce a satisfied requirement receipt\n- every must-level requirement is satisfied or the bundle fails\n- unchanged requirements are regression-checked after parameter edits\n- provenance and source spans survive round-trip serialization\n- no heuristic/simulation/human-review requirement is mislabeled as exact geometry evidence\n\nRelated draft: PR #67.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/68"
+      },
+      {
+        "number": 76,
+        "title": "External validation: WayKen thin-wall housing revision fixture",
+        "body": "## Purpose\n\nCreate a second, clearly separate external-reference evaluation for NeuroCAD using WayKen's public industrial camera housing case. This issue must not alter the frozen C3D Labs tolerances or be presented as WayKen endorsement.\n\nPublic source:\nhttps://waykenrm.com/case-studies/thin-walled-industrial-camera-housing/\n\n## Published engineering anchors\n\nThe public case states:\n- minimum wall thickness approximately 1.2 mm;\n- maximum cavity depth approximately 16 mm;\n- a critical 78.8 mm assembly reference used for positioning;\n- 0.04 mm flatness on critical mounting datum surfaces;\n- multiple mounting holes / assembly datum surfaces whose dimensional stability matters.\n\nThese are public case-study facts, not yet a NeuroCAD acceptance specification.\n\n## Proposed bounded evaluation\n\nAsk WayKen to confirm, using only public/generic values:\n1. a realistic single wall-thickness revision for a housing in this class;\n2. which 3\u20135 dimensions/relations must remain unchanged after that revision;\n3. whether STEP + relevant drawing dimensions/GD&T is the appropriate review representation.\n\nCandidate invariant categories:\n- external envelope;\n- critical assembly reference;\n- selected mounting-hole positions;\n- selected datum geometry;\n- cutout/opening geometry and position.\n\n## Integrity rules\n\n- Keep this evaluation independent from the C3D Labs fixture.\n- Do not infer tolerances that WayKen did not publish or explicitly recommend.\n- Do not use customer CAD, drawings, or confidential files.\n- Do not claim manufacturability, production readiness, strength, fit, or WayKen validation from a public-case reproduction.\n- Freeze any accepted values before running outcome-producing tests.\n- Preserve negative or unsupported outcomes.\n\n## Current outreach state\n\nA reply to Cindy Tong is saved as a Gmail draft only. It references the public anchors above and asks for the three inputs. Nothing has been sent from this issue.\n\n## Acceptance for this issue\n\nThis issue is ready for implementation only after the review invariants are frozen from public material and/or WayKen's explicit reply. Then create a separate fixture and exact test lane without changing the C3D v0.1 fixture.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/76"
+      },
+      {
+        "number": 78,
+        "title": "Dirty-CAD benchmark: geometry validation \u2192 repair \u2192 tet-mesh outcome",
+        "body": "## External test case\n\nCoreform pointed us to the public **Rimac Automobili GBX 700** assembly on GrabCAD as a useful dirty-CAD case: large overclosures plus watertightness problems in the two main housings can separate \u201clooks fine\u201d from \u201canalysis/meshing ready.\u201d\n\nThis issue turns that suggestion into a reproducible benchmark. It is not a claimed Cubit integration.\n\n## Frozen first-pass procedure\n\n1. Preserve an untouched **as-imported** copy.\n2. Record:\n   - Cubit version;\n   - source file format;\n   - import settings;\n   - units;\n   - source URL / retrieval identity.\n3. Run `validate volume all verbose` and retain the complete output.\n4. Run Geometry Power Tools checks for:\n   - small curves;\n   - small surfaces;\n   - bad angles;\n   - thresholds explicitly stated relative to intended mesh size.\n5. For the assembly, separately record:\n   - gaps;\n   - overlaps / overclosures;\n   - misalignments;\n   - which contacts/clearances are intentional versus defects.\n6. If bad ACIS geometry is flagged, heal **only on a copy**, retain the baseline, and rerun the same checks.\n7. Imprint/merge interfaces only where shared mesh nodes are intentionally required; record that decision.\n8. Run the tet-meshing attempt separately from geometry validation.\n\n## Required evidence\n\n- [ ] exact input identity / provenance;\n- [ ] baseline import receipt;\n- [ ] raw validation output;\n- [ ] Geometry Power Tools thresholds + findings;\n- [ ] repair/defeature log with before/after identities;\n- [ ] tet-mesh command/config;\n- [ ] mesh success/failure and diagnostics;\n- [ ] one compact table distinguishing visual plausibility, geometry validity, and meshability;\n- [ ] reproducible runbook another person can follow.\n\n## Claim boundary\n\nPassing geometry validation does **not** establish meshability, simulation correctness, or engineering suitability. A failed mesh is a valid benchmark outcome. Do not modify the baseline until it succeeds and do not claim Coreform endorsement.\n\nSource guidance received from Coreform on 1 Oct 2026; use their public documentation/forum for product-specific questions.\n\n## Execution infrastructure added\n\nThe NeurIPS/physical-world evidence branch now contains the capture machinery for this benchmark:\n\n- `research/protocols/COREForm_DIAGNOSTIC_CAPTURE_2026-10-01.md` \u2014 retained Coreform-derived capture protocol;\n- `scripts/validate_coreform_capture.py` \u2014 standard-library structural validator;\n- `tests/test_coreform_capture.py` \u2014 provenance/hash/path/stage-consistency tests;\n- `research/captures/rimac_gbx700/capture.template.json` \u2014 pre-execution manifest with all outcome stages `NOT_RUN`;\n- `research/captures/rimac_gbx700/README.md` \u2014 exact execution order and publication boundaries.\n\nThe validator deliberately does **not** run Cubit or interpret scientific correctness. It only verifies capture integrity. This preserves the distinction in the protocol between a structurally valid evidence package and an actually successful geometry or mesh result.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/78"
+      },
+      {
+        "number": 82,
+        "title": "NeurIPS 2026 conference brief + 2027 submission pipeline \u2014 NeuroCAD physical-world evidence",
+        "body": "## Goal\n\nUse the NeurIPS 2026 **Physical World AI** workshop as a research-targeting reference and conference networking anchor, while converting NeuroCAD's geometry-integrity work into a **submission-ready 2027 / preprint-quality paper package**.\n\n## Deadline correction\n\nThe current official PhysWorldAI CFP lists:\n- submission deadline: **August 29, 2026**;\n- notification: **September 26, 2026**;\n- camera-ready: **October 26, 2026**;\n- long papers up to 8 pages / extended abstracts up to 4 pages in NeurIPS 2026 style;\n- non-archival workshop status.\n\nTherefore this issue is **not** a live 2026 submission tracker. It is now the execution lane for:\n1. a technically rigorous conference brief / discussion artifact for NeurIPS 2026 attendance; and\n2. a fully evidence-backed manuscript suitable for a 2027 workshop/main-conference submission or preprint once the external experiments close.\n\n## Research thesis\n\n> A provenance-preserving workflow for evaluating whether generated or revised CAD geometry is structurally valid for downstream physical-world workflows, while explicitly separating visual plausibility, geometric validity, revision integrity, and meshability.\n\n## Evidence to close\n\n- Issue #78 dirty-CAD benchmark: baseline preservation, raw geometry validation, repair separation, and tet-mesh outcome.\n- Existing Gmsh integrity / serialized-geometry verification lane.\n- C3D revision-integrity pilot and frozen invariants.\n- Existing evidence ledger / research audit / reproducibility artifacts.\n- Preserve all negative or inconclusive outcomes.\n\n## Required package\n\n- [x] Freeze one-sentence research question.\n- [x] Freeze 2\u20134 claims maximum, each mapped to executable evidence.\n- [x] Add fail-closed evidence receipt schema.\n- [x] Add results compiler that refuses unsupported PASS/FAIL cells.\n- [ ] Select the exact external benchmark cases used in the paper.\n- [ ] Execute issue #78 dirty-CAD baseline.\n- [ ] Execute at least one derived repair path.\n- [ ] Execute and retain separate tet-mesh outcome.\n- [ ] Freeze/execute strongest revision-integrity external fixture (ShapeDiver call today may supply one).\n- [ ] Produce one architecture/evidence-flow figure.\n- [ ] Populate compact results table from receipts only.\n- [ ] Write related work from verified primary sources.\n- [x] Produce polished 4-page-style conference brief for NeurIPS conversations.\n- [ ] Produce full paper/preprint variant after evidence gates pass.\n\n## Claim boundaries\n\nDo not claim that:\n- passing geometry checks proves meshability;\n- successful meshing proves simulation or engineering correctness;\n- public industry case studies imply endorsement;\n- benchmark-specific evidence establishes broad manufacturability or safety;\n- repaired geometry may replace the frozen baseline in the evaluation record.\n\n## Definition of done\n\nA polished conference brief and a full manuscript source both exist; every retained result is artifact-backed; external benchmark evidence is reproducible; no deadline or venue status is misstated; and the resulting package is ready to adapt to the next appropriate 2027 venue.\n\n## Current verified evidence snapshot\n\n- C3D constructed revision evaluation: 17/17 expected outcomes; native Gmsh positive-case meshing passed; merged in PR #80.\n- Mesh-quality publication policy: 157 focused tests + 5 native integration tests; pilot STEP passed at SICN floor 0.001 and rejected at 0.1 without publication; merged in PR #81.\n- Conference technical brief: `paper/NEURIPS_2026_CONFERENCE_BRIEF.md`.\n- ShapeDiver call capture template: `research/protocols/shapediver_call_capture_2026-10-02.md`.\n",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/82"
+      }
+    ]
+  },
+  "pullRequests": {
+    "nodes": [
+      {
+        "number": 88,
+        "title": "fix(enclosure): preserve outputs published by concurrent writers",
+        "body": "## Problem\n\nThe enclosure CLI checks that requested outputs are new before interpretation or proposal review, then publishes them with `os.replace`. A second writer can create a completed artifact between those steps; the CLI silently replaces that artifact and reports success.\n\nSix deterministic regressions reproduce the data loss on unchanged main `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`: local and provider-stub proposals, applying a reviewed proposal, editing a project, and interpretation analysis/project outputs.\n\n## Change\n\n- Add an optional `overwrite=False` mode to the shared text and project writers. It stages complete UTF-8/LF bytes on the destination filesystem, flushes and syncs them, then claims the destination with an atomic hard link.\n- Use that mode for the enclosure commands' existing new-output contract. If another writer wins, preserve its file, return the existing CLI error status, and remove the temporary artifact.\n- Preserve the existing `overwrite=True` default for other callers. Serialization formats and existing command arguments are unchanged.\n- Cover destination collisions at both the command boundary and the final publication primitive, default replacement compatibility, and cleanup when hard-link publication is unavailable. The provider case is a local stub with no transport or model call.\n\n## Validation\n\n- Before the fix: **6/6 enclosure collision regressions fail** because the competing file is overwritten.\n- Focused suite: **103 passed**.\n- Full local suite: **1,185 passed, 9 skipped, 2 failed**. The two daemon tests cannot create Unix-domain sockets in this execution environment (`PermissionError: Operation not permitted`). Exactly those two failures also reproduce against an untouched main worktree, before daemon operation.\n- Repository-wide Ruff: passed.\n- Repository-wide mypy: passed, **96 source files**.\n- `git diff --check`: passed.\n- Independent read-only review found no blocker in the stated per-file publication scope.\n- Hosted [NeuroCAD CI](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37638911368): **success, all 10 jobs**. Python 3.12 source tests: **1,187 passed / 9 skipped**; packaged source tests: **1,184 passed / 9 skipped**; dependency audit reports no known vulnerabilities. Linux, macOS, Windows, and all three browser gates passed.\n- Hosted [CAD/Gmsh integration](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37638911464): **success**, including **166 native tests** and the existing **17/17 constructed revision cases** with mesh verification.\n- CI's test merge `79ba140d05bfd25b55d4049a9a193784d1b9367c` has the same tree as draft head `c1e2fcdfa6aac7b267a096712a62756a00401446`. Existing synthetic engineering/geometry checks are retained; no workflow, dependency, held challenge, model, or provider configuration is changed.\n\nThe local and GitHub trees match exactly: `cd0305703e2387e04eceeda358ad74008d8cdc28`.\n\n## Scope\n\nThe guarantee applies to each output file with a stable parent path. A two-output interpretation is not a multi-file transaction. This does not promise protection against concurrent parent-path swaps or directory-fsync crash durability. If the filesystem cannot create the hard link, publication fails without replacing a destination.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/88",
+        "headRefName": "fix/enclosure-output-publication-20261007",
+        "headRefOid": "c1e2fcdfa6aac7b267a096712a62756a00401446",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/artifacts.py"
+            },
+            {
+              "path": "core/project.py"
+            },
+            {
+              "path": "neurocad_cli.py"
+            },
+            {
+              "path": "tests/test_artifact_bytes.py"
+            },
+            {
+              "path": "tests/test_enclosure_publication.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 89,
+        "title": "Validate every Gmsh element in batches and retain native reference meshes",
+        "body": "## Problem\nThe Gmsh adapter skipped all element-quality queries for meshes above 200,000 volume elements and could publish a mesh with null quality metrics. That left an unchecked range below its 2,000,000-element ceiling.\n\n## Changes\n- Query every volume element in bounded 200,000-element batches. Reject missing, nonfinite or nonpositive quality values in any batch before publication.\n- Compute the global mean by element count, including an uneven final batch.\n- Add regression cases for invalid or incomplete later batches and weighted aggregation.\n- Add a reproducible native geometry runner for a box and through-hole plate across three fixed mesh sizes. Independently sum oriented tetrahedron volumes from serialized coordinates/connectivity and compare with closed-form part volumes.\n- Retain two STEP files, six MSH files, receipts, source/environment hashes, an aggregate report and a research note. Preserve native serializer bytes with scoped Git attributes.\n- Add the reference runner to native integration CI.\n\n## Validation\n- 195 scoped Gmsh adapter, integrity, subprocess, CLI and reference-volume tests passed, including native Gmsh 4.15.2 tests.\n- Ruff passed for changed Python files; Mypy passed for the backend and reference runner; compileall passed.\n- Six native reference cases passed. Box volume is 1000 mm\u00b3 for each setting. Through-hole plate relative volume error is 0.154483%\u20130.526629%; minimum SICN across cases is 0.255033\u20130.342522.\n- All retained artifact and source digests were verified. The complete native bundle is about 660 KB.\n\n## Evidence and limits\nSee `docs/NATIVE_MESH_REFERENCE_AUDIT.md` and `research/results/native-mesh-reference-v1/`. The native examples contain 643\u20135,033 tetrahedra each; the large-query boundary is exercised using reduced batch limits in fault-injection tests. No large-mesh speed/memory benchmark, solver convergence, structural safety, industrial corpus coverage or learned-model improvement is claimed. Closed parser and protected VCG studies were not changed or rerun.\n\n## Conference materials added \u2014 7 October 2026\n\nThe `publication/imr2027_mesh_verification/` package adds a three-page research-note draft, an embedded-font one-page handout, a ten-minute speaking script and figures made from actual retained upper-boundary triangles. The note and handout were rebuilt and every page visually reviewed.\n\nNew validation: nine analyzer/counterexample tests pass. Independent standard-library parsing of all six retained meshes reproduces counts, oriented volumes, opposite face/edge incidences, connected components and solid/boundary Euler counts. All 16 original artifact hashes are unchanged. A fresh analysis reproduces the retained summary byte for byte. New scoped CI repeats the tests and retained analysis without remeshing.\n\nThe supplied SIAM style is the prior official IMR template; the current linked template's bytes were unavailable and must be reconciled before submission. This is a non-peer-reviewed IMR research-note candidate, not a completed SMI journal study. Industrial coverage, geometric embeddedness, manifold certification, solver convergence, structural safety and learned-model improvement are not established. Author/presenter decisions and submission remain pending.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/89",
+        "headRefName": "codex/conference-mesh-quality-20261007",
+        "headRefOid": "ad0993afd435ad80627ce1134c0df1aa61d39534",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": ".gitattributes"
+            },
+            {
+              "path": ".github/workflows/cad-mesh-integration.yml"
+            },
+            {
+              "path": ".github/workflows/retained-mesh-note.yml"
+            },
+            {
+              "path": "README.md"
+            },
+            {
+              "path": "core/gmsh_backend.py"
+            },
+            {
+              "path": "docs/NATIVE_MESH_REFERENCE_AUDIT.md"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/FORMAT_AND_VENUE.md"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/README.md"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/SPEAKER_SCRIPT.md"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/analyze_retained_meshes.py"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/build_figures_handout.py"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/build_paper.py"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/evidence/retained-topology-v1/summary.json"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/figures/retained_boundaries.png"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/ltexpprt.sty"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/presentation_handout.pdf"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/research_note.pdf"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/research_note.tex"
+            },
+            {
+              "path": "publication/imr2027_mesh_verification/test_retained_mesh_analysis.py"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/README.md"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/SHA256SUMS.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/size-1mm/design.msh"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/size-1mm/meshing-receipt.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/size-2mm/design.msh"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/size-2mm/meshing-receipt.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/size-4mm/design.msh"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/size-4mm/meshing-receipt.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/box/source.step"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/size-1mm/design.msh"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/size-1mm/meshing-receipt.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/size-2mm/design.msh"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/size-2mm/meshing-receipt.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/size-4mm/design.msh"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/size-4mm/meshing-receipt.json"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/holed_plate/source.step"
+            },
+            {
+              "path": "research/results/native-mesh-reference-v1/summary.json"
+            },
+            {
+              "path": "scripts/reproduce_mesh_quality.py"
+            },
+            {
+              "path": "tests/test_gmsh_contract.py"
+            },
+            {
+              "path": "tests/test_reference_tetrahedron.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 90,
+        "title": "fix(cli): preserve concurrently published CAD outputs",
+        "body": "## Problem\n\nThe public `create`, `export`, `verify`, `ir`, and `compile` commands check whether outputs exist before generation, then replace them at publication. A concurrent writer can create a completed SCAD, JSON, manifest, report, or STL after that check; the CLI overwrites it and exits successfully without `--force`.\n\nIndependent review also found that resolving an already-dangling output symlink hides it from admission: the CLI creates its missing referent without `--force`.\n\n## Changes\n\n- Propagate `--force` through SCAD, manifest, IR, verification, and verified STL publication.\n- Reuse #88's complete-text, same-filesystem hard-link publication for outputs that must be new.\n- Add an opt-in no-replacement mode for verified STL publication: compile and verify privately, sync the staged file, then claim the destination atomically. Preserve another writer's file or symlink and clean staging on collision.\n- For these five command groups, resolve the output's parent while keeping its final component visible to unforced admission/publication. Explicit `--force` retains the prior full-resolution behavior.\n- Retain the shared Python APIs' existing replacement defaults for compatibility.\n- Add 49 focused cases: 12 command/output races, 12 dangling-symlink cases, their 24 explicit-force controls, and a symlink installed during mesh verification.\n\nThis is stacked on **#88**, branch `fix/enclosure-output-publication-20261007`, to reuse its publication primitive. Its enclosure repair is preserved. The four-file diff does not include #89's mesh research work.\n\n## Verification\n\nCurrent published source: **`ce49e2c4f175f8088ee5b9cb01ecce70432c61c7`**.  \nTested local source: `62adf7256aa720a10db24e12a4bbbfb856527294`.  \nBoth share exact complete tree **`5696b32c26dd84f9e75254421003261b1244c75c`**.\n\nPython **3.12.14**, pytest **9.1.1**, Ruff **0.16.5**, Mypy **1.18.2**:\n\n- **161 tests passed** across the publication suite and existing enclosure-publication, artifact-byte, CLI verification, product, and IR suites.\n- **12 byte-loss regressions** failed against unchanged parent `c1e2fcdfa6aac7b267a096712a62756a00401446`; its 12 force controls passed.\n- **12 dangling-symlink regressions** failed against the initial race-fix tree `d81bab2124eef3eaf4d43279d7ffd4ba3190dc31` by creating the missing referent; its 12 force controls passed.\n- Ruff passed all four changed Python files; Mypy passed the three changed source files; `git diff --check` passed.\n- Independent source review covered both commits and found no blocking issue.\n\nThe injected STL publication cases use a controlled compiler/verification fixture to isolate publication behavior. The initial source `14b99a631e01b9df0165980cd5f77e6911bfef7a` separately passed [native CAD\u2192Gmsh integration 37813024023](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37813024023). Current source `ce49e2c4f175f8088ee5b9cb01ecce70432c61c7` passed [native CAD\u2192Gmsh integration 37813736157](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37813736157). [Main CI 37813736216](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37813736216) now has **all 10 jobs passed** on this exact source: all three Python release/package jobs, Linux/macOS/Windows portable checks, build123d, and Chromium/Firefox/WebKit. The initial macOS job was cancelled without an assigned runner or executed steps; a targeted retry succeeded at **2026-10-09 01:27:59 UTC**, and the overall workflow is successful. The Python 3.11 log records **1,236 maintained tests passed / 9 skipped**; the Python 3.12 job includes successful actual-source-distribution verification.\n\n## Scope\n\nPublication is atomic for each file. Multi-output commands keep their existing sequencing: if a later manifest/report collides, an earlier successfully published output may remain. This preserves the competing artifact and reports failure; it does not implement a multi-file transaction.\n\nThe no-replacement path requires same-filesystem hard-link support and fails without replacing the destination if the filesystem rejects it. No main merge, deployment, protected evaluation, scientific claim, or industrial validation is included.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/90",
+        "headRefName": "fix/cli-output-publication-20261008",
+        "headRefOid": "ce49e2c4f175f8088ee5b9cb01ecce70432c61c7",
+        "baseRefName": "fix/enclosure-output-publication-20261007",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/artifacts.py"
+            },
+            {
+              "path": "neurocad_cli.py"
+            },
+            {
+              "path": "tests/test_cli_publication.py"
+            },
+            {
+              "path": "text_to_cad.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 91,
+        "title": "fix(daemon): preserve existing outputs and contain malformed jobs",
+        "body": "## Problem\n\nCancelling a daemon job can delete an existing output directory if generation rejects that occupied destination. The failure handler recursively removes the requested path even though generation never owned it.\n\nA recovered job with a malformed request can also terminate its worker during request reconstruction. Its record stays running and later queued jobs stop making progress.\n\n## Changes\n\n- Keep recovered-request reconstruction inside the existing per-job exception boundary so the bad job records its failure and the worker continues.\n- Leave the requested destination untouched after failed generation; generation already removes its private staging directory.\n- Preserve the existing cleanup of a successfully generated output when cancellation was requested.\n- Add three regression cases for preservation of existing design bytes and two malformed persisted request shapes, including successful completion of the next queued job.\n\n## Verification\n\nBase: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`. Published head: `33a5b556e8aaddccc6e4fb275c5d15905f108f63`. Complete tree: `c2b90b02062d4b4602d9ba6955675265edb69722`, identical to locally tested commit `adca9768d876980fdc6d179cf2f042845682c9c0`.\n\n- All three new regressions failed against unchanged base: one deleted-directory failure and two worker termination failures.\n- All four focused regression/control cases pass after the repair, including the existing successful-generation cancellation cleanup.\n- Full `tests/test_terminal_daemon.py` result: **29 passed; 2 environment-blocked failures**. Both failures occur while creating an AF_UNIX socket with `PermissionError: [Errno 1] Operation not permitted`, before transport behavior is exercised. Native socket generation and shutdown acknowledgement remain unverified in this environment; tests and assertions are unchanged.\n- Ruff on both changed files and `git diff --check` pass using CPython 3.12.14 / pytest 9.1.1 / Ruff 0.16.5.\n- Independent source review confirms that failure transitions retain exception type and finish time, later valid jobs continue, and successful cancellation cleanup is preserved.\n\nOpen PRs #88 (enclosure publication) and #89 (Gmsh mesh quality) were inspected for overlap. This candidate changes only `core/daemon.py` and `tests/test_terminal_daemon.py`.\n\nDraft for review and hosted CI.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/91",
+        "headRefName": "work/neurocad-daemon-cancellation-preservation-20261008",
+        "headRefOid": "33a5b556e8aaddccc6e4fb275c5d15905f108f63",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/daemon.py"
+            },
+            {
+              "path": "tests/test_terminal_daemon.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 92,
+        "title": "fix(daemon): bound shutdown and preserve queued work for restart",
+        "body": "## Problem\n\nThe daemon puts shutdown sentinels into the same bounded queue used for generation. When that queue is full and a worker is still generating, `stop_workers()` blocks in `queue.put(None)` before reaching its intended join deadline. Even when the sentinel fits, workers continue starting queued jobs ahead of it during shutdown.\n\n## Change\n\n- Signal stopping independently of queue capacity.\n- Stop claiming queued jobs; retain their durable records for the existing startup recovery.\n- Allow in-flight generation to settle within one shared five-second worker-join budget.\n- Refuse new submissions once stopping has begun.\n- Add five focused regressions for a full queue, in-flight completion plus restart recovery, idle workers, the shared deadline, and late submissions.\n\nOnly `core/daemon.py` and `tests/test_daemon_shutdown.py` change.\n\n## Verification\n\nThree regressions failed against the unchanged daemon implementation, while the idle-worker control passed.\n\nOn the final candidate: **31 tests passed** across the new shutdown suite and the existing terminal-daemon suite; Ruff and mypy passed. Two existing Unix-socket integration tests were attempted and failed at socket construction with `PermissionError: [Errno 1] Operation not permitted` in the local execution environment. The final focused invocation explicitly excluded those two tests; their assertions and the hosted workflow are unchanged. Hosted CI must verify that transport boundary.\n\n- Fresh main / direct parent: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`\n- Published head: `3216f04f149f224fbba208bfcdbed5c82c88fa20`\n- Complete verified/published source tree: `278a854bf4119df1542838cdaefcc86320835c1d`\n- Local tested commit with the same complete tree: `5b97127aab6b614b64f639d0e0a6b084c10f8f80`\n- Runtime: Python 3.12.14 / pytest 9.1.1.\n\n## Limits\n\nThe join budget does not force-kill external compiler processes. Work still marked running when the daemon process exits follows the existing interrupted-job recovery policy. This is an engineering reliability repair; it establishes no pilot or research outcome.\n\nKeep Draft for review and hosted integration results.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/92",
+        "headRefName": "fix/bounded-daemon-shutdown-20261008",
+        "headRefOid": "3216f04f149f224fbba208bfcdbed5c82c88fa20",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/daemon.py"
+            },
+            {
+              "path": "tests/test_daemon_shutdown.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 93,
+        "title": "fix(artifacts): preserve bundle output ownership during publication",
+        "body": "## Problem\n\nThe normal artifact exporters promise to preserve existing output paths. Resolving the destination leaf could follow a dangling symlink and publish into another writer's target. Generation and enclosure-project publication could also replace an empty directory created after their initial checks. The exchange export's second existence check still left a check-to-rename interval.\n\n## Changes\n\n- Preserve the destination leaf while resolving trusted parent directories; reject dangling output symlinks.\n- Use the existing atomic no-replace publication primitive for generation, enclosure-project and OpenSCAD-exchange bundles. It requires no Gmsh or optional-kernel installation.\n- Preserve the competing entry and remove only this operation's private staging on failure.\n- Add source-generation, byte-verification, late-collision and symlink regressions, with an evidence note.\n\nFive changed files. Separate STEP-staging, daemon job-listing and single-file enclosure-publication work are untouched, as are datasets, protected protocols and research outcomes.\n\n## Verification\n\nBase: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`. Candidate: `700b2a4a37bcf86ed7a63fd338c79365a253776a`. Full tree: `47af35a9c065207080ab93c13bea4d8bb70839c0`.\n\n- New 18-case suite on the original product source: **5 failed / 13 passed**, reproducing three redirected dangling-link exports and two overwritten late empty directories.\n- Same suite after repair: **18 passed**.\n- Connected generation/daemon/enclosure/CLI/integration/atomic-publication suite: **159 passed / 2 failed**. Both failures occurred when local Unix-socket creation was denied with `PermissionError: [Errno 1] Operation not permitted`, before daemon communication. The existing tests are unchanged. Fresh hosted verification is complete as recorded below.\n- Ruff, scoped Mypy, compileall and patch-whitespace checks passed.\n- Local runtime: Linux x86_64, Python 3.12.14, pytest 9.1.1, NumPy 2.4.1, trimesh 4.11.3.\n\nParent directories remain trusted; the existing no-replace primitive fails closed on unsupported platforms/filesystems. Atomic visibility is not a power-loss durability claim. No production deployment or merge is included.\n\n## Hosted verification closeout \u2014 9 October 2026\n\nFreshly re-read results for exact head `700b2a4a37bcf86ed7a63fd338c79365a253776a`:\n\n- [NeuroCAD CI 37813201104](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37813201104): **success**, with all ten jobs successful. Coverage includes Python 3.10.21, 3.11.16 and 3.12.14 packaging/tests; portable Python on Ubuntu 24.04, macOS 15 and Windows 2025; Chromium, Firefox and WebKit workbench browser jobs; and the experimental exact-CAD/build123d job. Conditional workflow steps retain their existing skips.\n- [Exact CAD to Gmsh integration 37813201034](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37813201034): **success**, including its interoperability job.\n\nThis closes the previously pending hosted engineering gate for this unchanged candidate. It does not erase the recorded local Unix-socket limitation or establish physical validity, external practitioner outcomes, customer acceptance or production deployment. No checks were dispatched or rerun for this closeout. The PR remains Draft and unmerged; ordinary owner review and integration gates remain.\n",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/93",
+        "headRefName": "work/artifact-bundle-publication-20261008",
+        "headRefOid": "700b2a4a37bcf86ed7a63fd338c79365a253776a",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/generation.py"
+            },
+            {
+              "path": "core/integrations/exchange.py"
+            },
+            {
+              "path": "core/workflow.py"
+            },
+            {
+              "path": "docs/BUNDLE_OUTPUT_OWNERSHIP.md"
+            },
+            {
+              "path": "tests/test_bundle_publication.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 94,
+        "title": "Integrate output preservation fixes and close CLI symlink bypass",
+        "body": "## Problem\n\nThe reviewed output-preservation and daemon-shutdown fixes are spread across five draft PRs. Reviewing the combined source exposed a remaining CLI bypass: direct/generate, enclosure and exchange commands resolve a dangling output symlink before their no-replacement libraries see it. The command then reports success and writes into another writer's missing target.\n\n## Changes\n\n- Integrate the exact sources from #88, #90, #91, #92 and #93 into one draft candidate, preserving all original source branches and PRs.\n- Retain complete-file publication, bundle directory ownership, failure/cancellation output preservation, malformed recovered-job containment and bounded shutdown with queued-work recovery.\n- Preserve the output leaf at eight additional CLI resolution sites, covering direct/generate, enclosure interpretation/nlp, local or provider-stub understanding, reviewed proposal application, enclosure build/edit and exchange bundles.\n- Add 12 real command-level dangling-symlink regressions plus 12 ordinary new-output controls.\n\nThe complete diff against main is **16 files, 849 insertions and 67 deletions**. Only the CLI wrapper repair and its test file are new beyond the inherited PRs.\n\n## Source identity\n\n- Main / first parent: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`\n- Published candidate: `0080ddbd85567ae443ba06e0da5b25fb154b00d1`\n- Independently reviewed local candidate: `461c5262dfb28a398fdd192fcdbfe94ee2b58777`\n- Exact complete tree, identical locally and on GitHub: `24be172aec7973a9e8ae0bc0d042f25c5985ccf6`\n\nThe integration commit retains main and the four source heads as parents; its fixture-only successor preserves that history. #88 is already an ancestor of #90:\n\n| Source | Retained head |\n| --- | --- |\n| #88 | `c1e2fcdfa6aac7b267a096712a62756a00401446` |\n| #90 | `ce49e2c4f175f8088ee5b9cb01ecce70432c61c7` |\n| #91 | `33a5b556e8aaddccc6e4fb275c5d15905f108f63` |\n| #92 | `3216f04f149f224fbba208bfcdbed5c82c88fa20` |\n| #93 | `700b2a4a37bcf86ed7a63fd338c79365a253776a` |\n\n## Verification\n\n- Before the wrapper repair: **12/12 new dangling-link cases failed** with improper success; **12/12 new-output controls passed**.\n- After repair: **24/24 passed**; the current fixture-only successor also passes all 24 cases.\n- Connected local product-source gate: **342 passed, 2 deselected** across CLI, artifacts, bundles, enclosure/parser and daemon suites. This ran before the fixture-only portability follow-up; all product-source bytes remain identical.\n- The two deselected cases were attempted on the initial combined candidate: both fail at AF_UNIX socket creation with `PermissionError: [Errno 1] Operation not permitted`, before transport behavior. All other 271 cases in that earlier scope passed. Their assertions and the hosted workflow are unchanged.\n- Ruff passed all 15 changed Python files; Mypy passed all eight changed source files; whitespace check passed.\n- Independent review reproduced the direct-CLI bypass, verified the repaired product source and passed **33 focused cases**, including the 24 new cases, shutdown, cancellation and malformed-request handling. The reviewer separately approved the exact fixture-only successor. These counts overlap the connected gate and are not additive.\n- Initial combined Windows CI caught four test-setup failures: the long pytest temporary runtime directory exceeded the product's existing 100-byte socket-path limit before direct/generate output admission. The current successor uses a cleaned-up short temporary runtime path, preserving actual output paths, every assertion, all skip conditions and product limits.\n- Current-source [CI 37870833247](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37870833247) is **successful: all 10 jobs passed** on `0080ddbd85567ae443ba06e0da5b25fb154b00d1` (completed 9 October 2026 at 01:45:47 UTC). The Python 3.12 maintained suite passed **1,286 tests with 9 skips**; testing the actual built source distribution passed **1,283 tests with 9 skips**. The normal full suite ran without the local socket deselections. Windows passed **1,244 tests with 51 platform/optional skips**; macOS passed **1,251 with 44 platform/optional skips**. Python 3.10/3.11, portable Linux, three real browser jobs and experimental build123d also passed. Type checking passed all 96 maintained/research source files; packaging, installed CLI smoke, source distribution and history gates passed.\n- Current-source [native CAD interoperability 37870833301](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37870833301) is **successful** on the same exact commit: **166 tests passed**, with the separate constructed 17-case revision evaluation and mesh stage also passing. These are bounded software/constructed acceptance results, not a new scientific benchmark.\n- Parent #90's targeted macOS retry completed successfully: [CI 37813736216, attempt 2](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/37813736216), all 10 jobs green on its retained source. #91/#92/#93's existing maintained CI and native CAD checks are successful on their exact heads.\n\n## Acceptance boundary\n\nCombined hosted CI has passed. Keep this PR Draft for maintainer review of the exact combined source. Parent directories remain trusted; unsupported no-replacement filesystems fail closed. Individual file outputs retain their existing sequencing, while directory bundles publish as complete directories. Atomic visibility does not establish power-loss durability. Private Mac candidates, the separate #89 mesh/research work, protected studies and provider/deployment configuration remain separate. This PR performs no main merge or release.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/94",
+        "headRefName": "integration/output-preservation-20261009",
+        "headRefOid": "0080ddbd85567ae443ba06e0da5b25fb154b00d1",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/artifacts.py"
+            },
+            {
+              "path": "core/daemon.py"
+            },
+            {
+              "path": "core/generation.py"
+            },
+            {
+              "path": "core/integrations/exchange.py"
+            },
+            {
+              "path": "core/project.py"
+            },
+            {
+              "path": "core/workflow.py"
+            },
+            {
+              "path": "docs/BUNDLE_OUTPUT_OWNERSHIP.md"
+            },
+            {
+              "path": "neurocad_cli.py"
+            },
+            {
+              "path": "tests/test_artifact_bytes.py"
+            },
+            {
+              "path": "tests/test_bundle_publication.py"
+            },
+            {
+              "path": "tests/test_cli_output_leaf_admission.py"
+            },
+            {
+              "path": "tests/test_cli_publication.py"
+            },
+            {
+              "path": "tests/test_daemon_shutdown.py"
+            },
+            {
+              "path": "tests/test_enclosure_publication.py"
+            },
+            {
+              "path": "tests/test_terminal_daemon.py"
+            },
+            {
+              "path": "text_to_cad.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 95,
+        "title": "Fix polynomial differentiation at zero and reject malformed Jet dimensions",
+        "body": "## Problem\n\nThe second-order Jet kernel rejected valid polynomial expressions x ** 0 and x ** 1 at x = 0. Boolean variable indices could mark multiple independent derivative axes, and the public differentiation wrapper accepted results with the wrong input dimension.\n\n## Changes\n\nHandle constant and identity powers before singular derivative formulas, require bounded integer dimensions and indices, and verify the returned gradient dimension. Undefined or unsupported singular zero powers remain errors. The patch is confined to the numerical kernel, its analytical regression suite, and a repair note.\n\n## Verified results\n\n- Unchanged source: the 33 new analytical cases produced **11 failures and 22 passes**.\n- Repaired local scientific-kernel suite plus new cases: **51 passed**; configured Ruff checks on the changed kernel/tests and patch whitespace checks passed.\n- Final head `6b3c27f0b07732b7b61dc83035ec2282d7ac2ff5`: [NeuroCAD CI 38019363749](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38019363749) passed all ten jobs, including Python packaging, macOS/Windows/Linux portability, Chromium/Firefox/WebKit and experimental build123d integration. The Python 3.12 job reported **1,208 passed, 9 skipped**, with successful wheel/source-distribution builds and installed-package verification.\n- [Exact CAD to Gmsh integration 38019363731](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38019363731) also passed.\n\nThe new tests cover exact monomial identities at zero/negative/positive points, composed first and second derivatives, a mixed polynomial Hessian, malformed admission, and retained singularity rejection.\n\n## Scope\n\nThis establishes numerical software identities. It changes no protected benchmark, CAD provider, geometry output, retained research evidence, or scientific claim. Other active NeuroCAD artifact, daemon, integration and Gmsh pull requests are untouched.\n\nReproduction: `python -m pytest tests/test_scientific_kernel.py tests/test_scientific_kernel_polynomials.py -q`.\n\n## Second implementation pass \u2014 10 October 2026\n\nThe linear diagnostic path could report a perfect solve after int64 wraparound, lose tiny residuals, and overflow norm reductions for finite data. It now requires lossless float64 input, rejects nonzero product underflow, uses scaled norms and a scalar exact-range denominator, and reports scaled rank/conditioning. Unrepresentable residuals or nonzero backward errors fail closed. The product-underflow refusal is conservative even when another term would dominate the residual.\n\nThe initial 15 analytical cases produced **10 failures and 5 passes**. Independent review found an additional tiny-product failure; the corrected 18-case range file and retained kernel suites pass **69 tests locally**, including Decimal-based controls. Independent follow-up passed 36 scoped cases and closed the original underflow probe. Configured Ruff and publication whitespace checks pass.\n\nFinal head `89356e653e24b9053ac95003fd5bcb7323ede37b`: [NeuroCAD CI38026328488](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38026328488) passed **all ten jobs**, and [exact CAD/Gmsh integration38026328539](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38026328539) passed. Python3.11 reported **1,229 passed, 9 skipped**. The Python3.12 source-distribution check reported **1,226 passed, 9 skipped**, after successful wheel/source builds and installed-package checks. These are distinct platform/package collections, not additive test totals.\n\nAll three published blobs match the final reviewed files; all 4,243 unrelated parent blobs are unchanged. Geometry, providers, frozen evidence and scientific claims remain unchanged. See `docs/LINEAR_DIAGNOSTIC_RANGE_20261010.md`.\n",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/95",
+        "headRefName": "codex/research-integrity-20261010-neurocad",
+        "headRefOid": "89356e653e24b9053ac95003fd5bcb7323ede37b",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/scientific_kernel.py"
+            },
+            {
+              "path": "docs/LINEAR_DIAGNOSTIC_RANGE_20261010.md"
+            },
+            {
+              "path": "docs/SCIENTIFIC_KERNEL_POLYNOMIAL_REPAIR.md"
+            },
+            {
+              "path": "tests/test_linear_diagnostic_range.py"
+            },
+            {
+              "path": "tests/test_scientific_kernel_polynomials.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 96,
+        "title": "Reject false zero-variance quadratic tolerance reports",
+        "body": "## Problem\n\nThe quadratic tolerance propagator could report zero variance and a success probability of one after finite correlated inputs overflowed to NaN. Python's `max(0.0, NaN)` erased that numerical failure. Mixed boolean/float Hessians and correlations also passed admission after NumPy coercion, and sensitivity matrices reached scalar calculations instead of producing a clear validation error.\n\n## Changes\n\n- Reject nonfinite raw variance before the existing roundoff clamp.\n- Validate booleans in the original sensitivity/matrix values and require one scalar sensitivity per contribution.\n- Add exact Gaussian cubature checks for a correlated nonzero-mean quadratic polynomial, a singular-correlation cancellation control, and a CLI regression proving an overflowing request cannot publish a success report.\n- Record the engineering repair in the research truth ledger without changing any scientific conclusion.\n\n## Verification\n\nBase: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`. Published head: `c906105907cdd710b717d04d5d75b95ec3cac54a`.\nThe complete published tree `0c59384345fd840091f0248dd7dd01f11f055f12` matches the tested local tree.\n\n- Initial new suite against unchanged source: **8 failed, 3 passed**, reproducing the defects.\n- Connected tolerance/enclosure/CLI suite: **70 passed**.\n- Final focused suite: **12 passed**, including one later CLI regression; 11 overlap the connected run. **71 distinct software cases** were verified.\n- Ruff on both changed Python files and whitespace checks passed.\n- All three published blobs match the tested local bytes.\n\nReproduce with `python -m pytest tests/test_quadratic_tolerance_numerics.py tests/test_tolerance.py tests/test_enclosure_product.py tests/test_cli_verification.py -q`.\n\nThis changes numerical admission and failure reporting for invalid calculations. Ordinary finite moment formulas and true zero variance remain covered. The constructed analytical fixtures are software evidence; no protected benchmark, manufacturing observation, provider call, trained model or scientific-readiness claim was changed. Draft for review.\n\n## Hosted CI\n\n- [Primary CI](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38020749368): **passed** on run attempt 2.\n- [Native CAD/Gmsh](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38020749375): **passed**.\n- The initial Windows run had 1 failed / 1147 passed / 51 skipped because the existing UI race test's Node subprocess exceeded its 10-second timeout. A single retry of that Windows job passed with unchanged source and tests; every other initial job passed.\n",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/96",
+        "headRefName": "repair/20261010-quadratic-tolerance-finite",
+        "headRefOid": "c906105907cdd710b717d04d5d75b95ec3cac54a",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "RESEARCH_TRUTH.md"
+            },
+            {
+              "path": "core/engineering_math.py"
+            },
+            {
+              "path": "tests/test_quadratic_tolerance_numerics.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 97,
+        "title": "Fix integer-overflow diagnostics and scale-dependent covariance admission",
+        "body": "## Problem\n\nLinear-system diagnostics performed integer matrix multiplication before conversion to float. For A=[[2**32]], x=[2**32], b=[0], overflow reported residual zero instead of 2**64. Norms also underflowed or overflowed for representable values such as 1e-200 and 1e200. Monte Carlo admission used absolute covariance tolerances, so changing units could admit negative variances or indefinite distributions.\n\n## Changes\n\n- Convert inputs before arithmetic; use power-of-two scaling and stable residual norms to compute the existing normwise backward error without an overflowing denominator.\n- Preserve representable residuals in mixed-scale systems and reject nonfinite/unrepresentable residual output.\n- Normalize covariance symmetry/PSD admission by matrix magnitude, reject negative variances, and preserve identical seeded draws for valid symmetric covariance inputs.\n- Add analytic regressions and a concrete verification note. The S3 protocol, prior evidence and existing Jet/Gmsh/output-preservation PRs remain separate.\n\n## Verification\n\n- Original diagnostic cases: 7 failed / 6 passed against unchanged main.\n- Covariance cases: 4 failed / 10 passed before their repair.\n- Final maintained scientific-kernel suite plus 29 new cases: **47 passed**, warnings treated as errors; no skips.\n- Scoped Ruff and Mypy passed; git diff --check passed.\n- Independent source review completed without a blocking finding for the declared real-float contract.\n- CPython 3.12.14 / NumPy 2.5.3 / pytest 9.1.1. No native CAD backend, mesher, provider, physical-part test or protected outcome campaign was run.\n\nBase: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`.\nHead: `e87726d3c7efe575e697770cbba5a064ec371e35`.\nTree: `3a7864c5bc255d8e3fe19a7e3cda55cda4c2ec4b`.\n\nThese are engineering fixes, not a geometry certificate or new research-performance result. No merge, release or deployment is requested by this draft.\n\n## Hosted CI on this head\n\nBoth hosted workflows completed successfully: [NeuroCAD CI run 38021330007](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38021330007) and [Exact CAD to Gmsh integration run 38021330031](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38021330031). The numerical repair's local evidence remains the 47 passing focused tests above; hosted integration success does not establish external S3 or scientific superiority.\n\nThe locally staged full repository tree matches the published tree `3a7864c5bc255d8e3fe19a7e3cda55cda4c2ec4b` exactly.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/97",
+        "headRefName": "codex/portfolio-20261010-neurocad-numerical-diagnostics",
+        "headRefOid": "e87726d3c7efe575e697770cbba5a064ec371e35",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/scientific_kernel.py"
+            },
+            {
+              "path": "docs/NUMERICAL_DIAGNOSTICS_REPAIR_20261010.md"
+            },
+            {
+              "path": "tests/test_linear_system_numerics.py"
+            },
+            {
+              "path": "tests/test_monte_carlo_covariance.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 98,
+        "title": "Fix mesh intersection normalization across physical scales",
+        "body": "## Problem\nThe one-millimeter normalization floor made nominally relative geometry tolerances effectively absolute for smaller meshes, causing scale-dependent intersection behavior. Computing the bounding-box midpoint as (minimum + maximum) / 2 also overflowed for finite, representable translated meshes.\n\n## Changes\nNormalize by actual maximum extent, center with half-weighted extrema, and reject zero or unrepresentable spans before predicates run. Add four analytically specified intersection/nonintersection fixtures across five scales plus translation/extent edge cases. Add canonical research state and source-bound verification records preserving original failures and current limits.\n\n## Verification\n66 targeted mesh geometry, topology, CLI and preview tests pass. The 23 new regressions produce 14 failures and 9 passes against the original base module; these include incorrect normalization-scale reporting as well as geometry and overflow failures. Raw output and source hashes are retained. Independent source/test review and static checks pass. The published tree preserves every unmodified blob and mode.\n\n## Scientific scope\nThese are authored engineering fixtures, not independent external challenge evidence. No historical source-bound benchmark, frozen protocol, typed-parser negative finding or submission artifact changes. Inputs whose extent cannot be represented in float64 fail explicitly. Existing external challenge, comparator and release gates remain open. [skip ci] avoids launching broad automatic execution; bounded local evidence is included in this draft.\n\nBase: `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`. Separate from existing jet-differentiation and mesh-integration PRs #89, #94 and #95.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/98",
+        "headRefName": "codex/mesh-scale-invariance-20261010",
+        "headRefOid": "982eafb1665a9c31868cfcfda7c75571885c2cd8",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "AGENTS.md"
+            },
+            {
+              "path": "core/mesh_geometry.py"
+            },
+            {
+              "path": "research/DEVELOPMENT_MESH_SCALE_INVARIANCE_20261010.md"
+            },
+            {
+              "path": "research/RESEARCH_STATE.json"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/base_receipt.json"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/base_regressions.log"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/pytest.log"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/receipt.json"
+            },
+            {
+              "path": "tests/test_mesh_scale_invariance.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 99,
+        "title": "Integrate numerical and geometry repairs; prevent false exact solutions",
+        "body": "## Problem and resulting behavior\n\nThe numerical and geometry repairs in #95, #96, #97 and #98 existed as separate candidates. This genuine four-parent integration preserves each component history and provides a combined source for verification. Independent inspection confirmed the Jet and diagnostic changes in scientific_kernel.py occupy separate functions and retain both implementations.\n\nReview also found a false exact-solution report: A=((1,),), b=(2**53,), x=(2**53+1,) produced residual zero and backward error zero after conversion erased the distinct integers. The true residual is one.\n\nOriginal Python/NumPy integer scalars in the matrix, rhs and solution now require lossless float64 conversion, including mixed float/integer sequences. Unrepresentable inputs fail explicitly; exactly representable large integers remain supported. Floating arithmetic is still finite precision, and upstream rounding cannot be recovered.\n\n## Verification\n\n- New integer-admission regressions on the integrated predecessor: **12 failures, 4 passing controls**.\n- Focused numerical suite after repair: **96 passed with warnings treated as errors**.\n- Full maintained local product suite: **1,289 passed, 9 skipped, 2 failed** in 406.50 seconds. Both failures occur at Python AF_UNIX socket creation with PermissionError before daemon behavior runs. Those tests are unchanged and remain required in hosted CI; the local full suite is not labeled green.\n- Independent source review passed. All executable sources stayed stable during the full run.\n- Two imported test files received formatting-only blank-line corrections afterward; AST identity is verified. Final scoped Ruff, Mypy and source/document whitespace checks pass. Raw logs retain original traceback whitespace.\n- Baseline failures, full outputs, source hashes, environment and formatting receipts are in research/verification/numerical-integration-20261010/.\n\nPublished head: `30cffcdd8881b60445355faffcd5752ef51aa32e`.\nPublished and locally staged full tree: `3a6e4983e99a472cce57a658638b365dab67f142` (exact match).\nMain inspected at `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`.\n\nParents: #98 `982eafb1665a9c31868cfcfda7c75571885c2cd8`, #95 `6b3c27f0b07732b7b61dc83035ec2282d7ac2ff5`, #96 `c906105907cdd710b717d04d5d75b95ec3cac54a`, #97 `e87726d3c7efe575e697770cbba5a064ec371e35`.\n\n## Research and integration boundary\n\nThe external protocol, independent challenge requirements, historical controlled run and prior evidence remain intact. The historical typed-parser causal claim remains falsified and EVIDENCE_PARTIAL remains the research disposition. No independent challenge, protected outcome, scientific campaign or physical-validation result was produced.\n\nThe component PRs remain open; this operation does not merge or close them. Other active output-preservation and native-backend changes are separate. This draft provides one reviewable combined numerical/geometry candidate. Hosted results for this exact source will be recorded here.\n\n## Hosted verification on this integrated candidate\n\nBoth workflows are now **successful**:\n\n- [NeuroCAD CI 38026053118](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38026053118): all ten jobs pass, including Python 3.10/3.11/3.12 release lanes, Linux/macOS/Windows portability, Chromium/Firefox/WebKit and build123d.\n- [Exact CAD to Gmsh 38026053132](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38026053132): **166 tests pass** on exact head `30cffcdd8881b60445355faffcd5752ef51aa32e`.\n- The Python 3.12 checkout suite reports **1,291 passed, 9 skipped**; the actual extracted source distribution reports **1,288 passed, 9 skipped**.\n- JUnit review confirms all **23 mesh-scale cases** and **28 daemon cases** pass, including both Unix-socket cases blocked in the local environment.\n- Repeat wheel and normalized-sdist byte comparisons, fresh wheel/sdist installations, the staged quick installer, dependency/security audits, typing/lint and distribution upload all pass.\n\nThe main workflow tested GitHub merge preview `f988932509dc7288be961c8e74755054a1287ad1`; its complete tree `3a6e4983e99a472cce57a658638b365dab67f142` equals the published head tree exactly. Main remains `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`. Local socket failures remain retained in the original log; successful hosted verification does not rewrite that history or complete scientific efficacy/release gates.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/99",
+        "headRefName": "codex/integrated-numeric-geometry-20261010",
+        "headRefOid": "30cffcdd8881b60445355faffcd5752ef51aa32e",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": "AGENTS.md"
+            },
+            {
+              "path": "RESEARCH_TRUTH.md"
+            },
+            {
+              "path": "core/engineering_math.py"
+            },
+            {
+              "path": "core/mesh_geometry.py"
+            },
+            {
+              "path": "core/scientific_kernel.py"
+            },
+            {
+              "path": "docs/INTEGRATED_NUMERICAL_GEOMETRY_20261010.md"
+            },
+            {
+              "path": "docs/NUMERICAL_DIAGNOSTICS_REPAIR_20261010.md"
+            },
+            {
+              "path": "docs/SCIENTIFIC_KERNEL_POLYNOMIAL_REPAIR.md"
+            },
+            {
+              "path": "research/DEVELOPMENT_MESH_SCALE_INVARIANCE_20261010.md"
+            },
+            {
+              "path": "research/RESEARCH_STATE.json"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/base_receipt.json"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/base_regressions.log"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/pytest.log"
+            },
+            {
+              "path": "research/verification/mesh_scale_invariance_20261010/receipt.json"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/final-static-1.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/final-static-2.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/format-only-receipt.json"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/full-suite-receipt.json"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/full-suite.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/integer-baseline-receipt.json"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/integer-baseline.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/receipt.json"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/static-1.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/static-2.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/static-3.log"
+            },
+            {
+              "path": "research/verification/numerical-integration-20261010/static-receipt.json"
+            },
+            {
+              "path": "tests/test_linear_integer_admission.py"
+            },
+            {
+              "path": "tests/test_linear_system_numerics.py"
+            },
+            {
+              "path": "tests/test_mesh_scale_invariance.py"
+            },
+            {
+              "path": "tests/test_monte_carlo_covariance.py"
+            },
+            {
+              "path": "tests/test_quadratic_tolerance_numerics.py"
+            },
+            {
+              "path": "tests/test_scientific_kernel_polynomials.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 100,
+        "title": "Preserve finite interval quotients at subnormal scales",
+        "body": "## Problem\n\n`Interval(1e-310, 1e-310) / Interval(1e-310, 1e-310)` raised `ValueError`, although the exact quotient is one. Division constructed a reciprocal first; that intermediate overflowed before multiplication by the small numerator. Negative and smallest-subnormal inputs had the same failure.\n\n## Change\n\nCompute the four endpoint quotients directly, then round their minimum downward and maximum upward. Zero-containing divisors still raise `ZeroDivisionError`, and an enclosure requiring a nonfinite endpoint still raises `ValueError`. Bounds can be tighter than the previous reciprocal/product enclosure; the finite-interval contract is preserved.\n\nThis draft is stacked on #99 at `30cffcdd8881b60445355faffcd5752ef51aa32e`, preserving its integrated polynomial, residual/covariance, quadratic-tolerance and mesh changes. Main was independently inspected at `23c7284048512ca8d956c9a2c4c62eb1f8b8ea89`; open #88\u201399 were reviewed and none already changes interval division. The source change is confined to `Interval.__truediv__`.\n\n## Verification\n\n- The 24 new cases produced **11 failures and 13 passing controls** on both original main and the independently loaded exact #99 kernel source.\n- The repaired combined numerical set passed **132 tests with warnings treated as errors**, covering the new intervals plus maintained kernel, polynomial, linear diagnostics, covariance, integer admission and quadratic tolerance cases.\n- Expected enclosures use exact `Fraction.from_float` rational corner quotients, including positive/negative/straddling numerators, strictly positive/negative divisors, normal/subnormal boundaries, underflow, zero-divisor rejection and true overflow rejection.\n- A direct public `from core import Interval` check returns `[0.9999999999999999, 1.0000000000000002]` for the original witness.\n- Scoped Ruff, Mypy and whitespace checks pass. Python 3.12.14, NumPy 2.3.5, one numerical thread; the initially missing jsonschema dependency was installed only in an isolated task directory.\n- The existing full product suite was not repeated for this separate method fix. The parent's full-suite observations remain in its retained receipt; hosted checks for this exact follow-up are tracked separately.\n\nLatest head: `f560df8dfd31d0df9bf5886ec78a1fab839e3f5a`. Full tree `05d30534f5a4e3dd2f39a348cf41de87779c41bb` exactly equals the local tree. The follow-up only records independent review; executable source is unchanged from `8801e5d2ad70a5c7bbd4ded0250312aae4ec1982`. `research/ENGINEERING_INTERVAL_DIVISION_20261010.json` records witnesses, source hashes and commands; canonical state appends this follow-up without replacing prior evidence.\n\n## Research boundary\n\nThis is numerical software verification. `EVIDENCE_PARTIAL`, the falsified historical typed-parser claim, independent external challenge requirements and all frozen protocols/outcomes remain unchanged. No protected outcome access, scientific campaign, physical-validation result, merge or release is part of this draft. Independent source review completed with no scoped blocker. A second agent verified 48 exact-rational interval enclosures across eight scales and six sign patterns against source SHA-256 `a22a6ff110f092c68f66d27caf508393cebcce97c7a16c6e36e290d5969d64f6`; all passed. The receipt and current state record that review without changing source.\n\n\n## Hosted verification on the final head\n\n[NeuroCAD CI run 38026811472](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38026811472) completed successfully on exact head `f560df8dfd31d0df9bf5886ec78a1fab839e3f5a`. All ten jobs passed: Python 3.10/3.11/3.12 test/package jobs, Ubuntu/macOS/Windows portable tests, Chromium/Firefox/WebKit workbench checks and the build123d adapter. Inspected Python 3.12 logs report **1,315 passed, 9 skipped** in the maintained checkout suite and **1,312 passed, 9 skipped** from the actual source distribution; Mypy passed all 96 source files. The final history secret gate passed.\n\n[Exact CAD to Gmsh run 38026811475](https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38026811475) also passed on that exact head. Its inspected logs report **166 tests passed** and **17/17 interoperability/meshing cases passed**. These are engineering checks and do not alter the research boundary above. The draft remains unmerged and mergeable with its #99 base.\n",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/100",
+        "headRefName": "codex/neurocad-finite-interval-division-20261010",
+        "headRefOid": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
+        "baseRefName": "codex/integrated-numeric-geometry-20261010",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/scientific_kernel.py"
+            },
+            {
+              "path": "docs/SCIENTIFIC_KERNEL.md"
+            },
+            {
+              "path": "research/ENGINEERING_INTERVAL_DIVISION_20261010.json"
+            },
+            {
+              "path": "research/RESEARCH_STATE.json"
+            },
+            {
+              "path": "tests/test_interval_division.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 101,
+        "title": "Keep Monte Carlo summaries finite with portable exact-ratio reductions",
+        "body": "Finite model outputs can produce overflowing or underflowing intermediate sums, variances and quantile differences even when their reported sample statistics are representable.\n\nThis corrects the Monte Carlo summary arithmetic: exact-ratio mean, integer-ratio Bessel-corrected sample variance with directly rounded binary64 square root, and exact rational linear-quantile interpolation. Unrepresentable final summaries fail explicitly. Sample distributions, RNG, seeds, draw order, callbacks, covariance checks and report schema retain their existing behavior.\n\n### Verified current source\n\n- **93 selected tests passed with warnings treated as errors**, including **51 new cases across the two retained sessions**.\n- Independent Fraction/Decimal oracles cover ordinary, adjacent, extreme, subnormal, zero-variance and unrepresentable statistics. Exact rational halfway cases verify ties to even, exponent carry and the overflow midpoint.\n- The portability follow-up replaces the standard-library SD reduction with private integer arithmetic. CPython 3.10 converts variance to float before taking its square root; the new implementation does not depend on that version-specific behavior.\n- Independent source review and Ruff passed. AST comparison confirms the follow-up changes only the SD call plus its two private helpers.\n- Current runtime SHA-256: `cd56fb946a355926a953e68cc7b236dd3df6a3cc97b28fc502f2086250448c5d`.\n\n### Preserved failures and earlier evidence\n\nThe original 21-case baseline had **10 failures and 11 passes**. Its repaired 63-case gate and three generated examples, including a seeded eight-draw linear Gaussian model, remain at their original source hash.\n\nThe separately declared portability baseline replayed the documented Python 3.10 variance-then-square-root operation sequence under the installed Python 3.12 interpreter: **4 failed, 1 passed**. This is not an actual Python 3.10 execution. The new 93-case gate ran Python 3.12. The original demonstration was not rerun or rebound to the new source.\n\n### Closed budgets and deviation\n\nThe original budget remains closed after two test commands and one demonstration. The new corrective session closes after two test commands totaling **3.554 seconds**, one lint command, no new demonstration and no review repair.\n\n**The corrective session closes with a retained sample-cap deviation.** Its prospective contract set an unqualified 32-sample-per-case ceiling while explicitly including an unchanged inherited seeded regression that makes two 20,000-sample calls. That case used 40,000 generated samples; all 30 new cases use at most four. The contract is unchanged, the actual execution is retained, and the 90-second command limit was respected. The numerical results remain valid, but sample-cap compliance is not claimed.\n\n### Review artifacts\n\n- [Current canonical state](https://github.com/THE-BU1LD/NeuroCAD/blob/48237e7afa575b4678e137707cce5a7303f7e784/research/RESEARCH_STATE.json)\n- [Portable arithmetic specification, rounding argument and reproduction command](https://github.com/THE-BU1LD/NeuroCAD/blob/48237e7afa575b4678e137707cce5a7303f7e784/research/PORTABLE_SAMPLE_STDEV_20261010.md)\n- [Corrective closure, source hashes, raw evidence and budget deviation](https://github.com/THE-BU1LD/NeuroCAD/blob/48237e7afa575b4678e137707cce5a7303f7e784/research/development/portable_sample_stdev_20261010/closure.json)\n- [Unchanged original 63-case closure](https://github.com/THE-BU1LD/NeuroCAD/blob/48237e7afa575b4678e137707cce5a7303f7e784/research/development/finite_monte_carlo_20261010/closure.json)\n\nStacked on `codex/neurocad-finite-interval-division-20261010` at `f560df8dfd31d0df9bf5886ec78a1fab839e3f5a`. The current head preserves the original draft commit as its parent. It includes `[skip ci]`; no current-head hosted pass is claimed. Actual supported-version/platform CI remains a release gate.\n\nQuantile last bits can differ from the earlier floating operation order. Historical reports are retained rather than regenerated. These changes establish generated-case arithmetic behavior; they do not establish empirical coverage, manufacturing safety, language generalization or a completed scientific study. The protected challenge and existing scientific conclusions are unchanged.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/101",
+        "headRefName": "codex/finite-monte-carlo-summaries-20261010-0945",
+        "headRefOid": "48237e7afa575b4678e137707cce5a7303f7e784",
+        "baseRefName": "codex/neurocad-finite-interval-division-20261010",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/scientific_kernel.py"
+            },
+            {
+              "path": "research/FINITE_MONTE_CARLO_20261010.md"
+            },
+            {
+              "path": "research/PORTABLE_SAMPLE_STDEV_20261010.md"
+            },
+            {
+              "path": "research/RESEARCH_STATE.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/baseline.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/baseline.stderr.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/baseline.stdout.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/baseline_tests.py.txt"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/candidate.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/candidate.stderr.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/candidate.stdout.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/closure.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/contract.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/demo/report.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/demo_command.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/demo_command.stderr.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/demo_command.stdout.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/lint.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/lint.stderr.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/lint.stdout.log"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/parent_state.json"
+            },
+            {
+              "path": "research/development/finite_monte_carlo_20261010/static_verification.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/baseline.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/baseline.stderr.log"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/baseline.stdout.log"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/candidate.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/candidate.stderr.log"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/candidate.stdout.log"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/closure.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/contract.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/lint.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/lint.stderr.log"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/lint.stdout.log"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/parent_scientific_kernel.py.txt"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/parent_state.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/static_verification.json"
+            },
+            {
+              "path": "research/development/portable_sample_stdev_20261010/upstream_reference.json"
+            },
+            {
+              "path": "scripts/demo_finite_monte_carlo.py"
+            },
+            {
+              "path": "tests/test_monte_carlo_finite_summary.py"
+            },
+            {
+              "path": "tests/test_portable_sample_stdev.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 102,
+        "title": "Reject nonfinite unit-conversion outputs with source-bound regressions",
+        "body": "## Reproduced defect\n\n`quantity(1e308, \"m\").to(\"mm\")` returns infinity on exact #101 head `48237e7afa575b4678e137707cce5a7303f7e784`. Eight sign/unit-pair regressions reproduce this inherited range-check omission.\n\n## Change\n\nOne runtime line: validate the converted result with the existing `_finite` helper. Add 23 conversion regressions, 47 separately authored exact-reference summary checks, a repair note and an append-only engineering session closure. All unrelated tree entries inherit directly from #101.\n\n## Actual verification\n\n- Original selected suite: **8 failed, 112 passed, 1 deselected**.\n- Corrected selected suite: **120 passed, 1 deselected** on **Python 3.13.5 / NumPy 2.3.5**, one numerical thread.\n- The 47 standard-deviation/rounding checks already pass on unchanged #101; the runtime correction does not change those algorithms.\n- Exact local-versus-published kernel identity verified: Git blob `7ccdc221a82f20d00dce6fec3f719336a5b1395f`, SHA-256 `ad6cca383e2870ff128f0c0118f3870740c3ceafb8b0a6e4d4cd98891753990d`.\n- The original source was reconstructed from #100's source distribution plus the exact #101 kernel patch; its complete hash matches the published parent source.\n- Ruff was unavailable in this execution environment; no lint pass is claimed. Full product tests and supported-version hosted checks were not run for this head. `[skip ci]` preserves bounded execution; hosted verification remains a review gate.\n\n```sh\nOPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m pytest \\\n  tests/test_quantity_conversion_range.py tests/test_summary_independent_review.py \\\n  tests/test_scientific_kernel.py tests/test_scientific_kernel_polynomials.py \\\n  -k 'not monte_carlo' -q -W error\n```\n\n## Scope and retained gates\n\nStacked on draft #101, not main. Head: `61b8427375e2fa6e6201383e2674ce8fe6f96f4a`. The inherited 40,000-draw seeded case was explicitly excluded before testing. No Monte Carlo draws, protected outcomes, model training or paid compute. Earlier closed budgets and their recorded deviation remain intact. The failure history and raw test receipts are retained in the conversation handoff; the source-bound closure is committed here.\n\nThis fixes nonfinite conversion outputs only; existing underflow and floating-point rounding behavior are unchanged. It is not physical validation or scientific efficacy evidence. Independent review, supported-platform CI, stacked integration and canonical-state index reconciliation remain open. No merge or release is requested by this draft.",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/102",
+        "headRefName": "codex/quantity-conversion-range-20261012",
+        "headRefOid": "61b8427375e2fa6e6201383e2674ce8fe6f96f4a",
+        "baseRefName": "codex/finite-monte-carlo-summaries-20261010-0945",
+        "files": {
+          "nodes": [
+            {
+              "path": "core/scientific_kernel.py"
+            },
+            {
+              "path": "research/QUANTITY_CONVERSION_RANGE_20261012.md"
+            },
+            {
+              "path": "research/development/quantity_conversion_20261012/closure.json"
+            },
+            {
+              "path": "tests/test_quantity_conversion_range.py"
+            },
+            {
+              "path": "tests/test_summary_independent_review.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 105,
+        "title": "Freeze Physics v3 validation and retain opposing-load stress failure",
+        "body": "Physics v3 had unit tests but no frozen conformance matrix or installed end-to-end validation gate. This adds a content-bound 32-case protocol, reference answers/tolerances, protected v2/release/paper inventory, and an installed-wheel acceptance runner with retained command/report evidence.\n\nThe new matrix exposes an existing defect: opposing tip and distributed loads can produce zero root moment but nonzero interior maximum bending stress. The implementation reports 0 MPa for a frozen case whose reference is 2.1 MPa. Production source and the failed v1 protocol remain unchanged. This draft does not fix or waive the failed gate.\n\nValidation at 7c53a0c: source and installed conformance 31/32; installed workflow acceptance 15/15; four complex shapes compiled; repository regression 1,230 passed, 9 skipped. CI run 38547582177 is correctly red. All 40 protected files are unchanged. The later commit only retains evidence/status; all 87 frozen inputs still match. Local installed execution was resource-blocked; hosted execution used a clean wheel installation.\n\nPhysical validation, independent reproduction and user studies remain unperformed. Composite reference coverage is limited to the declared volume checks and existing regressions. See docs/verification/physics-v3-20261014/REPORT.md for receipts, the defect derivation, limitations and reproduction instructions.\n\nCI: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38547582177\n",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/105",
+        "headRefName": "codex/physics-v3-validation",
+        "headRefOid": "327d9b5d78b038985f0d28d4f19c8de76bcdfff2",
+        "baseRefName": "main",
+        "files": {
+          "nodes": [
+            {
+              "path": ".github/workflows/physics-v3-validation.yml"
+            },
+            {
+              "path": "CURRENT_STATUS.md"
+            },
+            {
+              "path": "RESEARCH_STATE.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/BEAM_FINDING.md"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/REPORT.md"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/archive-inventory.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/job.txt"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/v3-commit.txt"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/v3-installed.txt"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/v3-installed/receipt.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/v3-source/receipt.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/v3-tests.xml"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/ci-38547582177/v3-wheel-sha256.txt"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/installed-local-blocked.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/source-scalar-01/receipt.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/verification-summary.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-20261014/verifier-fault-injection.json"
+            },
+            {
+              "path": "research/physics_v3/RESEARCH_STATE.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/PROTOCOL.md"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/README.md"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/cases.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/fixtures/agent-shaft-project.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/fixtures/complex-hollow-shaft.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/fixtures/complex-i-beam.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/fixtures/complex-l-bracket.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/fixtures/complex-perforated-plate.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/fixtures/physics-v3-electrothermal-bound.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v1/freeze.json"
+            },
+            {
+              "path": "scripts/freeze_physics_v3.py"
+            },
+            {
+              "path": "scripts/validate_physics_v3.py"
+            },
+            {
+              "path": "tests/test_v3_validation_harness.py"
+            }
+          ]
+        }
+      },
+      {
+        "number": 106,
+        "title": "Correct opposing-load beam stress with frozen successor verification",
+        "body": "Opposing tip and distributed loads can cancel the root moment while leaving a nonzero interior moment. The cantilever model previously reported zero maximum stress and could incorrectly pass a yield check. The correction evaluates the interior stationary point as well as the endpoints; the retained counterexample now reports 2.1 MPa and utilization 1.05.\n\nThis is a separately frozen conformance successor to PR #105. It preserves the original 31/32 failed study, references and tolerances. All 37 source scalar cases pass, with exact-rational beam regressions covering load signs and interior/boundary extrema. The original failure remains reproducible at its recorded commit.\n\nIncludes the separate external-evidence collection/audit package and 11 passing integrity tests. Physical measurements, independent reproduction and intended-user sessions remain unexecuted; no scientific gate is advanced by templates or CI.\n\nValidation on source commit `5676436719415302ce94076c4d49c37e302308f7`: 37/37 scalar cases, 52/52 installed cases/workflows, all four complex-shape compilations, and 1,236 regression tests passed (9 skipped; 43 subtests). External auditor CI passed 11 integrity tests. Scoped Ruff and the verifier tests passed. All 40 protected v2/release/paper files are unchanged. The subsequent receipt-only commit changes no frozen source or runner input.\n\nCorrected conformance: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38557278466\nExternal integrity: https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38557278525\n\nThe corrected code and all 88 frozen inputs were also reconciled into the user's preserved working checkout. No new public release, external experiment or independent scientific validation is claimed.\n\n<!-- CURSOR_SUMMARY -->\n---\n\n> [!NOTE]\n> **Medium Risk**\n> Changes structural stress/yield utilization logic used in engineering checks; bounded by expanded conformance CI but still safety-adjacent physics output.\n> \n> **Overview**\n> **Corrects cantilever maximum bending stress** when tip and distributed loads oppose each other: `cantilever_beam` in `core/physics_advanced.py` now compares root moment with an interior stationary point instead of using `abs(fixed_moment)` alone, fixing the known 0 vs 2.1 MPa counterexample while leaving shear, slope and deflection unchanged.\n> \n> **Adds a frozen `validation_v2` conformance successor** (preserving v1\u2019s failed outcome) with hosted CI (`physics-v3-validation-v2.yml`) for scalar/installed gates, wheel build, mesh compile, and full regression, plus receipt docs under `docs/verification/physics-v3-corrected-20261014/` and `validation_v2` / `RESEARCH_STATE` status recording **PASS_BOUNDED_SOFTWARE_CONFORMANCE**.\n> \n> **Introduces `external_validation_v1`**\u2014protocol, templates, capability inventory, `evidence.py` auditor, and synthetic integrity tests\u2014with a path-filtered workflow (`external-evidence-integrity.yml`); this prepares future physical/independent/user studies and does not claim those gates are closed.\n> \n> <sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit a7a83d18d2a27f83ca6684a42030582c74106d67. Bugbot is set up for automated code reviews on this repo. Configure [here](https://www.cursor.com/dashboard/bugbot).</sup>\n<!-- /CURSOR_SUMMARY -->",
+        "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/106",
+        "headRefName": "codex/physics-v3-validation-fix",
+        "headRefOid": "a7a83d18d2a27f83ca6684a42030582c74106d67",
+        "baseRefName": "codex/physics-v3-validation",
+        "files": {
+          "nodes": [
+            {
+              "path": ".github/workflows/external-evidence-integrity.yml"
+            },
+            {
+              "path": ".github/workflows/physics-v3-validation-v2.yml"
+            },
+            {
+              "path": "CURRENT_STATUS.md"
+            },
+            {
+              "path": "RESEARCH_STATE.json"
+            },
+            {
+              "path": "core/physics_advanced.py"
+            },
+            {
+              "path": "docs/verification/physics-v3-corrected-20261014/REPORT.md"
+            },
+            {
+              "path": "docs/verification/physics-v3-corrected-20261014/SUMMARY.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-corrected-20261014/ci-38557278466.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-corrected-20261014/ci-38557278466.txt"
+            },
+            {
+              "path": "docs/verification/physics-v3-corrected-20261014/ci-38557278525.json"
+            },
+            {
+              "path": "docs/verification/physics-v3-corrected-20261014/source-01/receipt.json"
+            },
+            {
+              "path": "research/physics_v3/RESEARCH_STATE.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/CAPABILITIES.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/IMPLEMENTATION_RECEIPT.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/MANIFEST.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/PRESERVATION_BASELINE.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/PROTOCOL.md"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/README.md"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/evidence.py"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/templates/evidence.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/templates/physical_plan.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/templates/reproduction_plan.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/templates/usability_plan.json"
+            },
+            {
+              "path": "research/physics_v3/external_validation_v1/test_evidence.py"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/PROTOCOL.md"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/README.md"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/cases.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/fixtures/agent-shaft-project.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/fixtures/complex-hollow-shaft.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/fixtures/complex-i-beam.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/fixtures/complex-l-bracket.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/fixtures/complex-perforated-plate.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/fixtures/physics-v3-electrothermal-bound.json"
+            },
+            {
+              "path": "research/physics_v3/validation_v2/freeze.json"
+            },
+            {
+              "path": "scripts/freeze_physics_v3_v2.py"
+            },
+            {
+              "path": "scripts/validate_physics_v3_v2.py"
+            },
+            {
+              "path": "tests/test_beam_extrema.py"
+            },
+            {
+              "path": "tests/test_v3_validation_v2_harness.py"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

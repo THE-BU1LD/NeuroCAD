@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "study_id": null,
+  "kind": "physical",
+  "capability": null,
+  "applicability_envelope": null,
+  "exclusions": null,
+  "release_sha256": null,
+  "source_commit": null,
+  "operator_id": null,
+  "reference_provenance": null,
+  "stop_rule": "Retain every attempted case. No post-outcome changes to cases, inputs, references or tolerances.",
+  "outcomes_observed": false,
+  "frozen_artifacts": [],
+  "cases": [
+    {
+      "id": "replace-with-predeclared-case-id",
+      "procedure": null,
+      "required_artifacts": [
+        "raw_measurements",
+        "calibration",
+        "apparatus",
+        "prediction",
+        "uncertainty",
+        "input_measurements"
+      ],
+      "units": null,
+      "apparatus": null,
+      "calibration_plan": null,
+      "uncertainty_budget": null,
+      "input_measurement_plan": null,
+      "atol": null,
+      "rtol": null,
+      "max_expanded_uncertainty": null,
+      "coverage_factor": null
+    }
+  ]
+}

@@ -198,6 +198,12 @@ def _structural_analysis(
         stresses.append(axial_stress + bending)
     maximum_normal = max(stresses)
     minimum_normal = min(stresses)
+    if shape == "hollow_shaft" and torsion_radius_mm is not None:
+        # On the entire circular boundary, a*x+b*y has extrema +/-r*hypot(a,b).
+        # Four cardinal samples miss the extrema under simultaneous biaxial bending.
+        bending_amplitude = torsion_radius_mm * math.hypot(moment_x / ix_mm4, moment_y / iy_mm4)
+        maximum_normal = axial_stress + bending_amplitude
+        minimum_normal = axial_stress - bending_amplitude
     maximum_absolute_normal = max(abs(maximum_normal), abs(minimum_normal))
     torsional_shear = 0.0 if polar_mm4 is None or torsion_radius_mm is None else abs(torque) * torsion_radius_mm / polar_mm4
     von_mises = math.sqrt(maximum_absolute_normal**2 + 3.0 * torsional_shear**2)
@@ -602,8 +608,8 @@ def _perforated_plate(parameters: dict[str, Any], analysis: dict[str, Any]) -> t
         raise ValueError("perforation layout leaves a non-positive section moment")
     volume = area * thickness
     surface = 2.0 * area + 2.0 * (width + height) * thickness + count * math.pi * diameter * thickness
-    x_ligament = min(margin - radius, x_pitch - diameter if math.isfinite(x_pitch) else width - diameter)
-    y_ligament = min(margin - radius, y_pitch - diameter if math.isfinite(y_pitch) else height - diameter)
+    x_ligament = width / 2.0 - radius if columns == 1 else min(margin - radius, x_pitch - diameter)
+    y_ligament = height / 2.0 - radius if rows == 1 else min(margin - radius, y_pitch - diameter)
     if any(float(analysis.get(name, 0.0)) != 0 for name in _ANALYSIS_KEYS - {"source", "density_kg_m3", "safety_factor", "effective_length_factor"}):
         raise ValueError("perforated_plate supports geometric and mass analysis only; its load path requires a declared plate model and boundary conditions")
     mass = None

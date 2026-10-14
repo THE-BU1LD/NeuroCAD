@@ -1,0 +1,1011 @@
+{
+  "status": "PASS",
+  "mode": "SOURCE_SCALAR",
+  "started_at_unix": 1791979242.860996,
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "cases": [
+    {
+      "id": "beam-tip",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.03154285714285714,
+        "fixed_end_shear_n": 23,
+        "maximum_bending_stress_mpa": 4.6
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 23.0,
+          "fixed_end_moment_n_mm": 2760.0,
+          "tip_slope_radians": 0.00039428571428571426,
+          "tip_deflection_mm": 0.03154285714285714,
+          "maximum_bending_stress_mpa": 4.6,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-distributed",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.0432,
+        "fixed_end_shear_n": 84.0,
+        "maximum_bending_stress_mpa": 8.4
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 84.0,
+          "fixed_end_moment_n_mm": 5040.0,
+          "tip_slope_radians": 0.00048,
+          "tip_deflection_mm": 0.0432,
+          "maximum_bending_stress_mpa": 8.4,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-combined",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.07474285714285714,
+        "fixed_end_shear_n": 107.0,
+        "maximum_bending_stress_mpa": 13.0
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 107.0,
+          "fixed_end_moment_n_mm": 7800.0,
+          "tip_slope_radians": 0.0008742857142857143,
+          "tip_deflection_mm": 0.07474285714285714,
+          "maximum_bending_stress_mpa": 13.0,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-zero",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.0,
+        "fixed_end_shear_n": 0,
+        "maximum_bending_stress_mpa": 0.0
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 0.0,
+          "fixed_end_moment_n_mm": 0.0,
+          "tip_slope_radians": 0.0,
+          "tip_deflection_mm": 0.0,
+          "maximum_bending_stress_mpa": 0.0,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-opposed",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": -0.0144,
+        "fixed_end_shear_n": 42.0,
+        "maximum_bending_stress_mpa": 2.1
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 42.0,
+          "fixed_end_moment_n_mm": 0.0,
+          "tip_slope_radians": -0.00024000000000000003,
+          "tip_deflection_mm": -0.014399999999999996,
+          "maximum_bending_stress_mpa": 2.1000000000000005,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-invalid",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "length_mm must be positive"
+    },
+    {
+      "id": "stress-zero",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          0,
+          0,
+          0
+        ],
+        "von_mises_stress_mpa": 0.0
+      },
+      "report": {
+        "model": "combined_stress_3d_v1",
+        "results": {
+          "principal_stresses_mpa": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "maximum_principal_stress_mpa": 0.0,
+          "minimum_principal_stress_mpa": 0.0,
+          "maximum_shear_stress_mpa": 0.0,
+          "hydrostatic_stress_mpa": 0.0,
+          "von_mises_stress_mpa": 0.0,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-hydrostatic",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          -37,
+          -37,
+          -37
+        ],
+        "von_mises_stress_mpa": 0.0
+      },
+      "report": {
+        "model": "combined_stress_3d_v1",
+        "results": {
+          "principal_stresses_mpa": [
+            -37.0,
+            -37.0,
+            -37.0
+          ],
+          "maximum_principal_stress_mpa": -37.0,
+          "minimum_principal_stress_mpa": -37.0,
+          "maximum_shear_stress_mpa": 0.0,
+          "hydrostatic_stress_mpa": -37.0,
+          "von_mises_stress_mpa": 0.0,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-shear",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          24,
+          0,
+          -24
+        ],
+        "von_mises_stress_mpa": 41.569219381653056
+      },
+      "report": {
+        "model": "combined_stress_3d_v1",
+        "results": {
+          "principal_stresses_mpa": [
+            24.0,
+            -5.090761145879553e-15,
+            -23.999999999999993
+          ],
+          "maximum_principal_stress_mpa": 24.0,
+          "minimum_principal_stress_mpa": -23.999999999999993,
+          "maximum_shear_stress_mpa": 23.999999999999996,
+          "hydrostatic_stress_mpa": 0.0,
+          "von_mises_stress_mpa": 41.569219381653056,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-rotated",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          80,
+          20,
+          10
+        ],
+        "von_mises_stress_mpa": 65.57438524302
+      },
+      "report": {
+        "model": "combined_stress_3d_v1",
+        "results": {
+          "principal_stresses_mpa": [
+            80.0,
+            19.999999999999982,
+            10.000000000000004
+          ],
+          "maximum_principal_stress_mpa": 80.0,
+          "minimum_principal_stress_mpa": 10.000000000000004,
+          "maximum_shear_stress_mpa": 35.0,
+          "hydrostatic_stress_mpa": 36.666666666666664,
+          "von_mises_stress_mpa": 65.57438524302,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-invalid",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "normal_x_mpa must be a finite number"
+    },
+    {
+      "id": "thermal-series",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {
+        "node_temperatures_k.middle": 320,
+        "network_energy_balance_residual_w": 0
+      },
+      "report": {
+        "model": "steady_linear_thermal_network_v1",
+        "results": {
+          "node_temperatures_k": {
+            "cold": 300.0,
+            "middle": 320.0,
+            "hot": 330.0
+          },
+          "edge_heat_flows_w": [
+            {
+              "from_node": "cold",
+              "to_node": "middle",
+              "heat_flow_w": -40.0
+            },
+            {
+              "from_node": "middle",
+              "to_node": "hot",
+              "heat_flow_w": -40.0
+            }
+          ],
+          "fixed_node_external_heat_w": {
+            "cold": -40.0,
+            "hot": 40.0
+          },
+          "maximum_free_node_balance_residual_w": 0.0,
+          "network_energy_balance_residual_w": 0.0
+        },
+        "assumptions": [
+          "steady linear network with constant symmetric pairwise conductances",
+          "heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required",
+          "radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "thermal-equilibrium",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {
+        "node_temperatures_k.middle": 300
+      },
+      "report": {
+        "model": "steady_linear_thermal_network_v1",
+        "results": {
+          "node_temperatures_k": {
+            "cold": 300.0,
+            "middle": 300.0,
+            "hot": 300.0
+          },
+          "edge_heat_flows_w": [
+            {
+              "from_node": "cold",
+              "to_node": "middle",
+              "heat_flow_w": 0.0
+            },
+            {
+              "from_node": "middle",
+              "to_node": "hot",
+              "heat_flow_w": 0.0
+            }
+          ],
+          "fixed_node_external_heat_w": {
+            "cold": 0.0,
+            "hot": 0.0
+          },
+          "maximum_free_node_balance_residual_w": 0.0,
+          "network_energy_balance_residual_w": 0.0
+        },
+        "assumptions": [
+          "steady linear network with constant symmetric pairwise conductances",
+          "heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required",
+          "radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "thermal-source",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {
+        "node_temperatures_k.middle": 322,
+        "network_energy_balance_residual_w": 0
+      },
+      "report": {
+        "model": "steady_linear_thermal_network_v1",
+        "results": {
+          "node_temperatures_k": {
+            "cold": 300.0,
+            "middle": 322.0,
+            "hot": 330.0
+          },
+          "edge_heat_flows_w": [
+            {
+              "from_node": "cold",
+              "to_node": "middle",
+              "heat_flow_w": -44.0
+            },
+            {
+              "from_node": "middle",
+              "to_node": "hot",
+              "heat_flow_w": -32.0
+            }
+          ],
+          "fixed_node_external_heat_w": {
+            "cold": -44.0,
+            "hot": 32.0
+          },
+          "maximum_free_node_balance_residual_w": 0.0,
+          "network_energy_balance_residual_w": 0.0
+        },
+        "assumptions": [
+          "steady linear network with constant symmetric pairwise conductances",
+          "heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required",
+          "radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "thermal-singular",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "thermal network is singular; every free node must be conductively connected to a fixed-temperature node"
+    },
+    {
+      "id": "thermal-asymmetric",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "conductance_w_per_k must be symmetric"
+    },
+    {
+      "id": "vibration-force",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {
+        "displacement_amplitude_mm": 24.26696662729416
+      },
+      "report": {
+        "model": "forced_vibration_sdof_v1",
+        "results": {
+          "natural_frequency_hz": 3.183098861837907,
+          "damping_ratio": 0.1,
+          "frequency_ratio": 0.6283185307179586,
+          "relative_frequency_margin": 0.37168146928204143,
+          "within_resonance_warning_band": false,
+          "excitation_type": "harmonic_force",
+          "displacement_amplitude_mm": 24.266966627294153,
+          "response_phase_lag_radians": 0.2047255655877729,
+          "dynamic_magnification_factor": 1.6177977751529435
+        },
+        "assumptions": [
+          "linear time-invariant single-degree-of-freedom mass, spring, and viscous damper",
+          "steady sinusoidal response after transients have decayed",
+          "no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "vibration-near-static",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {
+        "displacement_amplitude_mm": 15.000000014508318
+      },
+      "report": {
+        "model": "forced_vibration_sdof_v1",
+        "results": {
+          "natural_frequency_hz": 3.183098861837907,
+          "damping_ratio": 0.1,
+          "frequency_ratio": 3.141592653589793e-05,
+          "relative_frequency_margin": 0.999968584073464,
+          "within_resonance_warning_band": false,
+          "excitation_type": "harmonic_force",
+          "displacement_amplitude_mm": 15.00000001450832,
+          "response_phase_lag_radians": 6.283185313298159e-06,
+          "dynamic_magnification_factor": 1.0000000009672214
+        },
+        "assumptions": [
+          "linear time-invariant single-degree-of-freedom mass, spring, and viscous damper",
+          "steady sinusoidal response after transients have decayed",
+          "no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "vibration-base",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {
+        "absolute_displacement_amplitude_mm": 4.891564081312204,
+        "relative_displacement_amplitude_mm": 1.9160428850066475
+      },
+      "report": {
+        "model": "forced_vibration_sdof_v1",
+        "results": {
+          "natural_frequency_hz": 3.183098861837907,
+          "damping_ratio": 0.1,
+          "frequency_ratio": 0.6283185307179586,
+          "relative_frequency_margin": 0.37168146928204143,
+          "within_resonance_warning_band": false,
+          "excitation_type": "harmonic_base_displacement",
+          "relative_displacement_amplitude_mm": 1.9160428850066475,
+          "absolute_displacement_amplitude_mm": 4.891564081312202,
+          "displacement_transmissibility": 1.6305213604374007
+        },
+        "assumptions": [
+          "linear time-invariant single-degree-of-freedom mass, spring, and viscous damper",
+          "steady sinusoidal response after transients have decayed",
+          "no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "vibration-resonance",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "undamped excitation at the exact natural frequency has no finite steady-state amplitude"
+    },
+    {
+      "id": "vibration-invalid",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "provide exactly one of force_amplitude_n or base_displacement_amplitude_mm"
+    },
+    {
+      "id": "pipe-laminar",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {
+        "total_pressure_loss_pa": 3.259493234522017
+      },
+      "report": {
+        "model": "darcy_weisbach_pipe_network_v1",
+        "results": {
+          "series_pressure_loss_pa": 3.2594932345220173,
+          "parallel_bank_pressure_loss_pa": 0.0,
+          "total_pressure_loss_pa": 3.2594932345220173,
+          "hydraulic_power_w": 3.259493234522017e-06,
+          "series_segments": [
+            {
+              "label": "series_segments[0]",
+              "flow_m3_s": 1e-06,
+              "velocity_m_s": 0.012732395447351627,
+              "reynolds_number": 127.32395447351627,
+              "flow_regime": "laminar",
+              "darcy_friction_factor": 0.5026548245743669,
+              "pressure_loss_pa": 3.2594932345220173
+            }
+          ],
+          "parallel_branches": [],
+          "parallel_flow_balance_residual_m3_s": 0.0,
+          "parallel_pressure_spread_pa": 0.0
+        },
+        "assumptions": [
+          "steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank",
+          "parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows",
+          "no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "pipe-small-flow",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {
+        "total_pressure_loss_pa": 0.0032594932345220164
+      },
+      "report": {
+        "model": "darcy_weisbach_pipe_network_v1",
+        "results": {
+          "series_pressure_loss_pa": 0.0032594932345220164,
+          "parallel_bank_pressure_loss_pa": 0.0,
+          "total_pressure_loss_pa": 0.0032594932345220164,
+          "hydraulic_power_w": 3.259493234522016e-12,
+          "series_segments": [
+            {
+              "label": "series_segments[0]",
+              "flow_m3_s": 9.999999999999999e-10,
+              "velocity_m_s": 1.2732395447351625e-05,
+              "reynolds_number": 0.12732395447351624,
+              "flow_regime": "laminar",
+              "darcy_friction_factor": 502.654824574367,
+              "pressure_loss_pa": 0.0032594932345220164
+            }
+          ],
+          "parallel_branches": [],
+          "parallel_flow_balance_residual_m3_s": 0.0,
+          "parallel_pressure_spread_pa": 0.0
+        },
+        "assumptions": [
+          "steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank",
+          "parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows",
+          "no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "pipe-parallel",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {
+        "total_pressure_loss_pa": 0.04863416814832213,
+        "parallel_flow_balance_residual_m3_s": 0,
+        "parallel_pressure_spread_pa": 0
+      },
+      "report": {
+        "model": "darcy_weisbach_pipe_network_v1",
+        "results": {
+          "series_pressure_loss_pa": 0,
+          "parallel_bank_pressure_loss_pa": 0.04863416814832213,
+          "total_pressure_loss_pa": 0.04863416814832213,
+          "hydraulic_power_w": 4.863416814832213e-08,
+          "series_segments": [],
+          "parallel_branches": [
+            {
+              "branch_index": 0,
+              "flow_m3_s": 5e-07,
+              "pressure_loss_pa": 0.04863416814832213,
+              "segments": [
+                {
+                  "label": "parallel_branches[0][0]",
+                  "flow_m3_s": 5e-07,
+                  "velocity_m_s": 0.006366197723675813,
+                  "reynolds_number": 63.66197723675813,
+                  "flow_regime": "user_factor",
+                  "darcy_friction_factor": 0.03,
+                  "pressure_loss_pa": 0.04863416814832213
+                }
+              ]
+            },
+            {
+              "branch_index": 1,
+              "flow_m3_s": 5e-07,
+              "pressure_loss_pa": 0.04863416814832213,
+              "segments": [
+                {
+                  "label": "parallel_branches[1][0]",
+                  "flow_m3_s": 5e-07,
+                  "velocity_m_s": 0.006366197723675813,
+                  "reynolds_number": 63.66197723675813,
+                  "flow_regime": "user_factor",
+                  "darcy_friction_factor": 0.03,
+                  "pressure_loss_pa": 0.04863416814832213
+                }
+              ]
+            }
+          ],
+          "parallel_flow_balance_residual_m3_s": 0.0,
+          "parallel_pressure_spread_pa": 0.0
+        },
+        "assumptions": [
+          "steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank",
+          "parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows",
+          "no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "pipe-transition",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "series_segments[0] is transitional and requires an explicit darcy_friction_factor"
+    },
+    {
+      "id": "pipe-invalid",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "series_segments[0].diameter_mm must be positive"
+    },
+    {
+      "id": "wire-feedback",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 4.166666666666667,
+        "joule_heat_w": 0.8333333333333334,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "model": "lumped_electro_thermal_wire_v1",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "hot_resistance_ohm": 0.0020833333333333337,
+          "voltage_drop_v": 0.04166666666666667,
+          "current_density_a_per_mm2": 10.0,
+          "joule_heat_w": 0.8333333333333335,
+          "temperature_rise_k": 4.166666666666667,
+          "equilibrium_temperature_k": 294.1666666666667,
+          "electro_thermal_loop_gain": 0.04,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-zero",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 0.0,
+        "joule_heat_w": 0.0,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "model": "lumped_electro_thermal_wire_v1",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "hot_resistance_ohm": 0.002,
+          "voltage_drop_v": 0.0,
+          "current_density_a_per_mm2": 0.0,
+          "joule_heat_w": 0.0,
+          "temperature_rise_k": 0.0,
+          "equilibrium_temperature_k": 290.0,
+          "electro_thermal_loop_gain": 0.0,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-no-feedback",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 4.0,
+        "joule_heat_w": 0.8,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "model": "lumped_electro_thermal_wire_v1",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "hot_resistance_ohm": 0.002,
+          "voltage_drop_v": 0.04,
+          "current_density_a_per_mm2": 10.0,
+          "joule_heat_w": 0.8,
+          "temperature_rise_k": 4.0,
+          "equilibrium_temperature_k": 294.0,
+          "electro_thermal_loop_gain": 0.0,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-near-instability",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 1000.0000000000061,
+        "joule_heat_w": 200.00000000000122,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "model": "lumped_electro_thermal_wire_v1",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "hot_resistance_ohm": 0.49999999999999956,
+          "voltage_drop_v": 9.999999999999991,
+          "current_density_a_per_mm2": 10.0,
+          "joule_heat_w": 199.99999999999983,
+          "temperature_rise_k": 999.9999999999991,
+          "equilibrium_temperature_k": 1289.999999999999,
+          "electro_thermal_loop_gain": 0.996,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-unstable",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "linear electro-thermal feedback has no finite stable equilibrium because its loop gain is at least one"
+    },
+    {
+      "id": "wire-invalid",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "area_mm2 must be positive"
+    },
+    {
+      "id": "beam-opposed-reversed",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "maximum_bending_stress_mpa": 2.1
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": -42.0,
+          "fixed_end_moment_n_mm": 0.0,
+          "tip_slope_radians": 0.00024000000000000003,
+          "tip_deflection_mm": 0.014399999999999996,
+          "maximum_bending_stress_mpa": 2.1000000000000005,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-stationary-at-root",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "maximum_bending_stress_mpa": 8.4
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 0.0,
+          "fixed_end_moment_n_mm": -5040.0,
+          "tip_slope_radians": -0.0009600000000000001,
+          "tip_deflection_mm": -0.072,
+          "maximum_bending_stress_mpa": 8.4,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-stationary-outside",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "maximum_bending_stress_mpa": 16.8
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": -42.0,
+          "fixed_end_moment_n_mm": -10080.0,
+          "tip_slope_radians": -0.00168,
+          "tip_deflection_mm": -0.1296,
+          "maximum_bending_stress_mpa": 16.8,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-zero-loads",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "maximum_bending_stress_mpa": 0
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 0.0,
+          "fixed_end_moment_n_mm": 0.0,
+          "tip_slope_radians": 0.0,
+          "tip_deflection_mm": 0.0,
+          "maximum_bending_stress_mpa": 0.0,
+          "yield_utilization": null,
+          "constraint_satisfied": null
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-opposed-yield",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "maximum_bending_stress_mpa": 2.1,
+        "yield_utilization": 1.05
+      },
+      "report": {
+        "model": "euler_bernoulli_cantilever_v1",
+        "results": {
+          "fixed_end_shear_n": 42.0,
+          "fixed_end_moment_n_mm": 0.0,
+          "tip_slope_radians": -0.00024000000000000003,
+          "tip_deflection_mm": -0.014399999999999996,
+          "maximum_bending_stress_mpa": 2.1000000000000005,
+          "yield_utilization": 1.0500000000000003,
+          "constraint_satisfied": false
+        },
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation"
+      },
+      "mismatches": []
+    }
+  ],
+  "commands": [],
+  "physical_validation": "NOT_STARTED",
+  "independent_reproduction": "NOT_STARTED",
+  "freeze_sha256": "2236b0bec0286eeef88b14bdfdac41fc45bd21a4a6ab01fe628c9575cbdec032",
+  "git_head": "3ede65c8caf9d9836976067da1f9ee7dfae6a35d",
+  "git_status": " M MANIFEST.in\n M core/scientific_kernel.py\n M research/RESEARCH_STATE.json\n M tests/test_linear_system_numerics.py\n M tests/test_summary_independent_review.py\n?? .github/workflows/physics-v3-validation-v3.yml\n?? docs/WORK_REGISTER_20261014.md\n?? docs/verification/work-closure-20261014/\n?? research/physics_v3/.validation.lock\n?? research/physics_v3/validation_v3/\n?? scripts/freeze_physics_v3_v3.py\n?? scripts/validate_physics_v3_v3.py\n?? tests/test_v3_validation_v3_harness.py\n",
+  "passed": 37,
+  "total": 37,
+  "protected_unchanged": true
+}

@@ -1,0 +1,127 @@
+FFFFFFFFFFFF........FF.                                                  [100%]
+=================================== FAILURES ===================================
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices0-False] _
+tests/test_mesh_scale_invariance.py:26: in test_intersection_verdict_is_invariant_under_uniform_scale
+    report = analyze_self_intersections(points, FACES)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../mesh_scale_invariance_base_source.py:179: in analyze_self_intersections
+    raise ValueError("faces contain degenerate or numerically unresolvable triangles")
+E   ValueError: faces contain degenerate or numerically unresolvable triangles
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices1-True] _
+tests/test_mesh_scale_invariance.py:26: in test_intersection_verdict_is_invariant_under_uniform_scale
+    report = analyze_self_intersections(points, FACES)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../mesh_scale_invariance_base_source.py:179: in analyze_self_intersections
+    raise ValueError("faces contain degenerate or numerically unresolvable triangles")
+E   ValueError: faces contain degenerate or numerically unresolvable triangles
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices2-True] _
+tests/test_mesh_scale_invariance.py:26: in test_intersection_verdict_is_invariant_under_uniform_scale
+    report = analyze_self_intersections(points, FACES)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../mesh_scale_invariance_base_source.py:179: in analyze_self_intersections
+    raise ValueError("faces contain degenerate or numerically unresolvable triangles")
+E   ValueError: faces contain degenerate or numerically unresolvable triangles
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices3-False] _
+tests/test_mesh_scale_invariance.py:26: in test_intersection_verdict_is_invariant_under_uniform_scale
+    report = analyze_self_intersections(points, FACES)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../mesh_scale_invariance_base_source.py:179: in analyze_self_intersections
+    raise ValueError("faces contain degenerate or numerically unresolvable triangles")
+E   ValueError: faces contain degenerate or numerically unresolvable triangles
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices0-False] _
+tests/test_mesh_scale_invariance.py:27: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["self_intersecting"] is expected
+E   assert True is False
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices1-True] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 2e-08 ± 2.0e-22
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 2e-08 ± 2.0e-22
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices2-True] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 2e-08 ± 2.0e-22
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 2e-08 ± 2.0e-22
+_ test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices3-False] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 2e-08 ± 2.0e-22
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 2e-08 ± 2.0e-22
+_ test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices0-False] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 0.2 ± 2.0e-15
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 0.2 ± 2.0e-15
+_ test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices1-True] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 0.2 ± 2.0e-15
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 0.2 ± 2.0e-15
+_ test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices2-True] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 0.2 ± 2.0e-15
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 0.2 ± 2.0e-15
+_ test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices3-False] _
+tests/test_mesh_scale_invariance.py:28: in test_intersection_verdict_is_invariant_under_uniform_scale
+    assert report["scale_mm"] == pytest.approx(float(np.ptp(points, axis=0).max()), rel=1e-14, abs=0)
+E   assert 1.0 == 0.2 ± 2.0e-15
+E     
+E     comparison failed
+E     Obtained: 1.0
+E     Expected: 0.2 ± 2.0e-15
+________ test_large_translation_does_not_overflow_bounding_box_midpoint ________
+tests/test_mesh_scale_invariance.py:35: in test_large_translation_does_not_overflow_bounding_box_midpoint
+    report = analyze_self_intersections(points, FACES)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../mesh_scale_invariance_base_source.py:175: in analyze_self_intersections
+    normalized = (points - (np.min(points, axis=0) + np.max(points, axis=0)) / 2.0) / scale
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FloatingPointError: overflow encountered in add
+____ test_unrepresentable_span_is_rejected_instead_of_reporting_clean_mesh _____
+tests/test_mesh_scale_invariance.py:42: in test_unrepresentable_span_is_rejected_instead_of_reporting_clean_mesh
+    with pytest.raises(ValueError, match="span"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'span'
+E     Actual message: 'faces contain degenerate or numerically unresolvable triangles'
+=============================== warnings summary ===============================
+tests/test_mesh_scale_invariance.py::test_unrepresentable_span_is_rejected_instead_of_reporting_clean_mesh
+  /workspace/scratch/2a0c1e6ddd92/cad-test-deps/numpy/_core/_methods.py:232: RuntimeWarning: overflow encountered in subtract
+    return um.subtract(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices0-False]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices1-True]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices2-True]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-180-vertices3-False]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices0-False]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices1-True]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices2-True]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[1e-08-vertices3-False]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices0-False]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices1-True]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices2-True]
+FAILED tests/test_mesh_scale_invariance.py::test_intersection_verdict_is_invariant_under_uniform_scale[0.1-vertices3-False]
+FAILED tests/test_mesh_scale_invariance.py::test_large_translation_does_not_overflow_bounding_box_midpoint
+FAILED tests/test_mesh_scale_invariance.py::test_unrepresentable_span_is_rejected_instead_of_reporting_clean_mesh
+14 failed, 9 passed, 1 warning in 0.51s

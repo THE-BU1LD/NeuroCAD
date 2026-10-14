@@ -1,0 +1,14 @@
+{
+  "version": "v3.10.21",
+  "repository": "python/cpython",
+  "path": "Lib/statistics.py",
+  "url": "https://github.com/python/cpython/blob/v3.10.21/Lib/statistics.py",
+  "tag_object": {
+    "sha": "1165e614fae82c876f741006b12ffbef99b0c84d",
+    "type": "tag",
+    "url": "https://api.github.com/repos/python/cpython/git/tags/1165e614fae82c876f741006b12ffbef99b0c84d"
+  },
+  "observed_behavior": "stdev calls variance, then math.sqrt; variance is converted to the input floating type before the square root.",
+  "reference_scope": "Read-only upstream source inspection. No Python3.10 interpreter is installed; planned regressions replay this documented reduction path on Python3.12.",
+  "source_length": 43203
+}

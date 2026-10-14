@@ -1,0 +1,28 @@
+{
+  "status": "PASS_BOUNDED_SOFTWARE_CONFORMANCE",
+  "verified_source_commit": "5676436719415302ce94076c4d49c37e302308f7",
+  "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38557278466",
+  "external_integrity_ci": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38557278525",
+  "source_cases": {
+    "passed": 37,
+    "total": 37
+  },
+  "installed_cases_and_workflows": {
+    "passed": 52,
+    "total": 52
+  },
+  "compiled_shapes": 4,
+  "regression": {
+    "passed": 1236,
+    "skipped": 9,
+    "subtests_passed": 43
+  },
+  "external_integrity_tests": 11,
+  "protected_inventory": "40 tracked v2/release/paper files unchanged; original frozen inputs and failure retained",
+  "physical_validation": "NOT_EXECUTED",
+  "independent_reproduction": "NOT_EXECUTED",
+  "usability": "NOT_EXECUTED",
+  "public_release": "NO_NEW_RELEASE",
+  "pull_request": "https://github.com/THE-BU1LD/NeuroCAD/pull/106",
+  "captured_at": "2026-10-14T11:37:54.418561+00:00"
+}

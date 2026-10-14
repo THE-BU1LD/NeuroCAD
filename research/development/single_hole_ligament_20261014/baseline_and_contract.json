@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-14T12:33:42.251351+00:00",
+  "source_sha256": "25605c4e7f94adbde546c637d63b270815ff552db3885c39cb71b8a79496747d",
+  "scope": "Actual unmodified source expressions for x/y ligament, with declared single-hole grid inputs; no CAD builder or installed workflow run.",
+  "inputs": {
+    "width_mm": 100,
+    "height_mm": 80,
+    "diameter_mm": 10,
+    "edge_margin_mm": 20,
+    "columns": 1,
+    "rows": 1
+  },
+  "actual": {
+    "x": 15.0,
+    "y": 15.0
+  },
+  "reference": {
+    "x": 45,
+    "y": 35
+  },
+  "result": "FAIL_CONSERVATIVE_UNDERSTATEMENT",
+  "reference_derivation": "A sole hole is centered at zero; distance from the radius-5 boundary to edges x=+/-50 and y=+/-40 is 45 and 35. Configured grid margin is unused for a sole row/column.",
+  "rtol": 1e-12,
+  "atol": 1e-12,
+  "planned_public_builder_cases": 8,
+  "protected_outcomes": 0,
+  "budget": "Included in remaining two hosted verification attempts of the current corrected-composite phase; no additional paid/scientific runs."
+}

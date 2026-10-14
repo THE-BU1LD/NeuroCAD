@@ -1,0 +1,53 @@
+{
+  "protocol": "NC-PHYS-V3-CONFORMANCE-1",
+  "source_commit": "7c53a0c287071135b962b19b6d5bfe651a84c67f",
+  "freeze_sha256": "6a49e4f94cbb7b6e143a071eb3b10373defd2117a5e5ecfb1e8d6fd8ca64dff0",
+  "source_scalar": {
+    "passed": 31,
+    "total": 32,
+    "status": "FAIL",
+    "receipt": "source-scalar-01/receipt.json"
+  },
+  "local_installed": "BLOCKED_RESOURCE",
+  "hosted": {
+    "run_id": 38547582177,
+    "status": "COMPLETED",
+    "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38547582177",
+    "conclusion": "FAIL",
+    "scalar_passed": 31,
+    "scalar_total": 32,
+    "installed_scalar_passed": 31,
+    "installed_scalar_total": 32,
+    "acceptance_passed": 15,
+    "acceptance_total": 15,
+    "regression_passed": 1230,
+    "regression_skipped": 9,
+    "compiled_shapes": 4,
+    "protected_unchanged": true,
+    "wheel_sha256": "8fc131388dcff06ad14bb08a5d35d826e4c46f9057530947c5f89e557bd67ede"
+  },
+  "protected_files": 40,
+  "protected_unchanged": true,
+  "production_source_modified": false,
+  "physical_validation": "NOT_STARTED",
+  "independent_reproduction": "NOT_STARTED",
+  "human_usability": "NOT_STARTED",
+  "verifier_unit_tests": 3,
+  "verifier_fault_injection_checks": 3,
+  "limitations": [
+    "Project-authored formula conformance, not independent reproduction",
+    "Only six newly introduced analytical models have the new frozen scalar matrix",
+    "Composite structural outputs retain unit coverage; not all have independent reference coverage",
+    "No FEA/CFD or physical accuracy validation"
+  ],
+  "retained_ci_file_hashes": {
+    "v3-commit.txt": "fed101f54e8e8af6268706a326ade9a6a177137209045ea050d897a7a89ad355",
+    "v3-installed.txt": "0207657cfef8324fe3267b0f7da64e4834124c1b41fb1464001d057bd6608a0a",
+    "v3-wheel-sha256.txt": "64dcc3f43d6ef7e2a5c016ec32c5bbf34fe754f604a2404b4677ac8b1432ffa6",
+    "v3-tests.xml": "d14cb284a583ec0dcf691b5fa11b8b1644d082e83ac9fab0da870e25c8ab89b9",
+    "job.txt": "55df37b872cb31522f3c8c961375238a0424a49471841b0513bd26f168ba51d2",
+    "archive-inventory.json": "eaed878195820f2965ebe9168faec9747ffdda050c729e911f45b08286be473d",
+    "v3-installed/receipt.json": "bf53e1b85c93a3b5d6df0585417c448fa8df195bd1ddeae5584f437442e4100a",
+    "v3-source/receipt.json": "ebbf52cb9626cf44c4850da4478e111f4e18bfe25bf18ebab97aa4605e770714"
+  }
+}

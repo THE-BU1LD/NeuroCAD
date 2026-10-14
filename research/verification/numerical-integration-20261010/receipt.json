@@ -1,0 +1,69 @@
+{
+  "schema": "neurocad.engineering-integration.v1",
+  "date_utc": "2026-10-10",
+  "evidence_scope": "Generated regression fixtures and maintained product tests; no independent confirmatory or physical result",
+  "parents": [
+    "982eafb1665a9c31868cfcfda7c75571885c2cd8",
+    "6b3c27f0b07732b7b61dc83035ec2282d7ac2ff5",
+    "c906105907cdd710b717d04d5d75b95ec3cac54a",
+    "e87726d3c7efe575e697770cbba5a064ec371e35"
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "full_suite": {
+    "command": "python -m pytest -q tests",
+    "exit_code": 1,
+    "passed": 1289,
+    "failed": 2,
+    "skipped": 9,
+    "seconds": 406.5,
+    "failure_classification": "Both failures are PermissionError at creation of AF_UNIX sockets. Retained unchanged; hosted CI must exercise them.",
+    "failed_tests": [
+      "tests/test_terminal_daemon.py::test_daemon_runs_durable_generation_job",
+      "tests/test_terminal_daemon.py::test_shutdown_acknowledgement_is_flushed_before_server_stops"
+    ],
+    "log": "full-suite.log",
+    "source_stable_during_execution": true
+  },
+  "new_regression_baseline": {
+    "failed": 12,
+    "passed": 4,
+    "receipt": "integer-baseline-receipt.json"
+  },
+  "focused_numerical_review": {
+    "passed": 96,
+    "warnings": "error",
+    "executor": "independent implementation agent using the same isolated venv"
+  },
+  "static": {
+    "mypy": "PASS; 3 source files",
+    "ruff": "PASS after test-file formatting correction",
+    "whitespace": "PASS for source and documents; raw stdout logs retain original traceback whitespace.",
+    "initial_ruff_failure_retained": "static-1.log"
+  },
+  "post_full_suite_change": "Formatting only: an extra blank line removed in each of test_mesh_scale_invariance.py and test_scientific_kernel_polynomials.py; both AST identities verified. No executable source changed.",
+  "independent_review": "PASS; incoming function retention checked, integer-admission defect reproduced and repaired, root reviewed final correction.",
+  "sha256": {
+    "core/scientific_kernel.py": "8d4809576597abb157a177d6168e5f56350dcf7fdc41c1f86323fd837d3047e7",
+    "core/engineering_math.py": "c8c6755ee90fdc1a6bd72821ee11e27743d4c2b440c315a0c09123c0ed95a5a6",
+    "core/mesh_geometry.py": "647a302aecf4cc0e08e6a2bfe25251a561be6ad06e44af51f6382e78c54e1e23",
+    "tests/test_linear_integer_admission.py": "38fb0821437d240b7149f153c6048dbcb3221fe9f558e8c0fec921d2534aea5a",
+    "tests/test_linear_system_numerics.py": "208b4de5b46b822a5924050e8797a1d38f1bf5ff4b8106a172756af62c78f900",
+    "tests/test_monte_carlo_covariance.py": "b4ac4bae595c0c3cd939ccdac51f38503b2330e7f4ff65cfb19306ae8a5709da",
+    "tests/test_scientific_kernel_polynomials.py": "7355d98d706ab3a6bb3eeafafe245544f6b8d8223fcf8ddbc868c40038d9ca9a",
+    "tests/test_quadratic_tolerance_numerics.py": "c039f9d4224b90591763e9182b51828107cbc4cedbdfc7b15ca0cce6a1c98e5c",
+    "tests/test_mesh_scale_invariance.py": "b0c3afd0d29f22dda27fc18ab1072faca0298cddee9373347fbd3141b74f0712",
+    "research/protocols/EXTERNAL_EVALUATION_V0.md": "54f76acfc2e169cf9055d2ce878e2a3623c136b2f1c4abef01a20bf0ad6494c8",
+    "research/protocols/FROZEN_CONFIRMATORY_V1.md": "fc4039d7d8e19799de834ec827d0a6d5e5cb8ccd53df146fc57c8dc283b1cf23",
+    "RESEARCH_TRUTH.md": "19a063230667681ff7925acdf3486e41c6ec307617c2aa2c9c1fd920155c2d4b",
+    "pyproject.toml": "011d8a7b1aa31fc679dfe7afb77693322b1bb5ea965623ef8906b27bbe1b2d2b"
+  },
+  "versions": {
+    "numpy": "2.3.5",
+    "pytest": "9.1.1",
+    "ruff": "0.16.5",
+    "mypy": "1.18.2",
+    "jsonschema": "4.26.0",
+    "trimesh": "5.1.1"
+  }
+}

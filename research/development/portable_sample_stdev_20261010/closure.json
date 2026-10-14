@@ -1,0 +1,114 @@
+{
+  "schema": "bounded-corrective-engineering-closure-v1",
+  "session": "portable_sample_stdev_20261010",
+  "closed_utc": "2026-10-10T10:41:36.340635+00:00",
+  "status": "CLOSED_WITH_BUDGET_DEVIATION",
+  "engineering_result": "PORTABLE_NUMERICAL_CORRECTION_VERIFIED_ON_DECLARED_ENGINEERING_CASES",
+  "parent_commit": "a7d3c2e6176f61714bebf523033508a38a9323d5",
+  "contract": "research/development/portable_sample_stdev_20261010/contract.json",
+  "contract_unchanged": true,
+  "predecessor_budget_reopened": false,
+  "baseline": {
+    "receipt": "research/development/portable_sample_stdev_20261010/baseline.json",
+    "failed": 4,
+    "passed": 1,
+    "deselected": 25,
+    "scope": "Documented CPython3.10 variance-then-sqrt sequence replayed on Python3.12, not actual3.10 execution"
+  },
+  "candidate": {
+    "receipt": "research/development/portable_sample_stdev_20261010/candidate.json",
+    "passed": 93,
+    "new_cases": 30,
+    "inherited_cases": 63,
+    "warnings_as_errors": true
+  },
+  "lint": "research/development/portable_sample_stdev_20261010/lint.json",
+  "static_verification": "research/development/portable_sample_stdev_20261010/static_verification.json",
+  "independent_review": {
+    "status": "PASS",
+    "reviewer": "independent collaborating agent /root/atg_ngmt_olympus",
+    "scope": "Source-only mathematical/code/test/document review, not independent human peer review or interpreter execution",
+    "source_sha256": "cd56fb946a355926a953e68cc7b236dd3df6a3cc97b28fc502f2086250448c5d",
+    "test_sha256": "29bbea3fd19c9b111d3abd8a723035c66f341424694b1757213497b75234aacb",
+    "finding": "Exact nonnegative integer variance, floor-log exponent correction, fixed subnormal grid, integer square root, midpoint/parity rounding and ldexp overflow boundary are consistent; no blocker. Other public numerical components are preserved. Actual Python3.10/platform CI remains outstanding.",
+    "execution_commands": 0
+  },
+  "budget": {
+    "test_commands": 2,
+    "test_wall_seconds": 3.553595003002556,
+    "maximum_test_commands": 3,
+    "maximum_test_wall_seconds": 90,
+    "new_cases": 30,
+    "maximum_new_cases": 32,
+    "maximum_samples_per_new_case": 4,
+    "declared_unqualified_sample_cap_per_case": 32,
+    "maximum_samples_argument_in_inherited_case": 20000,
+    "samples_in_largest_inherited_case": 40000,
+    "sample_cap_satisfied": false,
+    "command_time_and_new_case_caps_satisfied": true,
+    "lint_commands": 1,
+    "lint_wall_seconds": 0.1678114770038519,
+    "new_demonstration_commands": 0,
+    "review_repair_cycles": 0,
+    "training_runs": 0,
+    "protected_outcomes": 0,
+    "paid_workloads": 0,
+    "scientific_runs": 0
+  },
+  "deviations": [
+    {
+      "classification": "ENGINEERING_BUDGET_DEVIATION",
+      "detected_during": "closure audit after the final selected gate",
+      "cause": "The prospective contract selected the complete inherited63-case cohort but also specified an unqualified32-sample ceiling. One unchanged inherited seeded regression makes two20000-sample calls.",
+      "affected_test": "tests/test_scientific_kernel.py::test_monte_carlo_is_seeded_and_matches_linear_reference",
+      "actual_samples_per_call": 20000,
+      "calls": 2,
+      "total_samples": 40000,
+      "contract_rewritten": false,
+      "numerical_evidence_valid": true,
+      "scientific_or_protected_outcomes": false,
+      "corrective_disposition": "Preserve the contract, actual command and passing evidence; close with deviation. No rerun or post-hoc redefinition of the cap. Future contracts must enumerate inherited workload exceptions prospectively."
+    }
+  ],
+  "artifact_sha256": {
+    "research/development/portable_sample_stdev_20261010/parent_scientific_kernel.py.txt": "6384bb15fa73ea22f6d7aff9ed70872d0e81456308e069dd3802fbb649b3c1d6",
+    "research/development/portable_sample_stdev_20261010/parent_state.json": "6f20a80d819608b020359ac7b0f126d6a7c42e033e7956d0b601600bca49179f",
+    "research/development/portable_sample_stdev_20261010/static_verification.json": "78bd1c1276ac0a07db836fb6e52ae747277497b6d7b6aa117e5e9bbf501b7f6d",
+    "research/development/portable_sample_stdev_20261010/candidate.json": "93cb6f87fce416aecc188b842e9f935d903b86e052295598831b9395b38b7d22",
+    "research/development/portable_sample_stdev_20261010/lint.stdout.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "research/development/portable_sample_stdev_20261010/candidate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "research/development/portable_sample_stdev_20261010/candidate.stdout.log": "b41efecbd608a0bd34cbb69c801e7537d75647aa7a17c5ac11dacfa01e31161e",
+    "research/development/portable_sample_stdev_20261010/upstream_reference.json": "8f115ef5fda3f8579832b8738481d8208884ff870f227cc1c218626b0ae9dfa1",
+    "research/development/portable_sample_stdev_20261010/baseline.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "research/development/portable_sample_stdev_20261010/lint.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "research/development/portable_sample_stdev_20261010/baseline.json": "22469eac34ba2c018f922a327110e9e28433c6fef38b0cb19acfc300524cd408",
+    "research/development/portable_sample_stdev_20261010/baseline.stdout.log": "801beed9951ea80a8d4f38e0ac646244b6a8530740285e59878792a0784cbdab",
+    "research/development/portable_sample_stdev_20261010/contract.json": "32dc44388c54ecbf30252776db43a84d5f36a92f572e95e64f562061d34f123c",
+    "research/development/portable_sample_stdev_20261010/lint.json": "d857fbd28585fedb0d4893436d2a48ceaa37f9371b238f4b2cc9b509f87a5f33",
+    "core/scientific_kernel.py": "cd56fb946a355926a953e68cc7b236dd3df6a3cc97b28fc502f2086250448c5d",
+    "tests/test_portable_sample_stdev.py": "29bbea3fd19c9b111d3abd8a723035c66f341424694b1757213497b75234aacb",
+    "research/PORTABLE_SAMPLE_STDEV_20261010.md": "34468dc532401476fb1cd38523afea67acfe951a0ee21954fa854eadfdcc5620"
+  },
+  "claims": [
+    {
+      "claim": "Compute Bessel-corrected sample SD without floating variance, with binary64 nearest/tie-even rounding on the tested domain.",
+      "experiment": "research/development/portable_sample_stdev_20261010/candidate.json",
+      "raw_artifacts": [
+        "research/development/portable_sample_stdev_20261010/candidate.stdout.log",
+        "research/development/portable_sample_stdev_20261010/candidate.stderr.log"
+      ],
+      "analysis": "Exact midpoint assertions, independent centered Fraction/Decimal oracles and source-level rounding proof",
+      "figure_or_table": "No scientific figure or performance table created"
+    }
+  ],
+  "historical_evidence_preserved": true,
+  "original_generated_demo": "Retained at original source6384bb15fa73ea22f6d7aff9ed70872d0e81456308e069dd3802fbb649b3c1d6; not rerun or rebound to new source",
+  "scientific_checkpoint_advanced": false,
+  "protected_boundary_unchanged": true,
+  "limitations": [
+    "Actual Python3.10 interpreter and supported-platform CI were not executed.",
+    "The contract sample ceiling was exceeded by one explicitly included inherited regression; see deviation.",
+    "Arithmetic correctness does not establish coverage calibration, empirical validity, safety or research completion."
+  ],
+  "new_session_required_before_further_execution": true
+}

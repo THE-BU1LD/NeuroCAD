@@ -16,6 +16,48 @@ def test_atomic_text_preserves_utf8_lf_bytes(tmp_path: Path) -> None:
     assert path.read_bytes() == text.encode("utf-8")
 
 
+def test_atomic_text_new_publication_preserves_bytes_and_default_replacement(tmp_path: Path) -> None:
+    path = tmp_path / "artifact.txt"
+    write_text_atomic(path, "first π\n", overwrite=False)
+    assert path.read_bytes() == "first π\n".encode()
+    write_text_atomic(path, "replacement π\n")
+    assert path.read_bytes() == "replacement π\n".encode()
+    with pytest.raises(FileExistsError, match="refusing to overwrite"):
+        write_text_atomic(path, "must not replace\n", overwrite=False)
+    assert path.read_bytes() == "replacement π\n".encode()
+    assert list(tmp_path.iterdir()) == [path]
+
+
+def test_atomic_text_new_publication_preserves_concurrent_destination(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import os
+
+    path = tmp_path / "artifact.txt"
+    native_link = os.link
+
+    def concurrent_writer(source, destination):
+        # The staged artifact is already complete, but another writer wins
+        # publication before this operation can claim the destination name.
+        assert Path(source).read_bytes() == "staged π\n".encode()
+        Path(destination).write_bytes(b"concurrent artifact\n")
+        return native_link(source, destination)
+
+    monkeypatch.setattr("core.artifacts.os.link", concurrent_writer)
+    with pytest.raises(FileExistsError, match="refusing to overwrite"):
+        write_text_atomic(path, "staged π\n", overwrite=False)
+    assert path.read_bytes() == b"concurrent artifact\n"
+    assert list(tmp_path.iterdir()) == [path]
+
+
+def test_atomic_text_new_publication_cleans_up_when_links_are_unavailable(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    def unsupported_link(*args, **kwargs):
+        raise OSError("hard-link publication unavailable")
+
+    monkeypatch.setattr("core.artifacts.os.link", unsupported_link)
+    with pytest.raises(OSError, match="publication unavailable"):
+        write_text_atomic(tmp_path / "artifact.txt", "complete artifact\n", overwrite=False)
+    assert not list(tmp_path.iterdir())
+
+
 def test_atomic_json_publishes_exact_canonical_bytes(tmp_path: Path) -> None:
     path = tmp_path / "artifact.json"
     for overwrite in (False, True):

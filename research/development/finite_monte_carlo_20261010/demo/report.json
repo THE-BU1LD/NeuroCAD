@@ -1,0 +1,140 @@
+{
+  "scope": "generated arithmetic demonstration only",
+  "samples": [
+    {
+      "input": [
+        1.512174914346092,
+        -1.9699009891897679
+      ],
+      "output": -2.4276270640334436
+    },
+    {
+      "input": [
+        1.6346191485870396,
+        -2.309227646878053
+      ],
+      "output": -2.9838361451690663
+    },
+    {
+      "input": [
+        2.434688815555209,
+        -1.1897842552229427
+      ],
+      "output": 0.05512030510932364
+    },
+    {
+      "input": [
+        1.920739748599932,
+        -5.660501826997411
+      ],
+      "output": -9.40026390539489
+    },
+    {
+      "input": [
+        2.4405681979039078,
+        -3.9897301521351167
+      ],
+      "output": -5.538892106366326
+    },
+    {
+      "input": [
+        1.7406203594673249,
+        -2.112541675296508
+      ],
+      "output": -2.4844629911256906
+    },
+    {
+      "input": [
+        2.245027929887749,
+        -2.011928411014924
+      ],
+      "output": -1.7788288921420992
+    },
+    {
+      "input": [
+        2.4984757736454277,
+        -1.938721184022738
+      ],
+      "output": -1.3789665944000484
+    }
+  ],
+  "cases": [
+    {
+      "case": "large_constant",
+      "raw_outputs": [
+        1e+308,
+        1e+308,
+        1e+308,
+        1e+308,
+        1e+308,
+        1e+308,
+        1e+308,
+        1e+308
+      ],
+      "report": {
+        "schema_version": "neurocad-monte-carlo-v1",
+        "samples": 8,
+        "seed": 41,
+        "mean": 1e+308,
+        "standard_deviation": 0.0,
+        "standard_error": 0.0,
+        "quantiles": {
+          "0.005": 1e+308,
+          "0.025": 1e+308,
+          "0.5": 1e+308,
+          "0.975": 1e+308,
+          "0.995": 1e+308
+        },
+        "claim_boundary": "sampling estimate under the declared distribution; not empirical validation or a safety guarantee"
+      }
+    },
+    {
+      "case": "opposite_finite",
+      "raw_outputs": [
+        -1e+308,
+        1e+308
+      ],
+      "report": {
+        "schema_version": "neurocad-monte-carlo-v1",
+        "samples": 2,
+        "seed": 41,
+        "mean": 0.0,
+        "standard_deviation": 1.4142135623730951e+308,
+        "standard_error": 1e+308,
+        "quantiles": {
+          "0.005": -9.9e+307,
+          "0.025": -9.5e+307,
+          "0.5": 0.0,
+          "0.975": 9.5e+307,
+          "0.995": 9.9e+307
+        },
+        "claim_boundary": "sampling estimate under the declared distribution; not empirical validation or a safety guarantee"
+      }
+    },
+    {
+      "case": "seeded_linear",
+      "report": {
+        "schema_version": "neurocad-monte-carlo-v1",
+        "samples": 8,
+        "seed": 79,
+        "mean": -3.24221967419028,
+        "standard_deviation": 2.951667977188717,
+        "standard_error": 1.0435722212406606,
+        "quantiles": {
+          "0.005": -9.265115892428891,
+          "0.025": -8.724523840564892,
+          "0.5": -2.456045027579567,
+          "0.975": -0.1958449023048167,
+          "0.995": 0.0049272636264955745
+        },
+        "claim_boundary": "sampling estimate under the declared distribution; not empirical validation or a safety guarantee"
+      }
+    }
+  ],
+  "status": "COMPLETED",
+  "source_sha256": {
+    "core/scientific_kernel.py": "6384bb15fa73ea22f6d7aff9ed70872d0e81456308e069dd3802fbb649b3c1d6",
+    "scripts/demo_finite_monte_carlo.py": "0a97260704565fe4133bb72eb5af7efd280499cbac122a7547021bf801371d68"
+  },
+  "wall_seconds": 0.015409792991704307
+}

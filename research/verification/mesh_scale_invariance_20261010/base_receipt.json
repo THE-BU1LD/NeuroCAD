@@ -1,0 +1,26 @@
+{
+  "evidence_class": "EXPECTED_ORIGINAL_CODE_REGRESSION_FAILURES",
+  "source_base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "source_path": "core/mesh_geometry.py",
+  "base_source_sha256": "e5daa9e0fda23aba675f559e49e037abaf0631328be2e44edc8778d06a095ae3",
+  "test_path": "tests/test_mesh_scale_invariance.py",
+  "test_sha256": "6ffe2f6fc24ca26a7740f2816d723b5eff8fff458652fcecdd5a721b428a0667",
+  "method": "Import the original target module obtained by git show under its actual package name; run the new artificial regression file against it. Other package source remains at the same base revision.",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-c",
+    "import importlib.util,sys,pytest; spec=importlib.util.spec_from_file_location(sys.argv[1],sys.argv[2]); module=importlib.util.module_from_spec(spec); sys.modules[sys.argv[1]]=module; spec.loader.exec_module(module); raise SystemExit(pytest.main([\"-o\",\"addopts=\",\"-q\",sys.argv[3],\"--tb=short\"]))",
+    "core.mesh_geometry",
+    "/workspace/scratch/2a0c1e6ddd92/mesh_scale_invariance_base_source.py",
+    "tests/test_mesh_scale_invariance.py"
+  ],
+  "exit_code": 1,
+  "counts": {
+    "failed": 14,
+    "passed": 9
+  },
+  "wall_seconds": 1.1364345680049155,
+  "raw_output": "base_regressions.log",
+  "raw_output_sha256": "fd4fce2ccdb17b5534ac01baad46eab68d949d579ccf4acc1ce7efeb68b611b3",
+  "scope": "Deliberately failing engineering regressions; not a scientific outcome or reopened frozen study."
+}

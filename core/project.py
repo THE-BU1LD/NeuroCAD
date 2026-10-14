@@ -459,8 +459,8 @@ def parse_project(text: str) -> EnclosureProject:
     )
 
 
-def write_project(path: Path, project: EnclosureProject) -> Path:
-    return write_text_atomic(path, serialize_project(project), overwrite=False)
+def write_project(path: Path, project: EnclosureProject, *, overwrite: bool = False) -> Path:
+    return write_text_atomic(path, serialize_project(project), overwrite=overwrite)
 
 
 def read_project(path: Path) -> EnclosureProject:

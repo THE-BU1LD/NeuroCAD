@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "study_id": null,
+  "kind": "usability",
+  "capability": null,
+  "applicability_envelope": null,
+  "exclusions": null,
+  "release_sha256": null,
+  "source_commit": null,
+  "operator_id": null,
+  "reference_provenance": null,
+  "stop_rule": "Retain every attempted case. No post-outcome changes to cases, inputs, references or tolerances.",
+  "outcomes_observed": false,
+  "frozen_artifacts": [],
+  "cases": [
+    {
+      "id": "replace-with-predeclared-case-id",
+      "procedure": null,
+      "required_artifacts": [
+        "session_records",
+        "consent_receipt",
+        "task_outputs",
+        "issues"
+      ]
+    }
+  ],
+  "implementer_ids": [],
+  "minimum_participants": 5,
+  "recruitment_criteria": null,
+  "consent_and_privacy": null
+}

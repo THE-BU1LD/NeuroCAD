@@ -116,7 +116,20 @@ jobs:
         run: |
           python -m pip check
           python -m pip_audit --requirement requirements-research.lock --no-deps --disable-pip --progress-spinner off
-          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -x '*/__pycache__/*'
+          # Keep all files/rules scanned. Adjudicate only exact hash-bound
+          # intentional subprocess/reference-RNG uses in immutable study tools.
+          python -m bandit -q -r core research/vericodegen scripts neurocad_cli.py text_to_cad.py text_to_openscad.py surfaces.py vector_fields_engine.py pipeline_stage.py exceptions.py thinking_engine.py -f json -o "$RUNNER_TEMP/bandit.json" -x '*/__pycache__/*' || test "$?" -eq 1
+          python scripts/review_security_findings.py "$RUNNER_TEMP/bandit.json" "$RUNNER_TEMP/bandit-reviewed.json"
+
+      - name: Retain full security findings and source-bound review
+        if: always() && startsWith(matrix.python-version, '3.12.')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: source-security-review
+          path: |
+            ${{ runner.temp }}/bandit.json
+            ${{ runner.temp }}/bandit-reviewed.json
+          retention-days: 30
 
       - name: CLI smoke test
         shell: bash

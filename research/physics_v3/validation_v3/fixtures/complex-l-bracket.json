@@ -1,0 +1,19 @@
+{
+  "schema_version": "neurocad-complex-shape-request-v1",
+  "shape": "l_bracket",
+  "parameters": {
+    "width_mm": 50,
+    "height_mm": 80,
+    "thickness_mm": 5,
+    "length_mm": 300
+  },
+  "analysis": {
+    "source": "Illustrative declared values only; replace with the exact material record and design load source.",
+    "density_kg_m3": 2700,
+    "elastic_modulus_mpa": 70000,
+    "yield_strength_mpa": 200,
+    "safety_factor": 1.5,
+    "tip_force_x_n": 100,
+    "tip_force_y_n": 200
+  }
+}

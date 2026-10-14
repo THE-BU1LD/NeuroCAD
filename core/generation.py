@@ -19,6 +19,7 @@ from typing import Any
 from text_to_cad import TextToCAD
 
 from .artifacts import compile_scad_verified, preview_renderer_backend, render_scad_png, write_text_atomic
+from .gmsh_integrity import publish_directory_noreplace
 from .ir import program_bounds, program_bounds_are_exact
 from .ir_export import program_to_scad
 from .ir_parser import serialize_ir_json
@@ -161,7 +162,10 @@ def generate_artifacts(request: GenerationRequest) -> dict[str, Any]:
     """Generate a complete directory or publish nothing at the destination."""
 
     request.validate()
-    output_dir = Path(request.output_dir).expanduser().resolve()
+    requested_output = Path(request.output_dir).expanduser()
+    # Resolve trusted ancestors, but never follow the output leaf into another
+    # writer's target. The final no-replace operation closes publication races.
+    output_dir = requested_output.parent.resolve() / requested_output.name
     if output_dir.exists() or output_dir.is_symlink():
         raise FileExistsError(f"output directory already exists: {output_dir}")
     output_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -254,7 +258,7 @@ def generate_artifacts(request: GenerationRequest) -> dict[str, Any]:
         }
         manifest_path = staging / "manifest.json"
         write_text_atomic(manifest_path, json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-        os.replace(staging, output_dir)
+        publish_directory_noreplace(staging, output_dir)
         return {"status": "complete", "output_dir": str(output_dir), "manifest": str(output_dir / "manifest.json"), **manifest}
     except BaseException:
         shutil.rmtree(staging, ignore_errors=True)

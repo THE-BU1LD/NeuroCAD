@@ -1,0 +1,1950 @@
+{
+  "status": "FAIL",
+  "mode": "INSTALLED",
+  "started_at_unix": 1791972609.628888,
+  "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "cases": [
+    {
+      "id": "beam-tip",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.03154285714285714,
+        "fixed_end_shear_n": 23,
+        "maximum_bending_stress_mpa": 4.6
+      },
+      "report": {
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "b4553d81b0e6a3328510bf995e3ca3f531e4a0f4f4a4503f8b2f31e3f759b6c7",
+        "inputs": {
+          "elastic_modulus_mpa": 70000,
+          "length_mm": 120,
+          "second_moment_mm4": 6000,
+          "section_modulus_mm3": 600,
+          "tip_force_n": 23,
+          "uniform_load_n_per_mm": 0
+        },
+        "model": "euler_bernoulli_cantilever_v1",
+        "request_sha256": "a1dd672aac18e746346aa405f8a3ae288e3577ba9286e9e7a4c4baf99f833f4a",
+        "requested_model": "cantilever_beam",
+        "results": {
+          "constraint_satisfied": null,
+          "fixed_end_moment_n_mm": 2760.0,
+          "fixed_end_shear_n": 23.0,
+          "maximum_bending_stress_mpa": 4.6,
+          "tip_deflection_mm": 0.03154285714285714,
+          "tip_slope_radians": 0.00039428571428571426,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-distributed",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.0432,
+        "fixed_end_shear_n": 84.0,
+        "maximum_bending_stress_mpa": 8.4
+      },
+      "report": {
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "dc8a4c8c268e915a1a0836fa9e5dfdf4b48458e042b9a00e98a1fc5bf431b219",
+        "inputs": {
+          "elastic_modulus_mpa": 70000,
+          "length_mm": 120,
+          "second_moment_mm4": 6000,
+          "section_modulus_mm3": 600,
+          "tip_force_n": 0,
+          "uniform_load_n_per_mm": 0.7
+        },
+        "model": "euler_bernoulli_cantilever_v1",
+        "request_sha256": "e508c489bdb515cd2a980ebff0d7f7cb48bd5396eed689e8f6a82830096babe8",
+        "requested_model": "cantilever_beam",
+        "results": {
+          "constraint_satisfied": null,
+          "fixed_end_moment_n_mm": 5040.0,
+          "fixed_end_shear_n": 84.0,
+          "maximum_bending_stress_mpa": 8.4,
+          "tip_deflection_mm": 0.0432,
+          "tip_slope_radians": 0.00048,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-combined",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.07474285714285714,
+        "fixed_end_shear_n": 107.0,
+        "maximum_bending_stress_mpa": 13.0
+      },
+      "report": {
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "6fa05dafcc59519a59ebd55fe0f97ed6d34f8a8051ba720533dd3eee8b7a881e",
+        "inputs": {
+          "elastic_modulus_mpa": 70000,
+          "length_mm": 120,
+          "second_moment_mm4": 6000,
+          "section_modulus_mm3": 600,
+          "tip_force_n": 23,
+          "uniform_load_n_per_mm": 0.7
+        },
+        "model": "euler_bernoulli_cantilever_v1",
+        "request_sha256": "b55004f38e026682594fdb8de2173133f49f01fadc45055cb8e58e753a8bc03d",
+        "requested_model": "cantilever_beam",
+        "results": {
+          "constraint_satisfied": null,
+          "fixed_end_moment_n_mm": 7800.0,
+          "fixed_end_shear_n": 107.0,
+          "maximum_bending_stress_mpa": 13.0,
+          "tip_deflection_mm": 0.07474285714285714,
+          "tip_slope_radians": 0.0008742857142857143,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-zero",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {
+        "tip_deflection_mm": 0.0,
+        "fixed_end_shear_n": 0,
+        "maximum_bending_stress_mpa": 0.0
+      },
+      "report": {
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "7115ee3993266a06f5387e7697c5e80a4203f7198ee9607b8fe81d09f28ba8d6",
+        "inputs": {
+          "elastic_modulus_mpa": 70000,
+          "length_mm": 120,
+          "second_moment_mm4": 6000,
+          "section_modulus_mm3": 600,
+          "tip_force_n": 0,
+          "uniform_load_n_per_mm": 0
+        },
+        "model": "euler_bernoulli_cantilever_v1",
+        "request_sha256": "a17c588763b520229975404162275a560f21342032ff9ba5cc5470691e16cd58",
+        "requested_model": "cantilever_beam",
+        "results": {
+          "constraint_satisfied": null,
+          "fixed_end_moment_n_mm": 0.0,
+          "fixed_end_shear_n": 0.0,
+          "maximum_bending_stress_mpa": 0.0,
+          "tip_deflection_mm": 0.0,
+          "tip_slope_radians": 0.0,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "beam-opposed",
+      "model": "cantilever_beam",
+      "status": "FAIL",
+      "expected": {
+        "tip_deflection_mm": -0.0144,
+        "fixed_end_shear_n": 42.0,
+        "maximum_bending_stress_mpa": 2.1
+      },
+      "report": {
+        "assumptions": [
+          "straight prismatic cantilever with an ideal fixed root",
+          "linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation",
+          "loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "1e55e7c6607624a44774f09bb19e633d659212a6734de5eb9eb659c2d1e73c0e",
+        "inputs": {
+          "elastic_modulus_mpa": 70000,
+          "length_mm": 120,
+          "second_moment_mm4": 6000,
+          "section_modulus_mm3": 600,
+          "tip_force_n": -42,
+          "uniform_load_n_per_mm": 0.7
+        },
+        "model": "euler_bernoulli_cantilever_v1",
+        "request_sha256": "f910b97243b9ab3cf1d1af13e550d2927135ce6c791c6738e1671e174919816d",
+        "requested_model": "cantilever_beam",
+        "results": {
+          "constraint_satisfied": null,
+          "fixed_end_moment_n_mm": 0.0,
+          "fixed_end_shear_n": 42.0,
+          "maximum_bending_stress_mpa": 0.0,
+          "tip_deflection_mm": -0.014399999999999996,
+          "tip_slope_radians": -0.00024000000000000003,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": [
+        {
+          "field": "maximum_bending_stress_mpa",
+          "error": "actual=0.0, reference=2.1, absolute_error=2.1"
+        }
+      ],
+      "error": "Reference mismatch"
+    },
+    {
+      "id": "beam-invalid",
+      "model": "cantilever_beam",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: length_mm must be positive\n"
+    },
+    {
+      "id": "stress-zero",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          0,
+          0,
+          0
+        ],
+        "von_mises_stress_mpa": 0.0
+      },
+      "report": {
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "0d4e742b75b9d62a3c1d216917eb69b27f82d743173802c9bdadc10c7874757f",
+        "inputs": {
+          "normal_x_mpa": 0,
+          "normal_y_mpa": 0,
+          "normal_z_mpa": 0,
+          "shear_xy_mpa": 0
+        },
+        "model": "combined_stress_3d_v1",
+        "request_sha256": "1d589a0fe032ee7342e2d5acce23ad9a5d52c9c672afb0dec7641e02a46521a3",
+        "requested_model": "combined_stress",
+        "results": {
+          "constraint_satisfied": null,
+          "hydrostatic_stress_mpa": 0.0,
+          "maximum_principal_stress_mpa": 0.0,
+          "maximum_shear_stress_mpa": 0.0,
+          "minimum_principal_stress_mpa": 0.0,
+          "principal_stresses_mpa": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "von_mises_stress_mpa": 0.0,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-hydrostatic",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          -37,
+          -37,
+          -37
+        ],
+        "von_mises_stress_mpa": 0.0
+      },
+      "report": {
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "4da0885103c74c887fd7be9ba7b716df5473443e73cd1c22c1137222e1bec3a4",
+        "inputs": {
+          "normal_x_mpa": -37,
+          "normal_y_mpa": -37,
+          "normal_z_mpa": -37,
+          "shear_xy_mpa": 0
+        },
+        "model": "combined_stress_3d_v1",
+        "request_sha256": "2da26552358ecd654ee3695ba6da40587261282670f376e3a20e3502a2a8661f",
+        "requested_model": "combined_stress",
+        "results": {
+          "constraint_satisfied": null,
+          "hydrostatic_stress_mpa": -37.0,
+          "maximum_principal_stress_mpa": -37.0,
+          "maximum_shear_stress_mpa": 0.0,
+          "minimum_principal_stress_mpa": -37.0,
+          "principal_stresses_mpa": [
+            -37.0,
+            -37.0,
+            -37.0
+          ],
+          "von_mises_stress_mpa": 0.0,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-shear",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          24,
+          0,
+          -24
+        ],
+        "von_mises_stress_mpa": 41.569219381653056
+      },
+      "report": {
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "e354b0351a91c25783529172b68612e2f49a81ead103ede29bd8f0735007c2b7",
+        "inputs": {
+          "normal_x_mpa": 0,
+          "normal_y_mpa": 0,
+          "normal_z_mpa": 0,
+          "shear_xy_mpa": 24
+        },
+        "model": "combined_stress_3d_v1",
+        "request_sha256": "b8c4f959f9d819707dfd44e5be4119064cbbe3fce9b3d078411deceddae64a6a",
+        "requested_model": "combined_stress",
+        "results": {
+          "constraint_satisfied": null,
+          "hydrostatic_stress_mpa": 0.0,
+          "maximum_principal_stress_mpa": 24.0,
+          "maximum_shear_stress_mpa": 23.999999999999996,
+          "minimum_principal_stress_mpa": -23.999999999999993,
+          "principal_stresses_mpa": [
+            24.0,
+            -5.090761145879553e-15,
+            -23.999999999999993
+          ],
+          "von_mises_stress_mpa": 41.569219381653056,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-rotated",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {
+        "principal_stresses_mpa": [
+          80,
+          20,
+          10
+        ],
+        "von_mises_stress_mpa": 65.57438524302
+      },
+      "report": {
+        "assumptions": [
+          "the supplied values form a symmetric Cauchy stress tensor at one material point",
+          "von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength",
+          "no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "4a1bbeaab01a152750f39f856dd3c7d2cc352b3fa86abe8d1109ce4229001fb4",
+        "inputs": {
+          "normal_x_mpa": 50,
+          "normal_y_mpa": 50,
+          "normal_z_mpa": 10,
+          "shear_xy_mpa": 30
+        },
+        "model": "combined_stress_3d_v1",
+        "request_sha256": "bbc7346785f671f5332138ab1b527b656564958fa56a2fec3eccfefbd58614cf",
+        "requested_model": "combined_stress",
+        "results": {
+          "constraint_satisfied": null,
+          "hydrostatic_stress_mpa": 36.666666666666664,
+          "maximum_principal_stress_mpa": 80.0,
+          "maximum_shear_stress_mpa": 35.0,
+          "minimum_principal_stress_mpa": 10.000000000000004,
+          "principal_stresses_mpa": [
+            80.0,
+            19.999999999999982,
+            10.000000000000004
+          ],
+          "von_mises_stress_mpa": 65.57438524302,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "stress-invalid",
+      "model": "combined_stress",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: normal_x_mpa must be a finite number\n"
+    },
+    {
+      "id": "thermal-series",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {
+        "node_temperatures_k.middle": 320,
+        "network_energy_balance_residual_w": 0
+      },
+      "report": {
+        "assumptions": [
+          "steady linear network with constant symmetric pairwise conductances",
+          "heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required",
+          "radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "926b23822debbcf1418502468a1aa5bad15214212d00154d3fac0e2baa0059ee",
+        "inputs": {
+          "conductance_w_per_k": [
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              2,
+              0,
+              4
+            ],
+            [
+              0,
+              4,
+              0
+            ]
+          ],
+          "fixed_temperature_k": {
+            "0": 300,
+            "2": 330
+          },
+          "heat_input_w": [
+            0,
+            0,
+            0
+          ],
+          "node_labels": [
+            "cold",
+            "middle",
+            "hot"
+          ]
+        },
+        "model": "steady_linear_thermal_network_v1",
+        "request_sha256": "81884956de6a3b7edf7acda9f1fc7c893942f56af25e7e50f2a10345e4f6c42e",
+        "requested_model": "thermal_network",
+        "results": {
+          "edge_heat_flows_w": [
+            {
+              "from_node": "cold",
+              "heat_flow_w": -40.0,
+              "to_node": "middle"
+            },
+            {
+              "from_node": "middle",
+              "heat_flow_w": -40.0,
+              "to_node": "hot"
+            }
+          ],
+          "fixed_node_external_heat_w": {
+            "cold": -40.0,
+            "hot": 40.0
+          },
+          "maximum_free_node_balance_residual_w": 0.0,
+          "network_energy_balance_residual_w": 0.0,
+          "node_temperatures_k": {
+            "cold": 300.0,
+            "hot": 330.0,
+            "middle": 320.0
+          }
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "thermal-equilibrium",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {
+        "node_temperatures_k.middle": 300
+      },
+      "report": {
+        "assumptions": [
+          "steady linear network with constant symmetric pairwise conductances",
+          "heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required",
+          "radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "e2b77c598bf0b282cd9978b6f9a3362a8699c4d524263bdccaa7f492dc331a5d",
+        "inputs": {
+          "conductance_w_per_k": [
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              2,
+              0,
+              4
+            ],
+            [
+              0,
+              4,
+              0
+            ]
+          ],
+          "fixed_temperature_k": {
+            "0": 300,
+            "2": 300
+          },
+          "heat_input_w": [
+            0,
+            0,
+            0
+          ],
+          "node_labels": [
+            "cold",
+            "middle",
+            "hot"
+          ]
+        },
+        "model": "steady_linear_thermal_network_v1",
+        "request_sha256": "fc5d03b1e0e848076a1396ede2103f72132961887478fbd1e93fa23262adf43f",
+        "requested_model": "thermal_network",
+        "results": {
+          "edge_heat_flows_w": [
+            {
+              "from_node": "cold",
+              "heat_flow_w": 0.0,
+              "to_node": "middle"
+            },
+            {
+              "from_node": "middle",
+              "heat_flow_w": 0.0,
+              "to_node": "hot"
+            }
+          ],
+          "fixed_node_external_heat_w": {
+            "cold": 0.0,
+            "hot": 0.0
+          },
+          "maximum_free_node_balance_residual_w": 0.0,
+          "network_energy_balance_residual_w": 0.0,
+          "node_temperatures_k": {
+            "cold": 300.0,
+            "hot": 300.0,
+            "middle": 300.0
+          }
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "thermal-source",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {
+        "node_temperatures_k.middle": 322,
+        "network_energy_balance_residual_w": 0
+      },
+      "report": {
+        "assumptions": [
+          "steady linear network with constant symmetric pairwise conductances",
+          "heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required",
+          "radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "5c993c12641abc0b877544169a948dc8a430d681972b7b700554ce5017139725",
+        "inputs": {
+          "conductance_w_per_k": [
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              2,
+              0,
+              4
+            ],
+            [
+              0,
+              4,
+              0
+            ]
+          ],
+          "fixed_temperature_k": {
+            "0": 300,
+            "2": 330
+          },
+          "heat_input_w": [
+            0,
+            12,
+            0
+          ],
+          "node_labels": [
+            "cold",
+            "middle",
+            "hot"
+          ]
+        },
+        "model": "steady_linear_thermal_network_v1",
+        "request_sha256": "4e28169683e8d61768d3ae534958c0661e0c53426aa3a358436ddaf9a76f0d81",
+        "requested_model": "thermal_network",
+        "results": {
+          "edge_heat_flows_w": [
+            {
+              "from_node": "cold",
+              "heat_flow_w": -44.0,
+              "to_node": "middle"
+            },
+            {
+              "from_node": "middle",
+              "heat_flow_w": -32.0,
+              "to_node": "hot"
+            }
+          ],
+          "fixed_node_external_heat_w": {
+            "cold": -44.0,
+            "hot": 32.0
+          },
+          "maximum_free_node_balance_residual_w": 0.0,
+          "network_energy_balance_residual_w": 0.0,
+          "node_temperatures_k": {
+            "cold": 300.0,
+            "hot": 330.0,
+            "middle": 322.0
+          }
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "thermal-singular",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: thermal network is singular; every free node must be conductively connected to a fixed-temperature node\n"
+    },
+    {
+      "id": "thermal-asymmetric",
+      "model": "thermal_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: conductance_w_per_k must be symmetric\n"
+    },
+    {
+      "id": "vibration-force",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {
+        "displacement_amplitude_mm": 24.26696662729416
+      },
+      "report": {
+        "assumptions": [
+          "linear time-invariant single-degree-of-freedom mass, spring, and viscous damper",
+          "steady sinusoidal response after transients have decayed",
+          "no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "d3f7fa5547e36431c273765773cfbe2cc7fc54e33a04d051d8f9854b5cf74a15",
+        "inputs": {
+          "damping_n_s_m": 8,
+          "excitation_frequency_hz": 2,
+          "force_amplitude_n": 12,
+          "mass_kg": 2,
+          "stiffness_n_m": 800
+        },
+        "model": "forced_vibration_sdof_v1",
+        "request_sha256": "b088578dc57d267e65f0ed15522c2b16a78f4455a2df7ad7f4723e93cbf30a30",
+        "requested_model": "forced_vibration",
+        "results": {
+          "damping_ratio": 0.1,
+          "displacement_amplitude_mm": 24.266966627294153,
+          "dynamic_magnification_factor": 1.6177977751529435,
+          "excitation_type": "harmonic_force",
+          "frequency_ratio": 0.6283185307179586,
+          "natural_frequency_hz": 3.183098861837907,
+          "relative_frequency_margin": 0.37168146928204143,
+          "response_phase_lag_radians": 0.2047255655877729,
+          "within_resonance_warning_band": false
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "vibration-near-static",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {
+        "displacement_amplitude_mm": 15.000000014508318
+      },
+      "report": {
+        "assumptions": [
+          "linear time-invariant single-degree-of-freedom mass, spring, and viscous damper",
+          "steady sinusoidal response after transients have decayed",
+          "no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "5ad94f9ac382d89680c5fa5ae039c8a472b89fb65a1e5ed9f346dfa303771435",
+        "inputs": {
+          "damping_n_s_m": 8,
+          "excitation_frequency_hz": 0.0001,
+          "force_amplitude_n": 12,
+          "mass_kg": 2,
+          "stiffness_n_m": 800
+        },
+        "model": "forced_vibration_sdof_v1",
+        "request_sha256": "4c83f908505956fd0d618100d483597a0f96cb18e6a8a285a4f5ba134df0c4f8",
+        "requested_model": "forced_vibration",
+        "results": {
+          "damping_ratio": 0.1,
+          "displacement_amplitude_mm": 15.00000001450832,
+          "dynamic_magnification_factor": 1.0000000009672214,
+          "excitation_type": "harmonic_force",
+          "frequency_ratio": 3.141592653589793e-05,
+          "natural_frequency_hz": 3.183098861837907,
+          "relative_frequency_margin": 0.999968584073464,
+          "response_phase_lag_radians": 6.283185313298159e-06,
+          "within_resonance_warning_band": false
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "vibration-base",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {
+        "absolute_displacement_amplitude_mm": 4.891564081312204,
+        "relative_displacement_amplitude_mm": 1.9160428850066475
+      },
+      "report": {
+        "assumptions": [
+          "linear time-invariant single-degree-of-freedom mass, spring, and viscous damper",
+          "steady sinusoidal response after transients have decayed",
+          "no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "3c13810a3ff6920824f81151abdbf4b68700cd09ac63322fba1c7faa80bb4d05",
+        "inputs": {
+          "base_displacement_amplitude_mm": 3,
+          "damping_n_s_m": 8,
+          "excitation_frequency_hz": 2,
+          "mass_kg": 2,
+          "stiffness_n_m": 800
+        },
+        "model": "forced_vibration_sdof_v1",
+        "request_sha256": "015e7228d58879e402278bdccb9b912122df412b70257a4194d08a92924df1be",
+        "requested_model": "forced_vibration",
+        "results": {
+          "absolute_displacement_amplitude_mm": 4.891564081312202,
+          "damping_ratio": 0.1,
+          "displacement_transmissibility": 1.6305213604374007,
+          "excitation_type": "harmonic_base_displacement",
+          "frequency_ratio": 0.6283185307179586,
+          "natural_frequency_hz": 3.183098861837907,
+          "relative_displacement_amplitude_mm": 1.9160428850066475,
+          "relative_frequency_margin": 0.37168146928204143,
+          "within_resonance_warning_band": false
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "vibration-resonance",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: undamped excitation at the exact natural frequency has no finite steady-state amplitude\n"
+    },
+    {
+      "id": "vibration-invalid",
+      "model": "forced_vibration",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: provide exactly one of force_amplitude_n or base_displacement_amplitude_mm\n"
+    },
+    {
+      "id": "pipe-laminar",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {
+        "total_pressure_loss_pa": 3.259493234522017
+      },
+      "report": {
+        "assumptions": [
+          "steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank",
+          "parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows",
+          "no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "25e9d60c755db2eb2317f38bab75072a356af0a3314ddbc2d3ebbe966043677d",
+        "inputs": {
+          "density_kg_m3": 1000,
+          "dynamic_viscosity_pa_s": 0.001,
+          "series_segments": [
+            {
+              "diameter_mm": 10,
+              "length_mm": 800
+            }
+          ],
+          "total_flow_m3_s": 1e-06
+        },
+        "model": "darcy_weisbach_pipe_network_v1",
+        "request_sha256": "bffe81bb7b9796e3edf9961e4bcd66726624ad7066894c5e1c77fa1ec8942782",
+        "requested_model": "pipe_network",
+        "results": {
+          "hydraulic_power_w": 3.259493234522017e-06,
+          "parallel_bank_pressure_loss_pa": 0.0,
+          "parallel_branches": [],
+          "parallel_flow_balance_residual_m3_s": 0.0,
+          "parallel_pressure_spread_pa": 0.0,
+          "series_pressure_loss_pa": 3.2594932345220173,
+          "series_segments": [
+            {
+              "darcy_friction_factor": 0.5026548245743669,
+              "flow_m3_s": 1e-06,
+              "flow_regime": "laminar",
+              "label": "series_segments[0]",
+              "pressure_loss_pa": 3.2594932345220173,
+              "reynolds_number": 127.32395447351627,
+              "velocity_m_s": 0.012732395447351627
+            }
+          ],
+          "total_pressure_loss_pa": 3.2594932345220173
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "pipe-small-flow",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {
+        "total_pressure_loss_pa": 0.0032594932345220164
+      },
+      "report": {
+        "assumptions": [
+          "steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank",
+          "parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows",
+          "no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "f3c488570f880b6fe0d1c187b2a9dc4f2141296a060c1670521d540da232c67f",
+        "inputs": {
+          "density_kg_m3": 1000,
+          "dynamic_viscosity_pa_s": 0.001,
+          "series_segments": [
+            {
+              "diameter_mm": 10,
+              "length_mm": 800
+            }
+          ],
+          "total_flow_m3_s": 9.999999999999999e-10
+        },
+        "model": "darcy_weisbach_pipe_network_v1",
+        "request_sha256": "ddc73711d46f332453ece295addccae9c609304e5bd0d109b9a0e6dd383a7006",
+        "requested_model": "pipe_network",
+        "results": {
+          "hydraulic_power_w": 3.259493234522016e-12,
+          "parallel_bank_pressure_loss_pa": 0.0,
+          "parallel_branches": [],
+          "parallel_flow_balance_residual_m3_s": 0.0,
+          "parallel_pressure_spread_pa": 0.0,
+          "series_pressure_loss_pa": 0.0032594932345220164,
+          "series_segments": [
+            {
+              "darcy_friction_factor": 502.654824574367,
+              "flow_m3_s": 9.999999999999999e-10,
+              "flow_regime": "laminar",
+              "label": "series_segments[0]",
+              "pressure_loss_pa": 0.0032594932345220164,
+              "reynolds_number": 0.12732395447351624,
+              "velocity_m_s": 1.2732395447351625e-05
+            }
+          ],
+          "total_pressure_loss_pa": 0.0032594932345220164
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "pipe-parallel",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {
+        "total_pressure_loss_pa": 0.04863416814832213,
+        "parallel_flow_balance_residual_m3_s": 0,
+        "parallel_pressure_spread_pa": 0
+      },
+      "report": {
+        "assumptions": [
+          "steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank",
+          "parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows",
+          "no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "84267ec53ef9e761d1d0852a7c67852ef737c461d8a6d51f0b9f1e9fdab4a7e5",
+        "inputs": {
+          "density_kg_m3": 1000,
+          "dynamic_viscosity_pa_s": 0.001,
+          "parallel_branches": [
+            [
+              {
+                "darcy_friction_factor": 0.03,
+                "diameter_mm": 10,
+                "length_mm": 800
+              }
+            ],
+            [
+              {
+                "darcy_friction_factor": 0.03,
+                "diameter_mm": 10,
+                "length_mm": 800
+              }
+            ]
+          ],
+          "series_segments": [],
+          "total_flow_m3_s": 1e-06
+        },
+        "model": "darcy_weisbach_pipe_network_v1",
+        "request_sha256": "c7bf65f014ab5b4cd8a40e89a72abb5b314bdb7159d4a69acfd621ec47a5f2e5",
+        "requested_model": "pipe_network",
+        "results": {
+          "hydraulic_power_w": 4.863416814832213e-08,
+          "parallel_bank_pressure_loss_pa": 0.04863416814832213,
+          "parallel_branches": [
+            {
+              "branch_index": 0,
+              "flow_m3_s": 5e-07,
+              "pressure_loss_pa": 0.04863416814832213,
+              "segments": [
+                {
+                  "darcy_friction_factor": 0.03,
+                  "flow_m3_s": 5e-07,
+                  "flow_regime": "user_factor",
+                  "label": "parallel_branches[0][0]",
+                  "pressure_loss_pa": 0.04863416814832213,
+                  "reynolds_number": 63.66197723675813,
+                  "velocity_m_s": 0.006366197723675813
+                }
+              ]
+            },
+            {
+              "branch_index": 1,
+              "flow_m3_s": 5e-07,
+              "pressure_loss_pa": 0.04863416814832213,
+              "segments": [
+                {
+                  "darcy_friction_factor": 0.03,
+                  "flow_m3_s": 5e-07,
+                  "flow_regime": "user_factor",
+                  "label": "parallel_branches[1][0]",
+                  "pressure_loss_pa": 0.04863416814832213,
+                  "reynolds_number": 63.66197723675813,
+                  "velocity_m_s": 0.006366197723675813
+                }
+              ]
+            }
+          ],
+          "parallel_flow_balance_residual_m3_s": 0.0,
+          "parallel_pressure_spread_pa": 0.0,
+          "series_pressure_loss_pa": 0,
+          "series_segments": [],
+          "total_pressure_loss_pa": 0.04863416814832213
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "pipe-transition",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: series_segments[0] is transitional and requires an explicit darcy_friction_factor\n"
+    },
+    {
+      "id": "pipe-invalid",
+      "model": "pipe_network",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: series_segments[0].diameter_mm must be positive\n"
+    },
+    {
+      "id": "wire-feedback",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 4.166666666666667,
+        "joule_heat_w": 0.8333333333333334,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "fa68935690c10d401d5e977acc455674c795f029201b27189d99e18dcb704c6b",
+        "inputs": {
+          "ambient_temperature_k": 290,
+          "area_mm2": 2,
+          "current_a": 20,
+          "length_mm": 200,
+          "resistance_temperature_coefficient_per_k": 0.01,
+          "resistivity_ohm_m": 2e-08,
+          "thermal_resistance_k_per_w": 5
+        },
+        "model": "lumped_electro_thermal_wire_v1",
+        "request_sha256": "67b7158780ddd6572ec4cee6e2ff54b40a713900026fb76a0318a0ac362b95e9",
+        "requested_model": "electro_thermal_wire",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "constraint_satisfied": null,
+          "current_density_a_per_mm2": 10.0,
+          "electro_thermal_loop_gain": 0.04,
+          "equilibrium_temperature_k": 294.1666666666667,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "hot_resistance_ohm": 0.0020833333333333337,
+          "joule_heat_w": 0.8333333333333335,
+          "temperature_rise_k": 4.166666666666667,
+          "voltage_drop_v": 0.04166666666666667,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-zero",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 0.0,
+        "joule_heat_w": 0.0,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "26a05a29c43e3e44e3ee3f3fe246ff60285ffdaae6a01ac73fb763d3b6ccbf4b",
+        "inputs": {
+          "ambient_temperature_k": 290,
+          "area_mm2": 2,
+          "current_a": 0,
+          "length_mm": 200,
+          "resistance_temperature_coefficient_per_k": 0.01,
+          "resistivity_ohm_m": 2e-08,
+          "thermal_resistance_k_per_w": 5
+        },
+        "model": "lumped_electro_thermal_wire_v1",
+        "request_sha256": "2afa8801bd855b253b62141f78416af8d47e0ee737721dbed358367eba45c4c8",
+        "requested_model": "electro_thermal_wire",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "constraint_satisfied": null,
+          "current_density_a_per_mm2": 0.0,
+          "electro_thermal_loop_gain": 0.0,
+          "equilibrium_temperature_k": 290.0,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "hot_resistance_ohm": 0.002,
+          "joule_heat_w": 0.0,
+          "temperature_rise_k": 0.0,
+          "voltage_drop_v": 0.0,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-no-feedback",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 4.0,
+        "joule_heat_w": 0.8,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "294c9fa8bc4b6f1da06d9c0b0a2d5a620b795db21d13090c35dbcf93dd2d17c9",
+        "inputs": {
+          "ambient_temperature_k": 290,
+          "area_mm2": 2,
+          "current_a": 20,
+          "length_mm": 200,
+          "resistance_temperature_coefficient_per_k": 0,
+          "resistivity_ohm_m": 2e-08,
+          "thermal_resistance_k_per_w": 5
+        },
+        "model": "lumped_electro_thermal_wire_v1",
+        "request_sha256": "fe0b5cf6751157c5e602844da01fb6c3a605205399971a088930381ad87fe347",
+        "requested_model": "electro_thermal_wire",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "constraint_satisfied": null,
+          "current_density_a_per_mm2": 10.0,
+          "electro_thermal_loop_gain": 0.0,
+          "equilibrium_temperature_k": 294.0,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "hot_resistance_ohm": 0.002,
+          "joule_heat_w": 0.8,
+          "temperature_rise_k": 4.0,
+          "voltage_drop_v": 0.04,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-near-instability",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {
+        "temperature_rise_k": 1000.0000000000061,
+        "joule_heat_w": 200.00000000000122,
+        "cold_resistance_ohm": 0.002
+      },
+      "report": {
+        "assumptions": [
+          "uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient",
+          "resistance varies linearly with temperature and the reported loop gain must remain below one",
+          "optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded"
+        ],
+        "claim_boundary": "bounded analytical estimate; not FEA, CFD, certification, or physical validation",
+        "input_sha256": "294831cb515fa8dec541b3e83ee967b08ff0587639a0bd72a0b1284f55b50dd4",
+        "inputs": {
+          "ambient_temperature_k": 290,
+          "area_mm2": 2,
+          "current_a": 20,
+          "length_mm": 200,
+          "resistance_temperature_coefficient_per_k": 0.249,
+          "resistivity_ohm_m": 2e-08,
+          "thermal_resistance_k_per_w": 5
+        },
+        "model": "lumped_electro_thermal_wire_v1",
+        "request_sha256": "e95f0b4ee80c781261673fc7abb9d23bdaaffe79840d46d6e9382b8076f2cfca",
+        "requested_model": "electro_thermal_wire",
+        "results": {
+          "cold_resistance_ohm": 0.002,
+          "constraint_satisfied": null,
+          "current_density_a_per_mm2": 10.0,
+          "electro_thermal_loop_gain": 0.996,
+          "equilibrium_temperature_k": 1289.999999999999,
+          "free_expansion_mm": 0.0,
+          "fully_restrained_stress_mpa": null,
+          "hot_resistance_ohm": 0.49999999999999956,
+          "joule_heat_w": 199.99999999999983,
+          "temperature_rise_k": 999.9999999999991,
+          "voltage_drop_v": 9.999999999999991,
+          "yield_utilization": null
+        },
+        "schema_version": "neurocad-physics-v3"
+      },
+      "mismatches": []
+    },
+    {
+      "id": "wire-unstable",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: linear electro-thermal feedback has no finite stable equilibrium because its loop gain is at least one\n"
+    },
+    {
+      "id": "wire-invalid",
+      "model": "electro_thermal_wire",
+      "status": "PASS",
+      "expected": {},
+      "rejection": "ERROR: area_mm2 must be positive\n"
+    }
+  ],
+  "commands": [
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/beam-tip.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"straight prismatic cantilever with an ideal fixed root\",\n    \"linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation\",\n    \"loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"b4553d81b0e6a3328510bf995e3ca3f531e4a0f4f4a4503f8b2f31e3f759b6c7\",\n  \"inputs\": {\n    \"elastic_modulus_mpa\": 70000,\n    \"length_mm\": 120,\n    \"second_moment_mm4\": 6000,\n    \"section_modulus_mm3\": 600,\n    \"tip_force_n\": 23,\n    \"uniform_load_n_per_mm\": 0\n  },\n  \"model\": \"euler_bernoulli_cantilever_v1\",\n  \"request_sha256\": \"a1dd672aac18e746346aa405f8a3ae288e3577ba9286e9e7a4c4baf99f833f4a\",\n  \"requested_model\": \"cantilever_beam\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"fixed_end_moment_n_mm\": 2760.0,\n    \"fixed_end_shear_n\": 23.0,\n    \"maximum_bending_stress_mpa\": 4.6,\n    \"tip_deflection_mm\": 0.03154285714285714,\n    \"tip_slope_radians\": 0.00039428571428571426,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/beam-distributed.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"straight prismatic cantilever with an ideal fixed root\",\n    \"linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation\",\n    \"loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"dc8a4c8c268e915a1a0836fa9e5dfdf4b48458e042b9a00e98a1fc5bf431b219\",\n  \"inputs\": {\n    \"elastic_modulus_mpa\": 70000,\n    \"length_mm\": 120,\n    \"second_moment_mm4\": 6000,\n    \"section_modulus_mm3\": 600,\n    \"tip_force_n\": 0,\n    \"uniform_load_n_per_mm\": 0.7\n  },\n  \"model\": \"euler_bernoulli_cantilever_v1\",\n  \"request_sha256\": \"e508c489bdb515cd2a980ebff0d7f7cb48bd5396eed689e8f6a82830096babe8\",\n  \"requested_model\": \"cantilever_beam\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"fixed_end_moment_n_mm\": 5040.0,\n    \"fixed_end_shear_n\": 84.0,\n    \"maximum_bending_stress_mpa\": 8.4,\n    \"tip_deflection_mm\": 0.0432,\n    \"tip_slope_radians\": 0.00048,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/beam-combined.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"straight prismatic cantilever with an ideal fixed root\",\n    \"linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation\",\n    \"loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"6fa05dafcc59519a59ebd55fe0f97ed6d34f8a8051ba720533dd3eee8b7a881e\",\n  \"inputs\": {\n    \"elastic_modulus_mpa\": 70000,\n    \"length_mm\": 120,\n    \"second_moment_mm4\": 6000,\n    \"section_modulus_mm3\": 600,\n    \"tip_force_n\": 23,\n    \"uniform_load_n_per_mm\": 0.7\n  },\n  \"model\": \"euler_bernoulli_cantilever_v1\",\n  \"request_sha256\": \"b55004f38e026682594fdb8de2173133f49f01fadc45055cb8e58e753a8bc03d\",\n  \"requested_model\": \"cantilever_beam\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"fixed_end_moment_n_mm\": 7800.0,\n    \"fixed_end_shear_n\": 107.0,\n    \"maximum_bending_stress_mpa\": 13.0,\n    \"tip_deflection_mm\": 0.07474285714285714,\n    \"tip_slope_radians\": 0.0008742857142857143,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/beam-zero.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"straight prismatic cantilever with an ideal fixed root\",\n    \"linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation\",\n    \"loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"7115ee3993266a06f5387e7697c5e80a4203f7198ee9607b8fe81d09f28ba8d6\",\n  \"inputs\": {\n    \"elastic_modulus_mpa\": 70000,\n    \"length_mm\": 120,\n    \"second_moment_mm4\": 6000,\n    \"section_modulus_mm3\": 600,\n    \"tip_force_n\": 0,\n    \"uniform_load_n_per_mm\": 0\n  },\n  \"model\": \"euler_bernoulli_cantilever_v1\",\n  \"request_sha256\": \"a17c588763b520229975404162275a560f21342032ff9ba5cc5470691e16cd58\",\n  \"requested_model\": \"cantilever_beam\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"fixed_end_moment_n_mm\": 0.0,\n    \"fixed_end_shear_n\": 0.0,\n    \"maximum_bending_stress_mpa\": 0.0,\n    \"tip_deflection_mm\": 0.0,\n    \"tip_slope_radians\": 0.0,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/beam-opposed.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"straight prismatic cantilever with an ideal fixed root\",\n    \"linear elastic Euler-Bernoulli bending with small rotations and negligible shear deformation\",\n    \"loads act in one bending plane; local stress concentrations, lateral-torsional buckling, fatigue, and dynamics are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"1e55e7c6607624a44774f09bb19e633d659212a6734de5eb9eb659c2d1e73c0e\",\n  \"inputs\": {\n    \"elastic_modulus_mpa\": 70000,\n    \"length_mm\": 120,\n    \"second_moment_mm4\": 6000,\n    \"section_modulus_mm3\": 600,\n    \"tip_force_n\": -42,\n    \"uniform_load_n_per_mm\": 0.7\n  },\n  \"model\": \"euler_bernoulli_cantilever_v1\",\n  \"request_sha256\": \"f910b97243b9ab3cf1d1af13e550d2927135ce6c791c6738e1671e174919816d\",\n  \"requested_model\": \"cantilever_beam\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"fixed_end_moment_n_mm\": 0.0,\n    \"fixed_end_shear_n\": 42.0,\n    \"maximum_bending_stress_mpa\": 0.0,\n    \"tip_deflection_mm\": -0.014399999999999996,\n    \"tip_slope_radians\": -0.00024000000000000003,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/beam-invalid.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: length_mm must be positive\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/stress-zero.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"the supplied values form a symmetric Cauchy stress tensor at one material point\",\n    \"von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength\",\n    \"no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"0d4e742b75b9d62a3c1d216917eb69b27f82d743173802c9bdadc10c7874757f\",\n  \"inputs\": {\n    \"normal_x_mpa\": 0,\n    \"normal_y_mpa\": 0,\n    \"normal_z_mpa\": 0,\n    \"shear_xy_mpa\": 0\n  },\n  \"model\": \"combined_stress_3d_v1\",\n  \"request_sha256\": \"1d589a0fe032ee7342e2d5acce23ad9a5d52c9c672afb0dec7641e02a46521a3\",\n  \"requested_model\": \"combined_stress\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"hydrostatic_stress_mpa\": 0.0,\n    \"maximum_principal_stress_mpa\": 0.0,\n    \"maximum_shear_stress_mpa\": 0.0,\n    \"minimum_principal_stress_mpa\": 0.0,\n    \"principal_stresses_mpa\": [\n      0.0,\n      0.0,\n      0.0\n    ],\n    \"von_mises_stress_mpa\": 0.0,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/stress-hydrostatic.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"the supplied values form a symmetric Cauchy stress tensor at one material point\",\n    \"von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength\",\n    \"no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"4da0885103c74c887fd7be9ba7b716df5473443e73cd1c22c1137222e1bec3a4\",\n  \"inputs\": {\n    \"normal_x_mpa\": -37,\n    \"normal_y_mpa\": -37,\n    \"normal_z_mpa\": -37,\n    \"shear_xy_mpa\": 0\n  },\n  \"model\": \"combined_stress_3d_v1\",\n  \"request_sha256\": \"2da26552358ecd654ee3695ba6da40587261282670f376e3a20e3502a2a8661f\",\n  \"requested_model\": \"combined_stress\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"hydrostatic_stress_mpa\": -37.0,\n    \"maximum_principal_stress_mpa\": -37.0,\n    \"maximum_shear_stress_mpa\": 0.0,\n    \"minimum_principal_stress_mpa\": -37.0,\n    \"principal_stresses_mpa\": [\n      -37.0,\n      -37.0,\n      -37.0\n    ],\n    \"von_mises_stress_mpa\": 0.0,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/stress-shear.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"the supplied values form a symmetric Cauchy stress tensor at one material point\",\n    \"von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength\",\n    \"no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"e354b0351a91c25783529172b68612e2f49a81ead103ede29bd8f0735007c2b7\",\n  \"inputs\": {\n    \"normal_x_mpa\": 0,\n    \"normal_y_mpa\": 0,\n    \"normal_z_mpa\": 0,\n    \"shear_xy_mpa\": 24\n  },\n  \"model\": \"combined_stress_3d_v1\",\n  \"request_sha256\": \"b8c4f959f9d819707dfd44e5be4119064cbbe3fce9b3d078411deceddae64a6a\",\n  \"requested_model\": \"combined_stress\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"hydrostatic_stress_mpa\": 0.0,\n    \"maximum_principal_stress_mpa\": 24.0,\n    \"maximum_shear_stress_mpa\": 23.999999999999996,\n    \"minimum_principal_stress_mpa\": -23.999999999999993,\n    \"principal_stresses_mpa\": [\n      24.0,\n      -5.090761145879553e-15,\n      -23.999999999999993\n    ],\n    \"von_mises_stress_mpa\": 41.569219381653056,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/stress-rotated.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"the supplied values form a symmetric Cauchy stress tensor at one material point\",\n    \"von Mises utilization is applicable only to an isotropic ductile material with a supplied yield strength\",\n    \"no stress gradients, concentrations, fatigue, fracture, buckling, or nonlinear material response are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"4a1bbeaab01a152750f39f856dd3c7d2cc352b3fa86abe8d1109ce4229001fb4\",\n  \"inputs\": {\n    \"normal_x_mpa\": 50,\n    \"normal_y_mpa\": 50,\n    \"normal_z_mpa\": 10,\n    \"shear_xy_mpa\": 30\n  },\n  \"model\": \"combined_stress_3d_v1\",\n  \"request_sha256\": \"bbc7346785f671f5332138ab1b527b656564958fa56a2fec3eccfefbd58614cf\",\n  \"requested_model\": \"combined_stress\",\n  \"results\": {\n    \"constraint_satisfied\": null,\n    \"hydrostatic_stress_mpa\": 36.666666666666664,\n    \"maximum_principal_stress_mpa\": 80.0,\n    \"maximum_shear_stress_mpa\": 35.0,\n    \"minimum_principal_stress_mpa\": 10.000000000000004,\n    \"principal_stresses_mpa\": [\n      80.0,\n      19.999999999999982,\n      10.000000000000004\n    ],\n    \"von_mises_stress_mpa\": 65.57438524302,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/stress-invalid.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: normal_x_mpa must be a finite number\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/thermal-series.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"steady linear network with constant symmetric pairwise conductances\",\n    \"heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required\",\n    \"radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"926b23822debbcf1418502468a1aa5bad15214212d00154d3fac0e2baa0059ee\",\n  \"inputs\": {\n    \"conductance_w_per_k\": [\n      [\n        0,\n        2,\n        0\n      ],\n      [\n        2,\n        0,\n        4\n      ],\n      [\n        0,\n        4,\n        0\n      ]\n    ],\n    \"fixed_temperature_k\": {\n      \"0\": 300,\n      \"2\": 330\n    },\n    \"heat_input_w\": [\n      0,\n      0,\n      0\n    ],\n    \"node_labels\": [\n      \"cold\",\n      \"middle\",\n      \"hot\"\n    ]\n  },\n  \"model\": \"steady_linear_thermal_network_v1\",\n  \"request_sha256\": \"81884956de6a3b7edf7acda9f1fc7c893942f56af25e7e50f2a10345e4f6c42e\",\n  \"requested_model\": \"thermal_network\",\n  \"results\": {\n    \"edge_heat_flows_w\": [\n      {\n        \"from_node\": \"cold\",\n        \"heat_flow_w\": -40.0,\n        \"to_node\": \"middle\"\n      },\n      {\n        \"from_node\": \"middle\",\n        \"heat_flow_w\": -40.0,\n        \"to_node\": \"hot\"\n      }\n    ],\n    \"fixed_node_external_heat_w\": {\n      \"cold\": -40.0,\n      \"hot\": 40.0\n    },\n    \"maximum_free_node_balance_residual_w\": 0.0,\n    \"network_energy_balance_residual_w\": 0.0,\n    \"node_temperatures_k\": {\n      \"cold\": 300.0,\n      \"hot\": 330.0,\n      \"middle\": 320.0\n    }\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/thermal-equilibrium.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"steady linear network with constant symmetric pairwise conductances\",\n    \"heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required\",\n    \"radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"e2b77c598bf0b282cd9978b6f9a3362a8699c4d524263bdccaa7f492dc331a5d\",\n  \"inputs\": {\n    \"conductance_w_per_k\": [\n      [\n        0,\n        2,\n        0\n      ],\n      [\n        2,\n        0,\n        4\n      ],\n      [\n        0,\n        4,\n        0\n      ]\n    ],\n    \"fixed_temperature_k\": {\n      \"0\": 300,\n      \"2\": 300\n    },\n    \"heat_input_w\": [\n      0,\n      0,\n      0\n    ],\n    \"node_labels\": [\n      \"cold\",\n      \"middle\",\n      \"hot\"\n    ]\n  },\n  \"model\": \"steady_linear_thermal_network_v1\",\n  \"request_sha256\": \"fc5d03b1e0e848076a1396ede2103f72132961887478fbd1e93fa23262adf43f\",\n  \"requested_model\": \"thermal_network\",\n  \"results\": {\n    \"edge_heat_flows_w\": [\n      {\n        \"from_node\": \"cold\",\n        \"heat_flow_w\": 0.0,\n        \"to_node\": \"middle\"\n      },\n      {\n        \"from_node\": \"middle\",\n        \"heat_flow_w\": 0.0,\n        \"to_node\": \"hot\"\n      }\n    ],\n    \"fixed_node_external_heat_w\": {\n      \"cold\": 0.0,\n      \"hot\": 0.0\n    },\n    \"maximum_free_node_balance_residual_w\": 0.0,\n    \"network_energy_balance_residual_w\": 0.0,\n    \"node_temperatures_k\": {\n      \"cold\": 300.0,\n      \"hot\": 300.0,\n      \"middle\": 300.0\n    }\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/thermal-source.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"steady linear network with constant symmetric pairwise conductances\",\n    \"heat_input_w is positive into each node and fixed-temperature nodes exchange whatever boundary heat is required\",\n    \"radiation, phase change, contact nonlinearities, temperature-dependent conductance, and spatial gradients within nodes are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"5c993c12641abc0b877544169a948dc8a430d681972b7b700554ce5017139725\",\n  \"inputs\": {\n    \"conductance_w_per_k\": [\n      [\n        0,\n        2,\n        0\n      ],\n      [\n        2,\n        0,\n        4\n      ],\n      [\n        0,\n        4,\n        0\n      ]\n    ],\n    \"fixed_temperature_k\": {\n      \"0\": 300,\n      \"2\": 330\n    },\n    \"heat_input_w\": [\n      0,\n      12,\n      0\n    ],\n    \"node_labels\": [\n      \"cold\",\n      \"middle\",\n      \"hot\"\n    ]\n  },\n  \"model\": \"steady_linear_thermal_network_v1\",\n  \"request_sha256\": \"4e28169683e8d61768d3ae534958c0661e0c53426aa3a358436ddaf9a76f0d81\",\n  \"requested_model\": \"thermal_network\",\n  \"results\": {\n    \"edge_heat_flows_w\": [\n      {\n        \"from_node\": \"cold\",\n        \"heat_flow_w\": -44.0,\n        \"to_node\": \"middle\"\n      },\n      {\n        \"from_node\": \"middle\",\n        \"heat_flow_w\": -32.0,\n        \"to_node\": \"hot\"\n      }\n    ],\n    \"fixed_node_external_heat_w\": {\n      \"cold\": -44.0,\n      \"hot\": 32.0\n    },\n    \"maximum_free_node_balance_residual_w\": 0.0,\n    \"network_energy_balance_residual_w\": 0.0,\n    \"node_temperatures_k\": {\n      \"cold\": 300.0,\n      \"hot\": 330.0,\n      \"middle\": 322.0\n    }\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/thermal-singular.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: thermal network is singular; every free node must be conductively connected to a fixed-temperature node\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/thermal-asymmetric.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: conductance_w_per_k must be symmetric\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/vibration-force.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"linear time-invariant single-degree-of-freedom mass, spring, and viscous damper\",\n    \"steady sinusoidal response after transients have decayed\",\n    \"no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"d3f7fa5547e36431c273765773cfbe2cc7fc54e33a04d051d8f9854b5cf74a15\",\n  \"inputs\": {\n    \"damping_n_s_m\": 8,\n    \"excitation_frequency_hz\": 2,\n    \"force_amplitude_n\": 12,\n    \"mass_kg\": 2,\n    \"stiffness_n_m\": 800\n  },\n  \"model\": \"forced_vibration_sdof_v1\",\n  \"request_sha256\": \"b088578dc57d267e65f0ed15522c2b16a78f4455a2df7ad7f4723e93cbf30a30\",\n  \"requested_model\": \"forced_vibration\",\n  \"results\": {\n    \"damping_ratio\": 0.1,\n    \"displacement_amplitude_mm\": 24.266966627294153,\n    \"dynamic_magnification_factor\": 1.6177977751529435,\n    \"excitation_type\": \"harmonic_force\",\n    \"frequency_ratio\": 0.6283185307179586,\n    \"natural_frequency_hz\": 3.183098861837907,\n    \"relative_frequency_margin\": 0.37168146928204143,\n    \"response_phase_lag_radians\": 0.2047255655877729,\n    \"within_resonance_warning_band\": false\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/vibration-near-static.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"linear time-invariant single-degree-of-freedom mass, spring, and viscous damper\",\n    \"steady sinusoidal response after transients have decayed\",\n    \"no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"5ad94f9ac382d89680c5fa5ae039c8a472b89fb65a1e5ed9f346dfa303771435\",\n  \"inputs\": {\n    \"damping_n_s_m\": 8,\n    \"excitation_frequency_hz\": 0.0001,\n    \"force_amplitude_n\": 12,\n    \"mass_kg\": 2,\n    \"stiffness_n_m\": 800\n  },\n  \"model\": \"forced_vibration_sdof_v1\",\n  \"request_sha256\": \"4c83f908505956fd0d618100d483597a0f96cb18e6a8a285a4f5ba134df0c4f8\",\n  \"requested_model\": \"forced_vibration\",\n  \"results\": {\n    \"damping_ratio\": 0.1,\n    \"displacement_amplitude_mm\": 15.00000001450832,\n    \"dynamic_magnification_factor\": 1.0000000009672214,\n    \"excitation_type\": \"harmonic_force\",\n    \"frequency_ratio\": 3.141592653589793e-05,\n    \"natural_frequency_hz\": 3.183098861837907,\n    \"relative_frequency_margin\": 0.999968584073464,\n    \"response_phase_lag_radians\": 6.283185313298159e-06,\n    \"within_resonance_warning_band\": false\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/vibration-base.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"linear time-invariant single-degree-of-freedom mass, spring, and viscous damper\",\n    \"steady sinusoidal response after transients have decayed\",\n    \"no nonlinear stiffness, friction, multi-mode coupling, random excitation, fatigue, or structural stress recovery\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"3c13810a3ff6920824f81151abdbf4b68700cd09ac63322fba1c7faa80bb4d05\",\n  \"inputs\": {\n    \"base_displacement_amplitude_mm\": 3,\n    \"damping_n_s_m\": 8,\n    \"excitation_frequency_hz\": 2,\n    \"mass_kg\": 2,\n    \"stiffness_n_m\": 800\n  },\n  \"model\": \"forced_vibration_sdof_v1\",\n  \"request_sha256\": \"015e7228d58879e402278bdccb9b912122df412b70257a4194d08a92924df1be\",\n  \"requested_model\": \"forced_vibration\",\n  \"results\": {\n    \"absolute_displacement_amplitude_mm\": 4.891564081312202,\n    \"damping_ratio\": 0.1,\n    \"displacement_transmissibility\": 1.6305213604374007,\n    \"excitation_type\": \"harmonic_base_displacement\",\n    \"frequency_ratio\": 0.6283185307179586,\n    \"natural_frequency_hz\": 3.183098861837907,\n    \"relative_displacement_amplitude_mm\": 1.9160428850066475,\n    \"relative_frequency_margin\": 0.37168146928204143,\n    \"within_resonance_warning_band\": false\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/vibration-resonance.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: undamped excitation at the exact natural frequency has no finite steady-state amplitude\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/vibration-invalid.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: provide exactly one of force_amplitude_n or base_displacement_amplitude_mm\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/pipe-laminar.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank\",\n    \"parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows\",\n    \"no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"25e9d60c755db2eb2317f38bab75072a356af0a3314ddbc2d3ebbe966043677d\",\n  \"inputs\": {\n    \"density_kg_m3\": 1000,\n    \"dynamic_viscosity_pa_s\": 0.001,\n    \"series_segments\": [\n      {\n        \"diameter_mm\": 10,\n        \"length_mm\": 800\n      }\n    ],\n    \"total_flow_m3_s\": 1e-06\n  },\n  \"model\": \"darcy_weisbach_pipe_network_v1\",\n  \"request_sha256\": \"bffe81bb7b9796e3edf9961e4bcd66726624ad7066894c5e1c77fa1ec8942782\",\n  \"requested_model\": \"pipe_network\",\n  \"results\": {\n    \"hydraulic_power_w\": 3.259493234522017e-06,\n    \"parallel_bank_pressure_loss_pa\": 0.0,\n    \"parallel_branches\": [],\n    \"parallel_flow_balance_residual_m3_s\": 0.0,\n    \"parallel_pressure_spread_pa\": 0.0,\n    \"series_pressure_loss_pa\": 3.2594932345220173,\n    \"series_segments\": [\n      {\n        \"darcy_friction_factor\": 0.5026548245743669,\n        \"flow_m3_s\": 1e-06,\n        \"flow_regime\": \"laminar\",\n        \"label\": \"series_segments[0]\",\n        \"pressure_loss_pa\": 3.2594932345220173,\n        \"reynolds_number\": 127.32395447351627,\n        \"velocity_m_s\": 0.012732395447351627\n      }\n    ],\n    \"total_pressure_loss_pa\": 3.2594932345220173\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/pipe-small-flow.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank\",\n    \"parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows\",\n    \"no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"f3c488570f880b6fe0d1c187b2a9dc4f2141296a060c1670521d540da232c67f\",\n  \"inputs\": {\n    \"density_kg_m3\": 1000,\n    \"dynamic_viscosity_pa_s\": 0.001,\n    \"series_segments\": [\n      {\n        \"diameter_mm\": 10,\n        \"length_mm\": 800\n      }\n    ],\n    \"total_flow_m3_s\": 9.999999999999999e-10\n  },\n  \"model\": \"darcy_weisbach_pipe_network_v1\",\n  \"request_sha256\": \"ddc73711d46f332453ece295addccae9c609304e5bd0d109b9a0e6dd383a7006\",\n  \"requested_model\": \"pipe_network\",\n  \"results\": {\n    \"hydraulic_power_w\": 3.259493234522016e-12,\n    \"parallel_bank_pressure_loss_pa\": 0.0,\n    \"parallel_branches\": [],\n    \"parallel_flow_balance_residual_m3_s\": 0.0,\n    \"parallel_pressure_spread_pa\": 0.0,\n    \"series_pressure_loss_pa\": 0.0032594932345220164,\n    \"series_segments\": [\n      {\n        \"darcy_friction_factor\": 502.654824574367,\n        \"flow_m3_s\": 9.999999999999999e-10,\n        \"flow_regime\": \"laminar\",\n        \"label\": \"series_segments[0]\",\n        \"pressure_loss_pa\": 0.0032594932345220164,\n        \"reynolds_number\": 0.12732395447351624,\n        \"velocity_m_s\": 1.2732395447351625e-05\n      }\n    ],\n    \"total_pressure_loss_pa\": 0.0032594932345220164\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/pipe-parallel.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"steady incompressible single-phase flow in circular pipes with one series path and at most one parallel branch bank\",\n    \"parallel balancing uses user-supplied constant Darcy factors so the branch loss remains monotonic across trial flows\",\n    \"no pump curve, elevation head, compressibility, heat transfer, cavitation, water hammer, leakage, or network loops are represented\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"84267ec53ef9e761d1d0852a7c67852ef737c461d8a6d51f0b9f1e9fdab4a7e5\",\n  \"inputs\": {\n    \"density_kg_m3\": 1000,\n    \"dynamic_viscosity_pa_s\": 0.001,\n    \"parallel_branches\": [\n      [\n        {\n          \"darcy_friction_factor\": 0.03,\n          \"diameter_mm\": 10,\n          \"length_mm\": 800\n        }\n      ],\n      [\n        {\n          \"darcy_friction_factor\": 0.03,\n          \"diameter_mm\": 10,\n          \"length_mm\": 800\n        }\n      ]\n    ],\n    \"series_segments\": [],\n    \"total_flow_m3_s\": 1e-06\n  },\n  \"model\": \"darcy_weisbach_pipe_network_v1\",\n  \"request_sha256\": \"c7bf65f014ab5b4cd8a40e89a72abb5b314bdb7159d4a69acfd621ec47a5f2e5\",\n  \"requested_model\": \"pipe_network\",\n  \"results\": {\n    \"hydraulic_power_w\": 4.863416814832213e-08,\n    \"parallel_bank_pressure_loss_pa\": 0.04863416814832213,\n    \"parallel_branches\": [\n      {\n        \"branch_index\": 0,\n        \"flow_m3_s\": 5e-07,\n        \"pressure_loss_pa\": 0.04863416814832213,\n        \"segments\": [\n          {\n            \"darcy_friction_factor\": 0.03,\n            \"flow_m3_s\": 5e-07,\n            \"flow_regime\": \"user_factor\",\n            \"label\": \"parallel_branches[0][0]\",\n            \"pressure_loss_pa\": 0.04863416814832213,\n            \"reynolds_number\": 63.66197723675813,\n            \"velocity_m_s\": 0.006366197723675813\n          }\n        ]\n      },\n      {\n        \"branch_index\": 1,\n        \"flow_m3_s\": 5e-07,\n        \"pressure_loss_pa\": 0.04863416814832213,\n        \"segments\": [\n          {\n            \"darcy_friction_factor\": 0.03,\n            \"flow_m3_s\": 5e-07,\n            \"flow_regime\": \"user_factor\",\n            \"label\": \"parallel_branches[1][0]\",\n            \"pressure_loss_pa\": 0.04863416814832213,\n            \"reynolds_number\": 63.66197723675813,\n            \"velocity_m_s\": 0.006366197723675813\n          }\n        ]\n      }\n    ],\n    \"parallel_flow_balance_residual_m3_s\": 0.0,\n    \"parallel_pressure_spread_pa\": 0.0,\n    \"series_pressure_loss_pa\": 0,\n    \"series_segments\": [],\n    \"total_pressure_loss_pa\": 0.04863416814832213\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/pipe-transition.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: series_segments[0] is transitional and requires an explicit darcy_friction_factor\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/pipe-invalid.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: series_segments[0].diameter_mm must be positive\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/wire-feedback.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"fa68935690c10d401d5e977acc455674c795f029201b27189d99e18dcb704c6b\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 290,\n    \"area_mm2\": 2,\n    \"current_a\": 20,\n    \"length_mm\": 200,\n    \"resistance_temperature_coefficient_per_k\": 0.01,\n    \"resistivity_ohm_m\": 2e-08,\n    \"thermal_resistance_k_per_w\": 5\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"request_sha256\": \"67b7158780ddd6572ec4cee6e2ff54b40a713900026fb76a0318a0ac362b95e9\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 0.002,\n    \"constraint_satisfied\": null,\n    \"current_density_a_per_mm2\": 10.0,\n    \"electro_thermal_loop_gain\": 0.04,\n    \"equilibrium_temperature_k\": 294.1666666666667,\n    \"free_expansion_mm\": 0.0,\n    \"fully_restrained_stress_mpa\": null,\n    \"hot_resistance_ohm\": 0.0020833333333333337,\n    \"joule_heat_w\": 0.8333333333333335,\n    \"temperature_rise_k\": 4.166666666666667,\n    \"voltage_drop_v\": 0.04166666666666667,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/wire-zero.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"26a05a29c43e3e44e3ee3f3fe246ff60285ffdaae6a01ac73fb763d3b6ccbf4b\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 290,\n    \"area_mm2\": 2,\n    \"current_a\": 0,\n    \"length_mm\": 200,\n    \"resistance_temperature_coefficient_per_k\": 0.01,\n    \"resistivity_ohm_m\": 2e-08,\n    \"thermal_resistance_k_per_w\": 5\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"request_sha256\": \"2afa8801bd855b253b62141f78416af8d47e0ee737721dbed358367eba45c4c8\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 0.002,\n    \"constraint_satisfied\": null,\n    \"current_density_a_per_mm2\": 0.0,\n    \"electro_thermal_loop_gain\": 0.0,\n    \"equilibrium_temperature_k\": 290.0,\n    \"free_expansion_mm\": 0.0,\n    \"fully_restrained_stress_mpa\": null,\n    \"hot_resistance_ohm\": 0.002,\n    \"joule_heat_w\": 0.0,\n    \"temperature_rise_k\": 0.0,\n    \"voltage_drop_v\": 0.0,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/wire-no-feedback.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"294c9fa8bc4b6f1da06d9c0b0a2d5a620b795db21d13090c35dbcf93dd2d17c9\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 290,\n    \"area_mm2\": 2,\n    \"current_a\": 20,\n    \"length_mm\": 200,\n    \"resistance_temperature_coefficient_per_k\": 0,\n    \"resistivity_ohm_m\": 2e-08,\n    \"thermal_resistance_k_per_w\": 5\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"request_sha256\": \"fe0b5cf6751157c5e602844da01fb6c3a605205399971a088930381ad87fe347\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 0.002,\n    \"constraint_satisfied\": null,\n    \"current_density_a_per_mm2\": 10.0,\n    \"electro_thermal_loop_gain\": 0.0,\n    \"equilibrium_temperature_k\": 294.0,\n    \"free_expansion_mm\": 0.0,\n    \"fully_restrained_stress_mpa\": null,\n    \"hot_resistance_ohm\": 0.002,\n    \"joule_heat_w\": 0.8,\n    \"temperature_rise_k\": 4.0,\n    \"voltage_drop_v\": 0.04,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/wire-near-instability.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"294831cb515fa8dec541b3e83ee967b08ff0587639a0bd72a0b1284f55b50dd4\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 290,\n    \"area_mm2\": 2,\n    \"current_a\": 20,\n    \"length_mm\": 200,\n    \"resistance_temperature_coefficient_per_k\": 0.249,\n    \"resistivity_ohm_m\": 2e-08,\n    \"thermal_resistance_k_per_w\": 5\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"request_sha256\": \"e95f0b4ee80c781261673fc7abb9d23bdaaffe79840d46d6e9382b8076f2cfca\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 0.002,\n    \"constraint_satisfied\": null,\n    \"current_density_a_per_mm2\": 10.0,\n    \"electro_thermal_loop_gain\": 0.996,\n    \"equilibrium_temperature_k\": 1289.999999999999,\n    \"free_expansion_mm\": 0.0,\n    \"fully_restrained_stress_mpa\": null,\n    \"hot_resistance_ohm\": 0.49999999999999956,\n    \"joule_heat_w\": 199.99999999999983,\n    \"temperature_rise_k\": 999.9999999999991,\n    \"voltage_drop_v\": 9.999999999999991,\n    \"yield_utilization\": null\n  },\n  \"schema_version\": \"neurocad-physics-v3\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/wire-unstable.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: linear electro-thermal feedback has no finite stable equilibrium because its loop gain is at least one\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "/home/runner/work/_temp/v3-installed/wire-invalid.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: area_mm2 must be positive\n"
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-hollow-shaft.json",
+        "--output-dir",
+        "hollow-shaft"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"analysis_sha256\": \"49bd1bb575c6c2aaecae7b4a97217e6fa6573b460bb22c1d3927b22fba5bb6a5\",\n  \"artifact_paths\": {\n    \"analysis.json\": \"/home/runner/work/_temp/v3-installed/hollow-shaft/analysis.json\",\n    \"manifest.json\": \"/home/runner/work/_temp/v3-installed/hollow-shaft/manifest.json\",\n    \"request.json\": \"/home/runner/work/_temp/v3-installed/hollow-shaft/request.json\",\n    \"shape.ncad.json\": \"/home/runner/work/_temp/v3-installed/hollow-shaft/shape.ncad.json\",\n    \"shape.scad\": \"/home/runner/work/_temp/v3-installed/hollow-shaft/shape.scad\"\n  },\n  \"artifacts\": {\n    \"analysis.json\": {\n      \"bytes\": 3959,\n      \"sha256\": \"1645bf060f70d3d5768c777118e3b56d1abfac75d75b7c70577103bbf6eeac22\"\n    },\n    \"request.json\": {\n      \"bytes\": 702,\n      \"sha256\": \"f0432fbf02204f431d6f84c3b25da7dc4f49372e826c1fb205c81d8dbc479d7c\"\n    },\n    \"shape.ncad.json\": {\n      \"bytes\": 1634,\n      \"sha256\": \"e285bc51f4eb2773aba2d025b7d0a4e3a646af81c12a3b9ebbe4c8c7f49cc337\"\n    },\n    \"shape.scad\": {\n      \"bytes\": 272,\n      \"sha256\": \"7bf4b11f8ca59f66aff0253fd59145624338297678552b6e5fce9c712e165c3f\"\n    }\n  },\n  \"claim_boundary\": \"generated geometry and bounded analytical screening; not FEA, CFD, certification, safety approval, or physical validation\",\n  \"manifest_sha256\": \"10d787fb1b1dbd4faff6daf003dda8ed6333dc79f8519bf9b066c3d1373dcb51\",\n  \"output_dir\": \"/home/runner/work/_temp/v3-installed/hollow-shaft\",\n  \"program_sha256\": \"2e9d79179f06500b819adb91021d94dc181908bcdc8030d75037233d592ba936\",\n  \"request_sha256\": \"edee3f340a756f456ca7dfae65955dc8c043b9813b182c74be3616789862e78b\",\n  \"schema_version\": \"neurocad-complex-shape-bundle-v1\",\n  \"shape\": \"hollow_shaft\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-hollow-shaft.json",
+        "--output-dir",
+        "hollow-shaft"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: complex-shape output directory already exists; choose a new path: /home/runner/work/_temp/v3-installed/hollow-shaft\n"
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-i-beam.json",
+        "--output-dir",
+        "i-beam"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"analysis_sha256\": \"e7c4a191c7091fd646dca4c8544f726690f1e4ab4f07d275375b3a99ec9ebc7c\",\n  \"artifact_paths\": {\n    \"analysis.json\": \"/home/runner/work/_temp/v3-installed/i-beam/analysis.json\",\n    \"manifest.json\": \"/home/runner/work/_temp/v3-installed/i-beam/manifest.json\",\n    \"request.json\": \"/home/runner/work/_temp/v3-installed/i-beam/request.json\",\n    \"shape.ncad.json\": \"/home/runner/work/_temp/v3-installed/i-beam/shape.ncad.json\",\n    \"shape.scad\": \"/home/runner/work/_temp/v3-installed/i-beam/shape.scad\"\n  },\n  \"artifacts\": {\n    \"analysis.json\": {\n      \"bytes\": 4003,\n      \"sha256\": \"0e443684f54209bfab83cb7adf9a1538626cb0e4170abd620974f471b0033731\"\n    },\n    \"request.json\": {\n      \"bytes\": 708,\n      \"sha256\": \"330de5810a6dabc8391e54b780c60ada9efec4452cfaf894fd45d80a95c3e1e1\"\n    },\n    \"shape.ncad.json\": {\n      \"bytes\": 2190,\n      \"sha256\": \"5f1fb417b46b25e2344b8ed78b113e59366e229e9cbd396551455ef65cf7b3e6\"\n    },\n    \"shape.scad\": {\n      \"bytes\": 378,\n      \"sha256\": \"d6653b1679a3300eb3db41f50339be76e50542d8af99017f4a46d6a3eb4a11bf\"\n    }\n  },\n  \"claim_boundary\": \"generated geometry and bounded analytical screening; not FEA, CFD, certification, safety approval, or physical validation\",\n  \"manifest_sha256\": \"5161930f146f4375e0d919e6ac35bf76b4b479353b9d86670d8b5257b388c16e\",\n  \"output_dir\": \"/home/runner/work/_temp/v3-installed/i-beam\",\n  \"program_sha256\": \"fa0d07389e0c693de66cc8717461acb12d64800dd4cf8c5e44a71e16c8e451f5\",\n  \"request_sha256\": \"03c3870e3829b0487b1712825bc40b71706dabb9503a8c0fa4e5cb89b105d898\",\n  \"schema_version\": \"neurocad-complex-shape-bundle-v1\",\n  \"shape\": \"i_beam\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-i-beam.json",
+        "--output-dir",
+        "i-beam"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: complex-shape output directory already exists; choose a new path: /home/runner/work/_temp/v3-installed/i-beam\n"
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-l-bracket.json",
+        "--output-dir",
+        "l-bracket"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"analysis_sha256\": \"3636e3dcebbe281e6dfad1dd056a47282ca7940ff53a0631f89b69daccda2be2\",\n  \"artifact_paths\": {\n    \"analysis.json\": \"/home/runner/work/_temp/v3-installed/l-bracket/analysis.json\",\n    \"manifest.json\": \"/home/runner/work/_temp/v3-installed/l-bracket/manifest.json\",\n    \"request.json\": \"/home/runner/work/_temp/v3-installed/l-bracket/request.json\",\n    \"shape.ncad.json\": \"/home/runner/work/_temp/v3-installed/l-bracket/shape.ncad.json\",\n    \"shape.scad\": \"/home/runner/work/_temp/v3-installed/l-bracket/shape.scad\"\n  },\n  \"artifacts\": {\n    \"analysis.json\": {\n      \"bytes\": 3810,\n      \"sha256\": \"295d115e40993182902d9b158a9d340689e882323360382ad9143ea1d9189231\"\n    },\n    \"request.json\": {\n      \"bytes\": 661,\n      \"sha256\": \"393178f90627b85e8bbb8e43ba4cf63be1132f9b193ced886c346d17e5b8eeef\"\n    },\n    \"shape.ncad.json\": {\n      \"bytes\": 1711,\n      \"sha256\": \"f561795d9bea877d24e1a7866b9dbb80a4c6c197e5bf070fc265bdef9dc92a50\"\n    },\n    \"shape.scad\": {\n      \"bytes\": 340,\n      \"sha256\": \"600445d7945912cd323930386e777c04862967cd4cad5d6ed0382673048d9986\"\n    }\n  },\n  \"claim_boundary\": \"generated geometry and bounded analytical screening; not FEA, CFD, certification, safety approval, or physical validation\",\n  \"manifest_sha256\": \"e53e4c7131a3a244596e728cf4322ae3d0526e0b3176f904ef87a7551de062bb\",\n  \"output_dir\": \"/home/runner/work/_temp/v3-installed/l-bracket\",\n  \"program_sha256\": \"96dbb198c25d10d7389f9f8d2eb31d2fec913bcc7926dc10b73cf43412b05c39\",\n  \"request_sha256\": \"29a16bf0ba42047305d106239425ef95ee40f5028cde364c9228d1ad2b072200\",\n  \"schema_version\": \"neurocad-complex-shape-bundle-v1\",\n  \"shape\": \"l_bracket\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-l-bracket.json",
+        "--output-dir",
+        "l-bracket"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: complex-shape output directory already exists; choose a new path: /home/runner/work/_temp/v3-installed/l-bracket\n"
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-perforated-plate.json",
+        "--output-dir",
+        "perforated-plate"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"analysis_sha256\": \"afc6c82e6aaf271fd61e8e4ee23639d4fdc54309121b14c35cf74dfc8f3ecaa9\",\n  \"artifact_paths\": {\n    \"analysis.json\": \"/home/runner/work/_temp/v3-installed/perforated-plate/analysis.json\",\n    \"manifest.json\": \"/home/runner/work/_temp/v3-installed/perforated-plate/manifest.json\",\n    \"request.json\": \"/home/runner/work/_temp/v3-installed/perforated-plate/request.json\",\n    \"shape.ncad.json\": \"/home/runner/work/_temp/v3-installed/perforated-plate/shape.ncad.json\",\n    \"shape.scad\": \"/home/runner/work/_temp/v3-installed/perforated-plate/shape.scad\"\n  },\n  \"artifacts\": {\n    \"analysis.json\": {\n      \"bytes\": 2421,\n      \"sha256\": \"c44ed5e22d0d4b3ae9b881dcbccdf67cd5b271ca6570609c72ba3a9f69feff28\"\n    },\n    \"request.json\": {\n      \"bytes\": 648,\n      \"sha256\": \"10a76b3a1d3274e41d32838c12225bbbb25a68604a051a0670b2ae33f59fa644\"\n    },\n    \"shape.ncad.json\": {\n      \"bytes\": 6932,\n      \"sha256\": \"112f4c5abdd032f2714c19bced8f2853c01d211e362b4b491f7f1a85a6190d74\"\n    },\n    \"shape.scad\": {\n      \"bytes\": 1062,\n      \"sha256\": \"3e18e6f05906cea799f89d5b05c0e9de30856386fce017d0122cfff8a6fc61c2\"\n    }\n  },\n  \"claim_boundary\": \"generated geometry and exact idealized mass/section analysis; not plate FEA, certification, or physical validation\",\n  \"manifest_sha256\": \"e0b25f8a76d64efa4f09607c57108c5a73f14e413e6c15454a0d09ca439222f5\",\n  \"output_dir\": \"/home/runner/work/_temp/v3-installed/perforated-plate\",\n  \"program_sha256\": \"c50fdca5fe2ba7b0c7e69cddb0450a6690d0d7d3f6c9a073b5b4316c982852d1\",\n  \"request_sha256\": \"9fdae7b6d4aaac42d4a1447b038f7eeffb5f4437b2141260caebae8082de0076\",\n  \"schema_version\": \"neurocad-complex-shape-bundle-v1\",\n  \"shape\": \"perforated_plate\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "complex-perforated-plate.json",
+        "--output-dir",
+        "perforated-plate"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: complex-shape output directory already exists; choose a new path: /home/runner/work/_temp/v3-installed/perforated-plate\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "bound.json",
+        "-o",
+        "bound-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"bindings\": {\n    \"binding_sha256\": \"962bec139ff49c366d234974c11701350a68496b802f366feb4bb608181c9806\",\n    \"geometry\": {\n      \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n      \"component_id\": \"shaft\",\n      \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n      \"geometry_status\": \"current\",\n      \"metrics\": {\n        \"bounding_box_mm\": {\n          \"dimensions\": [\n            20.0,\n            20.0,\n            100.0\n          ],\n          \"maximum\": [\n            10.0,\n            10.0,\n            100.0\n          ],\n          \"minimum\": [\n            -10.0,\n            -10.0,\n            0.0\n          ]\n        },\n        \"centroid_mm\": [\n          0.0,\n          0.0,\n          50.0\n        ],\n        \"material_mass_kg\": 0.25132741228718347,\n        \"operation\": \"add\",\n        \"scope\": \"isolated primitive before Boolean assembly evaluation\",\n        \"section_properties\": {\n          \"area_mm2\": 314.1592653589793,\n          \"polar_second_moment_mm4\": 15707.963267948966,\n          \"reference_plane\": \"local x-y centroidal section\",\n          \"second_moment_x_mm4\": 7853.981633974483,\n          \"second_moment_y_mm4\": 7853.981633974483\n        },\n        \"shape\": \"cylinder\",\n        \"surface_area_mm2\": 6911.503837897545,\n        \"volume_mm3\": 31415.926535897932\n      },\n      \"model_inputs_checked\": [\n        \"area_mm2\",\n        \"length_mm\"\n      ],\n      \"project_id\": \"physics-binding-example\",\n      \"project_revision\": 1,\n      \"source_type\": \"neurocad-agent-component-v1\"\n    },\n    \"load_cases\": [\n      {\n        \"case_id\": \"service\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"da17b6b8e5b5e517eacf116f79e1e27cb47864ba556bca5cb47a53d7c1423b3c\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared service current.\",\n        \"values\": {\n          \"current_a\": 4.0\n        }\n      },\n      {\n        \"case_id\": \"increment\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"76e32e96f6f52e6c98f1e4d46961eb669f2acf8834c93f771c111a0b0128f661\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared current increment.\",\n        \"values\": {\n          \"current_a\": 2.0\n        }\n      }\n    ],\n    \"load_combination\": {\n      \"coefficients\": {\n        \"increment\": 0.5,\n        \"service\": 1.0\n      },\n      \"combination_id\": \"service-plus-half-increment\",\n      \"combined_values\": {\n        \"current_a\": 5.0\n      },\n      \"coordinate_system\": \"component-local\",\n      \"load_combination_sha256\": \"55a82c6b0d5d53fa7c86182dadecc9c846b352f47f9ee36608f72ad98289be84\",\n      \"resolved_load_case_sha256\": \"107d4fcf81ae7f30b6141478c1563fca563104ee60cb6b3dd790848756251e65\",\n      \"schema_version\": \"neurocad-load-combination-v1\",\n      \"source\": \"Illustrative algebraic combination.\",\n      \"values_used\": [\n        \"current_a\"\n      ]\n    },\n    \"material\": {\n      \"evaluation_temperature_k\": 350.0,\n      \"interpolated_properties\": [\n        \"resistivity_ohm_m\"\n      ],\n      \"material_card_sha256\": \"230055d4d2aeb316de3ee0359573163bf0185bf5dadd5125143e0f8ea7e0db10\",\n      \"material_id\": \"documented-conductor-example\",\n      \"properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"properties_used\": [\n        \"elastic_modulus_mpa\",\n        \"expansion_coefficient_per_k\",\n        \"resistivity_ohm_m\",\n        \"yield_strength_mpa\"\n      ],\n      \"resolved_material_sha256\": \"09db474478b488cf30411ffb56e862495bb78dee74bf1c00dcde4c7823cde1a7\",\n      \"resolved_properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"resistivity_ohm_m\": 1.85e-08,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"revision\": 1,\n      \"schema_version\": \"neurocad-material-card-v2\",\n      \"source\": \"Illustrative declared values only; replace with the exact authoritative datasheet or measured dataset.\",\n      \"temperature_tables\": {\n        \"resistivity_ohm_m\": [\n          {\n            \"temperature_k\": 300.0,\n            \"value\": 1.7e-08\n          },\n          {\n            \"temperature_k\": 400.0,\n            \"value\": 2e-08\n          }\n        ]\n      }\n    },\n    \"resolved_v1_binding_sha256\": \"98cc2b3d2821080aaad93d748676867e49de6a7de6df2987228e17ea85697bc9\",\n    \"schema_version\": \"neurocad-physics-context-v2\",\n    \"warnings\": []\n  },\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 300,\n    \"area_mm2\": 314.1592653589793,\n    \"current_a\": 5,\n    \"elastic_modulus_mpa\": 200000,\n    \"expansion_coefficient_per_k\": 1.2e-05,\n    \"length_mm\": 100,\n    \"resistance_temperature_coefficient_per_k\": 0.004,\n    \"resistivity_ohm_m\": 1.85e-08,\n    \"safety_factor\": 2,\n    \"thermal_resistance_k_per_w\": 2,\n    \"yield_strength_mpa\": 250\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"overlay\": {\n    \"component_id\": \"shaft\",\n    \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n    \"legend\": {\n      \"fail\": \"the model's explicitly supplied constraint evaluated false\",\n      \"not_evaluated\": \"the request did not provide enough information for a pass/fail constraint\",\n      \"pass\": \"the model's explicitly supplied constraint evaluated true\"\n    },\n    \"metrics\": [\n      {\n        \"name\": \"cold_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.8887328944001275e-06\n      },\n      {\n        \"name\": \"current_density_a_per_mm2\",\n        \"unit\": \"A/mm^2\",\n        \"value\": 0.015915494309189534\n      },\n      {\n        \"name\": \"electro_thermal_loop_gain\",\n        \"unit\": \"1\",\n        \"value\": 1.1777465788800255e-06\n      },\n      {\n        \"name\": \"equilibrium_temperature_k\",\n        \"unit\": \"K\",\n        \"value\": 300.0002944369915\n      },\n      {\n        \"name\": \"free_expansion_mm\",\n        \"unit\": \"mm\",\n        \"value\": 3.5332438979059893e-07\n      },\n      {\n        \"name\": \"fully_restrained_stress_mpa\",\n        \"unit\": \"MPa\",\n        \"value\": -0.0007066487795811979\n      },\n      {\n        \"name\": \"hot_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.888739829843317e-06\n      },\n      {\n        \"name\": \"joule_heat_w\",\n        \"unit\": \"W\",\n        \"value\": 0.00014721849574608292\n      },\n      {\n        \"name\": \"temperature_rise_k\",\n        \"unit\": \"K\",\n        \"value\": 0.0002944369914921658\n      },\n      {\n        \"name\": \"voltage_drop_v\",\n        \"unit\": \"V\",\n        \"value\": 2.9443699149216585e-05\n      },\n      {\n        \"name\": \"yield_utilization\",\n        \"unit\": \"1\",\n        \"value\": 5.653190236649584e-06\n      }\n    ],\n    \"model\": \"lumped_electro_thermal_wire_v1\",\n    \"overlay_sha256\": \"624ae1191448fd6c851487ca7ab543150c4965f115deda67e7b725e41db63ec9\",\n    \"schema_version\": \"neurocad-component-overlay-v1\",\n    \"scope\": \"uniform annotation on the exact bound primitive; values are model-level scalars, not nodal or per-vertex fields\",\n    \"spatial_field\": false,\n    \"status\": \"pass\"\n  },\n  \"request_sha256\": \"8634002b8e5eaffd00f1aca862748e7f2a5eb4d4d5a072b26854f55a405fe4d2\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 5.8887328944001275e-06,\n    \"constraint_satisfied\": true,\n    \"current_density_a_per_mm2\": 0.015915494309189534,\n    \"electro_thermal_loop_gain\": 1.1777465788800255e-06,\n    \"equilibrium_temperature_k\": 300.0002944369915,\n    \"free_expansion_mm\": 3.5332438979059893e-07,\n    \"fully_restrained_stress_mpa\": -0.0007066487795811979,\n    \"hot_resistance_ohm\": 5.888739829843317e-06,\n    \"joule_heat_w\": 0.00014721849574608292,\n    \"temperature_rise_k\": 0.0002944369914921658,\n    \"voltage_drop_v\": 2.9443699149216585e-05,\n    \"yield_utilization\": 5.653190236649584e-06\n  },\n  \"schema_version\": \"neurocad-physics-v3\",\n  \"uncertainty\": {\n    \"base_input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n    \"claim_boundary\": \"screening uncertainty over declared scalar ranges; not a probability or global-proof claim unless explicitly stated\",\n    \"evaluation_count\": 2,\n    \"input_bounds\": {\n      \"current_a\": {\n        \"lower\": 4.5,\n        \"upper\": 5.5\n      }\n    },\n    \"method\": \"interval\",\n    \"method_boundary\": \"all declared box corners evaluated; this is not a rigorous global interval bound for non-monotone interiors\",\n    \"outputs\": [\n      \"temperature_rise_k\"\n    ],\n    \"result_envelopes\": {\n      \"temperature_rise_k\": {\n        \"base\": 0.0002944369914921658,\n        \"maximum\": 0.0003562688478204519,\n        \"minimum\": 0.00023849390974036805\n      }\n    },\n    \"schema_version\": \"neurocad-physics-uncertainty-v1\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "--verify",
+        "bound-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n  \"component_id\": \"shaft\",\n  \"current\": true,\n  \"expected_geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n  \"observed_geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n  \"observed_project_revision\": 1,\n  \"reason\": null,\n  \"report_schema_version\": \"neurocad-physics-v3\",\n  \"schema_version\": \"neurocad-physics-verification-v1\",\n  \"status\": \"current\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "--verify",
+        "bound-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n  \"component_id\": \"shaft\",\n  \"current\": true,\n  \"expected_geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n  \"observed_geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n  \"observed_project_revision\": 2,\n  \"reason\": null,\n  \"report_schema_version\": \"neurocad-physics-v3\",\n  \"schema_version\": \"neurocad-physics-verification-v1\",\n  \"status\": \"current\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "--verify",
+        "bound-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "{\n  \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n  \"component_id\": \"shaft\",\n  \"current\": false,\n  \"expected_geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n  \"observed_geometry_sha256\": \"36c0844bf729261fe3fdfbf92ec27f3c81f23087eeb02f4b3e1325ad86126c91\",\n  \"observed_project_revision\": 2,\n  \"reason\": \"bound component geometry changed after the physics result was recorded\",\n  \"report_schema_version\": \"neurocad-physics-v3\",\n  \"schema_version\": \"neurocad-physics-verification-v1\",\n  \"status\": \"stale\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "stale-input.json",
+        "-o",
+        "stale-input-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: geometry binding is stale for component 'shaft': expected 45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675, observed 36c0844bf729261fe3fdfbf92ec27f3c81f23087eeb02f4b3e1325ad86126c91\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "monte_carlo.json",
+        "-o",
+        "monte_carlo-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"bindings\": {\n    \"binding_sha256\": \"962bec139ff49c366d234974c11701350a68496b802f366feb4bb608181c9806\",\n    \"geometry\": {\n      \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n      \"component_id\": \"shaft\",\n      \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n      \"geometry_status\": \"current\",\n      \"metrics\": {\n        \"bounding_box_mm\": {\n          \"dimensions\": [\n            20.0,\n            20.0,\n            100.0\n          ],\n          \"maximum\": [\n            10.0,\n            10.0,\n            100.0\n          ],\n          \"minimum\": [\n            -10.0,\n            -10.0,\n            0.0\n          ]\n        },\n        \"centroid_mm\": [\n          0.0,\n          0.0,\n          50.0\n        ],\n        \"material_mass_kg\": 0.25132741228718347,\n        \"operation\": \"add\",\n        \"scope\": \"isolated primitive before Boolean assembly evaluation\",\n        \"section_properties\": {\n          \"area_mm2\": 314.1592653589793,\n          \"polar_second_moment_mm4\": 15707.963267948966,\n          \"reference_plane\": \"local x-y centroidal section\",\n          \"second_moment_x_mm4\": 7853.981633974483,\n          \"second_moment_y_mm4\": 7853.981633974483\n        },\n        \"shape\": \"cylinder\",\n        \"surface_area_mm2\": 6911.503837897545,\n        \"volume_mm3\": 31415.926535897932\n      },\n      \"model_inputs_checked\": [\n        \"area_mm2\",\n        \"length_mm\"\n      ],\n      \"project_id\": \"physics-binding-example\",\n      \"project_revision\": 1,\n      \"source_type\": \"neurocad-agent-component-v1\"\n    },\n    \"load_cases\": [\n      {\n        \"case_id\": \"service\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"da17b6b8e5b5e517eacf116f79e1e27cb47864ba556bca5cb47a53d7c1423b3c\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared service current.\",\n        \"values\": {\n          \"current_a\": 4.0\n        }\n      },\n      {\n        \"case_id\": \"increment\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"76e32e96f6f52e6c98f1e4d46961eb669f2acf8834c93f771c111a0b0128f661\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared current increment.\",\n        \"values\": {\n          \"current_a\": 2.0\n        }\n      }\n    ],\n    \"load_combination\": {\n      \"coefficients\": {\n        \"increment\": 0.5,\n        \"service\": 1.0\n      },\n      \"combination_id\": \"service-plus-half-increment\",\n      \"combined_values\": {\n        \"current_a\": 5.0\n      },\n      \"coordinate_system\": \"component-local\",\n      \"load_combination_sha256\": \"55a82c6b0d5d53fa7c86182dadecc9c846b352f47f9ee36608f72ad98289be84\",\n      \"resolved_load_case_sha256\": \"107d4fcf81ae7f30b6141478c1563fca563104ee60cb6b3dd790848756251e65\",\n      \"schema_version\": \"neurocad-load-combination-v1\",\n      \"source\": \"Illustrative algebraic combination.\",\n      \"values_used\": [\n        \"current_a\"\n      ]\n    },\n    \"material\": {\n      \"evaluation_temperature_k\": 350.0,\n      \"interpolated_properties\": [\n        \"resistivity_ohm_m\"\n      ],\n      \"material_card_sha256\": \"230055d4d2aeb316de3ee0359573163bf0185bf5dadd5125143e0f8ea7e0db10\",\n      \"material_id\": \"documented-conductor-example\",\n      \"properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"properties_used\": [\n        \"elastic_modulus_mpa\",\n        \"expansion_coefficient_per_k\",\n        \"resistivity_ohm_m\",\n        \"yield_strength_mpa\"\n      ],\n      \"resolved_material_sha256\": \"09db474478b488cf30411ffb56e862495bb78dee74bf1c00dcde4c7823cde1a7\",\n      \"resolved_properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"resistivity_ohm_m\": 1.85e-08,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"revision\": 1,\n      \"schema_version\": \"neurocad-material-card-v2\",\n      \"source\": \"Illustrative declared values only; replace with the exact authoritative datasheet or measured dataset.\",\n      \"temperature_tables\": {\n        \"resistivity_ohm_m\": [\n          {\n            \"temperature_k\": 300.0,\n            \"value\": 1.7e-08\n          },\n          {\n            \"temperature_k\": 400.0,\n            \"value\": 2e-08\n          }\n        ]\n      }\n    },\n    \"resolved_v1_binding_sha256\": \"98cc2b3d2821080aaad93d748676867e49de6a7de6df2987228e17ea85697bc9\",\n    \"schema_version\": \"neurocad-physics-context-v2\",\n    \"warnings\": []\n  },\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 300,\n    \"area_mm2\": 314.1592653589793,\n    \"current_a\": 5,\n    \"elastic_modulus_mpa\": 200000,\n    \"expansion_coefficient_per_k\": 1.2e-05,\n    \"length_mm\": 100,\n    \"resistance_temperature_coefficient_per_k\": 0.004,\n    \"resistivity_ohm_m\": 1.85e-08,\n    \"safety_factor\": 2,\n    \"thermal_resistance_k_per_w\": 2,\n    \"yield_strength_mpa\": 250\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"overlay\": {\n    \"component_id\": \"shaft\",\n    \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n    \"legend\": {\n      \"fail\": \"the model's explicitly supplied constraint evaluated false\",\n      \"not_evaluated\": \"the request did not provide enough information for a pass/fail constraint\",\n      \"pass\": \"the model's explicitly supplied constraint evaluated true\"\n    },\n    \"metrics\": [\n      {\n        \"name\": \"cold_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.8887328944001275e-06\n      },\n      {\n        \"name\": \"current_density_a_per_mm2\",\n        \"unit\": \"A/mm^2\",\n        \"value\": 0.015915494309189534\n      },\n      {\n        \"name\": \"electro_thermal_loop_gain\",\n        \"unit\": \"1\",\n        \"value\": 1.1777465788800255e-06\n      },\n      {\n        \"name\": \"equilibrium_temperature_k\",\n        \"unit\": \"K\",\n        \"value\": 300.0002944369915\n      },\n      {\n        \"name\": \"free_expansion_mm\",\n        \"unit\": \"mm\",\n        \"value\": 3.5332438979059893e-07\n      },\n      {\n        \"name\": \"fully_restrained_stress_mpa\",\n        \"unit\": \"MPa\",\n        \"value\": -0.0007066487795811979\n      },\n      {\n        \"name\": \"hot_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.888739829843317e-06\n      },\n      {\n        \"name\": \"joule_heat_w\",\n        \"unit\": \"W\",\n        \"value\": 0.00014721849574608292\n      },\n      {\n        \"name\": \"temperature_rise_k\",\n        \"unit\": \"K\",\n        \"value\": 0.0002944369914921658\n      },\n      {\n        \"name\": \"voltage_drop_v\",\n        \"unit\": \"V\",\n        \"value\": 2.9443699149216585e-05\n      },\n      {\n        \"name\": \"yield_utilization\",\n        \"unit\": \"1\",\n        \"value\": 5.653190236649584e-06\n      }\n    ],\n    \"model\": \"lumped_electro_thermal_wire_v1\",\n    \"overlay_sha256\": \"624ae1191448fd6c851487ca7ab543150c4965f115deda67e7b725e41db63ec9\",\n    \"schema_version\": \"neurocad-component-overlay-v1\",\n    \"scope\": \"uniform annotation on the exact bound primitive; values are model-level scalars, not nodal or per-vertex fields\",\n    \"spatial_field\": false,\n    \"status\": \"pass\"\n  },\n  \"request_sha256\": \"b818ac484d90a19078fd0e09b04a94911818eec329cba9984d805ea9f3df8385\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 5.8887328944001275e-06,\n    \"constraint_satisfied\": true,\n    \"current_density_a_per_mm2\": 0.015915494309189534,\n    \"electro_thermal_loop_gain\": 1.1777465788800255e-06,\n    \"equilibrium_temperature_k\": 300.0002944369915,\n    \"free_expansion_mm\": 3.5332438979059893e-07,\n    \"fully_restrained_stress_mpa\": -0.0007066487795811979,\n    \"hot_resistance_ohm\": 5.888739829843317e-06,\n    \"joule_heat_w\": 0.00014721849574608292,\n    \"temperature_rise_k\": 0.0002944369914921658,\n    \"voltage_drop_v\": 2.9443699149216585e-05,\n    \"yield_utilization\": 5.653190236649584e-06\n  },\n  \"schema_version\": \"neurocad-physics-v3\",\n  \"uncertainty\": {\n    \"base_input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n    \"claim_boundary\": \"screening uncertainty over declared scalar ranges; not a probability or global-proof claim unless explicitly stated\",\n    \"input_bounds\": {\n      \"current_a\": {\n        \"lower\": 4.5,\n        \"upper\": 5.5\n      }\n    },\n    \"method\": \"monte_carlo\",\n    \"method_boundary\": \"finite seeded samples from independent uniform input distributions; percentiles are empirical, not certified tails\",\n    \"observed_constraint_failure_fraction\": 0.0,\n    \"outputs\": [\n      \"temperature_rise_k\"\n    ],\n    \"result_statistics\": {\n      \"temperature_rise_k\": {\n        \"base\": 0.0002944369914921658,\n        \"maximum\": 0.0003530629535946436,\n        \"mean\": 0.00029095288663687793,\n        \"minimum\": 0.00024361468723016068,\n        \"p05\": 0.0002457454531593704,\n        \"p50\": 0.00028614054426735205,\n        \"p95\": 0.00034215792504025923,\n        \"sample_standard_deviation\": 3.276301539093187e-05\n      }\n    },\n    \"sample_count\": 32,\n    \"schema_version\": \"neurocad-physics-uncertainty-v1\",\n    \"seed\": 20261014,\n    \"uniform_independent_sampling\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "monte_carlo-repeat.json",
+        "-o",
+        "monte_carlo-repeat-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"bindings\": {\n    \"binding_sha256\": \"962bec139ff49c366d234974c11701350a68496b802f366feb4bb608181c9806\",\n    \"geometry\": {\n      \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n      \"component_id\": \"shaft\",\n      \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n      \"geometry_status\": \"current\",\n      \"metrics\": {\n        \"bounding_box_mm\": {\n          \"dimensions\": [\n            20.0,\n            20.0,\n            100.0\n          ],\n          \"maximum\": [\n            10.0,\n            10.0,\n            100.0\n          ],\n          \"minimum\": [\n            -10.0,\n            -10.0,\n            0.0\n          ]\n        },\n        \"centroid_mm\": [\n          0.0,\n          0.0,\n          50.0\n        ],\n        \"material_mass_kg\": 0.25132741228718347,\n        \"operation\": \"add\",\n        \"scope\": \"isolated primitive before Boolean assembly evaluation\",\n        \"section_properties\": {\n          \"area_mm2\": 314.1592653589793,\n          \"polar_second_moment_mm4\": 15707.963267948966,\n          \"reference_plane\": \"local x-y centroidal section\",\n          \"second_moment_x_mm4\": 7853.981633974483,\n          \"second_moment_y_mm4\": 7853.981633974483\n        },\n        \"shape\": \"cylinder\",\n        \"surface_area_mm2\": 6911.503837897545,\n        \"volume_mm3\": 31415.926535897932\n      },\n      \"model_inputs_checked\": [\n        \"area_mm2\",\n        \"length_mm\"\n      ],\n      \"project_id\": \"physics-binding-example\",\n      \"project_revision\": 1,\n      \"source_type\": \"neurocad-agent-component-v1\"\n    },\n    \"load_cases\": [\n      {\n        \"case_id\": \"service\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"da17b6b8e5b5e517eacf116f79e1e27cb47864ba556bca5cb47a53d7c1423b3c\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared service current.\",\n        \"values\": {\n          \"current_a\": 4.0\n        }\n      },\n      {\n        \"case_id\": \"increment\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"76e32e96f6f52e6c98f1e4d46961eb669f2acf8834c93f771c111a0b0128f661\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared current increment.\",\n        \"values\": {\n          \"current_a\": 2.0\n        }\n      }\n    ],\n    \"load_combination\": {\n      \"coefficients\": {\n        \"increment\": 0.5,\n        \"service\": 1.0\n      },\n      \"combination_id\": \"service-plus-half-increment\",\n      \"combined_values\": {\n        \"current_a\": 5.0\n      },\n      \"coordinate_system\": \"component-local\",\n      \"load_combination_sha256\": \"55a82c6b0d5d53fa7c86182dadecc9c846b352f47f9ee36608f72ad98289be84\",\n      \"resolved_load_case_sha256\": \"107d4fcf81ae7f30b6141478c1563fca563104ee60cb6b3dd790848756251e65\",\n      \"schema_version\": \"neurocad-load-combination-v1\",\n      \"source\": \"Illustrative algebraic combination.\",\n      \"values_used\": [\n        \"current_a\"\n      ]\n    },\n    \"material\": {\n      \"evaluation_temperature_k\": 350.0,\n      \"interpolated_properties\": [\n        \"resistivity_ohm_m\"\n      ],\n      \"material_card_sha256\": \"230055d4d2aeb316de3ee0359573163bf0185bf5dadd5125143e0f8ea7e0db10\",\n      \"material_id\": \"documented-conductor-example\",\n      \"properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"properties_used\": [\n        \"elastic_modulus_mpa\",\n        \"expansion_coefficient_per_k\",\n        \"resistivity_ohm_m\",\n        \"yield_strength_mpa\"\n      ],\n      \"resolved_material_sha256\": \"09db474478b488cf30411ffb56e862495bb78dee74bf1c00dcde4c7823cde1a7\",\n      \"resolved_properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"resistivity_ohm_m\": 1.85e-08,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"revision\": 1,\n      \"schema_version\": \"neurocad-material-card-v2\",\n      \"source\": \"Illustrative declared values only; replace with the exact authoritative datasheet or measured dataset.\",\n      \"temperature_tables\": {\n        \"resistivity_ohm_m\": [\n          {\n            \"temperature_k\": 300.0,\n            \"value\": 1.7e-08\n          },\n          {\n            \"temperature_k\": 400.0,\n            \"value\": 2e-08\n          }\n        ]\n      }\n    },\n    \"resolved_v1_binding_sha256\": \"98cc2b3d2821080aaad93d748676867e49de6a7de6df2987228e17ea85697bc9\",\n    \"schema_version\": \"neurocad-physics-context-v2\",\n    \"warnings\": []\n  },\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 300,\n    \"area_mm2\": 314.1592653589793,\n    \"current_a\": 5,\n    \"elastic_modulus_mpa\": 200000,\n    \"expansion_coefficient_per_k\": 1.2e-05,\n    \"length_mm\": 100,\n    \"resistance_temperature_coefficient_per_k\": 0.004,\n    \"resistivity_ohm_m\": 1.85e-08,\n    \"safety_factor\": 2,\n    \"thermal_resistance_k_per_w\": 2,\n    \"yield_strength_mpa\": 250\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"overlay\": {\n    \"component_id\": \"shaft\",\n    \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n    \"legend\": {\n      \"fail\": \"the model's explicitly supplied constraint evaluated false\",\n      \"not_evaluated\": \"the request did not provide enough information for a pass/fail constraint\",\n      \"pass\": \"the model's explicitly supplied constraint evaluated true\"\n    },\n    \"metrics\": [\n      {\n        \"name\": \"cold_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.8887328944001275e-06\n      },\n      {\n        \"name\": \"current_density_a_per_mm2\",\n        \"unit\": \"A/mm^2\",\n        \"value\": 0.015915494309189534\n      },\n      {\n        \"name\": \"electro_thermal_loop_gain\",\n        \"unit\": \"1\",\n        \"value\": 1.1777465788800255e-06\n      },\n      {\n        \"name\": \"equilibrium_temperature_k\",\n        \"unit\": \"K\",\n        \"value\": 300.0002944369915\n      },\n      {\n        \"name\": \"free_expansion_mm\",\n        \"unit\": \"mm\",\n        \"value\": 3.5332438979059893e-07\n      },\n      {\n        \"name\": \"fully_restrained_stress_mpa\",\n        \"unit\": \"MPa\",\n        \"value\": -0.0007066487795811979\n      },\n      {\n        \"name\": \"hot_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.888739829843317e-06\n      },\n      {\n        \"name\": \"joule_heat_w\",\n        \"unit\": \"W\",\n        \"value\": 0.00014721849574608292\n      },\n      {\n        \"name\": \"temperature_rise_k\",\n        \"unit\": \"K\",\n        \"value\": 0.0002944369914921658\n      },\n      {\n        \"name\": \"voltage_drop_v\",\n        \"unit\": \"V\",\n        \"value\": 2.9443699149216585e-05\n      },\n      {\n        \"name\": \"yield_utilization\",\n        \"unit\": \"1\",\n        \"value\": 5.653190236649584e-06\n      }\n    ],\n    \"model\": \"lumped_electro_thermal_wire_v1\",\n    \"overlay_sha256\": \"624ae1191448fd6c851487ca7ab543150c4965f115deda67e7b725e41db63ec9\",\n    \"schema_version\": \"neurocad-component-overlay-v1\",\n    \"scope\": \"uniform annotation on the exact bound primitive; values are model-level scalars, not nodal or per-vertex fields\",\n    \"spatial_field\": false,\n    \"status\": \"pass\"\n  },\n  \"request_sha256\": \"b818ac484d90a19078fd0e09b04a94911818eec329cba9984d805ea9f3df8385\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 5.8887328944001275e-06,\n    \"constraint_satisfied\": true,\n    \"current_density_a_per_mm2\": 0.015915494309189534,\n    \"electro_thermal_loop_gain\": 1.1777465788800255e-06,\n    \"equilibrium_temperature_k\": 300.0002944369915,\n    \"free_expansion_mm\": 3.5332438979059893e-07,\n    \"fully_restrained_stress_mpa\": -0.0007066487795811979,\n    \"hot_resistance_ohm\": 5.888739829843317e-06,\n    \"joule_heat_w\": 0.00014721849574608292,\n    \"temperature_rise_k\": 0.0002944369914921658,\n    \"voltage_drop_v\": 2.9443699149216585e-05,\n    \"yield_utilization\": 5.653190236649584e-06\n  },\n  \"schema_version\": \"neurocad-physics-v3\",\n  \"uncertainty\": {\n    \"base_input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n    \"claim_boundary\": \"screening uncertainty over declared scalar ranges; not a probability or global-proof claim unless explicitly stated\",\n    \"input_bounds\": {\n      \"current_a\": {\n        \"lower\": 4.5,\n        \"upper\": 5.5\n      }\n    },\n    \"method\": \"monte_carlo\",\n    \"method_boundary\": \"finite seeded samples from independent uniform input distributions; percentiles are empirical, not certified tails\",\n    \"observed_constraint_failure_fraction\": 0.0,\n    \"outputs\": [\n      \"temperature_rise_k\"\n    ],\n    \"result_statistics\": {\n      \"temperature_rise_k\": {\n        \"base\": 0.0002944369914921658,\n        \"maximum\": 0.0003530629535946436,\n        \"mean\": 0.00029095288663687793,\n        \"minimum\": 0.00024361468723016068,\n        \"p05\": 0.0002457454531593704,\n        \"p50\": 0.00028614054426735205,\n        \"p95\": 0.00034215792504025923,\n        \"sample_standard_deviation\": 3.276301539093187e-05\n      }\n    },\n    \"sample_count\": 32,\n    \"schema_version\": \"neurocad-physics-uncertainty-v1\",\n    \"seed\": 20261014,\n    \"uniform_independent_sampling\": true\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "local_sensitivity.json",
+        "-o",
+        "local_sensitivity-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"bindings\": {\n    \"binding_sha256\": \"962bec139ff49c366d234974c11701350a68496b802f366feb4bb608181c9806\",\n    \"geometry\": {\n      \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n      \"component_id\": \"shaft\",\n      \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n      \"geometry_status\": \"current\",\n      \"metrics\": {\n        \"bounding_box_mm\": {\n          \"dimensions\": [\n            20.0,\n            20.0,\n            100.0\n          ],\n          \"maximum\": [\n            10.0,\n            10.0,\n            100.0\n          ],\n          \"minimum\": [\n            -10.0,\n            -10.0,\n            0.0\n          ]\n        },\n        \"centroid_mm\": [\n          0.0,\n          0.0,\n          50.0\n        ],\n        \"material_mass_kg\": 0.25132741228718347,\n        \"operation\": \"add\",\n        \"scope\": \"isolated primitive before Boolean assembly evaluation\",\n        \"section_properties\": {\n          \"area_mm2\": 314.1592653589793,\n          \"polar_second_moment_mm4\": 15707.963267948966,\n          \"reference_plane\": \"local x-y centroidal section\",\n          \"second_moment_x_mm4\": 7853.981633974483,\n          \"second_moment_y_mm4\": 7853.981633974483\n        },\n        \"shape\": \"cylinder\",\n        \"surface_area_mm2\": 6911.503837897545,\n        \"volume_mm3\": 31415.926535897932\n      },\n      \"model_inputs_checked\": [\n        \"area_mm2\",\n        \"length_mm\"\n      ],\n      \"project_id\": \"physics-binding-example\",\n      \"project_revision\": 1,\n      \"source_type\": \"neurocad-agent-component-v1\"\n    },\n    \"load_cases\": [\n      {\n        \"case_id\": \"service\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"da17b6b8e5b5e517eacf116f79e1e27cb47864ba556bca5cb47a53d7c1423b3c\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared service current.\",\n        \"values\": {\n          \"current_a\": 4.0\n        }\n      },\n      {\n        \"case_id\": \"increment\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"76e32e96f6f52e6c98f1e4d46961eb669f2acf8834c93f771c111a0b0128f661\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared current increment.\",\n        \"values\": {\n          \"current_a\": 2.0\n        }\n      }\n    ],\n    \"load_combination\": {\n      \"coefficients\": {\n        \"increment\": 0.5,\n        \"service\": 1.0\n      },\n      \"combination_id\": \"service-plus-half-increment\",\n      \"combined_values\": {\n        \"current_a\": 5.0\n      },\n      \"coordinate_system\": \"component-local\",\n      \"load_combination_sha256\": \"55a82c6b0d5d53fa7c86182dadecc9c846b352f47f9ee36608f72ad98289be84\",\n      \"resolved_load_case_sha256\": \"107d4fcf81ae7f30b6141478c1563fca563104ee60cb6b3dd790848756251e65\",\n      \"schema_version\": \"neurocad-load-combination-v1\",\n      \"source\": \"Illustrative algebraic combination.\",\n      \"values_used\": [\n        \"current_a\"\n      ]\n    },\n    \"material\": {\n      \"evaluation_temperature_k\": 350.0,\n      \"interpolated_properties\": [\n        \"resistivity_ohm_m\"\n      ],\n      \"material_card_sha256\": \"230055d4d2aeb316de3ee0359573163bf0185bf5dadd5125143e0f8ea7e0db10\",\n      \"material_id\": \"documented-conductor-example\",\n      \"properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"properties_used\": [\n        \"elastic_modulus_mpa\",\n        \"expansion_coefficient_per_k\",\n        \"resistivity_ohm_m\",\n        \"yield_strength_mpa\"\n      ],\n      \"resolved_material_sha256\": \"09db474478b488cf30411ffb56e862495bb78dee74bf1c00dcde4c7823cde1a7\",\n      \"resolved_properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"resistivity_ohm_m\": 1.85e-08,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"revision\": 1,\n      \"schema_version\": \"neurocad-material-card-v2\",\n      \"source\": \"Illustrative declared values only; replace with the exact authoritative datasheet or measured dataset.\",\n      \"temperature_tables\": {\n        \"resistivity_ohm_m\": [\n          {\n            \"temperature_k\": 300.0,\n            \"value\": 1.7e-08\n          },\n          {\n            \"temperature_k\": 400.0,\n            \"value\": 2e-08\n          }\n        ]\n      }\n    },\n    \"resolved_v1_binding_sha256\": \"98cc2b3d2821080aaad93d748676867e49de6a7de6df2987228e17ea85697bc9\",\n    \"schema_version\": \"neurocad-physics-context-v2\",\n    \"warnings\": []\n  },\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 300,\n    \"area_mm2\": 314.1592653589793,\n    \"current_a\": 5,\n    \"elastic_modulus_mpa\": 200000,\n    \"expansion_coefficient_per_k\": 1.2e-05,\n    \"length_mm\": 100,\n    \"resistance_temperature_coefficient_per_k\": 0.004,\n    \"resistivity_ohm_m\": 1.85e-08,\n    \"safety_factor\": 2,\n    \"thermal_resistance_k_per_w\": 2,\n    \"yield_strength_mpa\": 250\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"overlay\": {\n    \"component_id\": \"shaft\",\n    \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n    \"legend\": {\n      \"fail\": \"the model's explicitly supplied constraint evaluated false\",\n      \"not_evaluated\": \"the request did not provide enough information for a pass/fail constraint\",\n      \"pass\": \"the model's explicitly supplied constraint evaluated true\"\n    },\n    \"metrics\": [\n      {\n        \"name\": \"cold_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.8887328944001275e-06\n      },\n      {\n        \"name\": \"current_density_a_per_mm2\",\n        \"unit\": \"A/mm^2\",\n        \"value\": 0.015915494309189534\n      },\n      {\n        \"name\": \"electro_thermal_loop_gain\",\n        \"unit\": \"1\",\n        \"value\": 1.1777465788800255e-06\n      },\n      {\n        \"name\": \"equilibrium_temperature_k\",\n        \"unit\": \"K\",\n        \"value\": 300.0002944369915\n      },\n      {\n        \"name\": \"free_expansion_mm\",\n        \"unit\": \"mm\",\n        \"value\": 3.5332438979059893e-07\n      },\n      {\n        \"name\": \"fully_restrained_stress_mpa\",\n        \"unit\": \"MPa\",\n        \"value\": -0.0007066487795811979\n      },\n      {\n        \"name\": \"hot_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.888739829843317e-06\n      },\n      {\n        \"name\": \"joule_heat_w\",\n        \"unit\": \"W\",\n        \"value\": 0.00014721849574608292\n      },\n      {\n        \"name\": \"temperature_rise_k\",\n        \"unit\": \"K\",\n        \"value\": 0.0002944369914921658\n      },\n      {\n        \"name\": \"voltage_drop_v\",\n        \"unit\": \"V\",\n        \"value\": 2.9443699149216585e-05\n      },\n      {\n        \"name\": \"yield_utilization\",\n        \"unit\": \"1\",\n        \"value\": 5.653190236649584e-06\n      }\n    ],\n    \"model\": \"lumped_electro_thermal_wire_v1\",\n    \"overlay_sha256\": \"624ae1191448fd6c851487ca7ab543150c4965f115deda67e7b725e41db63ec9\",\n    \"schema_version\": \"neurocad-component-overlay-v1\",\n    \"scope\": \"uniform annotation on the exact bound primitive; values are model-level scalars, not nodal or per-vertex fields\",\n    \"spatial_field\": false,\n    \"status\": \"pass\"\n  },\n  \"request_sha256\": \"627c901182723af60aff64cdc06a7ad7bd5eb0c12ca3f1c7bb6fda42c53c7346\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 5.8887328944001275e-06,\n    \"constraint_satisfied\": true,\n    \"current_density_a_per_mm2\": 0.015915494309189534,\n    \"electro_thermal_loop_gain\": 1.1777465788800255e-06,\n    \"equilibrium_temperature_k\": 300.0002944369915,\n    \"free_expansion_mm\": 3.5332438979059893e-07,\n    \"fully_restrained_stress_mpa\": -0.0007066487795811979,\n    \"hot_resistance_ohm\": 5.888739829843317e-06,\n    \"joule_heat_w\": 0.00014721849574608292,\n    \"temperature_rise_k\": 0.0002944369914921658,\n    \"voltage_drop_v\": 2.9443699149216585e-05,\n    \"yield_utilization\": 5.653190236649584e-06\n  },\n  \"schema_version\": \"neurocad-physics-v3\",\n  \"uncertainty\": {\n    \"base_input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n    \"base_results\": {\n      \"temperature_rise_k\": 0.0002944369914921658\n    },\n    \"claim_boundary\": \"screening uncertainty over declared scalar ranges; not a probability or global-proof claim unless explicitly stated\",\n    \"input_bounds\": {\n      \"current_a\": {\n        \"lower\": 4.5,\n        \"upper\": 5.5\n      }\n    },\n    \"local_derivatives\": {\n      \"current_a\": {\n        \"derivatives\": {\n          \"temperature_rise_k\": 0.00011777493530559444\n        },\n        \"step\": 0.0001\n      }\n    },\n    \"method\": \"local_sensitivity\",\n    \"method_boundary\": \"central finite differences at the declared base point; derivatives are local and step-size dependent\",\n    \"outputs\": [\n      \"temperature_rise_k\"\n    ],\n    \"schema_version\": \"neurocad-physics-uncertainty-v1\",\n    \"step_fraction\": 0.0001\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "local_sensitivity-repeat.json",
+        "-o",
+        "local_sensitivity-repeat-report.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assumptions\": [\n    \"uniform conductor cross-section and temperature with constant thermal resistance to a fixed ambient\",\n    \"resistance varies linearly with temperature and the reported loop gain must remain below one\",\n    \"optional mechanical output is one-dimensional linear-elastic full restraint; radiation, contact resistance, creep, and thermal gradients are excluded\"\n  ],\n  \"bindings\": {\n    \"binding_sha256\": \"962bec139ff49c366d234974c11701350a68496b802f366feb4bb608181c9806\",\n    \"geometry\": {\n      \"agent_project\": \"/home/runner/work/_temp/v3-installed/agent-shaft-project.json\",\n      \"component_id\": \"shaft\",\n      \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n      \"geometry_status\": \"current\",\n      \"metrics\": {\n        \"bounding_box_mm\": {\n          \"dimensions\": [\n            20.0,\n            20.0,\n            100.0\n          ],\n          \"maximum\": [\n            10.0,\n            10.0,\n            100.0\n          ],\n          \"minimum\": [\n            -10.0,\n            -10.0,\n            0.0\n          ]\n        },\n        \"centroid_mm\": [\n          0.0,\n          0.0,\n          50.0\n        ],\n        \"material_mass_kg\": 0.25132741228718347,\n        \"operation\": \"add\",\n        \"scope\": \"isolated primitive before Boolean assembly evaluation\",\n        \"section_properties\": {\n          \"area_mm2\": 314.1592653589793,\n          \"polar_second_moment_mm4\": 15707.963267948966,\n          \"reference_plane\": \"local x-y centroidal section\",\n          \"second_moment_x_mm4\": 7853.981633974483,\n          \"second_moment_y_mm4\": 7853.981633974483\n        },\n        \"shape\": \"cylinder\",\n        \"surface_area_mm2\": 6911.503837897545,\n        \"volume_mm3\": 31415.926535897932\n      },\n      \"model_inputs_checked\": [\n        \"area_mm2\",\n        \"length_mm\"\n      ],\n      \"project_id\": \"physics-binding-example\",\n      \"project_revision\": 1,\n      \"source_type\": \"neurocad-agent-component-v1\"\n    },\n    \"load_cases\": [\n      {\n        \"case_id\": \"service\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"da17b6b8e5b5e517eacf116f79e1e27cb47864ba556bca5cb47a53d7c1423b3c\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared service current.\",\n        \"values\": {\n          \"current_a\": 4.0\n        }\n      },\n      {\n        \"case_id\": \"increment\",\n        \"coordinate_system\": \"component-local\",\n        \"load_case_sha256\": \"76e32e96f6f52e6c98f1e4d46961eb669f2acf8834c93f771c111a0b0128f661\",\n        \"schema_version\": \"neurocad-load-case-v1\",\n        \"source\": \"Illustrative declared current increment.\",\n        \"values\": {\n          \"current_a\": 2.0\n        }\n      }\n    ],\n    \"load_combination\": {\n      \"coefficients\": {\n        \"increment\": 0.5,\n        \"service\": 1.0\n      },\n      \"combination_id\": \"service-plus-half-increment\",\n      \"combined_values\": {\n        \"current_a\": 5.0\n      },\n      \"coordinate_system\": \"component-local\",\n      \"load_combination_sha256\": \"55a82c6b0d5d53fa7c86182dadecc9c846b352f47f9ee36608f72ad98289be84\",\n      \"resolved_load_case_sha256\": \"107d4fcf81ae7f30b6141478c1563fca563104ee60cb6b3dd790848756251e65\",\n      \"schema_version\": \"neurocad-load-combination-v1\",\n      \"source\": \"Illustrative algebraic combination.\",\n      \"values_used\": [\n        \"current_a\"\n      ]\n    },\n    \"material\": {\n      \"evaluation_temperature_k\": 350.0,\n      \"interpolated_properties\": [\n        \"resistivity_ohm_m\"\n      ],\n      \"material_card_sha256\": \"230055d4d2aeb316de3ee0359573163bf0185bf5dadd5125143e0f8ea7e0db10\",\n      \"material_id\": \"documented-conductor-example\",\n      \"properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"properties_used\": [\n        \"elastic_modulus_mpa\",\n        \"expansion_coefficient_per_k\",\n        \"resistivity_ohm_m\",\n        \"yield_strength_mpa\"\n      ],\n      \"resolved_material_sha256\": \"09db474478b488cf30411ffb56e862495bb78dee74bf1c00dcde4c7823cde1a7\",\n      \"resolved_properties\": {\n        \"density_kg_m3\": 8000.0,\n        \"elastic_modulus_mpa\": 200000.0,\n        \"expansion_coefficient_per_k\": 1.2e-05,\n        \"resistivity_ohm_m\": 1.85e-08,\n        \"yield_strength_mpa\": 250.0\n      },\n      \"revision\": 1,\n      \"schema_version\": \"neurocad-material-card-v2\",\n      \"source\": \"Illustrative declared values only; replace with the exact authoritative datasheet or measured dataset.\",\n      \"temperature_tables\": {\n        \"resistivity_ohm_m\": [\n          {\n            \"temperature_k\": 300.0,\n            \"value\": 1.7e-08\n          },\n          {\n            \"temperature_k\": 400.0,\n            \"value\": 2e-08\n          }\n        ]\n      }\n    },\n    \"resolved_v1_binding_sha256\": \"98cc2b3d2821080aaad93d748676867e49de6a7de6df2987228e17ea85697bc9\",\n    \"schema_version\": \"neurocad-physics-context-v2\",\n    \"warnings\": []\n  },\n  \"claim_boundary\": \"bounded analytical estimate; not FEA, CFD, certification, or physical validation\",\n  \"input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n  \"inputs\": {\n    \"ambient_temperature_k\": 300,\n    \"area_mm2\": 314.1592653589793,\n    \"current_a\": 5,\n    \"elastic_modulus_mpa\": 200000,\n    \"expansion_coefficient_per_k\": 1.2e-05,\n    \"length_mm\": 100,\n    \"resistance_temperature_coefficient_per_k\": 0.004,\n    \"resistivity_ohm_m\": 1.85e-08,\n    \"safety_factor\": 2,\n    \"thermal_resistance_k_per_w\": 2,\n    \"yield_strength_mpa\": 250\n  },\n  \"model\": \"lumped_electro_thermal_wire_v1\",\n  \"overlay\": {\n    \"component_id\": \"shaft\",\n    \"geometry_sha256\": \"45be70724c547dad6981f5c85bc2bca9d3a00551c2f05a3dcba2428be46f3675\",\n    \"legend\": {\n      \"fail\": \"the model's explicitly supplied constraint evaluated false\",\n      \"not_evaluated\": \"the request did not provide enough information for a pass/fail constraint\",\n      \"pass\": \"the model's explicitly supplied constraint evaluated true\"\n    },\n    \"metrics\": [\n      {\n        \"name\": \"cold_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.8887328944001275e-06\n      },\n      {\n        \"name\": \"current_density_a_per_mm2\",\n        \"unit\": \"A/mm^2\",\n        \"value\": 0.015915494309189534\n      },\n      {\n        \"name\": \"electro_thermal_loop_gain\",\n        \"unit\": \"1\",\n        \"value\": 1.1777465788800255e-06\n      },\n      {\n        \"name\": \"equilibrium_temperature_k\",\n        \"unit\": \"K\",\n        \"value\": 300.0002944369915\n      },\n      {\n        \"name\": \"free_expansion_mm\",\n        \"unit\": \"mm\",\n        \"value\": 3.5332438979059893e-07\n      },\n      {\n        \"name\": \"fully_restrained_stress_mpa\",\n        \"unit\": \"MPa\",\n        \"value\": -0.0007066487795811979\n      },\n      {\n        \"name\": \"hot_resistance_ohm\",\n        \"unit\": \"ohm\",\n        \"value\": 5.888739829843317e-06\n      },\n      {\n        \"name\": \"joule_heat_w\",\n        \"unit\": \"W\",\n        \"value\": 0.00014721849574608292\n      },\n      {\n        \"name\": \"temperature_rise_k\",\n        \"unit\": \"K\",\n        \"value\": 0.0002944369914921658\n      },\n      {\n        \"name\": \"voltage_drop_v\",\n        \"unit\": \"V\",\n        \"value\": 2.9443699149216585e-05\n      },\n      {\n        \"name\": \"yield_utilization\",\n        \"unit\": \"1\",\n        \"value\": 5.653190236649584e-06\n      }\n    ],\n    \"model\": \"lumped_electro_thermal_wire_v1\",\n    \"overlay_sha256\": \"624ae1191448fd6c851487ca7ab543150c4965f115deda67e7b725e41db63ec9\",\n    \"schema_version\": \"neurocad-component-overlay-v1\",\n    \"scope\": \"uniform annotation on the exact bound primitive; values are model-level scalars, not nodal or per-vertex fields\",\n    \"spatial_field\": false,\n    \"status\": \"pass\"\n  },\n  \"request_sha256\": \"627c901182723af60aff64cdc06a7ad7bd5eb0c12ca3f1c7bb6fda42c53c7346\",\n  \"requested_model\": \"electro_thermal_wire\",\n  \"results\": {\n    \"cold_resistance_ohm\": 5.8887328944001275e-06,\n    \"constraint_satisfied\": true,\n    \"current_density_a_per_mm2\": 0.015915494309189534,\n    \"electro_thermal_loop_gain\": 1.1777465788800255e-06,\n    \"equilibrium_temperature_k\": 300.0002944369915,\n    \"free_expansion_mm\": 3.5332438979059893e-07,\n    \"fully_restrained_stress_mpa\": -0.0007066487795811979,\n    \"hot_resistance_ohm\": 5.888739829843317e-06,\n    \"joule_heat_w\": 0.00014721849574608292,\n    \"temperature_rise_k\": 0.0002944369914921658,\n    \"voltage_drop_v\": 2.9443699149216585e-05,\n    \"yield_utilization\": 5.653190236649584e-06\n  },\n  \"schema_version\": \"neurocad-physics-v3\",\n  \"uncertainty\": {\n    \"base_input_sha256\": \"473b9355e6573b800f084b6981884aea9364b2cb131644cc660f33e5d8c68da2\",\n    \"base_results\": {\n      \"temperature_rise_k\": 0.0002944369914921658\n    },\n    \"claim_boundary\": \"screening uncertainty over declared scalar ranges; not a probability or global-proof claim unless explicitly stated\",\n    \"input_bounds\": {\n      \"current_a\": {\n        \"lower\": 4.5,\n        \"upper\": 5.5\n      }\n    },\n    \"local_derivatives\": {\n      \"current_a\": {\n        \"derivatives\": {\n          \"temperature_rise_k\": 0.00011777493530559444\n        },\n        \"step\": 0.0001\n      }\n    },\n    \"method\": \"local_sensitivity\",\n    \"method_boundary\": \"central finite differences at the declared base point; derivatives are local and step-size dependent\",\n    \"outputs\": [\n      \"temperature_rise_k\"\n    ],\n    \"schema_version\": \"neurocad-physics-uncertainty-v1\",\n    \"step_fraction\": 0.0001\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "physics",
+        "geometry-contradiction.json",
+        "-o",
+        "geometry-contradiction-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: inputs.length_mm contradicts bound component 'shaft': 101.0 != 100.0\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "material-contradiction.json",
+        "-o",
+        "material-contradiction-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: inputs.resistivity_ohm_m contradicts material card 'documented-conductor-example': 2e-08 != 1.85e-08\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "load-contradiction.json",
+        "-o",
+        "load-contradiction-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: inputs.current_a contradicts load case 'service-plus-half-increment': 6.0 != 5.0\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "extrapolation.json",
+        "-o",
+        "extrapolation-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: evaluation_temperature_k is outside table 'resistivity_ohm_m'; extrapolation is not allowed\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "mixed-coordinates.json",
+        "-o",
+        "mixed-coordinates-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: all load cases in a combination must use the same coordinate_system\n"
+    },
+    {
+      "arguments": [
+        "physics",
+        "wrong-units.json",
+        "-o",
+        "wrong-units-report.json"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: length_mm must be a finite number\n"
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "invalid-shaft.json",
+        "--output-dir",
+        "invalid-shaft"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: parameters.inner_diameter_mm must be smaller than outer_diameter_mm\n"
+    },
+    {
+      "arguments": [
+        "complex-shape",
+        "loaded-plate.json",
+        "--output-dir",
+        "loaded-plate"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "ERROR: perforated_plate supports geometric and mass analysis only; its load path requires a declared plate model and boundary conditions\n"
+    }
+  ],
+  "physical_validation": "NOT_STARTED",
+  "independent_reproduction": "NOT_STARTED",
+  "freeze_sha256": "6a49e4f94cbb7b6e143a071eb3b10373defd2117a5e5ecfb1e8d6fd8ca64dff0",
+  "git_head": "7c53a0c287071135b962b19b6d5bfe651a84c67f",
+  "git_status": "?? research/physics_v3/.validation.lock\n",
+  "admission": {
+    "status": "PASS",
+    "samples": [
+      {
+        "available_bytes": 15566082048
+      },
+      {
+        "available_bytes": 15581564928
+      }
+    ],
+    "disk_free": 90651013120
+  },
+  "installed_identity": {
+    "module": "/home/runner/work/_temp/v3-clean/lib/python3.12/site-packages/core/physics_advanced.py",
+    "cli": "/home/runner/work/_temp/v3-clean/lib/python3.12/site-packages/neurocad_cli.py",
+    "sha256": "7983ca96adc523008c0899871192542e74033fddee27215d356642a04b82a3b4",
+    "version": "0.5.0a6"
+  },
+  "installed_source_hashes": {
+    "neurocad_cli.py": "dd75465a5645d17a066b9e4f00b28afe6813e8fa5f02b102d23d2b1900171470",
+    "core/__init__.py": "0042e60d04907fd080f0898577bcdff0941f1229fbfd389415039a625946bd65",
+    "core/agent_workbench.py": "b44b555c345fc84ee0c89bd9e3faabb935f35b3c20a04a6fd481382e36e2eaed",
+    "core/agentic.py": "1a35df89ba44bbcf7c0396214c9f4c4903a7130faa53338eaa0be195a9af61fc",
+    "core/artifacts.py": "b9eeedce257d9ee4ff549a94463c0c709cb06ad86aa2e6a93c97b5f815714d88",
+    "core/benchmark.py": "72e34bcad7cc732d5a6617e4ffeaa0a80f5476f8f991096ac89ada8ab4aebd70",
+    "core/calibration.py": "75ccd8a7fb187cd9a9b4ac3e92754daaba43440bf1c1ec6bcb51b9ea0fc50044",
+    "core/challenge.py": "1339babbf1e30a3ecbd9b612bc7b0f389d1df0b3e635e45226dd5e4d5cc19dc5",
+    "core/complex_shapes.py": "444ee7a27d138c14705a48cbd060e7d329c1be5b9148139f706ccf1a1c5f98d9",
+    "core/config.py": "320a1e29fc8548f739e18a388947e456465c94fd86227bc292c26f2e533b8c2a",
+    "core/conversational_parser.py": "ea8194796a5b2be903257eea7077b8db0a57a582d955e6e50a6e6c2a3da5afd5",
+    "core/daemon.py": "6dffb3b807916bf9d1886557083331ff7266352c9962afa63925aad44abb3f69",
+    "core/data.py": "9f2c5b6bd1d005ea4c8681f0724dcec2bedfe76456ec33b590787a049b53a149",
+    "core/demo_server.py": "7243824e236dbc07286f585e69df88249e1da8391ab765fb736ddbb97e57b896",
+    "core/design_graph.py": "17e429dc374a9737844df822bad956e33ba8919130f6421ca5108bd0489ac6f1",
+    "core/edit_language.py": "ba7f6dad03148e212880be72d2779c5f4aba6b0ff658a5f3bf7f6b84fdd1e1c5",
+    "core/enclosure.py": "63889371ee2cc8bf70a2d630f2a3cd3820642a67a6d021c2cca7ffd55a5b936d",
+    "core/enclosure_verification.py": "40d0d5d07f8a8af4bc88c9ea147bfc79f1a5076618238f786379861b55e60ec7",
+    "core/engineering_math.py": "a84aac0b13eed0ea0773542f020d957b08ee49a933d9b4bfde9b43372506c6e6",
+    "core/exact_backend.py": "3be69a7621943c91728adbe191947c92f8e6e608e75f59d849051baa632389c1",
+    "core/exact_build123d.py": "4cd9d7fe75364d5fbd2858943eedbc4fbf9b24f27f6b40c2d887b006de9bde11",
+    "core/external_evaluation.py": "b775a3a40ef3cb947e24998fe8af29574b41075d1607166038dd2fd594ad08c8",
+    "core/feature_ir.py": "e5397f0249ef50d928ec3fc83f581f37ffd93470245ef47ebeeaf32dd3a62ef9",
+    "core/fit_sample.py": "1f701eb3199fe2c783d8e5bea16eb3c819874f31fea026dd714549ac2fbf5819",
+    "core/generation.py": "67e491136348bd873818af3b03741fd60350765fb77f47f8b3db72c27568bbd6",
+    "core/geometry.py": "4ae4ad2285065a0e2918e4e82a405b751c4552f112b742305e748b29d4402402",
+    "core/gmsh_backend.py": "86a2eae28861f7b4e6982e8601cc122948ca9f1358004edea2543c722899f1ef",
+    "core/gmsh_integrity.py": "d21c7fc3a1f0151ea5cdae7834fae7ef61c1bccc573b4d386fb176ca808dadb6",
+    "core/gmsh_process.py": "0ed79fa025ab0802040e371310ca70733ce3809d7d53d405424eabdc2cac5bf7",
+    "core/integrations/__init__.py": "7d312269d18abbc6ae72d0c7abad96ba557c2fa4675ae1399c4beb45d1355135",
+    "core/integrations/common.py": "071ace348292c3f82a18b78dafcc5f6e212c1ffbfef941d73d5e11ab337a9c90",
+    "core/integrations/exchange.py": "2c41ef12367ccf97c15a1ccb06350b2e7d90ff2369256f44f41f08720689dae0",
+    "core/integrations/handoff.py": "5ab82a1b070e6f98f3aa982742aa2bbebaa5e7d4aaae4a3ac9b0fad9c80691b9",
+    "core/integrations/kicad.py": "31299a5a2b3982394c932d3a4cfd34160cd4b545f6ecd2e9b563a6b4c57c57b9",
+    "core/integrations/kicad_file.py": "639d397c8a16324442504019f4b3bd2882f3ea336fe488bca6fbbac6c56c0914",
+    "core/integrations/model.py": "1882c1fb1ecfd74f895b2850992f46e875d9fd5423b8fa9d5013fa10d79d84e7",
+    "core/integrations/registry.py": "276036efd8d3baeb7232b49f7e731cd4d4cd555565a9c130c7085e1c9340c2e0",
+    "core/ir.py": "23cb0be3e6623d71b49c71b0a1f71a6d571e89a2a293663b44fef1ff6e367247",
+    "core/ir_adapter.py": "da89e833c5cdbd38025cc4950562db67c46e9c7a603db0baf99aec9d21f2206e",
+    "core/ir_export.py": "9aaaf5d237c77995ccc6109773127eec3d1f33983ae82ee5a79c5b85709c1932",
+    "core/ir_parser.py": "e8f9bac793e488aacd75c54c4e23e3b6e91c35f1b1ecf390b178e89b74a780f3",
+    "core/json_io.py": "7fde1813dcee043700e81bb5d424f4a1767b586f2f2cb1be2d704f7b09b3685d",
+    "core/language_evaluation.py": "6526cb1016711e0dfc4899f72c932901c6fd9204f5ad8b770f756200b16e9501",
+    "core/language_provider.py": "ee67fa013568ed4b088fb7f5b383c047766aa1c679365dbaefb8ccd357f8524d",
+    "core/manufacturing.py": "ca5a89e6e1944adc1e173f6f9796417236f19cd8f999298aa6d2e5de716d3a3c",
+    "core/mesh_cli.py": "ee19923bbb261d44bfc8cc4168a26c0301ddb7896313b0358474c5a0aa46b628",
+    "core/mesh_geometry.py": "e5daa9e0fda23aba675f559e49e037abaf0631328be2e44edc8778d06a095ae3",
+    "core/mesh_preview.py": "b59936a8b3571fdc3634717813831df5985d9365bb8b33f764be99ebeee5a9d6",
+    "core/natural_language.py": "bb6a15869f7195a9793d7be8f13a5761fb993cd1b4d7b663b4cc334285516748",
+    "core/performance.py": "8f2e5c8da6499bac6aaefc19cbc7114bba2fb378597051e14ae1d92104d4661b",
+    "core/physics.py": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+    "core/physics_advanced.py": "7983ca96adc523008c0899871192542e74033fddee27215d356642a04b82a3b4",
+    "core/physics_context.py": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+    "core/physics_overlay.py": "d45a77f4c907196a2922d7b72dfe3a1bf4f28d5a8032ea716c536b38a5119041",
+    "core/physics_registry.py": "886cf5b65d301f8a6e1061f3785ee5d9eaa6bc5a9ad05278432354e08a544075",
+    "core/physics_uncertainty.py": "bfbc302356a8841fabf966fe35ee1026e312ea728656bcaa6e923c1c8b5b9080",
+    "core/physics_v3_context.py": "3e6eb08b756c734411e23f1aa6371eb746f1079c5d141d1fe2ee5192dd124b69",
+    "core/program_evaluation.py": "f01988b6aa0ef518d4ae15db1f9fcdbc993442f16d817ad9d52f26e17a8235f1",
+    "core/project.py": "adf2ab0b4e7f070a8bddfc945e04ca97e68551eaf7dd4ae2ab009b738c8ed3e0",
+    "core/prompt_engine.py": "2984d53cff6b7eb42d8eea90e4455352342fc3ae0ee8b767e8ae6fa068e08d89",
+    "core/prompt_frontend.py": "177f53ab4d924bc1840061941a8325134eceb142615e64a1f5de83e87a0a6b8f",
+    "core/requirement_ir.py": "eba89b8d9ad0ead8f3a89ace2f7eb3ff827c76cf62a2c845ffd69e040bd972d8",
+    "core/requirement_verification.py": "17b50f3d3097d087241e63265d6c9f3ef0940805095b8a214a17becbc04e6135",
+    "core/research_suite.py": "6d0d09f0908ff27d027542ea21e32077d50985baa1fa0dbcd8571f97361b9269",
+    "core/scad_export.py": "2a05049385d66111d063a300fdecaca04b19c2db4c673fd343ef94a9dfef4bff",
+    "core/scientific_kernel.py": "a138ef2a6156d83e08f2382cd6e25e76485f76fa4e2b1dd20e6a966af46c512a",
+    "core/semantic_equivalence.py": "863704cba81325c11b20926b4f5656b7bd3e5c2ec08a3146e58dc356cbbd2e36",
+    "core/service.py": "1aac602a14df859fea31c000b2459a57767700e2a40f5d5275880f1e9f22f36b",
+    "core/structural_verification.py": "43bcb75edc9ee1780fb96da831303a38a96e41f0f5c6b1a6f5aa012943ecf090",
+    "core/topology.py": "9162bac6a1eaa7a6e8cbd9b0f5beed4b39dafaf39dd9388e2bfbc8c2d9ab7ff7",
+    "core/validation.py": "6446c57272ee5520d00dc0bd43b80fa65f21b5c707eafd4f019d87caa5a4b917",
+    "core/workbench.py": "108a0730ee1bea359b03751002d0de190fa848a9f1ee35db6dbc3f978c7d1878",
+    "core/workflow.py": "9abac172cdb608a5a2acd2022a76a1074f80d1cf35a5c524de60edc26672e063",
+    "core/schemas/neurocad_ir_v1.schema.json": "6c36241e97f55adeefee2af8d3827e68bde932d9742312131db9c245cb9a3f7c"
+  },
+  "acceptance": [
+    {
+      "id": "shape-hollow-shaft",
+      "status": "PASS"
+    },
+    {
+      "id": "shape-i-beam",
+      "status": "PASS"
+    },
+    {
+      "id": "shape-l-bracket",
+      "status": "PASS"
+    },
+    {
+      "id": "shape-perforated-plate",
+      "status": "PASS"
+    },
+    {
+      "id": "bound-context-and-freshness",
+      "status": "PASS"
+    },
+    {
+      "id": "monte_carlo",
+      "status": "PASS"
+    },
+    {
+      "id": "local_sensitivity",
+      "status": "PASS"
+    },
+    {
+      "id": "geometry-contradiction",
+      "status": "PASS"
+    },
+    {
+      "id": "material-contradiction",
+      "status": "PASS"
+    },
+    {
+      "id": "load-contradiction",
+      "status": "PASS"
+    },
+    {
+      "id": "extrapolation",
+      "status": "PASS"
+    },
+    {
+      "id": "mixed-coordinates",
+      "status": "PASS"
+    },
+    {
+      "id": "wrong-units",
+      "status": "PASS"
+    },
+    {
+      "id": "invalid-shaft",
+      "status": "PASS"
+    },
+    {
+      "id": "unsupported-plate-load",
+      "status": "PASS"
+    }
+  ],
+  "passed": 46,
+  "total": 47,
+  "protected_unchanged": true
+}

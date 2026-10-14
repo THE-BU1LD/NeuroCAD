@@ -1,0 +1,91 @@
+name: Physics v3 corrected conformance
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/physics-v3-validation-fix]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Resource admission before installation
+        run: |
+          python - <<'PY'
+          import json, sys
+          sys.path.insert(0, 'scripts')
+          from validate_physics_v3_v2 import admit
+          result = admit()
+          print(json.dumps(result))
+          if result['status'] != 'PASS':
+              raise SystemExit(3)
+          PY
+      - name: Install build and verification tools
+        run: |
+          python -m pip install '.[dev]'
+          sudo apt-get update
+          sudo apt-get install -y openscad xvfb xauth
+      - name: Freeze and verifier tests
+        run: |
+          python tests/test_v3_validation_v2_harness.py
+          python -m ruff check scripts/validate_physics_v3_v2.py scripts/freeze_physics_v3_v2.py tests/test_v3_validation_v2_harness.py
+      - name: Source conformance (retain negative results)
+        id: scalar
+        continue-on-error: true
+        run: python scripts/validate_physics_v3_v2.py --output "$RUNNER_TEMP/v3-source"
+      - name: Build and identify wheel
+        run: |
+          python -m build --wheel --outdir "$RUNNER_TEMP/v3-dist"
+          sha256sum "$RUNNER_TEMP"/v3-dist/*.whl > "$RUNNER_TEMP/v3-wheel-sha256.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/v3-commit.txt"
+          python -m venv "$RUNNER_TEMP/v3-clean"
+          "$RUNNER_TEMP/v3-clean/bin/python" -m pip install "$RUNNER_TEMP"/v3-dist/*.whl
+          "$RUNNER_TEMP/v3-clean/bin/python" -m pip check
+          "$RUNNER_TEMP/v3-clean/bin/python" -m pip freeze > "$RUNNER_TEMP/v3-installed.txt"
+      - name: Installed conformance and end-to-end acceptance
+        id: installed
+        continue-on-error: true
+        run: >-
+          python scripts/validate_physics_v3_v2.py
+          --installed-python "$RUNNER_TEMP/v3-clean/bin/python"
+          --output "$RUNNER_TEMP/v3-installed"
+      - name: Compiled complex-shape meshes
+        id: meshes
+        continue-on-error: true
+        run: |
+          cd "$RUNNER_TEMP/v3-installed"
+          for shape in hollow-shaft i-beam l-bracket perforated-plate; do
+            xvfb-run -a "$RUNNER_TEMP/v3-clean/bin/python" -I -m neurocad_cli compile "$shape/shape.ncad.json" --format stl -o "$shape.stl"
+          done
+      - name: Compatibility regression
+        id: regression
+        continue-on-error: true
+        run: python -m pytest -q tests --junitxml="$RUNNER_TEMP/v3-tests.xml"
+      - name: Require all gates
+        if: always()
+        env:
+          SCALAR: ${{ steps.scalar.outcome }}
+          INSTALLED: ${{ steps.installed.outcome }}
+          MESHES: ${{ steps.meshes.outcome }}
+          REGRESSION: ${{ steps.regression.outcome }}
+        run: |
+          test "$SCALAR" = success
+          test "$INSTALLED" = success
+          test "$MESHES" = success
+          test "$REGRESSION" = success
+          git diff --exit-code -- research/physics_v2 release/physics_v2 paper
+      - name: Retain all outcomes
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: physics-v3-${{ github.sha }}
+          path: ${{ runner.temp }}/v3-*
+          retention-days: 30

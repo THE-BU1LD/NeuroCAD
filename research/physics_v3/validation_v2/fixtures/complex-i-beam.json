@@ -1,0 +1,23 @@
+{
+  "schema_version": "neurocad-complex-shape-request-v1",
+  "shape": "i_beam",
+  "parameters": {
+    "width_mm": 100,
+    "height_mm": 200,
+    "flange_thickness_mm": 10,
+    "web_thickness_mm": 8,
+    "length_mm": 1000
+  },
+  "analysis": {
+    "source": "Illustrative declared values only; replace with the exact material record and design load source.",
+    "density_kg_m3": 7850,
+    "elastic_modulus_mpa": 200000,
+    "yield_strength_mpa": 250,
+    "safety_factor": 1.5,
+    "axial_force_n": -10000,
+    "tip_force_x_n": 100,
+    "tip_force_y_n": 1000,
+    "bending_moment_x_n_mm": 500000,
+    "effective_length_factor": 1
+  }
+}
