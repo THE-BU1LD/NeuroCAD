@@ -293,22 +293,24 @@
     },
     {
       "id": "native_acceptance_20261014",
-      "status": "NATIVE_AND_PRODUCT_CANDIDATE_PASS_PRESERVATION_FOLLOWUP_PENDING",
+      "status": "FINAL_CANDIDATE_PENDING",
       "contract": "research/development/native_acceptance_20261014/contract.json",
       "started_at": "2026-10-14T13:18:08.881397+00:00",
       "prior_budgets_reopened": false,
       "discovered_followup": "research/development/result_timing_v2_20261014/contract_and_baseline.json",
-      "hosted_attempts_used": 3,
+      "hosted_attempts_used": 4,
       "retained_failures": [
         "attempt-1: platform Python setup and wrong OCP distribution metadata name",
-        "attempt-2: Windows canonical JSON newline/hash mismatch"
+        "attempt-2: Windows canonical JSON newline/hash mismatch",
+        "attempt-4: Windows checkout line-end conversion refused by exact historical preservation guard"
       ],
       "new_provenance_discrepancy": "NC-REPRO-508EC40: 1211 matching present artifacts; logs/run.log missing; v1 digest contains ten timing values.",
       "tested_candidate": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
       "native_run": 38573309209,
       "full_matrix": 38573309121,
       "interop": 38573308981,
-      "receipt": "docs/verification/native-acceptance-20261014/REPORT.md"
+      "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+      "final_integration_contract": "research/development/native_acceptance_20261014/final-integration-contract.json"
     }
   ],
   "latest_engineering_session": "native_acceptance_20261014",

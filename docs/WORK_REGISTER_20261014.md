@@ -1,4 +1,121 @@
-# Current closure
+# Current six-gate implementation checklist
+
+Updated 14 October 2026 for the request to implement every unblocked item.
+This is the current checklist; the dated audit stages below retain earlier
+observations. Checked means the stated, bounded action has evidence, not that
+the whole scientific gate is complete. The current successor is [PR110](https://github.com/THE-BU1LD/NeuroCAD/pull/110).
+
+## 1. Freeze the validation contract — completed for the declared software envelope
+
+- [x] Specify each supported model, exclusions, reference derivation, units,
+  per-case tolerance and all-case pass criteria in versioned protocols.
+- [x] Preserve v2 and previous failures. v3 successors v1–v5 retain their own
+  source identities; the latest physics freeze binds 98 inputs and 40 protected
+  historical files. It is not silently rebound to later source.
+- [x] Freeze the separate native acceptance cases and tolerances before running
+  five CAD goldens and repeated beam/plate/enclosure meshes.
+- [x] Enforce byte-for-byte historical preservation before and after native
+  acceptance; configure Windows checkout to preserve committed bytes.
+- [x] Prepare separate external collection plans, mandatory provenance,
+  pre-outcome freeze and no-overwrite audit commands in
+  [external_validation_v1](../research/physics_v3/external_validation_v1/README.md).
+
+## 2. Verify calculations — completed for the declared sampled software envelope
+
+- [x] Run the 37 scalar reference cases, including ordinary/limiting inputs,
+  rejected invalid states and numerical singularities; retain per-case errors.
+- [x] Repair the opposing-load beam interior maximum, biaxial shaft maximum
+  and centered-hole ligament calculation; retain their original failures.
+- [x] Add 42 composite reference cases for shaft, I/L sections and perforated
+  plates using independently derived analytical/polygon calculations.
+- [x] Verify finite arithmetic, interval division, uncertainty, units and mesh
+  normalization through the integrated maintained regression suite.
+- [x] Verify five exact solids against analytic dimensions/volumes and compute
+  tetrahedral mesh volume through the separate retained reference verifier.
+- [x] Repair deterministic result extraction: actual edit/hierarchy timing
+  fields now go into runtime metadata in format v2; preserve old v1 bytes.
+- [x] Add a reusable read-only artifact auditor that reports missing, altered,
+  unsafe and duplicate manifest entries; it cannot repair or synthesize evidence.
+- [ ] **Blocked:** complete historical archival provenance for issue #6:
+  recover the authentic `NC-REPRO-508EC40/logs/run.log` and any missing original
+  hardware/execution records. 1,211 present artifacts match; the absent log is
+  not reconstructed. See [provenance audit](RESEARCH_PROVENANCE_AUDIT_20261014.md).
+- [ ] **Blocked:** strong external comparator/independently authored benchmark
+  for issue #7. Closed generated-grammar outcomes do not establish superiority
+  to current learned CAD systems.
+
+## 3. Validate CAD-to-analysis workflows — software implemented; final integration pending
+
+- [x] Exercise fresh installed packages through 52 cases/workflows: four complex
+  composite shapes, dimensions, materials, loads, units, geometry binding,
+  uncertainty, overlays and stale-result invalidation. Four meshes compiled.
+- [x] Integrate all 17 original repair PR histories; verify package installation,
+  browser editing and portable operating-system behavior on exact source.
+- [x] Implement source-hash-bound planar semantic mesh groups, strict selectors,
+  deterministic Gmsh settings and independent serialized group verification.
+- [x] Record exact OpenCascade kernel identity and reject forged/missing revision
+  provenance; correct Windows canonical JSON newline hashing.
+- [x] Execute five native goldens plus six meshing runs on each of Linux/macOS/
+  Windows; candidate bf4cdca passed 182 native/rejection tests per platform.
+- [ ] Verify the final candidate after the Windows checkout preservation fix;
+  retain every failed/cancelled attempt and exact source identity.
+- [ ] Add all three native platform jobs to the existing ten required checks;
+  merge PR110 through normal protection and verify the resulting main tree.
+- [ ] Reconcile the final receipt, issue dispositions and project/portfolio
+  state. The published immutable v0.5.0a6 is a separate, older source identity.
+- [ ] **Blocked locally:** native builds/meshes require two stable memory
+  admission samples; observed 112.72/92.16 MiB versus the 512 MiB floor with
+  rising pageouts. Hosted verification covers this engineering work.
+
+## 4. Establish physical accuracy — collection tooling complete; measurements blocked
+
+- [x] Prepare capability-specific plan/evidence schemas, calibration and
+  uncertainty fields, frozen case lists and negative-result retention.
+- [ ] **Blocked:** identify experimenter, apparatus and calibration records;
+  choose the claimed beam/thermal/vibration/pressure capabilities and conditions.
+- [ ] **Blocked:** freeze real procedures, assumptions, tolerances, repetitions
+  and measurement uncertainty before collecting outcomes.
+- [ ] **Blocked:** execute experiments, retain predictions and raw measurements,
+  compare within declared uncertainty, investigate discrepancies and publish
+  the observed applicability envelope. No measured results have been supplied.
+
+## 5. Obtain independent reproduction — handoff tooling complete; executor blocked
+
+- [x] Prepare clean-install instructions, source/package hashes, frozen cases,
+  discrepancy retention and an integrity auditor that refuses empty evidence.
+- [ ] **Blocked:** obtain an executor outside the implementation effort, their
+  clean environment and identity/independence declaration.
+- [ ] **Blocked:** have that executor run the frozen cases, retain original
+  outputs and submit their discrepancy report. Hosted project CI is internal
+  engineering evidence and does not satisfy this gate.
+
+## 6. Verify practical usability — product checks complete; intended users blocked
+
+- [x] Implement worked examples, explicit supported boundaries, material/load
+  checks, stale-result warnings and browser-level edit/import/export acceptance.
+- [x] Prepare frozen task plans and per-participant evidence/rubrics for material,
+  load and unit entry, error recovery, limitations and screening-result meaning.
+- [ ] **Blocked:** recruit intended users with consent and freeze representative
+  tasks/success criteria before observing their performance.
+- [ ] **Blocked:** record task completion/errors/interpretation, fix observed
+  usability defects and repeat the affected tasks with retained observations.
+
+## Other tracked dependencies and scope
+
+Issues #21/#22/#36 require independent benchmark authorship, human review and
+provider/budget decisions; #27 requires authentic historical session records;
+#41 requires actual design partners/users; #42 requires a defined fabrication
+process and physical evidence; #76 requires external reference confirmation;
+#78 requires genuine licensed geometry and Cubit access; #82 requires measured
+evidence, authorship and publication decisions. Issue #64/#65 software work is
+implemented in PR110 and awaits the final protected merge above.
+
+The 109 separately inventoried expansion proposals remain proposed future
+scope, not automatically added current-release requirements. No paid provider
+run, external message, physical result, independent review or new public release
+is implied by this checklist. The software work cannot fill those evidence gaps.
+
+# Prior closure (superseded for current native work)
 
 PR109 is merged and exact-main CI passed. All 17 originally open PR histories are included; no PR remains open. Seven issues are closed. See [the final receipt](verification/composite-final-20261014/REPORT.md) for the 1,677-test outcome, 42 new composite references, retained failures and 13 remaining issues. Earlier audit stages below are retained chronologically and superseded where this receipt states completion.
 

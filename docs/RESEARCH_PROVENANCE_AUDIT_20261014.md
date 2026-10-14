@@ -38,6 +38,20 @@ moves both fields into runtime metadata. Regression checks change only timing
 and verify invariant outcome serialization, then change correctness and verify
 that the outcome serialization changes. Historical artifacts are not migrated.
 
+The reusable read-only audit command is:
+
+```sh
+python scripts/audit_retained_artifacts.py research/runs/NC-REPRO-508EC40/manifest.json
+python scripts/audit_retained_artifacts.py path/to/native/SHA256SUMS.json --format hashes
+```
+
+It prints a JSON report and returns 0 for matching listed artifacts, 1 for
+missing/corrupt artifacts, and 2 for an invalid manifest. It rejects duplicate
+keys, unsafe paths and symlinks, reads in bounded chunks, and never executes or
+rewrites retained artifacts. Run against a stable local directory. Extra files
+are outside its scope; hash consistency is not evidence of authenticity or
+independence. The original log remains missing and the audit therefore fails.
+
 Issue #6 remains open for full research-wide claim/provenance reconciliation
 and the missing original log. Issue #7 remains open for a compatible strong
 external comparator and the independently authored evaluation; the four simple
