@@ -36,6 +36,8 @@ Merged PR: https://github.com/THE-BU1LD/NeuroCAD/pull/103
 2. Run 38494859698: the release-shell regression parsed a following YAML job as shell. Corrected its YAML block boundary; retained alpha/RC/stable labeling checks.
 3. A redundant local public-installer curl stalled and was terminated. It produced no successful download receipt. Hosted credential-free download and both installations subsequently passed.
 
+4. Documentation-only run 38501257817: README wording omitted the literal anonymous-install gate phrase required by an integrity test. Restored that phrase while stating its verified PASS status; no test or release code changed.
+
 ## Artifact hashes
 
 - Wheel: `3c301397c4d9e33a29f854228d304e6101f25ba9e26485c2a4a0c511b2e3ac1c`.

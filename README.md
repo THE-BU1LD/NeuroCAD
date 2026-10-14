@@ -57,7 +57,7 @@ It refuses unrelated existing executables.
 Windows, private GitHub access, OpenSCAD setup, and first-use recipes are in
 [Quick start](docs/QUICKSTART.md).
 
-Public alpha `v0.5.0a6` is published with passing release and anonymous-install checks.
+Public alpha `v0.5.0a6` is published; its release checks and anonymous-install gate passed.
 See [release status](RELEASE_STATUS.md) for the current gates and
 [quick start](docs/QUICKSTART.md) for checksum-verified release installation.
 The [release page](https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6)
