@@ -818,11 +818,13 @@ def monte_carlo_propagate(
 
 
 def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[float, ...], solution: tuple[float, ...]) -> dict[str, Any]:
-    """Report rank, conditioning, and normwise backward error for a linear solve.
+    """Report finite float64 solve diagnostics without integer/norm overflow.
 
-    Power-of-two scaling keeps integer products and finite extreme-scale data
-    out of overflowing arithmetic. An unrepresentable residual norm is rejected;
-    the backward error is computed before restoring the residual's physical scale.
+    Inputs must survive conversion to float64 exactly. The backward-error
+    denominator is assembled from scaled norm factors without overflowing;
+    an unrepresentable reported residual or nonzero ratio is rejected.
+    Nonzero scalar products that round to zero are also rejected before
+    matrix multiplication can disguise underflow as an exact solution.
     """
 
     coefficients = np.asarray(matrix)
@@ -837,70 +839,58 @@ def linear_system_diagnostics(matrix: tuple[tuple[float, ...], ...], rhs: tuple[
         raise ValueError("rhs and solution dimensions must match the matrix")
     if not np.isfinite(target).all() or not np.isfinite(estimate).all():
         raise ValueError("rhs and solution must be finite")
-    # Inspect original scalars as objects: a mixed float/integer tuple may
-    # already have rounded an integer in the numeric arrays above. Compare
-    # Python scalars so NumPy's promoted integer/float equality cannot hide it.
+    # Check original scalars before NumPy can round a mixed integer/float input.
     for name, original in (("matrix", matrix), ("rhs", rhs), ("solution", solution)):
         for value in np.asarray(original, dtype=object).flat:
             if isinstance(value, (int, np.integer)) and int(value) != float(value):
                 raise ValueError(f"{name} integers must be exactly representable in float64 (lossless conversion)")
-    # Cast before multiplication/subtraction: NumPy integer arithmetic wraps
-    # silently and can otherwise label a non-solution as an exact solution.
-    coefficients = coefficients.astype(float)
-    target = target.astype(float)
-    estimate = estimate.astype(float)
-    if not all(np.isfinite(value).all() for value in (coefficients, target, estimate)):
-        raise ValueError("linear system exceeds the finite numerical range")
 
-    coefficient_max = float(np.max(np.abs(coefficients)))
-    estimate_max = float(np.max(np.abs(estimate)))
-    target_max = float(np.max(np.abs(target)))
-    coefficient_exponent = math.frexp(coefficient_max)[1]
-    estimate_exponent = math.frexp(estimate_max)[1]
-    product_exponent = coefficient_exponent + estimate_exponent
-    has_product = coefficient_max > 0 and estimate_max > 0
-    exponents = ([product_exponent] if has_product else []) + (
-        [math.frexp(target_max)[1]] if target_max > 0 else []
+    def as_float64(array: np.ndarray) -> np.ndarray:
+        with np.errstate(over="ignore", invalid="ignore"):
+            converted = array.astype(np.float64)
+            lossless = np.array_equal(array, converted.astype(array.dtype))
+        if not np.isfinite(converted).all() or not lossless:
+            raise ValueError("diagnostic inputs must be exactly representable as finite float64 values")
+        return converted
+
+    def norm_parts(array: np.ndarray) -> tuple[float, float]:
+        scale = float(np.max(np.abs(array)))
+        return (scale, float(np.linalg.norm(array / scale))) if scale else (0.0, 0.0)
+
+    coefficients, target, estimate = map(as_float64, (coefficients, target, estimate))
+    smallest_coefficients = np.min(
+        np.where(coefficients != 0, np.abs(coefficients), np.inf), axis=0,
     )
-    residual_exponent = max(exponents, default=0)
-    scaled_coefficients = np.ldexp(coefficients, -coefficient_exponent)
-    scaled_estimate = np.ldexp(estimate, -estimate_exponent)
-    scaled_target = np.ldexp(target, -residual_exponent)
-    if has_product:
-        scaled_product = np.ldexp(
-            scaled_coefficients @ scaled_estimate, product_exponent - residual_exponent
-        )
-        product_norm_bound = math.ldexp(
-            float(np.linalg.norm(scaled_coefficients) * np.linalg.norm(scaled_estimate)),
-            product_exponent - residual_exponent,
-        )
-    else:
-        scaled_product = np.zeros(rows)
-        product_norm_bound = 0.0
-    scaled_residual_norm = math.hypot(*(scaled_product - scaled_target))
-    denominator = product_norm_bound + math.hypot(*scaled_target)
-    # Preserve a representable residual in mixed-scale systems, where global
-    # normalization can erase small coefficients multiplied by large variables.
-    # An overflowing direct product is not accepted as a cancellation certificate.
-    with np.errstate(over="ignore", invalid="ignore", under="ignore"):
-        direct_residual = coefficients @ estimate - target
-    if not np.isfinite(direct_residual).all():
-        raise ValueError("residual norm exceeds the finite numerical range")
-    direct_norm = math.hypot(*direct_residual)
-    if direct_norm > 0.0:
-        scaled_residual_norm = math.ldexp(direct_norm, -residual_exponent)
-    try:
-        residual_norm = direct_norm or math.ldexp(scaled_residual_norm, residual_exponent)
-    except OverflowError as exc:
-        raise ValueError("residual norm exceeds the finite numerical range") from exc
+    with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+        smallest_products = smallest_coefficients * np.abs(estimate)
+    if np.any(np.isfinite(smallest_coefficients) & (estimate != 0) & (smallest_products == 0)):
+        raise ValueError("nonzero linear products underflow the representable float64 range")
+    with np.errstate(over="ignore", invalid="ignore"):
+        residual = coefficients @ estimate - target
+    if not np.isfinite(residual).all():
+        raise ValueError("linear residual is not representable as finite float64")
+    residual_scale, residual_unit_norm = norm_parts(residual)
+    residual_norm = residual_scale * residual_unit_norm
     if not math.isfinite(residual_norm):
-        raise ValueError("residual norm exceeds the finite numerical range")
-    condition = float(np.linalg.cond(scaled_coefficients))
+        raise ValueError("residual norm is not representable as finite float64")
+    matrix_scale, matrix_unit_norm = norm_parts(coefficients)
+    estimate_scale, estimate_unit_norm = norm_parts(estimate)
+    target_scale, target_unit_norm = norm_parts(target)
+    denominator = (
+        Fraction(matrix_scale) * Fraction(matrix_unit_norm)
+        * Fraction(estimate_scale) * Fraction(estimate_unit_norm)
+        + Fraction(target_scale) * Fraction(target_unit_norm)
+    )
+    relative_error = float(Fraction(residual_norm) / denominator) if denominator else residual_norm
+    if not math.isfinite(relative_error) or (residual_norm and not relative_error):
+        raise ValueError("nonzero backward error is not representable as finite float64")
+    scaled_matrix = coefficients / matrix_scale if matrix_scale else coefficients
+    condition = float(np.linalg.cond(scaled_matrix))
     return {
         "shape": [rows, columns],
-        "rank": int(np.linalg.matrix_rank(scaled_coefficients)),
+        "rank": int(np.linalg.matrix_rank(scaled_matrix)),
         "condition_number": condition if math.isfinite(condition) else None,
         "residual_norm": residual_norm,
-        "relative_backward_error": scaled_residual_norm / denominator if denominator else 0.0,
+        "relative_backward_error": relative_error,
         "ill_conditioned": not math.isfinite(condition) or condition > 1.0 / math.sqrt(np.finfo(float).eps),
     }
