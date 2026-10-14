@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-14T12:50:09.899036+00:00",
   "source_head": "5ce2092db7203cf2bd532a742ea0697e1cf8479c",
   "scope": "Product engineering and version routing; no scientific execution",
   "predecessor": {
@@ -13,7 +13,7 @@
     "independent_reproduction": "NOT_EXECUTED"
   },
   "physics_v3": {
-    "status": "FROZEN_CONFORMANCE_FAIL_EXTERNAL_VALIDATION_NOT_STARTED",
+    "status": "PASS_BOUNDED_V5_CONFORMANCE_EXTERNAL_GATES_OPEN",
     "source": "research/physics_v3/RESEARCH_STATE.json",
     "validation_v1": {
       "status": "FROZEN_CONFORMANCE_FAIL_EXTERNAL_VALIDATION_NOT_STARTED",
@@ -139,6 +139,11 @@
     {
       "date": "2026-10-14T11:37:54.418561+00:00",
       "event": "Corrected Physics v3 successor verified at 5676436719415302ce94076c4d49c37e302308f7: 37/37 scalar, 52/52 installed cases/workflows, four mesh compilations, 1236 regression tests (9 skipped; 43 subtests), and 11 external-integrity tests passed in hosted CI. Original v1 failure and protected v2 evidence preserved. No physical, independent or human outcomes; no new public release."
+    },
+    {
+      "date": "2026-10-14T12:50:09.899036+00:00",
+      "event": "Integrated the 17 original repair PR histories through PR109 at 079902fa20d22c2cf102104b0f42b28bec8bc382; exact-main CI38565917174 passed 1677 maintained tests, all required OS/browsers and package/security gates. Final source-bound conformance passed 37/37 scalar, 52/52 installed cases/workflows, four meshes and 42 new composite references. Retained and repaired additional shaft false-yield and single-hole ligament errors. Seven issues closed, zero open PRs; 157-entry provenance inventory complete. Physical, independent and intended-user evidence remains absent; native shape/platform acceptance and other tracked external gates remain. No new release tag.",
+      "receipt": "docs/verification/composite-final-20261014/REPORT.md"
     }
   ],
   "resource_rechecks": [
@@ -172,5 +177,14 @@
     "physical_validation": "NOT_EXECUTED",
     "independent_reproduction": "NOT_EXECUTED",
     "human_usability": "NOT_EXECUTED"
+  },
+  "integrated_maintenance": {
+    "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+    "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+    "candidate_commit": "d7a80567c2c2727f8bd420a68e2517b217508b56",
+    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174",
+    "receipt": "docs/verification/composite-final-20261014/REPORT.md",
+    "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix",
+    "new_public_release": false
   }
 }

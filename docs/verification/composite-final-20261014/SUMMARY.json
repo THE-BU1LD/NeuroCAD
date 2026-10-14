@@ -1,0 +1,143 @@
+{
+  "recorded_at": "2026-10-14T12:50:09.899036+00:00",
+  "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+  "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+  "candidate_commit": "d7a80567c2c2727f8bd420a68e2517b217508b56",
+  "identical_candidate_and_main_tree": "eaadfffb45126b37616151e870a00f536ce15629",
+  "main_ci": 38565917174,
+  "candidate_ci": 38565085729,
+  "conformance_ci": [
+    38565079273,
+    38565077273
+  ],
+  "duplicate_conformance_note": "Two push events produced identical-source runs; both are retained and counted in the phase budget.",
+  "native_ci": 38565085723,
+  "merged_pr": 109,
+  "maintained_tests": {
+    "passed": 1677,
+    "skipped": 9,
+    "subtests_passed": 53
+  },
+  "source_distribution_tests": {
+    "passed": 1658,
+    "skipped": 9,
+    "subtests_passed": 33
+  },
+  "new_composite_reference_cases": 42,
+  "scalar_cases": "37/37",
+  "installed_cases_and_workflows": "52/52",
+  "compiled_composite_meshes": 4,
+  "exact_cad_tests": 106,
+  "native_tests": 174,
+  "security": "Full scan passed with 52 exact source-hashed low-finding reviews; dependency audit passed.",
+  "closed_issues": [
+    2,
+    5,
+    11,
+    44,
+    58,
+    60,
+    68
+  ],
+  "remaining_issues": [
+    {
+      "number": 82,
+      "state": "OPEN",
+      "title": "NeurIPS 2026 conference brief + 2027 submission pipeline \u2014 NeuroCAD physical-world evidence",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/82"
+    },
+    {
+      "number": 78,
+      "state": "OPEN",
+      "title": "Dirty-CAD benchmark: geometry validation \u2192 repair \u2192 tet-mesh outcome",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/78"
+    },
+    {
+      "number": 76,
+      "state": "OPEN",
+      "title": "External validation: WayKen thin-wall housing revision fixture",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/76"
+    },
+    {
+      "number": 65,
+      "state": "OPEN",
+      "title": "P1: Add Gmsh tagged meshing adapter",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/65"
+    },
+    {
+      "number": 64,
+      "state": "OPEN",
+      "title": "P0: Add build123d/OCP exact-CAD backend spike",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/64"
+    },
+    {
+      "number": 42,
+      "state": "OPEN",
+      "title": "P2 fabrication-aware successor benchmark after current S3 freeze",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/42"
+    },
+    {
+      "number": 41,
+      "state": "OPEN",
+      "title": "P1 external product pilots + commercial-readiness gate",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/41"
+    },
+    {
+      "number": 36,
+      "state": "OPEN",
+      "title": "P0 S3 successor: freeze benchmark taxonomy + 100-prompt candidate pool",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/36"
+    },
+    {
+      "number": 27,
+      "state": "OPEN",
+      "title": "COPES external pressure-test evidence record \u2014 2026-09-01",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/27"
+    },
+    {
+      "number": 22,
+      "state": "OPEN",
+      "title": "Authorize and execute first frozen VeriCodeGen Stage-2 pilot",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/22"
+    },
+    {
+      "number": 21,
+      "state": "OPEN",
+      "title": "Freeze the 120-task VeriCodeGen held-out benchmark before Stage 2 execution",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/21"
+    },
+    {
+      "number": 7,
+      "state": "OPEN",
+      "title": "Define decisive baseline matrix for the central NeuroCAD claim",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/7"
+    },
+    {
+      "number": 6,
+      "state": "OPEN",
+      "title": "Capture exact experiment provenance for NeuroCAD research claims",
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/6"
+    }
+  ],
+  "open_pr_count": 0,
+  "original_open_prs_integrated": 17,
+  "provenance_inventory_entries": 157,
+  "protected_file_hashes_preserved": 40,
+  "public_release": {
+    "tag": "v0.5.0a6",
+    "changed": false,
+    "these_repairs_released_as_new_tag": false
+  },
+  "external_gates": {
+    "physical_validation": "NOT_EXECUTED",
+    "independent_reproduction": "NOT_EXECUTED",
+    "intended_user_study": "NOT_EXECUTED"
+  },
+  "remaining_software_acceptance": [
+    "Exact-CAD spike full declared golden shape/platform coverage (issue 64)",
+    "Complete native plate/enclosure/beam meshing reference acceptance (issue 65)"
+  ],
+  "resource_scope": "Heavy tests, installs and meshing ran in hosted CI. Local work used bounded standard-library checks and source review.",
+  "source_worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix",
+  "original_dirty_checkout_preserved": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD"
+}

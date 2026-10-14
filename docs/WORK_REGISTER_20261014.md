@@ -1,3 +1,7 @@
+# Current closure
+
+PR109 is merged and exact-main CI passed. All 17 originally open PR histories are included; no PR remains open. Seven issues are closed. See [the final receipt](verification/composite-final-20261014/REPORT.md) for the 1,677-test outcome, 42 new composite references, retained failures and 13 remaining issues. Earlier audit stages below are retained chronologically and superseded where this receipt states completion.
+
 # NeuroCAD work register — 14 October 2026
 
 This register accounts for every open GitHub issue and PR observed at audit,

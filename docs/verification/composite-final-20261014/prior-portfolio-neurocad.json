@@ -1,0 +1,132 @@
+{
+  "id": "PR-023",
+  "name": "NeuroCAD",
+  "path": "NeuroCAD",
+  "kind": "scientific_product_study",
+  "branch": "codex/alpha-release-receipts",
+  "head": "48cccef2c4904821210c22d6aa06a5a21b779357",
+  "worktree": "DIRTY_PRESERVED_WITH_VERIFIED_SUCCESSOR_SOURCE",
+  "status_sources": [
+    "PROJECT_TRUTH.md",
+    "RESEARCH_TRUTH.md",
+    "RELEASE_STATUS.md",
+    "EVIDENCE_LEDGER.md",
+    "TERMINAL_STATUS_2026-10-11.md",
+    "CURRENT_STATUS.md",
+    "RESEARCH_STATE.json",
+    "research/physics_v2/RESEARCH_STATE.json",
+    "research/physics_v3/RESEARCH_STATE.json"
+  ],
+  "question": "Can NeuroCAD generate or assess scientifically useful neural designs under verifiable physical and expert constraints?",
+  "objective": "Preserve bounded compiler evidence and negative history while closing the current scientific version before physical, human, external, or release claims.",
+  "hypothesis": "The bounded deterministic compiler works on its declared synthetic contract; physical/human utility and broad design reasoning were not established.",
+  "contribution": "Bounded deterministic compiler/IR/OpenSCAD/STL pipeline, controlled conformance evidence, audit controls, and prospective external protocols.",
+  "scope": "Local controlled compiler evidence and preserved negative history; physical, clinical, human, safety, independent, and immutable-release validation are excluded.",
+  "phase": "TERMINAL_BOUNDED_MIXED_EXTERNAL_NOT_EVALUATED",
+  "disposition": "MIXED",
+  "terminal": true,
+  "budgets": {
+    "development": "CLOSED_CURRENT_SCIENTIFIC_VERSION",
+    "compute": "CLOSED_CURRENT_SCIENTIFIC_VERSION"
+  },
+  "protected_evaluation": "The existing pre-outcome external protocol remains unopened. Any independent, physical, human, learned-model, or safety successor requires separate authorization without changing the current verdict.",
+  "repositories": [
+    "NeuroCAD"
+  ],
+  "datasets": {
+    "status": "CONTROLLED_SYNTHETIC_COMPLETE_EXTERNAL_NOT_EVALUATED",
+    "items": [
+      "NC-REPRO-508EC40 project-authored bounded grammar",
+      "external independent challenge data absent",
+      "physical and human outcomes absent"
+    ]
+  },
+  "artifacts": [
+    "PROJECT_TRUTH.md",
+    "RESEARCH_TRUTH.md",
+    "RELEASE_STATUS.md",
+    "EVIDENCE_LEDGER.md",
+    "research/protocols/EXTERNAL_EVALUATION_V0.md",
+    "TERMINAL_STATUS_2026-10-11.md",
+    "docs/verification/physics-v3-20261014/REPORT.md"
+  ],
+  "claims": {
+    "supported": [
+      "bounded deterministic compiler/IR/OpenSCAD/STL implementation",
+      "source-bound controlled conformance on project-authored synthetic grammar",
+      "historical typed-parser causal claim remains falsified"
+    ],
+    "unsupported": [
+      "open-world text-to-CAD reasoning",
+      "learned-model benefit",
+      "STEP/BREP",
+      "manufacturability or physical fit",
+      "safety or clinical validity",
+      "human expert benefit",
+      "independent replication",
+      "public release completion",
+      "production readiness"
+    ]
+  },
+  "decisions": [
+    "Do not convert local tests or synthetic controlled evidence into physical, clinical, human, or independent-validity claims.",
+    "Close the current scientific version mixed; keep external and product/release gates separate.",
+    "2026-10-14 public-release completion supersedes earlier absent-release statements only; scientific checkpoints and prior failures are preserved as historical records."
+  ],
+  "failures": [
+    "Historical typed-parser causal claim is falsified.",
+    "External challenge data and outcomes do not exist.",
+    "No physical/human validation, safety proof, independent replication, tagged immutable release, or anonymous release-install receipt exists."
+  ],
+  "history": [
+    "2026-10-11 indexed without heavy verification",
+    "2026-10-11 current scientific version closed terminal mixed at bounded compiler/external-validation boundary",
+    "2026-10-13: version routing reconciled; product revision publication and expected-project verification hardened; 11 focused tests and source-only development acceptance pass. Fresh install and mesh acceptance resource-blocked. Predecessor and frozen Physics v2 unchanged.",
+    "2026-10-13: requested installation/mesh/CI/commit resumption blocked by 163.5/114.625 MiB reserves and rising pageouts. Historical remote CI on f560df8 is not current candidate evidence. Hourly heartbeat finish-neurocad-enclosure-verification created; no heavy runs, commits or frozen research changes.",
+    "2026-10-13T15:34Z heartbeat: resource gate failed at 166.0625/150.890625 MiB, pageouts 196366 to 197151; no install, mesh run, CI dispatch or commit. Follow-up remains active; frozen evidence unchanged.",
+    "Hosted verification completed: branch codex/enclosure-verification final commit 6151d937b5b09ac054987c90ecafb157cac5d5db passed run 38426643691. Fresh wheel, isolated install, compiled enclosure, product tests, Ruff/MyPy/Bandit and dependency checks passed. Three earlier CI failures retained and fixed. Frozen research unchanged. Automation paused after completion; independent/physical validation and tagged public release remain open.",
+    "2026-10-14T02:21:06.902067+00:00: Public alpha v0.5.0a6 published at 5ce2092db7203cf2bd532a742ea0697e1cf8479c after PR103 and exact-main CI 38495962707. Release run 38498546483 passed reproducible builds, checksums/provenance, anonymous wheel/default-tag installation and compiled enclosure acceptance. Frozen scientific evidence and terminal mixed predecessor unchanged. No owner action needed for bounded alpha; physical, human and independent science remain open.",
+    "2026-10-14T02:45:39.850389+00:00: Final alpha receipts merged via PR104 after full CI and automated review passed. GitHub immutable=true; release/wheel/sdist signed attestations verified; post-lock anonymous install run 38501125026 passed. Released source and frozen science unchanged.",
+    "2026-10-14T10:10:18.645695+00:00: External validation successor tooling implemented in research/physics_v3/external_validation_v1: 30-capability inventory, prospective physical/reproduction/usability procedures, incomplete collection templates, fail-closed evidence auditor and 11 passing synthetic integrity tests. Ruff passed; 43 protected v2/release/paper files unchanged. No external outcomes or scientific gate advancement. Concurrent validation_v1 suite preserved; its retained 31/32 scalar result includes an opposing-load beam stress failure. Installed execution remains resource-blocked.",
+    "2026-10-14: Physics v3 frozen project-authored conformance v1 executed: 31/32 scalar cases pass locally and in hosted CI; opposing-load maximum beam stress is understated (0 versus 2.1 MPa). Installed acceptance 15/15, four compiled shapes, regression 1230 pass/9 skip. Overall run 38547582177 FAIL on 7c53a0c; 40 protected v2/release/paper files unchanged. Physical, independent and user validation remain open.",
+    "2026-10-14T11:37:54.418561+00:00: Corrected Physics v3 successor verified at 5676436719415302ce94076c4d49c37e302308f7: 37/37 scalar, 52/52 installed cases/workflows, four mesh compilations, 1236 regression tests (9 skipped; 43 subtests), and 11 external-integrity tests passed in hosted CI. Original v1 failure and protected v2 evidence preserved. No physical, independent or human outcomes; no new public release."
+  ],
+  "checkpoints": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "BLOCKED",
+    "4": "PASS",
+    "5": "PASS",
+    "6": "BLOCKED",
+    "7": "NOT_EVALUATED",
+    "8": "PASS",
+    "9": "BLOCKED",
+    "10": "BLOCKED"
+  },
+  "next_gate": "Repair the retained opposing-load stress defect in a separately frozen successor; preserve conformance v1 and all predecessor evidence. Extend composite reference coverage; physical, independent and user studies remain external.",
+  "successors": {
+    "physics_v2": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT; LOCAL_RELEASE_PACKAGED; INDEPENDENT_REPRODUCTION_OPEN",
+    "physics_v3": "FROZEN_CONFORMANCE_V1_FAIL; INSTALLED_WORKFLOW_ACCEPTANCE_15_OF_15; EXTERNAL_VALIDATION_NOT_STARTED",
+    "external_validation_v1": "PREPARATION_IMPLEMENTED_EXTERNAL_EVIDENCE_ABSENT",
+    "physics_v3_corrected_conformance": "PASS_BOUNDED_SOFTWARE_CONFORMANCE_EXTERNAL_GATES_OPEN"
+  },
+  "product_engineering": {
+    "status": "PUBLIC_ALPHA_RELEASED_AND_ANONYMOUS_INSTALL_VERIFIED",
+    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38426643691",
+    "commit": "6151d937b5b09ac054987c90ecafb157cac5d5db",
+    "source": "CURRENT_STATUS.md",
+    "release_tag": "v0.5.0a6",
+    "release_commit": "5ce2092db7203cf2bd532a742ea0697e1cf8479c",
+    "release_url": "https://github.com/THE-BU1LD/NeuroCAD/releases/tag/v0.5.0a6",
+    "release_ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38498546483",
+    "receipt": "docs/verification/alpha-20261014/REPORT.md",
+    "github_immutable": true,
+    "attestation_verification": "PASS_RELEASE_WHEEL_AND_SDIST",
+    "post_lock_anonymous_ci": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38501125026",
+    "documentation_main_commit": "e7d7ef4ac058963c0a94cbb821660df0a5de4a66"
+  },
+  "continuation": {
+    "automation_id": "finish-neurocad-enclosure-verification",
+    "status": "PAUSED_COMPLETED"
+  }
+}

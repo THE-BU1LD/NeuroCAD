@@ -94,8 +94,8 @@
       "kind": "issue",
       "id": 44,
       "title": "P1 complete historical VertexED \u2192 NeuroCAD provenance map",
-      "status": "PROVENANCE_COMPLETED_PENDING_MERGE",
-      "evidence_or_blocker": "157 source entries, repository-wide text/path inventory, exact object identity checks; prior manifests unchanged.",
+      "status": "CLOSED_PINNED_PROVENANCE_VERIFIED",
+      "evidence_or_blocker": "157 source entries; PR109 merged.",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/issues/44"
     },
     {
@@ -166,161 +166,161 @@
       "kind": "pull_request",
       "id": 88,
       "title": "fix(enclosure): preserve outputs published by concurrent writers",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "c1e2fcdfa6aac7b267a096712a62756a00401446",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/88",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 89,
       "title": "Validate every Gmsh element in batches and retain native reference meshes",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "ad0993afd435ad80627ce1134c0df1aa61d39534",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/89",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 90,
       "title": "fix(cli): preserve concurrently published CAD outputs",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "ce49e2c4f175f8088ee5b9cb01ecce70432c61c7",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/90",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 91,
       "title": "fix(daemon): preserve existing outputs and contain malformed jobs",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "33a5b556e8aaddccc6e4fb275c5d15905f108f63",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/91",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 92,
       "title": "fix(daemon): bound shutdown and preserve queued work for restart",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "3216f04f149f224fbba208bfcdbed5c82c88fa20",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/92",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 93,
       "title": "fix(artifacts): preserve bundle output ownership during publication",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "700b2a4a37bcf86ed7a63fd338c79365a253776a",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/93",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 94,
       "title": "Integrate output preservation fixes and close CLI symlink bypass",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "0080ddbd85567ae443ba06e0da5b25fb154b00d1",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/94",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 95,
       "title": "Fix polynomial differentiation at zero and reject malformed Jet dimensions",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "89356e653e24b9053ac95003fd5bcb7323ede37b",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/95",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 96,
       "title": "Reject false zero-variance quadratic tolerance reports",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "c906105907cdd710b717d04d5d75b95ec3cac54a",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/96",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 97,
       "title": "Fix integer-overflow diagnostics and scale-dependent covariance admission",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "e87726d3c7efe575e697770cbba5a064ec371e35",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/97",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 98,
       "title": "Fix mesh intersection normalization across physical scales",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "982eafb1665a9c31868cfcfda7c75571885c2cd8",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/98",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 99,
       "title": "Integrate numerical and geometry repairs; prevent false exact solutions",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "30cffcdd8881b60445355faffcd5752ef51aa32e",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/99",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 100,
       "title": "Preserve finite interval quotients at subnormal scales",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "f560df8dfd31d0df9bf5886ec78a1fab839e3f5a",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/100",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 101,
       "title": "Keep Monte Carlo summaries finite with portable exact-ratio reductions",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "48237e7afa575b4678e137707cce5a7303f7e784",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/101",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 102,
       "title": "Reject nonfinite unit-conversion outputs with source-bound regressions",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "61b8427375e2fa6e6201383e2674ce8fe6f96f4a",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/102",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 105,
       "title": "Freeze Physics v3 validation and retain opposing-load stress failure",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "327d9b5d78b038985f0d28d4f19c8de76bcdfff2",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/105",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 106,
       "title": "Correct opposing-load beam stress with frozen successor verification",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
+      "status": "INCLUDED_IN_MERGED_109",
       "head": "a7a83d18d2a27f83ca6684a42030582c74106d67",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/106",
-      "evidence_or_blocker": "PR107; full CI on e71b63c829f02ed2950dea12912dd4149056904a"
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382"
     },
     {
       "kind": "pull_request",
       "id": 107,
       "title": "Integrate verified product repairs and reconcile all tracked work",
-      "status": "INTEGRATED_VERIFIED_PENDING_REVIEW_MERGE",
-      "evidence_or_blocker": "docs/verification/work-closure-20261014/REPORT.md",
+      "status": "INCLUDED_IN_MERGED_109",
+      "evidence_or_blocker": "079902fa20d22c2cf102104b0f42b28bec8bc382",
       "url": "https://github.com/THE-BU1LD/NeuroCAD/pull/107"
     }
   ],
@@ -991,11 +991,15 @@
     "Complete requested plate/enclosure/beam native mesh reference matrix."
   ],
   "current_candidate": {
-    "branch": "codex/neurocad-composite-final-20261014",
-    "contract": "research/physics_v3/validation_v5/freeze.json",
-    "v4_bounded_pass_commit": "9231aab6402d1ea95ff867d038652fb5694bd2f7",
-    "v4_ci": 38564024326,
-    "new_composite_cases": 42,
-    "status": "PRE_EXECUTION_FINAL_CANDIDATE_USE_EXACT_BRANCH_CHECKS"
-  }
+    "status": "MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+    "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+    "candidate_commit": "d7a80567c2c2727f8bd420a68e2517b217508b56",
+    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174",
+    "receipt": "docs/verification/composite-final-20261014/REPORT.md",
+    "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix",
+    "new_public_release": false
+  },
+  "final_open_issue_count": 13,
+  "final_open_pr_count": 0,
+  "final_receipt": "docs/verification/composite-final-20261014/REPORT.md"
 }

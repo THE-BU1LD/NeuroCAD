@@ -1,0 +1,1391 @@
+{
+  "conclusion": "success",
+  "databaseId": 38565917174,
+  "headSha": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T12:44:08Z",
+      "conclusion": "success",
+      "databaseId": 115858421392,
+      "name": "Workbench browser / webkit",
+      "startedAt": "2026-10-14T12:42:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:53Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:02Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:54Z",
+          "conclusion": "success",
+          "name": "Install product and required browser/kernel tooling",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:05Z",
+          "conclusion": "success",
+          "name": "Real browser project, edit and mesh acceptance",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:06Z",
+          "conclusion": "success",
+          "name": "Retain browser evidence including failures",
+          "number": 6,
+          "startedAt": "2026-10-14T12:44:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:06Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 11,
+          "startedAt": "2026-10-14T12:44:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:06Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "startedAt": "2026-10-14T12:44:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:06Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T12:44:06Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421392"
+    },
+    {
+      "completedAt": "2026-10-14T12:44:05Z",
+      "conclusion": "success",
+      "databaseId": 115858421665,
+      "name": "Workbench browser / chromium",
+      "startedAt": "2026-10-14T12:42:51Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:54Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:01Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:47Z",
+          "conclusion": "success",
+          "name": "Install product and required browser/kernel tooling",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:02Z",
+          "conclusion": "success",
+          "name": "Real browser project, edit and mesh acceptance",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:03Z",
+          "conclusion": "success",
+          "name": "Retain browser evidence including failures",
+          "number": 6,
+          "startedAt": "2026-10-14T12:44:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 11,
+          "startedAt": "2026-10-14T12:44:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "startedAt": "2026-10-14T12:44:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:03Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T12:44:03Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421665"
+    },
+    {
+      "completedAt": "2026-10-14T12:45:14Z",
+      "conclusion": "success",
+      "databaseId": 115858421721,
+      "name": "Experimental exact CAD / build123d",
+      "startedAt": "2026-10-14T12:42:51Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:54Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:07Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:43Z",
+          "conclusion": "success",
+          "name": "Install isolated exact-CAD backend",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:11Z",
+          "conclusion": "success",
+          "name": "Run feature IR and exact-CAD golden tests",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:11Z",
+          "conclusion": "success",
+          "name": "Compile and lint exact-CAD sources",
+          "number": 6,
+          "startedAt": "2026-10-14T12:45:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 11,
+          "startedAt": "2026-10-14T12:45:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "startedAt": "2026-10-14T12:45:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:11Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T12:45:11Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421721"
+    },
+    {
+      "completedAt": "2026-10-14T12:44:14Z",
+      "conclusion": "success",
+      "databaseId": 115858421731,
+      "name": "Portable Python / ubuntu-24.04",
+      "startedAt": "2026-10-14T12:42:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:53Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:01Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:09Z",
+          "conclusion": "success",
+          "name": "Install portable product",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:09Z",
+          "conclusion": "success",
+          "name": "Require Node for shipped workbench script tests",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:07Z",
+          "conclusion": "success",
+          "name": "Run kernel-independent product tests",
+          "number": 6,
+          "startedAt": "2026-10-14T12:43:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:07Z",
+          "conclusion": "success",
+          "name": "Compile and lint supported sources",
+          "number": 7,
+          "startedAt": "2026-10-14T12:44:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:11Z",
+          "conclusion": "success",
+          "name": "Type-check portable sources",
+          "number": 8,
+          "startedAt": "2026-10-14T12:44:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:12Z",
+          "conclusion": "success",
+          "name": "Portable CLI smoke",
+          "number": 9,
+          "startedAt": "2026-10-14T12:44:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:12Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 17,
+          "startedAt": "2026-10-14T12:44:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:12Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 18,
+          "startedAt": "2026-10-14T12:44:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:12Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-14T12:44:12Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421731"
+    },
+    {
+      "completedAt": "2026-10-14T12:46:15Z",
+      "conclusion": "success",
+      "databaseId": 115858421881,
+      "name": "test-and-package (3.10.21)",
+      "startedAt": "2026-10-14T12:42:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:04Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:27Z",
+          "conclusion": "success",
+          "name": "Install build and test tooling",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:39Z",
+          "conclusion": "success",
+          "name": "Install NeuroCAD editable",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:39Z",
+          "conclusion": "success",
+          "name": "Compile shipped Python sources",
+          "number": 6,
+          "startedAt": "2026-10-14T12:43:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:39Z",
+          "conclusion": "success",
+          "name": "Require Node for shipped workbench script tests",
+          "number": 7,
+          "startedAt": "2026-10-14T12:43:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:31Z",
+          "conclusion": "success",
+          "name": "Run maintained release tests",
+          "number": 8,
+          "startedAt": "2026-10-14T12:43:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:32Z",
+          "conclusion": "success",
+          "name": "Retain test results including failures",
+          "number": 9,
+          "startedAt": "2026-10-14T12:45:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:32Z",
+          "conclusion": "success",
+          "name": "Lint maintained product",
+          "number": 10,
+          "startedAt": "2026-10-14T12:45:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:32Z",
+          "conclusion": "success",
+          "name": "Run constructed conversational parser regression",
+          "number": 11,
+          "startedAt": "2026-10-14T12:45:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:33Z",
+          "conclusion": "success",
+          "name": "Retain language intent diagnostics",
+          "number": 12,
+          "startedAt": "2026-10-14T12:45:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:33Z",
+          "conclusion": "success",
+          "name": "Retain conversational parser evidence",
+          "number": 13,
+          "startedAt": "2026-10-14T12:45:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:33Z",
+          "conclusion": "skipped",
+          "name": "Type-check maintained product and research tooling",
+          "number": 14,
+          "startedAt": "2026-10-14T12:45:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:33Z",
+          "conclusion": "skipped",
+          "name": "Audit dependencies and supported source",
+          "number": 15,
+          "startedAt": "2026-10-14T12:45:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:33Z",
+          "conclusion": "skipped",
+          "name": "Retain full security findings and source-bound review",
+          "number": 16,
+          "startedAt": "2026-10-14T12:45:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:48Z",
+          "conclusion": "success",
+          "name": "CLI smoke test",
+          "number": 17,
+          "startedAt": "2026-10-14T12:45:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:53Z",
+          "conclusion": "success",
+          "name": "Build wheel and source distribution",
+          "number": 18,
+          "startedAt": "2026-10-14T12:45:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:04Z",
+          "conclusion": "success",
+          "name": "Fresh wheel install smoke test",
+          "number": 19,
+          "startedAt": "2026-10-14T12:45:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:10Z",
+          "conclusion": "success",
+          "name": "Installed enclosure revision and mesh acceptance",
+          "number": 20,
+          "startedAt": "2026-10-14T12:46:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:10Z",
+          "conclusion": "success",
+          "name": "Retain installed enclosure acceptance",
+          "number": 21,
+          "startedAt": "2026-10-14T12:46:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:10Z",
+          "conclusion": "skipped",
+          "name": "Fresh source-distribution install smoke test",
+          "number": 22,
+          "startedAt": "2026-10-14T12:46:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:10Z",
+          "conclusion": "skipped",
+          "name": "Run tests from the actual source distribution",
+          "number": 23,
+          "startedAt": "2026-10-14T12:46:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:10Z",
+          "conclusion": "skipped",
+          "name": "Staged quick installer from the built wheel",
+          "number": 24,
+          "startedAt": "2026-10-14T12:46:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:13Z",
+          "conclusion": "success",
+          "name": "Git-history high-confidence secret gate",
+          "number": 25,
+          "startedAt": "2026-10-14T12:46:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:13Z",
+          "conclusion": "skipped",
+          "name": "Upload distributions",
+          "number": 26,
+          "startedAt": "2026-10-14T12:46:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:13Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 51,
+          "startedAt": "2026-10-14T12:46:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:13Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 52,
+          "startedAt": "2026-10-14T12:46:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:14Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 53,
+          "startedAt": "2026-10-14T12:46:13Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421881"
+    },
+    {
+      "completedAt": "2026-10-14T12:44:42Z",
+      "conclusion": "success",
+      "databaseId": 115858421932,
+      "name": "Portable Python / macos-15",
+      "startedAt": "2026-10-14T12:42:54Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:55Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:58Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:01Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:08Z",
+          "conclusion": "success",
+          "name": "Install portable product",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:08Z",
+          "conclusion": "success",
+          "name": "Require Node for shipped workbench script tests",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:34Z",
+          "conclusion": "success",
+          "name": "Run kernel-independent product tests",
+          "number": 6,
+          "startedAt": "2026-10-14T12:43:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:35Z",
+          "conclusion": "success",
+          "name": "Compile and lint supported sources",
+          "number": 7,
+          "startedAt": "2026-10-14T12:44:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:37Z",
+          "conclusion": "success",
+          "name": "Type-check portable sources",
+          "number": 8,
+          "startedAt": "2026-10-14T12:44:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:38Z",
+          "conclusion": "success",
+          "name": "Portable CLI smoke",
+          "number": 9,
+          "startedAt": "2026-10-14T12:44:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:38Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 17,
+          "startedAt": "2026-10-14T12:44:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:38Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 18,
+          "startedAt": "2026-10-14T12:44:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:39Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-14T12:44:38Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421932"
+    },
+    {
+      "completedAt": "2026-10-14T12:44:06Z",
+      "conclusion": "success",
+      "databaseId": 115858421966,
+      "name": "Workbench browser / firefox",
+      "startedAt": "2026-10-14T12:42:51Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:53Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:01Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:44Z",
+          "conclusion": "success",
+          "name": "Install product and required browser/kernel tooling",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:00Z",
+          "conclusion": "success",
+          "name": "Real browser project, edit and mesh acceptance",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:02Z",
+          "conclusion": "success",
+          "name": "Retain browser evidence including failures",
+          "number": 6,
+          "startedAt": "2026-10-14T12:44:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:02Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 11,
+          "startedAt": "2026-10-14T12:44:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "startedAt": "2026-10-14T12:44:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:03Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T12:44:03Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858421966"
+    },
+    {
+      "completedAt": "2026-10-14T12:45:05Z",
+      "conclusion": "success",
+      "databaseId": 115858422031,
+      "name": "Portable Python / windows-2025",
+      "startedAt": "2026-10-14T12:42:51Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:59Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:05Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:30Z",
+          "conclusion": "success",
+          "name": "Install portable product",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:31Z",
+          "conclusion": "success",
+          "name": "Require Node for shipped workbench script tests",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:54Z",
+          "conclusion": "success",
+          "name": "Run kernel-independent product tests",
+          "number": 6,
+          "startedAt": "2026-10-14T12:43:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:44:54Z",
+          "conclusion": "success",
+          "name": "Compile and lint supported sources",
+          "number": 7,
+          "startedAt": "2026-10-14T12:44:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:00Z",
+          "conclusion": "success",
+          "name": "Type-check portable sources",
+          "number": 8,
+          "startedAt": "2026-10-14T12:44:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:02Z",
+          "conclusion": "success",
+          "name": "Portable CLI smoke",
+          "number": 9,
+          "startedAt": "2026-10-14T12:45:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:02Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 17,
+          "startedAt": "2026-10-14T12:45:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:05Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 18,
+          "startedAt": "2026-10-14T12:45:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:05Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-14T12:45:05Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858422031"
+    },
+    {
+      "completedAt": "2026-10-14T12:48:14Z",
+      "conclusion": "success",
+      "databaseId": 115858422139,
+      "name": "test-and-package (3.12.14)",
+      "startedAt": "2026-10-14T12:42:51Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:59Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:12Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:30Z",
+          "conclusion": "success",
+          "name": "Install build and test tooling",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:43Z",
+          "conclusion": "success",
+          "name": "Install NeuroCAD editable",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:44Z",
+          "conclusion": "success",
+          "name": "Compile shipped Python sources",
+          "number": 6,
+          "startedAt": "2026-10-14T12:43:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:44Z",
+          "conclusion": "success",
+          "name": "Require Node for shipped workbench script tests",
+          "number": 7,
+          "startedAt": "2026-10-14T12:43:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:22Z",
+          "conclusion": "success",
+          "name": "Run maintained release tests",
+          "number": 8,
+          "startedAt": "2026-10-14T12:43:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:24Z",
+          "conclusion": "success",
+          "name": "Retain test results including failures",
+          "number": 9,
+          "startedAt": "2026-10-14T12:45:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:24Z",
+          "conclusion": "success",
+          "name": "Lint maintained product",
+          "number": 10,
+          "startedAt": "2026-10-14T12:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:24Z",
+          "conclusion": "success",
+          "name": "Run constructed conversational parser regression",
+          "number": 11,
+          "startedAt": "2026-10-14T12:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:24Z",
+          "conclusion": "success",
+          "name": "Retain language intent diagnostics",
+          "number": 12,
+          "startedAt": "2026-10-14T12:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:26Z",
+          "conclusion": "success",
+          "name": "Retain conversational parser evidence",
+          "number": 13,
+          "startedAt": "2026-10-14T12:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:30Z",
+          "conclusion": "success",
+          "name": "Type-check maintained product and research tooling",
+          "number": 14,
+          "startedAt": "2026-10-14T12:45:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:35Z",
+          "conclusion": "success",
+          "name": "Audit dependencies and supported source",
+          "number": 15,
+          "startedAt": "2026-10-14T12:45:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:36Z",
+          "conclusion": "success",
+          "name": "Retain full security findings and source-bound review",
+          "number": 16,
+          "startedAt": "2026-10-14T12:45:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:46Z",
+          "conclusion": "success",
+          "name": "CLI smoke test",
+          "number": 17,
+          "startedAt": "2026-10-14T12:45:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:54Z",
+          "conclusion": "success",
+          "name": "Build wheel and source distribution",
+          "number": 18,
+          "startedAt": "2026-10-14T12:45:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:03Z",
+          "conclusion": "success",
+          "name": "Fresh wheel install smoke test",
+          "number": 19,
+          "startedAt": "2026-10-14T12:45:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:08Z",
+          "conclusion": "success",
+          "name": "Installed enclosure revision and mesh acceptance",
+          "number": 20,
+          "startedAt": "2026-10-14T12:46:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:09Z",
+          "conclusion": "success",
+          "name": "Retain installed enclosure acceptance",
+          "number": 21,
+          "startedAt": "2026-10-14T12:46:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:18Z",
+          "conclusion": "success",
+          "name": "Fresh source-distribution install smoke test",
+          "number": 22,
+          "startedAt": "2026-10-14T12:46:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:47:55Z",
+          "conclusion": "success",
+          "name": "Run tests from the actual source distribution",
+          "number": 23,
+          "startedAt": "2026-10-14T12:46:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:48:06Z",
+          "conclusion": "success",
+          "name": "Staged quick installer from the built wheel",
+          "number": 24,
+          "startedAt": "2026-10-14T12:47:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:48:09Z",
+          "conclusion": "success",
+          "name": "Git-history high-confidence secret gate",
+          "number": 25,
+          "startedAt": "2026-10-14T12:48:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:48:11Z",
+          "conclusion": "success",
+          "name": "Upload distributions",
+          "number": 26,
+          "startedAt": "2026-10-14T12:48:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:48:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 51,
+          "startedAt": "2026-10-14T12:48:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:48:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 52,
+          "startedAt": "2026-10-14T12:48:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:48:11Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 53,
+          "startedAt": "2026-10-14T12:48:11Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858422139"
+    },
+    {
+      "completedAt": "2026-10-14T12:46:04Z",
+      "conclusion": "success",
+      "databaseId": 115858422158,
+      "name": "test-and-package (3.11.16)",
+      "startedAt": "2026-10-14T12:42:50Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:42:52Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:42:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:42:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-14T12:42:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:04Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 3,
+          "startedAt": "2026-10-14T12:42:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:23Z",
+          "conclusion": "success",
+          "name": "Install build and test tooling",
+          "number": 4,
+          "startedAt": "2026-10-14T12:43:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:33Z",
+          "conclusion": "success",
+          "name": "Install NeuroCAD editable",
+          "number": 5,
+          "startedAt": "2026-10-14T12:43:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:34Z",
+          "conclusion": "success",
+          "name": "Compile shipped Python sources",
+          "number": 6,
+          "startedAt": "2026-10-14T12:43:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:43:34Z",
+          "conclusion": "success",
+          "name": "Require Node for shipped workbench script tests",
+          "number": 7,
+          "startedAt": "2026-10-14T12:43:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:24Z",
+          "conclusion": "success",
+          "name": "Run maintained release tests",
+          "number": 8,
+          "startedAt": "2026-10-14T12:43:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:25Z",
+          "conclusion": "success",
+          "name": "Retain test results including failures",
+          "number": 9,
+          "startedAt": "2026-10-14T12:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:25Z",
+          "conclusion": "success",
+          "name": "Lint maintained product",
+          "number": 10,
+          "startedAt": "2026-10-14T12:45:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:25Z",
+          "conclusion": "success",
+          "name": "Run constructed conversational parser regression",
+          "number": 11,
+          "startedAt": "2026-10-14T12:45:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:26Z",
+          "conclusion": "success",
+          "name": "Retain language intent diagnostics",
+          "number": 12,
+          "startedAt": "2026-10-14T12:45:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:26Z",
+          "conclusion": "success",
+          "name": "Retain conversational parser evidence",
+          "number": 13,
+          "startedAt": "2026-10-14T12:45:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:26Z",
+          "conclusion": "skipped",
+          "name": "Type-check maintained product and research tooling",
+          "number": 14,
+          "startedAt": "2026-10-14T12:45:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:26Z",
+          "conclusion": "skipped",
+          "name": "Audit dependencies and supported source",
+          "number": 15,
+          "startedAt": "2026-10-14T12:45:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:26Z",
+          "conclusion": "skipped",
+          "name": "Retain full security findings and source-bound review",
+          "number": 16,
+          "startedAt": "2026-10-14T12:45:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:39Z",
+          "conclusion": "success",
+          "name": "CLI smoke test",
+          "number": 17,
+          "startedAt": "2026-10-14T12:45:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:43Z",
+          "conclusion": "success",
+          "name": "Build wheel and source distribution",
+          "number": 18,
+          "startedAt": "2026-10-14T12:45:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:54Z",
+          "conclusion": "success",
+          "name": "Fresh wheel install smoke test",
+          "number": 19,
+          "startedAt": "2026-10-14T12:45:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:45:59Z",
+          "conclusion": "success",
+          "name": "Installed enclosure revision and mesh acceptance",
+          "number": 20,
+          "startedAt": "2026-10-14T12:45:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:00Z",
+          "conclusion": "success",
+          "name": "Retain installed enclosure acceptance",
+          "number": 21,
+          "startedAt": "2026-10-14T12:45:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:00Z",
+          "conclusion": "skipped",
+          "name": "Fresh source-distribution install smoke test",
+          "number": 22,
+          "startedAt": "2026-10-14T12:46:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:00Z",
+          "conclusion": "skipped",
+          "name": "Run tests from the actual source distribution",
+          "number": 23,
+          "startedAt": "2026-10-14T12:46:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:00Z",
+          "conclusion": "skipped",
+          "name": "Staged quick installer from the built wheel",
+          "number": 24,
+          "startedAt": "2026-10-14T12:46:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:03Z",
+          "conclusion": "success",
+          "name": "Git-history high-confidence secret gate",
+          "number": 25,
+          "startedAt": "2026-10-14T12:46:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:03Z",
+          "conclusion": "skipped",
+          "name": "Upload distributions",
+          "number": 26,
+          "startedAt": "2026-10-14T12:46:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
+          "number": 51,
+          "startedAt": "2026-10-14T12:46:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 52,
+          "startedAt": "2026-10-14T12:46:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:46:03Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 53,
+          "startedAt": "2026-10-14T12:46:03Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174/job/115858422158"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38565917174"
+}

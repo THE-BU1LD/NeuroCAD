@@ -1,3 +1,9 @@
+## Current engineering closure — 2026-10-14T12:50:09.899036+00:00
+
+PR109 merged the integrated repairs at `079902fa20d22c2cf102104b0f42b28bec8bc382`. Exact-main CI passed 1,677 maintained tests; source-distribution, OS/browser, security and native gates passed. The declared conformance envelope passes 37 scalar, 52 installed and 42 new composite reference cases. [Complete receipt](docs/verification/composite-final-20261014/REPORT.md).
+
+Physical validation, independent reproduction and intended-user studies remain unexecuted. Native shape/platform acceptance in issues64/65 and other tracked external dependencies remain. Published v0.5.0a6 is unchanged. The original dirty checkout is preserved; source location: `/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix`. Prior dated records follow unchanged.
+
 # NeuroCAD current status
 
 ## Public alpha complete — 2026-10-14

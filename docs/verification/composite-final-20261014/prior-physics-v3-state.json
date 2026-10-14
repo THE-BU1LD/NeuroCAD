@@ -1,0 +1,111 @@
+{
+  "schema_version": "neurocad-research-state-v1",
+  "project_id": "NC-PHYSICS-V3-WORKFLOW",
+  "title": "NeuroCAD Physics v3 bounded analytical workflow expansion",
+  "status_date": "2026-10-11",
+  "predecessor": {
+    "project_id": "NC-PHYSICS-V2-PROVENANCE",
+    "release_tag": "physics-v2-v1.0.0",
+    "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "relationship": "versioned engineering successor; frozen v2 protocol, evidence, release artifacts, and claims remain unchanged"
+  },
+  "objective": "Add bounded mechanics, thermal, vibration, fluid, coupled, uncertainty, and CAD-annotation workflows without presenting analytical scalars as FEA, CFD, physical validation, or independent reproduction.",
+  "phase": "ENGINEERING_IMPLEMENTED_SCIENTIFIC_VALIDATION_NOT_STARTED",
+  "implemented": [
+    "temperature-aware material cards with in-range interpolation only",
+    "reusable named load cases and algebraic load combinations",
+    "Euler-Bernoulli cantilever response",
+    "three-dimensional combined-stress invariants",
+    "steady linear thermal networks",
+    "forced and base-excited SDOF vibration",
+    "series and single-bank parallel pipe networks",
+    "lumped electro-thermal-mechanical wire workflow",
+    "interval-corner, seeded Monte Carlo, and local-sensitivity propagation",
+    "hash-bound non-spatial component result overlays",
+    "canonical composite generation for hollow shafts, I-beams, L-brackets, and perforated plates",
+    "exact idealized composite geometry, centroid, section, mass-inertia, and bounded structural screening"
+  ],
+  "excluded": [
+    "finite-element analysis",
+    "computational fluid dynamics",
+    "spatial stress, displacement, temperature, pressure, or velocity fields",
+    "nonlinear constitutive behavior",
+    "general pipe-network loops",
+    "multimode structural dynamics",
+    "probabilistic reliability certification",
+    "physical experiments",
+    "safety or manufacturing certification",
+    "independent reproduction"
+  ],
+  "claim_boundary": "The implementation and automated tests support software behavior and hand-checkable formula conformance only. They do not establish real-world accuracy, safety, publication novelty, FEA/CFD equivalence, or scientific independence.",
+  "engineering_verification": {
+    "targeted_tests": "54 passed across Physics, complex-shape, planner, and runnable-example suites",
+    "runnable_examples": "10 of 10 executed successfully",
+    "ruff": "PASS for core, CLI, and Physics test files",
+    "mypy": "PASS, 75 source files",
+    "full_repository_tests": "1225 passed, 9 skipped in 407.99 seconds",
+    "full_repository_mypy": "PASS, 75 source files",
+    "complex_shape_mesh_verification": "4 of 4 generated examples compiled as single, finite, watertight, winding-consistent volumes with no detected non-adjacent triangle intersections"
+  },
+  "scientific_evidence": {
+    "protected_evaluation": "NOT_CREATED_OR_EXECUTED",
+    "physical_validation": "NOT_STARTED",
+    "independent_reproduction": "NOT_STARTED",
+    "paper": "NOT_CREATED",
+    "arxiv_submission": "NOT_REQUESTED_OR_PERFORMED"
+  },
+  "artifacts": [
+    "core/physics_advanced.py",
+    "core/physics_registry.py",
+    "core/physics_v3_context.py",
+    "core/physics_uncertainty.py",
+    "core/physics_overlay.py",
+    "core/complex_shapes.py",
+    "tests/test_physics_advanced.py",
+    "tests/test_complex_shapes.py",
+    "docs/PHYSICS.md",
+    "docs/COMPLEX_SHAPES.md",
+    "research/physics_v3/FEATURE_MATRIX.md",
+    "research/physics_v3/COMPLEX_SHAPE_VERIFICATION.json"
+  ],
+  "validation_v1": {
+    "status": "FROZEN_CONFORMANCE_FAIL_EXTERNAL_VALIDATION_NOT_STARTED",
+    "protocol": "research/physics_v3/validation_v1/PROTOCOL.md",
+    "freeze": "research/physics_v3/validation_v1/freeze.json",
+    "receipt": "docs/verification/physics-v3-20261014/REPORT.md",
+    "ci_run": 38547582177,
+    "source_scalar_passed": 31,
+    "source_scalar_total": 32,
+    "installed_acceptance_passed": 15,
+    "installed_acceptance_total": 15,
+    "physical_validation": "NOT_STARTED",
+    "independent_reproduction": "NOT_STARTED",
+    "human_usability": "NOT_STARTED"
+  },
+  "history": [
+    {
+      "date": "2026-10-14",
+      "event": "Frozen Physics v3 conformance v1 executed without changing production source: 31/32 scalar cases passed locally and in hosted CI; opposing-load maximum beam stress is 0 versus reference 2.1 MPa. Installed acceptance 15/15 passed, four complex shapes compiled, 1230 regression tests passed and 9 skipped. Run 38547582177 on 7c53a0c remains FAIL. All 40 protected v2/release/paper files unchanged. Physical, independent and user validation remain open.",
+      "receipt": "docs/verification/physics-v3-20261014/REPORT.md"
+    },
+    {
+      "date": "2026-10-14T11:37:54.418561+00:00",
+      "event": "Corrected Physics v3 successor verified at 5676436719415302ce94076c4d49c37e302308f7: 37/37 scalar, 52/52 installed cases/workflows, four mesh compilations, 1236 regression tests (9 skipped; 43 subtests), and 11 external-integrity tests passed in hosted CI. Original v1 failure and protected v2 evidence preserved. No physical, independent or human outcomes; no new public release."
+    }
+  ],
+  "validation_v2": {
+    "status": "PASS_BOUNDED_SOFTWARE_CONFORMANCE",
+    "source_commit": "5676436719415302ce94076c4d49c37e302308f7",
+    "protocol": "research/physics_v3/validation_v2/PROTOCOL.md",
+    "freeze": "research/physics_v3/validation_v2/freeze.json",
+    "receipt": "docs/verification/physics-v3-corrected-20261014/SUMMARY.json",
+    "ci_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/38557278466",
+    "source_passed": 37,
+    "source_total": 37,
+    "installed_passed": 52,
+    "installed_total": 52,
+    "physical_validation": "NOT_EXECUTED",
+    "independent_reproduction": "NOT_EXECUTED",
+    "human_usability": "NOT_EXECUTED"
+  }
+}
