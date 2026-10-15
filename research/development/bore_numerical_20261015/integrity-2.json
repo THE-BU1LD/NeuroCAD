@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-10-15T17:02:03.543415+00:00",
+  "source_and_log_commit": "1e7b033fc9932ef26b85004a611597baad53a7e9",
+  "test_source_hashes_match": true,
+  "only_declared_paths_changed": [
+    "core/final_geometry.py",
+    "research/development/bore_numerical_20261015/FAILURES.json",
+    "research/development/bore_numerical_20261015/REPORT.md",
+    "research/development/bore_numerical_20261015/baseline.json",
+    "research/development/bore_numerical_20261015/baseline.log",
+    "research/development/bore_numerical_20261015/baseline.xml",
+    "research/development/bore_numerical_20261015/candidate-1.json",
+    "research/development/bore_numerical_20261015/candidate-1.log",
+    "research/development/bore_numerical_20261015/candidate-1.xml",
+    "research/development/bore_numerical_20261015/candidate-2.json",
+    "research/development/bore_numerical_20261015/candidate-2.log",
+    "research/development/bore_numerical_20261015/candidate-2.xml",
+    "research/development/bore_numerical_20261015/candidate-3.json",
+    "research/development/bore_numerical_20261015/candidate-3.log",
+    "research/development/bore_numerical_20261015/candidate-3.xml",
+    "research/development/bore_numerical_20261015/contract.json",
+    "research/development/bore_numerical_20261015/entry.json",
+    "research/development/bore_numerical_20261015/integrity-1.json",
+    "research/development/bore_numerical_20261015/lint-1.json",
+    "research/development/bore_numerical_20261015/lint-1.log",
+    "research/development/bore_numerical_20261015/lint-2.json",
+    "research/development/bore_numerical_20261015/lint-2.log",
+    "research/development/bore_numerical_20261015/run_guarded.py",
+    "tests/test_bore_numerical_admission.py"
+  ],
+  "protected_inherited_files_unchanged": 3815,
+  "new_case_count": 45,
+  "baseline_case_count": 43,
+  "final_test_count": 134,
+  "setup_events": [
+    "Initial log staging refused because --sparse was absent; corrected explicitly.",
+    "Git cross-device worktree move refused without moving source; copied own sparse checkout and repaired worktree registration. Temporary source copy retained."
+  ],
+  "budget_used": {
+    "baseline": 1,
+    "candidate": 3,
+    "lint": 2,
+    "static_audit": 2,
+    "native": 0,
+    "full": 0,
+    "type": 0,
+    "installed": 0,
+    "hosted": 0,
+    "protected": 0
+  }
+}
