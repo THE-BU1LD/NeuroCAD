@@ -17,3 +17,5 @@ Radius wording requires a uniquely named existing circular cutout. A 3 mm radius
 This grammar does not resolve conversation history, fractions such as “one and a half”, number words above ninety-nine, or arbitrary fragmented instructions. Quantity edits retain the existing specification validation and review requirements. They do not certify the exported geometry or physical performance.
 
 [Implementation and measured limits](../research/development/conversation_quantities_20261015/REPORT.md).
+
+[Scalar preservation, only-scope and explicit correction rules](SCALAR_INTENT.md) extend these quantities while retaining the original review and context checks.

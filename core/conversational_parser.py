@@ -17,7 +17,8 @@ SCALARS = {
     "corner radius": "corner_radius_mm", "lid thickness": "lid.thickness_mm",
     "lid clearance": "lid.clearance_mm", "lid lip height": "lid.lip_height_mm",
 }
-_NOUN = r"(?P<noun>walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness") + ")"
+_SCALAR_NOUN = r"walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness")
+_NOUN = rf"(?P<noun>{_SCALAR_NOUN})"
 _SCALAR_SET = re.compile(rf"(?:(?P<set_verb>make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?P<relation>to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?")
 _SCALAR_DELTA = re.compile(rf"(?P<verb>add|subtract)\s+{MEASURE}\s+(?P<direction>to|from)\s+(?:the\s+)?{_NOUN}")
 _SCALAR_BY = re.compile(rf"(?P<verb>increase|decrease)\s+(?:the\s+)?{_NOUN}\s+by\s+{MEASURE}")
@@ -31,6 +32,13 @@ _PREFIX = re.compile(r"^(?:(?:okay|ok|please|uh|um|just)\s+)+")
 _SUFFIX = re.compile(r"\s+please$")
 _PRESERVE_OUTSIDE = re.compile(r"(?:keep|preserve|don't (?:change|move|resize)) (?:the )?(?:outside|outer boundary|external boundary|outside dimensions)(?: (?:the )?(?:same|unchanged|fixed))?")
 _PRESERVE_HOLES = re.compile(r"(?:keep|preserve|don't (?:change|move|remove|lose)) (?:the |that |all )?(?:holes?|cutouts?)(?: (?:the )?(?:same|unchanged|fixed))?")
+_PRESERVE_SCALAR = re.compile(
+    rf"(?:keep|preserve|(?:don't|do not) (?:change|modify|adjust)) (?:the )?(?P<noun>floor|{_SCALAR_NOUN})"
+    r"(?: (?:the )?(?:same|unchanged|fixed))?"
+)
+_REJECTED_VALUE = re.compile(rf"not\s+{MEASURE}\s+{_NOUN}")
+_ANAPHOR_SET = re.compile(rf"(?:make|set|change)\s+(?:it|them)\s+(?:(?:to|at|be)\s+)?{MEASURE}(?:\s+thick)?")
+_ONLY = re.compile(r"only\s+")
 _SIZE = re.compile(
     rf"(?:resize|make|set) (?:the |that )?(?:enclosure|box|case)(?: to)? "
     rf"(?P<w>\d+(?:\.\d+)?)\s*(?P<wu>{UNIT})?\s*[x×]\s*"
@@ -39,7 +47,46 @@ _SIZE = re.compile(
 )
 
 
-def _quantity_instruction(text: str, project: EnclosureProject, previous_label: str | None) -> tuple[str, str, bool] | None:
+@dataclass(frozen=True)
+class _QuantityEdit:
+    instruction: str
+    label: str | None
+    value_mm: float
+    relative: bool = False
+    direction: str | None = None
+
+
+def _scalar_name(noun: str) -> str:
+    if noun.startswith("wall"):
+        return "wall thickness"
+    return "floor thickness" if noun == "floor" else noun
+
+
+def _scalar_value(project: EnclosureProject, label: str) -> float:
+    current: Any = project.spec
+    for key in SCALARS[label].split("."):
+        current = getattr(current, key)
+    return float(current)
+
+
+def _check_direction(value: float, current: float, direction: str | None, label: str) -> None:
+    # Check the stored representation, including corrections and sub-resolution deltas.
+    if ((direction == "increase" and value <= current)
+            or (direction == "decrease" and value >= current)):
+        raise ValueError(f"The final value must {direction} the current {label}; clarify the target or direction")
+
+
+def _other_fields(project: EnclosureProject, edited: str) -> list[str]:
+    """ONLY a scalar protects every other specification field, including lid siblings."""
+    baseline = enclosure_spec_to_dict(project.spec)
+    root = edited.split(".")[0]
+    fields = set(baseline) - {"version", "units", root}
+    if "." in edited:
+        fields.update(f"{root}.{name}" for name in baseline[root] if f"{root}.{name}" != edited)
+    return sorted(fields)
+
+
+def _quantity_instruction(text: str, project: EnclosureProject, previous: _QuantityEdit | None) -> _QuantityEdit | None:
     """Dispatch complete scalar clauses; all outputs still use the shared edit validator."""
     relative = False
     match = _SCALAR_SET.fullmatch(text)
@@ -47,13 +94,10 @@ def _quantity_instruction(text: str, project: EnclosureProject, previous_label: 
         match = _SCALAR_DELTA.fullmatch(text) or _SCALAR_BY.fullmatch(text)
         relative = match is not None
     if match:
-        noun = match.group("noun")
-        name = "wall thickness" if noun.startswith("wall") else noun
+        name = _scalar_name(match.group("noun"))
         value = millimeters(match.group("value"), match.group("unit"))
         verb = match.group("verb") if relative else match.group("set_verb")
-        current: Any = project.spec
-        for key in SCALARS[name].split("."):
-            current = getattr(current, key)
+        current = _scalar_value(project, name)
         if verb in {"increase", "decrease"} and not relative and match.group("relation") != "to":
             raise ValueError("Specify a final value with 'to', or an amount of change with 'by'")
         if relative:
@@ -62,22 +106,22 @@ def _quantity_instruction(text: str, project: EnclosureProject, previous_label: 
                 raise ValueError("Use 'add ... to' or 'subtract ... from' with an explicit scalar")
             value = adjusted_value(current, value, subtract=verb in {"subtract", "decrease"})
         canonical = canonical_number(value)
-        # Compare the stored representation: a sub-resolution delta must not
-        # claim an increase/decrease when the resulting float is unchanged.
-        if ((verb == "increase" and float(value) <= current)
-                or (verb == "decrease" and float(value) >= current)):
-            raise ValueError(f"The final value must {verb} the current {name}; clarify the target or direction")
-        return f"set {name} to {canonical} mm", name, relative
-    if previous_label and (match := _CORRECTION.fullmatch(text)):
+        direction = verb if verb in {"increase", "decrease"} else None
+        _check_direction(float(value), current, direction, name)
+        return _QuantityEdit(f"set {name} to {canonical} mm", name, float(value), relative, direction)
+    if previous and previous.label and (match := _CORRECTION.fullmatch(text)):
         value = millimeters(match.group("value"), match.group("unit"))
-        return f"set {previous_label} to {canonical_number(value)} mm", previous_label, False
+        canonical = canonical_number(value)
+        _check_direction(float(value), _scalar_value(project, previous.label), previous.direction, previous.label)
+        return _QuantityEdit(f"set {previous.label} to {canonical} mm", previous.label, float(value), direction=previous.direction)
     if match := _RADIUS.fullmatch(text):
         identifier = match.group("id").casefold()
         holes = [hole for hole in project.spec.cutouts if hole.id.casefold() == identifier]
         if len(holes) != 1 or holes[0].kind != "circular":
             raise ValueError("Radius requires one uniquely named existing circular cutout")
         diameter = diameter_from_radius(millimeters(match.group("value"), match.group("unit")))
-        return f"set circular cutout {holes[0].id} diameter to {canonical_number(diameter)} mm", "", False
+        canonical = canonical_number(diameter)
+        return _QuantityEdit(f"set circular cutout {holes[0].id} diameter to {canonical} mm", None, float(diameter))
     return None
 
 
@@ -226,7 +270,10 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
     if not isinstance(source, str) or not source.strip() or len(source) > MAX_SOURCE:
         raise ValueError(f"source must contain 1 through {MAX_SOURCE} characters")
     payload: dict[str, Any] = {key: [] for key in ("actions", "preserve", "questions", "unsupported", "acknowledged")}
-    cursor, correction, previous_label = 0, False, None
+    cursor, correction = 0, False
+    previous: _QuantityEdit | None = None
+    pending_rejection: str | None = None
+    forbidden_values: dict[str, set[float]] = {}
     seen_labels: set[str] = set()
     relative_labels: set[str] = set()
     parts = []
@@ -245,11 +292,46 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
         text = _TYPO_PATTERN.sub(lambda match: _TYPOS[match.group()], text)
         text = _PREFIX.sub("", text).rstrip(".!?")
         text = _SUFFIX.sub("", text)
-        if _PRESERVE_OUTSIDE.fullmatch(text):
+        only_match = _ONLY.match(text)
+        only = only_match is not None
+        if only_match:
+            text = text[only_match.end():]
+        quantity = None
+        if pending_rejection is not None:
+            try:
+                if reference := _ANAPHOR_SET.fullmatch(text):
+                    text = f"{pending_rejection} {reference.group('value')} {reference.group('unit')}"
+                quantity = _quantity_instruction(text, project, None)
+                if quantity is None or quantity.label != pending_rejection or quantity.relative:
+                    raise ValueError("A rejected scalar value needs an immediately adjacent explicit replacement for the same target")
+            except ValueError as exc:
+                payload["questions"].append(str(exc))
+                payload["acknowledged"].append({"reason": "Unresolved rejected-value replacement", "evidence": ev})
+                pending_rejection = None
+                continue
+            pending_rejection = None
+        elif not only and (rejection := _REJECTED_VALUE.fullmatch(text)):
+            try:
+                value = millimeters(rejection.group("value"), rejection.group("unit"))
+                canonical_number(value)
+                label = _scalar_name(rejection.group("noun"))
+                forbidden_values.setdefault(label, set()).add(float(value))
+                pending_rejection = label
+                previous = None
+                payload["acknowledged"].append({"reason": "Rejected scalar value; an adjacent replacement is required", "evidence": ev})
+            except ValueError as exc:
+                payload["questions"].append(str(exc))
+                payload["acknowledged"].append({"reason": "Invalid rejected quantity", "evidence": ev})
+            continue
+        if not only and (protection := _PRESERVE_SCALAR.fullmatch(text)):
+            field = SCALARS[_scalar_name(protection.group("noun"))]
+            payload["preserve"].append({"field": field, "evidence": ev})
+            continue
+        if not only and _PRESERVE_OUTSIDE.fullmatch(text):
             fields = ("outer_size_mm",) if "dimensions" in text else ("outer_size_mm", "corner_radius_mm", "cutouts", "vents", "lid")
             payload["preserve"].extend({"field": field, "evidence": ev} for field in fields)
             continue
-        if _PRESERVE_HOLES.fullmatch(text):
+        if not only and _PRESERVE_HOLES.fullmatch(text):
             singular = bool(re.search(r"\b(?:hole|cutout)\b", text)) and "all " not in text
             if singular and len(project.spec.cutouts) != 1:
                 payload["questions"].append("Which existing cutout do you mean? Use its feature ID.")
@@ -258,32 +340,40 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
                 payload["preserve"].append({"field": "cutouts", "evidence": ev})
             continue
         instruction, label = None, None
-        size_match = _SIZE.fullmatch(text)
+        size_match = None if only else _SIZE.fullmatch(text)
         if size_match:
             sizes = [float(size_match.group(axis)) * UNITS[size_match.group(axis + "u") or size_match.group("hu")]
                      for axis in ("w", "d", "h")]
             instruction = f"resize enclosure to {sizes[0]!r} x {sizes[1]!r} x {sizes[2]!r} mm"
         if instruction is None:
             try:
-                quantity = _quantity_instruction(text, project, previous_label if correcting else None)
+                quantity = quantity or _quantity_instruction(text, project, previous if correcting else None)
                 if quantity:
-                    instruction, label, relative = quantity
+                    instruction, label, relative = quantity.instruction, quantity.label, quantity.relative
+                    if only and label is None:
+                        raise ValueError("ONLY currently requires one named scalar property")
                     if label:
+                        if quantity.value_mm in forbidden_values.get(label, set()):
+                            raise ValueError(f"The replacement restores a rejected value for {label}; clarify the final value")
                         if label in relative_labels or (relative and label in seen_labels):
                             raise ValueError("Repeated edits involving a relative quantity need one explicit final value")
                         seen_labels.add(label)
                         if relative:
                             relative_labels.add(label)
+                        if only:
+                            protected = {item["field"] for item in payload["preserve"]}
+                            payload["preserve"].extend({"field": field, "evidence": ev}
+                                                       for field in _other_fields(project, SCALARS[label]) if field not in protected)
             except ValueError as exc:
                 payload["questions"].append(str(exc))
                 payload["acknowledged"].append({"reason": "Unresolved quantity edit", "evidence": ev})
                 continue
         if instruction:
-            if correcting and label == previous_label and payload["actions"]:
+            if correcting and previous and label == previous.label and payload["actions"]:
                 superseded = payload["actions"].pop()
                 payload["acknowledged"].append({"reason": "Superseded by explicit self-correction", "evidence": superseded["evidence"]})
             payload["actions"].append({"instruction": instruction, "evidence": ev})
-            previous_label = label
+            previous = quantity
             continue
         try:
             edit_project_from_text(project, source[start:end].strip())
@@ -295,8 +385,17 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
                 payload["unsupported"].append({"reason": "Outside local edit grammar; use a configured language provider or an explicit canonical instruction", "evidence": ev})
         else:
             payload["actions"].append({"instruction": source[start:end].strip(), "evidence": ev})
-            previous_label = None
-    return validate_edit_payload(source, project, payload, interpreter="local-conversation-v2")
+            previous = None
+    if pending_rejection:
+        payload["questions"].append(f"What exact value and unit should replace the rejected {pending_rejection}?")
+    result = validate_edit_payload(source, project, payload, interpreter="local-conversation-v3")
+    if result.candidate:
+        for label, excluded in forbidden_values.items():
+            if _scalar_value(result.candidate, label) in excluded:
+                payload["questions"].append(f"The final {label} restores an explicitly rejected value")
+        if payload["questions"]:
+            return validate_edit_payload(source, project, payload, interpreter="local-conversation-v3")
+    return result
 
 
 def apply_proposal(proposal: EditProposal, project: EnclosureProject, *, confirmed: bool = False) -> EnclosureProject:

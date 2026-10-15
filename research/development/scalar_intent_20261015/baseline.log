@@ -1,0 +1,159 @@
+FFFFFFFFFFF............................FFFFFFF.                          [100%]
+=================================== FAILURES ===================================
+_ test_supported_request_changes_only_wall[dont change the floor, only wall thickness to 3mm] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'dont change the floor, only wall thickness to 3mm', 'baselin...a256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[do not change floor thickness and walls three mm] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'do not change floor thickness and walls three mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[keep the floor unchanged; make walls 3mm] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'keep the floor unchanged; make walls 3mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'unsupported' == 'proposal'
+E     
+E     - proposal
+E     + unsupported
+_ test_supported_request_changes_only_wall[preserve the floor thickness and walls 3mm] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'preserve the floor thickness and walls 3mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[only make the walls three millimeters thick] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'only make the walls three millimeters thick', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[only add one mm to wall thickness] __
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'only add one mm to wall thickness', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+____ test_supported_request_changes_only_wall[not 4mm walls, make them 3mm] ____
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'not 4mm walls, make them 3mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[not four millimeters wall thickness; set it to three mm] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'not four millimeters wall thickness; set it to three mm', 'b...a256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[not 0.4cm walls but set wall thickness to 3mm] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'not 0.4cm walls but set wall thickness to 3mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[not 4mm walls, only make them 3mm] __
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'not 4mm walls, only make them 3mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_supported_request_changes_only_wall[not 4mm walls, set wall thickness 3mm; keep floor unchanged] _
+tests/test_scalar_intent.py:37: in test_supported_request_changes_only_wall
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'not 4mm walls, set wall thickness 3mm; keep floor unchanged'...a256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+_ test_incomplete_conflicting_or_wrong_scope_never_publishes[increase walls to four mm no actually one point five mm] _
+tests/test_scalar_intent.py:76: in test_incomplete_conflicting_or_wrong_scope_never_publishes
+    assert result.candidate is None, result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase walls to four mm no actually one point five mm', 'b...a256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert EnclosureProject(project_id='scalar-intent', spec=EnclosureSpec(outer_size_mm=(80.0, 60.0, 30.0), wall_mm=1.5, profile...eRecord(revision=2, field='wall_mm', before=2, after=1.5, reason='one point five mm'),), version='neurocad-project-v1') is None
+E    +  where EnclosureProject(project_id='scalar-intent', spec=EnclosureSpec(outer_size_mm=(80.0, 60.0, 30.0), wall_mm=1.5, profile...eRecord(revision=2, field='wall_mm', before=2, after=1.5, reason='one point five mm'),), version='neurocad-project-v1') = EditProposal(source='increase walls to four mm no actually one point five mm', baseline_sha256='775a74977bbb487806f043...='wall_mm', before=2, after=1.5, reason='one point five mm'),), version='neurocad-project-v1'), provider_metadata=None).candidate
+_ test_incomplete_conflicting_or_wrong_scope_never_publishes[decrease walls to one point five mm no actually three mm] _
+tests/test_scalar_intent.py:76: in test_incomplete_conflicting_or_wrong_scope_never_publishes
+    assert result.candidate is None, result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease walls to one point five mm no actually three mm', '...a256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert EnclosureProject(project_id='scalar-intent', spec=EnclosureSpec(outer_size_mm=(80.0, 60.0, 30.0), wall_mm=3.0, profile...es=(ChangeRecord(revision=2, field='wall_mm', before=2, after=3.0, reason='three mm'),), version='neurocad-project-v1') is None
+E    +  where EnclosureProject(project_id='scalar-intent', spec=EnclosureSpec(outer_size_mm=(80.0, 60.0, 30.0), wall_mm=3.0, profile...es=(ChangeRecord(revision=2, field='wall_mm', before=2, after=3.0, reason='three mm'),), version='neurocad-project-v1') = EditProposal(source='decrease walls to one point five mm no actually three mm', baseline_sha256='775a74977bbb487806f04...=2, field='wall_mm', before=2, after=3.0, reason='three mm'),), version='neurocad-project-v1'), provider_metadata=None).candidate
+_ test_incomplete_conflicting_or_wrong_scope_never_publishes[increase walls to four mm no actually two mm] _
+tests/test_scalar_intent.py:76: in test_incomplete_conflicting_or_wrong_scope_never_publishes
+    assert result.candidate is None, result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase walls to four mm no actually two mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert EnclosureProject(project_id='scalar-intent', spec=EnclosureSpec(outer_size_mm=(80.0, 60.0, 30.0), wall_mm=2.0, profile...nges=(ChangeRecord(revision=2, field='wall_mm', before=2, after=2.0, reason='two mm'),), version='neurocad-project-v1') is None
+E    +  where EnclosureProject(project_id='scalar-intent', spec=EnclosureSpec(outer_size_mm=(80.0, 60.0, 30.0), wall_mm=2.0, profile...nges=(ChangeRecord(revision=2, field='wall_mm', before=2, after=2.0, reason='two mm'),), version='neurocad-project-v1') = EditProposal(source='increase walls to four mm no actually two mm', baseline_sha256='775a74977bbb487806f0430fa389fd31a...on=2, field='wall_mm', before=2, after=2.0, reason='two mm'),), version='neurocad-project-v1'), provider_metadata=None).candidate
+_________ test_only_nested_lid_property_protects_all_other_spec_fields _________
+tests/test_scalar_intent.py:82: in test_only_nested_lid_property_protects_all_other_spec_fields
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'only lid clearance 0.4mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'unsupported' == 'proposal'
+E     
+E     - proposal
+E     + unsupported
+_______ test_repeated_only_clauses_do_not_overflow_protection_collection _______
+tests/test_scalar_intent.py:95: in test_repeated_only_clauses_do_not_overflow_protection_collection
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'only lid clearance 0.4mm; only lid clearance 0.4mm; only lid...a256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'unsupported' == 'proposal'
+E     
+E     - proposal
+E     + unsupported
+_______________ test_preservation_without_edit_remains_unchanged _______________
+tests/test_scalar_intent.py:101: in test_preservation_without_edit_remains_unchanged
+    assert result.status == "unchanged"
+E   AssertionError: assert 'unsupported' == 'unchanged'
+E     
+E     - unchanged
+E     + unsupported
+_______ test_only_and_replacement_survive_saved_review_and_stale_checks ________
+tests/test_scalar_intent.py:109: in test_only_and_replacement_survive_saved_review_and_stale_checks
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'not 4mm walls, only make them 3mm', 'baseline_sha256': '775a74977bbb487806f0430fa389fd31a43f5653ee973a697c3c809dc99feb60', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'clarification' == 'proposal'
+E     
+E     - proposal
+E     + clarification
+=========================== short test summary info ============================
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[dont change the floor, only wall thickness to 3mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[do not change floor thickness and walls three mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[keep the floor unchanged; make walls 3mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[preserve the floor thickness and walls 3mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[only make the walls three millimeters thick]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[only add one mm to wall thickness]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[not 4mm walls, make them 3mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[not four millimeters wall thickness; set it to three mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[not 0.4cm walls but set wall thickness to 3mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[not 4mm walls, only make them 3mm]
+FAILED tests/test_scalar_intent.py::test_supported_request_changes_only_wall[not 4mm walls, set wall thickness 3mm; keep floor unchanged]
+FAILED tests/test_scalar_intent.py::test_incomplete_conflicting_or_wrong_scope_never_publishes[increase walls to four mm no actually one point five mm]
+FAILED tests/test_scalar_intent.py::test_incomplete_conflicting_or_wrong_scope_never_publishes[decrease walls to one point five mm no actually three mm]
+FAILED tests/test_scalar_intent.py::test_incomplete_conflicting_or_wrong_scope_never_publishes[increase walls to four mm no actually two mm]
+FAILED tests/test_scalar_intent.py::test_only_nested_lid_property_protects_all_other_spec_fields
+FAILED tests/test_scalar_intent.py::test_repeated_only_clauses_do_not_overflow_protection_collection
+FAILED tests/test_scalar_intent.py::test_preservation_without_edit_remains_unchanged
+FAILED tests/test_scalar_intent.py::test_only_and_replacement_survive_saved_review_and_stale_checks
+18 failed, 29 passed in 0.86s

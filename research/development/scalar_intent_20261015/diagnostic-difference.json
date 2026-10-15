@@ -1,0 +1,49 @@
+{
+  "scope": "Observed development repair, not confirmatory or independent comparison",
+  "baseline_summary": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015/research/development/conversation_quantities_20261015/diagnostic-run/summary.json",
+  "baseline_summary_sha256": "1a2fbb445fe8071a330ec332ccc5e2aef39381e8e9089738244b41430f6b247a",
+  "dataset_bytes_identical": true,
+  "improved": [
+    "language-15",
+    "language-16"
+  ],
+  "regressed": [],
+  "remaining": [
+    {
+      "id": "language-13",
+      "category": "fragmented-multiple-edits",
+      "expected": "proposal",
+      "observed": "clarification"
+    },
+    {
+      "id": "language-14",
+      "category": "informal-context",
+      "expected": "proposal",
+      "observed": "unsupported"
+    },
+    {
+      "id": "language-17",
+      "category": "fragmented-multiple-edits",
+      "expected": "proposal",
+      "observed": "clarification"
+    },
+    {
+      "id": "language-18",
+      "category": "history-reference",
+      "expected": "proposal",
+      "observed": "unsupported"
+    },
+    {
+      "id": "language-28",
+      "category": "missing-layout",
+      "expected": "clarification",
+      "observed": "unsupported"
+    },
+    {
+      "id": "language-32",
+      "category": "underspecified-objective",
+      "expected": "clarification",
+      "observed": "unsupported"
+    }
+  ]
+}

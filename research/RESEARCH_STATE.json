@@ -379,9 +379,60 @@
         "core/conversational_parser.py": "b2d3a8884848d9d1b1f14f959c877fba385b57a23ecf7fb406efbf89db8076db"
       },
       "next_action": "Review local candidate; full/install verification when admitted, independent quantity prompts, and separately scoped remaining language repairs. Do not claim a speedup from noisy timing."
+    },
+    {
+      "id": "scalar_intent_20261015",
+      "closed_at": "2026-10-15T15:05:35.936683+00:00",
+      "status": "LOCAL_TESTS_PASS_TYPECHECK_RESOURCE_BLOCKED_INTEGRATION_PENDING",
+      "kind": "EXISTING_PRODUCT_MAINTENANCE",
+      "base_commit": "910d80939385f61246b768749a16487a5d09b8b7",
+      "branch": "codex/scalar-intent-20261015",
+      "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-scalar-intent-20261015",
+      "report": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-scalar-intent-20261015/research/development/scalar_intent_20261015/REPORT.md",
+      "contract": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-scalar-intent-20261015/research/development/scalar_intent_20261015/contract.json",
+      "tests": {
+        "baseline_failed": 18,
+        "baseline_passed": 29,
+        "new_cases": 47,
+        "candidate_passed": 239
+      },
+      "lint": "PASS",
+      "type_check": "RESOURCE_BLOCKED_MEMORY_LIMIT",
+      "full_native_installed": "NOT_RUN",
+      "diagnostic": {
+        "valid_exact": 16,
+        "valid_total": 20,
+        "overall_passed": 26,
+        "total": 32,
+        "safe_rejections": 12,
+        "rejection_total": 12,
+        "wrong_candidates": 0,
+        "unsafe_acceptances": 0,
+        "provider_errors": 0,
+        "regressions": 0
+      },
+      "protected_files_matched": 58,
+      "budget_used": {
+        "baseline_batches": 1,
+        "candidate_batches": 1,
+        "lint_type_batches": 1,
+        "diagnostic_runs": 1,
+        "static_integrity_audits": 2,
+        "native": 0,
+        "full_suite": 0,
+        "hosted": 0,
+        "training": 0,
+        "paid": 0,
+        "protected": 0
+      },
+      "scientific_checkpoint_advanced": false,
+      "research_complete": false,
+      "scientific_disposition": "NOT_EVALUATED",
+      "next_action": "Complete exact-source type/full/install checks on admitted resources; separately scope remaining fragmented/informal/history language work. Research admission and external evidence remain open.",
+      "source_sha256": "a864735525a494a66015f707f93ed7b53b8edfc07717f7ae3062f7ec1744f95a"
     }
   ],
-  "latest_engineering_session": "conversation_quantities_20261015",
+  "latest_engineering_session": "scalar_intent_20261015",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",
