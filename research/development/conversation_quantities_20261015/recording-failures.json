@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "initial shared engineering index",
+    "error": "TypeError from treating engineering_sessions list as a dictionary",
+    "resolution": "Correctly append to list; no failed write."
+  },
+  {
+    "operation": "local closure indexing",
+    "error": "NameError: contract variable not defined in authoring script",
+    "resolution": "Report and closure had been saved; reload contract, complete state index and manifest. No execution evidence modified."
+  }
+]

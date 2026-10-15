@@ -1,0 +1,70 @@
+{
+  "scope": "Already observed authored development replay; different environments, not independent confirmation or controlled efficacy estimate.",
+  "base_summary": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-verified-intent/docs/verification/verified-intent-20261014/candidate-artifacts/conversation-python-3.12.14/language-intent-evaluation/summary.json",
+  "base_summary_sha256": "8756fe9a1cf3641e448d1a18dda1ea02f060f835bbccf895f6abcbf0962b87de",
+  "dataset_bytes_identical": true,
+  "improved": [
+    "language-11",
+    "language-12",
+    "language-20"
+  ],
+  "regressed": [],
+  "unresolved": [
+    {
+      "id": "language-13",
+      "category": "fragmented-multiple-edits",
+      "expected": "proposal",
+      "observed": "clarification",
+      "fail_closed": false
+    },
+    {
+      "id": "language-14",
+      "category": "informal-context",
+      "expected": "proposal",
+      "observed": "unsupported",
+      "fail_closed": false
+    },
+    {
+      "id": "language-15",
+      "category": "negation",
+      "expected": "proposal",
+      "observed": "clarification",
+      "fail_closed": false
+    },
+    {
+      "id": "language-16",
+      "category": "negation-correction",
+      "expected": "proposal",
+      "observed": "clarification",
+      "fail_closed": false
+    },
+    {
+      "id": "language-17",
+      "category": "fragmented-multiple-edits",
+      "expected": "proposal",
+      "observed": "clarification",
+      "fail_closed": false
+    },
+    {
+      "id": "language-18",
+      "category": "history-reference",
+      "expected": "proposal",
+      "observed": "unsupported",
+      "fail_closed": false
+    },
+    {
+      "id": "language-28",
+      "category": "missing-layout",
+      "expected": "clarification",
+      "observed": "unsupported",
+      "fail_closed": true
+    },
+    {
+      "id": "language-32",
+      "category": "underspecified-objective",
+      "expected": "clarification",
+      "observed": "unsupported",
+      "fail_closed": true
+    }
+  ]
+}

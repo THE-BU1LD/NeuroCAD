@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-10-14",
+  "updated_on": "2026-10-15",
   "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
   "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
   "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
@@ -334,9 +334,54 @@
         "Physical, independent reproduction and intended-user evidence"
       ],
       "plan": "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md"
+    },
+    {
+      "id": "conversation_quantities_20261015",
+      "at": "2026-10-15T14:34:20.781202+00:00",
+      "status": "CLOSED_LOCAL_ENGINEERING_PASS_WITH_RETAINED_EXECUTION_DEVIATION",
+      "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015",
+      "branch": "codex/conversation-quantities-20261015",
+      "base_commit": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+      "report": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015/research/development/conversation_quantities_20261015/REPORT.md",
+      "contract": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015/research/development/conversation_quantities_20261015/contract.json",
+      "scientific_checkpoint_advanced": false,
+      "research_complete": false,
+      "generalization": "NOT_ESTABLISHED",
+      "efficiency": "INCONCLUSIVE_NO_RELIABLE_SPEEDUP",
+      "tests_passed": 170,
+      "new_quantity_cases": 48,
+      "diagnostic": {
+        "valid_exact": 14,
+        "valid_total": 20,
+        "fail_closed": 12,
+        "reject_total": 12,
+        "unsafe": 0,
+        "overall": 24,
+        "total": 32
+      },
+      "budget_used": {
+        "baseline_attempts": 1,
+        "fixture_recovery_baselines": 1,
+        "candidate_batches": 3,
+        "lint_type_batches": 2,
+        "technical_lint_repairs": 1,
+        "affected_test_rechecks": 1,
+        "timing_runs": 1,
+        "development_diagnostic_runs": 1,
+        "protected_runs": 0,
+        "paid_calls": 0,
+        "hosted_runs": 0,
+        "full_suite_runs": 0,
+        "unintended_native_selection_terminated": 1
+      },
+      "production_source_hashes": {
+        "core/conversation_quantities.py": "f81b9630465085105c95ac050dca934f17db2b52f1c1cf981af2e3f904b281ac",
+        "core/conversational_parser.py": "b2d3a8884848d9d1b1f14f959c877fba385b57a23ecf7fb406efbf89db8076db"
+      },
+      "next_action": "Review local candidate; full/install verification when admitted, independent quantity prompts, and separately scoped remaining language repairs. Do not claim a speedup from noisy timing."
     }
   ],
-  "latest_engineering_session": "verified_intent_20261014",
+  "latest_engineering_session": "conversation_quantities_20261015",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",
@@ -352,5 +397,6 @@
     "production_changes": false,
     "prior_failures_preserved": true,
     "native_merge": "0bef391d210b8df1c871f5f250cf011012728e64"
-  }
+  },
+  "canonical_session_entry": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-revision-research-v1/research/RESEARCH_STATE.json"
 }

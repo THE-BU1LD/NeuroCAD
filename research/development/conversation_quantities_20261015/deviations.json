@@ -1,0 +1,23 @@
+[
+  {
+    "attempt": "baseline",
+    "failure": "48 fixture setup errors: EnclosureSpec.profile omitted",
+    "disposition": "Retained baseline artifacts; corrected fixture in prospective addendum; one recovery baseline yielded 20 failed/28 passed."
+  },
+  {
+    "attempt": "candidate-1",
+    "failure": "Included test_workbench_edits.py without first excluding native OpenSCAD tests; process stopped by 30-second guard. No complete pytest result.",
+    "severity": "Execution scope deviation from native_runs=0; not scientific evidence.",
+    "disposition": "Retained output and guard receipt. Subsequent ps found no openscad/pytest/guard worker. Remaining two candidate test batches omit the entire workbench test module. No further native attempt."
+  },
+  {
+    "attempt": "candidate-2",
+    "failure": "CLI exit-code regression depended on number-word syntax remaining unsupported; new capability makes it pass.",
+    "disposition": "Change only the CLI unit test to inject explicit incomplete/integrity-invalid summaries. Dataset, annotations, scoring and real evaluation are unchanged."
+  },
+  {
+    "attempt": "lint-1",
+    "failure": "Two SIM905 warnings for constant str.split lists",
+    "disposition": "Use literal token lists before final combined lint/type batch."
+  }
+]

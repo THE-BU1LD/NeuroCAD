@@ -1,0 +1,33 @@
+{
+  "scope": "Same-host warm local engineering microbenchmark, five old supported clauses. No CAD/native/model or production throughput inference.",
+  "python": "3.14.0 (main, Nov 19 2025, 23:04:28) [Clang 21.1.4 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "old_supported_aggregate": {
+    "base": {
+      "per_round_mean_ns": [
+        614159.0,
+        393202.75,
+        729009.168,
+        335495.0,
+        1433933.42
+      ],
+      "median_ns": 614159.0
+    },
+    "candidate": {
+      "per_round_mean_ns": [
+        646009.67,
+        444681.75,
+        575713.664,
+        509035.084,
+        1869166.164
+      ],
+      "median_ns": 575713.664
+    }
+  },
+  "latency_reduction_percent": 6.259834342572523,
+  "base_parser_sha256": "ea8194796a5b2be903257eea7077b8db0a57a582d955e6e50a6e6c2a3da5afd5",
+  "candidate_source_hashes": {
+    "conversational_parser.py": "b2d3a8884848d9d1b1f14f959c877fba385b57a23ecf7fb406efbf89db8076db",
+    "conversation_quantities.py": "f81b9630465085105c95ac050dca934f17db2b52f1c1cf981af2e3f904b281ac"
+  }
+}

@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
+from .conversation_quantities import MEASURE, UNIT, UNITS, adjusted_value, canonical_number, diameter_from_radius, millimeters
 from .edit_language import EditInterpretationError, edit_project_from_text
 from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, semantic_diff, serialize_project
 
@@ -16,11 +17,60 @@ SCALARS = {
     "corner radius": "corner_radius_mm", "lid thickness": "lid.thickness_mm",
     "lid clearance": "lid.clearance_mm", "lid lip height": "lid.lip_height_mm",
 }
-UNITS = {"mm": 1.0, "millimeter": 1.0, "millimeters": 1.0, "millimetre": 1.0,
-         "millimetres": 1.0, "cm": 10.0, "centimeter": 10.0, "centimeters": 10.0,
-         "centimetre": 10.0, "centimetres": 10.0, "in": 25.4, "inch": 25.4, "inches": 25.4}
-UNIT = "|".join(sorted(UNITS, key=len, reverse=True))
-MEASURE = rf"(?P<value>\d+(?:\.\d+)?)\s*(?P<unit>{UNIT})"
+_NOUN = r"(?P<noun>walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness") + ")"
+_SCALAR_SET = re.compile(rf"(?:(?:make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?:to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?")
+_SCALAR_DELTA = re.compile(rf"(?P<verb>add|subtract)\s+{MEASURE}\s+(?P<direction>to|from)\s+(?:the\s+)?{_NOUN}")
+_SCALAR_BY = re.compile(rf"(?P<verb>increase|decrease)\s+(?:the\s+)?{_NOUN}\s+by\s+{MEASURE}")
+_CORRECTION = re.compile(rf"{MEASURE}(?:\s+thick)?")
+_RADIUS = re.compile(rf"(?:make|set|change)\s+(?:the\s+)?(?P<id>[a-z0-9_-]+)\s+(?:hole|cutout)\s+radius\s+(?:to\s+)?{MEASURE}")
+_SPLITTER = re.compile(r"[;,\n]+|\b(?:and|but)\b|\b(?:no\s+)?actually\b", re.IGNORECASE)
+_TYPOS = {"dont": "don't", "wals": "walls", "thikness": "thickness", "thicknes": "thickness",
+          "milimeters": "millimeters", "millimetres": "millimeters"}
+_TYPO_PATTERN = re.compile(r"\b(?:" + "|".join(_TYPOS) + r")\b")
+_PREFIX = re.compile(r"^(?:(?:okay|ok|please|uh|um|just)\s+)+")
+_SUFFIX = re.compile(r"\s+please$")
+_PRESERVE_OUTSIDE = re.compile(r"(?:keep|preserve|don't (?:change|move|resize)) (?:the )?(?:outside|outer boundary|external boundary|outside dimensions)(?: (?:the )?(?:same|unchanged|fixed))?")
+_PRESERVE_HOLES = re.compile(r"(?:keep|preserve|don't (?:change|move|remove|lose)) (?:the |that |all )?(?:holes?|cutouts?)(?: (?:the )?(?:same|unchanged|fixed))?")
+_SIZE = re.compile(
+    rf"(?:resize|make|set) (?:the |that )?(?:enclosure|box|case)(?: to)? "
+    rf"(?P<w>\d+(?:\.\d+)?)\s*(?P<wu>{UNIT})?\s*[x×]\s*"
+    rf"(?P<d>\d+(?:\.\d+)?)\s*(?P<du>{UNIT})?\s*[x×]\s*"
+    rf"(?P<h>\d+(?:\.\d+)?)\s*(?P<hu>{UNIT})"
+)
+
+
+def _quantity_instruction(text: str, project: EnclosureProject, previous_label: str | None) -> tuple[str, str, bool] | None:
+    """Dispatch complete scalar clauses; all outputs still use the shared edit validator."""
+    relative = False
+    match = _SCALAR_SET.fullmatch(text)
+    if match is None:
+        match = _SCALAR_DELTA.fullmatch(text) or _SCALAR_BY.fullmatch(text)
+        relative = match is not None
+    if match:
+        noun = match.group("noun")
+        name = "wall thickness" if noun.startswith("wall") else noun
+        value = millimeters(match.group("value"), match.group("unit"))
+        if relative:
+            verb = match.group("verb")
+            direction = match.groupdict().get("direction")
+            if direction is not None and direction != {"add": "to", "subtract": "from"}[verb]:
+                raise ValueError("Use 'add ... to' or 'subtract ... from' with an explicit scalar")
+            current: Any = project.spec
+            for key in SCALARS[name].split("."):
+                current = getattr(current, key)
+            value = adjusted_value(current, value, subtract=verb in {"subtract", "decrease"})
+        return f"set {name} to {canonical_number(value)} mm", name, relative
+    if previous_label and (match := _CORRECTION.fullmatch(text)):
+        value = millimeters(match.group("value"), match.group("unit"))
+        return f"set {previous_label} to {canonical_number(value)} mm", previous_label, False
+    if match := _RADIUS.fullmatch(text):
+        identifier = match.group("id").casefold()
+        holes = [hole for hole in project.spec.cutouts if hole.id.casefold() == identifier]
+        if len(holes) != 1 or holes[0].kind != "circular":
+            raise ValueError("Radius requires one uniquely named existing circular cutout")
+        diameter = diameter_from_radius(millimeters(match.group("value"), match.group("unit")))
+        return f"set circular cutout {holes[0].id} diameter to {canonical_number(diameter)} mm", "", False
+    return None
 
 
 def context_hash(project: EnclosureProject) -> str:
@@ -168,10 +218,11 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
     if not isinstance(source, str) or not source.strip() or len(source) > MAX_SOURCE:
         raise ValueError(f"source must contain 1 through {MAX_SOURCE} characters")
     payload: dict[str, Any] = {key: [] for key in ("actions", "preserve", "questions", "unsupported", "acknowledged")}
-    splitter = re.compile(r"[;,\n]+|\b(?:and|but)\b|\b(?:no\s+)?actually\b", re.IGNORECASE)
     cursor, correction, previous_label = 0, False, None
+    seen_labels: set[str] = set()
+    relative_labels: set[str] = set()
     parts = []
-    for delimiter in splitter.finditer(source):
+    for delimiter in _SPLITTER.finditer(source):
         parts.append((cursor, delimiter.start(), correction))
         payload["acknowledged"].append({"reason": "Clause separator or correction marker",
                                        "evidence": _evidence(source, delimiter.start(), delimiter.end())})
@@ -183,16 +234,14 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
             continue
         ev = _evidence(source, start, end)
         text = source[start:end].strip().lower().replace("’", "'")
-        for wrong, right in {"dont": "don't", "wals": "walls", "thikness": "thickness", "thicknes": "thickness",
-                             "milimeters": "millimeters", "millimetres": "millimeters"}.items():
-            text = re.sub(rf"\b{wrong}\b", right, text)
-        text = re.sub(r"^(?:(?:okay|ok|please|uh|um|just)\s+)+", "", text).rstrip(".!?")
-        text = re.sub(r"\s+please$", "", text)
-        if re.fullmatch(r"(?:keep|preserve|don't (?:change|move|resize)) (?:the )?(?:outside|outer boundary|external boundary|outside dimensions)(?: (?:the )?(?:same|unchanged|fixed))?", text):
+        text = _TYPO_PATTERN.sub(lambda match: _TYPOS[match.group()], text)
+        text = _PREFIX.sub("", text).rstrip(".!?")
+        text = _SUFFIX.sub("", text)
+        if _PRESERVE_OUTSIDE.fullmatch(text):
             fields = ("outer_size_mm",) if "dimensions" in text else ("outer_size_mm", "corner_radius_mm", "cutouts", "vents", "lid")
             payload["preserve"].extend({"field": field, "evidence": ev} for field in fields)
             continue
-        if re.fullmatch(r"(?:keep|preserve|don't (?:change|move|remove|lose)) (?:the |that |all )?(?:holes?|cutouts?)(?: (?:the )?(?:same|unchanged|fixed))?", text):
+        if _PRESERVE_HOLES.fullmatch(text):
             singular = bool(re.search(r"\b(?:hole|cutout)\b", text)) and "all " not in text
             if singular and len(project.spec.cutouts) != 1:
                 payload["questions"].append("Which existing cutout do you mean? Use its feature ID.")
@@ -201,27 +250,26 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
                 payload["preserve"].append({"field": "cutouts", "evidence": ev})
             continue
         instruction, label = None, None
-        size_match = re.fullmatch(
-            rf"(?:resize|make|set) (?:the |that )?(?:enclosure|box|case)(?: to)? "
-            rf"(?P<w>\d+(?:\.\d+)?)\s*(?P<wu>{UNIT})?\s*[x×]\s*"
-            rf"(?P<d>\d+(?:\.\d+)?)\s*(?P<du>{UNIT})?\s*[x×]\s*"
-            rf"(?P<h>\d+(?:\.\d+)?)\s*(?P<hu>{UNIT})", text,
-        )
+        size_match = _SIZE.fullmatch(text)
         if size_match:
             sizes = [float(size_match.group(axis)) * UNITS[size_match.group(axis + "u") or size_match.group("hu")]
                      for axis in ("w", "d", "h")]
             instruction = f"resize enclosure to {sizes[0]!r} x {sizes[1]!r} x {sizes[2]!r} mm"
-        for name in SCALARS:
-            noun = "(?:walls?(?: thickness)?)" if name == "wall thickness" else re.escape(name)
-            pattern = rf"(?:(?:make|set|change|increase|decrease)\s+)?(?:the\s+)?{noun}\s+(?:(?:to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?"
-            match = re.fullmatch(pattern, text)
-            if match:
-                value = float(match.group("value")) * UNITS[match.group("unit")]
-                instruction, label = f"set {name} to {value!r} mm", name
-                break
-        if instruction is None and correcting and previous_label and (match := re.fullmatch(rf"{MEASURE}(?:\s+thick)?", text)):
-            value = float(match.group("value")) * UNITS[match.group("unit")]
-            instruction, label = f"set {previous_label} to {value!r} mm", previous_label
+        if instruction is None:
+            try:
+                quantity = _quantity_instruction(text, project, previous_label if correcting else None)
+                if quantity:
+                    instruction, label, relative = quantity
+                    if label:
+                        if label in relative_labels or (relative and label in seen_labels):
+                            raise ValueError("Repeated edits involving a relative quantity need one explicit final value")
+                        seen_labels.add(label)
+                        if relative:
+                            relative_labels.add(label)
+            except ValueError as exc:
+                payload["questions"].append(str(exc))
+                payload["acknowledged"].append({"reason": "Unresolved quantity edit", "evidence": ev})
+                continue
         if instruction:
             if correcting and label == previous_label and payload["actions"]:
                 superseded = payload["actions"].pop()
@@ -240,7 +288,7 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
         else:
             payload["actions"].append({"instruction": source[start:end].strip(), "evidence": ev})
             previous_label = None
-    return validate_edit_payload(source, project, payload, interpreter="local-conversation-v1")
+    return validate_edit_payload(source, project, payload, interpreter="local-conversation-v2")
 
 
 def apply_proposal(proposal: EditProposal, project: EnclosureProject, *, confirmed: bool = False) -> EnclosureProject:

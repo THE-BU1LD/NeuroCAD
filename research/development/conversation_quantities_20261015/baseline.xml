@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="48" failures="0" skipped="0" tests="48" time="0.425" timestamp="2026-10-15T19:48:54.721835+05:30" hostname="Ryans-Macbook-Air.local"><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[make the walls three millimeters thick-wall_mm-3]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[walls zero point three cm-wall_mm-3]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[walls three point one two five mm-wall_mm-3.125]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[floor thickness two point five mm-floor_mm-2.5]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[lid clearance zero point four millimetres-lid.clearance_mm-0.4]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[add one millimeter to the wall thickness-wall_mm-3]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[subtract 0.05 cm from the wall thickness-wall_mm-1.5]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[increase wall thickness by one millimeter-wall_mm-3]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[decrease wall thickness by zero point five mm-wall_mm-1.5]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[add zero point one mm to the lid clearance-lid.clearance_mm-0.4]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[add 0.1 mm to the lid clearance-lid.clearance_mm-0.4]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty-one mm-lid.lip_height_mm-21]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty one mm-lid.lip_height_mm-21]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius 3mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_radius_conversion_preserves_hole_identity_and_position[set power cutout radius to three mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius zero point three centimeters]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one to the wall thickness]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls one hundred mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls twenty zero mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point twenty mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls minus three mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls -3mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three and a half mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 3e0mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls NaN mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls infinity mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 0mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add -1 mm to the wall thickness]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[subtract three mm from the wall thickness]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add a warp drive]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and walls four mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and add one mm to wall thickness]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add one mm to wall thickness]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and walls three mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[do not add one mm to wall thickness]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm unless the lid changes]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the unknown hole radius 3mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius 3mm diameter 8mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius -3mm]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius three]" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_relative_proposal_cannot_be_applied_twice" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_relative_edit_respects_preservation" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_rectangular_cutout_is_not_reinterpreted_as_circle" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_case_variant_identifier_resolves_only_when_unique" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_overflowing_quantity_is_refused_without_crashing" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase><testcase classname="tests.test_conversation_quantities" name="test_original_explicit_correction_supports_words" time="0.000"><error message="failed on setup with &quot;TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'&quot;">@pytest.fixture
+    def project():
+&gt;       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError</error></testcase></testsuite></testsuites>

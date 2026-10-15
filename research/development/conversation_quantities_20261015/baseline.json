@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_conversation_quantities.py",
+    "--junitxml=/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015/research/development/conversation_quantities_20261015/baseline.xml"
+  ],
+  "exit_code": 1,
+  "guard_stop": null,
+  "wall_seconds": 0.8420648330065887,
+  "sampled_peak_rss_mib": 56.015625,
+  "child_peak_rss_mib": 56.0625,
+  "test_sha256": "ae4782e6c56c1d0fe59b2ed709de3a705d56d0453f12315301c778ef1f4bc0b5",
+  "scope": "Authored engineering regression baseline; no native/model workload"
+}

@@ -1,0 +1,10 @@
+{
+  "reason": "Ruff B023 flags late binding of loop variable in the CLI exit unit test. Bind the existing result as a lambda default; production source unchanged from candidate-3 and benchmark.",
+  "additional_budget": {
+    "lint_checks": 1,
+    "single_changed_test_runs": 1
+  },
+  "no_algorithm_or_science_changes": true,
+  "no_benchmark_or_diagnostic_repeats": true,
+  "previous_failures_and_limits_retained": true
+}

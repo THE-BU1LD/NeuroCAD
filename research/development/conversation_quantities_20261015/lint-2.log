@@ -1,0 +1,11 @@
+B023 Function definition does not bind loop variable `result`
+   --> tests/test_language_evaluation.py:156:90
+    |
+154 |         {"integrity_valid": False, "passed_count": 1, "completed_cases": 1},
+155 |     ):
+156 |         monkeypatch.setattr("core.language_evaluation.evaluate", lambda *args, **kwargs: result)
+    |                                                                                          ^^^^^^
+157 |         assert main([str(path), "--output-dir", str(tmp_path / "gaps")]) == 2
+    |
+
+Found 1 error.

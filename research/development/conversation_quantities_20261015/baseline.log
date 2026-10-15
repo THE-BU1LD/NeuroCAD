@@ -1,0 +1,628 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                         [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[make the walls three millimeters thick-wall_mm-3] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[walls zero point three cm-wall_mm-3] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[walls three point one two five mm-wall_mm-3.125] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[floor thickness two point five mm-floor_mm-2.5] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[lid clearance zero point four millimetres-lid.clearance_mm-0.4] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[add one millimeter to the wall thickness-wall_mm-3] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[subtract 0.05 cm from the wall thickness-wall_mm-1.5] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[increase wall thickness by one millimeter-wall_mm-3] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[decrease wall thickness by zero point five mm-wall_mm-1.5] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[add zero point one mm to the lid clearance-lid.clearance_mm-0.4] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[add 0.1 mm to the lid clearance-lid.clearance_mm-0.4] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty-one mm-lid.lip_height_mm-21] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty one mm-lid.lip_height_mm-21] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius 3mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_radius_conversion_preserves_hole_identity_and_position[set power cutout radius to three mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius zero point three centimeters] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one to the wall thickness] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls one hundred mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls twenty zero mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point twenty mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls minus three mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls -3mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three and a half mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 3e0mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls NaN mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls infinity mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 0mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[add -1 mm to the wall thickness] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[subtract three mm from the wall thickness] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add a warp drive] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and walls four mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and add one mm to wall thickness] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add one mm to wall thickness] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and walls three mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[do not add one mm to wall thickness] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm unless the lid changes] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the unknown hole radius 3mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius 3mm diameter 8mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius -3mm] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_ ERROR at setup of test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius three] _
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+_______ ERROR at setup of test_relative_proposal_cannot_be_applied_twice _______
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+__________ ERROR at setup of test_relative_edit_respects_preservation __________
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+___ ERROR at setup of test_rectangular_cutout_is_not_reinterpreted_as_circle ___
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+___ ERROR at setup of test_case_variant_identifier_resolves_only_when_unique ___
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+___ ERROR at setup of test_overflowing_quantity_is_refused_without_crashing ____
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+______ ERROR at setup of test_original_explicit_correction_supports_words ______
+
+    @pytest.fixture
+    def project():
+>       return EnclosureProject("quantity-maintenance", EnclosureSpec(
+            outer_size_mm=(80, 60, 30), wall_mm=2, floor_mm=2,
+            lid=LidSpec("friction", 2.5, 0.3, lip_height_mm=2),
+            cutouts=(CutoutSpec("power", "circular", "front", (0, 10), diameter_mm=4),),
+        ))
+E       TypeError: EnclosureSpec.__init__() missing 1 required positional argument: 'profile'
+
+tests/test_conversation_quantities.py:13: TypeError
+=========================== short test summary info ============================
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[make the walls three millimeters thick-wall_mm-3]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[walls zero point three cm-wall_mm-3]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[walls three point one two five mm-wall_mm-3.125]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[floor thickness two point five mm-floor_mm-2.5]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[lid clearance zero point four millimetres-lid.clearance_mm-0.4]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[add one millimeter to the wall thickness-wall_mm-3]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[subtract 0.05 cm from the wall thickness-wall_mm-1.5]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[increase wall thickness by one millimeter-wall_mm-3]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[decrease wall thickness by zero point five mm-wall_mm-1.5]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[add zero point one mm to the lid clearance-lid.clearance_mm-0.4]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[add 0.1 mm to the lid clearance-lid.clearance_mm-0.4]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty-one mm-lid.lip_height_mm-21]
+ERROR tests/test_conversation_quantities.py::test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty one mm-lid.lip_height_mm-21]
+ERROR tests/test_conversation_quantities.py::test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius 3mm]
+ERROR tests/test_conversation_quantities.py::test_radius_conversion_preserves_hole_identity_and_position[set power cutout radius to three mm]
+ERROR tests/test_conversation_quantities.py::test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius zero point three centimeters]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one to the wall thickness]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls one hundred mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls twenty zero mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point twenty mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls minus three mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls -3mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three and a half mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 3e0mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls NaN mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls infinity mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 0mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[add -1 mm to the wall thickness]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[subtract three mm from the wall thickness]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add a warp drive]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and walls four mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and add one mm to wall thickness]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add one mm to wall thickness]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and walls three mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[do not add one mm to wall thickness]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm unless the lid changes]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the unknown hole radius 3mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius 3mm diameter 8mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius -3mm]
+ERROR tests/test_conversation_quantities.py::test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius three]
+ERROR tests/test_conversation_quantities.py::test_relative_proposal_cannot_be_applied_twice
+ERROR tests/test_conversation_quantities.py::test_relative_edit_respects_preservation
+ERROR tests/test_conversation_quantities.py::test_rectangular_cutout_is_not_reinterpreted_as_circle
+ERROR tests/test_conversation_quantities.py::test_case_variant_identifier_resolves_only_when_unique
+ERROR tests/test_conversation_quantities.py::test_overflowing_quantity_is_refused_without_crashing
+ERROR tests/test_conversation_quantities.py::test_original_explicit_correction_supports_words
+48 errors in 0.43s
