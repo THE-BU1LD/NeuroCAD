@@ -1,0 +1,8 @@
+[
+  {
+    "phase": "baseline",
+    "issue": "One expected-success control requested a 1 mm FDM wall, which the unchanged manufacturing profile rejects.",
+    "action": "Preserve original 14-fail/8-pass attempt; classify one failure as an invalid control expectation and change the control to 1.5 mm. Do not rerun the baseline or reinterpret its raw result.",
+    "scientific_effect": "None; engineering fixture correction only."
+  }
+]

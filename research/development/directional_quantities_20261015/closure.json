@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-15T14:46:22.281058+00:00",
+  "id": "directional_quantities_20261015",
+  "status": "CLOSED_LOCAL_ENGINEERING_PASS_INTEGRATION_PENDING",
+  "base_commit": "b12812ac4b652aac01d179ab66f1bc963167ace4",
+  "candidate_branch": "codex/directional-quantities-20261015",
+  "tests": {
+    "baseline": {
+      "total": 22,
+      "passed": 8,
+      "failed": 14,
+      "invalid_control_expectations": 1,
+      "proposal_instead_of_clarification": 10,
+      "rejected_instead_of_clarification": 3
+    },
+    "candidate": {
+      "passed": 111,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "lint": "PASS",
+  "integrity": "PASS",
+  "research_checkpoint_1": "BLOCKED_UNCHANGED",
+  "scientific_disposition": "NOT_EVALUATED",
+  "new_language_diagnostic": "NOT_RUN",
+  "full_native_installed": "NOT_RUN",
+  "budget_used": {
+    "baseline_batches": 1,
+    "candidate_batches": 1,
+    "lint_batches": 1,
+    "integrity_batches": 1,
+    "training": 0,
+    "native": 0,
+    "full_suite": 0,
+    "hosted": 0,
+    "protected": 0,
+    "paid": 0
+  },
+  "protected_files_unchanged": 58,
+  "prior_evidence_preserved": true,
+  "next_action": "Verify full/native/installed exact candidate after resource admission, then integrate; research admission and external evidence remain open."
+}

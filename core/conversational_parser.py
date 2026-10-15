@@ -18,7 +18,7 @@ SCALARS = {
     "lid clearance": "lid.clearance_mm", "lid lip height": "lid.lip_height_mm",
 }
 _NOUN = r"(?P<noun>walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness") + ")"
-_SCALAR_SET = re.compile(rf"(?:(?:make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?:to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?")
+_SCALAR_SET = re.compile(rf"(?:(?P<set_verb>make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?P<relation>to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?")
 _SCALAR_DELTA = re.compile(rf"(?P<verb>add|subtract)\s+{MEASURE}\s+(?P<direction>to|from)\s+(?:the\s+)?{_NOUN}")
 _SCALAR_BY = re.compile(rf"(?P<verb>increase|decrease)\s+(?:the\s+)?{_NOUN}\s+by\s+{MEASURE}")
 _CORRECTION = re.compile(rf"{MEASURE}(?:\s+thick)?")
@@ -50,16 +50,24 @@ def _quantity_instruction(text: str, project: EnclosureProject, previous_label: 
         noun = match.group("noun")
         name = "wall thickness" if noun.startswith("wall") else noun
         value = millimeters(match.group("value"), match.group("unit"))
+        verb = match.group("verb") if relative else match.group("set_verb")
+        current: Any = project.spec
+        for key in SCALARS[name].split("."):
+            current = getattr(current, key)
+        if verb in {"increase", "decrease"} and not relative and match.group("relation") != "to":
+            raise ValueError("Specify a final value with 'to', or an amount of change with 'by'")
         if relative:
-            verb = match.group("verb")
             direction = match.groupdict().get("direction")
             if direction is not None and direction != {"add": "to", "subtract": "from"}[verb]:
                 raise ValueError("Use 'add ... to' or 'subtract ... from' with an explicit scalar")
-            current: Any = project.spec
-            for key in SCALARS[name].split("."):
-                current = getattr(current, key)
             value = adjusted_value(current, value, subtract=verb in {"subtract", "decrease"})
-        return f"set {name} to {canonical_number(value)} mm", name, relative
+        canonical = canonical_number(value)
+        # Compare the stored representation: a sub-resolution delta must not
+        # claim an increase/decrease when the resulting float is unchanged.
+        if ((verb == "increase" and float(value) <= current)
+                or (verb == "decrease" and float(value) >= current)):
+            raise ValueError(f"The final value must {verb} the current {name}; clarify the target or direction")
+        return f"set {name} to {canonical} mm", name, relative
     if previous_label and (match := _CORRECTION.fullmatch(text)):
         value = millimeters(match.group("value"), match.group("unit"))
         return f"set {previous_label} to {canonical_number(value)} mm", previous_label, False

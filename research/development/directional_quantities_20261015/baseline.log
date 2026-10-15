@@ -1,0 +1,130 @@
+FFFFFFFFFFFFF....F....                                                   [100%]
+=================================== FAILURES ===================================
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness one mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness one mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'rejected' == 'clarification'
+E     
+E     - clarification
+E     + rejected
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness three mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness three mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase walls at one mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase walls at one mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'rejected' == 'clarification'
+E     
+E     - clarification
+E     + rejected
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease walls be three mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease walls be three mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness to one mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness to one mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'rejected' == 'clarification'
+E     
+E     - clarification
+E     + rejected
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness to three mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness to three mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness to two mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness to two mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness to two mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness to two mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness by zero mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness by zero mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness by zero mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness by zero mm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness by 0.0000000000000000000001 mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness by 0.0000000000000000000001 mm', 'ba...a256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness by 0.0000000000000000000001 mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness by 0.0000000000000000000001 mm', 'ba...a256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_directional_ambiguity_or_contradiction_never_publishes_candidate[set wall thickness to three mm and decrease floor thickness to three mm] _
+tests/test_directional_quantities.py:35: in test_directional_ambiguity_or_contradiction_never_publishes_candidate
+    assert result.status == "clarification", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'set wall thickness to three mm and decrease floor thickness ...a256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'proposal' == 'clarification'
+E     
+E     - clarification
+E     + proposal
+_ test_explicit_target_and_delta_controls[decrease wall thickness to zero point one cm-1] _
+tests/test_directional_quantities.py:54: in test_explicit_target_and_delta_controls
+    assert result.status == "proposal", result.to_dict()
+E   AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness to zero point one cm', 'baseline_sha256': '12c533cb12032416f543095d48d64b0dd61b8f5c7db349ebfc1c72e6d82f128c', 'interpreter': 'local-conversation-v2', ...}
+E   assert 'rejected' == 'proposal'
+E     
+E     - proposal
+E     + rejected
+=========================== short test summary info ============================
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness one mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness three mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase walls at one mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease walls be three mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness to one mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness to three mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness to two mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness to two mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness by zero mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness by zero mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[increase wall thickness by 0.0000000000000000000001 mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[decrease wall thickness by 0.0000000000000000000001 mm]
+FAILED tests/test_directional_quantities.py::test_directional_ambiguity_or_contradiction_never_publishes_candidate[set wall thickness to three mm and decrease floor thickness to three mm]
+FAILED tests/test_directional_quantities.py::test_explicit_target_and_delta_controls[decrease wall thickness to zero point one cm-1]
+14 failed, 8 passed in 0.46s
