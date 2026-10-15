@@ -1,0 +1,12 @@
+TRY004 Prefer `TypeError` exception for invalid type
+  --> core/evaluation_ledger.py:29:9
+   |
+27 |     """Retain exactly one terminal outcome per scheduled ID, including every error."""
+28 |     if isinstance(sample_ids, (str, bytes)):
+29 |         raise ValueError("Schedule must be a sequence of IDs, not a string")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+30 |     ids = list(sample_ids)
+31 |     if (not ids or len(ids) > 100000
+   |
+
+Found 1 error.
