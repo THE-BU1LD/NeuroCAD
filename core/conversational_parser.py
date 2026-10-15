@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any
 
 from .conversation_quantities import MEASURE, UNIT, UNITS, adjusted_value, canonical_number, diameter_from_radius, millimeters
@@ -17,9 +17,9 @@ SCALARS = {
     "corner radius": "corner_radius_mm", "lid thickness": "lid.thickness_mm",
     "lid clearance": "lid.clearance_mm", "lid lip height": "lid.lip_height_mm",
 }
-_SCALAR_NOUN = r"walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness")
+_SCALAR_NOUN = r"floor|walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness")
 _NOUN = rf"(?P<noun>{_SCALAR_NOUN})"
-_SCALAR_SET = re.compile(rf"(?:(?P<set_verb>make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?P<relation>to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?")
+_SCALAR_SET = re.compile(rf"(?:(?P<set_verb>make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?P<relation>to|at|be|like|should be)\s+)?{MEASURE}(?:\s+thick)?")
 _SCALAR_DELTA = re.compile(rf"(?P<verb>add|subtract)\s+{MEASURE}\s+(?P<direction>to|from)\s+(?:the\s+)?{_NOUN}")
 _SCALAR_BY = re.compile(rf"(?P<verb>increase|decrease)\s+(?:the\s+)?{_NOUN}\s+by\s+{MEASURE}")
 _CORRECTION = re.compile(rf"{MEASURE}(?:\s+thick)?")
@@ -45,6 +45,54 @@ _SIZE = re.compile(
     rf"(?P<d>\d+(?:\.\d+)?)\s*(?P<du>{UNIT})?\s*[x×]\s*"
     rf"(?P<h>\d+(?:\.\d+)?)\s*(?P<hu>{UNIT})"
 )
+
+
+_REMAINDER = re.compile(r"(?:leave|keep|preserve) (?:all )?(?:the )?(?:other|remaining) (?:bits|fields|properties|dimensions)(?: (?:alone|unchanged|fixed))")
+_EXTERNAL_SIZE = re.compile(r"(?:same external size|(?:keep|preserve) (?:the )?external size(?: (?:the )?same)?)")
+_GOAL = re.compile(r"(?:i (?:need|want) it|make it) (?:sturdier|stronger|lightweight|lighter)")
+_REFERENCE = re.compile(rf"(?:make|set|change) (?:that|it) (?:to )?{MEASURE}(?: instead)?")
+_CONTEXT = re.compile(rf"(?:we are|we're|i am) (?:changing|editing|discussing) (?:the )?(?:enclosure )?{_NOUN}[.!]?")
+_SEQUENCE = re.compile(_SCALAR_SET.pattern, re.IGNORECASE)
+
+
+def _split_scalar_sequence(source: str, start: int, end: int) -> list[tuple[int, int]]:
+    """Split only completely consumed adjacent scalar clauses; retain original offsets."""
+    cursor = start
+    spans = []
+    while cursor < end:
+        while cursor < end and source[cursor].isspace():
+            cursor += 1
+        if cursor == end:
+            break
+        match = _SEQUENCE.match(source, cursor, end)
+        if match is None or (match.end() < end and not source[match.end()].isspace()):
+            return [(start, end)]
+        spans.append((cursor, match.end()))
+        cursor = match.end()
+    return spans if len(spans) > 1 else [(start, end)]
+
+
+def bind_history(project: EnclosureProject, messages: list[str]) -> dict[str, Any]:
+    """Caller asserts these past messages belong to this exact baseline revision."""
+    if (not isinstance(messages, list) or len(messages) > 10
+            or any(not isinstance(item, str) or not item.strip() or len(item) > 2048 for item in messages)):
+        raise ValueError("History requires at most ten nonempty messages of at most 2048 characters")
+    return {"version": "neurocad-local-history-v1", "baseline_sha256": context_hash(project), "messages": list(messages)}
+
+
+def _history_target(history: dict[str, Any] | None, project: EnclosureProject) -> str | None:
+    if history is None:
+        return None
+    if (not isinstance(history, dict) or set(history) != {"version", "baseline_sha256", "messages"}
+            or history != bind_history(project, history["messages"])):
+        raise ValueError("History must be explicitly bound to the current project revision")
+    targets = set()
+    for message in history["messages"]:
+        match = _CONTEXT.fullmatch(message.strip().lower())
+        if match is None:
+            return None
+        targets.add(_scalar_name(match.group("noun")))
+    return next(iter(targets)) if len(targets) == 1 else None
 
 
 @dataclass(frozen=True)
@@ -265,11 +313,14 @@ def validate_edit_payload(source: str, project: EnclosureProject, payload: Any, 
                         tuple(unsupported), tuple(payload["acknowledged"]), candidate)
 
 
-def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
+def parse_conversation(source: str, project: EnclosureProject, *, history: dict[str, Any] | None = None) -> EditProposal:
     """Local conservative conversational edits, units, negation and explicit self-correction."""
     if not isinstance(source, str) or not source.strip() or len(source) > MAX_SOURCE:
         raise ValueError(f"source must contain 1 through {MAX_SOURCE} characters")
     payload: dict[str, Any] = {key: [] for key in ("actions", "preserve", "questions", "unsupported", "acknowledged")}
+    history_target = _history_target(history, project)
+    preserve_remainder = []
+    goals = []
     cursor, correction = 0, False
     previous: _QuantityEdit | None = None
     pending_rejection: str | None = None
@@ -284,6 +335,8 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
         correction = "actually" in delimiter.group().lower()
         cursor = delimiter.end()
     parts.append((cursor, len(source), correction))
+    parts = [(a, b, correcting) for start, end, correcting in parts
+             for a, b in _split_scalar_sequence(source, start, end)]
     for start, end, correcting in parts:
         if not source[start:end].strip():
             continue
@@ -292,6 +345,30 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
         text = _TYPO_PATTERN.sub(lambda match: _TYPOS[match.group()], text)
         text = _PREFIX.sub("", text).rstrip(".!?")
         text = _SUFFIX.sub("", text)
+        if pending_rejection is None and (reference := _REFERENCE.fullmatch(text)):
+            if history_target is None:
+                payload["questions"].append("Which scalar property does 'that' refer to? Supply one explicit target against this revision.")
+                payload["acknowledged"].append({"reason": "Unresolved history reference", "evidence": ev})
+                continue
+            text = f"{history_target} {reference.group('value')} {reference.group('unit')}"
+        if _REMAINDER.fullmatch(text):
+            preserve_remainder.append(ev)
+            continue
+        if _EXTERNAL_SIZE.fullmatch(text):
+            payload["preserve"].append({"field": "outer_size_mm", "evidence": ev})
+            continue
+        if _GOAL.fullmatch(text):
+            goals.append(ev)
+            payload["acknowledged"].append({"reason": "Design motivation only: no strength, mass or physical performance has been verified", "evidence": ev})
+            continue
+        if re.fullmatch(r"(?:do not|don't) change (?:any )?geometry or material", text):
+            payload["questions"].append("Which design variable may change to meet the objective? Geometry and material are currently fixed.")
+            payload["acknowledged"].append({"reason": "Fixed design variables require objective clarification", "evidence": ev})
+            continue
+        if re.search(r"\bholes?\b", text) and re.search(r"\b(?:some|equally spaced)\b", text):
+            payload["questions"].append("Specify the hole count, diameter, face, spacing and first center position.")
+            payload["acknowledged"].append({"reason": "Incomplete hole layout", "evidence": ev})
+            continue
         only_match = _ONLY.match(text)
         only = only_match is not None
         if only_match:
@@ -386,15 +463,27 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
         else:
             payload["actions"].append({"instruction": source[start:end].strip(), "evidence": ev})
             previous = None
+    if goals and not payload["actions"]:
+        payload["questions"].append("Specify the dimensional edit and measurable objective; physical improvement cannot be inferred.")
+    for ev in preserve_remainder:
+        if not seen_labels or any(not action["instruction"].startswith("set ") for action in payload["actions"]):
+            payload["questions"].append("Name the scalar fields to edit before preserving all other properties.")
+            payload["acknowledged"].append({"reason": "Unresolved preservation scope", "evidence": ev})
+        else:
+            edited = {SCALARS[label] for label in seen_labels}
+            fields = set.intersection(*(set(_other_fields(project, field)) for field in edited))
+            payload["preserve"].extend({"field": field, "evidence": ev} for field in sorted(fields))
     if pending_rejection:
         payload["questions"].append(f"What exact value and unit should replace the rejected {pending_rejection}?")
-    result = validate_edit_payload(source, project, payload, interpreter="local-conversation-v3")
+    result = validate_edit_payload(source, project, payload, interpreter="local-conversation-v4")
     if result.candidate:
         for label, excluded in forbidden_values.items():
             if _scalar_value(result.candidate, label) in excluded:
                 payload["questions"].append(f"The final {label} restores an explicitly rejected value")
         if payload["questions"]:
-            return validate_edit_payload(source, project, payload, interpreter="local-conversation-v3")
+            return validate_edit_payload(source, project, payload, interpreter="local-conversation-v4")
+    if history is not None:
+        result = replace(result, provider_metadata={"local_history": history, "live_semantic_accuracy_claim": False})
     return result
 
 

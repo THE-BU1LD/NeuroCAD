@@ -1,0 +1,8 @@
+{
+  "parent": "contract.json",
+  "kind": "adjacent engineering input-validation repair",
+  "baseline": "baseline.xml and baseline.log: array and object axes raise uncaught TypeError; scalar invalid axes already reject",
+  "change": "Require a string before membership in the axis map; preserve all valid x/y/z behavior.",
+  "budget": "Uses the existing fixed focused-test budget; no additional scientific experiment or native run.",
+  "scientific_change": false
+}

@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-14T16:50:47.501558+00:00",
+  "base": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+  "local_checkout": "48cccef2c4904821210c22d6aa06a5a21b779357",
+  "scope": "Modified verification module matched main at entry; local pure checks use original checkout dependencies. Hosted checks needed for main-based integration.",
+  "baseline": {
+    "failed": 3,
+    "passed": 3,
+    "deselected": 42,
+    "receipt": "baseline.xml"
+  },
+  "focused": [
+    {
+      "passed": 85,
+      "receipt": "focused-1.xml"
+    },
+    {
+      "passed": 86,
+      "receipt": "focused-2.xml"
+    }
+  ],
+  "lint_type": "PASS after retained initial native-test formatting failure",
+  "native": "NOT_RUN_LOCAL_RESOURCE_BLOCKED",
+  "review": "AI review found count rounding above 2**53; corrected and exact-integer counterexample independently checked. Not independent scientific reproduction.",
+  "source_hashes": {
+    "core/requirement_verification.py": "5d10cc75ae289815c747e9be5f820e49e275ac0ec29fd30cacb07ba09b917bd8",
+    "tests/test_final_geometry_requirements.py": "04bf26d86c89e163b73b0d7bfb5ca445aa6fa8fb65aa3507b43db583d9ffc377",
+    "tests/test_final_geometry_native.py": "dd40c374a6508c261306f1053da50abc2a578eee97ec9293cfd5a4abd91bb63c",
+    ".github/workflows/native-acceptance.yml": "9a9ff2d675c233ba6ec90b28823341b2b69c21c6cca047449fac4d0393e79be9"
+  },
+  "receipt_hashes": {
+    "lint-1.log": "b09188328cb72c19036e8a9a54578659cbc44813ccd7d73fb706ceae8bd8a6a5",
+    "lint-3.log": "587d96c890ff862b991a5ef8dcaaaae838511f31ea598e6df761711b7d451eaa",
+    "lint-2.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "focused-2.xml": "6c076c5b6c4603843218c4968319b1d3f37f91c2ebe3758dbefcaddf27d7b4b3",
+    "focused-1.xml": "211ef153e0d82295465b6a31263c104efea5d563e41aae8856f56db7ffd049dc",
+    "baseline.xml": "c1bc50943008e0bdf2c2f1d92aae72dabfd12f0a3b8b792e7745cd79ecf110ef",
+    "baseline.log": "b22421366ebf1a8333df1107ac1e24f46965aa00efdba322a13f1f3a42931cfc",
+    "focused-2.log": "5ddf3eef7c72ae69e9ef950882ddb991c99096ff6a95d476bd723378ea5c9303",
+    "focused-1.log": "f068a4309c515e9220844b81e02bb662417584f393813b55d36af91f6f891c16"
+  },
+  "budget_consumed": {
+    "baseline_batches": 1,
+    "focused_test_batches": 2,
+    "lint_type_batches": 3,
+    "hosted_attempts": 0,
+    "paid_calls": 0,
+    "training_runs": 0,
+    "protected_outcomes": 0
+  }
+}

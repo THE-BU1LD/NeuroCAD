@@ -1628,8 +1628,10 @@ def cmd_enclosure_understand(args: argparse.Namespace) -> int:
         proposal = provider.interpret(source, project, recent_messages=history)
     else:
         if args.history:
-            raise ValueError("Conversation history requires an explicitly configured language provider")
-        proposal = parse_conversation(source, project)
+            history = strict_json_loads(read_bounded_utf8(Path(args.history), max_bytes=32768, label="revision-bound conversation history"))
+        else:
+            history = None
+        proposal = parse_conversation(source, project, history=history)
     encoded = json.dumps(proposal.to_dict(), indent=2, sort_keys=True, allow_nan=False) + "\n"
     if destination is not None:
         write_text_atomic(destination, encoded, overwrite=False)

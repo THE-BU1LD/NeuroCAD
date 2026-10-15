@@ -430,9 +430,61 @@
       "scientific_disposition": "NOT_EVALUATED",
       "next_action": "Complete exact-source type/full/install checks on admitted resources; separately scope remaining fragmented/informal/history language work. Research admission and external evidence remain open.",
       "source_sha256": "a864735525a494a66015f707f93ed7b53b8edfc07717f7ae3062f7ec1744f95a"
+    },
+    {
+      "id": "completion_20261015",
+      "started_at": "2026-10-15T15:50:07.374546+00:00",
+      "authorization": "Implement them all right now no excuses",
+      "kind": "BOUNDED_PRODUCT_COMPLETION",
+      "source_parents": [
+        "c51a56cb0348185ce078022f257208a751101351",
+        "941eed7093b4cdc2e30db7b686b1330a6c8fa06a"
+      ],
+      "scope": [
+        "integrate retained language and aggregate-geometry candidates",
+        "complete bounded multi-clause edits, explicit objective limits, revision-bound scalar history and clarification",
+        "final exported cylindrical-hole geometry verification",
+        "manifest-first external evaluation accounting",
+        "exact-source hosted full native installed validation",
+        "truth and release preparation"
+      ],
+      "nonclaims": [
+        "independent generalization",
+        "novelty",
+        "physical measurements",
+        "human participation",
+        "independent reproduction"
+      ],
+      "budget": {
+        "pure_python_batches": 12,
+        "lint_batches": 6,
+        "hosted_attempts_per_workflow": 4,
+        "protected_runs": 0,
+        "training": 0,
+        "paid_provider": 0,
+        "physical_experiments": 0
+      },
+      "prior_budgets_reopened": false,
+      "local_execution": "Only bounded pure-Python checks, one process at a time, 96 MiB/20 s cap. Native/full/type checks use hosted resources while local gate fails.",
+      "entry_resource_samples_mib": [
+        126.515625,
+        183.84375
+      ],
+      "pageouts": [
+        668738,
+        668958
+      ],
+      "local_heavy_admission": "FAIL",
+      "acceptance": [
+        "exact-source checks pass without weakening tests",
+        "original evidence and protected files preserved",
+        "counterexamples refuse unresolved interpretation and geometry",
+        "no scientific gate advance without external evidence"
+      ],
+      "stopping": "Close on verified bounded completion or budget exhaustion; preserve failures and unresolved work."
     }
   ],
-  "latest_engineering_session": "scalar_intent_20261015",
+  "latest_engineering_session": "completion_20261015",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",
