@@ -1,0 +1,13 @@
+RUF007 Prefer `itertools.pairwise()` over `zip()` when iterating over successive pairs
+  --> core/final_geometry.py:38:53
+   |
+36 |     """
+37 |     if (any(not math.isfinite(value) or math.ulp(value) > tolerance for value in values)
+38 |             or any(left >= right for left, right in zip(values, values[1:]))):
+   |                                                     ^^^
+39 |         raise ValueError("Bore offsets are not representable at the declared tolerance")
+   |
+help: Replace `zip()` with `itertools.pairwise()`
+
+Found 1 error.
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).
