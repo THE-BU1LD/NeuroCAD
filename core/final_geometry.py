@@ -58,6 +58,16 @@ def probe_hash(probe: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps(probe, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
 
 
+def _residual_volume(value: Any, *, empty_intersection: bool = False) -> float:
+    # build123d 0.13.0 Shape.__and__ returns None for a disjoint intersection.
+    # No other missing kernel result can be silently accepted as empty.
+    if value is None:
+        if empty_intersection:
+            return 0.0
+        raise ValueError("Missing kernel difference result")
+    return abs(number(value.volume))
+
+
 def measure_bore(shape: Any, bd: Any, probe: dict[str, Any]) -> dict[str, Any]:
     """Measure final material in the void, surrounding sleeve and blind end cap."""
     validate_probe(probe)
@@ -78,9 +88,6 @@ def measure_bore(shape: Any, bd: Any, probe: dict[str, Any]) -> dict[str, Any]:
         center[axis] += direction * (start + length / 2)
         return bd.Pos(*center) * bd.Rot(*angles) * bd.Cylinder(radius, length)
 
-    def volume(value: Any) -> float:
-        return abs(number(value.volume))
-
     cavity = cylinder(r - tol, tol, depth - 2 * tol)
     outer = cylinder(r + clearance, tol, depth - 2 * tol)
     inner = cylinder(r + tol, tol, depth - 2 * tol)
@@ -90,9 +97,9 @@ def measure_bore(shape: Any, bd: Any, probe: dict[str, Any]) -> dict[str, Any]:
         "probe_sha256": probe_hash(probe),
         "entry_error_mm": abs(entry[axis] - near),
         "terminal_error_mm": abs(end - far) if probe["termination"] == "through" else max(0.0, direction * (end - far)),
-        "void_material_mm3": volume(shape & cavity),
-        "sleeve_missing_mm3": volume(sleeve - shape),
-        "cap_missing_mm3": volume(cap - shape) if probe["termination"] == "blind" else 0.0,
+        "void_material_mm3": _residual_volume(shape & cavity, empty_intersection=True),
+        "sleeve_missing_mm3": _residual_volume(sleeve - shape),
+        "cap_missing_mm3": _residual_volume(cap - shape) if probe["termination"] == "blind" else 0.0,
         "solid_count": len(shape.solids()),
         "valid_brep": bool(shape.is_valid), "manifold": bool(shape.is_manifold),
     }

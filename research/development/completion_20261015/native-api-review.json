@@ -1,0 +1,7 @@
+{
+  "dependency": "build123d==0.13.0",
+  "source": "https://build123d.readthedocs.io/en/stable/_modules/topology/shape_core.html",
+  "finding": "Shape.__and__ returns None for disjoint shapes; map only this successful empty-intersection return to zero material. Missing difference results still fail.",
+  "native_execution": "NOT_RUN",
+  "protected_or_physical_results": false
+}

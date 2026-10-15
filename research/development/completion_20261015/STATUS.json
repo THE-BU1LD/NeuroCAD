@@ -1,0 +1,54 @@
+{
+  "id": "completion_20261015",
+  "updated_at": "2026-10-15T16:05:59.049308+00:00",
+  "status": "LOCAL_IMPLEMENTATION_VERIFIED_HOSTED_PENDING_APPROVAL",
+  "worktree": "/Users/ryan/.codex/worktrees/neurocad-completion/NeuroCAD",
+  "branch": "codex/complete-iteration-20261015",
+  "source_candidate": "4a9c6a62dd2166491a993eb80ee1dbd24e105cac",
+  "followup": "Pinned-kernel empty-intersection correction and final receipts are prepared as a followup commit",
+  "implemented": [
+    "integrated quantity/directional/scalar and aggregate-geometry candidates",
+    "fragmented edits and remaining-field preservation",
+    "revision-bound local scalar history and CLI",
+    "targeted clarification and explicit unverified objectives",
+    "final STEP cylindrical bore axis/location/radius/depth/clearance and blind-through checks",
+    "manifest-first pinned evaluation accounting"
+  ],
+  "verification": {
+    "combined_local_tests": 371,
+    "affected_after_native_api_correction": 108,
+    "lint": "PASS",
+    "diagnostic_valid_exact": "20/20",
+    "diagnostic_all_outcomes": "32/32",
+    "diagnostic_safe_rejections": "12/12",
+    "diagnostic_wrong_candidates": 0,
+    "diagnostic_provider_errors": 0,
+    "diagnostic_scope": "observed development cases; v3 history interface, no independent generalization",
+    "native": "NOT_RUN",
+    "full": "NOT_RUN",
+    "type": "NOT_RUN_THIS_SESSION",
+    "installed_package": "NOT_RUN",
+    "hosted": "NOT_RUN_PUSH_REJECTED",
+    "protected_paths_unchanged": true
+  },
+  "budget_used": {
+    "pure_python_batches": 8,
+    "lint_batches": 5,
+    "hosted_attempts": 0,
+    "training": 0,
+    "paid_provider": 0,
+    "protected_runs": 0
+  },
+  "remaining": [
+    "Exact destination/payload approval then hosted native/full/type/install checks",
+    "Resolve any hosted failures within declared budget",
+    "Merge and separately verified release after exact-source checks",
+    "Four original missing logs not found in nine worktrees or reachable Git history",
+    "Independent scoring/comparators and novelty admission",
+    "Real physical measurements, independent reproduction and intended-user outcomes"
+  ],
+  "scientific_checkpoint_advanced": false,
+  "research_complete": false,
+  "release_changed": false,
+  "report": "/Users/ryan/.codex/worktrees/neurocad-completion/NeuroCAD/docs/ITERATION_COMPLETION_20261015.md"
+}

@@ -63,3 +63,16 @@ def test_requirement_requires_final_measurement_and_output_scope():
     bad = replace(bindings, bindings=(replace(bindings.bindings[0], feature_ids=("unused_tool",)),))
     assert not verify_exact_requirements(doc, program, Inspection(), bad,
         final_geometry_measurements={"aggregate": measurement(p)}).satisfied_for_all_must
+
+
+def test_pinned_kernel_empty_intersection_contract():
+    from types import SimpleNamespace
+
+    from core.final_geometry import _residual_volume
+
+    assert _residual_volume(None, empty_intersection=True) == 0
+    assert _residual_volume(SimpleNamespace(volume=2)) == 2
+    with pytest.raises(ValueError, match="Missing"):
+        _residual_volume(None)
+    with pytest.raises(ValueError):
+        _residual_volume(SimpleNamespace(volume=float("nan")))
