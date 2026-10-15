@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "failed": 20,
+    "passed": 23,
+    "receipt": "baseline.json",
+    "raw": "baseline.log"
+  },
+  "lint_failure": {
+    "receipt": "lint-1.json",
+    "cause": "RUF007 pairwise convention",
+    "repair": "itertools.pairwise",
+    "verification": "lint-2.json"
+  },
+  "candidate_failures": [],
+  "limitations": [
+    "No native/full/type/install run",
+    "No independent scientific execution",
+    "Neighboring uncommitted changes not included"
+  ]
+}

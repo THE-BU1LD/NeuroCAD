@@ -7,6 +7,7 @@ material clearance fail. The export route supplies reimported STEP evidence.
 from __future__ import annotations
 
 import hashlib
+import itertools
 import json
 import math
 from typing import Any
@@ -28,6 +29,17 @@ def number(value: Any, *, positive: bool = False) -> float:
     return result
 
 
+def _resolved_coordinates(values: list[float], tolerance: float) -> None:
+    """Require ordered finite coordinates whose float spacing resolves tolerance.
+
+    This is an arithmetic precondition, not a guarantee of kernel precision.
+    Checking only finite inputs misses lost offsets at large translations.
+    """
+    if (any(not math.isfinite(value) or math.ulp(value) > tolerance for value in values)
+            or any(left >= right for left, right in itertools.pairwise(values))):
+        raise ValueError("Bore offsets are not representable at the declared tolerance")
+
+
 def validate_probe(probe: dict[str, Any]) -> None:
     if not isinstance(probe, dict) or set(probe) != KEYS or probe["kind"] != KIND:
         raise ValueError("Cylindrical-hole probe requires exactly the declared geometry fields")
@@ -37,16 +49,32 @@ def validate_probe(probe: dict[str, Any]) -> None:
         raise ValueError("Bore termination must be through or blind")
     if not isinstance(probe["entry_mm"], (list, tuple)) or len(probe["entry_mm"]) != 3:
         raise ValueError("Bore entry needs three finite coordinates")
-    for value in probe["entry_mm"]:
-        number(value)
+    entry = [number(value) for value in probe["entry_mm"]]
     radius, depth, clearance, tolerance, volume_tolerance = (
         number(probe[key], positive=True) for key in
         ("radius_mm", "depth_mm", "clearance_mm", "tolerance_mm", "volume_tolerance_mm3"))
     if tolerance >= min(radius, depth, clearance) / 4:
         raise ValueError("Linear tolerance must be less than one quarter of every probe scale")
-    bore_volume = math.pi * (radius - tolerance)**2 * (depth - 2*tolerance)
-    shell_volume = math.pi * ((radius + clearance)**2 - (radius + tolerance)**2) * (depth - 2*tolerance)
-    cap_volume = math.pi * (radius - tolerance)**2 * clearance
+    radial = [radius - tolerance, radius, radius + tolerance, radius + clearance]
+    axial = [0.0, tolerance, depth - tolerance, depth, depth + tolerance, depth + tolerance + clearance]
+    _resolved_coordinates(radial, tolerance)
+    _resolved_coordinates(axial, tolerance)
+    axis = ("x", "y", "z").index(probe["axis"])
+    direction = probe["direction"]
+    for index, origin in enumerate(entry):
+        if index == axis:
+            # Negating coordinates for reverse traversal preserves their spacing
+            # while letting the same strict-order test cover both directions.
+            values = [direction * (origin + direction * offset) for offset in axial]
+        else:
+            values = [origin - offset for offset in reversed(radial)] + [origin] + [origin + offset for offset in radial]
+        _resolved_coordinates(values, tolerance)
+    try:
+        bore_volume = math.pi * (radius - tolerance)**2 * (depth - 2*tolerance)
+        shell_volume = math.pi * ((radius + clearance)**2 - (radius + tolerance)**2) * (depth - 2*tolerance)
+        cap_volume = math.pi * (radius - tolerance)**2 * clearance
+    except OverflowError as exc:
+        raise ValueError("Probe volumes must be positive and representable") from exc
     if not all(math.isfinite(v) and v > 0 for v in (bore_volume, shell_volume, cap_volume)):
         raise ValueError("Probe volumes must be positive and representable")
     if volume_tolerance > min(bore_volume, shell_volume, cap_volume) * 0.001:
