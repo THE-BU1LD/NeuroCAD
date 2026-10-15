@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T16:42:45.357506+00:00",
+  "base_commit": "3e26da5542541cc38ea518363d247b81b5964f73",
+  "branch": "codex/ledger-integrity-20261015",
+  "initial_status": "?? research/development/ledger_integrity_20261015/",
+  "free_speculative_mib": 89.9375,
+  "pageouts": 694374,
+  "swap": "vm.swapusage: total = 11264.00M  used = 10055.12M  free = 1208.88M  (encrypted)",
+  "disk_free_gib": 196.38961791992188,
+  "neighbor_dirty_files": [
+    "core/conversational_parser.py",
+    "tests/test_final_geometry_native.py"
+  ],
+  "ownership": "Only this new isolated checkout and core/evaluation_ledger.py; neighboring checkout remains untouched."
+}

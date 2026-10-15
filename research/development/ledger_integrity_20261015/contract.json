@@ -1,0 +1,46 @@
+{
+  "id": "ledger_integrity_20261015",
+  "started_at": "2026-10-15T16:42:45.357506+00:00",
+  "kind": "BOUNDED_ENGINEERING_SUCCESSOR",
+  "base_commit": "3e26da5542541cc38ea518363d247b81b5964f73",
+  "question": "Does the evaluation ledger preserve scheduled denominators across ordinary adapter exceptions and reject altered evidence before accepting an offline replay?",
+  "hypothesis": "Typed admission, pinned byte identities, complete failure accounting and independent replay detect the declared fault classes without changing CAD scoring.",
+  "scope": [
+    "core/evaluation_ledger.py",
+    "new fault-injection tests",
+    "offline audit command",
+    "documentation and retained evidence"
+  ],
+  "non_goals": [
+    "changing language/parser/native work in progress",
+    "adapter sandboxing or source authenticity proof",
+    "resume or retry scientific cases",
+    "new scientific experiment or score",
+    "editing predecessor evidence"
+  ],
+  "budget": {
+    "baseline_batches": 1,
+    "candidate_batches": 3,
+    "lint_batches": 2,
+    "offline_audits": 2,
+    "static_integrity_audits": 2,
+    "native": 0,
+    "full_suite": 0,
+    "type": 0,
+    "hosted": 0,
+    "training": 0,
+    "paid": 0,
+    "protected": 0
+  },
+  "execution": "Sequential pure Python only, 20 seconds and 96 MiB child RSS cap; no native imports, installs or heavy runs. Heavy resource admission remains closed due earlier low-memory/rising-pageout samples.",
+  "acceptance": [
+    "all explicit new fault cases fail closed",
+    "legacy ledger unit cases pass",
+    "schedule and source identity captured before callbacks",
+    "offline audit recomputes denominators and compares retained artifacts",
+    "source/protected predecessor paths unchanged except declared module",
+    "ordinary adapter errors retained; MemoryError and BaseException propagate and leave incomplete manifests"
+  ],
+  "protocol": "Tests and this contract precede production changes. Preserve every failure. New v2 receipts only; v1 files remain unchanged and are not silently upgraded.",
+  "stopping": "Stop on budget exhaustion or verified bounded implementation; positive CAD results, perfection and scientific completion are not acceptance criteria."
+}
