@@ -43,7 +43,7 @@ def test_ordinary_adapter_exceptions_retain_all_ids(tmp_path, stage, error):
     assert result["outcomes"][0]["error_type"] == error.__name__
     assert result["outcomes"][0]["status"] == stage.replace("execute", "execution") + "_error"
     assert not result["valid_for_inference"]
-    assert "private sample" not in (tmp_path / "run" / "summary.json").read_text()
+    assert "private sample" not in (tmp_path / "run" / "summary.json").read_text(encoding="utf-8")
 
 
 @pytest.mark.parametrize("key,value", [
@@ -127,7 +127,7 @@ def test_offline_audit_rejects_modified_receipts(tmp_path, mutation):
     path = tmp_path / "run"
     run(path)
     summary_path = path / "summary.json"
-    summary = json.loads(summary_path.read_text())
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
     if mutation == "numerator":
         summary["correct_completion_numerator"] = 99
     elif mutation == "bool_denominator":
@@ -139,17 +139,17 @@ def test_offline_audit_rejects_modified_receipts(tmp_path, mutation):
     elif mutation == "unavailable_claim":
         summary["requirement_unavailable_samples"] = 1
     elif mutation == "row_metrics":
-        row = json.loads((path / "one.json").read_text())
+        row = json.loads((path / "one.json").read_text(encoding="utf-8"))
         row["metrics"]["passed"] = False
         (path / "one.json").write_text(json.dumps(row))
     elif mutation == "delete_row":
         (path / "one.json").unlink()
     elif mutation == "manifest":
-        manifest = json.loads((path / "manifest.json").read_text())
+        manifest = json.loads((path / "manifest.json").read_text(encoding="utf-8"))
         manifest["identities"]["protocol_sha256"] = "e" * 64
         (path / "manifest.json").write_text(json.dumps(manifest))
     elif mutation == "duplicate_json_key":
-        summary_path.write_text(summary_path.read_text().replace('"outcome_count": 2', '"outcome_count": 99, "outcome_count": 2'))
+        summary_path.write_text(summary_path.read_text(encoding="utf-8").replace('"outcome_count": 2', '"outcome_count": 99, "outcome_count": 2'))
     if mutation not in {"duplicate_json_key"}:
         summary_path.write_text(json.dumps(summary))
     check = audit(path)
@@ -192,7 +192,7 @@ def test_retained_execution_failure_is_integrity_valid_but_not_inference_valid(t
 def test_legacy_version_is_not_silently_promoted(tmp_path):
     path = tmp_path / "run"
     run(path)
-    manifest = json.loads((path / "manifest.json").read_text())
+    manifest = json.loads((path / "manifest.json").read_text(encoding="utf-8"))
     manifest["version"] = "neurocad-evaluation-ledger-v1"
     (path / "manifest.json").write_text(json.dumps(manifest))
     assert not audit(path)["integrity_verified"]

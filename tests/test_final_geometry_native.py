@@ -284,6 +284,10 @@ def test_equal_volume_shifted_bore_passes_aggregate_checks_without_proving_hole_
             float(shape.distance_to(backend.bd.Vector(0.0, 0.0, HEIGHT_MM / 2)))
         )
 
-    # Real kernel geometry differs at the nominal bore axis although both scalar
-    # predicates pass. This limitation must survive future changes to the tests.
-    assert distances_from_nominal_axis == pytest.approx([RADIUS_MM, 0.0], rel=0.0, abs=1e-6)
+    # distance_to measures the nearest boundary, including from inside material.
+    # At the nominal axis the centered bore wall is 3 mm away; in the shifted
+    # fixture the nearest boundary is a plate face 4 mm away (the bore is 5 mm
+    # away). The distinct final geometry still passes both aggregate predicates.
+    assert distances_from_nominal_axis == pytest.approx(
+        [RADIUS_MM, HEIGHT_MM / 2], rel=0.0, abs=1e-6,
+    )

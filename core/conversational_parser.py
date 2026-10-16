@@ -416,7 +416,8 @@ def parse_conversation(source: str, project: EnclosureProject, *, history: dict[
             else:
                 payload["preserve"].append({"field": "cutouts", "evidence": ev})
             continue
-        instruction, label = None, None
+        instruction: str | None = None
+        edit_label: str | None = None
         size_match = None if only else _SIZE.fullmatch(text)
         if size_match:
             sizes = [float(size_match.group(axis)) * UNITS[size_match.group(axis + "u") or size_match.group("hu")]
@@ -426,27 +427,27 @@ def parse_conversation(source: str, project: EnclosureProject, *, history: dict[
             try:
                 quantity = quantity or _quantity_instruction(text, project, previous if correcting else None)
                 if quantity:
-                    instruction, label, relative = quantity.instruction, quantity.label, quantity.relative
-                    if only and label is None:
+                    instruction, edit_label, relative = quantity.instruction, quantity.label, quantity.relative
+                    if only and edit_label is None:
                         raise ValueError("ONLY currently requires one named scalar property")
-                    if label:
-                        if quantity.value_mm in forbidden_values.get(label, set()):
-                            raise ValueError(f"The replacement restores a rejected value for {label}; clarify the final value")
-                        if label in relative_labels or (relative and label in seen_labels):
+                    if edit_label:
+                        if quantity.value_mm in forbidden_values.get(edit_label, set()):
+                            raise ValueError(f"The replacement restores a rejected value for {edit_label}; clarify the final value")
+                        if edit_label in relative_labels or (relative and edit_label in seen_labels):
                             raise ValueError("Repeated edits involving a relative quantity need one explicit final value")
-                        seen_labels.add(label)
+                        seen_labels.add(edit_label)
                         if relative:
-                            relative_labels.add(label)
+                            relative_labels.add(edit_label)
                         if only:
                             protected = {item["field"] for item in payload["preserve"]}
                             payload["preserve"].extend({"field": field, "evidence": ev}
-                                                       for field in _other_fields(project, SCALARS[label]) if field not in protected)
+                                                       for field in _other_fields(project, SCALARS[edit_label]) if field not in protected)
             except ValueError as exc:
                 payload["questions"].append(str(exc))
                 payload["acknowledged"].append({"reason": "Unresolved quantity edit", "evidence": ev})
                 continue
         if instruction:
-            if correcting and previous and label == previous.label and payload["actions"]:
+            if correcting and previous and edit_label == previous.label and payload["actions"]:
                 superseded = payload["actions"].pop()
                 payload["acknowledged"].append({"reason": "Superseded by explicit self-correction", "evidence": superseded["evidence"]})
             payload["actions"].append({"instruction": instruction, "evidence": ev})
@@ -471,8 +472,8 @@ def parse_conversation(source: str, project: EnclosureProject, *, history: dict[
             payload["acknowledged"].append({"reason": "Unresolved preservation scope", "evidence": ev})
         else:
             edited = {SCALARS[label] for label in seen_labels}
-            fields = set.intersection(*(set(_other_fields(project, field)) for field in edited))
-            payload["preserve"].extend({"field": field, "evidence": ev} for field in sorted(fields))
+            remaining_fields = set.intersection(*(set(_other_fields(project, field)) for field in edited))
+            payload["preserve"].extend({"field": field, "evidence": ev} for field in sorted(remaining_fields))
     if pending_rejection:
         payload["questions"].append(f"What exact value and unit should replace the rejected {pending_rejection}?")
     result = validate_edit_payload(source, project, payload, interpreter="local-conversation-v4")
