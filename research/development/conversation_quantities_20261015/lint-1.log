@@ -1,0 +1,37 @@
+SIM905 [*] Consider using a list literal instead of `str.split`
+  --> core/conversation_quantities.py:8:10
+   |
+ 6 | … decimal import Decimal, localcontext
+ 7 | …
+ 8 | …LL = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | …S = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+10 | …UES = {word: value for value, word in enumerate(_SMALL)}
+   |
+help: Replace with list literal
+  |
+7 |
+  - _SMALL = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+8 + _SMALL = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+9 | _TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+  |
+
+SIM905 [*] Consider using a list literal instead of `str.split`
+  --> core/conversation_quantities.py:9:9
+   |
+ 8 | _SMALL = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nin…
+ 9 | _TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+10 | _VALUES = {word: value for value, word in enumerate(_SMALL)}
+11 | _VALUES.update({word: value * 10 for value, word in enumerate(_TENS, 2)})
+   |
+help: Replace with list literal
+   |
+8  | _SMALL = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+   - _TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+9  + _TENS = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+10 | _VALUES = {word: value for value, word in enumerate(_SMALL)}
+   |
+
+Found 2 errors.
+[*] 2 fixable with the `--fix` option.

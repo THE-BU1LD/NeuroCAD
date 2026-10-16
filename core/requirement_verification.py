@@ -42,7 +42,7 @@ class GeometryInspectionLike(Protocol):
 REQUIREMENT_BINDING_VERSION = "neurocad-requirement-binding-v0alpha1"
 MAX_BINDING_JSON_BYTES = 2 * 1024 * 1024
 SUPPORTED_EXACT_VERIFICATION = frozenset(
-    {"exact_dimension", "feature_presence", "feature_count", "kernel_validity"}
+    {"exact_dimension", "feature_presence", "feature_count", "kernel_validity", "geometric_relation"}
 )
 AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
 
@@ -277,7 +277,7 @@ def _dimension_check(
     detail_label: str
     if probe_kind == "output_extent":
         axis = binding.probe.get("axis")
-        if axis not in AXIS_INDEX:
+        if not isinstance(axis, str) or axis not in AXIS_INDEX:
             raise RequirementBindingError(
                 f"exact dimension binding {requirement.id!r} axis must be x, y, or z"
             )
@@ -411,6 +411,127 @@ def _feature_history_check(
     )
 
 
+def _finite_measurement(value: Any, label: str, *, positive: bool) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise RequirementBindingError(f"{label} must be a finite number, not a boolean or string")
+    try:
+        number = float(value)
+    except (OverflowError, ValueError) as exc:
+        raise RequirementBindingError(f"{label} is outside the finite numeric range") from exc
+    if not math.isfinite(number) or (number <= 0 if positive else number < 0):
+        boundary = "positive" if positive else "non-negative"
+        raise RequirementBindingError(f"{label} must be finite and {boundary}")
+    return number
+
+
+def _output_aggregate_check(
+    requirement: Requirement,
+    binding: ExactRequirementBinding,
+    program: FeatureProgram,
+    inspection: GeometryInspectionLike,
+) -> RequirementCheck:
+    """Check explicitly declared global properties, never infer hole identity.
+
+    The verified export path supplies a reimported STEP inspection. Direct
+    callers must supply authentic inspection evidence; scalar validation cannot
+    authenticate a caller's kernel or establish arbitrary geometric equivalence.
+    """
+    kind = binding.probe.get("kind")
+    if set(binding.probe) != {"kind"} or kind not in ("output_solid_count", "output_volume"):
+        raise RequirementBindingError(
+            "geometric_relation supports only output_solid_count or output_volume, with no extra probe keys"
+        )
+    outputs = program.outputs
+    if (
+        not outputs
+        or len(set(outputs)) != len(outputs)
+        or binding.feature_ids != outputs
+        or not set(outputs).issubset({feature.id for feature in program.features})
+    ):
+        raise RequirementBindingError("aggregate bindings must identify exactly all declared outputs in order")
+    if inspection.valid_brep is not True:
+        raise RequirementBindingError("aggregate evidence requires a valid final B-Rep")
+    count = inspection.solid_count
+    if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+        raise RequirementBindingError("final solid count must be a positive integer")
+    volume = _finite_measurement(inspection.volume_mm3, "final volume", positive=True)
+    extents = inspection.extents_mm
+    if not isinstance(extents, (tuple, list)) or len(extents) != 3:
+        raise RequirementBindingError("final extents must contain three positive finite dimensions")
+    for extent in extents:
+        _finite_measurement(extent, "final extent", positive=True)
+    value = requirement.value
+    if value is None:
+        raise RequirementBindingError("aggregate requirement needs an explicit value")
+    numeric_expected = _finite_measurement(value.value, "expected aggregate", positive=True)
+    expected: int | float = numeric_expected
+    actual: int | float
+    if kind == "output_solid_count":
+        if value.unit != "unitless" or not numeric_expected.is_integer():
+            raise RequirementBindingError("output_solid_count requires a positive integral unitless value")
+        if value.tolerance is not None and _finite_measurement(value.tolerance, "count tolerance", positive=False) != 0:
+            raise RequirementBindingError("output_solid_count requires exact equality (zero tolerance)")
+        # JSON integer counts retain exact equality beyond float's 53-bit mantissa.
+        expected = value.value if isinstance(value.value, int) else int(numeric_expected)
+        actual = count
+        tolerance = 0.0
+        passed = count == expected
+        basis = "exact_kernel_output_solid_count"
+        detail = f"final output has {count} solids; expected exactly {expected}"
+    else:
+        if value.unit != "mm3" or value.tolerance is None:
+            raise RequirementBindingError("output_volume requires mm3 and an explicit absolute tolerance")
+        tolerance = _finite_measurement(value.tolerance, "volume tolerance", positive=False)
+        actual = volume
+        passed = math.isclose(volume, expected, rel_tol=0.0, abs_tol=tolerance)
+        basis = "exact_kernel_output_volume"
+        detail = f"final output material volume is {volume:g} mm3; expected {expected:g} +/- {tolerance:g} mm3"
+    return RequirementCheck(
+        requirement_id=requirement.id,
+        strength=requirement.strength,
+        verification=requirement.verification,
+        satisfied=passed,
+        basis=basis,
+        expected=expected,
+        actual=actual,
+        tolerance=tolerance,
+        source_start=requirement.source_start,
+        source_end=requirement.source_end,
+        source_text=requirement.source_text,
+        detail=detail + "; aggregate evidence does not prove hole identity, location, or arbitrary topology",
+    )
+
+
+
+def _output_bore_check(requirement: Requirement, binding: ExactRequirementBinding,
+                       program: FeatureProgram, evidence: dict[str, Any] | None) -> RequirementCheck:
+    from .final_geometry import evaluate_measurement, validate_probe
+
+    try:
+        validate_probe(binding.probe)
+        if (binding.feature_ids != program.outputs or len(program.outputs) != 1
+                or not set(program.outputs).issubset({feature.id for feature in program.features})):
+            raise ValueError("Bore binding must identify exactly the single final output")
+        value = requirement.value
+        if (value is None or isinstance(value.value, bool) or value.value != 1 or value.unit != "unitless"
+                or value.tolerance not in (None, 0)):
+            raise ValueError("Bore requirement needs unitless 1 with no nonzero tolerance; probe declares tolerances")
+        if evidence is None:
+            raise ValueError("Final exported geometry has not been measured for this bore")
+        passed = evaluate_measurement(binding.probe, evidence)
+    except (ValueError, TypeError, OverflowError) as exc:
+        raise RequirementBindingError(str(exc)) from exc
+    return RequirementCheck(
+        requirement_id=requirement.id, strength=requirement.strength,
+        verification=requirement.verification, satisfied=passed,
+        basis="exact_kernel_final_cylindrical_bore", expected=binding.probe,
+        actual=evidence, tolerance=binding.probe["tolerance_mm"],
+        source_start=requirement.source_start, source_end=requirement.source_end,
+        source_text=requirement.source_text,
+        detail="Final-solid bore void, material clearance and through/blind termination; isolated Cartesian bore contract only",
+    )
+
+
 def verify_exact_requirements(
     document: RequirementIR,
     program: FeatureProgram,
@@ -418,6 +539,7 @@ def verify_exact_requirements(
     binding_set: RequirementBindingSet,
     *,
     exact_measurements_mm: dict[str, float] | None = None,
+    final_geometry_measurements: dict[str, dict[str, Any]] | None = None,
 ) -> ExactRequirementVerification:
     errors: list[RequirementIssue] = list(validate_binding_set(binding_set))
     validation = validate_requirement_ir(document)
@@ -489,6 +611,12 @@ def verify_exact_requirements(
                     )
                 elif requirement.verification == "kernel_validity":
                     check = _kernel_validity_check(requirement, binding, inspection)
+                elif requirement.verification == "geometric_relation":
+                    if binding.probe.get("kind") == "output_cylindrical_hole":
+                        evidence = (final_geometry_measurements or {}).get(requirement.id)
+                        check = _output_bore_check(requirement, binding, program, evidence)
+                    else:
+                        check = _output_aggregate_check(requirement, binding, program, inspection)
                 else:
                     check = _feature_history_check(requirement, binding, program)
             except RequirementBindingError as exc:

@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-15T14:46:22.281058+00:00",
+  "status": "PASS",
+  "checks": {
+    "unchanged_parent_core/conversational_parser.py": true,
+    "unchanged_parent_core/conversation_quantities.py": true,
+    "tested_candidate_core/conversational_parser.py": true,
+    "tested_candidate_tests/test_directional_quantities.py": true,
+    "frozen_files_unchanged": true,
+    "111_passed": true,
+    "lint_pass": true,
+    "guard_pass": true
+  },
+  "protected_files": 58,
+  "mismatches": [],
+  "scope": "Source/receipt integrity, not native or independent research validation"
+}

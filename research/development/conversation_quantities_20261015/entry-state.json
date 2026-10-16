@@ -1,0 +1,471 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-15",
+  "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
+  "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
+  "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
+  "repository": "THE-BU1LD/NeuroCAD",
+  "base_commit": "a984cb98312607ba4f295f981e493be87b1f08c6",
+  "development_branch": "codex/revision-research-v1-20261014",
+  "phase": "RECOVERY_V2_CONCEPT_AND_FEASIBILITY_REVIEW",
+  "research_question": "Can an independently scored matched-candidate revision study distinguish requirement omissions from checker and acceptance-policy failures?",
+  "scientific_objective": "Establish a defensible successor contribution and valid measurement before new model implementation or scientific execution.",
+  "current_hypothesis": "A correct checker can accept an incomplete interpretation. The practical effect of omission on independent correctness and useful acceptance is not yet measured.",
+  "intended_contribution_this_revision": "Primary-source novelty audit, retained-evidence recount, corrected state routing, explicit candidate study contract and checkpoint/flaw checklist. No novel-model or experimental-success claim.",
+  "scope": {
+    "current_session": "Bounded concept review and evidence integrity only",
+    "implementation_changes": false,
+    "study_outcome": "NOT_EVALUATED",
+    "predecessor_disposition": "MIXED; terminal and not reopened",
+    "earlier_scope_preserved_in": "research/successors/revision_research_v1/entry_state.json"
+  },
+  "historical_disposition": "EVIDENCE_PARTIAL; historical typed-parser causal claim remains falsified.",
+  "terminal_research_disposition": null,
+  "scientific_checkpoint_change": "Successor checkpoint 1 NOT_READY; no scientific checkpoint advanced. Prior engineering and predecessor checkpoint records retain their dated scope.",
+  "protected_evaluation": {
+    "boundary": "No external challenge outcomes exist in the referenced truth record. This uses authored geometry regression fixtures, not independent scientific confirmation. Existing source-bound controlled run and frozen protocols are unchanged.",
+    "protected_outcome_accesses": 0,
+    "protected_runs": 0
+  },
+  "development_budget": {
+    "contract": "research/successors/revision_research_v1/CONTRACT.json",
+    "scope": "Concept review and lightweight retained-evidence audit only",
+    "training_runs": 0,
+    "paid_provider_calls": 0,
+    "protected_runs": 0,
+    "prior_budgets_reopened": false
+  },
+  "datasets_and_splits": {
+    "new_scientific_dataset": null,
+    "authority": "Applicable referenced frozen protocol; no dataset version or split is silently replaced.",
+    "fixtures": "Analytically specified or generated test fixtures, identified by hashed test source.",
+    "current_successor": "No independent dataset, labels or frozen split exists. Existing 32 authored cases across two contexts are observed development data."
+  },
+  "artifacts": {
+    "historical_records": [
+      "RESEARCH_TRUTH.md",
+      "research/protocols/EXTERNAL_EVALUATION_V0.md",
+      "research/protocols/FROZEN_CONFIRMATORY_V1.md"
+    ],
+    "development_note": "research/DEVELOPMENT_MESH_SCALE_INVARIANCE_20261010.md",
+    "verification_receipt": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+    "integration_note": "docs/INTEGRATED_NUMERICAL_GEOMETRY_20261010.md",
+    "integration_verification": "research/verification/numerical-integration-20261010/receipt.json",
+    "current_successor": "research/successors/revision_research_v1/CHECKLIST.md",
+    "entry_state_snapshot": "research/successors/revision_research_v1/entry_state.json"
+  },
+  "baseline_failures_preserved": {
+    "new_suite_tests": 23,
+    "failed_on_base": 14,
+    "passed_on_base": 9,
+    "qualification": "Failures include incorrect reported normalization scale as well as geometry/overflow failures; not all 14 are false intersection verdicts.",
+    "environment_failure": "An initial broader run could not import jsonschema. Isolated dependencies were installed and the four targeted test files then passed.",
+    "final_regression_receipt": "research/verification/mesh_scale_invariance_20261010/base_receipt.json",
+    "final_suite_counts_on_base": {
+      "failed": 14,
+      "passed": 9
+    }
+  },
+  "decisions": [
+    {
+      "date": "2026-10-10",
+      "observation": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "hypothesized_cause": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "change": "Normalize by actual maximum mesh extent, center with half-weighted extrema, and reject zero or unrepresentable extent before geometric predicates.",
+      "predicted_consequence": "Four analytically chosen intersection/nonintersection fixtures preserve their verdict from 1e-180 to 1e160; a representable mesh near 1e308 can be centered without overflow.",
+      "discriminating_experiment": "Compare the new regression fixtures with the original base source, then run relevant existing checks.",
+      "result": "See retained verification receipt; no efficacy result is inferred."
+    },
+    {
+      "date": "2026-10-10",
+      "observation": "Four independent numerical/geometry candidates needed combined validation. Review found an integer-to-float conversion that reported residual zero for an integer equation whose true residual is one.",
+      "hypothesized_cause": "The conversion erased integer identity before the existing floating residual calculation.",
+      "change": "Merge all four histories, then inspect original integer scalars for exact float64 representation and reject lossy conversion. Preserve exactly representable large integers.",
+      "predicted_consequence": "The formerly false-zero cases fail explicitly while exact large-integer controls and existing numerical/geometry behavior remain supported.",
+      "discriminating_experiment": "Retained predecessor regressions, focused numerical tests and the full maintained product suite.",
+      "result": "See the integration verification receipt and exact-revision hosted checks; no scientific efficacy outcome is inferred."
+    },
+    {
+      "date": "2026-10-10",
+      "observation": "Interval(1e-310,1e-310) divided by itself raises ValueError even though its exact quotient is one.",
+      "hypothesized_cause": "Constructing the standalone reciprocal overflows before multiplication by the small numerator.",
+      "change": "Round the minimum and maximum of the four direct endpoint quotients outward. Keep zero-containing divisors and nonfinite enclosure endpoints rejected.",
+      "predicted_consequence": "Finite subnormal ratios enclose their exact rational results; ordinary controls and prior rejection boundaries remain valid.",
+      "discriminating_experiment": "Exact-rational endpoint tests on both original and integrated parent source, plus maintained numerical tests.",
+      "result": "See research/ENGINEERING_INTERVAL_DIVISION_20261010.json; no scientific outcome inferred."
+    },
+    {
+      "date": "2026-10-14",
+      "observation": "Current authored diagnostic remains 11/20 semantic exact. New primary-source review found direct overlap for proposed verification/preservation mechanisms; current top-level state still pointed at completed work.",
+      "hypothesized_cause": "Bounded grammar and absent history explain specific unsupported categories; no matched SOTA diagnosis exists. Independent measurement and a distinct contribution are absent.",
+      "change": "Preserve entry-state snapshot, reconcile routing and record four candidate decisions plus a falsifiable independent-oracle study design. Do not implement a speculative research model.",
+      "predicted_consequence": "Future sessions can distinguish finished engineering, terminal science and unresolved successor gates without retuning observed cases as protected evidence.",
+      "discriminating_experiment": "Future independent project-clustered, matched-candidate study after domain/oracle/comparator/statistical freeze; not executed.",
+      "result": "Concept review NOT_READY; retained receipt hashes and count recount PASS. No positive or negative successor experiment claimed."
+    }
+  ],
+  "claim_evidence": [
+    {
+      "claim": "Make normalized triangle-intersection geometry invariant to representable physical scale and robust to large finite translations.",
+      "evidence_scope": "Engineering only",
+      "raw_artifact": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+      "analysis": "Analytic regression assertions and independent source review",
+      "figure_or_table": "No scientific figure or table generated"
+    },
+    {
+      "claim": "Original integer matrix/rhs/solution values cannot silently round into a false-zero residual via float64 admission.",
+      "evidence_scope": "Engineering input admission; floating arithmetic remains finite precision.",
+      "raw_artifact": "research/verification/numerical-integration-20261010/integer-baseline-receipt.json",
+      "analysis": "Independent review, analytically specified invalid equations and exactly representable large-integer controls.",
+      "figure_or_table": "No scientific figure or table generated"
+    },
+    {
+      "claim": "Retained authored language result is 11/20 valid requests and 12/12 fail-closed rejection cases across two contexts.",
+      "evidence_scope": "Same-agent retained-output arithmetic and hash verification; no fresh model execution",
+      "raw_artifact": "docs/verification/verified-intent-20261014/candidate-artifacts/conversation-python-3.12.14/language-intent-evaluation/results.jsonl",
+      "analysis": "research/successors/revision_research_v1/AUDIT.json",
+      "figure_or_table": "research/successors/revision_research_v1/CHECKLIST.md"
+    }
+  ],
+  "independent_review": {
+    "status": "COMPLETED",
+    "scope": "Independent agent source and regression-test review; no human peer-review claim",
+    "date": "2026-10-10"
+  },
+  "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization. Linear diagnostics reject integer values not exactly representable in float64; they cannot recover precision already lost upstream or supply arbitrary-precision residual arithmetic.",
+  "next_required_work": [
+    "Existing output-geometry candidate 941eed7 remains pending explicit destination/payload approval and exact-source native/full verification; do not duplicate it or infer merge/release.",
+    "Resolve whether the independent-oracle revision study adds a contribution beyond CIT-CAD, CADTests and constraint-preserving editing literature; do not infer novelty from this bounded search.",
+    "Identify independently authored project cases and separate adjudication, supported domain, runnable comparators, practical effect and precision target before passing successor checkpoints 1-3.",
+    "Use a new bounded engineering contract for any parser improvements; already observed diagnostic cases remain development only.",
+    "Collect the existing workstreams' calibrated physical measurements, independent reproduction and intended-user evidence; recover authentic missing logs where possible.",
+    "Before native execution, recheck stable resource headroom and ownership; no heavy admission in this session."
+  ],
+  "integration_parents": [
+    "982eafb1665a9c31868cfcfda7c75571885c2cd8",
+    "6b3c27f0b07732b7b61dc83035ec2282d7ac2ff5",
+    "c906105907cdd710b717d04d5d75b95ec3cac54a",
+    "e87726d3c7efe575e697770cbba5a064ec371e35"
+  ],
+  "engineering_validation": {
+    "status_at_commit": "LOCAL_NUMERICAL_CHECKS_PASS; TWO_FULL_SUITE_SOCKET_PERMISSION_FAILURES_RETAINED",
+    "source_receipt": "research/verification/numerical-integration-20261010/receipt.json",
+    "hosted_results": "Consult the integration pull request checks for the exact source revision; no local test failure is suppressed.",
+    "environment_issues": [
+      "Initial missing jsonschema dependency resolved in isolated project/dev environment.",
+      "AF_UNIX socket creation denied locally; unchanged daemon cases remain required in hosted CI."
+    ],
+    "formatting_note": "Imported mesh and polynomial test blank lines corrected after full-suite execution; both AST identities preserved. Source/document whitespace checks exclude unchanged raw traceback whitespace."
+  },
+  "current_followup": "research/successors/revision_research_v1/CHECKLIST.md",
+  "engineering_followups": [
+    {
+      "date": "2026-10-10",
+      "parent_commit": "30cffcdd8881b60445355faffcd5752ef51aa32e",
+      "branch": "codex/neurocad-finite-interval-division-20261010",
+      "record": "research/ENGINEERING_INTERVAL_DIVISION_20261010.json",
+      "scope": [
+        "core/scientific_kernel.py:Interval.__truediv__",
+        "tests/test_interval_division.py"
+      ],
+      "scientific_outcomes_created": false,
+      "independent_review": "completed; independent 48-case exact-rational check passed; source hash in follow-up record"
+    }
+  ],
+  "engineering_sessions": [
+    {
+      "id": "finite_monte_carlo_20261010",
+      "contract": "research/development/finite_monte_carlo_20261010/contract.json",
+      "parent_state": "research/development/finite_monte_carlo_20261010/parent_state.json",
+      "status": "CLOSED",
+      "started_utc": "2026-10-10T09:51:35.070969+00:00",
+      "prior_budgets_reopened": false,
+      "closed_utc": "2026-10-10T10:15:05.015812+00:00",
+      "closure": "research/development/finite_monte_carlo_20261010/closure.json",
+      "closure_sha256": "27368f52fbe2d4d03a3acc66335d26df03d8ce4948b7b1e077fa15a25c3454ee",
+      "documentation": "research/FINITE_MONTE_CARLO_20261010.md",
+      "engineering_result": "NUMERICAL_CORRECTION_VERIFIED",
+      "budget_use": {
+        "test_commands": 2,
+        "test_wall_seconds": 2.699215759013896,
+        "demo_commands": 1,
+        "demo_wall_seconds": 0.961078781998367,
+        "lint_commands": 1,
+        "lint_wall_seconds": 0.10311767700477503,
+        "repair_cycles": 0,
+        "new_regression_cases": 21,
+        "final_selected_passed": 63,
+        "independent_review_execution_commands": 0,
+        "protected_outcome_accesses": 0,
+        "paid_compute": 0,
+        "scientific_runs": 0
+      },
+      "scientific_checkpoint_advanced": false,
+      "historical_disposition_preserved": true,
+      "protected_boundary_unchanged": true,
+      "new_session_required_before_further_execution": true
+    },
+    {
+      "id": "portable_sample_stdev_20261010",
+      "status": "CLOSED_WITH_BUDGET_DEVIATION",
+      "started_utc": "2026-10-10T10:29:29.193834+00:00",
+      "parent_commit": "a7d3c2e6176f61714bebf523033508a38a9323d5",
+      "contract": "research/development/portable_sample_stdev_20261010/contract.json",
+      "parent_state": "research/development/portable_sample_stdev_20261010/parent_state.json",
+      "prior_budgets_reopened": false,
+      "closed_utc": "2026-10-10T10:41:36.340635+00:00",
+      "closure": "research/development/portable_sample_stdev_20261010/closure.json",
+      "closure_sha256": "e899ecd2ce80f4d508d96d30acf698fc7982b36636d883f7cccac31d7da99992",
+      "documentation": "research/PORTABLE_SAMPLE_STDEV_20261010.md",
+      "engineering_result": "PORTABLE_NUMERICAL_CORRECTION_VERIFIED_ON_DECLARED_ENGINEERING_CASES",
+      "budget_use": {
+        "test_commands": 2,
+        "test_wall_seconds": 3.553595003002556,
+        "maximum_test_commands": 3,
+        "maximum_test_wall_seconds": 90,
+        "new_cases": 30,
+        "maximum_new_cases": 32,
+        "maximum_samples_per_new_case": 4,
+        "declared_unqualified_sample_cap_per_case": 32,
+        "maximum_samples_argument_in_inherited_case": 20000,
+        "samples_in_largest_inherited_case": 40000,
+        "sample_cap_satisfied": false,
+        "command_time_and_new_case_caps_satisfied": true,
+        "lint_commands": 1,
+        "lint_wall_seconds": 0.1678114770038519,
+        "new_demonstration_commands": 0,
+        "review_repair_cycles": 0,
+        "training_runs": 0,
+        "protected_outcomes": 0,
+        "paid_workloads": 0,
+        "scientific_runs": 0
+      },
+      "deviations": [
+        {
+          "classification": "ENGINEERING_BUDGET_DEVIATION",
+          "detected_during": "closure audit after the final selected gate",
+          "cause": "The prospective contract selected the complete inherited63-case cohort but also specified an unqualified32-sample ceiling. One unchanged inherited seeded regression makes two20000-sample calls.",
+          "affected_test": "tests/test_scientific_kernel.py::test_monte_carlo_is_seeded_and_matches_linear_reference",
+          "actual_samples_per_call": 20000,
+          "calls": 2,
+          "total_samples": 40000,
+          "contract_rewritten": false,
+          "numerical_evidence_valid": true,
+          "scientific_or_protected_outcomes": false,
+          "corrective_disposition": "Preserve the contract, actual command and passing evidence; close with deviation. No rerun or post-hoc redefinition of the cap. Future contracts must enumerate inherited workload exceptions prospectively."
+        }
+      ],
+      "scientific_checkpoint_advanced": false,
+      "protected_boundary_unchanged": true,
+      "historical_disposition_preserved": true,
+      "new_session_required_before_further_execution": true
+    },
+    {
+      "id": "integration_20261014",
+      "status": "CLOSED_BOUNDED_PASS_WITH_LATER_COVERAGE_DEFECT",
+      "source_base": "a7a83d1",
+      "authorization": "User: find all the work to do and do it",
+      "scope": "Combine existing fixes, resolve contracts, run hosted compatibility and installed conformance; reconcile stale work records.",
+      "budget": {
+        "hosted_attempts_per_workflow": 4,
+        "new_provider_calls": 0,
+        "physical_experiments": 0,
+        "protected_outcomes": 0,
+        "inherited_seeded_engineering_regression_samples": 40000
+      },
+      "prior_budgets_reopened": false,
+      "started_utc": "2026-10-14T11:59:57.485793+00:00",
+      "hosted_attempts_per_workflow_used": 3,
+      "tested_commit": "e71b63c829f02ed2950dea12912dd4149056904a",
+      "later_discovery": "Four-point circular stress samples miss biaxial extrema. Original receipts preserved; separately scoped successor begun."
+    },
+    {
+      "id": "shaft_biaxial_20261014",
+      "status": "CLOSED_MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+      "contract": "research/development/shaft_biaxial_20261014/contract.json",
+      "baseline": "research/development/shaft_biaxial_20261014/baseline.json",
+      "budget": {
+        "hosted_attempts_per_workflow": 3,
+        "local_pure_function_baseline": 1,
+        "local_pure_function_corrected": 1,
+        "new_training_or_provider_runs": 0
+      },
+      "scientific_checkpoint_advanced": false,
+      "v4_tested_commit": "9231aab6402d1ea95ff867d038652fb5694bd2f7",
+      "v4_matrix": 38564024326,
+      "v4_conformance": 38564015307,
+      "v4_native": 38564024276,
+      "current_contract": "research/physics_v3/validation_v5/freeze.json",
+      "supplementary_contract": "research/development/composite_polygon_reference_20261014/contract.json",
+      "ligament_failure": "research/development/single_hole_ligament_20261014/baseline_and_contract.json",
+      "remaining_hosted_attempts_per_workflow": 2,
+      "current_status_authority": "GitHub checks for codex/neurocad-composite-final-20261014 and retained final receipts; do not infer outcomes from this pre-execution commit.",
+      "closed_at": "2026-10-14T12:50:09.899036+00:00",
+      "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+      "receipt": "docs/verification/composite-final-20261014/REPORT.md",
+      "hosted_matrix_attempts_used": 3,
+      "conformance_attempts_used_including_duplicate_push": 3
+    },
+    {
+      "id": "native_acceptance_20261014",
+      "status": "FINAL_CANDIDATE_PENDING",
+      "contract": "research/development/native_acceptance_20261014/contract.json",
+      "started_at": "2026-10-14T13:18:08.881397+00:00",
+      "prior_budgets_reopened": false,
+      "discovered_followup": "research/development/result_timing_v2_20261014/contract_and_baseline.json",
+      "hosted_attempts_used": 4,
+      "retained_failures": [
+        "attempt-1: platform Python setup and wrong OCP distribution metadata name",
+        "attempt-2: Windows canonical JSON newline/hash mismatch",
+        "attempt-4: Windows checkout line-end conversion refused by exact historical preservation guard"
+      ],
+      "new_provenance_discrepancy": "NC-REPRO-508EC40: 1211 matching present artifacts; logs/run.log missing; v1 digest contains ten timing values.",
+      "tested_candidate": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
+      "native_run": 38573309209,
+      "full_matrix": 38573309121,
+      "interop": 38573308981,
+      "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+      "final_integration_contract": "research/development/native_acceptance_20261014/final-integration-contract.json"
+    },
+    {
+      "id": "verified_intent_20261014",
+      "status": "MERGED_MAIN_VERIFIED_BOUNDED_ENGINEERING",
+      "contract": "research/development/verified_intent_20261014/contract.json",
+      "baseline": "research/development/verified_intent_20261014/baseline.json",
+      "verification": "research/development/verified_intent_20261014/local-verification.json",
+      "source_base": "0a4ce929c71b767e59822faf2a04546e324fe411",
+      "prior_budgets_reopened": false,
+      "scientific_checkpoint_advanced": false,
+      "implemented": [
+        "Requirement IR malformed types and explicit empty feature universe",
+        "Project finite-number overflow boundary",
+        "Frozen-context language scoring and versioned portable sealed reports",
+        "Matched paired report comparison with score recomputation"
+      ],
+      "remaining": [
+        "Separate final-geometry predicate successor",
+        "Broader language coverage: 11/20 authored valid intents matched",
+        "External benchmark/data/provider budget",
+        "Physical, independent reproduction and intended-user evidence"
+      ],
+      "plan": "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md",
+      "closed_utc": "2026-10-14T16:32:17.610956+00:00",
+      "candidate_commit": "8a3ed572fd204674fa2f9c5315f7fc610d6fa730",
+      "main_commit": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+      "receipt": "docs/verification/verified-intent-20261014/SUMMARY.json",
+      "hosted_attempts_per_workflow_used": 1,
+      "post_merge_ci_used": 1
+    }
+  ],
+  "latest_engineering_session": "verified_intent_20261014",
+  "latest_engineering_read_order": [
+    "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md",
+    "docs/verification/verified-intent-20261014/SUMMARY.json",
+    "docs/V3_READINESS_CHECKLIST.json"
+  ],
+  "readiness_checklist": {
+    "date": "2026-10-14",
+    "manifest": "docs/V3_READINESS_CHECKLIST.json",
+    "audit": "scripts/audit_v3_readiness.py",
+    "status": "IMPLEMENTED_NATIVE_MERGE_RECONCILED_EXTERNAL_AND_RELEASE_GATES_OPEN",
+    "tests": 13,
+    "production_changes": false,
+    "prior_failures_preserved": true,
+    "native_merge": "0bef391d210b8df1c871f5f250cf011012728e64"
+  },
+  "active_research_session": {
+    "id": "recovery_research_v2_20261015",
+    "contract": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/research/successors/recovery_research_v2_20261015/CONTRACT.json",
+    "status": "CONCEPT_AND_FEASIBILITY_REVIEW_ACTIVE",
+    "at": "2026-10-15T13:57:15.485284+00:00",
+    "prior_budgets_reopened": false
+  },
+  "research_session_history": [
+    {
+      "date": "2026-10-14",
+      "event": "Opened bounded successor concept review; no predecessor budget reopened.",
+      "entry_snapshot": "research/successors/revision_research_v1/entry_state.json"
+    },
+    {
+      "at": "2026-10-14T16:53:40.618766+00:00",
+      "event": "Closed bounded concept review without starting model implementation or scientific execution. Checkpoint 1 NOT_READY; predecessor MIXED unchanged. Independent data/novelty and local resource gates remain unresolved.",
+      "report": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    {
+      "at": "2026-10-14T16:57:08.950491+00:00",
+      "event": "Reconciled separately prepared output-geometry candidate and three additional primary sources from its audit. Its source/budget/approval block are unchanged; candidate D remains conditional."
+    },
+    {
+      "id": "recovery_research_v2_20261015",
+      "contract": "/Volumes/PRO-BLADE/GitHubRepos/Personal-Research/NeuroCAD/research/successors/recovery_research_v2_20261015/CONTRACT.json",
+      "status": "CONCEPT_AND_FEASIBILITY_REVIEW_ACTIVE",
+      "at": "2026-10-15T13:57:15.485284+00:00",
+      "prior_budgets_reopened": false
+    }
+  ],
+  "current_engineering_identity": {
+    "main_commit": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+    "receipt_branch_commit": "a984cb98312607ba4f295f981e493be87b1f08c6",
+    "pull_request": 112,
+    "receipt": "docs/verification/verified-intent-20261014/SUMMARY.json",
+    "source_unchanged_this_session": true,
+    "historical_issues_64_65": "Closed by merged PR110; removed from current next-work routing only."
+  },
+  "state_roles": {
+    "canonical_session_entry": "research/RESEARCH_STATE.json",
+    "root_RESEARCH_STATE": "Historical product/physics ledger retained; no competing current session status",
+    "physics_v2_v3_states": "Version-specific scientific authorities; unchanged",
+    "entry_snapshot": "research/successors/revision_research_v1/entry_state.json"
+  },
+  "current_successor_checkpoints": {
+    "1": {
+      "status": "NOT_READY",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "2": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "3": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "4": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "5": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "6": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "7": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "8": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "9": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    },
+    "10": {
+      "status": "BLOCKED_BY_PREVIOUS_GATE",
+      "evidence": "research/successors/revision_research_v1/CHECKLIST.md"
+    }
+  },
+  "concurrent_engineering": {
+    "index": "research/successors/revision_research_v1/CONCURRENT_ENGINEERING.json",
+    "candidate_commit": "941eed7093b4cdc2e30db7b686b1330a6c8fa06a",
+    "status": "LOCAL_CHECKS_PASS_HOSTED_BLOCKED_APPROVAL",
+    "reported_focused_tests_passed": 86,
+    "native_and_full_checks": "NOT_RUN",
+    "novelty": "NOT_ESTABLISHED",
+    "source_and_budget_preserved": true
+  }
+}

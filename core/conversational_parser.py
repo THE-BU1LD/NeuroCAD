@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import hashlib
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any
 
+from .conversation_quantities import MEASURE, UNIT, UNITS, adjusted_value, canonical_number, diameter_from_radius, millimeters
 from .edit_language import EditInterpretationError, edit_project_from_text
 from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, semantic_diff, serialize_project
 
@@ -16,11 +17,160 @@ SCALARS = {
     "corner radius": "corner_radius_mm", "lid thickness": "lid.thickness_mm",
     "lid clearance": "lid.clearance_mm", "lid lip height": "lid.lip_height_mm",
 }
-UNITS = {"mm": 1.0, "millimeter": 1.0, "millimeters": 1.0, "millimetre": 1.0,
-         "millimetres": 1.0, "cm": 10.0, "centimeter": 10.0, "centimeters": 10.0,
-         "centimetre": 10.0, "centimetres": 10.0, "in": 25.4, "inch": 25.4, "inches": 25.4}
-UNIT = "|".join(sorted(UNITS, key=len, reverse=True))
-MEASURE = rf"(?P<value>\d+(?:\.\d+)?)\s*(?P<unit>{UNIT})"
+_SCALAR_NOUN = r"floor|walls?(?: thickness)?|" + "|".join(re.escape(name) for name in SCALARS if name != "wall thickness")
+_NOUN = rf"(?P<noun>{_SCALAR_NOUN})"
+_SCALAR_SET = re.compile(rf"(?:(?P<set_verb>make|set|change|increase|decrease)\s+)?(?:the\s+)?{_NOUN}\s+(?:(?P<relation>to|at|be|like|should be)\s+)?{MEASURE}(?:\s+thick)?")
+_SCALAR_DELTA = re.compile(rf"(?P<verb>add|subtract)\s+{MEASURE}\s+(?P<direction>to|from)\s+(?:the\s+)?{_NOUN}")
+_SCALAR_BY = re.compile(rf"(?P<verb>increase|decrease)\s+(?:the\s+)?{_NOUN}\s+by\s+{MEASURE}")
+_CORRECTION = re.compile(rf"{MEASURE}(?:\s+thick)?")
+_RADIUS = re.compile(rf"(?:make|set|change)\s+(?:the\s+)?(?P<id>[a-z0-9_-]+)\s+(?:hole|cutout)\s+radius\s+(?:to\s+)?{MEASURE}")
+_SPLITTER = re.compile(r"[;,\n]+|\b(?:and|but)\b|\b(?:no\s+)?actually\b", re.IGNORECASE)
+_TYPOS = {"dont": "don't", "wals": "walls", "thikness": "thickness", "thicknes": "thickness",
+          "milimeters": "millimeters", "millimetres": "millimeters"}
+_TYPO_PATTERN = re.compile(r"\b(?:" + "|".join(_TYPOS) + r")\b")
+_PREFIX = re.compile(r"^(?:(?:okay|ok|please|uh|um|just)\s+)+")
+_SUFFIX = re.compile(r"\s+please$")
+_PRESERVE_OUTSIDE = re.compile(r"(?:keep|preserve|don't (?:change|move|resize)) (?:the )?(?:outside|outer boundary|external boundary|outside dimensions)(?: (?:the )?(?:same|unchanged|fixed))?")
+_PRESERVE_HOLES = re.compile(r"(?:keep|preserve|don't (?:change|move|remove|lose)) (?:the |that |all )?(?:holes?|cutouts?)(?: (?:the )?(?:same|unchanged|fixed))?")
+_PRESERVE_SCALAR = re.compile(
+    rf"(?:keep|preserve|(?:don't|do not) (?:change|modify|adjust)) (?:the )?(?P<noun>floor|{_SCALAR_NOUN})"
+    r"(?: (?:the )?(?:same|unchanged|fixed))?"
+)
+_REJECTED_VALUE = re.compile(rf"not\s+{MEASURE}\s+{_NOUN}")
+_ANAPHOR_SET = re.compile(rf"(?:make|set|change)\s+(?:it|them)\s+(?:(?:to|at|be)\s+)?{MEASURE}(?:\s+thick)?")
+_ONLY = re.compile(r"only\s+")
+_SIZE = re.compile(
+    rf"(?:resize|make|set) (?:the |that )?(?:enclosure|box|case)(?: to)? "
+    rf"(?P<w>\d+(?:\.\d+)?)\s*(?P<wu>{UNIT})?\s*[x×]\s*"
+    rf"(?P<d>\d+(?:\.\d+)?)\s*(?P<du>{UNIT})?\s*[x×]\s*"
+    rf"(?P<h>\d+(?:\.\d+)?)\s*(?P<hu>{UNIT})"
+)
+
+
+_REMAINDER = re.compile(r"(?:leave|keep|preserve) (?:all )?(?:the )?(?:other|remaining) (?:bits|fields|properties|dimensions)(?: (?:alone|unchanged|fixed))")
+_EXTERNAL_SIZE = re.compile(r"(?:same external size|(?:keep|preserve) (?:the )?external size(?: (?:the )?same)?)")
+_GOAL = re.compile(r"(?:i (?:need|want) it|make it) (?:sturdier|stronger|lightweight|lighter)")
+_REFERENCE = re.compile(rf"(?:make|set|change) (?:that|it) (?:to )?{MEASURE}(?: instead)?")
+_CONTEXT = re.compile(rf"(?:we are|we're|i am) (?:changing|editing|discussing) (?:the )?(?:enclosure )?{_NOUN}[.!]?")
+_SEQUENCE = re.compile(_SCALAR_SET.pattern, re.IGNORECASE)
+
+
+def _split_scalar_sequence(source: str, start: int, end: int) -> list[tuple[int, int]]:
+    """Split only completely consumed adjacent scalar clauses; retain original offsets."""
+    cursor = start
+    spans = []
+    while cursor < end:
+        while cursor < end and source[cursor].isspace():
+            cursor += 1
+        if cursor == end:
+            break
+        match = _SEQUENCE.match(source, cursor, end)
+        if match is None or (match.end() < end and not source[match.end()].isspace()):
+            return [(start, end)]
+        spans.append((cursor, match.end()))
+        cursor = match.end()
+    return spans if len(spans) > 1 else [(start, end)]
+
+
+def bind_history(project: EnclosureProject, messages: list[str]) -> dict[str, Any]:
+    """Caller asserts these past messages belong to this exact baseline revision."""
+    if (not isinstance(messages, list) or len(messages) > 10
+            or any(not isinstance(item, str) or not item.strip() or len(item) > 2048 for item in messages)):
+        raise ValueError("History requires at most ten nonempty messages of at most 2048 characters")
+    return {"version": "neurocad-local-history-v1", "baseline_sha256": context_hash(project), "messages": list(messages)}
+
+
+def _history_target(history: dict[str, Any] | None, project: EnclosureProject) -> str | None:
+    if history is None:
+        return None
+    if (not isinstance(history, dict) or set(history) != {"version", "baseline_sha256", "messages"}
+            or history != bind_history(project, history["messages"])):
+        raise ValueError("History must be explicitly bound to the current project revision")
+    targets = set()
+    for message in history["messages"]:
+        match = _CONTEXT.fullmatch(message.strip().lower())
+        if match is None:
+            return None
+        targets.add(_scalar_name(match.group("noun")))
+    return next(iter(targets)) if len(targets) == 1 else None
+
+
+@dataclass(frozen=True)
+class _QuantityEdit:
+    instruction: str
+    label: str | None
+    value_mm: float
+    relative: bool = False
+    direction: str | None = None
+
+
+def _scalar_name(noun: str) -> str:
+    if noun.startswith("wall"):
+        return "wall thickness"
+    return "floor thickness" if noun == "floor" else noun
+
+
+def _scalar_value(project: EnclosureProject, label: str) -> float:
+    current: Any = project.spec
+    for key in SCALARS[label].split("."):
+        current = getattr(current, key)
+    return float(current)
+
+
+def _check_direction(value: float, current: float, direction: str | None, label: str) -> None:
+    # Check the stored representation, including corrections and sub-resolution deltas.
+    if ((direction == "increase" and value <= current)
+            or (direction == "decrease" and value >= current)):
+        raise ValueError(f"The final value must {direction} the current {label}; clarify the target or direction")
+
+
+def _other_fields(project: EnclosureProject, edited: str) -> list[str]:
+    """ONLY a scalar protects every other specification field, including lid siblings."""
+    baseline = enclosure_spec_to_dict(project.spec)
+    root = edited.split(".")[0]
+    fields = set(baseline) - {"version", "units", root}
+    if "." in edited:
+        fields.update(f"{root}.{name}" for name in baseline[root] if f"{root}.{name}" != edited)
+    return sorted(fields)
+
+
+def _quantity_instruction(text: str, project: EnclosureProject, previous: _QuantityEdit | None) -> _QuantityEdit | None:
+    """Dispatch complete scalar clauses; all outputs still use the shared edit validator."""
+    relative = False
+    match = _SCALAR_SET.fullmatch(text)
+    if match is None:
+        match = _SCALAR_DELTA.fullmatch(text) or _SCALAR_BY.fullmatch(text)
+        relative = match is not None
+    if match:
+        name = _scalar_name(match.group("noun"))
+        value = millimeters(match.group("value"), match.group("unit"))
+        verb = match.group("verb") if relative else match.group("set_verb")
+        current = _scalar_value(project, name)
+        if verb in {"increase", "decrease"} and not relative and match.group("relation") != "to":
+            raise ValueError("Specify a final value with 'to', or an amount of change with 'by'")
+        if relative:
+            direction = match.groupdict().get("direction")
+            if direction is not None and direction != {"add": "to", "subtract": "from"}[verb]:
+                raise ValueError("Use 'add ... to' or 'subtract ... from' with an explicit scalar")
+            value = adjusted_value(current, value, subtract=verb in {"subtract", "decrease"})
+        canonical = canonical_number(value)
+        direction = verb if verb in {"increase", "decrease"} else None
+        _check_direction(float(value), current, direction, name)
+        return _QuantityEdit(f"set {name} to {canonical} mm", name, float(value), relative, direction)
+    if previous and previous.label and (match := _CORRECTION.fullmatch(text)):
+        value = millimeters(match.group("value"), match.group("unit"))
+        canonical = canonical_number(value)
+        _check_direction(float(value), _scalar_value(project, previous.label), previous.direction, previous.label)
+        return _QuantityEdit(f"set {previous.label} to {canonical} mm", previous.label, float(value), direction=previous.direction)
+    if match := _RADIUS.fullmatch(text):
+        identifier = match.group("id").casefold()
+        holes = [hole for hole in project.spec.cutouts if hole.id.casefold() == identifier]
+        if len(holes) != 1 or holes[0].kind != "circular":
+            raise ValueError("Radius requires one uniquely named existing circular cutout")
+        diameter = diameter_from_radius(millimeters(match.group("value"), match.group("unit")))
+        canonical = canonical_number(diameter)
+        return _QuantityEdit(f"set circular cutout {holes[0].id} diameter to {canonical} mm", None, float(diameter))
+    return None
 
 
 def context_hash(project: EnclosureProject) -> str:
@@ -163,36 +313,102 @@ def validate_edit_payload(source: str, project: EnclosureProject, payload: Any, 
                         tuple(unsupported), tuple(payload["acknowledged"]), candidate)
 
 
-def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
+def parse_conversation(source: str, project: EnclosureProject, *, history: dict[str, Any] | None = None) -> EditProposal:
     """Local conservative conversational edits, units, negation and explicit self-correction."""
     if not isinstance(source, str) or not source.strip() or len(source) > MAX_SOURCE:
         raise ValueError(f"source must contain 1 through {MAX_SOURCE} characters")
     payload: dict[str, Any] = {key: [] for key in ("actions", "preserve", "questions", "unsupported", "acknowledged")}
-    splitter = re.compile(r"[;,\n]+|\b(?:and|but)\b|\b(?:no\s+)?actually\b", re.IGNORECASE)
-    cursor, correction, previous_label = 0, False, None
+    history_target = _history_target(history, project)
+    preserve_remainder = []
+    goals = []
+    cursor, correction = 0, False
+    previous: _QuantityEdit | None = None
+    pending_rejection: str | None = None
+    forbidden_values: dict[str, set[float]] = {}
+    seen_labels: set[str] = set()
+    relative_labels: set[str] = set()
     parts = []
-    for delimiter in splitter.finditer(source):
+    for delimiter in _SPLITTER.finditer(source):
         parts.append((cursor, delimiter.start(), correction))
         payload["acknowledged"].append({"reason": "Clause separator or correction marker",
                                        "evidence": _evidence(source, delimiter.start(), delimiter.end())})
         correction = "actually" in delimiter.group().lower()
         cursor = delimiter.end()
     parts.append((cursor, len(source), correction))
+    parts = [(a, b, correcting) for start, end, correcting in parts
+             for a, b in _split_scalar_sequence(source, start, end)]
     for start, end, correcting in parts:
         if not source[start:end].strip():
             continue
         ev = _evidence(source, start, end)
         text = source[start:end].strip().lower().replace("’", "'")
-        for wrong, right in {"dont": "don't", "wals": "walls", "thikness": "thickness", "thicknes": "thickness",
-                             "milimeters": "millimeters", "millimetres": "millimeters"}.items():
-            text = re.sub(rf"\b{wrong}\b", right, text)
-        text = re.sub(r"^(?:(?:okay|ok|please|uh|um|just)\s+)+", "", text).rstrip(".!?")
-        text = re.sub(r"\s+please$", "", text)
-        if re.fullmatch(r"(?:keep|preserve|don't (?:change|move|resize)) (?:the )?(?:outside|outer boundary|external boundary|outside dimensions)(?: (?:the )?(?:same|unchanged|fixed))?", text):
+        text = _TYPO_PATTERN.sub(lambda match: _TYPOS[match.group()], text)
+        text = _PREFIX.sub("", text).rstrip(".!?")
+        text = _SUFFIX.sub("", text)
+        if pending_rejection is None and (reference := _REFERENCE.fullmatch(text)):
+            if history_target is None:
+                payload["questions"].append("Which scalar property does 'that' refer to? Supply one explicit target against this revision.")
+                payload["acknowledged"].append({"reason": "Unresolved history reference", "evidence": ev})
+                continue
+            text = f"{history_target} {reference.group('value')} {reference.group('unit')}"
+        if _REMAINDER.fullmatch(text):
+            preserve_remainder.append(ev)
+            continue
+        if _EXTERNAL_SIZE.fullmatch(text):
+            payload["preserve"].append({"field": "outer_size_mm", "evidence": ev})
+            continue
+        if _GOAL.fullmatch(text):
+            goals.append(ev)
+            payload["acknowledged"].append({"reason": "Design motivation only: no strength, mass or physical performance has been verified", "evidence": ev})
+            continue
+        if re.fullmatch(r"(?:do not|don't) change (?:any )?geometry or material", text):
+            payload["questions"].append("Which design variable may change to meet the objective? Geometry and material are currently fixed.")
+            payload["acknowledged"].append({"reason": "Fixed design variables require objective clarification", "evidence": ev})
+            continue
+        if re.search(r"\bholes?\b", text) and re.search(r"\b(?:some|equally spaced)\b", text):
+            payload["questions"].append("Specify the hole count, diameter, face, spacing and first center position.")
+            payload["acknowledged"].append({"reason": "Incomplete hole layout", "evidence": ev})
+            continue
+        only_match = _ONLY.match(text)
+        only = only_match is not None
+        if only_match:
+            text = text[only_match.end():]
+        quantity = None
+        if pending_rejection is not None:
+            try:
+                if reference := _ANAPHOR_SET.fullmatch(text):
+                    text = f"{pending_rejection} {reference.group('value')} {reference.group('unit')}"
+                quantity = _quantity_instruction(text, project, None)
+                if quantity is None or quantity.label != pending_rejection or quantity.relative:
+                    raise ValueError("A rejected scalar value needs an immediately adjacent explicit replacement for the same target")
+            except ValueError as exc:
+                payload["questions"].append(str(exc))
+                payload["acknowledged"].append({"reason": "Unresolved rejected-value replacement", "evidence": ev})
+                pending_rejection = None
+                continue
+            pending_rejection = None
+        elif not only and (rejection := _REJECTED_VALUE.fullmatch(text)):
+            try:
+                value = millimeters(rejection.group("value"), rejection.group("unit"))
+                canonical_number(value)
+                label = _scalar_name(rejection.group("noun"))
+                forbidden_values.setdefault(label, set()).add(float(value))
+                pending_rejection = label
+                previous = None
+                payload["acknowledged"].append({"reason": "Rejected scalar value; an adjacent replacement is required", "evidence": ev})
+            except ValueError as exc:
+                payload["questions"].append(str(exc))
+                payload["acknowledged"].append({"reason": "Invalid rejected quantity", "evidence": ev})
+            continue
+        if not only and (protection := _PRESERVE_SCALAR.fullmatch(text)):
+            field = SCALARS[_scalar_name(protection.group("noun"))]
+            payload["preserve"].append({"field": field, "evidence": ev})
+            continue
+        if not only and _PRESERVE_OUTSIDE.fullmatch(text):
             fields = ("outer_size_mm",) if "dimensions" in text else ("outer_size_mm", "corner_radius_mm", "cutouts", "vents", "lid")
             payload["preserve"].extend({"field": field, "evidence": ev} for field in fields)
             continue
-        if re.fullmatch(r"(?:keep|preserve|don't (?:change|move|remove|lose)) (?:the |that |all )?(?:holes?|cutouts?)(?: (?:the )?(?:same|unchanged|fixed))?", text):
+        if not only and _PRESERVE_HOLES.fullmatch(text):
             singular = bool(re.search(r"\b(?:hole|cutout)\b", text)) and "all " not in text
             if singular and len(project.spec.cutouts) != 1:
                 payload["questions"].append("Which existing cutout do you mean? Use its feature ID.")
@@ -200,34 +416,42 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
             else:
                 payload["preserve"].append({"field": "cutouts", "evidence": ev})
             continue
-        instruction, label = None, None
-        size_match = re.fullmatch(
-            rf"(?:resize|make|set) (?:the |that )?(?:enclosure|box|case)(?: to)? "
-            rf"(?P<w>\d+(?:\.\d+)?)\s*(?P<wu>{UNIT})?\s*[x×]\s*"
-            rf"(?P<d>\d+(?:\.\d+)?)\s*(?P<du>{UNIT})?\s*[x×]\s*"
-            rf"(?P<h>\d+(?:\.\d+)?)\s*(?P<hu>{UNIT})", text,
-        )
+        instruction: str | None = None
+        edit_label: str | None = None
+        size_match = None if only else _SIZE.fullmatch(text)
         if size_match:
             sizes = [float(size_match.group(axis)) * UNITS[size_match.group(axis + "u") or size_match.group("hu")]
                      for axis in ("w", "d", "h")]
             instruction = f"resize enclosure to {sizes[0]!r} x {sizes[1]!r} x {sizes[2]!r} mm"
-        for name in SCALARS:
-            noun = "(?:walls?(?: thickness)?)" if name == "wall thickness" else re.escape(name)
-            pattern = rf"(?:(?:make|set|change|increase|decrease)\s+)?(?:the\s+)?{noun}\s+(?:(?:to|at|be|like)\s+)?{MEASURE}(?:\s+thick)?"
-            match = re.fullmatch(pattern, text)
-            if match:
-                value = float(match.group("value")) * UNITS[match.group("unit")]
-                instruction, label = f"set {name} to {value!r} mm", name
-                break
-        if instruction is None and correcting and previous_label and (match := re.fullmatch(rf"{MEASURE}(?:\s+thick)?", text)):
-            value = float(match.group("value")) * UNITS[match.group("unit")]
-            instruction, label = f"set {previous_label} to {value!r} mm", previous_label
+        if instruction is None:
+            try:
+                quantity = quantity or _quantity_instruction(text, project, previous if correcting else None)
+                if quantity:
+                    instruction, edit_label, relative = quantity.instruction, quantity.label, quantity.relative
+                    if only and edit_label is None:
+                        raise ValueError("ONLY currently requires one named scalar property")
+                    if edit_label:
+                        if quantity.value_mm in forbidden_values.get(edit_label, set()):
+                            raise ValueError(f"The replacement restores a rejected value for {edit_label}; clarify the final value")
+                        if edit_label in relative_labels or (relative and edit_label in seen_labels):
+                            raise ValueError("Repeated edits involving a relative quantity need one explicit final value")
+                        seen_labels.add(edit_label)
+                        if relative:
+                            relative_labels.add(edit_label)
+                        if only:
+                            protected = {item["field"] for item in payload["preserve"]}
+                            payload["preserve"].extend({"field": field, "evidence": ev}
+                                                       for field in _other_fields(project, SCALARS[edit_label]) if field not in protected)
+            except ValueError as exc:
+                payload["questions"].append(str(exc))
+                payload["acknowledged"].append({"reason": "Unresolved quantity edit", "evidence": ev})
+                continue
         if instruction:
-            if correcting and label == previous_label and payload["actions"]:
+            if correcting and previous and edit_label == previous.label and payload["actions"]:
                 superseded = payload["actions"].pop()
                 payload["acknowledged"].append({"reason": "Superseded by explicit self-correction", "evidence": superseded["evidence"]})
             payload["actions"].append({"instruction": instruction, "evidence": ev})
-            previous_label = label
+            previous = quantity
             continue
         try:
             edit_project_from_text(project, source[start:end].strip())
@@ -239,8 +463,29 @@ def parse_conversation(source: str, project: EnclosureProject) -> EditProposal:
                 payload["unsupported"].append({"reason": "Outside local edit grammar; use a configured language provider or an explicit canonical instruction", "evidence": ev})
         else:
             payload["actions"].append({"instruction": source[start:end].strip(), "evidence": ev})
-            previous_label = None
-    return validate_edit_payload(source, project, payload, interpreter="local-conversation-v1")
+            previous = None
+    if goals and not payload["actions"]:
+        payload["questions"].append("Specify the dimensional edit and measurable objective; physical improvement cannot be inferred.")
+    for ev in preserve_remainder:
+        if not seen_labels or any(not action["instruction"].startswith("set ") for action in payload["actions"]):
+            payload["questions"].append("Name the scalar fields to edit before preserving all other properties.")
+            payload["acknowledged"].append({"reason": "Unresolved preservation scope", "evidence": ev})
+        else:
+            edited = {SCALARS[label] for label in seen_labels}
+            remaining_fields = set.intersection(*(set(_other_fields(project, field)) for field in edited))
+            payload["preserve"].extend({"field": field, "evidence": ev} for field in sorted(remaining_fields))
+    if pending_rejection:
+        payload["questions"].append(f"What exact value and unit should replace the rejected {pending_rejection}?")
+    result = validate_edit_payload(source, project, payload, interpreter="local-conversation-v4")
+    if result.candidate:
+        for label, excluded in forbidden_values.items():
+            if _scalar_value(result.candidate, label) in excluded:
+                payload["questions"].append(f"The final {label} restores an explicitly rejected value")
+        if payload["questions"]:
+            return validate_edit_payload(source, project, payload, interpreter="local-conversation-v4")
+    if history is not None:
+        result = replace(result, provider_metadata={"local_history": history, "live_semantic_accuracy_claim": False})
+    return result
 
 
 def apply_proposal(proposal: EditProposal, project: EnclosureProject, *, confirmed: bool = False) -> EnclosureProject:

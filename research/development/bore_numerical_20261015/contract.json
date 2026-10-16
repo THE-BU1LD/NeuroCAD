@@ -1,0 +1,52 @@
+{
+  "id": "bore_numerical_20261015",
+  "created_at": "2026-10-15T16:56:17.987864+00:00",
+  "kind": "BOUNDED_PRODUCT_INPUT_VALIDATION",
+  "base_commit": "5a5f85074d7d13a413166ed58b2ccfd26f7270f1",
+  "question": "Are all admitted bore probe offsets finite and distinguishable at the declared tolerance before invoking native CAD?",
+  "hypothesis": "Checking derived coordinates, ordered offsets and floating-point spacing rejects collapsed or overflowing geometry before native construction while preserving ordinary controls.",
+  "falsifier": "Any declared collapsed/overflowing geometry is admitted, any invalid probe reaches kernel construction, or valid controls regress.",
+  "scope": [
+    "core/final_geometry.py",
+    "new numerical admission regressions",
+    "retained local evidence"
+  ],
+  "non_goals": [
+    "native kernel accuracy",
+    "scientific novelty",
+    "history/parser changes",
+    "CAD efficacy",
+    "protected evaluation",
+    "publishing"
+  ],
+  "budget": {
+    "baseline_batches": 1,
+    "candidate_batches": 3,
+    "lint_batches": 2,
+    "static_audits": 2,
+    "native": 0,
+    "full": 0,
+    "type": 0,
+    "hosted": 0,
+    "training": 0,
+    "protected": 0
+  },
+  "execution": {
+    "seconds": 20,
+    "max_child_rss_mib": 96,
+    "threads": 1,
+    "heavy_admission": "BLOCKED",
+    "free_speculative_mib": [
+      102.625,
+      97.734375
+    ],
+    "pageouts": [
+      699571,
+      699782
+    ],
+    "swap_used_mib": 13446,
+    "disk_free_gib": 196
+  },
+  "stopping": "Stop after bounded verification or budget exhaustion. Keep all failures and do not reset prior budgets.",
+  "authorization": "User full repair request; existing product maintenance remains distinct from the blocked research contribution gate."
+}

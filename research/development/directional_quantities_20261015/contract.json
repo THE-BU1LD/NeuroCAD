@@ -1,0 +1,60 @@
+{
+  "id": "directional_quantities_20261015",
+  "created_at": "2026-10-15T14:38:48.571275+00:00",
+  "status": "CLOSED_LOCAL_ENGINEERING_PASS_INTEGRATION_PENDING",
+  "kind": "EXISTING_PRODUCT_ENGINEERING",
+  "base_commit": "b12812ac4b652aac01d179ab66f1bc963167ace4",
+  "base_worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015",
+  "canonical_state": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-revision-research-v1/research/RESEARCH_STATE.json",
+  "hypothesis": "The scalar SET grammar admits bare increase/decrease and direction-contradictory TO requests; requiring TO/BY and checking direction against the immutable baseline will avoid opposite-direction proposals.",
+  "initial_observation": "Suspected by source inspection before executable baseline; no outcome claimed.",
+  "scope": [
+    "Review quantity candidate source and retained receipts",
+    "Fail-closed directional scalar edit parsing",
+    "Preserve old evidence and source identities"
+  ],
+  "budget": {
+    "baseline_batches": 1,
+    "candidate_batches": 2,
+    "lint_batches": 1,
+    "integrity_batches": 1,
+    "per_process_seconds": 20,
+    "max_child_rss_mib": 96,
+    "training": 0,
+    "native": 0,
+    "full_suite": 0,
+    "hosted": 0,
+    "protected": 0,
+    "paid": 0
+  },
+  "stopping_rule": "Stop at budget; retain failures. No automatic extensions.",
+  "scientific_gate": "Unchanged Checkpoint 1 BLOCKED; engineering repair only",
+  "resource_gate": {
+    "heavy": "BLOCKED",
+    "free_plus_speculative_mib": [
+      98.296875,
+      133.296875
+    ],
+    "pageouts": [
+      638620,
+      638624
+    ],
+    "disk_gib": 196,
+    "lightweight": "One bounded parser-only process at a time; no native imports/execution, no installation."
+  },
+  "source_strategy": "Small source snapshot and reviewable patch; original dirty checkout and closed quantity candidate remain unchanged until integration is separately verified.",
+  "protected_outcomes_accessed": 0,
+  "budget_used": {
+    "baseline_batches": 1,
+    "candidate_batches": 1,
+    "lint_batches": 1,
+    "integrity_batches": 1,
+    "training": 0,
+    "native": 0,
+    "full_suite": 0,
+    "hosted": 0,
+    "protected": 0,
+    "paid": 0
+  },
+  "report": "REPORT.md"
+}

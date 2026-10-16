@@ -1,0 +1,28 @@
+{
+  "reason": "Original baseline attempt failed entirely at fixture construction (missing required profile); no parser behavior was measured. Preserve it, correct fixture, permit exactly one setup-recovery baseline. User now explicitly requests code quality and efficiency improvements.",
+  "additional_budget": {
+    "fixture_recovery_baseline_batches": 1,
+    "paired_local_microbenchmark_runs": 1
+  },
+  "efficiency_scope": "Compile grammar once and dispatch scalar labels without rebuilding six patterns per clause. Require semantic parity on pre-existing supported cases and report overhead on new capabilities. No scientific outcome or generalization claim.",
+  "benchmark_plan": {
+    "inputs": [
+      "walls 3mm",
+      "set lid clearance to 0.4 mm",
+      "keep the outside same",
+      "make the walls 3mm and keep all holes",
+      "set floor thickness to 2.5mm",
+      "make the power hole radius 3mm",
+      "add one mm to wall thickness"
+    ],
+    "rounds": 5,
+    "repetitions_per_input_per_round": 100,
+    "order": "alternate base/candidate order by round",
+    "seconds_limit": 30,
+    "rss_limit_mib": 160,
+    "warmup": 1,
+    "report": "all per-round times; medians; base/candidate semantics for old cases; new capability cases reported separately"
+  },
+  "protected_runs": 0,
+  "prior_budgets_reset": false
+}

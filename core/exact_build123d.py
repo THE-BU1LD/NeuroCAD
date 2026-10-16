@@ -763,6 +763,18 @@ class Build123dBackend:
         )
         return float(face.outer_wire().distance_to(authorized_wire))
 
+    def _final_geometry_measurements(self, shape: Any, binding_set: RequirementBindingSet) -> dict[str, dict[str, Any]]:
+        from .final_geometry import KIND, measure_bore
+
+        result = {}
+        for binding in binding_set.bindings:
+            if binding.verification == "geometric_relation" and binding.probe.get("kind") == KIND:
+                try:
+                    result[binding.requirement_id] = measure_bore(shape, self.bd, binding.probe)
+                except (ValueError, TypeError, RuntimeError, OverflowError) as exc:
+                    raise Build123dCompileError(f"Cannot measure final bore {binding.requirement_id}: {exc}") from exc
+        return result
+
     def _exact_requirement_measurements(
         self,
         shape: Any,
@@ -1396,6 +1408,7 @@ class Build123dBackend:
                 baseline_step_shape,
                 baseline_binding_set,
             ),
+            final_geometry_measurements=self._final_geometry_measurements(baseline_step_shape, baseline_binding_set),
         )
         if not baseline_recomputed_verification.satisfied_for_all_must:
             raise Build123dCompileError(
@@ -1678,6 +1691,7 @@ class Build123dBackend:
                     roundtrip,
                     binding_set,
                     exact_measurements_mm=exact_measurements_mm,
+                    final_geometry_measurements=self._final_geometry_measurements(imported, binding_set),
                 )
                 requirements_satisfied = requirement_verification.satisfied_for_all_must
                 if not requirements_satisfied:

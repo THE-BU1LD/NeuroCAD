@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="20" skipped="0" tests="43" time="0.564" timestamp="2026-10-15T22:26:28.384824+05:30" hostname="Ryans-Macbook-Air.local"><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p0]" time="0.001"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p1]" time="0.001"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p2]" time="0.000"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p3]" time="0.000"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p4]" time="0.000"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p5]" time="0.000"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p6]" time="0.000"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p7]" time="0.000"><failure message="OverflowError: (34, 'Result too large')">tests/test_bore_numerical_admission.py:33: in test_nonrepresentable_probe_refused
+    validate_probe(p)
+core/final_geometry.py:47: in validate_probe
+    bore_volume = math.pi * (radius - tolerance)**2 * (depth - 2*tolerance)
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p8]" time="0.001"><failure message="OverflowError: (34, 'Result too large')">tests/test_bore_numerical_admission.py:33: in test_nonrepresentable_probe_refused
+    validate_probe(p)
+core/final_geometry.py:48: in validate_probe
+    shell_volume = math.pi * ((radius + clearance)**2 - (radius + tolerance)**2) * (depth - 2*tolerance)
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p9]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p10]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_nonrepresentable_probe_refused[p11]" time="0.000"><failure message="Failed: DID NOT RAISE any of (ValueError, TypeError)">tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p0]" time="0.001"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p1]" time="0.000"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p2]" time="0.001"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p3]" time="0.000"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p4]" time="0.000"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p5]" time="0.000"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p6]" time="0.000"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p7]" time="0.000"><failure message="OverflowError: (34, 'Result too large')">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:73: in measure_bore
+    validate_probe(probe)
+core/final_geometry.py:47: in validate_probe
+    bore_volume = math.pi * (radius - tolerance)**2 * (depth - 2*tolerance)
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p8]" time="0.000"><failure message="OverflowError: (34, 'Result too large')">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:73: in measure_bore
+    validate_probe(probe)
+core/final_geometry.py:48: in validate_probe
+    shell_volume = math.pi * ((radius + clearance)**2 - (radius + tolerance)**2) * (depth - 2*tolerance)
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p9]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p10]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_rejection_precedes_shape_and_kernel_access[p11]" time="0.001"><failure message="AssertionError: Invalid geometry reached native access: is_valid">tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid</failure></testcase><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[0.001--1-x]" time="0.001" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[0.001--1-y]" time="0.001" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[0.001--1-z]" time="0.001" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[0.001-1-x]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[0.001-1-y]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[0.001-1-z]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1--1-x]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1--1-y]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1--1-z]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1-1-x]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1-1-y]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1-1-z]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1000--1-x]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1000--1-y]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1000--1-z]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1000-1-x]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1000-1-y]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_supported_scale_and_axis_controls[1000-1-z]" time="0.000" /><testcase classname="tests.test_bore_numerical_admission" name="test_witnesses_are_actual_float_information_loss" time="0.000" /></testsuite></testsuites>

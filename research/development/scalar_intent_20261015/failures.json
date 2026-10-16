@@ -1,0 +1,12 @@
+[
+  {
+    "attempt": "baseline",
+    "result": "18 failed, 29 passed; all 47 cases collected, no fixture setup errors",
+    "interpretation": "Unsupported phrase/preservation cases plus three direction-losing bare-correction cases; not all failures are unsafe acceptance."
+  },
+  {
+    "attempt": "type-1",
+    "result": "Guard terminated mypy at sampled 98.5 MiB, child peak 98.859375 MiB, above 96 MiB cap",
+    "interpretation": "Type checking incomplete; no successful type-check claim; no retry or raised cap."
+  }
+]

@@ -1,0 +1,254 @@
+{
+  "baseline_unchanged": true,
+  "case_count": 32,
+  "categories": {
+    "ambiguous-reference": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "contradiction": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "feature-edit": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "fragmented-multiple-edits": {
+      "cases": 2,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    },
+    "history-reference": {
+      "cases": 1,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    },
+    "infeasible": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "informal-context": {
+      "cases": 1,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    },
+    "lid-edit": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "missing-dimension": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "missing-layout": {
+      "cases": 1,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    },
+    "missing-unit": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "mixed-units": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "multiple-edits": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "negation": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "negation-correction": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "noop-contradiction": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "number-words": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "preservation": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "prompt-injection": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "protected-conflict": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "radius-versus-diameter": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "relative-edit": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "self-correction": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "underspecified-objective": {
+      "cases": 1,
+      "passed": 0,
+      "unsafe_acceptances": 0
+    },
+    "unique-reference": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "units-and-typos": {
+      "cases": 4,
+      "passed": 4,
+      "unsafe_acceptances": 0
+    },
+    "unknown-clause": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    },
+    "unsupported-physics": {
+      "cases": 1,
+      "passed": 1,
+      "unsafe_acceptances": 0
+    }
+  },
+  "claim_boundary": "Development diagnostics; external provenance declarations alone do not establish independent or confirmatory evaluation",
+  "completed_cases": 32,
+  "dataset_sha256": "22cac9e91a87d99a0ca000acfeed8c14555205eac8f20e93cffb7983dfb2b7e9",
+  "dataset_unchanged": true,
+  "distinct_sources": 32,
+  "execution_policy": {
+    "calls_per_case": 1,
+    "labels_in_context": false,
+    "partial_runs_comparable": false,
+    "runner_retries": 0,
+    "scoring_context": "frozen-project"
+  },
+  "fail_closed_count": 12,
+  "fail_closed_rate": 1.0,
+  "independent_authorship_verified": false,
+  "input_mutation_count": 0,
+  "integrity_valid": true,
+  "live_provider_evaluated": false,
+  "outcomes_observed": true,
+  "parser_sha256": "a864735525a494a66015f707f93ed7b53b8edfc07717f7ae3062f7ec1744f95a",
+  "passed_count": 26,
+  "provenance": {
+    "description": "32 manually annotated assistant-authored development cases across two enclosure contexts. Labels authored by the implementation agent; not independent, held-out, human-adjudicated or confirmatory. No parser tuning to these outcomes within this sprint.",
+    "kind": "constructed-development"
+  },
+  "provider": "local",
+  "provider_adapter_sha256": "ee67fa013568ed4b088fb7f5b383c047766aa1c679365dbaefb8ccd357f8524d",
+  "provider_error_count": 0,
+  "rejection_intent_cases": 12,
+  "scorer_sha256": "3c2c686fd8c563b467fbd45636bef2de4cb3432aa3b6b9af62a0d26697d2eca1",
+  "semantic_exact_count": 16,
+  "semantic_exact_rate": 0.8,
+  "source_identity": {
+    "__init__.py": "0042e60d04907fd080f0898577bcdff0941f1229fbfd389415039a625946bd65",
+    "agent_workbench.py": "b44b555c345fc84ee0c89bd9e3faabb935f35b3c20a04a6fd481382e36e2eaed",
+    "agentic.py": "1a35df89ba44bbcf7c0396214c9f4c4903a7130faa53338eaa0be195a9af61fc",
+    "artifacts.py": "d859b00e5376ba0775b0e2e07532de85d7f33dcc5eeac6747472c9d6b6b33a34",
+    "benchmark.py": "72e34bcad7cc732d5a6617e4ffeaa0a80f5476f8f991096ac89ada8ab4aebd70",
+    "calibration.py": "75ccd8a7fb187cd9a9b4ac3e92754daaba43440bf1c1ec6bcb51b9ea0fc50044",
+    "challenge.py": "1339babbf1e30a3ecbd9b612bc7b0f389d1df0b3e635e45226dd5e4d5cc19dc5",
+    "complex_shapes.py": "23e38cf4377fd3ab165a544ac934b39f647e190eb0c3008b1bac988d4620df4b",
+    "config.py": "320a1e29fc8548f739e18a388947e456465c94fd86227bc292c26f2e533b8c2a",
+    "conversation_quantities.py": "f81b9630465085105c95ac050dca934f17db2b52f1c1cf981af2e3f904b281ac",
+    "conversational_parser.py": "a864735525a494a66015f707f93ed7b53b8edfc07717f7ae3062f7ec1744f95a",
+    "daemon.py": "a0c76798078c9f5c90a3d81270ec83991ecfea880f4297cd98583923700abde0",
+    "data.py": "9f2c5b6bd1d005ea4c8681f0724dcec2bedfe76456ec33b590787a049b53a149",
+    "demo_server.py": "7243824e236dbc07286f585e69df88249e1da8391ab765fb736ddbb97e57b896",
+    "design_graph.py": "17e429dc374a9737844df822bad956e33ba8919130f6421ca5108bd0489ac6f1",
+    "edit_language.py": "ba7f6dad03148e212880be72d2779c5f4aba6b0ff658a5f3bf7f6b84fdd1e1c5",
+    "enclosure.py": "63889371ee2cc8bf70a2d630f2a3cd3820642a67a6d021c2cca7ffd55a5b936d",
+    "enclosure_verification.py": "40d0d5d07f8a8af4bc88c9ea147bfc79f1a5076618238f786379861b55e60ec7",
+    "engineering_math.py": "c8c6755ee90fdc1a6bd72821ee11e27743d4c2b440c315a0c09123c0ed95a5a6",
+    "exact_backend.py": "3be69a7621943c91728adbe191947c92f8e6e608e75f59d849051baa632389c1",
+    "exact_build123d.py": "67a8ced4efe53ee967c58f433cd9903807687bf88eb0b6b1ea469968b1c1d49b",
+    "external_evaluation.py": "b775a3a40ef3cb947e24998fe8af29574b41075d1607166038dd2fd594ad08c8",
+    "feature_ir.py": "e5397f0249ef50d928ec3fc83f581f37ffd93470245ef47ebeeaf32dd3a62ef9",
+    "fit_sample.py": "1f701eb3199fe2c783d8e5bea16eb3c819874f31fea026dd714549ac2fbf5819",
+    "generation.py": "926955be2c3a94e06f18a40e0c741122a8d49015b52e1f8c08fb641cabe64a01",
+    "geometry.py": "4ae4ad2285065a0e2918e4e82a405b751c4552f112b742305e748b29d4402402",
+    "gmsh_backend.py": "a54e541c7567c3381e14b566b4d7bf9d83aa577014d9dd6044050c7e30d789a5",
+    "gmsh_integrity.py": "d21c7fc3a1f0151ea5cdae7834fae7ef61c1bccc573b4d386fb176ca808dadb6",
+    "gmsh_process.py": "f807bf99b94825e0c18c6cf50e52d73f08b48367998b2991858327e798b36fe3",
+    "ir.py": "23cb0be3e6623d71b49c71b0a1f71a6d571e89a2a293663b44fef1ff6e367247",
+    "ir_adapter.py": "da89e833c5cdbd38025cc4950562db67c46e9c7a603db0baf99aec9d21f2206e",
+    "ir_export.py": "9aaaf5d237c77995ccc6109773127eec3d1f33983ae82ee5a79c5b85709c1932",
+    "ir_parser.py": "e8f9bac793e488aacd75c54c4e23e3b6e91c35f1b1ecf390b178e89b74a780f3",
+    "json_io.py": "7fde1813dcee043700e81bb5d424f4a1767b586f2f2cb1be2d704f7b09b3685d",
+    "language_comparison.py": "37ccf1de60fa5502f1d91ab432035f1e3f78bb091199f1ed2a6578ffd9ec3c2b",
+    "language_evaluation.py": "3c2c686fd8c563b467fbd45636bef2de4cb3432aa3b6b9af62a0d26697d2eca1",
+    "language_provider.py": "ee67fa013568ed4b088fb7f5b383c047766aa1c679365dbaefb8ccd357f8524d",
+    "manufacturing.py": "ca5a89e6e1944adc1e173f6f9796417236f19cd8f999298aa6d2e5de716d3a3c",
+    "mesh_cli.py": "aa40b0ee3a7aef47e31b764315fa25491b6c302ed5b048d891f3a94da7acc01a",
+    "mesh_geometry.py": "647a302aecf4cc0e08e6a2bfe25251a561be6ad06e44af51f6382e78c54e1e23",
+    "mesh_preview.py": "b59936a8b3571fdc3634717813831df5985d9365bb8b33f764be99ebeee5a9d6",
+    "mesh_roles.py": "263abfd72eab1de61e7eafb66999c11378060eb7bd76a3dffd7c8ec5e8947808",
+    "natural_language.py": "bb6a15869f7195a9793d7be8f13a5761fb993cd1b4d7b663b4cc334285516748",
+    "performance.py": "8f2e5c8da6499bac6aaefc19cbc7114bba2fb378597051e14ae1d92104d4661b",
+    "physics.py": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+    "physics_advanced.py": "4ecb9848f3bdb97c6446509cec191adeee51cd774f3539fbf301fd075e925c94",
+    "physics_context.py": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+    "physics_overlay.py": "d45a77f4c907196a2922d7b72dfe3a1bf4f28d5a8032ea716c536b38a5119041",
+    "physics_registry.py": "886cf5b65d301f8a6e1061f3785ee5d9eaa6bc5a9ad05278432354e08a544075",
+    "physics_uncertainty.py": "bfbc302356a8841fabf966fe35ee1026e312ea728656bcaa6e923c1c8b5b9080",
+    "physics_v3_context.py": "3e6eb08b756c734411e23f1aa6371eb746f1079c5d141d1fe2ee5192dd124b69",
+    "program_evaluation.py": "f01988b6aa0ef518d4ae15db1f9fcdbc993442f16d817ad9d52f26e17a8235f1",
+    "project.py": "901b0c83f8b0524712bcc28e9fc7a280098a9c770c3e48c5ecc58c49d26401a3",
+    "prompt_engine.py": "2984d53cff6b7eb42d8eea90e4455352342fc3ae0ee8b767e8ae6fa068e08d89",
+    "prompt_frontend.py": "177f53ab4d924bc1840061941a8325134eceb142615e64a1f5de83e87a0a6b8f",
+    "requirement_ir.py": "cd677083df33db01081dc6f087259ee8ec129d283a950867eafb449ee9f38d2b",
+    "requirement_verification.py": "17b50f3d3097d087241e63265d6c9f3ef0940805095b8a214a17becbc04e6135",
+    "research_suite.py": "f92703d2d6025ab229a4e6e8490a44c13652c6ae3c9f36d63a482fb485d29b9a",
+    "scad_export.py": "2a05049385d66111d063a300fdecaca04b19c2db4c673fd343ef94a9dfef4bff",
+    "schemas/neurocad_ir_v1.schema.json": "6c36241e97f55adeefee2af8d3827e68bde932d9742312131db9c245cb9a3f7c",
+    "scientific_kernel.py": "4f4896f7d93413c84174de4d8eeb03ecfef925d44c1f2cecb4af84322a0181d0",
+    "semantic_equivalence.py": "863704cba81325c11b20926b4f5656b7bd3e5c2ec08a3146e58dc356cbbd2e36",
+    "service.py": "1aac602a14df859fea31c000b2459a57767700e2a40f5d5275880f1e9f22f36b",
+    "structural_verification.py": "43bcb75edc9ee1780fb96da831303a38a96e41f0f5c6b1a6f5aa012943ecf090",
+    "topology.py": "9162bac6a1eaa7a6e8cbd9b0f5beed4b39dafaf39dd9388e2bfbc8c2d9ab7ff7",
+    "validation.py": "6446c57272ee5520d00dc0bd43b80fa65f21b5c707eafd4f019d87caa5a4b917",
+    "workbench.py": "108a0730ee1bea359b03751002d0de190fa848a9f1ee35db6dbc3f978c7d1878",
+    "workflow.py": "50e9a2166478eba1affd2dea2b42025e07a5dc3c015f4054dc66b2c16adaa7d3"
+  },
+  "source_unchanged": true,
+  "status_exact_count": 26,
+  "unsafe_acceptance_count": 0,
+  "valid_intent_cases": 20,
+  "version": "neurocad-language-run-v2",
+  "wrong_candidate_count": 0
+}

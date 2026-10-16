@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="20" skipped="0" tests="48" time="0.416" timestamp="2026-10-15T19:53:51.333187+05:30" hostname="Ryans-Macbook-Air.local"><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[make the walls three millimeters thick-wall_mm-3]" time="0.011"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'make the walls three millimeters thick', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'make the walls three millimeters thick', field = 'wall_mm'
+expected = 3
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'make the walls three millimeters thick', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[walls zero point three cm-wall_mm-3]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'walls zero point three cm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'walls zero point three cm', field = 'wall_mm', expected = 3
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'walls zero point three cm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[walls three point one two five mm-wall_mm-3.125]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'walls three point one two five mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'walls three point one two five mm', field = 'wall_mm'
+expected = 3.125
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'walls three point one two five mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[floor thickness two point five mm-floor_mm-2.5]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'floor thickness two point five mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'floor thickness two point five mm', field = 'floor_mm', expected = 2.5
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'floor thickness two point five mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[lid clearance zero point four millimetres-lid.clearance_mm-0.4]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'lid clearance zero point four millimetres', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'lid clearance zero point four millimetres', field = 'lid.clearance_mm'
+expected = 0.4
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'lid clearance zero point four millimetres', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[add one millimeter to the wall thickness-wall_mm-3]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'add one millimeter to the wall thickness', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'add one millimeter to the wall thickness', field = 'wall_mm'
+expected = 3
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'add one millimeter to the wall thickness', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[subtract 0.05 cm from the wall thickness-wall_mm-1.5]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'subtract 0.05 cm from the wall thickness', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'subtract 0.05 cm from the wall thickness', field = 'wall_mm'
+expected = 1.5
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'subtract 0.05 cm from the wall thickness', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[increase wall thickness by one millimeter-wall_mm-3]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness by one millimeter', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'increase wall thickness by one millimeter', field = 'wall_mm'
+expected = 3
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'increase wall thickness by one millimeter', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[decrease wall thickness by zero point five mm-wall_mm-1.5]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness by zero point five mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'decrease wall thickness by zero point five mm', field = 'wall_mm'
+expected = 1.5
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'decrease wall thickness by zero point five mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[add zero point one mm to the lid clearance-lid.clearance_mm-0.4]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'add zero point one mm to the lid clearance', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'add zero point one mm to the lid clearance'
+field = 'lid.clearance_mm', expected = 0.4
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'add zero point one mm to the lid clearance', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[add 0.1 mm to the lid clearance-lid.clearance_mm-0.4]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'add 0.1 mm to the lid clearance', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'add 0.1 mm to the lid clearance', field = 'lid.clearance_mm'
+expected = 0.4
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'add 0.1 mm to the lid clearance', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty-one mm-lid.lip_height_mm-21]" time="0.002"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'set lid lip height to twenty-one mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'set lid lip height to twenty-one mm', field = 'lid.lip_height_mm'
+expected = 21
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'set lid lip height to twenty-one mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_complete_quantity_clause_keeps_exact_context_and_source[set lid lip height to twenty one mm-lid.lip_height_mm-21]" time="0.001"><failure message="AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'set lid lip height to twenty one mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}&#10;assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'set lid lip height to twenty one mm', field = 'lid.lip_height_mm'
+expected = 21
+
+    @pytest.mark.parametrize("source,field,expected", [
+        ("make the walls three millimeters thick", "wall_mm", 3),
+        ("walls zero point three cm", "wall_mm", 3),
+        ("walls three point one two five mm", "wall_mm", 3.125),
+        ("floor thickness two point five mm", "floor_mm", 2.5),
+        ("lid clearance zero point four millimetres", "lid.clearance_mm", 0.4),
+        ("add one millimeter to the wall thickness", "wall_mm", 3),
+        ("subtract 0.05 cm from the wall thickness", "wall_mm", 1.5),
+        ("increase wall thickness by one millimeter", "wall_mm", 3),
+        ("decrease wall thickness by zero point five mm", "wall_mm", 1.5),
+        ("add zero point one mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("add 0.1 mm to the lid clearance", "lid.clearance_mm", 0.4),
+        ("set lid lip height to twenty-one mm", "lid.lip_height_mm", 21),
+        ("set lid lip height to twenty one mm", "lid.lip_height_mm", 21),
+    ])
+    def test_complete_quantity_clause_keeps_exact_context_and_source(project, source, field, expected):
+        before = serialize_project(project)
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal", result.to_dict()
+E       AssertionError: {'version': 'neurocad-conversational-edit-v1', 'source': 'set lid lip height to twenty one mm', 'baseline_sha256': '5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c8242918f8dd902ed9222', 'interpreter': 'local-conversation-v1', ...}
+E       assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:38: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius 3mm]" time="0.001"><failure message="AssertionError: assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'make the power hole radius 3mm'
+
+    @pytest.mark.parametrize("source", [
+        "make the power hole radius 3mm", "set power cutout radius to three mm",
+        "make the power hole radius zero point three centimeters",
+    ])
+    def test_radius_conversion_preserves_hole_identity_and_position(project, source):
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal"
+E       AssertionError: assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:58: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_radius_conversion_preserves_hole_identity_and_position[set power cutout radius to three mm]" time="0.001"><failure message="AssertionError: assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'set power cutout radius to three mm'
+
+    @pytest.mark.parametrize("source", [
+        "make the power hole radius 3mm", "set power cutout radius to three mm",
+        "make the power hole radius zero point three centimeters",
+    ])
+    def test_radius_conversion_preserves_hole_identity_and_position(project, source):
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal"
+E       AssertionError: assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:58: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_radius_conversion_preserves_hole_identity_and_position[make the power hole radius zero point three centimeters]" time="0.001"><failure message="AssertionError: assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+source = 'make the power hole radius zero point three centimeters'
+
+    @pytest.mark.parametrize("source", [
+        "make the power hole radius 3mm", "set power cutout radius to three mm",
+        "make the power hole radius zero point three centimeters",
+    ])
+    def test_radius_conversion_preserves_hole_identity_and_position(project, source):
+        result = parse_conversation(source, project)
+&gt;       assert result.status == "proposal"
+E       AssertionError: assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:58: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one to the wall thickness]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls one hundred mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls twenty zero mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point twenty mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three point mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls minus three mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls -3mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three and a half mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 3e0mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls NaN mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls infinity mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls 0mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add -1 mm to the wall thickness]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[subtract three mm from the wall thickness]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add a warp drive]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and walls four mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and add one mm to wall thickness]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm and add one mm to wall thickness]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[add one mm to wall thickness and walls three mm]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[do not add one mm to wall thickness]" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[walls three mm unless the lid changes]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the unknown hole radius 3mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius 3mm diameter 8mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius -3mm]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_unsupported_or_conflicting_quantity_is_never_partly_applied[make the power hole radius three]" time="0.000" /><testcase classname="tests.test_conversation_quantities" name="test_relative_proposal_cannot_be_applied_twice" time="0.001"><failure message="ValueError: Unresolved interpretation cannot be applied">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+
+    def test_relative_proposal_cannot_be_applied_twice(project):
+        proposal = parse_conversation("add one mm to wall thickness", project)
+        with pytest.raises(ValueError, match="confirmation"):
+            apply_proposal(proposal, project)
+&gt;       updated = apply_proposal(proposal, project, confirmed=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_conversation_quantities.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = EditProposal(source='add one mm to wall thickness', baseline_sha256='5a5a21fa00a23907c4307930b0ebde3c4d8b5449b69c82429...'evidence': {'text': 'add one mm to wall thickness', 'start': 0, 'end': 28}},), candidate=None, provider_metadata=None)
+project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+confirmed = True
+
+    def apply_proposal(proposal: EditProposal, project: EnclosureProject, *, confirmed: bool = False) -&gt; EnclosureProject:
+        """Apply only after explicit review and only against the exact original context."""
+        if confirmed is not True:
+            raise ValueError("Explicit proposal review and confirmation is required")
+        if proposal.baseline_sha256 != context_hash(project):
+            raise ValueError("Project changed since interpretation; parse again against the current revision")
+        if proposal.status != "proposal" or proposal.candidate is None:
+&gt;           raise ValueError("Unresolved interpretation cannot be applied")
+E           ValueError: Unresolved interpretation cannot be applied
+
+core/conversational_parser.py:253: ValueError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_relative_edit_respects_preservation" time="0.001"><failure message="AssertionError: assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+
+    def test_relative_edit_respects_preservation(project):
+        result = parse_conversation("add one mm to wall thickness and keep the outside same", project)
+&gt;       assert result.status == "proposal"
+E       AssertionError: assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:97: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_rectangular_cutout_is_not_reinterpreted_as_circle" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_case_variant_identifier_resolves_only_when_unique" time="0.001"><failure message="AssertionError: assert 'unsupported' == 'proposal'&#10;  &#10;  - proposal&#10;  + unsupported">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+
+    def test_case_variant_identifier_resolves_only_when_unique(project):
+        changed = replace(project, spec=replace(project.spec, cutouts=(replace(project.spec.cutouts[0], id="Power"),)))
+        result = parse_conversation("make the power hole radius 3mm", changed)
+&gt;       assert result.status == "proposal"
+E       AssertionError: assert 'unsupported' == 'proposal'
+E         
+E         - proposal
+E         + unsupported
+
+tests/test_conversation_quantities.py:111: AssertionError</failure></testcase><testcase classname="tests.test_conversation_quantities" name="test_overflowing_quantity_is_refused_without_crashing" time="0.001" /><testcase classname="tests.test_conversation_quantities" name="test_original_explicit_correction_supports_words" time="0.001"><failure message="AssertionError: assert 'clarification' == 'proposal'&#10;  &#10;  - proposal&#10;  + clarification">project = EnclosureProject(project_id='quantity-maintenance', spec=EnclosureSpec(outer_size_mm=(80, 60, 30), wall_mm=2, profile=...='neurocad-enclosure-v1'), revision=1, source_text=None, phrase_mappings=(), changes=(), version='neurocad-project-v1')
+
+    def test_original_explicit_correction_supports_words(project):
+        result = parse_conversation("walls four mm no actually three mm", project)
+&gt;       assert result.status == "proposal"
+E       AssertionError: assert 'clarification' == 'proposal'
+E         
+E         - proposal
+E         + clarification
+
+tests/test_conversation_quantities.py:125: AssertionError</failure></testcase></testsuite></testsuites>

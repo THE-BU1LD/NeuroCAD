@@ -1,0 +1,531 @@
+{
+  "scope": "Same-host warm local engineering microbenchmark, five old supported clauses. No CAD/native/model or production throughput inference.",
+  "plan": {
+    "inputs": [
+      "walls 3mm",
+      "set lid clearance to 0.4 mm",
+      "keep the outside same",
+      "make the walls 3mm and keep all holes",
+      "set floor thickness to 2.5mm",
+      "make the power hole radius 3mm",
+      "add one mm to wall thickness"
+    ],
+    "rounds": 5,
+    "repetitions_per_input_per_round": 100,
+    "order": "alternate base/candidate order by round",
+    "seconds_limit": 30,
+    "rss_limit_mib": 160,
+    "warmup": 1,
+    "report": "all per-round times; medians; base/candidate semantics for old cases; new capability cases reported separately"
+  },
+  "python": "3.14.0 (main, Nov 19 2025, 23:04:28) [Clang 21.1.4 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "parity": [
+    {
+      "source": "walls 3mm",
+      "base_status": "proposal",
+      "candidate_status": "proposal",
+      "same_candidate": true,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    },
+    {
+      "source": "set lid clearance to 0.4 mm",
+      "base_status": "proposal",
+      "candidate_status": "proposal",
+      "same_candidate": true,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    },
+    {
+      "source": "keep the outside same",
+      "base_status": "unchanged",
+      "candidate_status": "unchanged",
+      "same_candidate": true,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    },
+    {
+      "source": "make the walls 3mm and keep all holes",
+      "base_status": "proposal",
+      "candidate_status": "proposal",
+      "same_candidate": true,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    },
+    {
+      "source": "set floor thickness to 2.5mm",
+      "base_status": "proposal",
+      "candidate_status": "proposal",
+      "same_candidate": true,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    },
+    {
+      "source": "make the power hole radius 3mm",
+      "base_status": "unsupported",
+      "candidate_status": "proposal",
+      "same_candidate": false,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    },
+    {
+      "source": "add one mm to wall thickness",
+      "base_status": "clarification",
+      "candidate_status": "proposal",
+      "same_candidate": false,
+      "same_preserve": true,
+      "same_baseline_hash": true
+    }
+  ],
+  "rows": [
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 0,
+      "nanoseconds_per_request": 852039.17
+    },
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 1,
+      "nanoseconds_per_request": 640550.0
+    },
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 2,
+      "nanoseconds_per_request": 348761.67
+    },
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 3,
+      "nanoseconds_per_request": 527954.16
+    },
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 4,
+      "nanoseconds_per_request": 701490.0
+    },
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 5,
+      "nanoseconds_per_request": 866988.75
+    },
+    {
+      "round": 0,
+      "implementation": "base",
+      "input_index": 6,
+      "nanoseconds_per_request": 902780.0
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 0,
+      "nanoseconds_per_request": 1056102.09
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 1,
+      "nanoseconds_per_request": 656002.09
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 2,
+      "nanoseconds_per_request": 312228.75
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 3,
+      "nanoseconds_per_request": 537515.0
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 4,
+      "nanoseconds_per_request": 668200.42
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 5,
+      "nanoseconds_per_request": 1780380.0
+    },
+    {
+      "round": 0,
+      "implementation": "candidate",
+      "input_index": 6,
+      "nanoseconds_per_request": 1088602.08
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 0,
+      "nanoseconds_per_request": 500248.33
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 1,
+      "nanoseconds_per_request": 452618.33
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 2,
+      "nanoseconds_per_request": 323345.41
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 3,
+      "nanoseconds_per_request": 426500.84
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 4,
+      "nanoseconds_per_request": 520695.84
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 5,
+      "nanoseconds_per_request": 2154320.41
+    },
+    {
+      "round": 1,
+      "implementation": "candidate",
+      "input_index": 6,
+      "nanoseconds_per_request": 579738.75
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 0,
+      "nanoseconds_per_request": 422885.42
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 1,
+      "nanoseconds_per_request": 459867.08
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 2,
+      "nanoseconds_per_request": 207749.58
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 3,
+      "nanoseconds_per_request": 430069.17
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 4,
+      "nanoseconds_per_request": 445442.5
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 5,
+      "nanoseconds_per_request": 475038.75
+    },
+    {
+      "round": 1,
+      "implementation": "base",
+      "input_index": 6,
+      "nanoseconds_per_request": 754302.92
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 0,
+      "nanoseconds_per_request": 1479094.59
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 1,
+      "nanoseconds_per_request": 740610.83
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 2,
+      "nanoseconds_per_request": 328557.92
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 3,
+      "nanoseconds_per_request": 630538.33
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 4,
+      "nanoseconds_per_request": 466244.17
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 5,
+      "nanoseconds_per_request": 435062.5
+    },
+    {
+      "round": 2,
+      "implementation": "base",
+      "input_index": 6,
+      "nanoseconds_per_request": 427456.66
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 0,
+      "nanoseconds_per_request": 667239.58
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 1,
+      "nanoseconds_per_request": 747890.83
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 2,
+      "nanoseconds_per_request": 307866.25
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 3,
+      "nanoseconds_per_request": 713893.75
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 4,
+      "nanoseconds_per_request": 441677.91
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 5,
+      "nanoseconds_per_request": 414227.92
+    },
+    {
+      "round": 2,
+      "implementation": "candidate",
+      "input_index": 6,
+      "nanoseconds_per_request": 373215.0
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 0,
+      "nanoseconds_per_request": 299748.33
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 1,
+      "nanoseconds_per_request": 419376.25
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 2,
+      "nanoseconds_per_request": 286690.42
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 3,
+      "nanoseconds_per_request": 569437.5
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 4,
+      "nanoseconds_per_request": 969922.92
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 5,
+      "nanoseconds_per_request": 690800.42
+    },
+    {
+      "round": 3,
+      "implementation": "candidate",
+      "input_index": 6,
+      "nanoseconds_per_request": 451940.0
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 0,
+      "nanoseconds_per_request": 382098.34
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 1,
+      "nanoseconds_per_request": 348996.25
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 2,
+      "nanoseconds_per_request": 209986.66
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 3,
+      "nanoseconds_per_request": 390185.0
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 4,
+      "nanoseconds_per_request": 346208.75
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 5,
+      "nanoseconds_per_request": 323072.5
+    },
+    {
+      "round": 3,
+      "implementation": "base",
+      "input_index": 6,
+      "nanoseconds_per_request": 365956.25
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 0,
+      "nanoseconds_per_request": 1073330.42
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 1,
+      "nanoseconds_per_request": 2586242.92
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 2,
+      "nanoseconds_per_request": 470578.33
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 3,
+      "nanoseconds_per_request": 1226185.84
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 4,
+      "nanoseconds_per_request": 1813329.59
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 5,
+      "nanoseconds_per_request": 467313.75
+    },
+    {
+      "round": 4,
+      "implementation": "base",
+      "input_index": 6,
+      "nanoseconds_per_request": 549396.25
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 0,
+      "nanoseconds_per_request": 878110.0
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 1,
+      "nanoseconds_per_request": 2769782.5
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 2,
+      "nanoseconds_per_request": 2627940.41
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 3,
+      "nanoseconds_per_request": 1246403.33
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 4,
+      "nanoseconds_per_request": 1823594.58
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 5,
+      "nanoseconds_per_request": 1527754.16
+    },
+    {
+      "round": 4,
+      "implementation": "candidate",
+      "input_index": 6,
+      "nanoseconds_per_request": 2525712.08
+    }
+  ],
+  "old_supported_aggregate": {
+    "base": {
+      "per_round_mean_ns": [
+        614159.0,
+        393202.75,
+        729009.168,
+        335495.0,
+        1433933.42
+      ],
+      "median_ns": 614159.0
+    },
+    "candidate": {
+      "per_round_mean_ns": [
+        646009.67,
+        444681.75,
+        575713.664,
+        509035.084,
+        1869166.164
+      ],
+      "median_ns": 575713.664
+    }
+  },
+  "latency_reduction_percent": 6.259834342572523,
+  "base_parser_sha256": "ea8194796a5b2be903257eea7077b8db0a57a582d955e6e50a6e6c2a3da5afd5",
+  "candidate_source_hashes": {
+    "conversational_parser.py": "b2d3a8884848d9d1b1f14f959c877fba385b57a23ecf7fb406efbf89db8076db",
+    "conversation_quantities.py": "f81b9630465085105c95ac050dca934f17db2b52f1c1cf981af2e3f904b281ac"
+  }
+}

@@ -10,7 +10,7 @@ import time
 from pathlib import Path
 from typing import Any, Protocol
 
-from .conversational_parser import EditProposal, context_hash, parse_conversation
+from .conversational_parser import EditProposal, bind_history, context_hash, parse_conversation
 from .json_io import read_bounded_utf8, strict_json_loads
 from .language_provider import ChatLanguageProvider
 from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, serialize_project
@@ -18,9 +18,9 @@ from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, se
 VERSION = "neurocad-language-challenge-v1"
 STATUSES = {"proposal", "clarification", "unsupported", "rejected", "unchanged"}
 MAX_DATASET_BYTES = 4_194_304
-RUN_VERSION = "neurocad-language-run-v2"
+RUN_VERSION = "neurocad-language-run-v3"
 EXECUTION_POLICY = {"calls_per_case": 1, "runner_retries": 0, "labels_in_context": False,
-                    "scoring_context": "frozen-project", "partial_runs_comparable": False}
+                    "scoring_context": "frozen-project", "local_history": "revision-bound-v1", "partial_runs_comparable": False}
 
 
 def _write_json(path: Path, value: Any) -> None:
@@ -160,11 +160,11 @@ def evaluate(challenge_path: Path, output_dir: Path, *, provider: Interpreter | 
         history = list(case["history"])
         started = time.monotonic()
         result: dict[str, Any] = {"id": case["id"], "category": case["category"], "expected": case["expected"],
-                                  "history_used": provider is not None, "provider_error": False}
+                                  "history_used": bool(history), "provider_error": False}
         try:
             # Labels never enter the provider context. No retries or prompt rewriting.
             proposal = (provider.interpret(case["source"], project, recent_messages=history)
-                        if provider is not None else parse_conversation(case["source"], project))
+                        if provider is not None else parse_conversation(case["source"], project, history=bind_history(project, history)))
             scored = score_proposal(proposal, case["expected"], scoring_project)
             observed = proposal.to_dict()
             # Validate serializability before marking a provider response scored.

@@ -143,14 +143,18 @@ def test_invalid_annotations_fail_before_output(tmp_path, mutation):
     assert not (tmp_path / "output").exists()
 
 
-def test_new_destination_and_cli_exit_codes(tmp_path):
+def test_new_destination_and_cli_exit_codes(tmp_path, monkeypatch):
     path = small_challenge(tmp_path)
     assert main([str(path), "--output-dir", str(tmp_path / "results")]) == 0
     with pytest.raises(ValueError):
         evaluate(path, tmp_path / "results")
-    raw = challenge()
-    path2 = small_challenge(tmp_path, cases=[raw["cases"][10]])
-    assert main([str(path2), "--output-dir", str(tmp_path / "gaps")]) == 2
+    # Exercise the CLI's exit contract without requiring a particular language capability to fail forever.
+    for result in (
+        {"integrity_valid": True, "passed_count": 0, "completed_cases": 1},
+        {"integrity_valid": False, "passed_count": 1, "completed_cases": 1},
+    ):
+        monkeypatch.setattr("core.language_evaluation.evaluate", lambda *args, frozen_result=result, **kwargs: frozen_result)
+        assert main([str(path), "--output-dir", str(tmp_path / "gaps")]) == 2
 
 
 def test_live_declaration_requires_provider_and_external_is_not_verified(tmp_path):

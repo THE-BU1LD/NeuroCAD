@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-15T16:03:15.928060+00:00",
+  "candidate": "4a9c6a62dd2166491a993eb80ee1dbd24e105cac",
+  "protected_changed_paths": [],
+  "protected_status": "PASS",
+  "python_changed_files_ast_valid": 18,
+  "original_logs": [
+    {
+      "run": "NC-REPRO-508EC40",
+      "found": [],
+      "checked_worktrees": 9,
+      "status": "MISSING"
+    },
+    {
+      "run": "NC-REPRO-CB1D4A9",
+      "found": [],
+      "checked_worktrees": 9,
+      "status": "MISSING"
+    },
+    {
+      "run": "NC-RUN-2026-09-03-FULL",
+      "found": [],
+      "checked_worktrees": 9,
+      "status": "MISSING"
+    },
+    {
+      "run": "NC-RUN-2026-09-02-A",
+      "found": [],
+      "checked_worktrees": 9,
+      "status": "MISSING"
+    }
+  ],
+  "git_log_recovery": "No reachable commits returned for the four original run.log paths",
+  "upload": {
+    "status": "BLOCKED_AUTOMATIC_APPROVAL_REVIEW",
+    "reason": "Exact destination and payload approval required",
+    "destination": "https://github.com/THE-BU1LD/NeuroCAD",
+    "branch": "codex/complete-iteration-20261015"
+  },
+  "new_scientific_or_external_outcomes": false
+}

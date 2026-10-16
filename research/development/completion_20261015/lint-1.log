@@ -1,0 +1,107 @@
+BLE001 Do not catch blind exception: `Exception`
+  --> core/evaluation_ledger.py:55:16
+   |
+53 |                 raise ValueError("Invalid or internally inconsistent endpoint counts")
+54 |             outcome.update(status="evaluated", metrics=dict(metrics))
+55 |         except Exception as exc:
+   |                ^^^^^^^^^
+56 |             outcome["error_type"] = type(exc).__name__
+57 |         try:
+   |
+
+TRY004 Prefer `TypeError` exception for invalid type
+  --> core/final_geometry.py:21:9
+   |
+19 | def number(value: Any, *, positive: bool = False) -> float:
+20 |     if isinstance(value, bool) or not isinstance(value, (int, float)):
+21 |         raise ValueError("Geometry measurements must be finite numbers")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+22 |     try:
+23 |         result = float(value)
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> core/language_evaluation.py:2:1
+   |
+ 1 |   """Frozen-input language evaluation with separate semantic and rejection endpoints."""
+ 2 | / from __future__ import annotations
+ 3 | |
+ 4 | | import argparse
+ 5 | | import copy
+ 6 | | import hashlib
+ 7 | | import json
+ 8 | | import os
+ 9 | | import time
+10 | | from pathlib import Path
+11 | | from typing import Any, Protocol
+12 | |
+13 | | from .conversational_parser import bind_history, EditProposal, context_hash, parse_conversation
+14 | | from .json_io import read_bounded_utf8, strict_json_loads
+15 | | from .language_provider import ChatLanguageProvider
+16 | | from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, serialize_project
+   | |_______________________________________________________________________________________________^
+17 |
+18 |   VERSION = "neurocad-language-challenge-v1"
+   |
+help: Organize imports
+   |
+12 |
+   - from .conversational_parser import bind_history, EditProposal, context_hash, parse_conversation
+13 + from .conversational_parser import EditProposal, bind_history, context_hash, parse_conversation
+14 | from .json_io import read_bounded_utf8, strict_json_loads
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> tests/test_final_bore_contract.py:2:1
+  |
+1 |   """Pure evidence-contract rejection controls; no native geometry is fabricated."""
+2 | / from dataclasses import replace
+3 | |
+4 | | import pytest
+5 | |
+6 | | from core.final_geometry import evaluate_measurement, probe_hash, validate_probe
+7 | | from core.requirement_ir import RequirementValue
+8 | | from core.requirement_verification import verify_exact_requirements
+9 | | from test_final_geometry_requirements import Inspection, contract
+  | |_________________________________________________________________^
+help: Organize imports
+   |
+4  | import pytest
+5  + from test_final_geometry_requirements import Inspection, contract
+6  |
+7  | from core.final_geometry import evaluate_measurement, probe_hash, validate_probe
+8  | from core.requirement_ir import RequirementValue
+9  | from core.requirement_verification import verify_exact_requirements
+   - from test_final_geometry_requirements import Inspection, contract
+10 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> tests/test_final_bore_native.py:8:1
+   |
+ 6 |   pytest.importorskip("build123d")
+ 7 |
+ 8 | / from core.exact_build123d import Build123dBackend, Build123dCompileError
+ 9 | | from core.final_geometry import evaluate_measurement, measure_bore
+10 | | from core.requirement_ir import Requirement, RequirementIR, RequirementValue
+11 | | from core.requirement_verification import ExactRequirementBinding, RequirementBindingSet, feature_ir_sha256, requirement_ir_sha256
+12 | | from test_final_bore_contract import probe
+13 | | from test_final_geometry_native import _bore_program
+   | |____________________________________________________^
+help: Organize imports
+   |
+7  |
+8  + from test_final_bore_contract import probe
+9  + from test_final_geometry_native import _bore_program
+10 +
+11 | from core.exact_build123d import Build123dBackend, Build123dCompileError
+12 | from core.final_geometry import evaluate_measurement, measure_bore
+13 | from core.requirement_ir import Requirement, RequirementIR, RequirementValue
+14 | from core.requirement_verification import ExactRequirementBinding, RequirementBindingSet, feature_ir_sha256, requirement_ir_sha256
+   - from test_final_bore_contract import probe
+   - from test_final_geometry_native import _bore_program
+15 |
+   |
+
+Found 5 errors.
+[*] 3 fixable with the `--fix` option.

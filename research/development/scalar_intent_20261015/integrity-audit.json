@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-15T15:03:17.664101+00:00",
+  "status": "PASS",
+  "errors": [],
+  "protected_baseline_files_matched": 58,
+  "sparse_checkout_note": "Protected files omitted from working checkout are hashed from immutable base Git blobs; final staged delta must contain no protected paths.",
+  "changed_core_sources": [
+    "core/conversational_parser.py"
+  ],
+  "scorer_unchanged": true,
+  "source_hash": "a864735525a494a66015f707f93ed7b53b8edfc07717f7ae3062f7ec1744f95a",
+  "dataset_unchanged": true,
+  "diagnostic_regressions": []
+}

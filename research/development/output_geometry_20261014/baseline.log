@@ -1,0 +1,127 @@
+F.FF..                                                                   [100%]
+=================================== FAILURES ===================================
+_________ test_matching_final_aggregates_roundtrip_and_measure_output __________
+
+    def test_matching_final_aggregates_roundtrip_and_measure_output() -> None:
+        for kind, value, basis in (
+            ("output_volume", RequirementValue(24000.0, "mm3", 0.001), "exact_kernel_output_volume"),
+            ("output_solid_count", RequirementValue(1.0, "unitless"), "exact_kernel_output_solid_count"),
+        ):
+            doc, program, bindings = contract(kind, value)
+>           assert parse_binding_set_json(serialize_binding_set_json(bindings)) == bindings
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_final_geometry_requirements.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+binding_set = RequirementBindingSet(requirement_ir_sha256='2b5df9b9e8e6f7fd7fa815cb3dd0049c75e577c0d6ae8f5dab1481a4fb201732', featur...'geometric_relation', probe={'kind': 'output_volume'}),), metadata={}, version='neurocad-requirement-binding-v0alpha1')
+pretty = True
+
+    def serialize_binding_set_json(binding_set: RequirementBindingSet, *, pretty: bool = True) -> str:
+        errors = validate_binding_set(binding_set)
+        if errors:
+>           raise RequirementBindingError(
+                "invalid requirement binding set:\n- "
+                + "\n- ".join(f"{error.path}: {error.code}: {error.message}" for error in errors)
+            )
+E           core.requirement_verification.RequirementBindingError: invalid requirement binding set:
+E           - $.bindings[0].verification: unsupported_exact_verification: geometric_relation
+
+core/requirement_verification.py:147: RequirementBindingError
+__________ test_malformed_extent_axis_is_structured_rejection[axis0] ___________
+
+axis = []
+
+    @pytest.mark.parametrize("axis", [[], {}, 1, None])
+    def test_malformed_extent_axis_is_structured_rejection(axis: Any) -> None:
+        doc, program, bindings = contract(value=RequirementValue(40.0, "mm", 0.001))
+        doc = replace(doc, requirements=(replace(doc.requirements[0], verification="exact_dimension"),))
+        bindings = replace(bindings, requirement_ir_sha256=requirement_ir_sha256(doc), bindings=(
+            replace(bindings.bindings[0], verification="exact_dimension", probe={"kind": "output_extent", "axis": axis}),
+        ))
+>       result = verify_exact_requirements(doc, program, Inspection(), bindings)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_final_geometry_requirements.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/requirement_verification.py:484: in verify_exact_requirements
+    check = _dimension_check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+requirement = Requirement(id='aggregate', kind='topology', strength='must', target='all_outputs', source_start=0, source_end=40, sou...e='explicit', verification='exact_dimension', value=RequirementValue(value=40.0, unit='mm', tolerance=0.001), notes=())
+binding = ExactRequirementBinding(requirement_id='aggregate', feature_ids=('body',), verification='exact_dimension', probe={'kind': 'output_extent', 'axis': []})
+inspection = Inspection(valid_brep=True, solid_count=1, volume_mm3=24000.0, extents_mm=(40.0, 30.0, 20.0))
+exact_measurements_mm = None
+
+    def _dimension_check(
+        requirement: Requirement,
+        binding: ExactRequirementBinding,
+        inspection: GeometryInspectionLike,
+        exact_measurements_mm: dict[str, float] | None = None,
+    ) -> RequirementCheck:
+        if requirement.value is None or requirement.value.unit != "mm":
+            raise RequirementBindingError(
+                f"exact dimension requirement {requirement.id!r} requires a millimetre value"
+            )
+    
+        probe_kind = binding.probe.get("kind")
+        basis: str
+        detail_label: str
+        if probe_kind == "output_extent":
+            axis = binding.probe.get("axis")
+>           if axis not in AXIS_INDEX:
+               ^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: cannot use 'list' as a dict key (unhashable type: 'list')
+
+core/requirement_verification.py:280: TypeError
+__________ test_malformed_extent_axis_is_structured_rejection[axis1] ___________
+
+axis = {}
+
+    @pytest.mark.parametrize("axis", [[], {}, 1, None])
+    def test_malformed_extent_axis_is_structured_rejection(axis: Any) -> None:
+        doc, program, bindings = contract(value=RequirementValue(40.0, "mm", 0.001))
+        doc = replace(doc, requirements=(replace(doc.requirements[0], verification="exact_dimension"),))
+        bindings = replace(bindings, requirement_ir_sha256=requirement_ir_sha256(doc), bindings=(
+            replace(bindings.bindings[0], verification="exact_dimension", probe={"kind": "output_extent", "axis": axis}),
+        ))
+>       result = verify_exact_requirements(doc, program, Inspection(), bindings)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_final_geometry_requirements.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/requirement_verification.py:484: in verify_exact_requirements
+    check = _dimension_check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+requirement = Requirement(id='aggregate', kind='topology', strength='must', target='all_outputs', source_start=0, source_end=40, sou...e='explicit', verification='exact_dimension', value=RequirementValue(value=40.0, unit='mm', tolerance=0.001), notes=())
+binding = ExactRequirementBinding(requirement_id='aggregate', feature_ids=('body',), verification='exact_dimension', probe={'kind': 'output_extent', 'axis': {}})
+inspection = Inspection(valid_brep=True, solid_count=1, volume_mm3=24000.0, extents_mm=(40.0, 30.0, 20.0))
+exact_measurements_mm = None
+
+    def _dimension_check(
+        requirement: Requirement,
+        binding: ExactRequirementBinding,
+        inspection: GeometryInspectionLike,
+        exact_measurements_mm: dict[str, float] | None = None,
+    ) -> RequirementCheck:
+        if requirement.value is None or requirement.value.unit != "mm":
+            raise RequirementBindingError(
+                f"exact dimension requirement {requirement.id!r} requires a millimetre value"
+            )
+    
+        probe_kind = binding.probe.get("kind")
+        basis: str
+        detail_label: str
+        if probe_kind == "output_extent":
+            axis = binding.probe.get("axis")
+>           if axis not in AXIS_INDEX:
+               ^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: cannot use 'dict' as a dict key (unhashable type: 'dict')
+
+core/requirement_verification.py:280: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_final_geometry_requirements.py::test_matching_final_aggregates_roundtrip_and_measure_output
+FAILED tests/test_final_geometry_requirements.py::test_malformed_extent_axis_is_structured_rejection[axis0]
+FAILED tests/test_final_geometry_requirements.py::test_malformed_extent_axis_is_structured_rejection[axis1]
+3 failed, 3 passed, 42 deselected in 0.12s

@@ -1,0 +1,168 @@
+FFFFFFFFF..FFFFFFFFFF..F...................                              [100%]
+=================================== FAILURES ===================================
+___________________ test_nonrepresentable_probe_refused[p0] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p1] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p2] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p3] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p4] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p5] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p6] ____________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+___________________ test_nonrepresentable_probe_refused[p7] ____________________
+tests/test_bore_numerical_admission.py:33: in test_nonrepresentable_probe_refused
+    validate_probe(p)
+core/final_geometry.py:47: in validate_probe
+    bore_volume = math.pi * (radius - tolerance)**2 * (depth - 2*tolerance)
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')
+___________________ test_nonrepresentable_probe_refused[p8] ____________________
+tests/test_bore_numerical_admission.py:33: in test_nonrepresentable_probe_refused
+    validate_probe(p)
+core/final_geometry.py:48: in validate_probe
+    shell_volume = math.pi * ((radius + clearance)**2 - (radius + tolerance)**2) * (depth - 2*tolerance)
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')
+___________________ test_nonrepresentable_probe_refused[p11] ___________________
+tests/test_bore_numerical_admission.py:32: in test_nonrepresentable_probe_refused
+    with pytest.raises((ValueError, TypeError)):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE any of (ValueError, TypeError)
+_____________ test_rejection_precedes_shape_and_kernel_access[p0] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p1] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p2] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p3] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p4] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p5] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p6] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+_____________ test_rejection_precedes_shape_and_kernel_access[p7] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:73: in measure_bore
+    validate_probe(probe)
+core/final_geometry.py:47: in validate_probe
+    bore_volume = math.pi * (radius - tolerance)**2 * (depth - 2*tolerance)
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')
+_____________ test_rejection_precedes_shape_and_kernel_access[p8] ______________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:73: in measure_bore
+    validate_probe(probe)
+core/final_geometry.py:48: in validate_probe
+    shell_volume = math.pi * ((radius + clearance)**2 - (radius + tolerance)**2) * (depth - 2*tolerance)
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+E   OverflowError: (34, 'Result too large')
+_____________ test_rejection_precedes_shape_and_kernel_access[p11] _____________
+tests/test_bore_numerical_admission.py:43: in test_rejection_precedes_shape_and_kernel_access
+    measure_bore(Forbidden(), Forbidden(), p)
+core/final_geometry.py:74: in measure_bore
+    if not shape.is_valid or not shape.is_manifold or len(shape.solids()) != 1:
+           ^^^^^^^^^^^^^^
+tests/test_bore_numerical_admission.py:40: in __getattr__
+    raise AssertionError(f"Invalid geometry reached native access: {name}")
+E   AssertionError: Invalid geometry reached native access: is_valid
+=========================== short test summary info ============================
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p0]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p1]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p2]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p3]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p4]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p5]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p6]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p7]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p8]
+FAILED tests/test_bore_numerical_admission.py::test_nonrepresentable_probe_refused[p11]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p0]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p1]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p2]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p3]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p4]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p5]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p6]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p7]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p8]
+FAILED tests/test_bore_numerical_admission.py::test_rejection_precedes_shape_and_kernel_access[p11]
+20 failed, 23 passed in 0.57s
