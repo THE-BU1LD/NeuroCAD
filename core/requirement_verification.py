@@ -261,6 +261,13 @@ def validate_binding_set(binding_set: RequirementBindingSet) -> tuple[Requiremen
     return tuple(errors)
 
 
+def _dimension_measurement(value: Any, label: str) -> float:
+    number = _finite_measurement(value, label, positive=False)
+    if isinstance(value, int) and number != value:
+        raise RequirementBindingError(f"{label} integer cannot be represented exactly by the floating measurement contract")
+    return number
+
+
 def _dimension_check(
     requirement: Requirement,
     binding: ExactRequirementBinding,
@@ -281,7 +288,11 @@ def _dimension_check(
             raise RequirementBindingError(
                 f"exact dimension binding {requirement.id!r} axis must be x, y, or z"
             )
-        actual = inspection.extents_mm[AXIS_INDEX[axis]]
+        extents = inspection.extents_mm
+        if not isinstance(extents, (tuple, list)) or len(extents) != 3:
+            raise RequirementBindingError("output extents must contain three finite non-negative dimensions")
+        dimensions = tuple(_dimension_measurement(value, "output extent") for value in extents)
+        actual = dimensions[AXIS_INDEX[axis]]
         basis = "exact_kernel_output_extent"
         detail_label = f"output {axis}-extent"
     elif probe_kind == "planar_wall_thickness":
@@ -290,12 +301,9 @@ def _dimension_check(
                 f"exact dimension binding {requirement.id!r} requires "
                 "backend planar-wall-thickness evidence"
             )
-        actual = exact_measurements_mm[requirement.id]
-        if not math.isfinite(actual) or actual < 0:
-            raise RequirementBindingError(
-                f"exact dimension binding {requirement.id!r} produced an invalid "
-                "planar wall-thickness measurement"
-            )
+        actual = _dimension_measurement(
+            exact_measurements_mm[requirement.id], "planar wall-thickness measurement"
+        )
         basis = "exact_kernel_planar_wall_thickness"
         detail_label = "planar outer-to-cavity clearance"
     else:
@@ -304,8 +312,8 @@ def _dimension_check(
             "'output_extent' or 'planar_wall_thickness'"
         )
 
-    expected = float(requirement.value.value)
-    tolerance = 1e-6 if requirement.value.tolerance is None else float(requirement.value.tolerance)
+    expected = _dimension_measurement(requirement.value.value, "expected dimension")
+    tolerance = 1e-6 if requirement.value.tolerance is None else _dimension_measurement(requirement.value.tolerance, "dimension tolerance")
     passed = math.isclose(actual, expected, rel_tol=0.0, abs_tol=tolerance)
     return RequirementCheck(
         requirement_id=requirement.id,
@@ -333,7 +341,9 @@ def _kernel_validity_check(
         raise RequirementBindingError(
             f"kernel validity binding {requirement.id!r} requires probe kind 'brep_valid'"
         )
-    passed = bool(inspection.valid_brep)
+    passed = inspection.valid_brep
+    if type(passed) is not bool:
+        raise RequirementBindingError("kernel validity evidence must be an explicit boolean")
     return RequirementCheck(
         requirement_id=requirement.id,
         strength=requirement.strength,
