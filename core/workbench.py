@@ -529,7 +529,11 @@ type.addEventListener('change', () => {
     activeMode === 'project' ? 'Paste a saved NeuroCAD enclosure project, or open its file below' : '';
   markDirty(false);
 });
-fileInput.addEventListener('change', () => openProject(fileInput.files[0]));
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files?.[0];
+  fileInput.value = '';
+  if (file) openProject(file);
+});
 run();
 </script>
 </body>

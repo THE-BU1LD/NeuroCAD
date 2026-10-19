@@ -71,6 +71,23 @@ const fail = request => request.resolve({ok:false,json:async()=>({error:'bad pro
   assert.equal(get('downloads').children[0], restoredProjectLink);
   assert.match(get('status').textContent, /Current input and output retained/);
 
+  // Clearing the file input allows retrying the same selected file after failure.
+  const projectFile = get('projectFile');
+  const retryFile = {size:2,text:async()=> '{}'};
+  const beforeRetry = requests.length;
+  projectFile.value = 'C:\\fakepath\\retry.json'; projectFile.files = [retryFile];
+  projectFile.handlers.change();
+  assert.equal(projectFile.value, '');
+  await flush();
+  assert.equal(requests.length, beforeRetry + 1);
+  fail(requests.at(-1)); await flush();
+  projectFile.value = 'C:\\fakepath\\retry.json'; projectFile.files = [retryFile];
+  projectFile.handlers.change();
+  assert.equal(projectFile.value, '');
+  await flush();
+  assert.equal(requests.length, beforeRetry + 2);
+  fail(requests.at(-1)); await flush();
+
   // Refuse oversized files before reading them or issuing a request.
   const count = requests.length;
   await vm.runInContext("openProject({size:1048577,text:()=>{throw new Error('must not read')}})", context);
