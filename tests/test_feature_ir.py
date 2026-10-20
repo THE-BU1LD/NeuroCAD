@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from core.feature_ir import (
@@ -219,3 +221,68 @@ def test_feature_ir_rejects_parameter_reference_with_extra_keys() -> None:
     report = validate_feature_program(program)
     assert not report.valid
     assert any(issue.code == "invalid_parameter_reference" for issue in report.errors)
+
+
+@pytest.mark.parametrize(
+    ("path", "bad_value"),
+    [
+        (("parameters", 0, "id"), []),
+        (("parameters", 0, "unit"), []),
+        (("parameters", 0, "role"), {}),
+        (("features", 0, "id"), []),
+        (("features", 0, "kind"), {}),
+        (("features", 0, "inputs"), [{}]),
+        (("outputs",), [{}]),
+    ],
+)
+def test_feature_ir_parser_rejects_unhashable_scalar_fields(path: tuple[object, ...], bad_value: object) -> None:
+    raw = json.loads(serialize_feature_ir_json(_box_program()))
+    target = raw
+    for part in path[:-1]:
+        target = target[part]
+    target[path[-1]] = bad_value
+
+    with pytest.raises(FeatureIRParseError):
+        parse_feature_ir_json(json.dumps(raw))
+
+
+@pytest.mark.parametrize(("field", "bad_value"), [("entity", []), ("generated_by", {})])
+def test_feature_ir_parser_rejects_unhashable_selector_fields(field: str, bad_value: object) -> None:
+    raw = {
+        "version": "neurocad-feature-ir-v0alpha1",
+        "units": "mm",
+        "title": "selector admission",
+        "parameters": [],
+        "features": [
+            {
+                "id": "body",
+                "kind": "primitive_box",
+                "inputs": [],
+                "parameters": {"size": [20.0, 20.0, 10.0]},
+                "selectors": [],
+                "role": "body",
+            },
+            {
+                "id": "rounded",
+                "kind": "fillet",
+                "inputs": ["body"],
+                "parameters": {"radius": 2.0},
+                "selectors": [
+                    {
+                        "entity": "edge",
+                        "generated_by": "body",
+                        "predicates": [{"kind": "parallel_to", "axis": [0, 0, 1]}],
+                        "role": None,
+                        "unique": True,
+                    }
+                ],
+                "role": "rounded body",
+            },
+        ],
+        "outputs": ["rounded"],
+        "metadata": {},
+    }
+    raw["features"][1]["selectors"][0][field] = bad_value
+
+    with pytest.raises(FeatureIRParseError):
+        parse_feature_ir_json(json.dumps(raw))

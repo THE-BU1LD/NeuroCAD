@@ -386,9 +386,12 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
             errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
         elif parameter.id in parameter_ids:
             errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
-        parameter_ids.add(parameter.id)
-        if parameter.unit not in PARAMETER_UNITS:
+        else:
+            parameter_ids.add(parameter.id)
+        if not isinstance(parameter.unit, str) or parameter.unit not in PARAMETER_UNITS:
             errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+        if not isinstance(parameter.role, str) or len(parameter.role) > 256:
+            errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
         if not _finite(parameter.value):
             errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
         for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
@@ -417,6 +420,11 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
         ):
             errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
 
+    parameter_values = {
+        parameter.id: parameter.value
+        for parameter in program.parameters
+        if isinstance(parameter.id, str)
+    }
     seen: set[str] = set()
     feature_map: dict[str, Feature] = {}
     for index, feature in enumerate(program.features):
@@ -425,7 +433,7 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
             errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
         elif feature.id in seen:
             errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
-        if feature.kind not in FEATURE_KINDS:
+        if not isinstance(feature.kind, str) or feature.kind not in FEATURE_KINDS:
             errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
         if not isinstance(feature.role, str) or len(feature.role) > 256:
             errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
@@ -433,7 +441,7 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
         if json_error:
             errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
         for input_index, input_id in enumerate(feature.inputs):
-            if input_id not in seen:
+            if not isinstance(input_id, str) or input_id not in seen:
                 errors.append(
                     FeatureIRIssue(
                         "forward_or_missing_reference",
@@ -443,9 +451,9 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
                 )
         for selector_index, selector in enumerate(feature.selectors):
             selector_path = f"{path}.selectors[{selector_index}]"
-            if selector.entity not in SELECTOR_ENTITIES:
+            if not isinstance(selector.entity, str) or selector.entity not in SELECTOR_ENTITIES:
                 errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
-            if selector.generated_by not in seen:
+            if not isinstance(selector.generated_by, str) or selector.generated_by not in seen:
                 errors.append(
                     FeatureIRIssue(
                         "forward_or_missing_reference",
@@ -475,11 +483,11 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
                     errors.append(FeatureIRIssue("invalid_predicate", predicate_path, predicate_error))
         resolved_parameters = _resolve_parameter_tree(
             feature.parameters,
-            {parameter.id: parameter.value for parameter in program.parameters},
+            parameter_values,
             f"{path}.parameters",
             errors,
         )
-        if feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
+        if isinstance(feature.kind, str) and feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
             resolved_feature = Feature(
                 id=feature.id,
                 kind=feature.kind,
@@ -489,17 +497,23 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
                 role=feature.role,
             )
             errors.extend(_contract_errors(resolved_feature, index))
-        seen.add(feature.id)
-        feature_map[feature.id] = feature
+        if isinstance(feature.id, str):
+            seen.add(feature.id)
+            feature_map[feature.id] = feature
 
     if not program.features:
         errors.append(FeatureIRIssue("missing_feature", "$.features", "at least one feature is required"))
     if not program.outputs:
         errors.append(FeatureIRIssue("missing_output", "$.outputs", "at least one output feature is required"))
-    elif len(set(program.outputs)) != len(program.outputs):
-        errors.append(FeatureIRIssue("duplicate_output", "$.outputs", "output ids must be unique"))
+    output_ids: set[str] = set()
     for index, output in enumerate(program.outputs):
-        if output not in feature_map:
+        if not isinstance(output, str):
+            errors.append(FeatureIRIssue("invalid_output", f"$.outputs[{index}]", "output id must be a string"))
+        elif output in output_ids:
+            errors.append(FeatureIRIssue("duplicate_output", f"$.outputs[{index}]", "output ids must be unique"))
+        else:
+            output_ids.add(output)
+        if not isinstance(output, str) or output not in feature_map:
             errors.append(FeatureIRIssue("missing_reference", f"$.outputs[{index}]", str(output)))
 
     metadata_error = _strict_json_error(program.metadata, "$.metadata")
@@ -519,6 +533,8 @@ def serialize_feature_ir_json(program: FeatureProgram, *, pretty: bool = True) -
 
 
 def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:
+    if any(not isinstance(key, str) for key in value):
+        raise FeatureIRParseError([f"{path}: keys must be strings"])
     extra = sorted(set(value) - allowed)
     missing = sorted(required - set(value))
     if extra:
