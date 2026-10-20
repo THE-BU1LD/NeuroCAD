@@ -1,3 +1,22 @@
+# NeuroCAD current status
+
+## Feature IR fail-closed hardening candidate — 2026-10-20
+
+The merged upstream engineering baseline is
+`ca15203738fd45113ace7ee649543a42717c5787` (PR115). Candidate code
+`14c2e10edd288d8ebf8be6afe5e295f2f4307a90` makes malformed Feature IR
+scalar fields fail closed with `FeatureIRParseError` rather than leaking raw
+Python hash/type failures. The maintained Feature/Requirement IR gate passed
+71 tests with 7 native-dependent skips, and its scoped Ruff gate passed.
+
+This is a bounded engineering candidate, not a new release or scientific
+result. The heavy/native local suite was not admitted: free plus speculative
+memory was 240.9375 MiB, below the repository's 512 MiB floor. Hosted
+verification is pending. Published `v0.5.0a6`, frozen research artifacts,
+negative results, and external physical, independent-reproduction, safety, and
+intended-user gates are unchanged. See the
+[candidate receipt](docs/verification/feature-ir-hardening-20261020/REPORT.md).
+
 ## Native acceptance and provenance follow-up — 2026-10-14
 
 All three native platforms passed five exact-CAD goldens, six repeated tagged
@@ -17,8 +36,6 @@ and intended-user gates remain open; the published alpha tag is unchanged.
 PR109 merged the integrated repairs at `079902fa20d22c2cf102104b0f42b28bec8bc382`. Exact-main CI passed 1,677 maintained tests; source-distribution, OS/browser, security and native gates passed. The declared conformance envelope passes 37 scalar, 52 installed and 42 new composite reference cases. [Complete receipt](docs/verification/composite-final-20261014/REPORT.md).
 
 Physical validation, independent reproduction and intended-user studies remain unexecuted. Native shape/platform acceptance in issues64/65 and other tracked external dependencies remain. Published v0.5.0a6 is unchanged. The original dirty checkout is preserved; source location: `/Volumes/PRO-BLADE/.codex-worktrees/neurocad-physics-v3-fix`. Prior dated records follow unchanged.
-
-# NeuroCAD current status
 
 ## Public alpha complete — 2026-10-14
 
