@@ -12,8 +12,10 @@ Python hash/type failures. The maintained Feature/Requirement IR gate passed
 This is a bounded engineering candidate, not a new release or scientific
 result. The heavy/native local suite was not admitted: free plus speculative
 memory was 240.9375 MiB, below the repository's 512 MiB floor. Hosted
-verification is pending. Published `v0.5.0a6`, frozen research artifacts,
-negative results, and external physical, independent-reproduction, safety, and
+verification was attempted, but GitHub allocated no runner and executed zero
+steps because the account requires a billing or Actions spending-limit repair.
+PR1 remains unmerged. Published `v0.5.0a6`, frozen research artifacts, negative
+results, and external physical, independent-reproduction, safety, and
 intended-user gates are unchanged. See the
 [candidate receipt](docs/verification/feature-ir-hardening-20261020/REPORT.md).
 

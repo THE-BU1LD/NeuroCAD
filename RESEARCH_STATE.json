@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-20T15:56:11Z",
+  "updated_at": "2026-10-20T16:03:15Z",
   "source_head": "14c2e10edd288d8ebf8be6afe5e295f2f4307a90",
   "scope": "Product engineering and version routing; no scientific execution",
   "current_engineering_candidate": {
@@ -20,7 +20,13 @@
       "floor_mib": 512,
       "free_plus_speculative_mib": 240.9375
     },
-    "hosted_verification": "PENDING",
+    "hosted_verification": {
+      "status": "BLOCKED_BEFORE_EXECUTION_ACCOUNT_BILLING_OR_SPENDING_LIMIT",
+      "executed_steps": 0,
+      "ci_run": "https://github.com/build-the-future-11/NeuroCAD/actions/runs/39453174897",
+      "native_run": "https://github.com/build-the-future-11/NeuroCAD/actions/runs/39453175317",
+      "interop_run": "https://github.com/build-the-future-11/NeuroCAD/actions/runs/39453175497"
+    },
     "new_release": false,
     "scientific_execution": "NOT_PERFORMED",
     "external_gates": "UNCHANGED_OPEN"
