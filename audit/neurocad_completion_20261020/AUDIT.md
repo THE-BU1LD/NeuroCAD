@@ -58,11 +58,12 @@ result, physical-fit claim, manufacturing certification, independent replication
 user-study outcome, hosted exact-head pass, release, or arXiv submission was
 created.
 
-The final local payload is commit `3030ea5` (20 files, 4,477 insertions and 24
-deletions). A push to `build-the-future-11/NeuroCAD` branch
+The integrated implementation is commit `3030ea5` plus compiled-aperture
+correction `0fff2be`. A push of the earlier `3030ea5` state to
+`build-the-future-11/NeuroCAD` branch
 `codex/neurocad-perfect-20261020` was attempted and rejected by the managed
 external-transmission gate pending explicit destination/payload approval. No
-alternative transmission path was attempted.
+alternative transmission path or post-correction push was attempted.
 
 ## Next action
 

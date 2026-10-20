@@ -41,12 +41,12 @@ native, package, fresh-install, security and scientific workloads were therefore
 not run locally. Existing hosted workflows are separately blocked before runner
 allocation by the account billing/Actions spending-limit condition.
 
-The verified payload was committed locally as `3030ea5` (20 files, 4,477
-insertions, 24 deletions). A push to private remote
+The integrated payload was committed locally as `3030ea5`, followed by verified
+compiled-aperture correction `0fff2be`. A push of the earlier state to private remote
 `build-the-future-11/NeuroCAD`, branch `codex/neurocad-perfect-20261020`, was
 rejected by managed external-transmission review pending explicit approval of
 that exact destination and payload. The remote branch therefore remains at
-`8133960`; no workaround was attempted.
+`8133960`; no workaround or post-correction push was attempted.
 
 ## Research and release boundary
 

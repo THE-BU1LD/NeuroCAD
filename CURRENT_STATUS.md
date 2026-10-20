@@ -29,11 +29,12 @@ submission was created. See the
 [successor audit](audit/neurocad_completion_20261020/AUDIT.md) and
 [receipt](docs/verification/neurocad-completion-20261020/REPORT.md).
 
-The exact candidate is committed locally as `3030ea5`. Managed transmission
-review rejected the attempted push to private remote
+The integrated implementation is committed locally as `3030ea5` with verified
+compiled-aperture correction `0fff2be`. Managed transmission review rejected an
+attempted push of the earlier state to private remote
 `build-the-future-11/NeuroCAD`, branch `codex/neurocad-perfect-20261020`, pending
 explicit approval of that exact payload and destination. The remote branch stays
-at `8133960`; no alternate upload path was attempted.
+at `8133960`; no alternate or post-correction upload path was attempted.
 
 ## Feature IR fail-closed hardening candidate — 2026-10-20
 
