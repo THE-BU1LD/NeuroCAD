@@ -26,6 +26,12 @@ submission was created. See the
 [successor audit](audit/neurocad_completion_20261020/AUDIT.md) and
 [receipt](docs/verification/neurocad-completion-20261020/REPORT.md).
 
+The exact candidate is committed locally as `3030ea5`. Managed transmission
+review rejected the attempted push to private remote
+`build-the-future-11/NeuroCAD`, branch `codex/neurocad-perfect-20261020`, pending
+explicit approval of that exact payload and destination. The remote branch stays
+at `8133960`; no alternate upload path was attempted.
+
 ## Feature IR fail-closed hardening candidate — 2026-10-20
 
 The merged upstream engineering baseline is

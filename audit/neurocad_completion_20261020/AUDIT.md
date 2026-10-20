@@ -26,6 +26,7 @@ infrastructure-blocked.
 | A fit result could be applied twice or to a stale project | No single-use exact-source revision plan | High | Added review-only fit-revision plans, explicit `--confirm`, exact project/study/report/evidence bindings, isolated cutout edits and independent applied-revision verification | Stale, unbracketed, tampered and double-application paths are rejected |
 | Full/native local verification could exhaust this host | Latest free plus speculative memory was about 331 MiB and pageouts rose during the session | Critical resource gate | Enforced the repository's 512 MiB/no-rising-pageout stop rule | Heavy/full/native/package runs were not executed and are not reported as passes |
 | Hosted verification cannot currently execute | Existing PR workflows received zero runner steps because of the GitHub billing/spending-limit condition | High release gate | Preserve the failure; rerun only after account admission is repaired | No hosted pass is claimed for this successor |
+| Remote transmission is not yet authorized at exact payload/destination scope | Push of local commit `3030ea5` to private remote `build-the-future-11/NeuroCAD`, branch `codex/neurocad-perfect-20261020`, was rejected by managed external-transmission review | High delivery gate | Obtain explicit user approval naming this commit, remote and branch; do not route around the gate | Local commit is preserved and the remote branch remains at `8133960` |
 | A new Kaggle result was requested without a frozen Kaggle study or independent data | NeuroCAD's active confirmatory compiler protocol requires independently authored/adjudicated prompts; no Kaggle dataset/bundle is authorized | Critical research gate | No upload or fabricated result; materialize and hash the independent challenge first, then freeze a successor execution package | Kaggle uploads and protected runs remain zero |
 | The requested `arxiv.sty` is absent | No such file exists in the repository or indexed user files | Medium packaging gate | Preserve the complete existing Physics v2 manuscript and compiled PDF; require the exact style asset before a style-specific successor package | Desktop LaTeX compilation succeeded; all six committed PDF pages were visually inspected with no clipping or overlap |
 
@@ -54,6 +55,12 @@ printed or measured here. No new paper result, model efficacy result, Kaggle
 result, physical-fit claim, manufacturing certification, independent replication,
 user-study outcome, hosted exact-head pass, release, or arXiv submission was
 created.
+
+The final local payload is commit `3030ea5` (20 files, 4,477 insertions and 24
+deletions). A push to `build-the-future-11/NeuroCAD` branch
+`codex/neurocad-perfect-20261020` was attempted and rejected by the managed
+external-transmission gate pending explicit destination/payload approval. No
+alternative transmission path was attempted.
 
 ## Next action
 
