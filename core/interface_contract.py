@@ -14,6 +14,7 @@ import math
 import re
 from typing import Any
 
+from .enclosure import MANUFACTURING_PROFILES
 from .json_io import strict_json_loads
 from .project import EnclosureProject, enclosure_spec_to_dict, parse_project, serialize_project
 
@@ -77,6 +78,14 @@ def _lock_snapshot(
     locks: list[dict[str, Any]] = []
     for identifier in cutout_ids:
         item = _find_feature(spec["cutouts"], identifier, kind="cutout")
+        profile = MANUFACTURING_PROFILES[project.spec.profile]
+        if item["kind"] == "circular":
+            compiled_aperture = [
+                float(item["diameter_mm"]) + profile.hole_compensation_mm,
+                float(item["diameter_mm"]) + profile.hole_compensation_mm,
+            ]
+        else:
+            compiled_aperture = [float(value) for value in item["size_mm"]]
         locks.append(
             {
                 "selector": {"kind": "cutout", "id": identifier},
@@ -91,11 +100,16 @@ def _lock_snapshot(
                         "corner_radius_mm",
                         "purpose",
                     )
+                }
+                | {
+                    "manufacturing_profile": project.spec.profile,
+                    "compiled_aperture_mm": compiled_aperture,
                 },
             }
         )
     for identifier in standoff_ids:
         item = _find_feature(spec["standoffs"], identifier, kind="standoff")
+        profile = MANUFACTURING_PROFILES[project.spec.profile]
         locks.append(
             {
                 "selector": {"kind": "standoff", "id": identifier},
@@ -108,6 +122,11 @@ def _lock_snapshot(
                         "hole_diameter_mm",
                         "hardware",
                     )
+                }
+                | {
+                    "manufacturing_profile": project.spec.profile,
+                    "compiled_hole_diameter_mm": float(item["hole_diameter_mm"])
+                    + profile.hole_compensation_mm,
                 },
             }
         )

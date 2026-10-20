@@ -19,6 +19,7 @@ infrastructure-blocked.
 |---|---|---:|---|---|
 | Malformed Feature IR scalars could leak raw Python type/hash failures | Lists or objects reached set/dict membership in the public validation path | High | Validate every identifier, kind, unit, role, selector and output scalar before hash/set use | Current `tests/test_feature_ir.py` batch passes with the integrated successor |
 | Accepted enclosure revisions could silently move selected connector or mounting interfaces | Revision history preserved fields but had no external lock contract | High | Added exact-source contracts for named cutouts, standoffs, PCB mounting and modeled lid/body fields; protected commands reject before write | `tests/test_interface_contract.py`: 6 passed, including CLI refusal and report recomputation |
+| A nominal connector lock could miss a manufacturing-profile change to the compiled opening | Circular-hole compensation depends on the selected profile, while the recovered lock initially captured only nominal fields | High | Added manufacturing-profile plus compiled aperture/hole snapshots for locked cutouts and standoffs | A connector-only lock now rejects a profile change; final interface/fit-revision regression passed 11 tests with Ruff and MyPy |
 | Revision review did not state which prior evidence became stale | A semantic diff named values but not evidence dependencies or ancestry violations | High | Added stable-ID, coordinate-level change-impact reports with exact source/candidate hashes, ancestry checks and invalidation classes | Saved report tampering and unrelated ancestry are rejected in focused tests |
 | Fit coupons relied on filenames to distinguish variants | Coupon geometry had no physical variant code | Medium | Added an anchor plus five-bit through-hole marker and bounded aperture adjustment | Fit-study tests regenerate IR/SCAD and compare declared aperture geometry |
 | A generated worksheet could be mistaken for measured evidence | Templates did not force complete process identity and all trials | Critical claim risk | Added strict printer/process passport, predeclared replicated trials, conservative all-replicate decisions and descriptive Wilson intervals | Incomplete, duplicate, stale and non-monotone inputs fail or remain explicitly unresolved |
@@ -39,6 +40,7 @@ infrastructure-blocked.
 - MyPy passed for five changed source files.
 - `git diff --check` passed.
 - The existing six-page Physics v2 LaTeX source compiled successfully in the desktop compiler; its committed PDF was visually inspected page by page.
+- After the final compiled-aperture lock correction, 11 interface and fit-revision tests passed; scoped Ruff and MyPy passed again.
 
 One combined test command reached its 30-second command ceiling after printing
 progress but before a terminal summary. It is not counted as a pass. The same

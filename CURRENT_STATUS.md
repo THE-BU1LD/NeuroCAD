@@ -13,6 +13,9 @@ Current focused verification passed 54 tests: 23 fit-study/sample, 5 fit-revisio
 and 26 interface-contract/Feature IR cases. Scoped Ruff, MyPy on five changed
 source files, and `git diff --check` passed. The unchanged complete Physics v2
 paper compiled successfully and all six committed PDF pages passed visual review.
+The final interface lock also binds the manufacturing profile and compiled
+aperture/hole dimensions; its post-correction interface/fit-revision batch passed
+11 tests with Ruff and MyPy.
 The requested `arxiv.sty` asset is absent, so no style-specific successor package
 was invented.
 

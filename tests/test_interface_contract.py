@@ -150,6 +150,19 @@ def test_declared_numeric_tolerance_is_bounded_and_structural_changes_still_fail
     with pytest.raises(ValueError, match="between 0 and 5"):
         _contract(project, tolerance=5.1)
 
+    connector_only = create_interface_contract(
+        project,
+        contract_id="connector-only",
+        cutout_ids=("power",),
+    )
+    profile_change = update_project(project, "profile", "fdm_precision", reason="change process profile")
+    profile_report = evaluate_project_change(project, profile_change, contract=connector_only)
+    assert profile_report["decision"] == "REJECTED"
+    assert any(
+        item["path"] in {"snapshot.compiled_aperture_mm[0]", "snapshot.manufacturing_profile"}
+        for item in profile_report["interface_contract"]["violations"]
+    )
+
 
 def test_lineage_and_saved_report_tampering_are_detected() -> None:
     source = _project()

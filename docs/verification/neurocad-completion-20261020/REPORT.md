@@ -19,12 +19,19 @@ MyPy: PASS (5 changed source files)
 git diff --check: PASS
 Physics v2 desktop LaTeX compile: PASS
 Physics v2 committed PDF visual review: PASS (6/6 pages)
+Final compiled-aperture/profile-lock regression: PASS (11 tests, Ruff, MyPy)
 ```
 
 An earlier combined test command timed out at the command wrapper's 30-second
 ceiling without a terminal summary and is not counted. The identical cohort was
 then split into complete bounded batches. The first attempted command referenced
 an absent `.audit-venv`; no tests were collected in that attempt.
+
+A final comparison with the prior session record exposed an unverified patch that
+had not persisted in its worktree: nominal connector locks did not bind the
+manufacturing profile or profile-compensated aperture. The current successor now
+does so, and a connector-only regression proves that a profile-induced compiled
+opening change is rejected.
 
 ## Resource admission
 
