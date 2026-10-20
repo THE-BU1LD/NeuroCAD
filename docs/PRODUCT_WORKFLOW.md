@@ -59,6 +59,52 @@ Supported edit sentences include exact `set`, `resize`, `rename`, `add`, `move`,
 and `remove` operations. Run `neurocad enclosure edit --help` for the interface;
 an unsupported sentence is rejected rather than approximated.
 
+### Protected interfaces and change impact
+
+Capture only the interfaces that must remain stable, then pass the external
+contract to a revision-producing command:
+
+```bash
+neurocad enclosure interface-lock controller-r2.ncad.json \
+  --contract-id controller-interfaces-v1 \
+  --cutout usb-port --standoff board-a --standoff board-b \
+  --pcb-mounting --lid-interface --tolerance 0.05 \
+  -o controller-interfaces-v1.json
+neurocad enclosure interface-lock-verify controller-r2.ncad.json \
+  controller-interfaces-v1.json
+neurocad enclosure edit controller-r2.ncad.json \
+  --instruction "rename field controller" \
+  --interface-contract controller-interfaces-v1.json \
+  -o controller-r3.ncad.json
+```
+
+The contract stores the exact source-project hash, revision, selected snapshots,
+and a bounded absolute numeric tolerance. Cutouts are compared by stable ID,
+including face, position, kind, size and purpose. Standoffs include position,
+height, diameters and hardware. PCB mounting locks include origin and hole
+coordinates. Lid locks include the modeled lid fields plus body XY envelope,
+wall, corner radius and manufacturing profile. Missing interfaces and string or
+structural changes always fail; the numeric tolerance does not relax them.
+
+Before accepting a candidate, create and recompute its impact report:
+
+```bash
+neurocad enclosure impact-report controller-r2.ncad.json controller-r3.ncad.json \
+  --interface-contract controller-interfaces-v1.json -o controller-r3-impact.json
+neurocad enclosure impact-report-verify controller-r2.ncad.json \
+  controller-r3.ncad.json controller-r3-impact.json \
+  --interface-contract controller-interfaces-v1.json
+```
+
+Reports check exact revision ancestry, use feature-ID and coordinate-level paths,
+identify dependent geometry, and list artifact, geometric, manufacturing, fit,
+mounting, or process evidence invalidated by each change. The report is a
+deterministic dependency statement, not a claim that unlisted evidence is
+sufficient. `edit`, `apply-proposal`, `fit-revision-apply`, and calibrated
+clearance application enforce an optional contract before publishing output.
+When a locked interface is intentionally revised, create a reviewed successor
+contract from the accepted new revision rather than modifying the old contract.
+
 The local workbench exposes the same edit grammar through a two-step review and
 confirmation flow. `POST /api/edit` accepts a canonical project string in `source`,
 one `instruction` (at most 512 characters), and an optional `reason` of at most
@@ -172,6 +218,90 @@ Canonical IR metadata records the source project hash, revision, and face.
 The coupon is flattened into XY: deliberately match manufacturing orientation
 and process when comparing fit. A successful mesh check does not establish physical
 fit, assembly access, or a promised print duration. Existing outputs are refused.
+
+### Source-bound tolerance ladders
+
+Generate a labeled set of fit coupons around the compiled aperture dimensions:
+
+```bash
+neurocad enclosure fit-study controller.ncad.json --cutout usb-port \
+  --adjustment=-0.2 --adjustment=0 --adjustment=0.2 --adjustment=0.4 \
+  --replicates=3 \
+  --output-dir usb-fit-study
+neurocad enclosure fit-study-verify usb-fit-study --project controller.ncad.json
+```
+
+An adjustment is the total circular diameter change or the total rectangular
+width and height change. The bundle contains canonical coupon IR, deterministic
+OpenSCAD source, the canonical source project, a hash-bound study description, a
+replicated CSV worksheet, a strict observation template, and a manifest. A fixed
+anchor plus five little-endian binary holes physically identifies each printed
+variant in the top margin. Verification checks the inventory and hashes,
+regenerates every coupon and SCAD file from the bundled project, checks that each
+declared size equals its aperture primitive, and can require an independently
+supplied exact project revision.
+
+Complete every passport field and every predeclared trial in a copy of
+`observations.template.json`, then evaluate without modifying the study:
+
+```bash
+neurocad enclosure fit-study-evaluate usb-fit-study observations.json \
+  -o usb-fit-report.json
+neurocad enclosure fit-study-report-verify usb-fit-study usb-fit-report.json
+```
+
+The evaluator rejects stale bindings, duplicate or missing trials, placeholder
+passport fields, timestamps without a UTC offset, non-boolean outcomes, and
+incomplete process identity or acceptance criteria. It conservatively requires
+every predeclared replicate to pass, reports trial counts and descriptive 95%
+Wilson intervals, and retains non-monotone inconsistencies. It does not turn a
+coupon observation into a guarantee for the assembled enclosure, another
+orientation, or another manufacturing process. Report verification reconstructs
+the normalized strict observation document and recomputes the full result; an
+edited recommendation, count, interval, or disposition fails.
+
+Bind the completed record and retained external files without claiming that
+hashing authenticates their contents:
+
+```bash
+neurocad enclosure fit-study-seal usb-fit-study observations.json \
+  --evidence coupon-photo.jpg --evidence caliper-certificate.pdf \
+  --output-dir usb-fit-evidence
+neurocad enclosure fit-study-seal-verify usb-fit-study usb-fit-evidence
+```
+
+The sealed bundle retains exact attachment bytes, normalized observations, the
+recomputable report, source/study bindings, sizes, and SHA-256 digests. It proves
+byte integrity after sealing, not authorship, measurement truth, or physical fit.
+
+### Evidence-bound cutout revisions
+
+Only a sealed report with a monotone, bracketed observed transition can be used
+to propose a cutout revision. Planning is separate from application:
+
+```bash
+neurocad enclosure fit-revision-plan controller.ncad.json usb-fit-study \
+  usb-fit-evidence -o usb-fit-revision.json
+neurocad enclosure fit-revision-plan-verify controller.ncad.json \
+  usb-fit-study usb-fit-evidence usb-fit-revision.json
+neurocad enclosure fit-revision-apply controller.ncad.json usb-fit-study \
+  usb-fit-evidence usb-fit-revision.json -o controller-r2.ncad.json --confirm
+neurocad enclosure fit-revision-verify controller.ncad.json \
+  controller-r2.ncad.json usb-fit-study usb-fit-evidence usb-fit-revision.json
+```
+
+The deterministic plan records the nominal dimension before and after the edit,
+the compiled aperture before and after profile compensation, the exact project,
+study, report, and evidence hashes, and the process passport. The source project
+is never overwritten. Application changes only the named cutout collection and
+records one revision-history entry. Exact source binding makes the plan
+single-use: a stale or already revised project fails before mutation. Circular
+profile compensation remains separate from the nominal diameter, preventing the
+observed adjustment from being silently applied twice.
+
+Unbracketed success, no success, or non-monotone outcomes are retained but cannot
+drive a revision. Hashing does not authenticate evidence, and the revised design
+still requires a new held-out fit study under the intended process.
 
 ### Analytical calculations
 

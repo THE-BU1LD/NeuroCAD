@@ -1,5 +1,31 @@
 # Changelog
 
+## Unreleased
+
+- Added source-bound interface contracts for selected connector cutouts,
+  standoffs, PCB mounting patterns, and modeled lid/body interfaces. Protected
+  edit paths reject missing or changed interfaces outside an explicitly declared
+  numeric tolerance.
+- Added ancestry-aware, independently recomputable change-impact reports with
+  stable feature-ID and coordinate-level diffs, affected geometry scopes, and
+  explicit invalidation of stale artifact, fit, mounting, and process evidence.
+- Added source-bound cutout fit studies with physically marker-coded variants,
+  deterministic canonical IR and OpenSCAD, predeclared replicated trials,
+  conservative acceptance, descriptive Wilson intervals and recomputable reports.
+- Added immutable fit-evidence bundles that bind normalized observations and
+  retained attachment bytes with complete inventory, size and SHA-256 checks,
+  while explicitly declining authenticity and physical-certification claims.
+- Hardened fit workflows against stale projects, geometry/label drift, modified
+  conclusions, symlink roots, output containment violations, unexpected files,
+  excessive attachments and overwrite collisions.
+- Added review-only, evidence-bound fit-revision plans plus explicit confirmed
+  application and independent verification. Plans expose nominal versus compiled
+  aperture dimensions, bind every upstream hash, isolate one cutout revision,
+  and reject unbracketed, stale, tampered, or already-applied inputs.
+- Verified the candidate with the complete maintained suite, repository-wide
+  lint/type/security gates, exact Python 3.12/OpenSCAD preflight and native
+  compilation of every constructed fit variant. Physical trials remain external.
+
 ## 0.5.0a6 - 2026-10-14
 
 Published as a prerelease from `5ce2092`. Exact-main CI, reproducible

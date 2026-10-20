@@ -165,6 +165,12 @@ def _require_new_path(path: Path, *, label: str) -> None:
         raise FileExistsError(f"{label} already exists; choose a new path: {path}")
 
 
+def _require_outside_directories(path: Path, **directories: Path) -> None:
+    for label, directory in directories.items():
+        if path == directory or directory in path.parents:
+            raise ValueError(f"output must be outside the {label} directory: {directory}")
+
+
 def _require_new_paths(*, force: bool, **paths: Path | None) -> None:
     if force:
         return
@@ -1654,6 +1660,14 @@ def cmd_enclosure_apply_proposal(args: argparse.Namespace) -> int:
     raw = strict_json_loads(read_bounded_utf8(proposal_path, max_bytes=262144, label="language proposal"))
     proposal = review_saved_proposal(raw, project)
     candidate = apply_proposal(proposal, project, confirmed=True)
+    if args.interface_contract:
+        from core.interface_contract import require_protected_interfaces
+
+        require_protected_interfaces(
+            project,
+            candidate,
+            _read_interface_document(args.interface_contract, expected_version="neurocad-interface-contract-v1"),
+        )
     write_project(destination, candidate, overwrite=False)
     print(destination)
     return 0
@@ -1744,8 +1758,119 @@ def cmd_enclosure_edit(args: argparse.Namespace) -> int:
             raise ValueError("edit value is limited to 64 KiB")
         value = strict_json_loads(args.value)
         edited = update_project(project, args.field, value, reason=args.reason)
+    impact = None
+    if args.interface_contract:
+        from core.interface_contract import require_protected_interfaces
+
+        impact = require_protected_interfaces(
+            project,
+            edited,
+            _read_interface_document(args.interface_contract, expected_version="neurocad-interface-contract-v1"),
+        )
     write_project(output, edited, overwrite=False)
-    print(json.dumps({"output": str(output), "revision": edited.revision, "changes": semantic_diff(project, edited)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "output": str(output),
+                "revision": edited.revision,
+                "changes": semantic_diff(project, edited),
+                "interface_protection": None if impact is None else impact["interface_contract"],
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
+def _read_interface_document(path_value: str, *, expected_version: str) -> dict[str, Any]:
+    from core.interface_contract import MAX_INTERFACE_DOCUMENT_BYTES, parse_interface_document
+
+    return parse_interface_document(
+        read_bounded_utf8(
+            _resolved_path(path_value),
+            max_bytes=MAX_INTERFACE_DOCUMENT_BYTES,
+            label="interface document",
+        ),
+        expected_version=expected_version,
+    )
+
+
+def cmd_interface_contract_create(args: argparse.Namespace) -> int:
+    from core.interface_contract import create_interface_contract, serialize_interface_document
+    from core.project import read_project
+
+    source, output = _resolved_path(args.project), _resolved_output_path(args.output, force=False)
+    _require_distinct_paths(project=source, output=output)
+    _require_new_path(output, label="interface contract")
+    contract = create_interface_contract(
+        read_project(source),
+        contract_id=args.contract_id,
+        cutout_ids=tuple(args.cutout or ()),
+        standoff_ids=tuple(args.standoff or ()),
+        lock_pcb_mounting=args.pcb_mounting,
+        lock_lid_interface=args.lid_interface,
+        tolerance_mm=args.tolerance,
+    )
+    write_text_atomic(output, serialize_interface_document(contract), overwrite=False)
+    print(str(output))
+    return 0
+
+
+def cmd_interface_contract_verify(args: argparse.Namespace) -> int:
+    from core.interface_contract import verify_interface_contract
+    from core.project import read_project
+
+    result = verify_interface_contract(
+        read_project(_resolved_path(args.project)),
+        _read_interface_document(args.contract, expected_version="neurocad-interface-contract-v1"),
+    )
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_change_impact(args: argparse.Namespace) -> int:
+    from core.interface_contract import evaluate_project_change, serialize_interface_document
+    from core.project import read_project
+
+    source_path, candidate_path = _resolved_path(args.source), _resolved_path(args.candidate)
+    contract = (
+        _read_interface_document(args.interface_contract, expected_version="neurocad-interface-contract-v1")
+        if args.interface_contract
+        else None
+    )
+    report = evaluate_project_change(
+        read_project(source_path),
+        read_project(candidate_path),
+        contract=contract,
+    )
+    encoded = serialize_interface_document(report)
+    if args.output:
+        output = _resolved_output_path(args.output, force=False)
+        _require_distinct_paths(source=source_path, candidate=candidate_path, output=output)
+        _require_new_path(output, label="change-impact report")
+        write_text_atomic(output, encoded, overwrite=False)
+        print(str(output))
+    else:
+        print(encoded, end="")
+    return 0 if report["decision"] == "ACCEPTED" else 2
+
+
+def cmd_change_impact_verify(args: argparse.Namespace) -> int:
+    from core.interface_contract import verify_change_impact_report
+    from core.project import read_project
+
+    contract = (
+        _read_interface_document(args.interface_contract, expected_version="neurocad-interface-contract-v1")
+        if args.interface_contract
+        else None
+    )
+    result = verify_change_impact_report(
+        read_project(_resolved_path(args.source)),
+        read_project(_resolved_path(args.candidate)),
+        _read_interface_document(args.report, expected_version="neurocad-change-impact-v1"),
+        contract=contract,
+    )
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
     return 0
 
 
@@ -1807,6 +1932,14 @@ def cmd_calibration_apply_clearance(args: argparse.Namespace) -> int:
     project = read_project(source)
     profile = _read_calibration_profile(str(profile_path))
     edited = apply_calibrated_clearance(project, profile, reason=args.reason)
+    if args.interface_contract:
+        from core.interface_contract import require_protected_interfaces
+
+        require_protected_interfaces(
+            project,
+            edited,
+            _read_interface_document(args.interface_contract, expected_version="neurocad-interface-contract-v1"),
+        )
     write_project(output, edited)
     print(
         json.dumps(
@@ -2108,6 +2241,185 @@ def cmd_fit_sample(args: argparse.Namespace) -> int:
     sample = cutout_fit_sample(read_project(source), args.cutout, margin_mm=args.margin)
     write_text_atomic(output, serialize_ir_json(sample))
     print(str(output))
+    return 0
+
+
+def cmd_fit_study(args: argparse.Namespace) -> int:
+    from core.fit_study import create_fit_study_bundle
+    from core.project import read_project
+
+    source, output = _resolved_path(args.project), _resolved_path(args.output_dir)
+    if source == output or source in output.parents:
+        raise ValueError("fit-study output must not contain or replace the source project")
+    receipt = create_fit_study_bundle(
+        read_project(source),
+        args.cutout,
+        output,
+        adjustments_mm=args.adjustment,
+        margin_mm=args.margin,
+        replicates_per_variant=args.replicates,
+    )
+    print(json.dumps(receipt, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_fit_study_verify(args: argparse.Namespace) -> int:
+    from core.fit_study import verify_fit_study_bundle
+    from core.project import read_project
+
+    project = read_project(_resolved_path(args.project)) if args.project else None
+    report = verify_fit_study_bundle(_resolved_path(args.bundle), expected_project=project)
+    print(json.dumps(report, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_fit_study_evaluate(args: argparse.Namespace) -> int:
+    from core.fit_study import evaluate_fit_study
+    from core.json_io import strict_json_loads
+
+    bundle, observations = _resolved_path(args.bundle), _resolved_path(args.observations)
+    output = _resolved_path(args.output)
+    _require_distinct_paths(bundle=bundle, observations=observations, output=output)
+    _require_new_path(output, label="fit-study evaluation")
+    payload = strict_json_loads(
+        read_bounded_utf8(observations, max_bytes=1_048_576, label="fit-study observations")
+    )
+    report = evaluate_fit_study(bundle, payload)
+    write_text_atomic(output, json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n", overwrite=False)
+    print(str(output))
+    return 0
+
+
+def cmd_fit_study_report_verify(args: argparse.Namespace) -> int:
+    from core.fit_study import verify_fit_study_report
+    from core.json_io import strict_json_loads
+
+    report = strict_json_loads(
+        read_bounded_utf8(_resolved_path(args.report), max_bytes=1_048_576, label="fit-study report")
+    )
+    result = verify_fit_study_report(_resolved_path(args.bundle), report)
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_fit_study_seal(args: argparse.Namespace) -> int:
+    from core.fit_study import create_fit_evidence_bundle
+    from core.json_io import strict_json_loads
+
+    observations_path = _resolved_path(args.observations)
+    observations = strict_json_loads(
+        read_bounded_utf8(observations_path, max_bytes=1_048_576, label="fit-study observations")
+    )
+    result = create_fit_evidence_bundle(
+        _resolved_path(args.bundle),
+        observations,
+        [_resolved_path(path) for path in args.evidence],
+        _resolved_path(args.output_dir),
+    )
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_fit_study_seal_verify(args: argparse.Namespace) -> int:
+    from core.fit_study import verify_fit_evidence_bundle
+
+    result = verify_fit_evidence_bundle(
+        _resolved_path(args.bundle),
+        _resolved_path(args.evidence_bundle),
+    )
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_fit_revision_plan(args: argparse.Namespace) -> int:
+    from core.fit_revision import create_fit_revision_plan, serialize_fit_revision_plan
+    from core.project import read_project
+
+    project_path, output = _resolved_path(args.project), _resolved_path(args.output)
+    study, evidence = _resolved_path(args.bundle), _resolved_path(args.evidence_bundle)
+    _require_distinct_paths(project=project_path, output=output)
+    _require_outside_directories(output, fit_study=study, fit_evidence=evidence)
+    _require_new_path(output, label="fit-revision plan")
+    plan = create_fit_revision_plan(
+        read_project(project_path),
+        study,
+        evidence,
+    )
+    write_text_atomic(output, serialize_fit_revision_plan(plan), overwrite=False)
+    print(str(output))
+    return 0
+
+
+def cmd_fit_revision_plan_verify(args: argparse.Namespace) -> int:
+    from core.fit_revision import parse_fit_revision_plan, verify_fit_revision_plan
+    from core.project import read_project
+
+    plan = parse_fit_revision_plan(
+        read_bounded_utf8(_resolved_path(args.plan), max_bytes=1_048_576, label="fit-revision plan")
+    )
+    result = verify_fit_revision_plan(
+        read_project(_resolved_path(args.project)),
+        _resolved_path(args.bundle),
+        _resolved_path(args.evidence_bundle),
+        plan,
+    )
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+    return 0
+
+
+def cmd_fit_revision_apply(args: argparse.Namespace) -> int:
+    from core.fit_revision import apply_fit_revision, parse_fit_revision_plan
+    from core.project import read_project, write_project
+
+    if not args.confirm:
+        raise ValueError("fit-revision application requires --confirm after reviewing the plan")
+    project_path, plan_path, output = (
+        _resolved_path(args.project),
+        _resolved_path(args.plan),
+        _resolved_path(args.output),
+    )
+    study, evidence = _resolved_path(args.bundle), _resolved_path(args.evidence_bundle)
+    _require_distinct_paths(project=project_path, plan=plan_path, output=output)
+    _require_outside_directories(output, fit_study=study, fit_evidence=evidence)
+    _require_new_path(output, label="revised project")
+    plan = parse_fit_revision_plan(
+        read_bounded_utf8(plan_path, max_bytes=1_048_576, label="fit-revision plan")
+    )
+    project = read_project(project_path)
+    revised = apply_fit_revision(
+        project,
+        study,
+        evidence,
+        plan,
+    )
+    if args.interface_contract:
+        from core.interface_contract import require_protected_interfaces
+
+        require_protected_interfaces(
+            project,
+            revised,
+            _read_interface_document(args.interface_contract, expected_version="neurocad-interface-contract-v1"),
+        )
+    write_project(output, revised, overwrite=False)
+    print(str(output))
+    return 0
+
+
+def cmd_fit_revision_verify(args: argparse.Namespace) -> int:
+    from core.fit_revision import parse_fit_revision_plan, verify_applied_fit_revision
+    from core.project import read_project
+
+    plan = parse_fit_revision_plan(
+        read_bounded_utf8(_resolved_path(args.plan), max_bytes=1_048_576, label="fit-revision plan")
+    )
+    result = verify_applied_fit_revision(
+        read_project(_resolved_path(args.project)),
+        read_project(_resolved_path(args.revised_project)),
+        _resolved_path(args.bundle),
+        _resolved_path(args.evidence_bundle),
+        plan,
+    )
+    print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
     return 0
 
 
@@ -2490,6 +2802,124 @@ def build_parser() -> argparse.ArgumentParser:
     fit_sample.add_argument("-o", "--output", required=True, help="New canonical IR file; compile with neurocad compile")
     fit_sample.set_defaults(func=cmd_fit_sample)
 
+    fit_study = enclosure_actions.add_parser(
+        "fit-study",
+        help="Generate an atomic, source-bound ladder of cutout fit coupons and evidence templates",
+    )
+    fit_study.add_argument("project", help="Existing enclosure project JSON")
+    fit_study.add_argument("--cutout", required=True, help="Existing body cutout ID")
+    fit_study.add_argument(
+        "--adjustment",
+        type=float,
+        action="append",
+        required=True,
+        help="Total opening adjustment in mm; repeat 2–21 times (circle diameter or rectangle width/height)",
+    )
+    fit_study.add_argument("--margin", type=float, default=5.0, help="Surrounding material in mm (5–50)")
+    fit_study.add_argument(
+        "--replicates",
+        type=int,
+        default=3,
+        help="Predeclared physical trials per adjustment (1–20; default: 3)",
+    )
+    fit_study.add_argument("--output-dir", required=True, help="New atomic fit-study directory")
+    fit_study.set_defaults(func=cmd_fit_study)
+
+    fit_study_verify = enclosure_actions.add_parser(
+        "fit-study-verify",
+        help="Verify hashes, source identity, and every canonical fit-study coupon",
+    )
+    fit_study_verify.add_argument("bundle", help="Existing fit-study directory")
+    fit_study_verify.add_argument("--project", help="Require the study to match this exact project revision")
+    fit_study_verify.set_defaults(func=cmd_fit_study_verify)
+
+    fit_study_evaluate = enclosure_actions.add_parser(
+        "fit-study-evaluate",
+        help="Evaluate complete physical observations without certifying fit",
+    )
+    fit_study_evaluate.add_argument("bundle", help="Verified fit-study directory")
+    fit_study_evaluate.add_argument("observations", help="Completed strict observations JSON")
+    fit_study_evaluate.add_argument("-o", "--output", required=True, help="New evidence-bounded evaluation report")
+    fit_study_evaluate.set_defaults(func=cmd_fit_study_evaluate)
+
+    fit_study_report_verify = enclosure_actions.add_parser(
+        "fit-study-report-verify",
+        help="Recompute a saved fit-study report from its retained observations and exact bundle",
+    )
+    fit_study_report_verify.add_argument("bundle", help="Verified fit-study directory")
+    fit_study_report_verify.add_argument("report", help="Saved fit-study evaluation report")
+    fit_study_report_verify.set_defaults(func=cmd_fit_study_report_verify)
+
+    fit_study_seal = enclosure_actions.add_parser(
+        "fit-study-seal",
+        help="Create an immutable, hash-bound package of observations, report, and retained evidence files",
+    )
+    fit_study_seal.add_argument("bundle", help="Verified fit-study directory")
+    fit_study_seal.add_argument("observations", help="Completed strict observations JSON")
+    fit_study_seal.add_argument(
+        "--evidence",
+        action="append",
+        required=True,
+        help="Retained photo, calibration record, or other evidence file; repeat 1–32 times",
+    )
+    fit_study_seal.add_argument("--output-dir", required=True, help="New atomic fit-evidence directory")
+    fit_study_seal.set_defaults(func=cmd_fit_study_seal)
+
+    fit_study_seal_verify = enclosure_actions.add_parser(
+        "fit-study-seal-verify",
+        help="Verify every retained evidence byte and recompute the bound fit report",
+    )
+    fit_study_seal_verify.add_argument("bundle", help="Verified fit-study directory")
+    fit_study_seal_verify.add_argument("evidence_bundle", help="Existing fit-evidence directory")
+    fit_study_seal_verify.set_defaults(func=cmd_fit_study_seal_verify)
+
+    fit_revision_plan = enclosure_actions.add_parser(
+        "fit-revision-plan",
+        help="Create a review-only cutout revision plan from a bracketed, sealed fit study",
+    )
+    fit_revision_plan.add_argument("project", help="Exact source project used by the fit study")
+    fit_revision_plan.add_argument("bundle", help="Verified fit-study directory")
+    fit_revision_plan.add_argument("evidence_bundle", help="Verified sealed fit-evidence directory")
+    fit_revision_plan.add_argument("-o", "--output", required=True, help="New deterministic revision-plan JSON")
+    fit_revision_plan.set_defaults(func=cmd_fit_revision_plan)
+
+    fit_revision_plan_verify = enclosure_actions.add_parser(
+        "fit-revision-plan-verify",
+        help="Recompute a fit-revision plan from its exact project, study, and sealed evidence",
+    )
+    fit_revision_plan_verify.add_argument("project", help="Exact source project used by the fit study")
+    fit_revision_plan_verify.add_argument("bundle", help="Verified fit-study directory")
+    fit_revision_plan_verify.add_argument("evidence_bundle", help="Verified sealed fit-evidence directory")
+    fit_revision_plan_verify.add_argument("plan", help="Saved fit-revision plan JSON")
+    fit_revision_plan_verify.set_defaults(func=cmd_fit_revision_plan_verify)
+
+    fit_revision_apply = enclosure_actions.add_parser(
+        "fit-revision-apply",
+        help="Explicitly apply a reviewed, recomputed fit-revision plan to a new project",
+    )
+    fit_revision_apply.add_argument("project", help="Exact source project used by the fit study")
+    fit_revision_apply.add_argument("bundle", help="Verified fit-study directory")
+    fit_revision_apply.add_argument("evidence_bundle", help="Verified sealed fit-evidence directory")
+    fit_revision_apply.add_argument("plan", help="Reviewed fit-revision plan JSON")
+    fit_revision_apply.add_argument("-o", "--output", required=True, help="New revised project; source is preserved")
+    fit_revision_apply.add_argument("--confirm", action="store_true", help="Confirm the reviewed nominal cutout change")
+    fit_revision_apply.add_argument(
+        "--interface-contract",
+        help="Reject application if it changes a source-bound protected interface",
+    )
+    fit_revision_apply.set_defaults(func=cmd_fit_revision_apply)
+
+    fit_revision_verify = enclosure_actions.add_parser(
+        "fit-revision-verify",
+        help="Verify revision ancestry, evidence binding, semantic isolation, and compiled aperture",
+    )
+    fit_revision_verify.add_argument("project", help="Exact source project used by the fit study")
+    fit_revision_verify.add_argument("revised_project", help="Applied revised project")
+    fit_revision_verify.add_argument("bundle", help="Verified fit-study directory")
+    fit_revision_verify.add_argument("evidence_bundle", help="Verified sealed fit-evidence directory")
+    fit_revision_verify.add_argument("plan", help="Reviewed fit-revision plan JSON")
+    fit_revision_verify.set_defaults(func=cmd_fit_revision_verify)
+
     enclosure_interpret = enclosure_actions.add_parser("interpret", help="Interpret measurable enclosure requirements")
     enclosure_interpret.add_argument("prompt", nargs="+", help="Conversational clauses with explicit engineering dimensions")
     enclosure_interpret.add_argument("-o", "--output", help="Write the auditable interpretation JSON")
@@ -2515,6 +2945,10 @@ def build_parser() -> argparse.ArgumentParser:
     enclosure_apply_proposal.add_argument("proposal", help="Reviewed proposal JSON from enclosure understand")
     enclosure_apply_proposal.add_argument("-o", "--output", required=True, help="New project file; baseline is preserved")
     enclosure_apply_proposal.add_argument("--confirm", action="store_true", help="Explicitly confirm the reviewed interpretation")
+    enclosure_apply_proposal.add_argument(
+        "--interface-contract",
+        help="Reject the proposal if it changes a source-bound protected interface",
+    )
     enclosure_apply_proposal.set_defaults(func=cmd_enclosure_apply_proposal)
 
     enclosure_build = enclosure_actions.add_parser("build", help="Build a new collision-refusing enclosure artifact bundle")
@@ -2539,6 +2973,53 @@ def build_parser() -> argparse.ArgumentParser:
     enclosure_preflight.add_argument("--bundle", help="Measure solid material from a verified STL bundle matching this exact project")
     enclosure_preflight.set_defaults(func=cmd_enclosure_preflight)
 
+    interface_lock = enclosure_actions.add_parser(
+        "interface-lock",
+        help="Capture selected connector, mounting, PCB, or lid interfaces in a source-bound contract",
+    )
+    interface_lock.add_argument("project", help="Exact source enclosure project")
+    interface_lock.add_argument("--contract-id", required=True, help="Stable identifier for this interface contract")
+    interface_lock.add_argument("--cutout", action="append", help="Cutout ID to protect; repeat as needed")
+    interface_lock.add_argument("--standoff", action="append", help="Standoff ID to protect; repeat as needed")
+    interface_lock.add_argument("--pcb-mounting", action="store_true", help="Protect PCB origin and mounting-hole pattern")
+    interface_lock.add_argument("--lid-interface", action="store_true", help="Protect the modeled lid/body mating interface")
+    interface_lock.add_argument(
+        "--tolerance",
+        type=float,
+        default=0.0,
+        help="Allowed absolute numeric drift in mm (0–5; default: exact)",
+    )
+    interface_lock.add_argument("-o", "--output", required=True, help="New interface-contract JSON")
+    interface_lock.set_defaults(func=cmd_interface_contract_create)
+
+    interface_lock_verify = enclosure_actions.add_parser(
+        "interface-lock-verify",
+        help="Recompute an interface contract from its exact source project",
+    )
+    interface_lock_verify.add_argument("project", help="Exact source enclosure project")
+    interface_lock_verify.add_argument("contract", help="Interface-contract JSON")
+    interface_lock_verify.set_defaults(func=cmd_interface_contract_verify)
+
+    change_impact = enclosure_actions.add_parser(
+        "impact-report",
+        help="Report revision ancestry, changed geometry, invalidated evidence, and interface violations",
+    )
+    change_impact.add_argument("source", help="Accepted source enclosure project")
+    change_impact.add_argument("candidate", help="Candidate enclosure project revision")
+    change_impact.add_argument("--interface-contract", help="Optional source-bound interface contract")
+    change_impact.add_argument("-o", "--output", help="New report JSON; otherwise print to stdout")
+    change_impact.set_defaults(func=cmd_change_impact)
+
+    change_impact_verify = enclosure_actions.add_parser(
+        "impact-report-verify",
+        help="Recompute a saved change-impact report from exact projects and optional contract",
+    )
+    change_impact_verify.add_argument("source", help="Accepted source enclosure project")
+    change_impact_verify.add_argument("candidate", help="Candidate enclosure project revision")
+    change_impact_verify.add_argument("report", help="Saved change-impact report JSON")
+    change_impact_verify.add_argument("--interface-contract", help="Contract used when creating the report")
+    change_impact_verify.set_defaults(func=cmd_change_impact_verify)
+
     enclosure_edit = enclosure_actions.add_parser("edit", help="Create a new project revision with a semantic edit")
     enclosure_edit.add_argument("project", help="Source NeuroCAD enclosure project JSON")
     enclosure_edit_source = enclosure_edit.add_mutually_exclusive_group(required=True)
@@ -2546,6 +3027,10 @@ def build_parser() -> argparse.ArgumentParser:
     enclosure_edit_source.add_argument("--field", help="Supported semantic field path")
     enclosure_edit.add_argument("--value", help="New value encoded as strict JSON; required with --field")
     enclosure_edit.add_argument("--reason", help="Reason retained in revision history; defaults to the instruction")
+    enclosure_edit.add_argument(
+        "--interface-contract",
+        help="Reject the edit if it changes a source-bound protected interface",
+    )
     enclosure_edit.add_argument("-o", "--output", required=True, help="New project revision path")
     enclosure_edit.set_defaults(func=cmd_enclosure_edit)
 
@@ -2570,6 +3055,10 @@ def build_parser() -> argparse.ArgumentParser:
     calibration_apply.add_argument("profile", help="Calibrated profile JSON")
     calibration_apply.add_argument("-o", "--output", required=True, help="New project revision path")
     calibration_apply.add_argument("--reason", help="Optional audit reason")
+    calibration_apply.add_argument(
+        "--interface-contract",
+        help="Reject the calibrated edit if it changes a source-bound protected interface",
+    )
     calibration_apply.set_defaults(func=cmd_calibration_apply_clearance)
 
     integrations_parser = sub.add_parser("integrations", help="Inspect and create honest file handoffs for external applications")

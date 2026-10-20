@@ -18,6 +18,26 @@ calculators report their assumptions and applicability limits with every result.
 Outputs refuse path collisions by default. Unsupported, ambiguous, incomplete,
 and oversized requests fail nonzero without a successful artifact.
 
+For supported enclosure body cutouts, NeuroCAD can generate and regenerate-
+verify an atomic, source-bound ladder of aperture variants, emit a complete
+printer/process passport and measurement worksheet, and conservatively evaluate
+entered pass/fail observations. This is workflow and evidence support; no blank
+template or generated coupon is counted as a physical measurement or fit claim.
+A sealed, bracketed transition can drive a review-only, exact-source cutout
+revision plan. Explicit application creates a new auditable project revision;
+verification recomputes its ancestry and compiled aperture. This supports safe
+evidence use, not evidence authentication, process transfer, or fit certification.
+
+Selected connector cutouts, standoffs, PCB mounting coordinates, and modeled
+lid/body interface fields can be captured in an exact-source interface contract.
+Protected revision commands fail before writing when a selected interface is
+missing, structurally changed, or exceeds its declared numeric tolerance.
+Change-impact reports use stable feature IDs and coordinate-level paths to name
+affected scopes and evidence that must be regenerated, and can be independently
+recomputed from the exact source, candidate, and contract. These checks establish
+project-field compatibility only; they do not inspect an unmodeled mating part or
+certify physical compatibility.
+
 The agent studio adds persistent conversational **concept drafting**. A built-in
 offline planner supplies visible defaults for simple primitives, water bottles,
 and a decorative cosplay shell. Configured OpenAI-compatible or Ollama models may
@@ -62,8 +82,10 @@ Post-release main-branch changes need their own installed-release validation.
 - automatic material selection, constitutive modeling, or applicability beyond
   the assumptions declared by the bounded analytical calculators;
 - slicing, G-code, printer control, quoting, ordering, or manufacturing;
-- load ratings, regulatory compliance, safety certification, or physical-fit
-  claims;
+- load ratings, regulatory compliance, or safety certification; fit-study
+  reports retain every replicated coupon outcome and sealed evidence bundles
+  retain exact attachment bytes, but neither generalizes them into a certified
+  physical-fit claim or authenticates the content of an attached file;
 - a bundled trained CAD model;
 - general-purpose production BREP/NURBS modeling, adaptive meshing, FEA, CFD, electromagnetics, acoustics,
   optics, topology optimization, or coupled multiphysics solver execution;

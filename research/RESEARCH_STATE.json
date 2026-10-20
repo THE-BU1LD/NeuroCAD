@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-10-15",
+  "updated_on": "2026-10-20",
   "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
   "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
   "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
@@ -488,9 +488,61 @@
         "no scientific gate advance without external evidence"
       ],
       "stopping": "Close on verified bounded completion or budget exhaustion; preserve failures and unresolved work."
+    },
+    {
+      "id": "neurocad_completion_20261020",
+      "date": "2026-10-20",
+      "authorization": "User requested the pasted start-to-finish pipeline for all of NeuroCAD.",
+      "kind": "BOUNDED_PRODUCT_CAPABILITY_SUCCESSOR",
+      "base_commit": "813396070b84f47d8ad3f8caea70344730059c45",
+      "branch": "codex/neurocad-perfect-20261020",
+      "scope": [
+        "source-bound fit-study generation and verification",
+        "complete physical-observation accounting and immutable evidence sealing",
+        "single-use evidence-bound cutout revision planning and verification",
+        "protected-interface contracts and ancestry-aware change-impact reporting",
+        "integrated verification with Feature IR fail-closed hardening"
+      ],
+      "status": "FOCUSED_LOCAL_ENGINEERING_PASS_HEAVY_HOSTED_EXTERNAL_GATES_OPEN",
+      "verification": {
+        "fit_study_and_sample_tests": 23,
+        "fit_revision_tests": 5,
+        "interface_and_feature_ir_tests": 26,
+        "ruff": "PASS",
+        "mypy_changed_source_files": "PASS_5_FILES",
+        "diff_check": "PASS",
+        "physics_v2_desktop_latex_compile": "PASS_UNCHANGED_PROTECTED_PAPER",
+        "physics_v2_pdf_visual_review": "PASS_6_OF_6_PAGES",
+        "full_suite": "NOT_RUN_RESOURCE_ADMISSION_FAIL",
+        "native": "NOT_RUN_RESOURCE_ADMISSION_FAIL",
+        "installed_package": "NOT_RUN_RESOURCE_ADMISSION_FAIL",
+        "hosted": "NOT_RUN_EXISTING_ACCOUNT_ADMISSION_BLOCK"
+      },
+      "retained_failures": [
+        "Initial verification command referenced absent .audit-venv/bin/python and failed before test collection.",
+        "One combined test command reached its 30-second wrapper ceiling without a terminal summary; the same cohort then passed in three bounded batches.",
+        "Free plus speculative memory remained below the 512 MiB floor and pageouts rose, so heavy execution stayed blocked.",
+        "The requested arxiv.sty asset was not present in the repository or indexed user files."
+      ],
+      "budgets_used": {
+        "protected_runs": 0,
+        "training_runs": 0,
+        "paid_compute": 0,
+        "provider_calls": 0,
+        "kaggle_uploads": 0,
+        "physical_experiments": 0,
+        "hosted_attempts": 0
+      },
+      "protected_outcome_accesses": 0,
+      "scientific_checkpoint_advanced": false,
+      "research_complete": false,
+      "release_changed": false,
+      "report": "docs/verification/neurocad-completion-20261020/REPORT.md",
+      "audit": "audit/neurocad_completion_20261020/AUDIT.md",
+      "next_action": "Repair hosted runner admission for exact-head full/native/package verification; obtain independent challenge authorship/adjudication and physical evidence before any scientific or fit claim."
     }
   ],
-  "latest_engineering_session": "completion_20261015",
+  "latest_engineering_session": "neurocad_completion_20261020",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",

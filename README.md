@@ -349,14 +349,76 @@ neurocad enclosure interpret \
   --project-id controller --project-output controller-r1.ncad.json
 neurocad enclosure edit controller-r1.ncad.json \
   --instruction "set wall thickness to 2.4 mm" -o controller-r2.ncad.json
+neurocad enclosure interface-lock controller-r2.ncad.json \
+  --contract-id controller-interfaces-v1 --cutout usb-port --lid-interface \
+  -o controller-interfaces-v1.json
 neurocad enclosure preflight controller-r2.ncad.json
 neurocad enclosure build controller-r2.ncad.json --output-dir controller-r2 --stl
 neurocad enclosure verify controller-r2
+neurocad enclosure fit-study controller-r2.ncad.json --cutout usb-port \
+  --adjustment=-0.2 --adjustment=0 --adjustment=0.2 --adjustment=0.4 \
+  --replicates=3 \
+  --output-dir usb-fit-study
+neurocad enclosure fit-study-verify usb-fit-study --project controller-r2.ncad.json
+neurocad enclosure fit-study-seal usb-fit-study observations.json \
+  --evidence coupon-photo.jpg --output-dir usb-fit-evidence
+neurocad enclosure fit-revision-plan controller-r2.ncad.json usb-fit-study \
+  usb-fit-evidence -o usb-fit-revision.json
+neurocad enclosure fit-revision-plan-verify controller-r2.ncad.json \
+  usb-fit-study usb-fit-evidence usb-fit-revision.json
+neurocad enclosure fit-revision-apply controller-r2.ncad.json usb-fit-study \
+  usb-fit-evidence usb-fit-revision.json -o controller-r3.ncad.json --confirm
+neurocad enclosure fit-revision-verify controller-r2.ncad.json \
+  controller-r3.ncad.json usb-fit-study usb-fit-evidence usb-fit-revision.json
 ```
 
 `enclosure verify` independently checks the manifest schema, artifact inventory,
 hashes, project metadata, regenerated canonical IR and OpenSCAD, fabrication
 preflight, and current request-level mesh evidence for compiled bundles.
+
+`enclosure fit-study` creates an atomic, source-bound tolerance ladder for one
+supported body cutout. Every variant includes canonical IR, deterministic SCAD,
+and a geometry-level anchor-plus-binary identity marker. The study predeclares
+replicates and a conservative acceptance rule, plus a printer/process passport
+and trial worksheet. After real observations are entered,
+`enclosure fit-study-evaluate` reports per-variant counts, descriptive Wilson
+intervals, the tested transition, or a retained non-monotone result. Use
+`fit-study-seal` to bind the normalized observations, recomputable report, and
+retained photos or calibration records into an immutable evidence package.
+Generated templates and attached files are never treated as authenticated
+measurements, and no report certifies physical fit.
+
+A sealed report with a bracketed observed pass/fail transition can produce a
+review-only `fit-revision-plan`. The plan separates nominal cutout dimensions
+from compiled aperture dimensions and binds both to the exact source project,
+study, report, and evidence manifest. Application requires `--confirm`, creates
+one new project revision, preserves the source bytes, and fails on stale or
+already-applied inputs. Verification independently recomputes the plan and final
+compiled aperture. A held-out study on the revision remains required; the
+workflow does not authenticate attachments or certify physical fit.
+
+An accepted revision can protect selected modeled interfaces before other edits:
+
+```bash
+neurocad enclosure interface-lock-verify controller-r2.ncad.json \
+  controller-interfaces-v1.json
+neurocad enclosure edit controller-r2.ncad.json --instruction "rename field controller" \
+  --interface-contract controller-interfaces-v1.json -o controller-r3.ncad.json
+neurocad enclosure impact-report controller-r2.ncad.json controller-r3.ncad.json \
+  --interface-contract controller-interfaces-v1.json -o controller-r3-impact.json
+neurocad enclosure impact-report-verify controller-r2.ncad.json \
+  controller-r3.ncad.json controller-r3-impact.json \
+  --interface-contract controller-interfaces-v1.json
+```
+
+Contracts can lock named cutouts and standoffs, PCB mounting coordinates, and
+the modeled lid/body mating fields. `enclosure edit`, `apply-proposal`,
+`fit-revision-apply`, and `calibration apply-clearance` accept
+`--interface-contract` and refuse a violating candidate before writing it.
+Impact reports bind exact source and candidate hashes, check revision ancestry,
+show stable feature-ID and coordinate-level changes, and enumerate evidence that
+must be regenerated. Numeric tolerance is only a comparison threshold; neither
+a passing contract nor a report certifies an unmodeled part or physical fit.
 
 For conversational edits, `neurocad enclosure understand PROJECT "walls 3mm and dont move the outside"`
 returns a reviewable, context-bound proposal. The local parser supports documented

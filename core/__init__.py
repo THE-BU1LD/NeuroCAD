@@ -73,7 +73,27 @@ from .engineering_math import (
     symmetric_positions,
     tolerance_stack,
 )
+from .fit_revision import (
+    FIT_REVISION_PLAN_VERSION,
+    apply_fit_revision,
+    create_fit_revision_plan,
+    parse_fit_revision_plan,
+    serialize_fit_revision_plan,
+    verify_applied_fit_revision,
+    verify_fit_revision_plan,
+)
 from .geometry import Primitive, box, cone, cylinder, sphere, torus
+from .interface_contract import (
+    CHANGE_IMPACT_VERSION,
+    INTERFACE_CONTRACT_VERSION,
+    create_interface_contract,
+    evaluate_project_change,
+    parse_interface_document,
+    require_protected_interfaces,
+    serialize_interface_document,
+    verify_change_impact_report,
+    verify_interface_contract,
+)
 from .ir import CADProgram, Node, Transform, validate_program
 from .ir import Constraint as IRConstraint
 from .ir import Primitive as IRPrimitive
@@ -183,8 +203,11 @@ from .validation import ValidationReport, validate_design
 from .workflow import BuildBundle, build_project_bundle, project_from_text
 
 __all__ = [
+    "CHANGE_IMPACT_VERSION",
     "COMPLEX_SHAPE_ANALYSIS_VERSION",
     "COMPLEX_SHAPE_REQUEST_VERSION",
+    "FIT_REVISION_PLAN_VERSION",
+    "INTERFACE_CONTRACT_VERSION",
     "LOAD_CASE_VERSION",
     "LOAD_COMBINATION_VERSION",
     "MATERIAL_CARD_V2_VERSION",
@@ -271,6 +294,7 @@ __all__ = [
     "ValidationReport",
     "VentPatternSpec",
     "apply_calibrated_clearance",
+    "apply_fit_revision",
     "box",
     "build_complex_shape",
     "build_component_overlay",
@@ -284,12 +308,15 @@ __all__ = [
     "component_geometry_metrics",
     "component_geometry_sha256",
     "cone",
+    "create_fit_revision_plan",
+    "create_interface_contract",
     "cylinder",
     "design_graph_to_ir",
     "design_to_scad",
     "edit_project_from_text",
     "electro_thermal_wire",
     "euler_buckling",
+    "evaluate_project_change",
     "fabrication_preflight",
     "fit_calibration_profile",
     "forced_vibration",
@@ -312,6 +339,8 @@ __all__ = [
     "parse_agent_plan",
     "parse_calibration_dataset",
     "parse_calibration_profile",
+    "parse_fit_revision_plan",
+    "parse_interface_document",
     "parse_ir_json",
     "parse_project",
     "parse_unit",
@@ -331,12 +360,15 @@ __all__ = [
     "radiative_exchange",
     "read_project",
     "rectangular_cantilever",
+    "require_protected_interfaces",
     "resolve_physics_context",
     "resolve_physics_context_v3",
     "score_orientations",
     "semantic_diff",
     "serialize_calibration_dataset",
     "serialize_calibration_profile",
+    "serialize_fit_revision_plan",
+    "serialize_interface_document",
     "serialize_ir_json",
     "serialize_project",
     "solve_nonlinear_constraints",
@@ -355,6 +387,10 @@ __all__ = [
     "validate_enclosure_spec",
     "validate_program",
     "value_gradient_hessian",
+    "verify_applied_fit_revision",
+    "verify_change_impact_report",
+    "verify_fit_revision_plan",
+    "verify_interface_contract",
     "verify_physics_report",
     "write_project",
 ]

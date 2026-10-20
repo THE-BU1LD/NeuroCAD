@@ -1,0 +1,35 @@
+{
+  "schema_version": "neurocad-bounded-completion-v1",
+  "session_id": "neurocad_completion_20261020",
+  "date": "2026-10-20",
+  "authorization": "User requested the pasted start-to-finish pipeline for all of NeuroCAD.",
+  "base_commit": "813396070b84f47d8ad3f8caea70344730059c45",
+  "branch": "codex/neurocad-perfect-20261020",
+  "scope": [
+    "recover and integrate preserved protected-interface and change-impact work",
+    "recover and integrate source-bound fit-study and evidence-bound revision work",
+    "verify current Feature IR hardening together with the integrated successor",
+    "audit paper, arXiv-style, Kaggle, hosted, release, physical, and independent-evidence gates"
+  ],
+  "protected_boundaries": [
+    "No protected compiler challenge outcomes may be opened or generated.",
+    "No Physics v2 or Physics v3 frozen protocol, result, paper source, or release artifact may be rewritten.",
+    "No synthetic or project-authored result may be represented as independent, physical, or open-world evidence."
+  ],
+  "budget": {
+    "protected_runs": 0,
+    "training_runs": 0,
+    "paid_compute": 0,
+    "provider_calls": 0,
+    "kaggle_uploads": 0,
+    "physical_experiments": 0,
+    "hosted_attempts": 0,
+    "numeric_threads": 1,
+    "local_heavy_admission_floor_mib": 512
+  },
+  "stop_rules": [
+    "Do not run heavy, native, full-suite, package, or scientific workloads if free plus speculative memory is below 512 MiB or pageouts rise.",
+    "Retain test failures and command timeouts as execution evidence.",
+    "Close with unresolved external gates rather than tuning until a positive result."
+  ]
+}

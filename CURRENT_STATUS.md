@@ -1,5 +1,31 @@
 # NeuroCAD current status
 
+## Bounded product-capability successor - 2026-10-20
+
+The current candidate integrates source-bound fit-study ladders, physically
+marker-coded variants, complete observation/passport accounting, recomputable
+reports, immutable evidence sealing, single-use fit-revision plans, protected
+interface contracts, and ancestry-aware change-impact reports. These paths are
+available through the enclosure CLI and reject stale, incomplete, tampered, or
+contract-violating inputs before publication.
+
+Current focused verification passed 54 tests: 23 fit-study/sample, 5 fit-revision,
+and 26 interface-contract/Feature IR cases. Scoped Ruff, MyPy on five changed
+source files, and `git diff --check` passed. The unchanged complete Physics v2
+paper compiled successfully and all six committed PDF pages passed visual review.
+The requested `arxiv.sty` asset is absent, so no style-specific successor package
+was invented.
+
+This is bounded local engineering evidence. Free plus speculative memory remained
+below the 512 MiB admission floor and pageouts rose, so full/native/package work
+was not run locally. Existing hosted verification is blocked before runner
+allocation by the GitHub account billing/Actions spending-limit condition. No
+protected outcome, Kaggle upload, model training, provider call, physical
+measurement, participant result, independent reproduction, release, tag, or arXiv
+submission was created. See the
+[successor audit](audit/neurocad_completion_20261020/AUDIT.md) and
+[receipt](docs/verification/neurocad-completion-20261020/REPORT.md).
+
 ## Feature IR fail-closed hardening candidate — 2026-10-20
 
 The merged upstream engineering baseline is

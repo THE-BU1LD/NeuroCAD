@@ -63,9 +63,9 @@ Dependencies: existing typed specification, parser, preflight, and revision hist
 - [ ] Conflict diagnosis: return a conflicting subset of requirements; do not call it minimal without checking minimality.
 - [ ] Smallest feasible repair: minimize a disclosed weighted change objective while respecting locked parameters; independently recheck the proposal.
 - [ ] Parameter operating ranges: report validated bounds and any disconnected feasible intervals.
-- [ ] Protected interfaces: lock selected mounting patterns and connector locations; reject edits that violate them.
-- [ ] Change-impact report: identify altered dimensions, dependent features, and invalidated evidence.
-- [ ] Compatibility tests: check an old lid against a new body using explicit interface dimensions and tolerance bounds.
+- [x] Protected interfaces: an external exact-source contract locks selected cutouts, standoffs, PCB mounting patterns and modeled lid/body interfaces; protected edit paths reject structural changes or numeric drift beyond the declared bound.
+- [x] Change-impact report: recomputable reports identify feature-ID and coordinate-level changes, affected geometry scopes, invalidated evidence and broken ancestry without claiming that unchanged evidence is physically sufficient.
+- [x] Compatibility tests: the lid-interface lock compares explicit lid/body mating fields and declared numeric tolerance against a candidate revision; passing is modeled field compatibility, not physical fit.
 - [ ] Constraint report: emit passed, failed, and unknown results with check versions and assumptions.
 - [ ] Report authenticity: verify hashes; introduce signatures only with explicit issuer identity and key management.
 - [ ] Evidence expiry: invalidate only affected checks when geometry, process, material, or checker version changes.
@@ -77,16 +77,18 @@ Dependencies: existing typed specification, parser, preflight, and revision hist
 
 Dependencies: supported enclosure features, deterministic exports, physical protocol.
 
-- [ ] Fit-only preview: extract a connector opening or mounting interface while retaining production dimensions.
-- [ ] Tolerance ladder: generate labeled clearance variants; verify labels correspond to measured geometry.
+- [x] Fit-only preview: extract a connector opening or mounting interface while retaining production dimensions.
+- [x] Tolerance ladder: generate physically marker-coded cutout variants with canonical IR and deterministic SCAD, then regenerate-verify labels and source against aperture geometry; physical outcomes remain external.
 - [ ] Calibration coupon: include known reference dimensions and a measurement worksheet.
-- [ ] Printer passport: record machine, nozzle, material, orientation, settings, measurements, date, and uncertainty.
+- [x] Printer passport: require machine/firmware, nozzle, material/lot, slicer/version, process, layer/extrusion dimensions, orientation, mating-part reference, instrument/calibration, environment, operator, zoned timestamp, operational acceptance criterion and trial protocol.
 - [ ] Compensation model: estimate supported dimensional bias from measurements; validate on held-out coupons.
-- [ ] Nominal/compensated separation: preserve intended dimensions and make compensation reversible without double application.
+- [x] Nominal/compensated separation: an exact-source, single-use revision plan exposes nominal and compiled aperture dimensions, preserves the source project, records the reversible prior value, and rejects stale/double application.
 - [ ] Cross-machine transfer: identify evidence that no longer applies when the process profile changes.
 - [ ] Measurement assistant: show where to measure each required dimension and how uncertainty affects fit.
 - [ ] Scale-check sheet: export a 1:1 template with calibration marks and instructions to disable print scaling.
-- [ ] Acceptance worksheet: list critical dimensions, limits, instruments, observed values, and pass/fail/unknown results.
+- [x] Acceptance worksheet: emit source-bound replicated CSV and strict JSON templates; reject incomplete, duplicated or stale trials; report conservative all-replicate decisions and descriptive Wilson intervals.
+- [x] Evidence sealing: atomically bind normalized observations, recomputable report and retained attachment bytes with inventory, sizes and SHA-256 hashes while explicitly leaving authenticity and physical validity unclaimed.
+- [x] Evidence-bound revision: require a sealed monotone bracket, recompute the plan from exact inputs, require explicit confirmation, isolate the named cutout edit, and verify the resulting compiled aperture.
 - [ ] Full workflow demo: request → fit sample → measurement → revised enclosure → independent verification.
 
 ## P2 — Hardware and assembly
