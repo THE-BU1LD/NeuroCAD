@@ -33,6 +33,7 @@
     "host": "Kaggle",
     "accelerator": "none",
     "network_needed_for_environment_install": true,
+    "network_needed_for_pinned_dataset_download": true,
     "partitions": ["abstract", "detailed"],
     "expected_samples_per_partition": 200,
     "attempts_per_prompt": 1,

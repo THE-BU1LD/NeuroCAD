@@ -9,20 +9,16 @@ import json
 from pathlib import Path
 from typing import Any
 
-DATASET_PATHS = (
-    "samples/abstract.parquet",
-    "samples/detailed.parquet",
-    "cadtests/abstract.parquet",
-    "cadtests/detailed.parquet",
-)
 EXPECTED_INPUT_SHA256 = {
     "neurocad-source.tar.gz": "a504d7ec532d318fddd9c03d4bf81a3957a99b36692c5c6a199a1149d37ef5c5",
     "cadtestbench-source.tar.gz": "70e1881242984ac10bff800838e1c32b003a4f0a4a45b8cf9531d0445153b5e5",
     "requirements-hosted.lock": "31cf03a57f39be995e0958e8b6cc845a5de83f60844e0694446e470378c3145c",
-    "dataset/samples/abstract.parquet": "67a5779bc5114ce4db6bc9be89bf22c25e707bc83e7431214cddfac23f980536",
-    "dataset/samples/detailed.parquet": "76b2d20def7946e1e3216b72a8acb83825c489c373b23ac514b77885ae275b37",
-    "dataset/cadtests/abstract.parquet": "7ffa58d245c4975e4365bccd2acbaaf2c0622241223cf170bdc952a8e5563713",
-    "dataset/cadtests/detailed.parquet": "470a47347653fbea969a9b8f1d415bb21cf6ee2a2c1ed46613752ef275b2773a",
+}
+EXPECTED_DATASET_SHA256 = {
+    "samples/abstract.parquet": "67a5779bc5114ce4db6bc9be89bf22c25e707bc83e7431214cddfac23f980536",
+    "samples/detailed.parquet": "76b2d20def7946e1e3216b72a8acb83825c489c373b23ac514b77885ae275b37",
+    "cadtests/abstract.parquet": "7ffa58d245c4975e4365bccd2acbaaf2c0622241223cf170bdc952a8e5563713",
+    "cadtests/detailed.parquet": "470a47347653fbea969a9b8f1d415bb21cf6ee2a2c1ed46613752ef275b2773a",
 }
 
 
@@ -48,7 +44,6 @@ def build_notebook(
     *,
     source_archive: Path,
     evaluator_archive: Path,
-    dataset_root: Path,
     requirements: Path,
     execution_manifest: Path,
 ) -> dict[str, Any]:
@@ -58,9 +53,6 @@ def build_notebook(
         "requirements-hosted.lock": requirements,
         "execution_manifest.json": execution_manifest,
     }
-    for relative in DATASET_PATHS:
-        payload_paths[f"dataset/{relative}"] = dataset_root / relative
-
     payload: dict[str, str] = {}
     hashes: dict[str, str] = {}
     for name, path in payload_paths.items():
@@ -91,15 +83,15 @@ for name, encoded in PAYLOAD.items():
     path.write_bytes(data)
 print(json.dumps({{"payload_sha256": EXPECTED_SHA256}}, indent=2, sort_keys=True))
 '''
-    install_source = '''def safe_extract(archive_path, destination):
+    install_source = f'''def safe_extract(archive_path, destination):
     destination = destination.resolve()
     with tarfile.open(archive_path, "r:gz") as archive:
         for member in archive.getmembers():
             if member.issym() or member.islnk():
-                raise RuntimeError(f"links are forbidden in frozen archives: {member.name}")
+                raise RuntimeError(f"links are forbidden in frozen archives: {{member.name}}")
             target = (destination / member.name).resolve()
             if destination != target and destination not in target.parents:
-                raise RuntimeError(f"unsafe archive member: {member.name}")
+                raise RuntimeError(f"unsafe archive member: {{member.name}}")
         archive.extractall(destination)
 
 NEUROCAD_ROOT = ROOT / "neurocad"
@@ -130,6 +122,22 @@ if dependency_install.returncode != 0 or evaluator_install is None or evaluator_
     print(install_log.read_text(encoding="utf-8"))
     raise RuntimeError("frozen environment installation failed; retained environment_install.log")
 print("FROZEN_ENVIRONMENT_INSTALLED")
+
+from huggingface_hub import snapshot_download
+DATASET_SHA256 = {json.dumps(EXPECTED_DATASET_SHA256, sort_keys=True, indent=2)}
+DATASET_ROOT = PAYLOAD_ROOT / "dataset"
+snapshot_download(
+    repo_id="dimitrismallis/CADTestBench",
+    repo_type="dataset",
+    revision="2b9a4a972d142d2bc634d072e9d4485f171ced06",
+    allow_patterns=sorted(DATASET_SHA256),
+    local_dir=DATASET_ROOT,
+)
+for relative, expected in DATASET_SHA256.items():
+    observed = hashlib.sha256((DATASET_ROOT / relative).read_bytes()).hexdigest()
+    if observed != expected:
+        raise RuntimeError(f"dataset hash mismatch for {{relative}}: {{observed}}")
+print("FROZEN_DATASET_VERIFIED")
 '''
     run_source = '''environment_receipt = ROOT / "environment_receipt.txt"
 with environment_receipt.open("w", encoding="utf-8") as receipt:
@@ -197,7 +205,6 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-archive", type=Path, required=True)
     parser.add_argument("--evaluator-archive", type=Path, required=True)
-    parser.add_argument("--dataset-root", type=Path, required=True)
     parser.add_argument("--requirements", type=Path, required=True)
     parser.add_argument("--execution-manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -205,7 +212,6 @@ def main() -> int:
     notebook = build_notebook(
         source_archive=args.source_archive,
         evaluator_archive=args.evaluator_archive,
-        dataset_root=args.dataset_root,
         requirements=args.requirements,
         execution_manifest=args.execution_manifest,
     )
