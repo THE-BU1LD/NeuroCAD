@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "study_id": "NC-CADTESTBENCH-V1",
+  "observed_on": "2026-10-21",
+  "local_gate": {
+    "minimum_free_plus_speculative_bytes": 536870912,
+    "page_size_bytes": 16384,
+    "sample_1": {
+      "pages_free": 3791,
+      "pages_speculative": 10417,
+      "free_plus_speculative_bytes": 232783872,
+      "pageouts": 318829,
+      "swapouts": 3601609
+    },
+    "sample_2": {
+      "pages_free": 4049,
+      "pages_speculative": 10726,
+      "free_plus_speculative_bytes": 242073600,
+      "pageouts": 318829,
+      "swapouts": 3601609
+    },
+    "admitted": false,
+    "decision": "Local native CADTestBench execution refused because both samples were below 512 MiB. Pageout and swapout counters were stable, but that does not override the free-memory threshold."
+  },
+  "hosted_decision": "Use the frozen Kaggle CPU payload. A GPU is not required for deterministic CadQuery B-Rep generation and CADTest execution."
+}
