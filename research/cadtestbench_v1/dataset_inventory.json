@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "study_id": "NC-CADTESTBENCH-V1",
+  "repository": "https://huggingface.co/datasets/dimitrismallis/CADTestBench",
+  "revision": "2b9a4a972d142d2bc634d072e9d4485f171ced06",
+  "downloaded_on": "2026-10-21",
+  "values_inspected": false,
+  "inventory_method": "File metadata, Parquet schema and row counts only; prompt and CADTest values remained unopened before protocol freeze.",
+  "files": [
+    {
+      "path": "samples/abstract.parquet",
+      "bytes": 17545,
+      "sha256": "67a5779bc5114ce4db6bc9be89bf22c25e707bc83e7431214cddfac23f980536",
+      "rows": 200,
+      "columns": ["sample_id", "partition", "prompt"]
+    },
+    {
+      "path": "samples/detailed.parquet",
+      "bytes": 33726,
+      "sha256": "76b2d20def7946e1e3216b72a8acb83825c489c373b23ac514b77885ae275b37",
+      "rows": 200,
+      "columns": ["sample_id", "partition", "prompt"]
+    },
+    {
+      "path": "cadtests/abstract.parquet",
+      "bytes": 627041,
+      "sha256": "7ffa58d245c4975e4365bccd2acbaaf2c0622241223cf170bdc952a8e5563713",
+      "rows": 2900,
+      "columns": [
+        "sample_id", "partition", "cadtest_id", "cadtest_description", "cadtest_code",
+        "cadtest_type", "classification_reasoning", "prompt_justification", "requirement_id",
+        "requirement_type", "requirement_description"
+      ]
+    },
+    {
+      "path": "cadtests/detailed.parquet",
+      "bytes": 625185,
+      "sha256": "470a47347653fbea969a9b8f1d415bb21cf6ee2a2c1ed46613752ef275b2773a",
+      "rows": 3037,
+      "columns": [
+        "sample_id", "partition", "cadtest_id", "cadtest_description", "cadtest_code",
+        "cadtest_type", "classification_reasoning", "prompt_justification", "requirement_id",
+        "requirement_type", "requirement_description"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "study_id": "NC-CADTESTBENCH-V1",
+  "created_on": "2026-10-21",
+  "status": "DEVELOPMENT_PRE_FREEZE",
+  "study_kind": "prospective_external_public_benchmark_successor",
+  "historical_protocol_reopened": false,
+  "historical_outcomes_changed": false,
+  "claim_boundary": "This public benchmark successor is not the unopened blind NC-EXT-EVAL-V0 study and cannot rehabilitate the falsified historical typed-parser causal claim.",
+  "research_question": "How often does the frozen deterministic NeuroCAD frontend plus a semantics-preserving CadQuery B-Rep exporter satisfy externally authored CADTestBench requirements without task-specific tuning?",
+  "method": {
+    "frontend": "NeuroCAD deterministic TextToCAD canonical-IR path",
+    "backend": "core.cadquery_export neurocad-cadquery-source-v1",
+    "learned_model": false,
+    "training": false,
+    "attempts_per_prompt": 1,
+    "adaptive_repair": false,
+    "human_correction": false
+  },
+  "external_sources": {
+    "cadtestbench_code": {
+      "repository": "https://github.com/dimitrismallis/CADTestBench",
+      "revision": "e29283cc61db7329039d95b429766a50bfd37f89"
+    },
+    "cadtestbench_dataset": {
+      "repository": "https://huggingface.co/datasets/dimitrismallis/CADTestBench",
+      "revision": "2b9a4a972d142d2bc634d072e9d4485f171ced06",
+      "license": "MIT",
+      "expected_unique_sample_ids_per_partition": 200
+    }
+  },
+  "population": {
+    "partitions": [
+      "abstract",
+      "detailed"
+    ],
+    "selection": "all records in both pinned partitions",
+    "total_prompt_conditions": 400,
+    "unsupported_or_rejected_prompts": "retained in denominator as failures",
+    "exclusions": [
+      "duplicate sample_id within a partition",
+      "invalid or unreadable pinned dataset row"
+    ]
+  },
+  "endpoints": {
+    "primary": [
+      "CADTestBench sample pass rate PR for each partition",
+      "CADTestBench requirement satisfaction RS for each partition"
+    ],
+    "secondary": [
+      "valid NeuroCAD canonical-program generation rate",
+      "model execution success rate",
+      "per-category CADTest pass counts",
+      "all rejection, compile, export and CADTest failures"
+    ],
+    "uncertainty": "Report exact numerator/denominator and two-sided 95% Wilson intervals for binary sample-level rates.",
+    "aggregation": "Never average abstract and detailed into one headline number."
+  },
+  "comparators": {
+    "official_paper_baselines": "Report only as externally published benchmark results unless their exact saved outputs are recomputed under the pinned evaluator.",
+    "direct_superiority_claim_allowed": false
+  },
+  "integrity": {
+    "outcomes_observed": false,
+    "benchmark_prompts_opened": false,
+    "cadtests_opened": false,
+    "dataset_downloaded": true,
+    "dataset_values_inspected": false,
+    "dataset_inventory": "research/cadtestbench_v1/dataset_inventory.json",
+    "freeze_requires": [
+      "clean exact NeuroCAD source revision",
+      "source archive SHA-256",
+      "dataset file inventory and SHA-256",
+      "runner and exporter test pass",
+      "environment and dependency lock",
+      "resource admission receipt",
+      "execution manifest with outcomes_observed=false"
+    ],
+    "post_outcome_rule": "No parser, exporter, exclusion, metric or retry change may replace this run. Any change requires NC-CADTESTBENCH-V2 and preserves V1."
+  },
+  "compute": {
+    "gpu_required": false,
+    "rationale": "The method and CADTests are deterministic CPU workloads; allocating a GPU does not strengthen the inference.",
+    "hosted_target": "Kaggle CPU unless a separately frozen learned comparator is added",
+    "paid_compute": 0
+  }
+}
