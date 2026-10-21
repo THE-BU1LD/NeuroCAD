@@ -30,6 +30,7 @@ def _code_cell(source: str) -> dict[str, Any]:
     return {
         "cell_type": "code",
         "execution_count": None,
+        "id": hashlib.sha256(("code\0" + source).encode()).hexdigest()[:16],
         "metadata": {},
         "outputs": [],
         "source": source.splitlines(keepends=True),
@@ -37,7 +38,12 @@ def _code_cell(source: str) -> dict[str, Any]:
 
 
 def _markdown_cell(source: str) -> dict[str, Any]:
-    return {"cell_type": "markdown", "metadata": {}, "source": source.splitlines(keepends=True)}
+    return {
+        "cell_type": "markdown",
+        "id": hashlib.sha256(("markdown\0" + source).encode()).hexdigest()[:16],
+        "metadata": {},
+        "source": source.splitlines(keepends=True),
+    }
 
 
 def build_notebook(
@@ -148,7 +154,8 @@ output_root = ROOT / "results"
 run_log = ROOT / "execution.log"
 command = [
     sys.executable,
-    str(NEUROCAD_ROOT / "research/cadtestbench_v1/run_hosted.py"),
+    "-m",
+    "research.cadtestbench_v1.run_hosted",
     "--dataset-root",
     str(PAYLOAD_ROOT / "dataset"),
     "--output-root",
