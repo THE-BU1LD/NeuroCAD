@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "study_id": "NC-CADTESTBENCH-V2",
+  "created_on": "2026-10-21",
+  "status": "DEVELOPMENT_PRE_FREEZE",
+  "predecessor": "NC-CADTESTBENCH-V1",
+  "predecessor_outcome": "INCONCLUSIVE_EXECUTION_FAILURE",
+  "change_from_predecessor": "Convert every per-prompt frontend or exporter exception into a deterministic generated RuntimeError program so the official evaluator counts the record as a failure instead of aborting the cohort.",
+  "unchanged": [
+    "NeuroCAD implementation commit ffa5e930831adc4469ddb71ac9489179a0719891 except successor cohort adapter",
+    "CadQuery exporter",
+    "all 200 abstract and 200 detailed records",
+    "one generation attempt per record",
+    "official evaluator revision e29283cc61db7329039d95b429766a50bfd37f89",
+    "dataset revision 2b9a4a972d142d2bc634d072e9d4485f171ced06",
+    "metrics, denominators and no-repair rule"
+  ],
+  "integrity": {
+    "benchmark_prompts_opened_in_predecessor": true,
+    "cadtests_opened": false,
+    "outcomes_observed": false,
+    "claim_boundary": "V2 is a transparent public-benchmark successor developed after V1 exposed a fail-closed runner defect. It is descriptive, not an unopened confirmatory study, and cannot rehabilitate the falsified historical typed-parser causal claim."
+  }
+}
