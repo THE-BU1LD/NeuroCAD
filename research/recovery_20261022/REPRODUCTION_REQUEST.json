@@ -1,0 +1,15 @@
+{
+  "schema_version": "neurocad-internal-reproduction-request-v1",
+  "study": "Physics v2 frozen 216-case contract",
+  "classification": "INTERNAL_CROSS_ENVIRONMENT_REPRODUCTION",
+  "checkout_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+  "freeze_sha256": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+  "cases_sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+  "primary_outcomes_already_observed": true,
+  "independent_party": false,
+  "authorization": "User requested real experiments and completion in corresponding GitHub repository on 2026-10-22.",
+  "compute": {"provider": "GitHub Actions", "runner": "ubuntu-24.04", "gpu": false, "timeout_minutes": 25},
+  "scientific_attempts": 1,
+  "rule": "Keep original source, dataset, freeze, scorer, ledger admission, thresholds and resource floors unchanged. Run the gated original method once only after engineering checks. Preserve all outputs and errors. Do not label the reproduction independent confirmation or Kaggle execution.",
+  "local_preflight": "Frozen source and case hashes matched; local disk below required 2048 MiB floor. No local study was launched."
+}
