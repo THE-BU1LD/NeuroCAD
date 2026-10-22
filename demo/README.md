@@ -14,7 +14,22 @@ demo/build_demo_kit.sh neurocad-demo-artifacts
 
 The destination must be new. Success produces three worked examples, verified
 STLs, editable SCAD/IR, manifests, a deliberate rejection, and
-`DEMO_RECEIPT.json` with byte counts and SHA-256 hashes.
+`DEMO_RECEIPT.json` with byte counts, artifact hashes, and a hash of the active
+NeuroCAD implementation. When the script runs from a Git checkout, it also
+records the exact commit. For an installed package with no embedded Git metadata,
+the receipt declares that the revision is unavailable rather than guessing.
+
+To bind an installed-package run to a reviewed source commit, supply that full
+commit explicitly:
+
+```bash
+NEUROCAD_SOURCE_REVISION="$(git rev-parse HEAD)" \
+  demo/build_demo_kit.sh neurocad-demo-artifacts
+```
+
+Only use a commit you have independently reviewed; this variable is recorded in
+the receipt as `user_supplied_unverified`. It does not validate a release, prove
+that an installed package came from that commit, or change the generated geometry.
 
 ## Live script
 

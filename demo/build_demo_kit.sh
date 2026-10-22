@@ -58,7 +58,10 @@ cli_version=$("$NEUROCAD_CLI" --version)
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
+import os
+import re
 import shutil
 import subprocess
 import sys
@@ -74,6 +77,48 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def source_provenance() -> dict[str, object]:
+    """Bind the receipt to the active implementation without leaking local paths."""
+    requested_revision = os.environ.get("NEUROCAD_SOURCE_REVISION", "").strip()
+    if requested_revision and not re.fullmatch(r"[0-9a-fA-F]{40,64}", requested_revision):
+        raise SystemExit("NEUROCAD_SOURCE_REVISION must be a full hexadecimal Git revision")
+
+    module_spec = importlib.util.find_spec("neurocad_cli")
+    core_spec = importlib.util.find_spec("core")
+    if module_spec is None or module_spec.origin is None or core_spec is None or not core_spec.submodule_search_locations:
+        raise SystemExit("could not locate the active NeuroCAD implementation")
+    cli_module = Path(module_spec.origin).resolve()
+    core_root = Path(next(iter(core_spec.submodule_search_locations))).resolve()
+    source_files = {"neurocad_cli.py": cli_module}
+    source_files.update({f"core/{path.relative_to(core_root)}": path for path in sorted(core_root.rglob("*.py"))})
+    file_hashes = {name: sha256(path) for name, path in source_files.items()}
+    implementation_sha256 = hashlib.sha256(
+        "".join(f"{name}:{digest}\n" for name, digest in sorted(file_hashes.items())).encode("ascii")
+    ).hexdigest()
+
+    revision = requested_revision.lower() or None
+    revision_status = "user_supplied_unverified" if revision else "not_available_from_installed_package"
+    if revision is None:
+        for candidate in (cli_module.parent, *cli_module.parents):
+            if not (candidate / ".git").exists():
+                continue
+            completed = subprocess.run(
+                ["git", "-C", str(candidate), "rev-parse", "HEAD"], capture_output=True, text=True, check=False
+            )
+            possible_revision = completed.stdout.strip()
+            if completed.returncode == 0 and re.fullmatch(r"[0-9a-fA-F]{40,64}", possible_revision):
+                revision = possible_revision.lower()
+                revision_status = "observed_checkout"
+            break
+
+    return {
+        "source_revision": revision,
+        "source_revision_status": revision_status,
+        "implementation_sha256": implementation_sha256,
+        "implementation_files": file_hashes,
+    }
 
 
 openscad = shutil.which("openscad")
@@ -101,6 +146,7 @@ receipt = {
         str(path.relative_to(root)): {"bytes": path.stat().st_size, "sha256": sha256(path)}
         for path in files
     },
+    "implementation": source_provenance(),
     "physical_validation": "not performed",
 }
 receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
