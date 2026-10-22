@@ -552,7 +552,13 @@
       "branch": "codex/neurocad-perfect-20261020",
       "predecessor": "NC-CADTESTBENCH-V1",
       "predecessor_disposition": "INCONCLUSIVE_EXECUTION_FAILURE_AFTER_PROMPT_IMPORT_BEFORE_EVALUATION",
-      "status": "FROZEN_KAGGLE_IMPORT_READY_GITHUB_PUSH_PENDING",
+      "status": "FROZEN_KAGGLE_IMPORT_READY_GITHUB_PUSH_VERIFIED",
+      "github": {
+        "repository": "https://github.com/THE-BU1LD/NeuroCAD",
+        "branch": "codex/neurocad-perfect-20261020",
+        "verified_package_commit": "e2eee7e1c8b8b79f975bacd7b341574457aebd74",
+        "verified_on": "2026-10-22"
+      },
       "implementation_commit": "c3050927eac1a4030cdc190de8606da196e5d73f",
       "artifact": {
         "path": "research/cadtestbench_v2/neurocad-nc-cadtestbench-v2.ipynb",
@@ -583,7 +589,7 @@
       "scientific_checkpoint_advanced": false,
       "research_complete": false,
       "scientific_result": "NOT_YET_PRODUCED",
-      "next_action": "Push the complete Kaggle-ready branch, verify the remote head, then upload the immutable private notebook and preserve the resulting evidence."
+      "next_action": "Upload the immutable private notebook to Kaggle without editing cells, run Save & Run All, then download and independently verify the retained result bundle before interpreting metrics."
     }
   ],
   "latest_engineering_session": "cadtestbench_v2_kaggle_readiness_20261022",
