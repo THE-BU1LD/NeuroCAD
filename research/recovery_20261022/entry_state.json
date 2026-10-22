@@ -1,0 +1,565 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-15",
+  "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
+  "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
+  "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
+  "repository": "THE-BU1LD/NeuroCAD",
+  "base_commit": "23c7284048512ca8d956c9a2c4c62eb1f8b8ea89",
+  "development_branch": "codex/integrated-numeric-geometry-20261010",
+  "phase": "INTEGRATED_NUMERIC_GEOMETRY_CANDIDATE",
+  "research_question": "Does the bounded deterministic compiler meet its declared semantic and fail-closed endpoints on an independently authored external challenge?",
+  "scientific_objective": "Maintain correct geometry checks while preserving the distinction between grammar conformance and external generalization.",
+  "current_hypothesis": "Existing controlled conformance does not establish open-world language generalization; independent external challenge evidence is still required.",
+  "intended_contribution_this_revision": "Combine polynomial, tolerance, residual/covariance and mesh-scale repairs; reject lossy integer inputs that would create false zero residuals.",
+  "scope": {
+    "code_paths": [
+      "core/mesh_geometry.py",
+      "tests/test_mesh_scale_invariance.py",
+      "core/scientific_kernel.py",
+      "core/engineering_math.py",
+      "tests/test_linear_integer_admission.py",
+      "tests/test_linear_system_numerics.py",
+      "tests/test_monte_carlo_covariance.py",
+      "tests/test_scientific_kernel_polynomials.py",
+      "tests/test_quadratic_tolerance_numerics.py"
+    ],
+    "study_outcome": "No new study outcome produced"
+  },
+  "historical_disposition": "EVIDENCE_PARTIAL; historical typed-parser causal claim remains falsified.",
+  "terminal_research_disposition": null,
+  "scientific_checkpoint_change": "None. Targeted engineering verification does not complete a scientific checkpoint.",
+  "protected_evaluation": {
+    "boundary": "No external challenge outcomes exist in the referenced truth record. This uses authored geometry regression fixtures, not independent scientific confirmation. Existing source-bound controlled run and frozen protocols are unchanged.",
+    "protected_outcome_accesses": 0,
+    "protected_runs": 0
+  },
+  "development_budget": {
+    "scope": "Bounded artificial regression fixtures and relevant existing implementation tests only",
+    "new_training_runs": 0,
+    "paid_compute": 0,
+    "numeric_threads": 1,
+    "scientific_development_budget": "Not inferred or expanded by this maintenance change"
+  },
+  "datasets_and_splits": {
+    "new_scientific_dataset": null,
+    "authority": "Applicable referenced frozen protocol; no dataset version or split is silently replaced.",
+    "fixtures": "Analytically specified or generated test fixtures, identified by hashed test source."
+  },
+  "artifacts": {
+    "historical_records": [
+      "RESEARCH_TRUTH.md",
+      "research/protocols/EXTERNAL_EVALUATION_V0.md",
+      "research/protocols/FROZEN_CONFIRMATORY_V1.md"
+    ],
+    "development_note": "research/DEVELOPMENT_MESH_SCALE_INVARIANCE_20261010.md",
+    "verification_receipt": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+    "integration_note": "docs/INTEGRATED_NUMERICAL_GEOMETRY_20261010.md",
+    "integration_verification": "research/verification/numerical-integration-20261010/receipt.json"
+  },
+  "baseline_failures_preserved": {
+    "new_suite_tests": 23,
+    "failed_on_base": 14,
+    "passed_on_base": 9,
+    "qualification": "Failures include incorrect reported normalization scale as well as geometry/overflow failures; not all 14 are false intersection verdicts.",
+    "environment_failure": "An initial broader run could not import jsonschema. Isolated dependencies were installed and the four targeted test files then passed.",
+    "final_regression_receipt": "research/verification/mesh_scale_invariance_20261010/base_receipt.json",
+    "final_suite_counts_on_base": {
+      "failed": 14,
+      "passed": 9
+    }
+  },
+  "decisions": [
+    {
+      "date": "2026-10-10",
+      "observation": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "hypothesized_cause": "A one-millimeter normalization floor made tolerances effectively absolute for small meshes, causing scale-dependent intersection decisions. Computing (min+max)/2 could overflow for finite translated vertices.",
+      "change": "Normalize by actual maximum mesh extent, center with half-weighted extrema, and reject zero or unrepresentable extent before geometric predicates.",
+      "predicted_consequence": "Four analytically chosen intersection/nonintersection fixtures preserve their verdict from 1e-180 to 1e160; a representable mesh near 1e308 can be centered without overflow.",
+      "discriminating_experiment": "Compare the new regression fixtures with the original base source, then run relevant existing checks.",
+      "result": "See retained verification receipt; no efficacy result is inferred."
+    },
+    {
+      "date": "2026-10-10",
+      "observation": "Four independent numerical/geometry candidates needed combined validation. Review found an integer-to-float conversion that reported residual zero for an integer equation whose true residual is one.",
+      "hypothesized_cause": "The conversion erased integer identity before the existing floating residual calculation.",
+      "change": "Merge all four histories, then inspect original integer scalars for exact float64 representation and reject lossy conversion. Preserve exactly representable large integers.",
+      "predicted_consequence": "The formerly false-zero cases fail explicitly while exact large-integer controls and existing numerical/geometry behavior remain supported.",
+      "discriminating_experiment": "Retained predecessor regressions, focused numerical tests and the full maintained product suite.",
+      "result": "See the integration verification receipt and exact-revision hosted checks; no scientific efficacy outcome is inferred."
+    },
+    {
+      "date": "2026-10-10",
+      "observation": "Interval(1e-310,1e-310) divided by itself raises ValueError even though its exact quotient is one.",
+      "hypothesized_cause": "Constructing the standalone reciprocal overflows before multiplication by the small numerator.",
+      "change": "Round the minimum and maximum of the four direct endpoint quotients outward. Keep zero-containing divisors and nonfinite enclosure endpoints rejected.",
+      "predicted_consequence": "Finite subnormal ratios enclose their exact rational results; ordinary controls and prior rejection boundaries remain valid.",
+      "discriminating_experiment": "Exact-rational endpoint tests on both original and integrated parent source, plus maintained numerical tests.",
+      "result": "See research/ENGINEERING_INTERVAL_DIVISION_20261010.json; no scientific outcome inferred."
+    }
+  ],
+  "claim_evidence": [
+    {
+      "claim": "Make normalized triangle-intersection geometry invariant to representable physical scale and robust to large finite translations.",
+      "evidence_scope": "Engineering only",
+      "raw_artifact": "research/verification/mesh_scale_invariance_20261010/receipt.json",
+      "analysis": "Analytic regression assertions and independent source review",
+      "figure_or_table": "No scientific figure or table generated"
+    },
+    {
+      "claim": "Original integer matrix/rhs/solution values cannot silently round into a false-zero residual via float64 admission.",
+      "evidence_scope": "Engineering input admission; floating arithmetic remains finite precision.",
+      "raw_artifact": "research/verification/numerical-integration-20261010/integer-baseline-receipt.json",
+      "analysis": "Independent review, analytically specified invalid equations and exactly representable large-integer controls.",
+      "figure_or_table": "No scientific figure or table generated"
+    }
+  ],
+  "independent_review": {
+    "status": "COMPLETED",
+    "scope": "Independent agent source and regression-test review; no human peer-review claim",
+    "date": "2026-10-10"
+  },
+  "limitations": "Inputs whose total span is not representable in float64 are rejected explicitly. These checks do not establish physical validity, kernel-backed solid correctness, safety, or language generalization. Linear diagnostics reject integer values not exactly representable in float64; they cannot recover precision already lost upstream or supply arbitrary-precision residual arithmetic.",
+  "next_required_work": [
+    "Exact-CAD spike full declared golden shape/platform coverage (issue 64)",
+    "Complete native plate/enclosure/beam meshing reference acceptance (issue 65)",
+    "Collect calibrated physical data, independent reproduction and intended-user observations.",
+    "Resolve benchmark authorship/provider/data and publication dependencies without reopening terminal science."
+  ],
+  "integration_parents": [
+    "982eafb1665a9c31868cfcfda7c75571885c2cd8",
+    "6b3c27f0b07732b7b61dc83035ec2282d7ac2ff5",
+    "c906105907cdd710b717d04d5d75b95ec3cac54a",
+    "e87726d3c7efe575e697770cbba5a064ec371e35"
+  ],
+  "engineering_validation": {
+    "status_at_commit": "LOCAL_NUMERICAL_CHECKS_PASS; TWO_FULL_SUITE_SOCKET_PERMISSION_FAILURES_RETAINED",
+    "source_receipt": "research/verification/numerical-integration-20261010/receipt.json",
+    "hosted_results": "Consult the integration pull request checks for the exact source revision; no local test failure is suppressed.",
+    "environment_issues": [
+      "Initial missing jsonschema dependency resolved in isolated project/dev environment.",
+      "AF_UNIX socket creation denied locally; unchanged daemon cases remain required in hosted CI."
+    ],
+    "formatting_note": "Imported mesh and polynomial test blank lines corrected after full-suite execution; both AST identities preserved. Source/document whitespace checks exclude unchanged raw traceback whitespace."
+  },
+  "current_followup": "research/ENGINEERING_INTERVAL_DIVISION_20261010.json",
+  "engineering_followups": [
+    {
+      "date": "2026-10-10",
+      "parent_commit": "30cffcdd8881b60445355faffcd5752ef51aa32e",
+      "branch": "codex/neurocad-finite-interval-division-20261010",
+      "record": "research/ENGINEERING_INTERVAL_DIVISION_20261010.json",
+      "scope": [
+        "core/scientific_kernel.py:Interval.__truediv__",
+        "tests/test_interval_division.py"
+      ],
+      "scientific_outcomes_created": false,
+      "independent_review": "completed; independent 48-case exact-rational check passed; source hash in follow-up record"
+    },
+    {
+      "at": "2026-10-15T16:05:59.049308+00:00",
+      "id": "completion_20261015",
+      "status": "LOCAL_IMPLEMENTATION_VERIFIED_HOSTED_PENDING_APPROVAL",
+      "report": "/Users/ryan/.codex/worktrees/neurocad-completion/NeuroCAD/docs/ITERATION_COMPLETION_20261015.md"
+    }
+  ],
+  "engineering_sessions": [
+    {
+      "id": "finite_monte_carlo_20261010",
+      "contract": "research/development/finite_monte_carlo_20261010/contract.json",
+      "parent_state": "research/development/finite_monte_carlo_20261010/parent_state.json",
+      "status": "CLOSED",
+      "started_utc": "2026-10-10T09:51:35.070969+00:00",
+      "prior_budgets_reopened": false,
+      "closed_utc": "2026-10-10T10:15:05.015812+00:00",
+      "closure": "research/development/finite_monte_carlo_20261010/closure.json",
+      "closure_sha256": "27368f52fbe2d4d03a3acc66335d26df03d8ce4948b7b1e077fa15a25c3454ee",
+      "documentation": "research/FINITE_MONTE_CARLO_20261010.md",
+      "engineering_result": "NUMERICAL_CORRECTION_VERIFIED",
+      "budget_use": {
+        "test_commands": 2,
+        "test_wall_seconds": 2.699215759013896,
+        "demo_commands": 1,
+        "demo_wall_seconds": 0.961078781998367,
+        "lint_commands": 1,
+        "lint_wall_seconds": 0.10311767700477503,
+        "repair_cycles": 0,
+        "new_regression_cases": 21,
+        "final_selected_passed": 63,
+        "independent_review_execution_commands": 0,
+        "protected_outcome_accesses": 0,
+        "paid_compute": 0,
+        "scientific_runs": 0
+      },
+      "scientific_checkpoint_advanced": false,
+      "historical_disposition_preserved": true,
+      "protected_boundary_unchanged": true,
+      "new_session_required_before_further_execution": true
+    },
+    {
+      "id": "portable_sample_stdev_20261010",
+      "status": "CLOSED_WITH_BUDGET_DEVIATION",
+      "started_utc": "2026-10-10T10:29:29.193834+00:00",
+      "parent_commit": "a7d3c2e6176f61714bebf523033508a38a9323d5",
+      "contract": "research/development/portable_sample_stdev_20261010/contract.json",
+      "parent_state": "research/development/portable_sample_stdev_20261010/parent_state.json",
+      "prior_budgets_reopened": false,
+      "closed_utc": "2026-10-10T10:41:36.340635+00:00",
+      "closure": "research/development/portable_sample_stdev_20261010/closure.json",
+      "closure_sha256": "e899ecd2ce80f4d508d96d30acf698fc7982b36636d883f7cccac31d7da99992",
+      "documentation": "research/PORTABLE_SAMPLE_STDEV_20261010.md",
+      "engineering_result": "PORTABLE_NUMERICAL_CORRECTION_VERIFIED_ON_DECLARED_ENGINEERING_CASES",
+      "budget_use": {
+        "test_commands": 2,
+        "test_wall_seconds": 3.553595003002556,
+        "maximum_test_commands": 3,
+        "maximum_test_wall_seconds": 90,
+        "new_cases": 30,
+        "maximum_new_cases": 32,
+        "maximum_samples_per_new_case": 4,
+        "declared_unqualified_sample_cap_per_case": 32,
+        "maximum_samples_argument_in_inherited_case": 20000,
+        "samples_in_largest_inherited_case": 40000,
+        "sample_cap_satisfied": false,
+        "command_time_and_new_case_caps_satisfied": true,
+        "lint_commands": 1,
+        "lint_wall_seconds": 0.1678114770038519,
+        "new_demonstration_commands": 0,
+        "review_repair_cycles": 0,
+        "training_runs": 0,
+        "protected_outcomes": 0,
+        "paid_workloads": 0,
+        "scientific_runs": 0
+      },
+      "deviations": [
+        {
+          "classification": "ENGINEERING_BUDGET_DEVIATION",
+          "detected_during": "closure audit after the final selected gate",
+          "cause": "The prospective contract selected the complete inherited63-case cohort but also specified an unqualified32-sample ceiling. One unchanged inherited seeded regression makes two20000-sample calls.",
+          "affected_test": "tests/test_scientific_kernel.py::test_monte_carlo_is_seeded_and_matches_linear_reference",
+          "actual_samples_per_call": 20000,
+          "calls": 2,
+          "total_samples": 40000,
+          "contract_rewritten": false,
+          "numerical_evidence_valid": true,
+          "scientific_or_protected_outcomes": false,
+          "corrective_disposition": "Preserve the contract, actual command and passing evidence; close with deviation. No rerun or post-hoc redefinition of the cap. Future contracts must enumerate inherited workload exceptions prospectively."
+        }
+      ],
+      "scientific_checkpoint_advanced": false,
+      "protected_boundary_unchanged": true,
+      "historical_disposition_preserved": true,
+      "new_session_required_before_further_execution": true
+    },
+    {
+      "id": "integration_20261014",
+      "status": "CLOSED_BOUNDED_PASS_WITH_LATER_COVERAGE_DEFECT",
+      "source_base": "a7a83d1",
+      "authorization": "User: find all the work to do and do it",
+      "scope": "Combine existing fixes, resolve contracts, run hosted compatibility and installed conformance; reconcile stale work records.",
+      "budget": {
+        "hosted_attempts_per_workflow": 4,
+        "new_provider_calls": 0,
+        "physical_experiments": 0,
+        "protected_outcomes": 0,
+        "inherited_seeded_engineering_regression_samples": 40000
+      },
+      "prior_budgets_reopened": false,
+      "started_utc": "2026-10-14T11:59:57.485793+00:00",
+      "hosted_attempts_per_workflow_used": 3,
+      "tested_commit": "e71b63c829f02ed2950dea12912dd4149056904a",
+      "later_discovery": "Four-point circular stress samples miss biaxial extrema. Original receipts preserved; separately scoped successor begun."
+    },
+    {
+      "id": "shaft_biaxial_20261014",
+      "status": "CLOSED_MERGED_MAIN_VERIFIED_BOUNDED_SOFTWARE",
+      "contract": "research/development/shaft_biaxial_20261014/contract.json",
+      "baseline": "research/development/shaft_biaxial_20261014/baseline.json",
+      "budget": {
+        "hosted_attempts_per_workflow": 3,
+        "local_pure_function_baseline": 1,
+        "local_pure_function_corrected": 1,
+        "new_training_or_provider_runs": 0
+      },
+      "scientific_checkpoint_advanced": false,
+      "v4_tested_commit": "9231aab6402d1ea95ff867d038652fb5694bd2f7",
+      "v4_matrix": 38564024326,
+      "v4_conformance": 38564015307,
+      "v4_native": 38564024276,
+      "current_contract": "research/physics_v3/validation_v5/freeze.json",
+      "supplementary_contract": "research/development/composite_polygon_reference_20261014/contract.json",
+      "ligament_failure": "research/development/single_hole_ligament_20261014/baseline_and_contract.json",
+      "remaining_hosted_attempts_per_workflow": 2,
+      "current_status_authority": "GitHub checks for codex/neurocad-composite-final-20261014 and retained final receipts; do not infer outcomes from this pre-execution commit.",
+      "closed_at": "2026-10-14T12:50:09.899036+00:00",
+      "main_commit": "079902fa20d22c2cf102104b0f42b28bec8bc382",
+      "receipt": "docs/verification/composite-final-20261014/REPORT.md",
+      "hosted_matrix_attempts_used": 3,
+      "conformance_attempts_used_including_duplicate_push": 3
+    },
+    {
+      "id": "native_acceptance_20261014",
+      "status": "FINAL_CANDIDATE_PENDING",
+      "contract": "research/development/native_acceptance_20261014/contract.json",
+      "started_at": "2026-10-14T13:18:08.881397+00:00",
+      "prior_budgets_reopened": false,
+      "discovered_followup": "research/development/result_timing_v2_20261014/contract_and_baseline.json",
+      "hosted_attempts_used": 4,
+      "retained_failures": [
+        "attempt-1: platform Python setup and wrong OCP distribution metadata name",
+        "attempt-2: Windows canonical JSON newline/hash mismatch",
+        "attempt-4: Windows checkout line-end conversion refused by exact historical preservation guard"
+      ],
+      "new_provenance_discrepancy": "NC-REPRO-508EC40: 1211 matching present artifacts; logs/run.log missing; v1 digest contains ten timing values.",
+      "tested_candidate": "bf4cdca1e36ca21858403f0ebb043e7abf469602",
+      "native_run": 38573309209,
+      "full_matrix": 38573309121,
+      "interop": 38573308981,
+      "receipt": "docs/verification/native-acceptance-20261014/REPORT.md",
+      "final_integration_contract": "research/development/native_acceptance_20261014/final-integration-contract.json"
+    },
+    {
+      "id": "verified_intent_20261014",
+      "status": "LOCAL_BOUNDED_PASS_HOSTED_PENDING",
+      "contract": "research/development/verified_intent_20261014/contract.json",
+      "baseline": "research/development/verified_intent_20261014/baseline.json",
+      "verification": "research/development/verified_intent_20261014/local-verification.json",
+      "source_base": "0a4ce929c71b767e59822faf2a04546e324fe411",
+      "prior_budgets_reopened": false,
+      "scientific_checkpoint_advanced": false,
+      "implemented": [
+        "Requirement IR malformed types and explicit empty feature universe",
+        "Project finite-number overflow boundary",
+        "Frozen-context language scoring and versioned portable sealed reports",
+        "Matched paired report comparison with score recomputation"
+      ],
+      "remaining": [
+        "Exact candidate full hosted checks and protected merge",
+        "Separate final-geometry predicate successor",
+        "External benchmark/data/provider budget",
+        "Physical, independent reproduction and intended-user evidence"
+      ],
+      "plan": "docs/VERIFIED_INTENT_UPGRADE_PLAN_20261014.md"
+    },
+    {
+      "id": "conversation_quantities_20261015",
+      "at": "2026-10-15T14:34:20.781202+00:00",
+      "status": "CLOSED_LOCAL_ENGINEERING_PASS_WITH_RETAINED_EXECUTION_DEVIATION",
+      "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015",
+      "branch": "codex/conversation-quantities-20261015",
+      "base_commit": "e1c09a80a58b0d883be9091a1bd5cb8b9b47aea1",
+      "report": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015/research/development/conversation_quantities_20261015/REPORT.md",
+      "contract": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-conversation-quantities-20261015/research/development/conversation_quantities_20261015/contract.json",
+      "scientific_checkpoint_advanced": false,
+      "research_complete": false,
+      "generalization": "NOT_ESTABLISHED",
+      "efficiency": "INCONCLUSIVE_NO_RELIABLE_SPEEDUP",
+      "tests_passed": 170,
+      "new_quantity_cases": 48,
+      "diagnostic": {
+        "valid_exact": 14,
+        "valid_total": 20,
+        "fail_closed": 12,
+        "reject_total": 12,
+        "unsafe": 0,
+        "overall": 24,
+        "total": 32
+      },
+      "budget_used": {
+        "baseline_attempts": 1,
+        "fixture_recovery_baselines": 1,
+        "candidate_batches": 3,
+        "lint_type_batches": 2,
+        "technical_lint_repairs": 1,
+        "affected_test_rechecks": 1,
+        "timing_runs": 1,
+        "development_diagnostic_runs": 1,
+        "protected_runs": 0,
+        "paid_calls": 0,
+        "hosted_runs": 0,
+        "full_suite_runs": 0,
+        "unintended_native_selection_terminated": 1
+      },
+      "production_source_hashes": {
+        "core/conversation_quantities.py": "f81b9630465085105c95ac050dca934f17db2b52f1c1cf981af2e3f904b281ac",
+        "core/conversational_parser.py": "b2d3a8884848d9d1b1f14f959c877fba385b57a23ecf7fb406efbf89db8076db"
+      },
+      "next_action": "Review local candidate; full/install verification when admitted, independent quantity prompts, and separately scoped remaining language repairs. Do not claim a speedup from noisy timing."
+    },
+    {
+      "id": "scalar_intent_20261015",
+      "closed_at": "2026-10-15T15:05:35.936683+00:00",
+      "status": "LOCAL_TESTS_PASS_TYPECHECK_RESOURCE_BLOCKED_INTEGRATION_PENDING",
+      "kind": "EXISTING_PRODUCT_MAINTENANCE",
+      "base_commit": "910d80939385f61246b768749a16487a5d09b8b7",
+      "branch": "codex/scalar-intent-20261015",
+      "worktree": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-scalar-intent-20261015",
+      "report": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-scalar-intent-20261015/research/development/scalar_intent_20261015/REPORT.md",
+      "contract": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-scalar-intent-20261015/research/development/scalar_intent_20261015/contract.json",
+      "tests": {
+        "baseline_failed": 18,
+        "baseline_passed": 29,
+        "new_cases": 47,
+        "candidate_passed": 239
+      },
+      "lint": "PASS",
+      "type_check": "RESOURCE_BLOCKED_MEMORY_LIMIT",
+      "full_native_installed": "NOT_RUN",
+      "diagnostic": {
+        "valid_exact": 16,
+        "valid_total": 20,
+        "overall_passed": 26,
+        "total": 32,
+        "safe_rejections": 12,
+        "rejection_total": 12,
+        "wrong_candidates": 0,
+        "unsafe_acceptances": 0,
+        "provider_errors": 0,
+        "regressions": 0
+      },
+      "protected_files_matched": 58,
+      "budget_used": {
+        "baseline_batches": 1,
+        "candidate_batches": 1,
+        "lint_type_batches": 1,
+        "diagnostic_runs": 1,
+        "static_integrity_audits": 2,
+        "native": 0,
+        "full_suite": 0,
+        "hosted": 0,
+        "training": 0,
+        "paid": 0,
+        "protected": 0
+      },
+      "scientific_checkpoint_advanced": false,
+      "research_complete": false,
+      "scientific_disposition": "NOT_EVALUATED",
+      "next_action": "Complete exact-source type/full/install checks on admitted resources; separately scope remaining fragmented/informal/history language work. Research admission and external evidence remain open.",
+      "source_sha256": "a864735525a494a66015f707f93ed7b53b8edfc07717f7ae3062f7ec1744f95a"
+    },
+    {
+      "id": "completion_20261015",
+      "started_at": "2026-10-15T15:50:07.374546+00:00",
+      "authorization": "Implement them all right now no excuses",
+      "kind": "BOUNDED_PRODUCT_COMPLETION",
+      "source_parents": [
+        "c51a56cb0348185ce078022f257208a751101351",
+        "941eed7093b4cdc2e30db7b686b1330a6c8fa06a"
+      ],
+      "scope": [
+        "integrate retained language and aggregate-geometry candidates",
+        "complete bounded multi-clause edits, explicit objective limits, revision-bound scalar history and clarification",
+        "final exported cylindrical-hole geometry verification",
+        "manifest-first external evaluation accounting",
+        "exact-source hosted full native installed validation",
+        "truth and release preparation"
+      ],
+      "nonclaims": [
+        "independent generalization",
+        "novelty",
+        "physical measurements",
+        "human participation",
+        "independent reproduction"
+      ],
+      "budget": {
+        "pure_python_batches": 12,
+        "lint_batches": 6,
+        "hosted_attempts_per_workflow": 4,
+        "protected_runs": 0,
+        "training": 0,
+        "paid_provider": 0,
+        "physical_experiments": 0
+      },
+      "prior_budgets_reopened": false,
+      "local_execution": "Only bounded pure-Python checks, one process at a time, 96 MiB/20 s cap. Native/full/type checks use hosted resources while local gate fails.",
+      "entry_resource_samples_mib": [
+        126.515625,
+        183.84375
+      ],
+      "pageouts": [
+        668738,
+        668958
+      ],
+      "local_heavy_admission": "FAIL",
+      "acceptance": [
+        "exact-source checks pass without weakening tests",
+        "original evidence and protected files preserved",
+        "counterexamples refuse unresolved interpretation and geometry",
+        "no scientific gate advance without external evidence"
+      ],
+      "stopping": "Close on verified bounded completion or budget exhaustion; preserve failures and unresolved work."
+    }
+  ],
+  "latest_engineering_session": "completion_20261015",
+  "latest_engineering_read_order": [
+    "research/PORTABLE_SAMPLE_STDEV_20261010.md",
+    "research/development/portable_sample_stdev_20261010/closure.json",
+    "research/FINITE_MONTE_CARLO_20261010.md",
+    "research/development/finite_monte_carlo_20261010/closure.json"
+  ],
+  "readiness_checklist": {
+    "date": "2026-10-14",
+    "manifest": "docs/V3_READINESS_CHECKLIST.json",
+    "audit": "scripts/audit_v3_readiness.py",
+    "status": "IMPLEMENTED_NATIVE_MERGE_RECONCILED_EXTERNAL_AND_RELEASE_GATES_OPEN",
+    "tests": 13,
+    "production_changes": false,
+    "prior_failures_preserved": true,
+    "native_merge": "0bef391d210b8df1c871f5f250cf011012728e64"
+  },
+  "canonical_session_entry": "/Volumes/PRO-BLADE/.codex-worktrees/neurocad-revision-research-v1/research/RESEARCH_STATE.json",
+  "completion_20261015": {
+    "id": "completion_20261015",
+    "updated_at": "2026-10-15T16:05:59.049308+00:00",
+    "status": "LOCAL_IMPLEMENTATION_VERIFIED_HOSTED_PENDING_APPROVAL",
+    "worktree": "/Users/ryan/.codex/worktrees/neurocad-completion/NeuroCAD",
+    "branch": "codex/complete-iteration-20261015",
+    "source_candidate": "4a9c6a62dd2166491a993eb80ee1dbd24e105cac",
+    "followup": "Pinned-kernel empty-intersection correction and final receipts are prepared as a followup commit",
+    "implemented": [
+      "integrated quantity/directional/scalar and aggregate-geometry candidates",
+      "fragmented edits and remaining-field preservation",
+      "revision-bound local scalar history and CLI",
+      "targeted clarification and explicit unverified objectives",
+      "final STEP cylindrical bore axis/location/radius/depth/clearance and blind-through checks",
+      "manifest-first pinned evaluation accounting"
+    ],
+    "verification": {
+      "combined_local_tests": 371,
+      "affected_after_native_api_correction": 108,
+      "lint": "PASS",
+      "diagnostic_valid_exact": "20/20",
+      "diagnostic_all_outcomes": "32/32",
+      "diagnostic_safe_rejections": "12/12",
+      "diagnostic_wrong_candidates": 0,
+      "diagnostic_provider_errors": 0,
+      "diagnostic_scope": "observed development cases; v3 history interface, no independent generalization",
+      "native": "NOT_RUN",
+      "full": "NOT_RUN",
+      "type": "NOT_RUN_THIS_SESSION",
+      "installed_package": "NOT_RUN",
+      "hosted": "NOT_RUN_PUSH_REJECTED",
+      "protected_paths_unchanged": true
+    },
+    "budget_used": {
+      "pure_python_batches": 8,
+      "lint_batches": 5,
+      "hosted_attempts": 0,
+      "training": 0,
+      "paid_provider": 0,
+      "protected_runs": 0
+    },
+    "remaining": [
+      "Exact destination/payload approval then hosted native/full/type/install checks",
+      "Resolve any hosted failures within declared budget",
+      "Merge and separately verified release after exact-source checks",
+      "Four original missing logs not found in nine worktrees or reachable Git history",
+      "Independent scoring/comparators and novelty admission",
+      "Real physical measurements, independent reproduction and intended-user outcomes"
+    ],
+    "scientific_checkpoint_advanced": false,
+    "research_complete": false,
+    "release_changed": false,
+    "report": "/Users/ryan/.codex/worktrees/neurocad-completion/NeuroCAD/docs/ITERATION_COMPLETION_20261015.md"
+  }
+}

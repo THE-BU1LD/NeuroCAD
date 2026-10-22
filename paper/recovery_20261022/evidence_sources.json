@@ -1,0 +1,228 @@
+{
+  "claim_boundary": "Retained synthetic evidence and one internal repetition; not external, physical, user, Kaggle, or new independent confirmatory evidence.",
+  "compiler": {
+    "fixed_box": {
+      "label": "Fixed box",
+      "splits": {
+        "test": [
+          0,
+          48
+        ],
+        "train": [
+          0,
+          144
+        ],
+        "val": [
+          0,
+          48
+        ]
+      },
+      "total": [
+        0,
+        240
+      ]
+    },
+    "nearest_neighbor_retrieval": {
+      "label": "Nearest-neighbor retrieval",
+      "splits": {
+        "test": [
+          0,
+          48
+        ],
+        "train": [
+          144,
+          144
+        ],
+        "val": [
+          0,
+          48
+        ]
+      },
+      "total": [
+        144,
+        240
+      ]
+    },
+    "neurocad": {
+      "label": "NeuroCAD",
+      "splits": {
+        "test": [
+          48,
+          48
+        ],
+        "train": [
+          144,
+          144
+        ],
+        "val": [
+          48,
+          48
+        ]
+      },
+      "total": [
+        240,
+        240
+      ]
+    },
+    "normalized_dimensions_only": {
+      "label": "Unit-normalized dimensions",
+      "splits": {
+        "test": [
+          27,
+          48
+        ],
+        "train": [
+          82,
+          144
+        ],
+        "val": [
+          21,
+          48
+        ]
+      },
+      "total": [
+        130,
+        240
+      ]
+    },
+    "raw_numbers_no_unit_normalization": {
+      "label": "Raw numbers",
+      "splits": {
+        "test": [
+          0,
+          48
+        ],
+        "train": [
+          82,
+          144
+        ],
+        "val": [
+          28,
+          48
+        ]
+      },
+      "total": [
+        110,
+        240
+      ]
+    }
+  },
+  "compiler_archive": {
+    "listed": 1212,
+    "matching": 1211,
+    "mismatched": [],
+    "missing": [
+      "logs/run.log"
+    ]
+  },
+  "internal_cross_environment_reproduction": {
+    "all_per_case_outcome_predicates_match_original": true,
+    "claim_boundary": "Internal repetition of known outcomes on the same 216 cases; not independent confirmation, new cases, or physical validation.",
+    "classification": "INTERNAL_CROSS_ENVIRONMENT_REPRODUCTION",
+    "compared_arm_fields": [
+      "accepted",
+      "detected",
+      "current",
+      "deterministic"
+    ],
+    "execution_errors": [],
+    "independent_party": false,
+    "matching_endpoint_definitions_and_counts": 13,
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "python": "3.12.14 (main, Aug 13 2026, 02:47:42) [GCC 13.3.0]",
+    "source_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+    "unique_cases": 216,
+    "workflow_commit": "95aa315e87e0546191bbcdbce60f9c083b43b4b6"
+  },
+  "kind": "READ_ONLY_RETAINED_EVIDENCE_REANALYSIS",
+  "physics_v2": {
+    "geometry_input_contradiction": {
+      "counts": [
+        24,
+        0,
+        0
+      ],
+      "label": "Geometry contradiction detected",
+      "total": 24
+    },
+    "load_input_contradiction": {
+      "counts": [
+        24,
+        0,
+        0
+      ],
+      "label": "Load contradiction detected",
+      "total": 24
+    },
+    "material_input_contradiction": {
+      "counts": [
+        24,
+        0,
+        0
+      ],
+      "label": "Material contradiction detected",
+      "total": 24
+    },
+    "non_geometric_mutation": {
+      "counts": [
+        24,
+        24,
+        null
+      ],
+      "label": "Non-geometric edit remains current",
+      "total": 24
+    },
+    "post_result_geometry_mutation": {
+      "counts": [
+        48,
+        48,
+        0
+      ],
+      "label": "Post-result geometry drift detected",
+      "total": 48
+    },
+    "stale_expected_hash": {
+      "counts": [
+        24,
+        24,
+        0
+      ],
+      "label": "Stale expected hash detected",
+      "total": 24
+    },
+    "valid": {
+      "counts": [
+        48,
+        48,
+        48
+      ],
+      "label": "Valid request accepted",
+      "total": 48
+    }
+  },
+  "physics_v2_conventional_medians": {
+    "full": 0.6178125000000001,
+    "hash_only": 0.24764550000000002,
+    "unbound": 0.0132085
+  },
+  "physics_v2_conventional_report_size_median": 3763.5,
+  "runs_launched_by_generator": 0,
+  "source_sha256": {
+    "RESEARCH_TRUTH.md": "488c8214db54fb60f6145306151e5ac49dbd5a40bb83ad51b87e52553ead255d",
+    "TERMINAL_STATUS_2026-10-11.md": "bc3893702c2e6c374f61153d163ba72b295f90af5410e02c008520a9bb1a1837",
+    "research/physics_v2/CONFIRMATORY_EXECUTION.json": "f0ab53f078745f2138c1b76048bc00cc14dc09a8075a5656e0ebfe2573790230",
+    "research/physics_v2/frozen/freeze.json": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "research/recovery_20261022/hosted-reproduction/CONFIRMATORY_EXECUTION.json": "8413d1d8a6e5004c966ade278d9314286dbb92b538321a82c678e4cd40872fae",
+    "research/recovery_20261022/hosted-reproduction/declaration.json": "37591b824c5537ad1764c08687138a7e8d24a893bc6a4058fdb040c3e4568d5e",
+    "research/recovery_20261022/hosted-reproduction/run/manifest.json": "8ab327a13d1a6682579efbe0cd3b49ae1572c184f8e1f75b63023b77b10a8e72",
+    "research/recovery_20261022/hosted-reproduction/run/metrics.json": "4f6eaec3c551af8821164a5231179fbbd82d8c009d256f51f4ac7d5f32e91a8d",
+    "research/recovery_20261022/hosted-reproduction/run/raw_results.jsonl": "0e6e61dfc61934e074836f30d42db7bfea508f19d386095af8ba182a5d5bdd79",
+    "research/recovery_20261022/hosted_reproduction_audit.json": "b3a950e90e36501af6f6ced379204f7d2dd075f08b9b592b31ccf42ed045a7a1",
+    "research/runs/NC-REPRO-508EC40/manifest.json": "fbb44932db9aeb9fa89003acaeef8ee0a26ad7c7a1184812ed002d0583bdea7b",
+    "research/runs/NC-REPRO-508EC40/metrics/results.json": "fd562266b40ce05515a61336f767c978a0cc9187e7d41d57b17244c6baf46028"
+  },
+  "style_sha256": "aead72f0e1da93704a3a668d0f15460a521b06f5a9e2b5e9854866bd73aee72b"
+}

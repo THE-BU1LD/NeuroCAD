@@ -1,0 +1,392 @@
+{
+  "artifacts": [
+    {
+      "bytes": 2772,
+      "media_type": "application/json",
+      "path": "body.ncad.json",
+      "sha256": "26fa43637f6e2803226fc72e8082e37609621e007b1e06f2deeab1215cd3b4ca"
+    },
+    {
+      "bytes": 389,
+      "media_type": "application/x-openscad",
+      "path": "body.scad",
+      "sha256": "2a5215a95b922c15bcfbd9f952b3b1ab09a8c08b8fd49cdbc7ca68a33fd8b0bb"
+    },
+    {
+      "bytes": 6320,
+      "media_type": "model/stl",
+      "path": "body.stl",
+      "sha256": "9312d5f3df3c6d415e945f8bccc31536b4475dae660c9d8b5f5c75784db68e89"
+    },
+    {
+      "bytes": 1838,
+      "media_type": "application/json",
+      "path": "lid.ncad.json",
+      "sha256": "7ca40d8ece239bc72f167842b7e12cec83922225201e72ac81536d13a379d4a7"
+    },
+    {
+      "bytes": 320,
+      "media_type": "application/x-openscad",
+      "path": "lid.scad",
+      "sha256": "605bea86976d2ac472b34a35ca17164d9450ff6863d911c170a2aefd23677805"
+    },
+    {
+      "bytes": 4228,
+      "media_type": "model/stl",
+      "path": "lid.stl",
+      "sha256": "0ca4e53c82f3703c38a43aff4b3cb9ba63bcd45f5a202487affe6cb0044107da"
+    },
+    {
+      "bytes": 7806,
+      "media_type": "application/json",
+      "path": "mesh-verification.json",
+      "sha256": "262439337f09a30c26e35dac1f78a430790a602d41f03f1cc9ca04df8044731f"
+    },
+    {
+      "bytes": 1169,
+      "media_type": "application/json",
+      "path": "preflight.json",
+      "sha256": "4a4681e556a0f55a513aded35937a78f40fa88c9d74973eebb613cd64e1b200d"
+    },
+    {
+      "bytes": 1855,
+      "media_type": "application/json",
+      "path": "project.ncad.json",
+      "sha256": "74b07d1efec98100d2058c79378a61bfe051897ff7585410880b4a5513dc6813"
+    }
+  ],
+  "compiled_stl": true,
+  "generator": {
+    "fn": 64
+  },
+  "parts": [
+    "body",
+    "lid"
+  ],
+  "project_id": "demo-enclosure",
+  "revision": 1,
+  "schema_version": "neurocad-bundle-v1",
+  "spec_version": "neurocad-enclosure-v1",
+  "verification": {
+    "body": {
+      "method": "independent-ray-parity-through-thickness-v2",
+      "part": "body",
+      "probes": [
+        {
+          "check": "floor material",
+          "expected": "solid",
+          "feature_id": "body",
+          "observed": "solid",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            0.0,
+            -14.0
+          ]
+        },
+        {
+          "check": "interior cavity",
+          "expected": "void",
+          "feature_id": "body",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "check": "open top",
+          "expected": "void",
+          "feature_id": "body",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            0.0,
+            14.9
+          ]
+        },
+        {
+          "check": "cutout center",
+          "expected": "void",
+          "feature_id": "cutout_1",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            -29.0,
+            8.0
+          ]
+        },
+        {
+          "check": "cutout outer depth",
+          "expected": "void",
+          "feature_id": "cutout_1",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            -29.96,
+            8.0
+          ]
+        },
+        {
+          "check": "cutout inner depth",
+          "expected": "void",
+          "feature_id": "cutout_1",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            -28.04,
+            8.0
+          ]
+        },
+        {
+          "check": "adjacent wall",
+          "expected": "solid",
+          "feature_id": "cutout_1",
+          "observed": "solid",
+          "passed": true,
+          "point_mm": [
+            6.666666666666667,
+            -29.0,
+            8.0
+          ]
+        }
+      ],
+      "topology": {
+        "body_count": 1,
+        "embedding": {
+          "candidate_pairs_tested": 65,
+          "intersection_pairs": [],
+          "limitations": [
+            "Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.",
+            "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."
+          ],
+          "relative_tolerance": 1e-12,
+          "reported_intersections_truncated": false,
+          "scale_mm": 80.0,
+          "schema_version": "neurocad-self-intersection-v1",
+          "self_intersecting": false
+        },
+        "extent_absolute_errors_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "extents_mm": [
+          80.0,
+          60.0,
+          30.0
+        ],
+        "faces": 48,
+        "finite_vertices": true,
+        "is_volume": true,
+        "kernel_validity": true,
+        "topology": {
+          "betti_numbers": [
+            1,
+            2,
+            1
+          ],
+          "boundary_edges": 0,
+          "boundary_ranks": [
+            23,
+            47
+          ],
+          "closed": true,
+          "coefficient_field": "F2",
+          "components": [
+            {
+              "boundary_loops": 0,
+              "crosscap_number": null,
+              "edges": 72,
+              "euler_characteristic": 0,
+              "faces": 48,
+              "genus": 1,
+              "manifold": true,
+              "orientable": true,
+              "vertices": 24
+            }
+          ],
+          "edges": 72,
+          "euler_characteristic": 0,
+          "faces": 48,
+          "limitations": [
+            "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+            "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+          ],
+          "manifold": true,
+          "nonmanifold_edges": 0,
+          "nonmanifold_vertex_examples": [],
+          "nonmanifold_vertices": 0,
+          "schema_version": "neurocad-topology-v1",
+          "vertices": 24
+        },
+        "verification_kind": "kernel_mesh",
+        "vertices": 24,
+        "volume_mm3": 24664.0,
+        "watertight": true,
+        "winding_consistent": true
+      },
+      "valid": true
+    },
+    "lid": {
+      "method": "independent-ray-parity-through-thickness-v2",
+      "part": "lid",
+      "probes": [
+        {
+          "check": "lid material",
+          "expected": "solid",
+          "feature_id": "lid",
+          "observed": "solid",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "check": "insertion plug material",
+          "expected": "solid",
+          "feature_id": "lid",
+          "observed": "solid",
+          "passed": true,
+          "point_mm": [
+            0.0,
+            0.0,
+            -2.25
+          ]
+        },
+        {
+          "check": "insertion shoulder clearance 1",
+          "expected": "void",
+          "feature_id": "lid",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            38.7,
+            0,
+            -2.25
+          ]
+        },
+        {
+          "check": "insertion shoulder clearance 2",
+          "expected": "void",
+          "feature_id": "lid",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            -38.7,
+            0,
+            -2.25
+          ]
+        },
+        {
+          "check": "insertion shoulder clearance 3",
+          "expected": "void",
+          "feature_id": "lid",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0,
+            28.7,
+            -2.25
+          ]
+        },
+        {
+          "check": "insertion shoulder clearance 4",
+          "expected": "void",
+          "feature_id": "lid",
+          "observed": "void",
+          "passed": true,
+          "point_mm": [
+            0,
+            -28.7,
+            -2.25
+          ]
+        }
+      ],
+      "topology": {
+        "body_count": 1,
+        "embedding": {
+          "candidate_pairs_tested": 22,
+          "intersection_pairs": [],
+          "limitations": [
+            "Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.",
+            "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."
+          ],
+          "relative_tolerance": 1e-12,
+          "reported_intersections_truncated": false,
+          "scale_mm": 79.4,
+          "schema_version": "neurocad-self-intersection-v1",
+          "self_intersecting": false
+        },
+        "extent_absolute_errors_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "extents_mm": [
+          79.4,
+          59.4,
+          4.5
+        ],
+        "faces": 28,
+        "finite_vertices": true,
+        "is_volume": true,
+        "kernel_validity": true,
+        "topology": {
+          "betti_numbers": [
+            1,
+            0,
+            1
+          ],
+          "boundary_edges": 0,
+          "boundary_ranks": [
+            15,
+            27
+          ],
+          "closed": true,
+          "coefficient_field": "F2",
+          "components": [
+            {
+              "boundary_loops": 0,
+              "crosscap_number": null,
+              "edges": 42,
+              "euler_characteristic": 2,
+              "faces": 28,
+              "genus": 0,
+              "manifold": true,
+              "orientable": true,
+              "vertices": 16
+            }
+          ],
+          "edges": 42,
+          "euler_characteristic": 2,
+          "faces": 28,
+          "limitations": [
+            "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+            "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+          ],
+          "manifold": true,
+          "nonmanifold_edges": 0,
+          "nonmanifold_vertex_examples": [],
+          "nonmanifold_vertices": 0,
+          "schema_version": "neurocad-topology-v1",
+          "vertices": 16
+        },
+        "verification_kind": "kernel_mesh",
+        "vertices": 16,
+        "volume_mm3": 20145.22,
+        "watertight": true,
+        "winding_consistent": true
+      },
+      "valid": true
+    }
+  }
+}

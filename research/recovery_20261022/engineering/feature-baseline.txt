@@ -1,0 +1,2683 @@
+FFFFFFFFFFFFFFFFFF..F........F........F......FF..FFFFFFFFFFFFFF.FFFFFFFF [ 97%]
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path0] ______
+
+path = ('parameters', 0, 'id'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id=[], value=40.0, unit='mm...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+>           parameter_ids.add(parameter.id)
+E           TypeError: unhashable type: 'list'
+
+core/feature_ir.py:389: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path1] ______
+
+path = ('parameters', 0, 'unit'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+>           if parameter.unit not in PARAMETER_UNITS:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unhashable type: 'list'
+
+core/feature_ir.py:390: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path2] ______
+
+path = ('parameters', 0, 'role'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+>       with pytest.raises(FeatureIRParseError) as captured:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeatureIRParseError
+
+tests/test_feature_ir_malformed.py:66: Failed
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path3] ______
+
+path = ('features', 0, 'id'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+                if selector.generated_by not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{selector_path}.generated_by",
+                            "selector provenance must reference an earlier feature",
+                        )
+                    )
+                if selector.role is not None and (not isinstance(selector.role, str) or len(selector.role) > 256):
+                    errors.append(FeatureIRIssue("invalid_role", f"{selector_path}.role", "role must be null or a string <= 256 characters"))
+                if not isinstance(selector.unique, bool):
+                    errors.append(FeatureIRIssue("invalid_selector", f"{selector_path}.unique", "must be boolean"))
+                for predicate_index, predicate in enumerate(selector.predicates):
+                    predicate_path = f"{selector_path}.predicates[{predicate_index}]"
+                    if not isinstance(predicate, dict) or not isinstance(predicate.get("kind"), str):
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, "must be an object with a string kind"))
+                        continue
+                    if "index" in predicate or predicate.get("kind") in {"kernel_index", "face_index", "edge_index"}:
+                        errors.append(
+                            FeatureIRIssue(
+                                "unstable_selector",
+                                predicate_path,
+                                "raw kernel face or edge indices cannot be persisted",
+                            )
+                        )
+                    predicate_error = _strict_json_error(predicate, predicate_path)
+                    if predicate_error:
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, predicate_error))
+            resolved_parameters = _resolve_parameter_tree(
+                feature.parameters,
+                {parameter.id: parameter.value for parameter in program.parameters},
+                f"{path}.parameters",
+                errors,
+            )
+            if feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
+                resolved_feature = Feature(
+                    id=feature.id,
+                    kind=feature.kind,
+                    inputs=feature.inputs,
+                    parameters=resolved_parameters,
+                    selectors=feature.selectors,
+                    role=feature.role,
+                )
+                errors.extend(_contract_errors(resolved_feature, index))
+>           seen.add(feature.id)
+E           TypeError: unhashable type: 'list'
+
+core/feature_ir.py:492: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path4] ______
+
+path = ('features', 0, 'kind'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+>           if feature.kind not in FEATURE_KINDS:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unhashable type: 'list'
+
+core/feature_ir.py:428: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path5] ______
+
+path = ('features', 1, 'inputs', 0), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+>               if input_id not in seen:
+                   ^^^^^^^^^^^^^^^^^^^^
+E               TypeError: unhashable type: 'list'
+
+core/feature_ir.py:436: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path6] ______
+
+path = ('features', 1, 'selectors', 0, 'entity'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+>               if selector.entity not in SELECTOR_ENTITIES:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: unhashable type: 'list'
+
+core/feature_ir.py:446: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path7] ______
+
+path = ('features', 1, 'selectors', 0, 'generated_by'), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+>               if selector.generated_by not in seen:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: unhashable type: 'list'
+
+core/feature_ir.py:448: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value0-path8] ______
+
+path = ('outputs', 0), value = []
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni..., role=None, unique=True),), role='')), outputs=([],), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+                if selector.generated_by not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{selector_path}.generated_by",
+                            "selector provenance must reference an earlier feature",
+                        )
+                    )
+                if selector.role is not None and (not isinstance(selector.role, str) or len(selector.role) > 256):
+                    errors.append(FeatureIRIssue("invalid_role", f"{selector_path}.role", "role must be null or a string <= 256 characters"))
+                if not isinstance(selector.unique, bool):
+                    errors.append(FeatureIRIssue("invalid_selector", f"{selector_path}.unique", "must be boolean"))
+                for predicate_index, predicate in enumerate(selector.predicates):
+                    predicate_path = f"{selector_path}.predicates[{predicate_index}]"
+                    if not isinstance(predicate, dict) or not isinstance(predicate.get("kind"), str):
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, "must be an object with a string kind"))
+                        continue
+                    if "index" in predicate or predicate.get("kind") in {"kernel_index", "face_index", "edge_index"}:
+                        errors.append(
+                            FeatureIRIssue(
+                                "unstable_selector",
+                                predicate_path,
+                                "raw kernel face or edge indices cannot be persisted",
+                            )
+                        )
+                    predicate_error = _strict_json_error(predicate, predicate_path)
+                    if predicate_error:
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, predicate_error))
+            resolved_parameters = _resolve_parameter_tree(
+                feature.parameters,
+                {parameter.id: parameter.value for parameter in program.parameters},
+                f"{path}.parameters",
+                errors,
+            )
+            if feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
+                resolved_feature = Feature(
+                    id=feature.id,
+                    kind=feature.kind,
+                    inputs=feature.inputs,
+                    parameters=resolved_parameters,
+                    selectors=feature.selectors,
+                    role=feature.role,
+                )
+                errors.extend(_contract_errors(resolved_feature, index))
+            seen.add(feature.id)
+            feature_map[feature.id] = feature
+    
+        if not program.features:
+            errors.append(FeatureIRIssue("missing_feature", "$.features", "at least one feature is required"))
+        if not program.outputs:
+            errors.append(FeatureIRIssue("missing_output", "$.outputs", "at least one output feature is required"))
+>       elif len(set(program.outputs)) != len(program.outputs):
+                 ^^^^^^^^^^^^^^^^^^^^
+E       TypeError: unhashable type: 'list'
+
+core/feature_ir.py:499: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path0] ______
+
+path = ('parameters', 0, 'id'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id={}, value=40.0, unit='mm...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+>           parameter_ids.add(parameter.id)
+E           TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:389: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path1] ______
+
+path = ('parameters', 0, 'unit'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+>           if parameter.unit not in PARAMETER_UNITS:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:390: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path2] ______
+
+path = ('parameters', 0, 'role'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+>       with pytest.raises(FeatureIRParseError) as captured:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeatureIRParseError
+
+tests/test_feature_ir_malformed.py:66: Failed
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path3] ______
+
+path = ('features', 0, 'id'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+                if selector.generated_by not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{selector_path}.generated_by",
+                            "selector provenance must reference an earlier feature",
+                        )
+                    )
+                if selector.role is not None and (not isinstance(selector.role, str) or len(selector.role) > 256):
+                    errors.append(FeatureIRIssue("invalid_role", f"{selector_path}.role", "role must be null or a string <= 256 characters"))
+                if not isinstance(selector.unique, bool):
+                    errors.append(FeatureIRIssue("invalid_selector", f"{selector_path}.unique", "must be boolean"))
+                for predicate_index, predicate in enumerate(selector.predicates):
+                    predicate_path = f"{selector_path}.predicates[{predicate_index}]"
+                    if not isinstance(predicate, dict) or not isinstance(predicate.get("kind"), str):
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, "must be an object with a string kind"))
+                        continue
+                    if "index" in predicate or predicate.get("kind") in {"kernel_index", "face_index", "edge_index"}:
+                        errors.append(
+                            FeatureIRIssue(
+                                "unstable_selector",
+                                predicate_path,
+                                "raw kernel face or edge indices cannot be persisted",
+                            )
+                        )
+                    predicate_error = _strict_json_error(predicate, predicate_path)
+                    if predicate_error:
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, predicate_error))
+            resolved_parameters = _resolve_parameter_tree(
+                feature.parameters,
+                {parameter.id: parameter.value for parameter in program.parameters},
+                f"{path}.parameters",
+                errors,
+            )
+            if feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
+                resolved_feature = Feature(
+                    id=feature.id,
+                    kind=feature.kind,
+                    inputs=feature.inputs,
+                    parameters=resolved_parameters,
+                    selectors=feature.selectors,
+                    role=feature.role,
+                )
+                errors.extend(_contract_errors(resolved_feature, index))
+>           seen.add(feature.id)
+E           TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:492: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path4] ______
+
+path = ('features', 0, 'kind'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+>           if feature.kind not in FEATURE_KINDS:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:428: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path5] ______
+
+path = ('features', 1, 'inputs', 0), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+>               if input_id not in seen:
+                   ^^^^^^^^^^^^^^^^^^^^
+E               TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:436: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path6] ______
+
+path = ('features', 1, 'selectors', 0, 'entity'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+>               if selector.entity not in SELECTOR_ENTITIES:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:446: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path7] ______
+
+path = ('features', 1, 'selectors', 0, 'generated_by'), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+>               if selector.generated_by not in seen:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:448: TypeError
+_____ test_json_nonstrings_fail_with_structured_parse_error[value1-path8] ______
+
+path = ('outputs', 0), value = {}
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+        with pytest.raises(FeatureIRParseError) as captured:
+>           parse_feature_ir_json(json.dumps(raw))
+
+tests/test_feature_ir_malformed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:624: in parse_feature_ir_json
+    return feature_program_from_dict(raw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni..., role=None, unique=True),), role='')), outputs=({},), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+                if selector.generated_by not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{selector_path}.generated_by",
+                            "selector provenance must reference an earlier feature",
+                        )
+                    )
+                if selector.role is not None and (not isinstance(selector.role, str) or len(selector.role) > 256):
+                    errors.append(FeatureIRIssue("invalid_role", f"{selector_path}.role", "role must be null or a string <= 256 characters"))
+                if not isinstance(selector.unique, bool):
+                    errors.append(FeatureIRIssue("invalid_selector", f"{selector_path}.unique", "must be boolean"))
+                for predicate_index, predicate in enumerate(selector.predicates):
+                    predicate_path = f"{selector_path}.predicates[{predicate_index}]"
+                    if not isinstance(predicate, dict) or not isinstance(predicate.get("kind"), str):
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, "must be an object with a string kind"))
+                        continue
+                    if "index" in predicate or predicate.get("kind") in {"kernel_index", "face_index", "edge_index"}:
+                        errors.append(
+                            FeatureIRIssue(
+                                "unstable_selector",
+                                predicate_path,
+                                "raw kernel face or edge indices cannot be persisted",
+                            )
+                        )
+                    predicate_error = _strict_json_error(predicate, predicate_path)
+                    if predicate_error:
+                        errors.append(FeatureIRIssue("invalid_predicate", predicate_path, predicate_error))
+            resolved_parameters = _resolve_parameter_tree(
+                feature.parameters,
+                {parameter.id: parameter.value for parameter in program.parameters},
+                f"{path}.parameters",
+                errors,
+            )
+            if feature.kind in FEATURE_KINDS and isinstance(resolved_parameters, dict):
+                resolved_feature = Feature(
+                    id=feature.id,
+                    kind=feature.kind,
+                    inputs=feature.inputs,
+                    parameters=resolved_parameters,
+                    selectors=feature.selectors,
+                    role=feature.role,
+                )
+                errors.extend(_contract_errors(resolved_feature, index))
+            seen.add(feature.id)
+            feature_map[feature.id] = feature
+    
+        if not program.features:
+            errors.append(FeatureIRIssue("missing_feature", "$.features", "at least one feature is required"))
+        if not program.outputs:
+            errors.append(FeatureIRIssue("missing_output", "$.outputs", "at least one output feature is required"))
+>       elif len(set(program.outputs)) != len(program.outputs):
+                 ^^^^^^^^^^^^^^^^^^^^
+E       TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:499: TypeError
+______ test_json_nonstrings_fail_with_structured_parse_error[False-path2] ______
+
+path = ('parameters', 0, 'role'), value = False
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+>       with pytest.raises(FeatureIRParseError) as captured:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeatureIRParseError
+
+tests/test_feature_ir_malformed.py:66: Failed
+________ test_json_nonstrings_fail_with_structured_parse_error[1-path2] ________
+
+path = ('parameters', 0, 'role'), value = 1
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+>       with pytest.raises(FeatureIRParseError) as captured:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeatureIRParseError
+
+tests/test_feature_ir_malformed.py:66: Failed
+______ test_json_nonstrings_fail_with_structured_parse_error[None-path2] _______
+
+path = ('parameters', 0, 'role'), value = None
+
+    @pytest.mark.parametrize("path", _STRING_FIELDS)
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_json_nonstrings_fail_with_structured_parse_error(path: tuple[Any, ...], value: Any) -> None:
+        raw = _program().to_dict()
+        target = raw
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+>       with pytest.raises(FeatureIRParseError) as captured:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeatureIRParseError
+
+tests/test_feature_ir_malformed.py:66: Failed
+______ test_operation_rejects_nonstring_values_without_typeerror[value0] _______
+
+value = []
+
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_operation_rejects_nonstring_values_without_typeerror(value: Any) -> None:
+        raw = FeatureProgram(
+            title="extruded sketch",
+            parameters=(),
+            features=(
+                Feature("profile", "sketch", parameters={"plane": "XY", "entities": [], "constraints": []}),
+                Feature("body", "extrude", inputs=("profile",), parameters={"distance": 10, "operation": value}),
+            ),
+            outputs=("body",),
+        ).to_dict()
+        with pytest.raises(FeatureIRParseError, match=r"parameters\.operation"):
+>           feature_program_from_dict(raw)
+
+tests/test_feature_ir_malformed.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:491: in validate_feature_program
+    errors.extend(_contract_errors(resolved_feature, index))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = Feature(id='body', kind='extrude', inputs=('profile',), parameters={'distance': 10, 'operation': []}, selectors=(), role='')
+index = 1
+
+    def _contract_errors(feature: Feature, index: int) -> list[FeatureIRIssue]:
+        path = f"$.features[{index}]"
+        parameters = feature.parameters
+        errors: list[FeatureIRIssue] = []
+    
+        def require(name: str) -> Any:
+            if name not in parameters:
+                errors.append(FeatureIRIssue("missing_parameter", f"{path}.parameters.{name}", "required"))
+                return None
+            return parameters[name]
+    
+        if feature.kind == "datum_plane":
+            for name in ("origin", "normal", "x_axis"):
+                value = require(name)
+                if value is not None and not _vec3(value):
+                    errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must be a finite 3-vector"))
+        elif feature.kind == "datum_axis":
+            for name in ("origin", "direction"):
+                value = require(name)
+                if value is not None and not _vec3(value):
+                    errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must be a finite 3-vector"))
+        elif feature.kind == "primitive_box":
+            size = require("size")
+            if size is not None and (not _vec3(size) or any(float(item) <= 0 for item in size)):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.size", "must contain three positive lengths"))
+        elif feature.kind == "primitive_cylinder":
+            for name in ("radius", "height"):
+                value = require(name)
+                if value is not None and not _positive(value):
+                    errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must be positive"))
+        elif feature.kind == "sketch":
+            plane = require("plane")
+            entities = require("entities")
+            constraints = require("constraints")
+            if plane is not None and not isinstance(plane, str):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.plane", "must be a plane id or XY/XZ/YZ"))
+            if entities is not None and not isinstance(entities, list):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.entities", "must be an array"))
+            if constraints is not None and not isinstance(constraints, list):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.constraints", "must be an array"))
+        elif feature.kind in {"extrude", "revolve"}:
+            amount_name = "distance" if feature.kind == "extrude" else "angle_deg"
+            amount = require(amount_name)
+            operation = require("operation")
+            if amount is not None and (
+                not _positive(amount) or (feature.kind == "revolve" and float(amount) > 360)
+            ):
+                message = "must be positive" if feature.kind == "extrude" else "must be in (0, 360]"
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{amount_name}", message))
+>           if operation is not None and operation not in {"new", "add", "cut", "intersect"}:
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unhashable type: 'list'
+
+core/feature_ir.py:321: TypeError
+______ test_operation_rejects_nonstring_values_without_typeerror[value1] _______
+
+value = {}
+
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_operation_rejects_nonstring_values_without_typeerror(value: Any) -> None:
+        raw = FeatureProgram(
+            title="extruded sketch",
+            parameters=(),
+            features=(
+                Feature("profile", "sketch", parameters={"plane": "XY", "entities": [], "constraints": []}),
+                Feature("body", "extrude", inputs=("profile",), parameters={"distance": 10, "operation": value}),
+            ),
+            outputs=("body",),
+        ).to_dict()
+        with pytest.raises(FeatureIRParseError, match=r"parameters\.operation"):
+>           feature_program_from_dict(raw)
+
+tests/test_feature_ir_malformed.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:609: in feature_program_from_dict
+    report = validate_feature_program(program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+core/feature_ir.py:491: in validate_feature_program
+    errors.extend(_contract_errors(resolved_feature, index))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = Feature(id='body', kind='extrude', inputs=('profile',), parameters={'distance': 10, 'operation': {}}, selectors=(), role='')
+index = 1
+
+    def _contract_errors(feature: Feature, index: int) -> list[FeatureIRIssue]:
+        path = f"$.features[{index}]"
+        parameters = feature.parameters
+        errors: list[FeatureIRIssue] = []
+    
+        def require(name: str) -> Any:
+            if name not in parameters:
+                errors.append(FeatureIRIssue("missing_parameter", f"{path}.parameters.{name}", "required"))
+                return None
+            return parameters[name]
+    
+        if feature.kind == "datum_plane":
+            for name in ("origin", "normal", "x_axis"):
+                value = require(name)
+                if value is not None and not _vec3(value):
+                    errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must be a finite 3-vector"))
+        elif feature.kind == "datum_axis":
+            for name in ("origin", "direction"):
+                value = require(name)
+                if value is not None and not _vec3(value):
+                    errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must be a finite 3-vector"))
+        elif feature.kind == "primitive_box":
+            size = require("size")
+            if size is not None and (not _vec3(size) or any(float(item) <= 0 for item in size)):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.size", "must contain three positive lengths"))
+        elif feature.kind == "primitive_cylinder":
+            for name in ("radius", "height"):
+                value = require(name)
+                if value is not None and not _positive(value):
+                    errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must be positive"))
+        elif feature.kind == "sketch":
+            plane = require("plane")
+            entities = require("entities")
+            constraints = require("constraints")
+            if plane is not None and not isinstance(plane, str):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.plane", "must be a plane id or XY/XZ/YZ"))
+            if entities is not None and not isinstance(entities, list):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.entities", "must be an array"))
+            if constraints is not None and not isinstance(constraints, list):
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.constraints", "must be an array"))
+        elif feature.kind in {"extrude", "revolve"}:
+            amount_name = "distance" if feature.kind == "extrude" else "angle_deg"
+            amount = require(amount_name)
+            operation = require("operation")
+            if amount is not None and (
+                not _positive(amount) or (feature.kind == "revolve" and float(amount) > 360)
+            ):
+                message = "must be positive" if feature.kind == "extrude" else "must be in (0, 360]"
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{amount_name}", message))
+>           if operation is not None and operation not in {"new", "add", "cut", "intersect"}:
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unhashable type: 'dict'
+
+core/feature_ir.py:321: TypeError
+_______ test_operation_rejects_nonstring_values_without_typeerror[None] ________
+
+value = None
+
+    @pytest.mark.parametrize("value", [[], {}, False, 1, None])
+    def test_operation_rejects_nonstring_values_without_typeerror(value: Any) -> None:
+        raw = FeatureProgram(
+            title="extruded sketch",
+            parameters=(),
+            features=(
+                Feature("profile", "sketch", parameters={"plane": "XY", "entities": [], "constraints": []}),
+                Feature("body", "extrude", inputs=("profile",), parameters={"distance": 10, "operation": value}),
+            ),
+            outputs=("body",),
+        ).to_dict()
+>       with pytest.raises(FeatureIRParseError, match=r"parameters\.operation"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeatureIRParseError
+
+tests/test_feature_ir_malformed.py:83: Failed
+_ test_required_feature_parameters_never_accept_explicit_null[datum_plane-parameters0] _
+
+kind = 'datum_plane'
+parameters = {'origin': [0, 0, 0], 'normal': [0, 0, 1], 'x_axis': [1, 0, 0]}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('datum_plane', 'origin')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[datum_axis-parameters1] _
+
+kind = 'datum_axis', parameters = {'origin': [0, 0, 0], 'direction': [0, 0, 1]}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('datum_axis', 'origin')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[primitive_box-parameters2] _
+
+kind = 'primitive_box', parameters = {'size': [40, 30, 20]}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('primitive_box', 'size')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[primitive_cylinder-parameters3] _
+
+kind = 'primitive_cylinder', parameters = {'radius': 10, 'height': 20}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('primitive_cylinder', 'radius')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[sketch-parameters4] _
+
+kind = 'sketch', parameters = {'plane': 'XY', 'entities': [], 'constraints': []}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('sketch', 'plane')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[extrude-parameters5] _
+
+kind = 'extrude', parameters = {'distance': 10, 'operation': 'new'}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('extrude', 'distance')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[revolve-parameters6] _
+
+kind = 'revolve', parameters = {'angle_deg': 180, 'operation': 'new'}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('revolve', 'angle_deg')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[fillet-parameters7] _
+
+kind = 'fillet', parameters = {'radius': 2}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('fillet', 'radius')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[chamfer-parameters8] _
+
+kind = 'chamfer', parameters = {'distance': 2}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('chamfer', 'distance')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[linear_pattern-parameters9] _
+
+kind = 'linear_pattern'
+parameters = {'count': 3, 'spacing': 10, 'direction': [1, 0, 0]}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('linear_pattern', 'count')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[circular_pattern-parameters10] _
+
+kind = 'circular_pattern'
+parameters = {'count': 3, 'angle_deg': 360, 'axis': [0, 0, 1]}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('circular_pattern', 'count')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_required_feature_parameters_never_accept_explicit_null[mirror-parameters11] _
+
+kind = 'mirror', parameters = {'plane': 'XY'}
+
+    @pytest.mark.parametrize("kind,parameters", _NULL_CONTRACTS)
+    def test_required_feature_parameters_never_accept_explicit_null(kind: str, parameters: dict[str, Any]) -> None:
+        for name in parameters:
+            values = dict(parameters, **{name: None})
+            feature = Feature(
+                "operation",
+                kind,
+                inputs=("body",),
+                parameters=values,
+                selectors=(EntitySelector("edge", "body"),),
+            )
+            program = replace(_program(), features=(_program().features[0], feature), outputs=("operation",))
+            report = validate_feature_program(program)
+>           assert not report.valid, (kind, name)
+E           AssertionError: ('mirror', 'plane')
+E           assert not True
+E            +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:116: AssertionError
+_ test_direct_program_construction_rejects_invalid_container_types[parameters-None] _
+
+field = 'parameters', value = None
+
+    @pytest.mark.parametrize(
+        "field,value",
+        [("parameters", None), ("features", {}), ("outputs", "body"), ("metadata", [])],
+    )
+    def test_direct_program_construction_rejects_invalid_container_types(field: str, value: Any) -> None:
+>       report = validate_feature_program(replace(_program(), **{field: value}))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_feature_ir_malformed.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=None, features=(Feature(id='body', kind='pri...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+>       if len(program.parameters) > MAX_PARAMETERS:
+           ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: object of type 'NoneType' has no len()
+
+core/feature_ir.py:375: TypeError
+_ test_direct_program_construction_rejects_invalid_container_types[outputs-body] _
+
+field = 'outputs', value = 'body'
+
+    @pytest.mark.parametrize(
+        "field,value",
+        [("parameters", None), ("features", {}), ("outputs", "body"), ("metadata", [])],
+    )
+    def test_direct_program_construction_rejects_invalid_container_types(field: str, value: Any) -> None:
+        report = validate_feature_program(replace(_program(), **{field: value}))
+        assert not report.valid
+>       assert any(issue.path == f"$.{field}" for issue in report.errors)
+E       assert False
+E        +  where False = any(<generator object test_direct_program_construction_rejects_invalid_container_types.<locals>.<genexpr> at 0x7f3307ee8820>)
+
+tests/test_feature_ir_malformed.py:127: AssertionError
+_ test_direct_program_construction_rejects_invalid_container_types[metadata-value3] _
+
+field = 'metadata', value = []
+
+    @pytest.mark.parametrize(
+        "field,value",
+        [("parameters", None), ("features", {}), ("outputs", "body"), ("metadata", [])],
+    )
+    def test_direct_program_construction_rejects_invalid_container_types(field: str, value: Any) -> None:
+        report = validate_feature_program(replace(_program(), **{field: value}))
+>       assert not report.valid
+E       assert not True
+E        +  where True = FeatureIRValidationReport(valid=True, errors=()).valid
+
+tests/test_feature_ir_malformed.py:126: AssertionError
+____ test_direct_program_construction_rejects_nonrecord_members[parameters] ____
+
+field = 'parameters'
+
+    @pytest.mark.parametrize("field", ["parameters", "features"])
+    def test_direct_program_construction_rejects_nonrecord_members(field: str) -> None:
+>       report = validate_feature_program(replace(_program(), **{field: ({},)}))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_feature_ir_malformed.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=({},), features=(Feature(id='body', kind='pr...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+>           if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                              ^^^^^^^^^^^^
+E           AttributeError: 'dict' object has no attribute 'id'
+
+core/feature_ir.py:385: AttributeError
+_____ test_direct_program_construction_rejects_nonrecord_members[features] _____
+
+field = 'features'
+
+    @pytest.mark.parametrize("field", ["parameters", "features"])
+    def test_direct_program_construction_rejects_nonrecord_members(field: str) -> None:
+>       report = validate_feature_program(replace(_program(), **{field: ({},)}))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_feature_ir_malformed.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:379: in validate_feature_program
+    if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7f3307ef0670>
+
+>   if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+               ^^^^^^^^^^^^^^^^^
+E   AttributeError: 'dict' object has no attribute 'selectors'
+
+core/feature_ir.py:379: AttributeError
+_ test_direct_feature_construction_rejects_invalid_container_types[inputs-None] _
+
+field = 'inputs', value = None
+
+    @pytest.mark.parametrize("field,value", [("inputs", None), ("parameters", []), ("selectors", None)])
+    def test_direct_feature_construction_rejects_invalid_container_types(field: str, value: Any) -> None:
+        broken = replace(_program().features[0], **{field: value})
+>       report = validate_feature_program(replace(_program(), features=(broken,)))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_feature_ir_malformed.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...0.0]}, selectors=(), role=''),), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+>           for input_index, input_id in enumerate(feature.inputs):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not iterable
+
+core/feature_ir.py:435: TypeError
+_ test_direct_feature_construction_rejects_invalid_container_types[parameters-value1] _
+
+field = 'parameters', value = []
+
+    @pytest.mark.parametrize("field,value", [("inputs", None), ("parameters", []), ("selectors", None)])
+    def test_direct_feature_construction_rejects_invalid_container_types(field: str, value: Any) -> None:
+        broken = replace(_program().features[0], **{field: value})
+        report = validate_feature_program(replace(_program(), features=(broken,)))
+        assert not report.valid
+>       assert any(issue.path == f"$.features[0].{field}" for issue in report.errors)
+E       assert False
+E        +  where False = any(<generator object test_direct_feature_construction_rejects_invalid_container_types.<locals>.<genexpr> at 0x7f3307e57920>)
+
+tests/test_feature_ir_malformed.py:142: AssertionError
+_ test_direct_feature_construction_rejects_invalid_container_types[selectors-None] _
+
+field = 'selectors', value = None
+
+    @pytest.mark.parametrize("field,value", [("inputs", None), ("parameters", []), ("selectors", None)])
+    def test_direct_feature_construction_rejects_invalid_container_types(field: str, value: Any) -> None:
+        broken = replace(_program().features[0], **{field: value})
+>       report = validate_feature_program(replace(_program(), features=(broken,)))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_feature_ir_malformed.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:379: in validate_feature_program
+    if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7f3307e84eb0>
+
+>   if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+           ^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'NoneType' has no len()
+
+core/feature_ir.py:379: TypeError
+____ test_direct_selector_construction_rejects_invalid_predicate_container _____
+
+    def test_direct_selector_construction_rejects_invalid_predicate_container() -> None:
+        selector = replace(_program().features[1].selectors[0], predicates=None)
+        feature = replace(_program().features[1], selectors=(selector,))
+>       report = validate_feature_program(replace(_program(), features=(_program().features[0], feature)))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_feature_ir_malformed.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = FeatureProgram(title='parameterized box with semantic fillet', parameters=(DesignParameter(id='width', value=40.0, uni...None, unique=True),), role='')), outputs=('rounded',), metadata={}, version='neurocad-feature-ir-v0alpha1', units='mm')
+
+    def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+        errors: list[FeatureIRIssue] = []
+        if program.version != FEATURE_IR_VERSION:
+            errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
+        if program.units != "mm":
+            errors.append(FeatureIRIssue("unsupported_units", "$.units", "canonical feature programs use mm"))
+        if not isinstance(program.title, str) or not program.title.strip() or len(program.title) > 4096:
+            errors.append(FeatureIRIssue("invalid_title", "$.title", "title must contain 1 to 4096 characters"))
+        if len(program.parameters) > MAX_PARAMETERS:
+            errors.append(FeatureIRIssue("resource_limit", "$.parameters", f"at most {MAX_PARAMETERS} parameters are supported"))
+        if len(program.features) > MAX_FEATURES:
+            errors.append(FeatureIRIssue("resource_limit", "$.features", f"at most {MAX_FEATURES} features are supported"))
+        if sum(len(feature.selectors) for feature in program.features) > MAX_SELECTORS:
+            errors.append(FeatureIRIssue("resource_limit", "$.features[*].selectors", f"at most {MAX_SELECTORS} selectors are supported"))
+    
+        parameter_ids: set[str] = set()
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter.id, str) or ID_RE.fullmatch(parameter.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif parameter.id in parameter_ids:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", parameter.id))
+            parameter_ids.add(parameter.id)
+            if parameter.unit not in PARAMETER_UNITS:
+                errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+            if not _finite(parameter.value):
+                errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
+            for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
+                if value is not None and not _finite(value):
+                    errors.append(FeatureIRIssue("invalid_value", f"{path}.{name}", "must be finite"))
+            if (
+                parameter.lower is not None
+                and parameter.upper is not None
+                and _finite(parameter.lower)
+                and _finite(parameter.upper)
+                and float(parameter.lower) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("invalid_bounds", path, "lower bound exceeds upper bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.lower is not None
+                and _finite(parameter.lower)
+                and float(parameter.value) < float(parameter.lower)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "below lower bound"))
+            if (
+                _finite(parameter.value)
+                and parameter.upper is not None
+                and _finite(parameter.upper)
+                and float(parameter.value) > float(parameter.upper)
+            ):
+                errors.append(FeatureIRIssue("out_of_bounds", f"{path}.value", "above upper bound"))
+    
+        seen: set[str] = set()
+        feature_map: dict[str, Feature] = {}
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature.id, str) or ID_RE.fullmatch(feature.id) is None:
+                errors.append(FeatureIRIssue("invalid_id", f"{path}.id", "use letters, digits, underscore or hyphen"))
+            elif feature.id in seen:
+                errors.append(FeatureIRIssue("duplicate_id", f"{path}.id", feature.id))
+            if feature.kind not in FEATURE_KINDS:
+                errors.append(FeatureIRIssue("unsupported_feature", f"{path}.kind", str(feature.kind)))
+            if not isinstance(feature.role, str) or len(feature.role) > 256:
+                errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
+            json_error = _strict_json_error(feature.parameters, f"{path}.parameters")
+            if json_error:
+                errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters", json_error))
+            for input_index, input_id in enumerate(feature.inputs):
+                if input_id not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{path}.inputs[{input_index}]",
+                            "feature inputs must reference an earlier feature",
+                        )
+                    )
+            for selector_index, selector in enumerate(feature.selectors):
+                selector_path = f"{path}.selectors[{selector_index}]"
+                if selector.entity not in SELECTOR_ENTITIES:
+                    errors.append(FeatureIRIssue("unsupported_entity", f"{selector_path}.entity", str(selector.entity)))
+                if selector.generated_by not in seen:
+                    errors.append(
+                        FeatureIRIssue(
+                            "forward_or_missing_reference",
+                            f"{selector_path}.generated_by",
+                            "selector provenance must reference an earlier feature",
+                        )
+                    )
+                if selector.role is not None and (not isinstance(selector.role, str) or len(selector.role) > 256):
+                    errors.append(FeatureIRIssue("invalid_role", f"{selector_path}.role", "role must be null or a string <= 256 characters"))
+                if not isinstance(selector.unique, bool):
+                    errors.append(FeatureIRIssue("invalid_selector", f"{selector_path}.unique", "must be boolean"))
+>               for predicate_index, predicate in enumerate(selector.predicates):
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: 'NoneType' object is not iterable
+
+core/feature_ir.py:460: TypeError
+________________ test_dict_parser_rejects_nonstring_object_keys ________________
+
+    def test_dict_parser_rejects_nonstring_object_keys() -> None:
+        raw = _program().to_dict()
+        raw[7] = "unexpected numeric key"
+        with pytest.raises(FeatureIRParseError, match="keys must be strings"):
+>           feature_program_from_dict(raw)
+
+tests/test_feature_ir_malformed.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+core/feature_ir.py:531: in feature_program_from_dict
+    _only_keys(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'version': 'neurocad-feature-ir-v0alpha1', 'units': 'mm', 'title': 'parameterized box with semantic fillet', 'parameters': [{'id': 'width', 'value': 40.0, 'unit': 'mm', 'lower': 10.0, ...}], ...}
+allowed = {'features', 'metadata', 'outputs', 'parameters', 'title', 'units', ...}
+required = {'features', 'metadata', 'outputs', 'parameters', 'title', 'units', ...}
+path = '$'
+
+    def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:
+        extra = sorted(set(value) - allowed)
+        missing = sorted(required - set(value))
+        if extra:
+>           raise FeatureIRParseError([f"{path}: unsupported keys: {', '.join(extra)}"])
+                                                                    ^^^^^^^^^^^^^^^^
+E           TypeError: sequence item 0: expected str instance, int found
+
+core/feature_ir.py:525: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path0]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path1]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path2]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path3]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path4]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path5]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path6]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path7]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value0-path8]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path0]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path1]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path2]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path3]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path4]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path5]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path6]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path7]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[value1-path8]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[False-path2]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[1-path2]
+FAILED tests/test_feature_ir_malformed.py::test_json_nonstrings_fail_with_structured_parse_error[None-path2]
+FAILED tests/test_feature_ir_malformed.py::test_operation_rejects_nonstring_values_without_typeerror[value0]
+FAILED tests/test_feature_ir_malformed.py::test_operation_rejects_nonstring_values_without_typeerror[value1]
+FAILED tests/test_feature_ir_malformed.py::test_operation_rejects_nonstring_values_without_typeerror[None]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[datum_plane-parameters0]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[datum_axis-parameters1]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[primitive_box-parameters2]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[primitive_cylinder-parameters3]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[sketch-parameters4]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[extrude-parameters5]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[revolve-parameters6]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[fillet-parameters7]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[chamfer-parameters8]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[linear_pattern-parameters9]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[circular_pattern-parameters10]
+FAILED tests/test_feature_ir_malformed.py::test_required_feature_parameters_never_accept_explicit_null[mirror-parameters11]
+FAILED tests/test_feature_ir_malformed.py::test_direct_program_construction_rejects_invalid_container_types[parameters-None]
+FAILED tests/test_feature_ir_malformed.py::test_direct_program_construction_rejects_invalid_container_types[outputs-body]
+FAILED tests/test_feature_ir_malformed.py::test_direct_program_construction_rejects_invalid_container_types[metadata-value3]
+FAILED tests/test_feature_ir_malformed.py::test_direct_program_construction_rejects_nonrecord_members[parameters]
+FAILED tests/test_feature_ir_malformed.py::test_direct_program_construction_rejects_nonrecord_members[features]
+FAILED tests/test_feature_ir_malformed.py::test_direct_feature_construction_rejects_invalid_container_types[inputs-None]
+FAILED tests/test_feature_ir_malformed.py::test_direct_feature_construction_rejects_invalid_container_types[parameters-value1]
+FAILED tests/test_feature_ir_malformed.py::test_direct_feature_construction_rejects_invalid_container_types[selectors-None]
+FAILED tests/test_feature_ir_malformed.py::test_direct_selector_construction_rejects_invalid_predicate_container
+FAILED tests/test_feature_ir_malformed.py::test_dict_parser_rejects_nonstring_object_keys
+46 failed, 28 passed in 0.91s

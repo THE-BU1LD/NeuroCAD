@@ -1,0 +1,448 @@
+{
+  "archive": {
+    "all_extracted_bytes_match": true,
+    "extracted_file_count": 10,
+    "files": {
+      "CONFIRMATORY_EXECUTION.json": {
+        "bytes": 464,
+        "sha256": "8413d1d8a6e5004c966ade278d9314286dbb92b538321a82c678e4cd40872fae"
+      },
+      "declaration.json": {
+        "bytes": 1566,
+        "sha256": "37591b824c5537ad1764c08687138a7e8d24a893bc6a4058fdb040c3e4568d5e"
+      },
+      "environment.txt": {
+        "bytes": 1012,
+        "sha256": "688c5acf4970b30f209c6cf49ef9c5c67f61a9fb3908e8deb6798ed6f1af4e69"
+      },
+      "execution.txt": {
+        "bytes": 5875,
+        "sha256": "d7cb62c5b52c54eb2ea92ac10f487939729c9ae9b405d92c837928a984220c3e"
+      },
+      "git-status-after.txt": {
+        "bytes": 51,
+        "sha256": "8cb359c62683a08d803a9eda654d3a770d931d6d7f444b9dc5b3c9335d8814bc"
+      },
+      "run/manifest.json": {
+        "bytes": 1836,
+        "sha256": "8ab327a13d1a6682579efbe0cd3b49ae1572c184f8e1f75b63023b77b10a8e72"
+      },
+      "run/metrics.json": {
+        "bytes": 3619,
+        "sha256": "4f6eaec3c551af8821164a5231179fbbd82d8c009d256f51f4ac7d5f32e91a8d"
+      },
+      "run/raw_results.jsonl": {
+        "bytes": 125345,
+        "sha256": "0e6e61dfc61934e074836f30d42db7bfea508f19d386095af8ba182a5d5bdd79"
+      },
+      "tests.txt": {
+        "bytes": 1403,
+        "sha256": "c8701bc70654f312e24b43444d0361578e5ce4dfe0339c49660449c3318d0f93"
+      },
+      "tests.xml": {
+        "bytes": 174380,
+        "sha256": "b17c1792b928e7450753c220e9c2d2b1dac05f33850cc523c35484c4669d01dc"
+      }
+    },
+    "path": "research/recovery_20261022/hosted-reproduction.zip",
+    "sha256": "4c8c9e7af18fcaed4a88d3ecd0bfa00d9b5161ae898ee20c7840d17e2220d217"
+  },
+  "audit_mode": "READ_ONLY_ARTIFACT_VALIDATION_AND_REANALYSIS_NO_CASE_EXECUTION",
+  "case_identity": {
+    "canonical_case_list_sha256": "2e6bb79b5a649b191fb7b9a0635b9e0ae4053aae8d23b72af104fc5937ac0696",
+    "family_counts": {
+      "geometry_input_contradiction": 24,
+      "load_input_contradiction": 24,
+      "material_input_contradiction": 24,
+      "non_geometric_mutation": 24,
+      "post_result_geometry_mutation": 48,
+      "stale_expected_hash": 24,
+      "valid": 48
+    },
+    "file_and_canonical_hashes_recomputed": true,
+    "frozen_jsonl_byte_sha256": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "hash_definition": "JSONL file bytes versus SHA256(json.dumps(parsed_case_list, sort_keys=True, separators=(',', ':'), allow_nan=False).encode('utf-8')).",
+    "model_counts": {
+      "circular_shaft_torsion": 92,
+      "hydrostatic_buoyancy": 56,
+      "lumped_thermal_transient": 68
+    },
+    "original_and_hosted_order_match_freeze": true,
+    "unique_records": 216
+  },
+  "claim_boundary": [
+    "One internal cross-environment reproduction of known outcomes; not independent confirmation.",
+    "The original and reproduced matrices contain the same 216 cases; do not double the sample size.",
+    "Original terminal dispositions, ledgers, source and cases remain unchanged.",
+    "Original runner phase remains confirmatory; the wrapper declaration supplies the reproduction classification.",
+    "No physical measurements, intended-user study, independent language evaluation, or Kaggle result.",
+    "Hashes verify retained identity and consistency, not a cryptographic execution attestation."
+  ],
+  "classification": "INTERNAL_CROSS_ENVIRONMENT_REPRODUCTION",
+  "diagnostics": {
+    "interpretation": "All 120 full receipts are 56 bytes shorter, consistent with the 56-character shorter retained project-output prefix and the source's embedded absolute project path. Binding hashes also include that path. No cross-host speed comparison is claimed.",
+    "median_convention": "Frozen median is the upper middle order statistic; conventional medians are separately labeled post-outcome diagnostics.",
+    "output_path_length_delta": -56,
+    "receipt_size_bytes": {
+      "conventional_median": 3707.5,
+      "count": 120,
+      "maximum": 4143,
+      "median": 3846
+    },
+    "receipt_size_delta_from_original": {
+      "-56": 120
+    },
+    "successful_evaluation_timing_ms": {
+      "full": {
+        "conventional_median_ms": 0.306703,
+        "count": 120,
+        "maximum_ms": 0.471971,
+        "median_ms": 0.307244,
+        "p95_ms": 0.366162
+      },
+      "hash_only": {
+        "conventional_median_ms": 0.143862,
+        "count": 192,
+        "maximum_ms": 0.235114,
+        "median_ms": 0.143867,
+        "p95_ms": 0.18625
+      },
+      "unbound": {
+        "conventional_median_ms": 0.008082,
+        "count": 216,
+        "maximum_ms": 0.012439,
+        "median_ms": 0.008082,
+        "p95_ms": 0.009234
+      }
+    }
+  },
+  "engineering_preflight": {
+    "console_seconds": 66.56,
+    "errors": 0,
+    "failures": 0,
+    "junit_seconds": 66.546,
+    "passed": 1203,
+    "scope": "Full frozen tests/ invocation; optional build123d and gmsh coverage skipped. Three skipped entries are module collection skips.",
+    "skipped": 9,
+    "skipped_records": [
+      {
+        "class": "",
+        "detail": "('/home/runner/work/NeuroCAD/NeuroCAD/tests/test_cad_mesh_native.py', 9, \"Skipped: could not import 'build123d': No module named 'build123d'\")",
+        "message": "collection skipped",
+        "name": "tests.test_cad_mesh_native"
+      },
+      {
+        "class": "",
+        "detail": "('/home/runner/work/NeuroCAD/NeuroCAD/tests/test_exact_build123d.py', 9, \"Skipped: could not import 'build123d': No module named 'build123d'\")",
+        "message": "collection skipped",
+        "name": "tests.test_exact_build123d"
+      },
+      {
+        "class": "",
+        "detail": "('/home/runner/work/NeuroCAD/NeuroCAD/tests/test_gmsh_backend.py', 7, \"Skipped: could not import 'gmsh': No module named 'gmsh'\")",
+        "message": "collection skipped",
+        "name": "tests.test_gmsh_backend"
+      },
+      {
+        "class": "tests.test_feature_revision_cli",
+        "detail": "/home/runner/work/NeuroCAD/NeuroCAD/tests/test_feature_revision_cli.py:51: could not import 'build123d': No module named 'build123d'",
+        "message": "could not import 'build123d': No module named 'build123d'",
+        "name": "test_revision_cli_publishes_real_roundtripped_bundle"
+      },
+      {
+        "class": "tests.test_feature_revision_cli",
+        "detail": "/home/runner/work/NeuroCAD/NeuroCAD/tests/test_feature_revision_cli.py:68: could not import 'build123d': No module named 'build123d'",
+        "message": "could not import 'build123d': No module named 'build123d'",
+        "name": "test_revision_cli_rejects_40mm_without_publication"
+      },
+      {
+        "class": "tests.test_feature_revision_cli",
+        "detail": "/home/runner/work/NeuroCAD/NeuroCAD/tests/test_feature_revision_cli.py:78: could not import 'build123d': No module named 'build123d'",
+        "message": "could not import 'build123d': No module named 'build123d'",
+        "name": "test_revision_cli_rejects_output_inside_baseline"
+      },
+      {
+        "class": "tests.test_feature_revision_cli",
+        "detail": "/home/runner/work/NeuroCAD/NeuroCAD/tests/test_feature_revision_cli.py:88: could not import 'build123d': No module named 'build123d'",
+        "message": "could not import 'build123d': No module named 'build123d'",
+        "name": "test_revision_cli_rejects_existing_output"
+      },
+      {
+        "class": "tests.test_feature_revision_cli",
+        "detail": "/home/runner/work/NeuroCAD/NeuroCAD/tests/test_feature_revision_cli.py:99: could not import 'build123d': No module named 'build123d'",
+        "message": "could not import 'build123d': No module named 'build123d'",
+        "name": "test_revision_cli_rejects_tampered_baseline"
+      },
+      {
+        "class": "tests.test_revision_evaluation",
+        "detail": "/home/runner/work/NeuroCAD/NeuroCAD/tests/test_revision_evaluation.py:33: could not import 'build123d': No module named 'build123d'",
+        "message": "could not import 'build123d': No module named 'build123d'",
+        "name": "test_evaluation_runs_real_cli_and_reopens_every_accepted_step"
+      }
+    ],
+    "tests": 1212
+  },
+  "environment": {
+    "dependency_receipt": {
+      "boundary": "Version receipt and retained installation log; not a binary attestation.",
+      "frozen_lock_sha256": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792",
+      "matching_environment_pins": 49,
+      "packages": {
+        "attrs": "26.1.0",
+        "bandit": "1.9.4",
+        "boolean-py": "5.0",
+        "build": "1.6.0",
+        "cachecontrol": "0.14.4",
+        "certifi": "2026.7.22",
+        "charset-normalizer": "3.5.1",
+        "cyclonedx-python-lib": "11.12.0",
+        "defusedxml": "0.7.1",
+        "filelock": "3.32.5",
+        "idna": "3.19",
+        "iniconfig": "2.3.0",
+        "jsonschema": "4.26.0",
+        "jsonschema-specifications": "2025.9.1",
+        "license-expression": "30.4.4",
+        "markdown-it-py": "4.2.0",
+        "mdurl": "0.1.2",
+        "msgpack": "1.2.2",
+        "mypy": "1.18.2",
+        "mypy-extensions": "1.1.0",
+        "numpy": "2.5.2",
+        "packageurl-python": "0.17.6",
+        "packaging": "26.3",
+        "pathspec": "0.12.1",
+        "pip-api": "0.0.34",
+        "pip-audit": "2.10.1",
+        "pip-requirements-parser": "32.0.1",
+        "platformdirs": "4.11.7",
+        "pluggy": "1.6.0",
+        "py-serializable": "2.1.0",
+        "pygments": "2.21.0",
+        "pyparsing": "3.3.2",
+        "pyproject-hooks": "1.2.0",
+        "pytest": "9.1.1",
+        "pyyaml": "6.0.3",
+        "referencing": "0.37.0",
+        "requests": "2.34.2",
+        "rich": "15.0.0",
+        "rpds-py": "2026.6.3",
+        "ruff": "0.16.5",
+        "setuptools": "83.0.0",
+        "sortedcontainers": "2.4.0",
+        "stevedore": "5.9.1",
+        "tomli": "2.4.1",
+        "tomli-w": "1.2.0",
+        "trimesh": "5.1.0",
+        "typing-extensions": "4.15.0",
+        "urllib3": "2.8.0",
+        "wheel": "0.47.0"
+      },
+      "pip_check_recorded_success": true,
+      "pip_omitted_from_default_freeze": true,
+      "pip_version_from_install_log": "26.2.1",
+      "platform_exclusion": "colorama (Windows only)"
+    },
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "python": "3.12.14 (main, Aug 13 2026, 02:47:42) [GCC 13.3.0]",
+    "resource_receipt": {
+      "admitted": true,
+      "disk_floor_mib": 2048.0,
+      "disk_free_mib": 85648.8203125,
+      "free_plus_speculative_mib": 14978.5703125,
+      "memory_floor_mib": 512.0
+    }
+  },
+  "execution_provider": "GitHub Actions",
+  "github": {
+    "artifact_id": 12402399676,
+    "attempt_limit": 1,
+    "metadata_basis": "GitHub run/artifact identifiers and archive digest retrieved by the coordinating session.",
+    "run_id": 39726824693,
+    "run_url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/39726824693",
+    "workflow_commit": "95aa315e87e0546191bbcdbce60f9c083b43b4b6"
+  },
+  "independent_party": false,
+  "kaggle_execution": false,
+  "primary_outcomes_already_observed": true,
+  "results": {
+    "all_13_endpoint_dictionaries_equal_original": true,
+    "all_retained_outcome_error_fields_equal_original": true,
+    "case_arm_observations": 648,
+    "case_count": 216,
+    "cross_host_comparison_boundary": "Raw records retain contract verdicts and within-run determinism flags, not full numerical analytical reports. Cross-host numerical report identity is not established.",
+    "differences_by_field": {
+      "arms.full.binding_sha256": 48,
+      "arms.full.elapsed_ms": 120,
+      "arms.full.report_bytes": 120,
+      "arms.full.verify_elapsed_ms": 72,
+      "arms.hash_only.elapsed_ms": 192,
+      "arms.hash_only.verify_elapsed_ms": 72,
+      "arms.unbound.elapsed_ms": 216
+    },
+    "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "endpoints": {
+      "full_geometry_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_load_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_material_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_non_geometric_specificity": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_post_mutation_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "full_stale_expected_hash_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "hash_only_non_geometric_specificity": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "hash_only_post_mutation_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "hash_only_semantic_non_detection": {
+        "rate": 1.0,
+        "successes": 72,
+        "total": 72,
+        "wilson_95": [
+          0.9493488274035422,
+          1.0
+        ]
+      },
+      "unbound_post_mutation_non_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "unbound_semantic_non_detection": {
+        "rate": 1.0,
+        "successes": 72,
+        "total": 72,
+        "wilson_95": [
+          0.9493488274035422,
+          1.0
+        ]
+      },
+      "valid_full_acceptance": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "valid_full_determinism": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      }
+    },
+    "execution_errors": [],
+    "paired_full_vs_unbound_post_mutation": {
+      "exact_two_sided_mcnemar_p": 7.105427357601002e-15,
+      "full_only": 48,
+      "unbound_only": 0
+    }
+  },
+  "retained_input_sha256": {
+    "research/physics_v2/CONFIRMATORY_EXECUTION.json": "f0ab53f078745f2138c1b76048bc00cc14dc09a8075a5656e0ebfe2573790230",
+    "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "research/physics_v2/frozen/freeze.json": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "research/recovery_20261022/hosted-job-log.txt": "329e25f485ad655b3d650154f7ed4dfbae04323f7043c972784472a5b9b3d636"
+  },
+  "run_integrity": {
+    "both_metrics_files_regenerated_byte_identically": true,
+    "freeze_sha256": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+    "ledger_manifest_raw_metrics_digest_chain_matches": true,
+    "ledger_status": "EXECUTED_ONCE",
+    "manifest_sha256": "8ab327a13d1a6682579efbe0cd3b49ae1572c184f8e1f75b63023b77b10a8e72",
+    "metrics_sha256": "4f6eaec3c551af8821164a5231179fbbd82d8c009d256f51f4ac7d5f32e91a8d",
+    "original_runner_phase_unchanged": "confirmatory",
+    "raw_results_sha256": "0e6e61dfc61934e074836f30d42db7bfea508f19d386095af8ba182a5d5bdd79"
+  },
+  "schema_version": "neurocad-hosted-reproduction-audit-v1",
+  "source_identity": {
+    "all_git_blob_hashes_match_freeze_and_both_manifests": true,
+    "checked_git_blob_count": 8,
+    "execution_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+    "freeze_source_commit": "2627c106ede6c2ac4e3570700f2bd545a763943c",
+    "post_run_git_status": "?? research/physics_v2/CONFIRMATORY_EXECUTION.json",
+    "source_hashes": {
+      "core/agentic.py": "9a5cac2a14f16f92e41739dec760099830484031794f54830d7f9f491796a455",
+      "core/physics.py": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+      "core/physics_context.py": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+      "neurocad_cli.py": "d62ef395fa1ae7219d86ff12fbde0e20bd642940441a8330ee6b5be14cc7abfa",
+      "requirements-research.lock": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792",
+      "research/physics_v2/MODEL_SPEC.md": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e",
+      "research/physics_v2/PROTOCOL.md": "83d9cbe6a5211349ecb91a4b8390e70003ff02cd257980c3dd3b907dacdcc31d",
+      "research/physics_v2/study.py": "6f84ee5684370e3ed0c4c474449df42878510fa1e02c88c778286729838b8097"
+    }
+  },
+  "status": "PASS"
+}

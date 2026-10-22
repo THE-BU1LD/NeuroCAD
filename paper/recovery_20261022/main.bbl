@@ -1,0 +1,113 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Dong et~al.(2026)Dong, Li, Zheng, Han, Jing, Shen, Song, and
+  Yang]{dong2026histcad}
+Xintong Dong, Chuanyang Li, Peng Zheng, Chuqi Han, Jiaxin Jing, Hailong Shen,
+  Yanzhi Song, and Zhouwang Yang.
+\newblock {HistCAD}: Constraint-aware parametric {CAD} histories for evaluating
+  editability.
+\newblock \emph{arXiv preprint arXiv:2602.19171v4}, 2026.
+\newblock \doi{10.48550/arXiv.2602.19171}.
+\newblock URL \url{https://arxiv.org/abs/2602.19171}.
+
+\bibitem[Du et~al.(2026)Du, Sun, Xi, and Li]{du2026citcad}
+Yali Du, Hui Sun, San-Zhuo Xi, and Ming Li.
+\newblock {CIT-CAD}: Constraint intent tree-based {CAD} code generation and
+  verification.
+\newblock \emph{arXiv preprint arXiv:2609.07434v2}, 2026.
+\newblock \doi{10.48550/arXiv.2609.07434}.
+\newblock URL \url{https://arxiv.org/abs/2609.07434}.
+
+\bibitem[Guan et~al.(2025)Guan, Wang, Xing, Zhang, Xu, and
+  Yu]{guan2025cadcoder}
+Yandong Guan, Xilin Wang, Ximing Xing, Jing Zhang, Dong Xu, and Qian Yu.
+\newblock {CAD-Coder}: Text-to-{CAD} generation with chain-of-thought and
+  geometric reward.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~38, 2025.
+\newblock \doi{10.52202/085713-1999}.
+\newblock URL \url{https://arxiv.org/abs/2505.19713}.
+
+\bibitem[Khan et~al.(2024)Khan, Sinha, Sheikh, Stricker, Ali, and
+  Afzal]{khan2024text2cad}
+Mohammad~Sadil Khan, Sankalp Sinha, Talha~Uddin Sheikh, Didier Stricker,
+  Sk~Aziz Ali, and Muhammad~Zeshan Afzal.
+\newblock {Text2CAD}: Generating sequential {CAD} designs from
+  beginner-to-expert level text prompts.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~37, 2024.
+\newblock \doi{10.52202/079017-0242}.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper_files/paper/2024/hash/0e5b96f97c1813bb75f6c28532c2ecc7-Abstract.html}.
+
+\bibitem[Liu et~al.(2026)Liu, Tang, Huang, Lei, and Ng]{liu2026expconcad}
+Jingyao Liu, Jinkang Tang, Chen Huang, Wenqiang Lei, and See-Kiong Ng.
+\newblock {ExpConCAD}: Experience-guided text-to-{CAD} generation from shape
+  descriptions with implicit spatial constraints.
+\newblock \emph{arXiv preprint arXiv:2608.24760v1}, 2026.
+\newblock \doi{10.48550/arXiv.2608.24760}.
+\newblock URL \url{https://arxiv.org/abs/2608.24760}.
+
+\bibitem[Mallis et~al.(2026)Mallis, Wang, Karadeniz, Ricci, Kacem, and
+  Aouada]{mallis2026cadtests}
+Dimitrios Mallis, Marco Wang, Ahmet~Serdar Karadeniz, Elisa Ricci, Anis Kacem,
+  and Djamila Aouada.
+\newblock Text-to-{CAD} evaluation with {CADTests}.
+\newblock \emph{arXiv preprint arXiv:2605.07807v1}, 2026.
+\newblock \doi{10.48550/arXiv.2605.07807}.
+\newblock URL \url{https://arxiv.org/abs/2605.07807}.
+
+\bibitem[Moreau and Missier(2013)]{moreau2013prov}
+Luc Moreau and Paolo Missier.
+\newblock {PROV-DM}: The {PROV} data model.
+\newblock W3c recommendation, World Wide Web Consortium, April 2013.
+\newblock URL \url{https://www.w3.org/TR/prov-dm/}.
+
+\bibitem[{Open CASCADE}(2026)]{occt2026}
+{Open CASCADE}.
+\newblock \emph{{Open CASCADE Technology}: {BRepCheck\_Analyzer} Class
+  Reference}, 2026.
+\newblock URL
+  \url{https://dev.opencascade.org/doc/refman/html/class_b_rep_check___analyzer.html}.
+\newblock Official documentation, accessed 22 October 2026.
+
+\bibitem[{RO-Crate Community}(2025)]{rocrate2025}
+{RO-Crate Community}.
+\newblock {RO-Crate} metadata specification 1.2, 2025.
+\newblock URL \url{https://www.researchobject.org/ro-crate/specification/1.2/}.
+\newblock Recommendation, published 4 June 2025.
+
+\bibitem[Rukhovich et~al.(2025)Rukhovich, Dupont, Mallis, Cherenkova, Kacem,
+  and Aouada]{rukhovich2025cadrecode}
+Danila Rukhovich, Elona Dupont, Dimitrios Mallis, Kseniya Cherenkova, Anis
+  Kacem, and Djamila Aouada.
+\newblock {CAD-Recode}: Reverse engineering {CAD} code from point clouds.
+\newblock \emph{arXiv preprint arXiv:2412.14042v2}, 2025.
+\newblock \doi{10.48550/arXiv.2412.14042}.
+\newblock URL \url{https://arxiv.org/abs/2412.14042}.
+
+\bibitem[Scholak et~al.(2021)Scholak, Schucher, and
+  Bahdanau]{scholak2021picard}
+Torsten Scholak, Nathan Schucher, and Dzmitry Bahdanau.
+\newblock {PICARD}: Parsing incrementally for constrained auto-regressive
+  decoding from language models.
+\newblock In \emph{Proceedings of the 2021 Conference on Empirical Methods in
+  Natural Language Processing}, pages 9895--9901. Association for Computational
+  Linguistics, 2021.
+\newblock \doi{10.18653/v1/2021.emnlp-main.779}.
+\newblock URL \url{https://aclanthology.org/2021.emnlp-main.779/}.
+
+\bibitem[Wu et~al.(2021)Wu, Xiao, and Zheng]{wu2021deepcad}
+Rundi Wu, Chang Xiao, and Changxi Zheng.
+\newblock {DeepCAD}: A deep generative network for computer-aided design
+  models.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, 2021.
+\newblock URL \url{https://arxiv.org/abs/2105.09492}.
+
+\end{thebibliography}

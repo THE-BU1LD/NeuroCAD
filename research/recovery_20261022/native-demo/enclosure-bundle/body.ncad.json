@@ -1,0 +1,168 @@
+{
+  "constraints": [
+    {
+      "kind": "dimension",
+      "parameters": {
+        "parameter": "size",
+        "value": [
+          80.0,
+          60.0,
+          30.0
+        ]
+      },
+      "target": "body_outer",
+      "tolerance": 1e-06
+    },
+    {
+      "kind": "child_count",
+      "parameters": {
+        "value": 3
+      },
+      "target": "body_shell",
+      "tolerance": 1e-06
+    }
+  ],
+  "metadata": {
+    "feature_ids": [
+      "cutout_1"
+    ],
+    "hole_compensation_applied_mm": 0.2,
+    "outer_size_mm": [
+      80.0,
+      60.0,
+      30.0
+    ],
+    "part": "body",
+    "profile": "fdm_standard",
+    "source": "typed_enclosure_spec",
+    "spec_version": "neurocad-enclosure-v1"
+  },
+  "nodes": [
+    {
+      "id": "body_outer",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            80.0,
+            60.0,
+            30.0
+          ]
+        }
+      },
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "body_cavity",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            76.0,
+            56.0,
+            28.2
+          ]
+        }
+      },
+      "role": "cavity",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          1.1
+        ]
+      }
+    },
+    {
+      "id": "cutout_1",
+      "primitive": {
+        "kind": "box",
+        "parameters": {
+          "size": [
+            12.0,
+            4.0,
+            7.0
+          ]
+        }
+      },
+      "role": "cutout",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          -29.0,
+          8.0
+        ]
+      }
+    },
+    {
+      "children": [
+        "body_outer",
+        "body_cavity",
+        "cutout_1"
+      ],
+      "composition": "difference",
+      "id": "body_shell",
+      "role": "composition",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roots": [
+    "body_shell"
+  ],
+  "title": "electronics enclosure — body",
+  "units": "mm",
+  "version": "neurocad-ir-v1"
+}
