@@ -1,0 +1,47 @@
+FF.                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_demo_receipt_uses_executing_cli_identity_with_unrelated_receipt_python __
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-12/test_demo_receipt_uses_executi0')
+
+    def test_demo_receipt_uses_executing_cli_identity_with_unrelated_receipt_python(tmp_path: Path) -> None:
+        env, cli = _demo_tools(tmp_path)
+        destination = tmp_path / "demo"
+        expected = json.loads(subprocess.check_output([str(cli), "provenance", "--json"], env=env, text=True))
+        completed = subprocess.run(
+            ["bash", str(ROOT / "demo" / "build_demo_kit.sh"), str(destination)],
+            env=env, capture_output=True, text=True, check=False,
+        )
+        assert completed.returncode == 0, completed.stderr
+        receipt = json.loads((destination / "DEMO_RECEIPT.json").read_text(encoding="utf-8"))
+>       assert receipt["implementation"] == expected
+E       AssertionError: assert {'implementat...lled_package'} == {'identity_ve...86f23f'}, ...}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'implementation_files': {'core/__init__.py': '3fb708212f9032b3678c382ad2e2ddf141b70dd4a159cb22ad619c14568300b2', 'neurocad_cli.py': 'e4456015f973ac287eb01be9de267c0a932f8c74b7552352f9fa83f95d3dc0eb'}} != {'implementation_files': {'neurocad_cli.py': 'de5057d7b63cbb25bda179c7030234ee4149297f4d363d1600745ca8f4dfe30f', 'core/schemas/schema.json': 'a33bdc93f0e5a7a478b192622a1147c8c6b075c7b5678addd1e728100d86f23f'}}
+E         {'implementation_sha256': '55085a45846a18b0cf910943f3b6b015a24686516cc155a3d8f8708b41aa4610'} != {'impl...
+E         
+E         ...Full output truncated (5 lines hidden), use '-vv' to show
+
+tests/test_demo_kit.py:97: AssertionError
+________ test_demo_refuses_success_receipt_after_implementation_changes ________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-12/test_demo_refuses_success_rece0')
+
+    def test_demo_refuses_success_receipt_after_implementation_changes(tmp_path: Path) -> None:
+        env, _ = _demo_tools(tmp_path, mutate=True)
+        destination = tmp_path / "demo"
+        completed = subprocess.run(
+            ["bash", str(ROOT / "demo" / "build_demo_kit.sh"), str(destination)],
+            env=env, capture_output=True, text=True, check=False,
+        )
+>       assert completed.returncode != 0
+E       AssertionError: assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['bash', '/workspace/scratch/aaca27c919af/NeuroCAD/demo/build_demo_kit.sh', '/tmp/pytest-of-root...err\nfixture stderr\nfixture stderr\nfixture stderr\nfixture stderr\nfixture stderr\nfixture stderr\nfixture stderr\n').returncode
+
+tests/test_demo_kit.py:109: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_demo_kit.py::test_demo_receipt_uses_executing_cli_identity_with_unrelated_receipt_python
+FAILED tests/test_demo_kit.py::test_demo_refuses_success_receipt_after_implementation_changes
+2 failed, 1 passed in 0.98s

@@ -1,0 +1,109 @@
+{
+  "author": "Ryan Gomez, The Bu1LD",
+  "claim_boundary": "Complete current-evidence manuscript. Original compiler remains MIXED; v2 supported within synthetic contract plus one internal repetition of known outcomes. Independent language, physical and user evidence remains unexecuted.",
+  "commands": [
+    "python generate_evidence.py",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
+    "bibtex main",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
+    "pdftoppm -r 105 -png main.pdf qa/final/page"
+  ],
+  "created_utc": "2026-10-22T05:27:35.484001+00:00",
+  "files": {
+    "README.md": {
+      "bytes": 2611,
+      "sha256": "0f378751be7373f269e8c81fb94ac697ee0c6ed9e1408157ff0bb575fa9bb682"
+    },
+    "arxiv.sty": {
+      "bytes": 8940,
+      "sha256": "aead72f0e1da93704a3a668d0f15460a521b06f5a9e2b5e9854866bd73aee72b"
+    },
+    "build.log": {
+      "bytes": 36251,
+      "sha256": "9aef50e84ace535903d32949782a5db62ded992e33963cfbe7ac6df75dc1df83"
+    },
+    "compiler_table.tex": {
+      "bytes": 382,
+      "sha256": "c2c5dbb653a4329eb828218219ff4c48e31fa56e7538511e8f2310af33d799ae"
+    },
+    "evidence_sources.json": {
+      "bytes": 6265,
+      "sha256": "eebb815ba6f420f4288f22f8bcb6de68b70b646565ff42949330cef5992da4de"
+    },
+    "generate_evidence.py": {
+      "bytes": 12603,
+      "sha256": "70265d33a1c9c2ad5c3c9ce79753c29e18c698cd2d85cf2ffaadecca449e866d"
+    },
+    "main.bbl": {
+      "bytes": 5071,
+      "sha256": "9e6a90657f76a98b9a60c0b3760588d73ba4cd08c593b12ecb5de2966411b82e"
+    },
+    "main.pdf": {
+      "bytes": 294289,
+      "sha256": "8556cea6af729ee3c6ffbff86388e5e11d28a3153bf848d9e2c1bf8034d491f6"
+    },
+    "main.tex": {
+      "bytes": 61146,
+      "sha256": "7b40d1fa0cac8da30126af404f294f90c352c09c3a4d88638076594e76b0f94d"
+    },
+    "physics_table.tex": {
+      "bytes": 521,
+      "sha256": "184686fb9ebcdd73f01d7e6d4792b2221acb8666da4eb0fc4ed39ebd7cb79dd7"
+    },
+    "references.bib": {
+      "bytes": 4367,
+      "sha256": "9967156955bf03fe27cebc538ce1a682ded162fc646b1e4deef72bf2adfb6f0b"
+    },
+    "results_figure.pdf": {
+      "bytes": 16385,
+      "sha256": "5edc9a9957dddd62e8d6d00b7e6ba2a3a3a21e35fc172a273e5d5aec0c0b7149"
+    },
+    "results_figure.png": {
+      "bytes": 57599,
+      "sha256": "9b64d87ccd33165a5f3b8169388cf5f49f43ae6c1e28581e0efe02364db4e456"
+    }
+  },
+  "internal_evidence_review": {
+    "hosted_integrity_audit": "research/recovery_20261022/hosted_reproduction_audit.json",
+    "scope": "Internal artifact and source review; not external peer review.",
+    "status": "No blocking factual error found"
+  },
+  "pages": 15,
+  "pdf_sha256": "8556cea6af729ee3c6ffbff86388e5e11d28a3153bf848d9e2c1bf8034d491f6",
+  "qa_contact_sheets": {
+    "qa/final/contact-1.png": {
+      "bytes": 1031801,
+      "sha256": "19ecd75ec1ed4fc19f9d34aab7c71618222d87df26f865bb64d92a9e94da691f"
+    },
+    "qa/final/contact-2.png": {
+      "bytes": 958941,
+      "sha256": "6ce41349985c9dc7ca1d610e98c62f9a129c7d5fd4f94e1501e4b23ae7a21220"
+    },
+    "qa/final/contact-3.png": {
+      "bytes": 1058002,
+      "sha256": "c0191fab30ac36a13af68c6e7801a3243e5326d70a02e76a90af6fbc33e55eaf"
+    },
+    "qa/final/contact-4.png": {
+      "bytes": 611701,
+      "sha256": "c79d8e8a19b1b5c8ea753779d87bd056e6e8b9c88c265cf0d239ae24ab7ddb34"
+    }
+  },
+  "schema_version": "neurocad-paper-build-v1",
+  "status": "PASS_WITH_DECLARED_STYLE_WARNING",
+  "style": {
+    "copied_unchanged": true,
+    "sha256": "aead72f0e1da93704a3a668d0f15460a521b06f5a9e2b5e9854866bd73aee72b",
+    "warning": "Supplied arxiv.sty internally names its package arxivrefined; unchanged user file is retained."
+  },
+  "title": "NeuroCAD: An Auditable Bounded CAD Compiler and Constraint-Evidence System",
+  "validation": {
+    "all_pages_rendered_and_visually_inspected": true,
+    "derived_outputs_byte_identical_on_repeat": true,
+    "overfull_boxes": 0,
+    "render_dpi": 105,
+    "undefined_citations": 0,
+    "undefined_references": 0,
+    "visual_issues": "No clipping, overlaps, missing glyphs, or orphaned section headings observed."
+  }
+}

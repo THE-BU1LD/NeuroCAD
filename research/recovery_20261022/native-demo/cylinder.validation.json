@@ -1,0 +1,248 @@
+{
+  "canonical_ir": {
+    "constraints": [
+      {
+        "kind": "dimension",
+        "parameters": {
+          "parameter": "radius",
+          "value": 20.0
+        },
+        "target": "body",
+        "tolerance": 1e-06
+      },
+      {
+        "kind": "dimension",
+        "parameters": {
+          "parameter": "height",
+          "value": 50.0
+        },
+        "target": "body",
+        "tolerance": 1e-06
+      }
+    ],
+    "metadata": {
+      "confidence": 0.6,
+      "connections": [],
+      "contract_prompt": "a cylinder with radius 20 mm and height 50 mm",
+      "domain": "generic",
+      "explicit_dimensions": true,
+      "fabrication_domain": "primitive",
+      "flags": {
+        "fins": false,
+        "holes": false,
+        "hollow": false,
+        "rounded": false,
+        "shaft": false,
+        "slots": false,
+        "wheels": false,
+        "wings": false
+      },
+      "ignored_qualitative_terms": [],
+      "interpretation_mode": "strict",
+      "normalized_prompt": "a cylinder with radius 20 mm and height 50 mm",
+      "prompt": "a cylinder with radius 20 mm and height 50 mm",
+      "prompt_fully_consumed": true,
+      "recognized": true,
+      "source": "natural_language_design_graph",
+      "source_kind": "prompt",
+      "units": "mm"
+    },
+    "nodes": [
+      {
+        "id": "body",
+        "primitive": {
+          "kind": "cylinder",
+          "parameters": {
+            "height": 50.0,
+            "radius": 20.0
+          }
+        },
+        "role": "body",
+        "transform": {
+          "rotate": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "translate": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    ],
+    "roots": [
+      "body"
+    ],
+    "title": "a cylinder with radius 20 mm and height 50 mm",
+    "units": "mm",
+    "version": "neurocad-ir-v1"
+  },
+  "components": [
+    {
+      "geometry": {
+        "center": true,
+        "height": 50.0,
+        "kind": "cylinder",
+        "radius": 20.0
+      },
+      "name": "body",
+      "operation": "union",
+      "role": "body",
+      "transform": {
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "translate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "connections": [],
+  "ir_validation": {
+    "constraint_results": [
+      {
+        "actual": 20.0,
+        "expected": 20.0,
+        "index": 0,
+        "kind": "dimension",
+        "message": "dimension matched",
+        "satisfied": true
+      },
+      {
+        "actual": 50.0,
+        "expected": 50.0,
+        "index": 1,
+        "kind": "dimension",
+        "message": "dimension matched",
+        "satisfied": true
+      }
+    ],
+    "errors": [],
+    "valid": true
+  },
+  "metadata": {
+    "confidence": 0.6,
+    "contract_prompt": "a cylinder with radius 20 mm and height 50 mm",
+    "domain": "generic",
+    "explicit_dimensions": true,
+    "fabrication_domain": "primitive",
+    "flags": {
+      "fins": false,
+      "holes": false,
+      "hollow": false,
+      "rounded": false,
+      "shaft": false,
+      "slots": false,
+      "wheels": false,
+      "wings": false
+    },
+    "ignored_qualitative_terms": [],
+    "interpretation_mode": "strict",
+    "mesh_verification": {
+      "body_count": 1,
+      "embedding": {
+        "candidate_pairs_tested": 746,
+        "intersection_pairs": [],
+        "limitations": [
+          "Floating-point triangle tests are scale-normalized but are not an exact-arithmetic BREP proof.",
+          "Pairs sharing an indexed vertex are excluded; the check targets non-adjacent triangle intersections."
+        ],
+        "relative_tolerance": 1e-12,
+        "reported_intersections_truncated": false,
+        "scale_mm": 50.0,
+        "schema_version": "neurocad-self-intersection-v1",
+        "self_intersecting": false
+      },
+      "extent_absolute_errors_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "extents_mm": [
+        40.0,
+        40.0,
+        50.0
+      ],
+      "faces": 380,
+      "finite_vertices": true,
+      "is_volume": true,
+      "kernel_validity": true,
+      "topology": {
+        "betti_numbers": [
+          1,
+          0,
+          1
+        ],
+        "boundary_edges": 0,
+        "boundary_ranks": [
+          191,
+          379
+        ],
+        "closed": true,
+        "coefficient_field": "F2",
+        "components": [
+          {
+            "boundary_loops": 0,
+            "crosscap_number": null,
+            "edges": 570,
+            "euler_characteristic": 2,
+            "faces": 380,
+            "genus": 0,
+            "manifold": true,
+            "orientable": true,
+            "vertices": 192
+          }
+        ],
+        "edges": 570,
+        "euler_characteristic": 2,
+        "faces": 380,
+        "limitations": [
+          "Connectivity of supplied vertex indices only; no self-intersection or embedding proof.",
+          "F2 homology does not determine geometric equivalence, dimensions, material strength, or physical fit."
+        ],
+        "manifold": true,
+        "nonmanifold_edges": 0,
+        "nonmanifold_vertex_examples": [],
+        "nonmanifold_vertices": 0,
+        "schema_version": "neurocad-topology-v1",
+        "vertices": 192
+      },
+      "verification_kind": "kernel_mesh",
+      "vertices": 192,
+      "volume_mm3": 62787.01508860001,
+      "watertight": true,
+      "winding_consistent": true
+    },
+    "normalized_prompt": "a cylinder with radius 20 mm and height 50 mm",
+    "prompt": "a cylinder with radius 20 mm and height 50 mm",
+    "prompt_fully_consumed": true,
+    "recognized": true,
+    "source_kind": "prompt",
+    "units": "mm"
+  },
+  "schema_version": "1.0",
+  "title": "a cylinder with radius 20 mm and height 50 mm",
+  "units": "mm",
+  "validation": {
+    "errors": [],
+    "valid": true,
+    "warnings": []
+  }
+}

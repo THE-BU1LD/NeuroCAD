@@ -1,0 +1,104 @@
+name: Physics v2 internal reproduction 2026-10-22
+
+on:
+  push:
+    branches: [codex/neurocad-evidence-recovery-20261022]
+    paths:
+      - .github/workflows/physics-v2-internal-reproduction-20261022.yml
+      - research/recovery_20261022/REPRODUCTION_REQUEST.json
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 786ba9ba5c2249a710529c3b07bf82d4e29c7f36
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12.14'
+      - name: Record original identities and internal-reproduction scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/neurocad-reproduction"
+          python - <<'PY'
+          import hashlib, json, os, platform, subprocess, sys
+          from pathlib import Path
+          root = Path.cwd()
+          output = Path(os.environ['RUNNER_TEMP']) / 'neurocad-reproduction'
+          freeze_path = root / 'research/physics_v2/frozen/freeze.json'
+          freeze = json.loads(freeze_path.read_text())
+          digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+          assert digest(freeze_path) == 'e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac'
+          for name, expected in freeze['source_hashes'].items():
+              assert digest(root / name) == expected, name
+          cases = root / 'research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl'
+          assert digest(cases) == freeze['cases_file_sha256']
+          assert not subprocess.check_output(['git','status','--porcelain=v1'], text=True).strip()
+          declaration = {
+              'classification':'INTERNAL_CROSS_ENVIRONMENT_REPRODUCTION',
+              'primary_outcomes_already_observed':True, 'independent_party':False,
+              'execution_provider':'GitHub Actions', 'python':sys.version,
+              'platform':platform.platform(),
+              'source_commit':subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip(),
+              'workflow_commit':os.environ['GITHUB_SHA'],
+              'freeze_sha256':digest(freeze_path), 'cases_sha256':digest(cases),
+              'frozen_source_hashes':freeze['source_hashes'],
+              'attempt_limit':1,
+              'interpretation':'Reproduction of known synthetic outcomes; no new independent or physical evidence.'
+          }
+          (output / 'declaration.json').write_text(json.dumps(declaration, indent=2)+'\n')
+          PY
+      - name: Install original locked environment and kernel
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y openscad xauth xvfb
+          python -m pip install --require-hashes -r requirements-research.lock
+          python -m pip install --no-deps --no-build-isolation -e .
+          python -m pip freeze > "$RUNNER_TEMP/neurocad-reproduction/environment.txt"
+          python -m pip check
+      - name: Execute engineering prerequisite suite on frozen checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a python -m pytest -q tests --junitxml="$RUNNER_TEMP/neurocad-reproduction/tests.xml" 2>&1 | tee "$RUNNER_TEMP/neurocad-reproduction/tests.txt"
+          test -z "$(git status --porcelain=v1)"
+      - name: Execute original gated study once
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/physics_v2/study.py run \
+            --phase confirmatory \
+            --cases research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl \
+            --freeze research/physics_v2/frozen/freeze.json \
+            --output "$RUNNER_TEMP/neurocad-reproduction/run" \
+            2>&1 | tee "$RUNNER_TEMP/neurocad-reproduction/execution.txt"
+      - name: Retain every outcome and admission failure
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/neurocad-reproduction"
+          if test -f research/physics_v2/CONFIRMATORY_EXECUTION.json; then
+            cp research/physics_v2/CONFIRMATORY_EXECUTION.json "$RUNNER_TEMP/neurocad-reproduction/CONFIRMATORY_EXECUTION.json"
+          fi
+          git status --porcelain=v1 > "$RUNNER_TEMP/neurocad-reproduction/git-status-after.txt"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: physics-v2-internal-reproduction-20261022
+          path: ${{ runner.temp }}/neurocad-reproduction
+          retention-days: 30
+          if-no-files-found: error

@@ -1,0 +1,315 @@
+{
+  "boundaries": [
+    "No case was executed.",
+    "No original result was overwritten.",
+    "Historical typed-parser causal claim remains falsified.",
+    "No Kaggle execution is established by these macOS manifests."
+  ],
+  "compiler": {
+    "classification": "MIXED_TERMINAL",
+    "interpretation": "Project-generated grammar conformance. Retrieval overall includes training tasks; prefer split-specific numbers.",
+    "retained_artifact_integrity": {
+      "failures": [
+        {
+          "error": "missing or not a regular file",
+          "path": "logs/run.log"
+        }
+      ],
+      "listed": 1212,
+      "matched": 1211,
+      "scope": "Listed retained bytes only; hash agreement does not establish independence or physical validity.",
+      "status": "FAIL"
+    },
+    "systems": {
+      "fixed_box": {
+        "overall": {
+          "passed": 0,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 0,
+            "total": 48
+          },
+          "train": {
+            "passed": 0,
+            "total": 144
+          },
+          "validation": {
+            "passed": 0,
+            "total": 48
+          }
+        }
+      },
+      "nearest_neighbor_retrieval": {
+        "overall": {
+          "passed": 144,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 0,
+            "total": 48
+          },
+          "train": {
+            "passed": 144,
+            "total": 144
+          },
+          "validation": {
+            "passed": 0,
+            "total": 48
+          }
+        }
+      },
+      "neurocad": {
+        "overall": {
+          "passed": 240,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 48,
+            "total": 48
+          },
+          "train": {
+            "passed": 144,
+            "total": 144
+          },
+          "validation": {
+            "passed": 48,
+            "total": 48
+          }
+        }
+      },
+      "normalized_dimensions_only": {
+        "overall": {
+          "passed": 130,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 27,
+            "total": 48
+          },
+          "train": {
+            "passed": 82,
+            "total": 144
+          },
+          "validation": {
+            "passed": 21,
+            "total": 48
+          }
+        }
+      },
+      "raw_numbers_no_unit_normalization": {
+        "overall": {
+          "passed": 110,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 0,
+            "total": 48
+          },
+          "train": {
+            "passed": 82,
+            "total": 144
+          },
+          "validation": {
+            "passed": 28,
+            "total": 48
+          }
+        }
+      }
+    }
+  },
+  "input_sha256": {
+    "research/physics_v2/CONFIRMATORY_EXECUTION.json": "f0ab53f078745f2138c1b76048bc00cc14dc09a8075a5656e0ebfe2573790230",
+    "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "research/physics_v2/frozen/freeze.json": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "research/runs/NC-REPRO-508EC40/manifest.json": "fbb44932db9aeb9fa89003acaeef8ee0a26ad7c7a1184812ed002d0583bdea7b",
+    "research/runs/NC-REPRO-508EC40/metrics/results.json": "fd562266b40ce05515a61336f767c978a0cc9187e7d41d57b17244c6baf46028"
+  },
+  "median_convention": "Frozen analyzer uses upper middle order statistic. Conventional medians shown as separate post-outcome descriptive reanalysis.",
+  "mode": "REANALYSIS_ONLY_NO_CASE_EXECUTION",
+  "physics_v2": {
+    "case_count": 216,
+    "endpoints": {
+      "full_geometry_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95_descriptive": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_load_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95_descriptive": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_material_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95_descriptive": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_non_geometric_specificity": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95_descriptive": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_post_mutation_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95_descriptive": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "full_stale_expected_hash_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95_descriptive": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "hash_only_non_geometric_specificity": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95_descriptive": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "hash_only_post_mutation_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95_descriptive": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "hash_only_semantic_non_detection": {
+        "rate": 1.0,
+        "successes": 72,
+        "total": 72,
+        "wilson_95_descriptive": [
+          0.9493488274035422,
+          1.0
+        ]
+      },
+      "unbound_post_mutation_non_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95_descriptive": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "unbound_semantic_non_detection": {
+        "rate": 1.0,
+        "successes": 72,
+        "total": 72,
+        "wilson_95_descriptive": [
+          0.9493488274035422,
+          1.0
+        ]
+      },
+      "valid_full_acceptance": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95_descriptive": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "valid_full_determinism": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95_descriptive": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      }
+    },
+    "family_counts": {
+      "geometry_input_contradiction": 24,
+      "load_input_contradiction": 24,
+      "material_input_contradiction": 24,
+      "non_geometric_mutation": 24,
+      "post_result_geometry_mutation": 48,
+      "stale_expected_hash": 24,
+      "valid": 48
+    },
+    "interpretation": "Fixed synthetic contract conformance; no physical or independent external validation. Intervals are descriptive.",
+    "model_counts": {
+      "circular_shaft_torsion": 92,
+      "hydrostatic_buoyancy": 56,
+      "lumped_thermal_transient": 68
+    },
+    "original_execution_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+    "original_platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "paired_full_vs_unbound_post_mutation": {
+      "exact_two_sided_mcnemar_p": 7.105427357601002e-15,
+      "full_only": 48,
+      "unbound_only": 0
+    },
+    "receipt_size_bytes": {
+      "conventional_median": 3763.5,
+      "count": 120,
+      "maximum": 4199,
+      "upper_median": 3902
+    },
+    "source_declaration_boundary": "Equality of retained manifest and freeze declarations; inspect the frozen checkout to verify source bytes.",
+    "source_declarations_match_freeze": true,
+    "status": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "timing_successful_evaluations_only": {
+      "full": {
+        "conventional_median_ms": 0.6178125000000001,
+        "count": 120,
+        "maximum_ms": 1.517292,
+        "p95_ms": 1.145666,
+        "upper_median_ms": 0.6185
+      },
+      "hash_only": {
+        "conventional_median_ms": 0.24764550000000002,
+        "count": 192,
+        "maximum_ms": 0.798,
+        "p95_ms": 0.534,
+        "upper_median_ms": 0.248
+      },
+      "unbound": {
+        "conventional_median_ms": 0.0132085,
+        "count": 216,
+        "maximum_ms": 0.162,
+        "p95_ms": 0.034,
+        "upper_median_ms": 0.013209
+      }
+    }
+  },
+  "schema_version": "nc-retained-evidence-reanalysis-v1"
+}

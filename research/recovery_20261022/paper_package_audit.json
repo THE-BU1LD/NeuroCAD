@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "source_package": "NeuroCAD_arXiv_Source_2026-10-22.zip",
+  "archive_sha256": "9adaab61fed77d793c964467f016beb1c724b056ffe33f9044d2564a67307941",
+  "pages": 15,
+  "commands": [
+    [
+      "pdflatex",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "main.tex"
+    ],
+    [
+      "bibtex",
+      "main"
+    ],
+    [
+      "pdflatex",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "main.tex"
+    ],
+    [
+      "pdflatex",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "main.tex"
+    ]
+  ],
+  "standalone_sources_compile": true,
+  "overfull_boxes": 0,
+  "undefined_references_or_citations": false,
+  "expected_style_warning": "User arxiv.sty declares arxivrefined; unchanged",
+  "note": "PDF byte equality is not expected across builds with varying PDF metadata; original reviewed PDF identity is in BUILD_RECEIPT.json"
+}

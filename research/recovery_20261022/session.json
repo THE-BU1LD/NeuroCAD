@@ -1,0 +1,133 @@
+{
+  "id": "recovery_20261022",
+  "started_utc": "2026-10-22T05:06:37.965655+00:00",
+  "base_commit": "66f02644d20c7876c0f9421045aae33f2fa9af9e",
+  "status": "BOUNDED_WORK_VERIFIED_REVIEW_AND_EXTERNAL_GATES_OPEN",
+  "scope": [
+    "Feature IR malformed input repair",
+    "CLI-owned demo provenance",
+    "historical evidence reanalysis and new manuscript",
+    "one internal frozen Physics v2 reproduction on hosted CPU"
+  ],
+  "scientific_outcomes_already_observed": true,
+  "independent_confirmation": false,
+  "prior_frozen_files_unchanged": true,
+  "budget": {
+    "paid_provider_calls": 0,
+    "gpu_hours": 0,
+    "new_protected_external_runs": 0,
+    "internal_reproduction_attempts": 1,
+    "hosted_reproduction_minutes": 25,
+    "local_full_suite_attempts": 2,
+    "demo_attempts": 2
+  },
+  "authorization": "2026-10-22 attached project execution brief explicitly requests implementation, experiments, corresponding GitHub integration and full paper.",
+  "restriction": "Do not overwrite completed predecessor evidence or adapt a frozen study to obtain a positive result.",
+  "recorded_utc": "2026-10-22T05:26:42.854310+00:00",
+  "branch": "codex/neurocad-evidence-recovery-20261022",
+  "claim_disposition": {
+    "original_compiler": "MIXED; typed-parser causal claim remains falsified",
+    "physics_v2": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "new_hosted_run": "INTERNAL_CROSS_ENVIRONMENT_REPRODUCTION; every retained contract verdict and all 13 endpoints reproduced",
+    "independent_external_validation": "NOT_EXECUTED",
+    "universal_perfection": "NOT_CLAIMED"
+  },
+  "verification": {
+    "maintained_full_suite": {
+      "passed": 2240,
+      "skipped": 12,
+      "subtests_passed": 53,
+      "failed": 0,
+      "errors": 0,
+      "seconds": 98.32,
+      "log": "engineering/full-tests-with-sockets.txt",
+      "xml": "engineering/full-tests-with-sockets.xml"
+    },
+    "first_full_suite": {
+      "passed": 2208,
+      "skipped": 13,
+      "subtests_passed": 53,
+      "failed": 4,
+      "errors": 27,
+      "cause": "All 31 failures/errors were PermissionError during test-server socket creation; original evidence retained",
+      "log": "engineering/full-tests.txt"
+    },
+    "native_demo": {
+      "artifact_hashes_verified": 32,
+      "implementation_file_hashes_verified": 85,
+      "snapshot_equality": true,
+      "physical_validation": "not performed",
+      "audit": "engineering/native-demo-audit.json"
+    },
+    "frozen_hosted_suite": {
+      "passed": 1203,
+      "skipped": 9,
+      "failed": 0,
+      "errors": 0
+    },
+    "hosted_reproduction": {
+      "run_id": 39726824693,
+      "url": "https://github.com/THE-BU1LD/NeuroCAD/actions/runs/39726824693",
+      "artifact_id": 12402399676,
+      "archive_sha256": "4c8c9e7af18fcaed4a88d3ecd0bfa00d9b5161ae898ee20c7840d17e2220d217",
+      "frozen_source_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+      "workflow_commit": "95aa315e87e0546191bbcdbce60f9c083b43b4b6",
+      "unique_cases": 216,
+      "endpoint_dictionaries_matched": 13,
+      "audit_status": "PASS",
+      "audit": "hosted_reproduction_audit.json"
+    },
+    "historical_files": {
+      "unchanged": 4277,
+      "indexed": 4278,
+      "only_changed_prior_path": "research/RESEARCH_STATE.json",
+      "prior_state_bytes_preserved": "entry_state.json",
+      "audit": "history_integrity.json"
+    }
+  },
+  "failures_preserved": [
+    "46 of 74 Feature IR admission regression cases fail on original baseline",
+    "2 of 3 original demo provenance witnesses fail on original shell script",
+    "First full suite has 4 failures and 27 errors caused by socket permission",
+    "Original compiler archive still lacks its original logs/run.log (1211 of 1212 artifacts present)",
+    "Historical typed-parser causal failure and prior v3 physical-model defects remain unchanged",
+    "Local scientific preflight declined execution below the frozen resource floor; no local study case execution started; retained in evidence_audit.json reproduction_preflight"
+  ],
+  "actual_budget_use": {
+    "paid_provider_calls": 0,
+    "gpu_hours": 0,
+    "new_protected_external_runs": 0,
+    "internal_reproduction_executions": 1,
+    "local_full_suite_runs": 2,
+    "native_demo_runs": 1
+  },
+  "review": {
+    "source_review": "Separate agent review plus implementation author compatibility review; no human peer-review claim",
+    "artifact_review": "Separate agent read-only hash/metric/verdict audit; reproducible audit script included",
+    "paper": "paper/recovery_20261022/main.tex; final build receipt in paper directory"
+  },
+  "repository_integration": {
+    "target": "THE-BU1LD/NeuroCAD",
+    "branch": "codex/neurocad-evidence-recovery-20261022",
+    "plan": "Publish this exact artifact tree and open a reviewable pull request; consult exact-commit GitHub checks for hosted candidate integration status",
+    "merge_claim": false,
+    "release_claim": false
+  },
+  "remaining_gates": [
+    "Exact candidate repository CI and code review before merge/release",
+    "Independent human-authored/adjudicated external language challenge and declared strong comparator",
+    "Calibrated physical and intended-user evidence",
+    "Kaggle authentication and actual notebook/result retrieval; current task browser is signed out",
+    "Publication/submission decision; no arXiv submission performed"
+  ],
+  "next_action": "Use the pull request and frozen artifacts for review; authenticate the requested Kaggle session to complete account-specific retrieval. Do not reopen terminal predecessor studies or label synthetic/agent-authored cases independent human evidence.",
+  "closeout": "research/recovery_20261022/CLOSEOUT.md",
+  "paper": {
+    "pages": 15,
+    "pdf_sha256": "8556cea6af729ee3c6ffbff86388e5e11d28a3153bf848d9e2c1bf8034d491f6",
+    "build_status": "PASS_WITH_DECLARED_STYLE_WARNING",
+    "build_receipt": "paper/recovery_20261022/BUILD_RECEIPT.json",
+    "user_style_byte_identical": true,
+    "source_package_file_count": 13
+  }
+}

@@ -14,13 +14,27 @@ demo/build_demo_kit.sh neurocad-demo-artifacts
 
 The destination must be new. Success produces three worked examples, verified
 STLs, editable SCAD/IR, manifests, a deliberate rejection, and
-`DEMO_RECEIPT.json` with byte counts, artifact hashes, and a hash of the active
-NeuroCAD implementation. When the script runs from a Git checkout, it also
-records the exact commit. For an installed package with no embedded Git metadata,
-the receipt declares that the revision is unavailable rather than guessing.
+`DEMO_RECEIPT.json` with byte counts, artifact hashes, and the source identity
+reported by the executing `NEUROCAD_CLI`. The script requests `provenance --json`
+before and after the demo and refuses a success receipt if those identities differ.
+`PYTHON_BIN` only writes the receipt; an unrelated NeuroCAD installation visible to
+that interpreter cannot supply the identity. The two identity snapshots are retained.
 
-To bind an installed-package run to a reviewed source commit, supply that full
-commit explicitly:
+The identity hashes the executing CLI source, `text_to_cad.py`,
+`text_to_openscad.py`, all Python, JSON and JavaScript files under its active
+`core` package, and the packaged JavaScript license. File names use stable relative
+paths. Absolute installation paths and timestamps are excluded. This is an on-disk
+source/resource snapshot; it does not attest loaded bytecode, third-party dependencies,
+or an unchanged implementation between the two observations. In particular, a
+transient change followed by restoration is outside this check.
+
+When the CLI source is at a Git checkout root, the receipt also records observed
+HEAD metadata as `observed_checkout`. That metadata never proves that source bytes
+match the commit, including in a modified checkout. For an installed package without
+that checkout metadata, the revision is explicitly unavailable.
+
+To annotate an installed-package run with a reviewed source commit, supply that
+full commit explicitly:
 
 ```bash
 NEUROCAD_SOURCE_REVISION="$(git rev-parse HEAD)" \

@@ -2111,6 +2111,21 @@ def cmd_fit_sample(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_provenance(args: argparse.Namespace) -> int:
+    from core.source_identity import implementation_provenance
+
+    identity = implementation_provenance(Path(__file__), __version__)
+    if args.json:
+        print(json.dumps(identity, indent=2, sort_keys=True))
+    else:
+        print(f"NeuroCAD source identity: {identity['implementation_sha256']}")
+        print(f"Files: {len(identity['implementation_files'])}")
+        print(f"Revision metadata: {identity['source_revision']} ({identity['source_revision_status']})")
+        print(identity["identity_boundary"])
+        print("Revision metadata does not verify the installed source bytes.")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="neurocad",
@@ -2133,6 +2148,10 @@ def build_parser() -> argparse.ArgumentParser:
     doctor.add_argument("--config", help="Alternative configuration path")
     doctor.add_argument("--json", action="store_true", help="Print machine-readable JSON")
     doctor.set_defaults(func=cmd_doctor)
+
+    provenance = sub.add_parser("provenance", help="Identify this CLI's source and packaged runtime resources")
+    provenance.add_argument("--json", action="store_true", help="Print machine-readable source identity")
+    provenance.set_defaults(func=cmd_provenance)
 
     setup = sub.add_parser("setup", help="Create user configuration, runtime directories, and daemon service")
     setup.add_argument("--config", help="Alternative configuration path")
@@ -2662,6 +2681,7 @@ KNOWN_COMMANDS = frozenset(
         "open",
         "physics",
         "profile",
+        "provenance",
         "research",
         "setup",
         "shell",

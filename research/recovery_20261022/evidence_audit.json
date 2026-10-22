@@ -1,0 +1,512 @@
+{
+  "audit_date": "2026-10-22",
+  "auditor_scope": "Separate assistant source/artifact review within same project team; not external independent reproduction",
+  "checkout_commit": "66f02644d20c7876c0f9421045aae33f2fa9af9e",
+  "compiler": {
+    "artifact_audit": {
+      "failures": [
+        {
+          "error": "missing or not a regular file",
+          "path": "logs/run.log"
+        }
+      ],
+      "listed": 1212,
+      "manifest_format": "research",
+      "manifest_sha256": "fbb44932db9aeb9fa89003acaeef8ee0a26ad7c7a1184812ed002d0583bdea7b",
+      "matched": 1211,
+      "mode": "READ_ONLY_HASH_AUDIT_NO_REEXECUTION",
+      "schema": "neurocad-retained-artifact-audit-v1",
+      "scope": "Only listed artifacts. Hash agreement does not establish authenticity, independence, original collection, or scientific validity. Extra files are not audited.",
+      "status": "FAIL"
+    },
+    "classification": "MIXED_TERMINAL",
+    "interpretation": [
+      "Generated grammar conformance only; no independent text-to-CAD generalization.",
+      "Retrieval overall144/240comes entirely from144training cases; test0/48.",
+      "Missing original log must not be reconstructed or replaced with a new log.",
+      "Historical typed-parser causal claim remains falsified."
+    ],
+    "other_recorded_endpoints": {
+      "NC-EXP-002": {
+        "experiment_id": "NC-EXP-002",
+        "kernel_evaluated_programs": 0,
+        "mean_evaluation_latency_ms": 18.249016512998423,
+        "p95_evaluation_latency_ms": 30.6760410003335,
+        "passed": 1000,
+        "peak_tracemalloc_bytes": 3305721,
+        "programs": 1000,
+        "success_rate": 1.0,
+        "total_runtime_seconds": 20.003109499999482,
+        "validity_scope": "static structural validity; kernel geometry is evaluated separately by NC-EXP-006"
+      },
+      "NC-EXP-003": {
+        "cases": 240,
+        "category_count": 8,
+        "claim_boundary": "regression coverage over generated malformed fixtures, not a population rejection rate",
+        "experiment_id": "NC-EXP-003",
+        "interval_reason": "deterministic generated fixtures are not an independent random sample",
+        "rejected": 240,
+        "rejection_rate": 1.0,
+        "statistical_interval": null,
+        "unique_source_count": 240
+      },
+      "NC-EXP-004": {
+        "cases": 200,
+        "claim_boundary": "detects parameter drift against declared constraints; does not infer design intent",
+        "corruption_detection_with_constraints": 1.0,
+        "corruption_detection_without_constraints": 0.0,
+        "experiment_id": "NC-EXP-004"
+      },
+      "NC-EXP-005": {
+        "cases": 200,
+        "claim_boundary": "automated declared-parameter edit, not a human usability study",
+        "experiment_id": "NC-EXP-005",
+        "mean_edit_validate_export_ms": 1.3141141399955814,
+        "parameter_edit_success_rate": 1.0,
+        "successful_parameter_edits": 200
+      },
+      "NC-EXP-006": {
+        "artifact_reuse_enabled": false,
+        "execution_validity": 1.0,
+        "experiment_id": "NC-EXP-006",
+        "force_recompile": true,
+        "openscad": "/usr/local/bin/openscad",
+        "passed": 240,
+        "resumed_verified_samples": 0,
+        "samples": 240,
+        "status": "complete"
+      },
+      "NC-EXP-007": {
+        "experiment_id": "NC-EXP-007"
+      }
+    },
+    "systems": {
+      "fixed_box": {
+        "overall": {
+          "passed": 0,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 0,
+            "total": 48
+          },
+          "train": {
+            "passed": 0,
+            "total": 144
+          },
+          "validation": {
+            "passed": 0,
+            "total": 48
+          }
+        }
+      },
+      "nearest_neighbor_retrieval": {
+        "overall": {
+          "passed": 144,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 0,
+            "total": 48
+          },
+          "train": {
+            "passed": 144,
+            "total": 144
+          },
+          "validation": {
+            "passed": 0,
+            "total": 48
+          }
+        }
+      },
+      "neurocad": {
+        "overall": {
+          "passed": 240,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 48,
+            "total": 48
+          },
+          "train": {
+            "passed": 144,
+            "total": 144
+          },
+          "validation": {
+            "passed": 48,
+            "total": 48
+          }
+        }
+      },
+      "normalized_dimensions_only": {
+        "overall": {
+          "passed": 130,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 27,
+            "total": 48
+          },
+          "train": {
+            "passed": 82,
+            "total": 144
+          },
+          "validation": {
+            "passed": 21,
+            "total": 48
+          }
+        }
+      },
+      "raw_numbers_no_unit_normalization": {
+        "overall": {
+          "passed": 110,
+          "total": 240
+        },
+        "splits": {
+          "test": {
+            "passed": 0,
+            "total": 48
+          },
+          "train": {
+            "passed": 82,
+            "total": 144
+          },
+          "validation": {
+            "passed": 28,
+            "total": 48
+          }
+        }
+      }
+    }
+  },
+  "feature_ir_independent_source_review": {
+    "files": {
+      "core/feature_ir.py": "eebba6a0bc8cd8df20d0d81d778b11a7e65d47edb0341eb46e00e6cb72edaa95",
+      "tests/test_feature_ir_malformed.py": "5249dd8983ec98f518b6a5d76fbc03de449237409c09163a25eaec16f1d9d187"
+    },
+    "new_issue_found": false,
+    "reviewed_behavior": [
+      "Unhashable/scalar IDs and references rejected before graph set/dictionary operations.",
+      "Invalid direct dataclass containers rejected before iteration.",
+      "Required null contract parameters fail with exact field path.",
+      "Operation membership checks require a string before set lookup.",
+      "Non-string object keys reject before sorting.",
+      "Intentional optional null bounds/selector role and valid parameter references remain supported."
+    ],
+    "reviewer": "Separate assistant within same project team; not human or external independent peer review",
+    "scope_limit": "Does not establish arbitrary Python subclass safety, unbounded recursive-container safety, CAD execution validity, physical correctness or scientific generalization.",
+    "status": "PASS_WITHIN_SCOPED_ADMISSION_CONTRACT",
+    "verification": "9 additional malformed Python/direct-dict witnesses returned structured rejection; 1valid primitive control preserved."
+  },
+  "input_hashes": {
+    "research/physics_v2/CONFIRMATORY_EXECUTION.json": "f0ab53f078745f2138c1b76048bc00cc14dc09a8075a5656e0ebfe2573790230",
+    "research/physics_v2/frozen/NC-PHYS-V2-CONFIRM.jsonl": "9caa80fb7e5257f514143ec0b297711464767c5a68ffa49988070a2f97c94c49",
+    "research/physics_v2/frozen/freeze.json": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/manifest.json": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/metrics.json": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+    "research/physics_v2/runs/NC-PHYS-V2-CONFIRM-001/raw_results.jsonl": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+    "research/runs/NC-REPRO-508EC40/manifest.json": "fbb44932db9aeb9fa89003acaeef8ee0a26ad7c7a1184812ed002d0583bdea7b",
+    "research/runs/NC-REPRO-508EC40/metrics/results.json": "fd562266b40ce05515a61336f767c978a0cc9187e7d41d57b17244c6baf46028"
+  },
+  "kaggle": {
+    "evidence": "Physics v2 and compiler manifests identify macOS executions; repository keyword search found no NeuroCAD Kaggle run metadata. External account search is outside this agent scope.",
+    "new_kaggle_run": false,
+    "search_scope": [
+      "research",
+      "paper",
+      "scripts",
+      "configs"
+    ],
+    "status": "NO_NEUROCAD_KAGGLE_RESULT_FOUND_IN_REPOSITORY"
+  },
+  "mode": "READ_ONLY_ARTIFACT_REANALYSIS_NO_CASE_EXECUTION",
+  "physics_v2": {
+    "all_frozen_source_hashes_match": true,
+    "classification": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+    "endpoints": {
+      "full_geometry_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_load_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_material_input_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_non_geometric_specificity": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "full_post_mutation_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "full_stale_expected_hash_detection": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "hash_only_non_geometric_specificity": {
+        "rate": 1.0,
+        "successes": 24,
+        "total": 24,
+        "wilson_95": [
+          0.8620237953250198,
+          1.0
+        ]
+      },
+      "hash_only_post_mutation_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "hash_only_semantic_non_detection": {
+        "rate": 1.0,
+        "successes": 72,
+        "total": 72,
+        "wilson_95": [
+          0.9493488274035422,
+          1.0
+        ]
+      },
+      "unbound_post_mutation_non_detection": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "unbound_semantic_non_detection": {
+        "rate": 1.0,
+        "successes": 72,
+        "total": 72,
+        "wilson_95": [
+          0.9493488274035422,
+          1.0
+        ]
+      },
+      "valid_full_acceptance": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      },
+      "valid_full_determinism": {
+        "rate": 1.0,
+        "successes": 48,
+        "total": 48,
+        "wilson_95": [
+          0.9258998703338824,
+          0.9999999999999999
+        ]
+      }
+    },
+    "frozen_case_byte_hash_matches": true,
+    "frozen_source_hashes": {
+      "core/agentic.py": {
+        "expected_sha256": "9a5cac2a14f16f92e41739dec760099830484031794f54830d7f9f491796a455",
+        "matches": true,
+        "observed_sha256": "9a5cac2a14f16f92e41739dec760099830484031794f54830d7f9f491796a455"
+      },
+      "core/physics.py": {
+        "expected_sha256": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd",
+        "matches": true,
+        "observed_sha256": "4897defbf205bb43835fe8c89cd620fdbdd1e147f5e30839661947c7fe7421dd"
+      },
+      "core/physics_context.py": {
+        "expected_sha256": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079",
+        "matches": true,
+        "observed_sha256": "5f695cbe9647137d99be6f8a999d80699aa9e381ddff0c928e3fdcd86008b079"
+      },
+      "neurocad_cli.py": {
+        "expected_sha256": "d62ef395fa1ae7219d86ff12fbde0e20bd642940441a8330ee6b5be14cc7abfa",
+        "matches": true,
+        "observed_sha256": "d62ef395fa1ae7219d86ff12fbde0e20bd642940441a8330ee6b5be14cc7abfa"
+      },
+      "requirements-research.lock": {
+        "expected_sha256": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792",
+        "matches": true,
+        "observed_sha256": "bee4a06c7f04eb4d4e9a7961fab20c021027a41eed4e28cdf1d9d0fc6ae6a792"
+      },
+      "research/physics_v2/MODEL_SPEC.md": {
+        "expected_sha256": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e",
+        "matches": true,
+        "observed_sha256": "29f991507452196d02dfd628d26ebb6f816c596a93bfd6b51a891e09dda8521e"
+      },
+      "research/physics_v2/PROTOCOL.md": {
+        "expected_sha256": "83d9cbe6a5211349ecb91a4b8390e70003ff02cd257980c3dd3b907dacdcc31d",
+        "matches": true,
+        "observed_sha256": "83d9cbe6a5211349ecb91a4b8390e70003ff02cd257980c3dd3b907dacdcc31d"
+      },
+      "research/physics_v2/study.py": {
+        "expected_sha256": "6f84ee5684370e3ed0c4c474449df42878510fa1e02c88c778286729838b8097",
+        "matches": true,
+        "observed_sha256": "6f84ee5684370e3ed0c4c474449df42878510fa1e02c88c778286729838b8097"
+      }
+    },
+    "generated_latex_byte_identical": true,
+    "interpretation": [
+      "216 synthetic generated cases; not216 physical experiments.",
+      "Repeated evaluations and13endpoint rows are not additional independent samples.",
+      "Full and hash-only arms detect48/48post-result changes; unbound0/48means no implemented freshness mechanism.",
+      "Wilson intervals and McNemar p-value are descriptive for a fixed matrix; endpoint threshold was100percent.",
+      "Timings condition on successful evaluations and have unequal sample sizes.",
+      "Frozen historical diagnostic median means upper order statistic for even sample sizes; manuscript should name convention, not silently overwrite history.",
+      "Historical outcomes prove only original source; later main changes are not automatically covered."
+    ],
+    "metrics_regenerated_equal": true,
+    "model_counts": {
+      "circular_shaft_torsion": 92,
+      "hydrostatic_buoyancy": 56,
+      "lumped_thermal_transient": 68
+    },
+    "original_execution_commit": "786ba9ba5c2249a710529c3b07bf82d4e29c7f36",
+    "original_python": "3.14.0 (main, Nov 19 2025, 23:04:28) [Clang 21.1.4 ]",
+    "original_run_host": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "paired_comparison": {
+      "exact_two_sided_mcnemar_p": 7.105427357601002e-15,
+      "full_only": 48,
+      "unbound_only": 0
+    },
+    "post_outcome_audit": {
+      "boundary": "internal post-outcome artifact audit; not independent reproduction or external validation",
+      "case_count": 216,
+      "case_execution_performed": false,
+      "disposition": "SUPPORTED_WITHIN_CONTROLLED_CONTRACT",
+      "endpoint_count": 13,
+      "family_counts": {
+        "geometry_input_contradiction": 24,
+        "load_input_contradiction": 24,
+        "material_input_contradiction": 24,
+        "non_geometric_mutation": 24,
+        "post_result_geometry_mutation": 48,
+        "stale_expected_hash": 24,
+        "valid": 48
+      },
+      "freeze_sha256": "e41cb8557cf9217915ae80031a245f2133f8ba3f5b1b14aa70cc6aa973e1f6ac",
+      "manifest_sha256": "d01bc8b449babcaec2805a056492d2a80dd1aa375b11d7461d2d2a0dc990f1a5",
+      "metrics_sha256": "34bb77ddf92225a4ee85e5c3f2a67dbca74c1cda23f60e3c9548ddf3fb013573",
+      "raw_results_sha256": "97bae6a791a16088d4b9902ccc45fd0f291751d3dde822f7fad5c21c4add9023",
+      "schema_version": "nc-physics-v2-post-outcome-audit-v1",
+      "status": "PASS"
+    },
+    "raw_case_ids_match_frozen_manifest": true,
+    "receipt_size_convention_audit": {
+      "conventional_median_bytes": 3763.5,
+      "count": 120,
+      "maximum_bytes": 4199,
+      "reported_upper_median_bytes": 3902
+    },
+    "timing_convention_audit": {
+      "full": {
+        "conventional_median_ms": 0.6178125000000001,
+        "count": 120,
+        "reported_upper_median_ms": 0.6185
+      },
+      "hash_only": {
+        "conventional_median_ms": 0.24764550000000002,
+        "count": 192,
+        "reported_upper_median_ms": 0.248
+      },
+      "unbound": {
+        "conventional_median_ms": 0.0132085,
+        "count": 216,
+        "reported_upper_median_ms": 0.013209
+      }
+    }
+  },
+  "physics_v3": {
+    "classification": "ENGINEERING_CONFORMANCE_ONLY",
+    "counterexamples_preserved": [
+      "Opposing-load maximum beam stress previously0MPa vs2.1MPa reference.",
+      "Circular-shaft false yield pass:9.6766MPa vs11.0347MPa reference at10.5MPa limit.",
+      "Single-hole edge ligaments used configured15/15mm instead of actual45/35mm."
+    ],
+    "current_audit_boundary": "Counts taken from retained source-bound report; no v3 cases re-executed by this audit.",
+    "recorded_counts": {
+      "compiled_composite_meshes": 4,
+      "isolated_wheel_cases_and_workflows": [
+        52,
+        52
+      ],
+      "scalar_cases": [
+        37,
+        37
+      ],
+      "supplemental_composite_references": 42
+    },
+    "source_record": "docs/verification/composite-final-20261014/REPORT.md"
+  },
+  "protected_files_changed": false,
+  "reanalysis_output": "research/recovery_20261022/evidence_reanalysis.json",
+  "reanalysis_regeneration_check": "BYTE_IDENTICAL",
+  "reanalysis_script": "research/recovery_20261022/reanalyze.py",
+  "reproduction_preflight": {
+    "attempt_started": false,
+    "clean_checkout": true,
+    "environment_preparation": "Not installed because resource admission failed; original lock was not substituted.",
+    "execution_ledger_absent": true,
+    "execution_ledger_absent_at_closure": true,
+    "final_observed_disk_mib": 0.0,
+    "frozen_checkout": "/workspace/scratch/aaca27c919af/neurocad-physics-v2-frozen",
+    "frozen_checkout_clean_at_closure": true,
+    "observed_initial_disk_mib": 1987,
+    "reason": "Insufficient free workspace storage. Resource threshold was preserved; no source or ledger gate bypassed.",
+    "required_disk_mib": 2048,
+    "source_and_cases_match": true,
+    "status": "NOT_EXECUTED_RESOURCE_GATE"
+  },
+  "schema_version": "nc-recovery-evidence-audit-v1",
+  "unresolved": [
+    "Independent external prompt set not materialized/adjudicated.",
+    "No strong grammar-independent comparator result.",
+    "No physical measurements or intended-user study.",
+    "Missing original compiler run log.",
+    "Algorithmic novelty and physical/safety claims unsupported."
+  ]
+}

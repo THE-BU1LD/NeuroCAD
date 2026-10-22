@@ -278,6 +278,8 @@ def _contract_errors(feature: Feature, index: int) -> list[FeatureIRIssue]:
         if name not in parameters:
             errors.append(FeatureIRIssue("missing_parameter", f"{path}.parameters.{name}", "required"))
             return None
+        if parameters[name] is None:
+            errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{name}", "must not be null"))
         return parameters[name]
 
     if feature.kind == "datum_plane":
@@ -318,7 +320,7 @@ def _contract_errors(feature: Feature, index: int) -> list[FeatureIRIssue]:
         ):
             message = "must be positive" if feature.kind == "extrude" else "must be in (0, 360]"
             errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.{amount_name}", message))
-        if operation is not None and operation not in {"new", "add", "cut", "intersect"}:
+        if operation is not None and (not isinstance(operation, str) or operation not in {"new", "add", "cut", "intersect"}):
             errors.append(FeatureIRIssue("invalid_parameter", f"{path}.parameters.operation", "must be new/add/cut/intersect"))
         if not feature.inputs:
             errors.append(FeatureIRIssue("missing_input", f"{path}.inputs", f"{feature.kind} requires a sketch input"))
@@ -364,8 +366,70 @@ def _contract_errors(feature: Feature, index: int) -> list[FeatureIRIssue]:
     return errors
 
 
-def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+def _structure_errors(program: FeatureProgram) -> list[FeatureIRIssue]:
+    """Admit runtime types before graph lookup, iteration or contract dispatch.
+
+    Dataclass annotations do not validate callers' values. Both JSON parsing and
+    direct Python construction therefore pass through the same structural gate.
+    Invalid records are never coerced into ids or silently added to hash tables.
+    """
     errors: list[FeatureIRIssue] = []
+
+    def sequence(value: Any, path: str) -> bool:
+        if not isinstance(value, (list, tuple)):
+            errors.append(FeatureIRIssue("invalid_structure", path, "must be an array"))
+            return False
+        return True
+
+    def string(value: Any, path: str) -> None:
+        if not isinstance(value, str):
+            errors.append(FeatureIRIssue("invalid_structure", path, "must be a string"))
+
+    if not isinstance(program, FeatureProgram):
+        return [FeatureIRIssue("invalid_structure", "$", "must be a FeatureProgram")]
+    if sequence(program.parameters, "$.parameters"):
+        for index, parameter in enumerate(program.parameters):
+            path = f"$.parameters[{index}]"
+            if not isinstance(parameter, DesignParameter):
+                errors.append(FeatureIRIssue("invalid_structure", path, "must be a DesignParameter"))
+                continue
+            string(parameter.id, f"{path}.id")
+            string(parameter.unit, f"{path}.unit")
+            string(parameter.role, f"{path}.role")
+    if sequence(program.features, "$.features"):
+        for index, feature in enumerate(program.features):
+            path = f"$.features[{index}]"
+            if not isinstance(feature, Feature):
+                errors.append(FeatureIRIssue("invalid_structure", path, "must be a Feature"))
+                continue
+            string(feature.id, f"{path}.id")
+            string(feature.kind, f"{path}.kind")
+            if sequence(feature.inputs, f"{path}.inputs"):
+                for input_index, input_id in enumerate(feature.inputs):
+                    string(input_id, f"{path}.inputs[{input_index}]")
+            if not isinstance(feature.parameters, dict):
+                errors.append(FeatureIRIssue("invalid_structure", f"{path}.parameters", "must be an object"))
+            if sequence(feature.selectors, f"{path}.selectors"):
+                for selector_index, selector in enumerate(feature.selectors):
+                    selector_path = f"{path}.selectors[{selector_index}]"
+                    if not isinstance(selector, EntitySelector):
+                        errors.append(FeatureIRIssue("invalid_structure", selector_path, "must be an EntitySelector"))
+                        continue
+                    string(selector.entity, f"{selector_path}.entity")
+                    string(selector.generated_by, f"{selector_path}.generated_by")
+                    sequence(selector.predicates, f"{selector_path}.predicates")
+    if sequence(program.outputs, "$.outputs"):
+        for index, output in enumerate(program.outputs):
+            string(output, f"$.outputs[{index}]")
+    if not isinstance(program.metadata, dict):
+        errors.append(FeatureIRIssue("invalid_structure", "$.metadata", "must be an object"))
+    return errors
+
+
+def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationReport:
+    errors = _structure_errors(program)
+    if errors:
+        return FeatureIRValidationReport(False, tuple(errors))
     if program.version != FEATURE_IR_VERSION:
         errors.append(FeatureIRIssue("unsupported_version", "$.version", f"expected {FEATURE_IR_VERSION}"))
     if program.units != "mm":
@@ -389,6 +453,8 @@ def validate_feature_program(program: FeatureProgram) -> FeatureIRValidationRepo
         parameter_ids.add(parameter.id)
         if parameter.unit not in PARAMETER_UNITS:
             errors.append(FeatureIRIssue("unsupported_unit", f"{path}.unit", str(parameter.unit)))
+        if len(parameter.role) > 256:
+            errors.append(FeatureIRIssue("invalid_role", f"{path}.role", "role must be a string no longer than 256 characters"))
         if not _finite(parameter.value):
             errors.append(FeatureIRIssue("invalid_value", f"{path}.value", "must be finite"))
         for name, value in (("lower", parameter.lower), ("upper", parameter.upper)):
@@ -519,6 +585,8 @@ def serialize_feature_ir_json(program: FeatureProgram, *, pretty: bool = True) -
 
 
 def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], path: str) -> None:
+    if any(not isinstance(key, str) for key in value):
+        raise FeatureIRParseError([f"{path}: object keys must be strings"])
     extra = sorted(set(value) - allowed)
     missing = sorted(required - set(value))
     if extra:
@@ -528,6 +596,8 @@ def _only_keys(value: dict[str, Any], allowed: set[str], required: set[str], pat
 
 
 def feature_program_from_dict(raw: dict[str, Any]) -> FeatureProgram:
+    if not isinstance(raw, dict):
+        raise FeatureIRParseError(["$: root must be an object"])
     _only_keys(
         raw,
         {"version", "units", "title", "parameters", "features", "outputs", "metadata"},
