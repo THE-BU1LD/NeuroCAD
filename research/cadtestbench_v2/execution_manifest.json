@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "study_id": "NC-CADTESTBENCH-V2",
+  "status": "FROZEN_AUTHORIZED_FOR_FIRST_EXECUTION",
+  "frozen_at_utc": "2026-10-21T12:00:00Z",
+  "outcomes_observed": false,
+  "benchmark_prompts_opened_in_predecessor": true,
+  "cadtests_opened": false,
+  "implementation": {
+    "git_commit": "c3050927eac1a4030cdc190de8606da196e5d73f",
+    "archive_name": "neurocad-nc-cadtestbench-v2-source.tar.gz",
+    "archive_scope": ["core", "text_to_cad.py", "research/cadtestbench_v1", "research/cadtestbench_v2"],
+    "archive_bytes": 515573,
+    "archive_sha256": "6a7d9180a7eb63011c1a9d12cbda50d41e4622d51a0a9b818fa2307df03a74a9"
+  },
+  "external_code": {
+    "repository": "https://github.com/dimitrismallis/CADTestBench",
+    "revision": "e29283cc61db7329039d95b429766a50bfd37f89",
+    "archive_bytes": 21579,
+    "archive_sha256": "70e1881242984ac10bff800838e1c32b003a4f0a4a45b8cf9531d0445153b5e5"
+  },
+  "dataset": {
+    "repository": "https://huggingface.co/datasets/dimitrismallis/CADTestBench",
+    "revision": "2b9a4a972d142d2bc634d072e9d4485f171ced06",
+    "inventory": "research/cadtestbench_v1/dataset_inventory.json"
+  },
+  "environment": {
+    "requirements": "research/cadtestbench_v1/requirements-hosted.lock",
+    "requirements_sha256": "31cf03a57f39be995e0958e8b6cc845a5de83f60844e0694446e470378c3145c"
+  },
+  "execution": {
+    "host": "Kaggle",
+    "accelerator": "none",
+    "partitions": ["abstract", "detailed"],
+    "expected_samples_per_partition": 200,
+    "attempts_per_prompt": 1,
+    "repair_or_tuning_after_outcome": false,
+    "unsupported_rejected_or_exception_records_in_denominator": true
+  },
+  "claim_boundary": "Descriptive public-benchmark successor developed after V1 prompt exposure; not unopened confirmatory evidence."
+}

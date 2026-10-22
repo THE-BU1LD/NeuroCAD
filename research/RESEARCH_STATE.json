@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-10-20",
+  "updated_on": "2026-10-22",
   "purpose": "Canonical session entry point. Referenced historical records remain authoritative and are retained in their original versions.",
   "initialization_note": "Reconstructed from existing repository evidence after bounded defect discovery. This is not retrospective preregistration and makes no claim that a new scientific protocol was frozen before exploratory checks.",
   "session_rule": "Read this state and the applicable historical truth/protocol before work. Update actual decisions, evidence, failures and open gates before finishing. Append history; never erase adverse results.",
@@ -543,9 +543,50 @@
       "report": "docs/verification/neurocad-completion-20261020/REPORT.md",
       "audit": "audit/neurocad_completion_20261020/AUDIT.md",
       "next_action": "Repair hosted runner admission for exact-head full/native/package verification; obtain independent challenge authorship/adjudication and physical evidence before any scientific or fit claim."
+    },
+    {
+      "id": "cadtestbench_v2_kaggle_readiness_20261022",
+      "date": "2026-10-22",
+      "authorization": "User requested an immediately Kaggle-ready artifact and a GitHub push before any further run.",
+      "kind": "PUBLIC_BENCHMARK_SUCCESSOR_PACKAGING",
+      "branch": "codex/neurocad-perfect-20261020",
+      "predecessor": "NC-CADTESTBENCH-V1",
+      "predecessor_disposition": "INCONCLUSIVE_EXECUTION_FAILURE_AFTER_PROMPT_IMPORT_BEFORE_EVALUATION",
+      "status": "FROZEN_KAGGLE_IMPORT_READY_GITHUB_PUSH_PENDING",
+      "implementation_commit": "c3050927eac1a4030cdc190de8606da196e5d73f",
+      "artifact": {
+        "path": "research/cadtestbench_v2/neurocad-nc-cadtestbench-v2.ipynb",
+        "bytes": 728347,
+        "sha256": "3ce9cb4acc36ae860b3cc2093465df1d983fcd3b91263cb207e525ecc66fa730",
+        "kaggle_import_limit_bytes": 1048576,
+        "cells": 5,
+        "stored_outputs": 0,
+        "accelerator": "none"
+      },
+      "verification": {
+        "focused_tests": "11 passed",
+        "ruff": "PASS",
+        "mypy": "PASS_3_FILES",
+        "diff_check": "PASS",
+        "notebook_structure_and_size": "PASS"
+      },
+      "decisions": [
+        "V2 converts every per-record frontend or exporter exception into an evaluator-visible failure; it does not repair, retry or omit the record.",
+        "V2 is descriptive public-benchmark evidence because V1 opened prompts before failing; it is not unopened confirmatory evidence.",
+        "Kaggle CPU is the appropriate host because deterministic B-Rep generation and CADTest execution do not benefit scientifically from a GPU."
+      ],
+      "retained_failures": [
+        "Kaggle V1 attempt 1 exceeded the 1 MiB importer limit.",
+        "Kaggle V1 attempt 2 failed before prompt import because the runner used file-path rather than module invocation.",
+        "Kaggle V1 attempt 3 verified environment and dataset identities, then failed after prompt import on an unsupported feature count before any CADTest evaluation."
+      ],
+      "scientific_checkpoint_advanced": false,
+      "research_complete": false,
+      "scientific_result": "NOT_YET_PRODUCED",
+      "next_action": "Push the complete Kaggle-ready branch, verify the remote head, then upload the immutable private notebook and preserve the resulting evidence."
     }
   ],
-  "latest_engineering_session": "neurocad_completion_20261020",
+  "latest_engineering_session": "cadtestbench_v2_kaggle_readiness_20261022",
   "latest_engineering_read_order": [
     "research/PORTABLE_SAMPLE_STDEV_20261010.md",
     "research/development/portable_sample_stdev_20261010/closure.json",
