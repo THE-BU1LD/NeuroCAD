@@ -286,6 +286,7 @@ jobs:
         with:
           name: neurocad-dist
           path: ${{ runner.temp }}/neurocad-dist/*
+          retention-days: 14
 
   portable-python:
     name: Portable Python / ${{ matrix.os }}
