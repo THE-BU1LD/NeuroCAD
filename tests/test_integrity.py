@@ -77,7 +77,7 @@ def test_workflows_and_quality_tools_are_version_pinned() -> None:
 
     metadata = _read("pyproject.toml")
     for requirement in (
-        'setuptools==83.0.0',
+        'setuptools==84.1.0',
         'build==1.6.0',
         'mypy==1.18.2',
         'pytest==9.1.1',
@@ -86,8 +86,8 @@ def test_workflows_and_quality_tools_are_version_pinned() -> None:
         'pip-audit==2.10.1',
     ):
         assert requirement in metadata
-    assert "setuptools==83.0.0" in _read("requirements-research.lock")
-    assert "setuptools==83.0.0" in _read("requirements-research.in")
+    assert "setuptools==84.1.0" in _read("requirements-research.lock")
+    assert "setuptools==84.1.0" in _read("requirements-research.in")
     assert "--hash=sha256:" in _read("requirements-research.lock")
     assert "--require-hashes" in _read("scripts/reproduce_research.sh")
     assert "--require-hashes" in workflows
